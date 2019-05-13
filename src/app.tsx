@@ -51,41 +51,53 @@ class App extends Component {
       navigationBarTextStyle: 'black'
     },
     tabBar: {
-      color: '#626567',
-      selectedColor: '#626567',
+      color: '#313131',
+      selectedColor: '#FF6654',
       backgroundColor: '#FBFBFB',
       borderStyle: 'white',
       list: [
         {
           pagePath: 'pages/index/index',
           text: '首页',
-          iconPath: './assets/index.png',
-          selectedIconPath: './assets/index.png',
+          iconPath: './assets/tabbar/1.png',
+          selectedIconPath: './assets/tabbar/6.png',
         },
         {
           pagePath: 'pages/counter/index',
           text: '计数',
-          iconPath: './assets/counter.png',
-          selectedIconPath: './assets/counter.png',
+          iconPath: './assets/tabbar/2.png',
+          selectedIconPath: './assets/tabbar/7.png',
         },
         {
           pagePath: 'pages/data/index',
           text: '数据',
-          iconPath: './assets/data.png',
-          selectedIconPath: './assets/data.png',
+          iconPath: './assets/tabbar/3.png',
+          selectedIconPath: './assets/tabbar/8.png',
+        },
+        {
+          pagePath: 'pages/data/index',
+          text: '数据',
+          iconPath: './assets/tabbar/4.png',
+          selectedIconPath: './assets/tabbar/9.png',
+        },
+        {
+          pagePath: 'pages/data/index',
+          text: '数据',
+          iconPath: './assets/tabbar/5.png',
+          selectedIconPath: './assets/tabbar/10.png',
         },
       ]
     },
   }
 
-  componentDidMount () {}
-  componentDidShow () {}
-  componentDidHide () {}
-  componentDidCatchError () {}
+  componentDidMount() { }
+  componentDidShow() { }
+  componentDidHide() { }
+  componentDidCatchError() { }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <Index />
