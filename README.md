@@ -2,6 +2,8 @@
 
 Taro 小程序 脚手架 (Taro + Dva + Typescript + Immutable)
 
+# appid: wx5f2271a7c946fef1
+
 ## 预览项目
 
 ```bash
