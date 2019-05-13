@@ -1,10 +1,9 @@
 {
-  "name": "tarojs-ts-cli",
+  "name": "tuan-mai-wu-lian",
   "version": "0.0.1",
-  "description": "Taro.js 模版项目",
-  "repository": "git@github.com:didilinkin/tarojs-ts-cli.git",
-  "author": "didilinkin <929213769@qq.com>",
-  "license": "MIT",
+  "description": "团卖物联项目 线上商城",
+  "repository": "ssh://git@git.tdianyi.com:10022/domen/tuan-mai-wu-lian.git",
+  "author": "李冯 <mixiaofeng1996@gmail.com>",
   "scripts": {
     "lint-staged": "lint-staged",
     "lint-staged:ts": "tslint -c tslint.js -p tsconfig.json",
