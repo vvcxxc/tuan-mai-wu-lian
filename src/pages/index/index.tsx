@@ -30,7 +30,7 @@ export default class Index extends Component {
       <View className="index">
         <View className="head">
           <Swiper
-            className="test-h"
+            className="swiper"
             indicatorColor="#999"
             indicatorActiveColor="#333"
             circular
