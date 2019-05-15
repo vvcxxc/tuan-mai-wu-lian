@@ -1,0 +1,18 @@
+@import '/src/utils/config.styl'
+
+.order
+  height 100vh
+  .tab
+    height 70px
+    background: #fff
+    .label
+      height 100%
+      line-height 70px
+      border-bottom 4px solid #fff
+    >.active
+      color theme-color
+      .label
+        border-bottom 4px solid theme-color
+
+.content-wrap
+  overflow-y: scroll
