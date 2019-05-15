@@ -5,7 +5,7 @@ import "./index.styl";
 
 export default class Order extends Component {
   config: Config = {
-    navigationBarTitleText: "订单"
+    navigationBarTitleText: "我的订单"
   };
   state = {
     current: 0

@@ -43,6 +43,7 @@ class App extends Component {
       "pages/index/index",
       "pages/counter/index",
       "pages/data/index",
+      "pages/my/index",
       "pages/order/index"
     ],
     window: {
@@ -82,8 +83,8 @@ class App extends Component {
           selectedIconPath: "./assets/tabbar/9.png"
         },
         {
-          pagePath: "pages/data/index",
-          text: "数据",
+          pagePath: "pages/my/index",
+          text: "我的",
           iconPath: "./assets/tabbar/5.png",
           selectedIconPath: "./assets/tabbar/10.png"
         }
