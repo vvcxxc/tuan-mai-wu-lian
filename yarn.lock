@@ -7372,10 +7372,10 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-taro-ui@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/taro-ui/-/taro-ui-2.0.0.tgz#53c1de7bd48b9ea1b51977744a0bed6f971eb680"
-  integrity sha512-m9PaX1EhccL2JcT8xhBxX1HfDX7IW0EoILuwyoye1Ziuv9H6vrog9/sOeNfpE1Hr34dBUZXFjNPp0V4r6+NjIg==
+taro-ui@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/taro-ui/-/taro-ui-2.1.0.tgz#fb2774d6261db75311ac6ce7be243c412c65a322"
+  integrity sha512-M2fb6TFAHCa+xXB4vcYk3rLnop1D4XUdEfjtDKU3VYTw9KbD5dEG9x9iONV9SSn+7ClozSTxa27Otwiji/f/ZA==
   dependencies:
     "@types/react" "^16.7.3"
     bind-decorator "^1.0.11"

@@ -1,9 +1,9 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
-import './index.styl'
+import Taro, { Component, Config } from "@tarojs/taro";
+import { View, Swiper, SwiperItem } from "@tarojs/components";
+import {} from "taro-ui";
+import "./index.styl";
 
 export default class Index extends Component {
-
   /**
    * 指定config的类型声明为: Taro.Config
    *
@@ -12,21 +12,43 @@ export default class Index extends Component {
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
   config: Config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: "团卖物联"
+  };
+
+  componentWillMount() {}
+  componentDidMount() {}
+  componentWillUnmount() {}
+  componentDidShow() {}
+  componentDidHide() {}
+
+  getPosition() {
+    Taro.getLocation().then((res) => console.log(res));
   }
 
-  componentWillMount () { }
-  componentDidMount () { }
-  componentWillUnmount () { }
-  componentDidShow () { }
-  componentDidHide () { }
-
-  render () {
+  render() {
     return (
-      <View className='index'>
-        <Text> Hello world! </Text>
+      <View className="index">
+        <View className="head">
+          <Swiper
+            className="test-h"
+            indicatorColor="#999"
+            indicatorActiveColor="#333"
+            circular
+            indicatorDots
+            autoplay
+          >
+            <SwiperItem>
+              <View className="demo-text-1">1</View>
+            </SwiperItem>
+            <SwiperItem>
+              <View className="demo-text-2">2</View>
+            </SwiperItem>
+            <SwiperItem>
+              <View className="demo-text-3">3</View>
+            </SwiperItem>
+          </Swiper>
+        </View>
       </View>
-    )
+    );
   }
 }
-
