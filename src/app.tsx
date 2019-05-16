@@ -46,6 +46,18 @@ class App extends Component {
       "pages/my/index",
       "pages/order/index"
     ],
+    subPackages: [
+      {
+        /**各种详情页面 比如商家详情页 */
+        root: "pages/detail",
+        pages: []
+      },
+      {
+        /**其他业务页面 比如订单流程，礼物，物流 */
+        root: "pages/business",
+        pages: []
+      }
+    ],
     window: {
       backgroundTextStyle: "dark",
       navigationBarBackgroundColor: "#F6F6F6",
