@@ -1,5 +1,6 @@
 import Taro, { Component, Config } from "@tarojs/taro";
 import { View, ScrollView } from "@tarojs/components";
+import Tabs from "../../components/tabs";
 import Content from "./content";
 import "./index.styl";
 
@@ -10,38 +11,16 @@ export default class Order extends Component {
   state = {
     current: 0
   };
-  handlerTablChange(current) {
+
+  handlerTabChange(current) {
     this.setState({ current });
   }
+
   render() {
+    const list = ["未使用", "已使用", "已过期", "已退款"];
     return (
       <View className="order flex column">
-        <View className="tab flex">
-          <View
-            className={
-              "item flex center " + (this.state.current === 0 ? "active" : "")
-            }
-            onClick={this.handlerTablChange.bind(this, 0)}
-          >
-            <View className="label">未使用</View>
-          </View>
-          <View
-            className={
-              "item flex center " + (this.state.current === 1 ? "active" : "")
-            }
-            onClick={this.handlerTablChange.bind(this, 1)}
-          >
-            <View className="label">未使用</View>
-          </View>
-          <View
-            className={
-              "item flex center " + (this.state.current === 2 ? "active" : "")
-            }
-            onClick={this.handlerTablChange.bind(this, 2)}
-          >
-            <View className="label">未使用</View>
-          </View>
-        </View>
+        <Tabs list={list} onChange={this.handlerTabChange.bind(this)} />
         <ScrollView scrollY className="item content-wrap">
           <Content />
         </ScrollView>
