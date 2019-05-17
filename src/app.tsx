@@ -47,15 +47,15 @@ class App extends Component {
       "pages/order/index"
     ],
     subPackages: [
-      {
-        /**各种详情页面 比如商家详情页 */
-        root: "pages/detail",
-        pages: []
-      },
+      // {
+      //   /**各种详情页面 比如商家详情页 */
+      //   root: "detail-pages",
+      //   pages: []
+      // },
       {
         /**其他业务页面 比如订单流程，礼物，物流 */
-        root: "pages/business",
-        pages: []
+        root: "business-pages",
+        pages: ["confirm-order/index"]
       }
     ],
     window: {

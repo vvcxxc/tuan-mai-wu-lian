@@ -1,6 +1,11 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Button } from "@tarojs/components";
+import { View, Text, Image } from "@tarojs/components";
 import { AtList, AtListItem } from "taro-ui";
+import bg from "./bg.png";
+import icon1 from "./3.png";
+import icon2 from "./4.png";
+import icon3 from "./5.png";
+import icon4 from "./6.png";
 import "./index.styl";
 
 export default class My extends Component {
@@ -20,6 +25,7 @@ export default class My extends Component {
   render() {
     return (
       <View className="flex column center">
+        <Image src={bg} className="bg" />
         <View className="head-img" />
         <View className="name">杨大富</View>
         <View className="meuns">
@@ -28,17 +34,25 @@ export default class My extends Component {
               title="我的订单"
               arrow="right"
               extraText="有快到期的券"
+              thumb={icon1}
             />
-            <AtListItem title="我的收藏" arrow="right" extraText="收藏有更新" />
+            <AtListItem
+              title="我的收藏"
+              arrow="right"
+              extraText="收藏有更新"
+              thumb={icon2}
+            />
             <AtListItem
               title="我的礼品"
               arrow="right"
               extraText="有正在配送的礼品"
+              thumb={icon3}
             />
             <AtListItem
               title="我参与的活动"
               arrow="right"
               extraText="有正在进行的拼团活动"
+              thumb={icon4}
             />
           </AtList>
         </View>

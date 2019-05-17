@@ -1,5 +1,6 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
 import { View } from "@tarojs/components";
+import bg from "./bg.png";
 
 import "./index.styl";
 
@@ -20,8 +21,13 @@ export default class CashCoupon extends Component {
   componentDidNotFound() {}
   render() {
     return (
-      <View className="cash-coupon-wrap flex center">
-        <View className="cash-coupon">现金优惠券</View>
+      <View className="cash-coupon-wrap">
+        <View
+          className="cash-coupon flex center"
+          style={{ backgroundImage: `url(${bg})` }}
+        >
+          <View className="secondary">左边</View>
+        </View>
       </View>
     );
   }

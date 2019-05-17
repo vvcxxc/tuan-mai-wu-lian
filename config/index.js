@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-commonjs
 const config = {
   projectName: "tuanmaiwulian",
   date: "2019-5-13",
@@ -6,6 +7,9 @@ const config = {
     "640": 2.34 / 2,
     "750": 1,
     "828": 1.81 / 2
+  },
+  alias: {
+    "@": "./"
   },
   sourceRoot: "src",
   outputRoot: "dist",

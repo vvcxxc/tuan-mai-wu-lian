@@ -1,5 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
+import "./index.styl";
 
 interface Props {
   /**默认当前高亮的索引值 */
@@ -26,6 +27,7 @@ export default class Tabs extends Component<Props> {
       <View className="tab flex">
         {this.props.list.map((_, index) => (
           <View
+            key={index}
             className={
               "item flex center " +
               (this.state.current === index ? "active" : "")
