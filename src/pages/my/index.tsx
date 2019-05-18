@@ -41,6 +41,9 @@ export default class My extends Component {
               arrow="right"
               extraText="收藏有更新"
               thumb={icon2}
+              onClick={() =>
+                Taro.navigateTo({ url: "/business-pages/stars/index" })
+              }
             />
             <AtListItem
               title="我的礼品"
