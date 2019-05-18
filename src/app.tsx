@@ -55,13 +55,13 @@ class App extends Component {
       {
         /**其他业务页面 比如订单流程，礼物，物流 */
         root: "business-pages",
-        pages: ["confirm-order/index"]
+        pages: ["confirm-order/index", "stars/index"]
       }
     ],
     window: {
       backgroundTextStyle: "dark",
-      navigationBarBackgroundColor: "#F6F6F6",
-      navigationBarTitleText: "WeChat",
+      navigationBarBackgroundColor: "#fff",
+      navigationBarTitleText: "团卖物联",
       navigationBarTextStyle: "black"
     },
     tabBar: {
