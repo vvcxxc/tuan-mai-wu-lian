@@ -1,7 +1,8 @@
 import Taro, { Component, Config } from "@tarojs/taro";
-import { View, Swiper, SwiperItem } from "@tarojs/components";
-import {} from "taro-ui";
+import { View, Swiper, SwiperItem, Input, Image } from "@tarojs/components";
+import { AtIcon } from "taro-ui";
 import "./index.styl";
+import Tabs from "../../components/tabs";
 
 export default class Index extends Component {
   /**
@@ -15,20 +16,46 @@ export default class Index extends Component {
     navigationBarTitleText: "团卖物联"
   };
 
-  componentWillMount() {}
-  componentDidMount() {}
-  componentWillUnmount() {}
-  componentDidShow() {}
-  componentDidHide() {}
+  state = {
+    searchValue: ""
+  };
 
   getPosition() {
     Taro.getLocation().then((res) => console.log(res));
   }
 
+  handleSearchChange() {}
+
   render() {
+    const list = ["全部", "关注", "丽人", "餐饮", "休闲", "服饰"];
     return (
       <View className="index">
         <View className="head">
+          <View className="search">
+            <View className="flex center container">
+              <View className="city">广州</View>
+              <AtIcon
+                className="chevron-down"
+                value="chevron-down"
+                color="#313131"
+                size="12"
+              />
+              <View className="long-string" />
+              <AtIcon
+                className="search-icon"
+                value="search"
+                color="#666666"
+                size={14}
+              />
+              <Input
+                className="item search-input"
+                type="text"
+                placeholder="请输入商家名、品类"
+                value={this.state.searchValue}
+                onInput={this.handleSearchChange.bind(this)}
+              />
+            </View>
+          </View>
           <Swiper
             className="swiper"
             indicatorColor="#999"
@@ -48,6 +75,23 @@ export default class Index extends Component {
             </SwiperItem>
           </Swiper>
         </View>
+        <View className="menus flex">
+          <View className="item">
+            <Image
+              mode="widthFix"
+              className="img"
+              src={require("./menu-2.png")}
+            />
+          </View>
+          <View className="item">
+            <Image
+              mode="widthFix"
+              className="img"
+              src={require("./menu-2.png")}
+            />
+          </View>
+        </View>
+        <Tabs list={list} onChange={this.handleSearchChange.bind(this)} />
       </View>
     );
   }

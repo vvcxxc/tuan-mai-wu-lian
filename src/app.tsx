@@ -55,7 +55,14 @@ class App extends Component {
       {
         /**其他业务页面 比如订单流程，礼物，物流 */
         root: "business-pages",
-        pages: ["confirm-order/index", "stars/index", "gift/index", "pay-success/index"]
+
+        pages: [
+          "confirm-order/index",
+          "stars/index",
+          "gift/index",
+          "select-city/index",
+          "pay-success/index"
+        ]
       }
     ],
     window: {
