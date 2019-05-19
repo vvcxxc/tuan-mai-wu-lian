@@ -47,9 +47,6 @@ export default class PaySuccess extends Component {
       }
   }
   noticeAmin () {
-      let noticeCopy = [];
-      noticeCopy.push({})
-        this.setState({})
   }
   render() {
     return (

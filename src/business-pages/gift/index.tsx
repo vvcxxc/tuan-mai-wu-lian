@@ -12,7 +12,7 @@ export default class Gift extends Component {
 
   state = {
     giftList: [],
-    status: true,
+    status: false,
     orderid: 0
   };
 
@@ -39,7 +39,9 @@ export default class Gift extends Component {
             </View>
           ))}
         </ScrollView>
-        <GiftItemDetails status={this.state.status} orderid={this.state.orderid} />
+        {
+          this.state.status?(<GiftItemDetails status={this.state.status} orderid={this.state.orderid} />):("")
+        }
       </View>
     );
   }
