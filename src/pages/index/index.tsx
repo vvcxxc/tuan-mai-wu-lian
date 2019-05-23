@@ -25,6 +25,9 @@ export default class Index extends Component {
   }
 
   handleSearchChange() {}
+  showSelectCity() {
+    Taro.navigateTo({ url: "/business-pages/select-city/index" });
+  }
 
   render() {
     const list = ["全部", "关注", "丽人", "餐饮", "休闲", "服饰"];
@@ -33,8 +36,11 @@ export default class Index extends Component {
         <View className="head">
           <View className="search">
             <View className="flex center container">
-              <View className="city">广州</View>
+              <View className="city" onClick={this.showSelectCity}>
+                广州
+              </View>
               <AtIcon
+                onClick={this.showSelectCity}
                 className="chevron-down"
                 value="chevron-down"
                 color="#313131"
