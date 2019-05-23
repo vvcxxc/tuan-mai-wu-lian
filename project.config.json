@@ -4,7 +4,7 @@
   "description": "tarojs-ts-cli",
   "appid": "wx5f2271a7c946fef1",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "postcss": false,
     "minified": false

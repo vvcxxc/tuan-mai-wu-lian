@@ -1,6 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 import { AtList, AtListItem } from "taro-ui";
+import request from "src/services/request";
 import bg from "./bg.png";
 import icon1 from "./3.png";
 import icon2 from "./4.png";
@@ -15,13 +16,14 @@ export default class My extends Component {
 
   state = {};
 
-  componentWillMount() {}
-  componentDidMount() {}
-  componentWillUnmount() {}
-  componentDidShow() {}
-  componentDidHide() {}
-  componentDidCatchError() {}
-  componentDidNotFound() {}
+  componentWillMount() {
+    this.getInfo();
+  }
+
+  getInfo() {
+    request({ url: "v3/user/coupons" }).then((res) => console.log(res));
+  }
+
   render() {
     return (
       <View className="flex column center">

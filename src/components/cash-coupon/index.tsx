@@ -1,14 +1,11 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 
-import secondaryActiveBg from "./secondary-avitve-bg.png";
+// import secondaryActiveBg from "./secondary-avitve-bg.png";
 
 import "./index.styl";
 
-interface Props {
-  /**当前父级元素的背景色 */
-  background?: string;
-}
+interface Props {}
 
 /**现金优惠券 */
 export default class CashCoupon extends Component<Props> {

@@ -111,10 +111,20 @@ class App extends Component {
     }
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getToken();
+    console.log("token", Taro.getStorageSync("token"));
+  }
   componentDidShow() {}
   componentDidHide() {}
   componentDidCatchError() {}
+
+  getToken() {
+    Taro.request({
+      url: "http://test.api.tdianyi.com/api/wap/testLogin",
+      success: (res) => Taro.setStorageSync("token", res.data.data.token)
+    });
+  }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
