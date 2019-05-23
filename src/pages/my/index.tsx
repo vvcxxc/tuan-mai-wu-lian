@@ -9,39 +9,58 @@ import icon3 from "./5.png";
 import icon4 from "./6.png";
 import "./index.styl";
 
-export default class My extends Component {
+interface State {
+  userInfo: any;
+}
+
+export default class My extends Component<any, State> {
   config = {
     navigationBarTitleText: "我的"
   };
 
-  state = {};
+  state = {
+    userInfo: {
+      user_name: "",
+      avatar: "",
+      order_msg: "",
+      collect_msg: "",
+      gift_msg: "",
+      activity_msg: ""
+    }
+  };
 
   componentWillMount() {
     this.getInfo();
   }
 
   getInfo() {
-    request({ url: "v3/user/coupons" }).then((res) => console.log(res));
+    Taro.showLoading();
+    request({ url: "v3/user/coupons" })
+      .then((res) => {
+        Taro.hideLoading();
+        this.setState({ userInfo: res });
+      })
+      .catch(Taro.hideLoading);
   }
 
   render() {
     return (
       <View className="flex column center">
         <Image src={bg} className="bg" />
-        <View className="head-img" />
-        <View className="name">杨大富</View>
+        <Image className="head-img" src={this.state.userInfo.avatar} />
+        <View className="name">{this.state.userInfo.user_name}</View>
         <View className="meuns">
           <AtList>
             <AtListItem
               title="我的订单"
               arrow="right"
-              extraText="有快到期的券"
+              extraText={this.state.userInfo.order_msg && "有快到期的券"}
               thumb={icon1}
             />
             <AtListItem
               title="我的收藏"
               arrow="right"
-              extraText="收藏有更新"
+              extraText={this.state.userInfo.collect_msg && "有快到期的券"}
               thumb={icon2}
               onClick={() =>
                 Taro.navigateTo({ url: "/business-pages/stars/index" })
@@ -50,7 +69,7 @@ export default class My extends Component {
             <AtListItem
               title="我的礼品"
               arrow="right"
-              extraText="有正在配送的礼品"
+              extraText={this.state.userInfo.gift_msg && "有快到期的券"}
               thumb={icon3}
               onClick={() =>
                 Taro.navigateTo({ url: "/business-pages/gift/index" })
@@ -59,7 +78,7 @@ export default class My extends Component {
             <AtListItem
               title="我参与的活动"
               arrow="right"
-              extraText="有正在进行的拼团活动"
+              extraText={this.state.userInfo.activity_msg && "有快到期的券"}
               thumb={icon4}
             />
           </AtList>
