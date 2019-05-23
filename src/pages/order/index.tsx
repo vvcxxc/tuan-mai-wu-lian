@@ -3,17 +3,36 @@ import { View, ScrollView } from "@tarojs/components";
 import Tabs from "../../components/tabs";
 import Content from "./content";
 import "./index.styl";
+import request from "../../services/request";
 
 export default class Order extends Component {
   config: Config = {
     navigationBarTitleText: "我的订单"
   };
   state = {
-    current: 0
+    current: 0,
+    coupon: [],
+    page: 1,
+    loading: false
   };
 
   handlerTabChange(current) {
     this.setState({ current });
+  }
+
+  componentWillMount() {
+    console.log("11212");
+    this.getData();
+  }
+
+  getData() {
+    this.setState({ loading: true });
+    request({
+      url: "v3/user/coupons",
+      data: { coupons_status: this.state.current + 1, page: this.state.page }
+    })
+      .then((res: any) => this.setState({ coupon: res, loading: false }))
+      .catch(() => this.setState({ loading: false }));
   }
 
   render() {
@@ -22,7 +41,7 @@ export default class Order extends Component {
       <View className="order flex column">
         <Tabs list={list} onChange={this.handlerTabChange.bind(this)} />
         <ScrollView scrollY className="item content-wrap">
-          <Content />
+          <Content list={this.state.coupon} loading={this.state.loading} />
         </ScrollView>
       </View>
     );
