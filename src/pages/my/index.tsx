@@ -35,7 +35,7 @@ export default class My extends Component<any, State> {
 
   getInfo() {
     Taro.showLoading();
-    request({ url: "v3/user/coupons" })
+    request({ url: "v3/user/home_index" })
       .then((res) => {
         Taro.hideLoading();
         this.setState({ userInfo: res });
@@ -54,13 +54,13 @@ export default class My extends Component<any, State> {
             <AtListItem
               title="我的订单"
               arrow="right"
-              extraText={this.state.userInfo.order_msg && "有快到期的券"}
+              extraText={this.state.userInfo.order_msg}
               thumb={icon1}
             />
             <AtListItem
               title="我的收藏"
               arrow="right"
-              extraText={this.state.userInfo.collect_msg && "有快到期的券"}
+              extraText={this.state.userInfo.collect_msg}
               thumb={icon2}
               onClick={() =>
                 Taro.navigateTo({ url: "/business-pages/stars/index" })
@@ -69,7 +69,7 @@ export default class My extends Component<any, State> {
             <AtListItem
               title="我的礼品"
               arrow="right"
-              extraText={this.state.userInfo.gift_msg && "有快到期的券"}
+              extraText={this.state.userInfo.gift_msg}
               thumb={icon3}
               onClick={() =>
                 Taro.navigateTo({ url: "/business-pages/gift/index" })
@@ -78,7 +78,7 @@ export default class My extends Component<any, State> {
             <AtListItem
               title="我参与的活动"
               arrow="right"
-              extraText={this.state.userInfo.activity_msg && "有快到期的券"}
+              extraText={this.state.userInfo.activity_msg}
               thumb={icon4}
             />
           </AtList>

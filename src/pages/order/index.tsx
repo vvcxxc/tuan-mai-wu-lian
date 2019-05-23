@@ -21,7 +21,6 @@ export default class Order extends Component {
   }
 
   componentWillMount() {
-    console.log("11212");
     this.getData();
   }
 

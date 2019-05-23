@@ -7,8 +7,6 @@ import models from "./models";
 import dvaCore from "./dvaCore";
 
 import Index from "./pages/index";
-import Counter from "./pages/counter";
-import Data from "./pages/data";
 
 import "./app.styl";
 import "taro-ui/dist/style/index.scss";
@@ -41,11 +39,10 @@ class App extends Component {
   config: Config = {
     pages: [
       "pages/index/index",
-      "pages/counter/index",
-      "pages/data/index",
       "pages/my/index",
       "pages/order/index",
-      "pages/merchant/index"
+      "pages/merchant/index",
+      "pages/activity/index"
     ],
     subPackages: [
       // {
@@ -85,14 +82,14 @@ class App extends Component {
           selectedIconPath: "./assets/tabbar/6.png"
         },
         {
-          pagePath: "pages/counter/index",
-          text: "计数",
+          pagePath: "pages/merchant/index",
+          text: "商家",
           iconPath: "./assets/tabbar/2.png",
           selectedIconPath: "./assets/tabbar/7.png"
         },
         {
-          pagePath: "pages/data/index",
-          text: "数据",
+          pagePath: "pages/activity/index",
+          text: "活动",
           iconPath: "./assets/tabbar/3.png",
           selectedIconPath: "./assets/tabbar/8.png"
         },
@@ -133,8 +130,6 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Index />
-        <Counter />
-        <Data />
       </Provider>
     );
   }
