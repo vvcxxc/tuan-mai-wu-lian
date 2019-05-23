@@ -23,7 +23,7 @@ class Merchant extends Component<Props> {
     return (
       <ScrollView scrollY className="merchant">
         {this.props.list.map((_, index) => (
-          <View className="merchant-item flex" key={index}>
+          <View className="merchant-item flex">
             <Image
               className="img"
               src="http://wx3.sinaimg.cn/large/006Cmetyly1flfle1mivuj30d20d2aat.jpg"

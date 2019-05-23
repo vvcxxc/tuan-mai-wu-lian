@@ -44,7 +44,8 @@ class App extends Component {
       "pages/counter/index",
       "pages/data/index",
       "pages/my/index",
-      "pages/order/index"
+      "pages/order/index",
+      "pages/merchant/index"
     ],
     subPackages: [
       // {

@@ -23,18 +23,18 @@ class Merchant extends Component<Props> {
   render() {
     return (
       <ScrollView scrollY className="coupon">
-        {this.props.list.map((_, index) => (
-          <View className="coupon-item" key={index}>
+        {this.props.list.map((_) => (
+          <View className="coupon-item">
             <View className="head flex center">
               <AtIcon value="home" color="#666" />
               <View className="title item">杨大富的五金店</View>
               <AtIcon value="chevron-right" color="#999" />
             </View>
             <View className="coupon-component-wrap">
-              <CashCoupon background="#fff" />
+              <CashCoupon />
             </View>
             <View className="coupon-component-wrap">
-              <CashCoupon background="#fff" />
+              <CashCoupon />
             </View>
           </View>
         ))}
