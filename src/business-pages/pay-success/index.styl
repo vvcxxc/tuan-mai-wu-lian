@@ -24,25 +24,34 @@
             color: #FF6654
 
     .welfare
-        background: url('../../assets/pay-success/draw-bg.png') 0 0/100% no-repeat
-        padding-top: 430px
+        background: url('../../assets/pay-success/draw-bg.png') 0 0/100% no-repeat, linear-gradient(0deg,rgba(255,25,51,1),rgba(253,93,41,1))
+        padding-top: 502px
         padding-bottom: 70px
         position: relative
-        .notice
+        .notice-body
             background: linear-gradient(-90deg,rgba(238,65,9,1),rgba(242,90,27,1))
-            height: 100px
-            line-height: 100px
+            height: 72px
+            line-height: 72px
             color: #fff
             position: absolute
             left: 0
             top: 0
             width 100%
             overflow: hidden
+            .notice
+                width 100%
+                height 100%
+                overflow: hidden
             .text
                 position: relative
                 z-index 3
                 margin: 0 30px
                 width: max-content
+                // transition: all 10s linear
+                // transform: translate(-100vw, 0)
+                margin: 0 20px
+                color: #fff
+                // transform: translate(100vw, 0)
             &:after
                 display: block
                 content: ''

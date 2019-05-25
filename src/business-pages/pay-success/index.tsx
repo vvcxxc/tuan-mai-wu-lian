@@ -13,8 +13,7 @@ export default class PaySuccess extends Component {
   };
 
   state = {
-    notice: ['恭喜XXX获取到100万无门槛红包', '恭喜XXX获取到100万无门槛红包', '恭喜XXX获取到100万无门槛红包'],
-    noticeCopy: [],
+    notice: ['恭喜XXX获取到300万无门槛红包', '恭喜XXX获取到1002万无门槛红包', '恭喜XXX获取到1032万无门槛红包'],
     draw: 1, // 当前转圈选中的值
     drwaIndex: 0, // 圈数
     drawActive: Math.floor(Math.random() * 8), // 抽中的选项
@@ -25,7 +24,9 @@ export default class PaySuccess extends Component {
   componentWillMount() {
     console.log(this.state.drawActive)
   }
-  componentDidMount() {}
+  componentDidMount() {
+    setInterval(() => this.noticeAminRemove(), 50);
+  }
   onDraw () { // 抽奖
       if (this.state.drawStatus) return false
       this.setState({drawStatus: true})
@@ -47,7 +48,19 @@ export default class PaySuccess extends Component {
       }
   }
   noticeAmin () {
+    
   }
+  noticeAminRemove () {
+    let n = this.refs['notice']['vnode']['dom'];
+    let l = this.refs['noticeLeft']['vnode']['dom'];
+    let r = this.refs['noticeReft']['vnode']['dom'];
+    if(n.scrollLeft >= l.offsetWidth){
+        n.scrollLeft = 0;
+    }else{
+        n.scrollLeft++;
+    }
+  }
+
   render() {
     return (
         <View className="pay-success">
@@ -60,13 +73,20 @@ export default class PaySuccess extends Component {
                 <View className="cell-ft cff6654">订单详情<AtIcon value="chevron-right" color="#999" size="16px"/></View>       
             </View>    
             <View className="welfare ">
-                <View className="notice flex">
-                    <View className="notice-view flex">
-                        {
-                            this.state.noticeCopy.map((_) => (<View className="text">{_}</View>))
-                        }
-                    </View>
-                </View>  
+                <View className="notice-body">
+                    <View className="notice flex" ref="notice">
+                        <View className="notice-view flex" ref="noticeLeft">
+                            {
+                                this.state.notice.map((_) => (<View className="text">{_}</View>))
+                            }
+                        </View>
+                        <View className="notice-view flex" ref="noticeReft">
+                            {
+                                this.state.notice.map((_) => (<View className="text">{_}</View>))
+                            }
+                        </View>
+                    </View>  
+                </View>    
                 <View className="turntable flex">
                     <View className={`prize flex center column ${this.state.draw == 1 ? 'active' : ''}`}>
                         <Image className="image prz3" src={TicketImg} /> 
