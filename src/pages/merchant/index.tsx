@@ -29,6 +29,10 @@ export default class MerChantPage extends Component {
     }).then((res: any) => this.setState({ stores: res.store_info.data }));
   }
 
+  handleClick = (id) =>  {
+    console.log(id)
+  }
+
   render() {
     return (
       <View>
@@ -51,7 +55,7 @@ export default class MerChantPage extends Component {
           </View>
         </View>
         <View className="merchant-list">
-          <List list={this.state.stores}></List>
+          <List onClick={this.handleClick} list={this.state.stores}></List>
         </View>
       </View>
     );

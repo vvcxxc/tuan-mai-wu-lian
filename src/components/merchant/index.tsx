@@ -16,7 +16,7 @@ export default class Merchant extends Component<Props> {
   handleTap = () => this.props.onClick(this.props.merchant.id)
   render() {
     return (
-      <View className="merchant">
+      <View className="merchant" onClick={this.handleTap}>
         <View className="content flex">
           <Image className="img" src="" />
           <View className="item">
