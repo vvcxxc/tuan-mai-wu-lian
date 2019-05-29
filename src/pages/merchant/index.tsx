@@ -1,9 +1,9 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import { AtSearchBar, AtIcon } from "taro-ui";
-import Merchant from "../../components/merchant";
 import "./index.styl";
 import request from "../../services/request";
+import List from "./list";
 
 export default class MerChantPage extends Component {
   config = {
@@ -51,9 +51,7 @@ export default class MerChantPage extends Component {
           </View>
         </View>
         <View className="merchant-list">
-          {this.state.stores.map((_: any) => (
-            <Merchant key={_.id} merchant={_} />
-          ))}
+          <List list={this.state.stores}></List>
         </View>
       </View>
     );

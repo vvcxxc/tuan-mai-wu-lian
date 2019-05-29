@@ -10,6 +10,7 @@ import Index from "./pages/index";
 
 import "./app.styl";
 import "taro-ui/dist/style/index.scss";
+import request from "./services/request";
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -109,15 +110,16 @@ class App extends Component {
       ]
     }
   };
-  componentDidShow() {}
+  componentDidShow() {
+    this.getToken()
+  }
   componentDidHide() {}
   componentDidCatchError() {}
 
   getToken() {
-    Taro.request({
+    request({
       url: "api/wap/testLogin",
-      success: (res) => Taro.setStorageSync("token", res.data.data.token)
-    });
+    }).then((res:any) => Taro.setStorageSync('token', res.token))
   }
 
   // 在 App 类中的 render() 函数没有实际作用
