@@ -3,6 +3,7 @@ import { View, Swiper, SwiperItem, Input, Image } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
 import "./index.styl";
 import Tabs from "../../components/tabs";
+import request from "../../services/request";
 
 export default class Index extends Component {
   /**
@@ -20,6 +21,10 @@ export default class Index extends Component {
     searchValue: ""
   };
 
+  componentWillMount () {
+    this.requestIndexData()
+  }
+
   getPosition() {
     Taro.getLocation().then((res) => console.log(res));
   }
@@ -27,6 +32,10 @@ export default class Index extends Component {
   handleSearchChange() {}
   showSelectCity() {
     Taro.navigateTo({ url: "/business-pages/select-city/index" });
+  }
+
+  requestIndexData = () => {
+    request({url: 'v3/stores'}).then(res=> console.log(res))
   }
 
   render() {

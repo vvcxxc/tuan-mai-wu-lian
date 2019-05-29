@@ -109,18 +109,13 @@ class App extends Component {
       ]
     }
   };
-
-  componentDidMount() {
-    this.getToken();
-    console.log("token", Taro.getStorageSync("token"));
-  }
   componentDidShow() {}
   componentDidHide() {}
   componentDidCatchError() {}
 
   getToken() {
     Taro.request({
-      url: "http://test.api.tdianyi.com/api/wap/testLogin",
+      url: "api/wap/testLogin",
       success: (res) => Taro.setStorageSync("token", res.data.data.token)
     });
   }
