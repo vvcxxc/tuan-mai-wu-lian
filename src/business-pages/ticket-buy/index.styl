@@ -1,0 +1,52 @@
+.ticket-buy-view
+    color: #313131
+    border: 2px solid #FFEBCD
+    background-color: #FFFAF4
+    border-radius: 5px
+    padding: 30px 40px
+    position: relative
+    &:after,
+    &:before
+        display: block
+        content: ''
+        position: absolute
+        top: 50%
+        transform: translate(0,-50%) rotate(-45deg)
+        width 30px
+        height 30px
+        border-radius: 30px
+        border-left: 2px solid #FFEBCD
+        border-top: 2px solid #FFEBCD
+        background-color: #fff
+    &:after
+        left -15px
+        transform: translate(0,-50%) rotate(135deg)
+    &:before
+        right -15px
+    .image
+        width: 30px
+        height 30px
+        position: absolute
+        right 48px
+        top: 38px
+
+    .tit
+        font-size: 28px
+    .money
+        font-size: 64px
+    .ft
+        display: flex
+        align-items: center
+        justify-content: space-between
+        .desc
+            font-size: 28px
+            color: #666
+        .tags
+            .tag-text
+                color: #FA5D49
+                font-size: 24px
+                border: 2px solid #FA5D49
+                padding 6px 10px
+                border-radius: 5px
+                margin-right: 12px
+

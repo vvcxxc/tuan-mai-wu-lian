@@ -62,6 +62,9 @@ class App extends Component {
           "select-city/index",
           "pay-success/index",
           "merchant/index",
+          "set-meal/index",
+          "ticket-buy/index",
+          "daily-recommend/index",
         ]
       },
       {
