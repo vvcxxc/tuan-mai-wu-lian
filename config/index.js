@@ -1,4 +1,7 @@
 // eslint-disable-next-line import/no-commonjs
+const path = require("path");
+
+// eslint-disable-next-line import/no-commonjs
 const config = {
   projectName: "tuanmaiwulian",
   date: "2019-5-13",
@@ -23,6 +26,12 @@ const config = {
         "transform-class-properties",
         "transform-object-rest-spread"
       ]
+    },
+    sass: {
+      resource: ["app.scss"],
+      // OR
+      // resource:  ['path/to/global.variable.scss', 'path/to/global.mixin.scss']
+      projectDirectory: path.resolve(__dirname, "..")
     }
   },
   defineConstants: {},

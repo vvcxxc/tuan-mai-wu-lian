@@ -61,7 +61,15 @@ class App extends Component {
           "gift/index",
           "select-city/index",
           "pay-success/index",
-          "merchant/index"
+          "merchant/index",
+        ]
+      },
+      {
+        /**活动页面 比如地址选择，确认订单 */
+        root: "activity-pages",
+
+        pages: [
+          "area/index"
         ]
       }
     ],
