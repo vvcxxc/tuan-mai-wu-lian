@@ -4,6 +4,7 @@ import { AtIcon } from "taro-ui";
 import "./index.styl";
 import Tabs from "../../components/tabs";
 import request from "../../services/request";
+import ActivityList from "src/components/activity/list";
 
 export default class Index extends Component {
   /**
@@ -18,7 +19,8 @@ export default class Index extends Component {
   };
 
   state = {
-    searchValue: ""
+    searchValue: "",
+    storeList: [],
   };
 
   componentWillMount () {
@@ -35,8 +37,10 @@ export default class Index extends Component {
   }
 
   requestIndexData = () => {
-    request({url: 'v3/stores'}).then(res=> console.log(res))
+    request({url: 'v3/stores'}).then((res: any)=> this.setState({storeList: res.store_info.data}))
   }
+
+  handleActivityClick = () => {}
 
   render() {
     const list = ["全部", "关注", "丽人", "餐饮", "休闲", "服饰"];
@@ -107,6 +111,7 @@ export default class Index extends Component {
           </View>
         </View>
         <Tabs list={list} onChange={this.handleSearchChange.bind(this)} />
+        <ActivityList list={this.state.storeList} onClick={this.handleActivityClick}></ActivityList>
       </View>
     );
   }
