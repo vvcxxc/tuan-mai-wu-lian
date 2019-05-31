@@ -65,6 +65,7 @@ class App extends Component {
           "set-meal/index",
           "ticket-buy/index",
           "daily-recommend/index",
+          "search/index",
         ]
       },
       {
