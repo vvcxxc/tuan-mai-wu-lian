@@ -73,7 +73,7 @@ class App extends Component {
 				/**活动页面 比如地址选择，确认订单 */
 				root: 'activity-pages',
 
-				pages: ['area/index']
+				pages: ['area/index', 'group-booking/index', 'appreciation/index']
 			}
 		],
 		window: {

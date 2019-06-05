@@ -16,6 +16,8 @@ export default class Activity extends Component {
 
 	componentWillMount() {}
 
+	pushPage = url => () => Taro.navigateTo({ url });
+
 	render() {
 		const list = ['全部', '关注', '丽人', '餐饮', '休闲', '服饰'];
 		return (
@@ -32,10 +34,10 @@ export default class Activity extends Component {
 					</SwiperItem>
 				</Swiper>
 				<View className="flex hot-icon">
-					<View className="item">
+					<View className="item" onClick={this.pushPage('/activity-pages/appreciation/index')}>
 						<Image className="img" mode="widthFix" src={require('./hot-left.png')} />
 					</View>
-					<View className="item">
+					<View className="item" onClick={this.pushPage('/activity-pages/group-booking/index')}>
 						<Image className="img" mode="widthFix" src={require('./hot-right.png')} />
 					</View>
 				</View>
