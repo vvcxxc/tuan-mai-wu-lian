@@ -19,9 +19,9 @@ export default class Index extends Component {
 	};
 
 	state = {
-		searchValue: ''
+		searchValue: '',
+		storeList: []
 	};
-	storeList: [];
 
 	componentWillMount() {
 		this.requestIndexData();
@@ -76,7 +76,7 @@ export default class Index extends Component {
 						autoplay
 					>
 						<SwiperItem>
-							<Image src={require('./banner.png')} mode="widthFix" className="banner" />
+							<Image src={require('../../assets/banner.png')} mode="widthFix" className="banner" />
 						</SwiperItem>
 					</Swiper>
 				</View>
