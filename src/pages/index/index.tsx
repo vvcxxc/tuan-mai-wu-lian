@@ -19,9 +19,9 @@ export default class Index extends Component {
 	};
 
 	state = {
-		searchValue: '',
-		storeList: []
+		searchValue: ''
 	};
+	storeList: [];
 
 	componentWillMount() {
 		this.requestIndexData();
@@ -31,16 +31,17 @@ export default class Index extends Component {
 		Taro.getLocation().then(res => console.log(res));
 	}
 
-	handleSearchChange() {}
-	showSelectCity() {
-		Taro.navigateTo({ url: '/business-pages/select-city/index' });
-	}
+	handleSearch = () => Taro.navigateTo({ url: './search/index' });
+
+	showSelectCity = () => Taro.navigateTo({ url: '/business-pages/select-city/index' });
 
 	requestIndexData = () => {
 		request({ url: 'v3/stores' }).then((res: any) => this.setState({ storeList: res.store_info.data }));
 	};
 
 	handleActivityClick = () => {};
+
+	tabChange = () => {};
 
 	render() {
 		const list = ['全部', '关注', '丽人', '餐饮', '休闲', '服饰'];
@@ -61,13 +62,9 @@ export default class Index extends Component {
 							/>
 							<View className="long-string" />
 							<AtIcon className="search-icon" value="search" color="#666666" size={14} />
-							<Input
-								className="item search-input"
-								type="text"
-								placeholder="请输入商家名、品类"
-								value={this.state.searchValue}
-								onInput={this.handleSearchChange.bind(this)}
-							/>
+							<View className="item search-input" onClick={this.handleSearch}>
+								请输入商家名、品类
+							</View>
 						</View>
 					</View>
 					<Swiper
@@ -91,7 +88,7 @@ export default class Index extends Component {
 						<Image mode="widthFix" className="img" src={require('./menu-2.png')} />
 					</View>
 				</View>
-				<Tabs list={list} onChange={this.handleSearchChange.bind(this)} />
+				<Tabs list={list} onChange={this.tabChange} />
 				<ActivityList list={this.state.storeList} onClick={this.handleActivityClick} />
 			</View>
 		);

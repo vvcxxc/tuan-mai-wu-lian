@@ -1,0 +1,33 @@
+.page {
+	height: 100vh;
+	background-color: #fff;
+}
+
+.content {
+	height: 100%;
+	padding: 20px 34px;
+}
+
+.head {
+	.text {
+		font-size: 30px;
+		color: #666;
+	}
+	.trash-icon {
+		width: 36px;
+		height: 40px;
+		background-color: #ccc;
+	}
+}
+
+.history {
+	padding: 36px 0;
+	.item {
+		display: inline-block;
+		padding: 23px 41px;
+		background: rgba(245, 245, 245, 1);
+		border-radius: 5px;
+		line-height: 1;
+		margin: 0 14px 14px 0;
+	}
+}
