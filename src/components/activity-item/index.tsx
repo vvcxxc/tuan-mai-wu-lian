@@ -5,12 +5,15 @@ import './index.scss';
 
 interface Props {
 	item: any;
+	onClick: (any) => any;
 }
 
 class ActivityItem extends PureComponent<Props> {
+	handleClick = () => this.props.onClick && this.props.onClick(this.props.item);
+
 	render() {
 		return (
-			<View className="component">
+			<View className="component" onClick={this.handleClick}>
 				<View className="flex">
 					<View className="item">拼团活动名称拼团活动名称拼团...</View>
 					<View className="head-btn">3人团</View>
