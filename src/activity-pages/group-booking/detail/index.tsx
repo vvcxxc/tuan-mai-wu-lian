@@ -51,7 +51,50 @@ class GroupBookingDetail extends PureComponent {
 							</View>
 						</View>
 					</View>
+					<View className="give">
+						<View className="title flex bottom">
+							<View className="item">赠送礼品</View>
+							<View className="link">图文详情</View>
+						</View>
+						<View className="sub-title">价值3000元的耳机一副</View>
+						<View className="label">运费8元</View>
+						<Image className="img" src="" mode="widthFix" />
+					</View>
+					<View className="flow flex center">
+						<Image className="showy" src={require('./01.png')} />
+						<View className="text">开始 拼团</View>
+						<Image className="arrow" src="" />
+						<Image className="showy" src={require('./02.png')} />
+						<View className="text">邀请 好友</View>
+						<Image className="arrow" src="" />
+						<Image className="showy" src={require('./03.png')} />
+						<View className="text">使用 送礼</View>
+					</View>
+					{/* 拼团规则 */}
+					<View className="regiment-rule">
+						<View className="title flex center">
+							<View className="item">拼团规则</View>
+							<Image src="" className="help" />
+						</View>
+						<View className="flex rule">
+							<View className="label">拼团人数：</View>
+							<View className="item">3人团</View>
+						</View>
+						<View className="flex rule">
+							<View className="label">时间限制：</View>
+							<View className="item">24小时内</View>
+						</View>
+						<View className="flex rule">
+							<View className="label">详情描述：</View>
+							<View className="item">3人团</View>
+						</View>
+						<View className="see-more flex center">
+							查看更多
+							<Image src={require('./arrow-down.png')} mode="widthFix" className="img" />
+						</View>
+					</View>
 				</View>
+
 				<View className="footer flex">
 					<View className="price item flex">
 						<View className="current flex center">
