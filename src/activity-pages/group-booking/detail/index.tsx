@@ -54,10 +54,12 @@ class GroupBookingDetail extends PureComponent {
 				</View>
 				<View className="footer flex">
 					<View className="price item flex">
-						<View className="current">
+						<View className="current flex center">
 							<View className="small">￥</View>100
 						</View>
-						<View className="old">¥300（含8元运费）</View>
+						<View className="old flex left center">
+							<View className="strikethrough">¥300</View>（含8元运费）
+						</View>
 					</View>
 					<View className="btn pay">立即购买</View>
 					<View className="btn regiment">发起拼团</View>
