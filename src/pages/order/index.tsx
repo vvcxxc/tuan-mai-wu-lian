@@ -17,7 +17,9 @@ export default class Order extends Component {
   };
 
   handlerTabChange(current) {
-    this.setState({ current });
+    this.setState({ current },()=>{
+       console.log(current)
+    });
   }
 
   componentWillMount() {
@@ -35,12 +37,13 @@ export default class Order extends Component {
   }
 
   render() {
+    const { current } = this.state
     const list = ["未使用", "已使用", "已过期", "已退款"];
     return (
       <View className="order flex column">
         <Tabs list={list} onChange={this.handlerTabChange.bind(this)} />
         <ScrollView scrollY className="item content-wrap">
-          <Content list={this.state.coupon} loading={this.state.loading} />
+          <Content   type={current}   list={[ { coupons_id:0 } ]} loading={this.state.loading} />
         </ScrollView>
       </View>
     );

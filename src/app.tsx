@@ -44,7 +44,9 @@ class App extends Component {
 			'pages/my/index',
 			'pages/order/index',
 			'pages/merchant/index',
-			'pages/activity/index'
+			'pages/activity/index',
+			'pages/order/orderdetail/index', //订单详情
+			'pages/order/orderdetail/refundProgress', //退款进度
 		],
 		subPackages: [
 			// {

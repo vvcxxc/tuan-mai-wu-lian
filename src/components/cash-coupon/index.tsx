@@ -5,7 +5,10 @@ import { View, Text, Image } from "@tarojs/components";
 
 import "./index.styl";
 
-interface Props {}
+interface Props {
+  cuoPonsId:number
+  handerClickCb ?:Function
+}
 
 /**现金优惠券 */
 export default class CashCoupon extends Component<Props> {
@@ -14,10 +17,14 @@ export default class CashCoupon extends Component<Props> {
   static options: ComponentOptions = {
     addGlobalClass: true
   };
-
+  handerClick(){
+    const { handerClickCb } = this.props
+    handerClickCb && handerClickCb()
+  }
   render() {
     return (
       <View
+        onClick = {this.handerClick.bind(this)}
         className="cash-coupon flex active"
         style={{ backgroundImage: `url(${require("./active-bg.png")})` }}
       >
