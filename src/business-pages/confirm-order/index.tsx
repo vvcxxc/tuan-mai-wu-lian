@@ -14,7 +14,8 @@ export default class ConfirmOrder extends Component {
     amount: 1,
     pay_success: false,
     coupon: {
-      pay_money: 1,
+      id:"",
+      pay_money: 0,
       brief: "",
       list_brief: "",
       description: "0",
@@ -64,9 +65,9 @@ export default class ConfirmOrder extends Component {
       url: 'api/merchant/youhui/wxWechatPay',
       method: "GET",
       data: {
-        youhui_id: "",
-        store_id: "",
-        youhui_number: "",
+        youhui_id: this.state.coupon.id,
+        store_id: this.state.store.id,
+        youhui_number: this.state.amount,
         type: "",  //1 微信 2支付宝			
         openid: "",
         alipay_user_id: ""
