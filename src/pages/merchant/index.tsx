@@ -26,12 +26,20 @@ export default class MerChantPage extends Component {
 
 	getData() {
 		request({
-			url: '/v3/stores'
-		}).then((res: any) => this.setState({ stores: res.store_info.data }));
+			url: 'v3/stores'
+		}).then((res: any) => {
+			this.setState({
+				stores: res.store_info.data
+			})
+		});
 	}
 
 	handleClick = id => {
 		console.log(id);
+		Taro.navigateTo({
+			// url: '/pages/business/index?id=' + id
+			url: '/pages/business/index?id=717'
+		})
 	};
 
 	render() {
