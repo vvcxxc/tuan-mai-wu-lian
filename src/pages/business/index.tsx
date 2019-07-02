@@ -445,7 +445,6 @@ export default class PaySuccess extends Component<Props> {
             {this.state.exchangeCouponList_bull ? <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />}
           </View>
           <View style={{ height: "10px" }}></View>
-          <hr />
 
         </View>
         <View className="recommend-view bcfff">

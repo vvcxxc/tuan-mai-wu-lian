@@ -145,10 +145,10 @@ export default class PaySuccess extends Component {
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
           <View className="address-view flex center">
-            {/* <Image className="address-image" src={AddressImg} />
-            <View className="distance">2.6m</View> */}
+             <Image className="address-image" src={AddressImg} />
+            {/* <View className="distance">2.6m</View> */} 
             <View className="text flex-item">{this.state.store.saddress}</View>
-            {/* <Image className="mobile-image" src={MobileImg} /> */}
+            <Image className="mobile-image" src={MobileImg} />
           </View>
         </View>
         {/* <View className="remark mt20 pd30 bcff">

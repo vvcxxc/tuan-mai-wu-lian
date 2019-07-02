@@ -114,6 +114,7 @@ export default class ConfirmOrder extends Component {
       }
     })
       .then((...res: any) => {
+        console.log("request成功");
         console.log(res);
         Taro.hideLoading();
         // 发起支付
@@ -124,6 +125,7 @@ export default class ConfirmOrder extends Component {
           signType: res.signType,
           paySign: res.paySign,
           success(res) {
+            console.log("支付成功");
             console.log(res);
             this.setState({
               pay_bull: "支付成功",
@@ -131,6 +133,7 @@ export default class ConfirmOrder extends Component {
             })
           },
           fail(err) {
+            console.log("支付失败");
             console.log(err);
             this.setState({
               pay_bull: "支付失败",

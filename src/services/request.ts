@@ -9,18 +9,21 @@ const host = "http://test.api.tdianyi.com/";
 
 export default function request(options: Options) {
   const pages = Taro.getCurrentPages();
-  console.log("pages:" + pages.length);
-  if (pages.length == 10) {
-    Taro.showToast({
-      title: "页面打开太多，请回退关闭几个页面",
-      icon: 'none',
-      duration: 2000
-    })
-       setTimeout(() => {
+
+  // console.log(pages[pages.length - 1].route.indexOf("confirm-order"));
+  if (pages[pages.length - 1].route.indexOf("confirm-order") == -1) {
+    if (pages.length == 9) {
+      Taro.showToast({
+        title: "页面打开太多，请回退关闭几个页面",
+        icon: 'none',
+        duration: 2000
+      })
+      setTimeout(() => {
         Taro.navigateBack({
         })
-       }, 2000)
-      return new Promise((resolve, reject) => {})
+      }, 2000)
+      return new Promise((resolve, reject) => { })
+    }
   }
   const token = Taro.getStorageSync("token");
   options.header = { ...options.header, Authorization: token };
@@ -34,6 +37,6 @@ export default function request(options: Options) {
     options.fail = (res) => reject(res);
     Taro.request(options);
   });
-  
+
 }
 
