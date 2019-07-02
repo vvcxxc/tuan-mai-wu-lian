@@ -4,7 +4,7 @@ import { View, Text, Image, ScrollView, Button } from "@tarojs/components";
 import "./index.styl";
 import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
-import starImg from '../../assets/starcollect.png'
+// import starImg from '../../assets/starcollect.png'
 import AddressImg from '../../assets/address.png'
 import ticketImg from '../../assets/ticket.png'
 import "taro-ui/dist/style/components/toast.scss";
@@ -137,7 +137,7 @@ export default class PaySuccess extends Component<Props> {
   }
   keepCollect(e) {
     let _id = this.state.business_list.id;
-    request({ url: '/v3/stores/collection', method: "PUT", data: { store_id: _id } })
+    request({ url: 'v3/stores/collection', method: "PUT", data: { store_id: _id } })
       .then((res: any) => {
         if (res) {
           // console.log(this.state.keepCollect_bull)
@@ -155,7 +155,7 @@ export default class PaySuccess extends Component<Props> {
       <View className="merchant-details">
         {
 
-          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
+          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} icon={"star-2"} duration={2000} ></AtToast> : ""
         }
 
         <View className="shop bcfff">
