@@ -140,9 +140,11 @@ export default class PaySuccess extends Component<Props> {
     request({ url: '/v3/stores/collection', method: "PUT", data: { store_id: _id } })
       .then((res: any) => {
         if (res) {
+          // console.log(this.state.keepCollect_bull)
           this.setState({
             keepCollect_data: res,
-            keepCollect_bull: !this.state.keepCollect_bull
+            //控制AtToast显示，set为true就好了，每次set都会触发AtToast
+            keepCollect_bull: true
           })
         }
       })

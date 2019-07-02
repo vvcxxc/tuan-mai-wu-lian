@@ -8,6 +8,21 @@ interface Options extends RequestParams {
 const host = "http://test.api.tdianyi.com/";
 
 export default function request(options: Options) {
+  var pages = Taro.getCurrentPages();
+  console.log("pages:" + pages.length);
+  if (pages.length == 10) {
+    Taro.showToast({
+      title: "页面打开太多，请回退关闭几个页面",
+      icon: 'none',
+      duration: 2000
+    })
+    setTimeout(() => {
+      Taro.navigateBack({
+
+      })
+    }, 2000)
+    return;
+  }
   const token = Taro.getStorageSync("token");
   options.header = { ...options.header, Authorization: token };
   return new Promise((resolve, reject) => {
@@ -21,3 +36,4 @@ export default function request(options: Options) {
     Taro.request(options);
   });
 }
+
