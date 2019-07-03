@@ -193,6 +193,10 @@ export default class PaySuccess extends Component<Props> {
             <Image className="mobile-img" src={MobileImg} />
           </View>
         </View>
+
+
+
+
         {/* 拼团活动 */}
         {
           this.state.activity_group_bull ? this.state.activity_group.map((item) => (
@@ -208,10 +212,15 @@ export default class PaySuccess extends Component<Props> {
                   {/* <View className="count">{item.participation_number}人团</View> */}
                 </View>
               </View>
-              <View className="image-list">
-                <Image className="image" src={item.image_url} />
-                <Image className="image" src={item.image_url} />
-              </View>
+              {this.state.activity_group[0].gift_pic == null ?
+                <View className="image-list0">
+                  <Image className="image0" src={item.image_url} />
+                </View> :
+                <View className="image-list0">
+                  <Image className="image" src={item.image_url} />
+                  <Image className="image" src={item.gift_pic} />
+                </View>
+              }
               <View className="ft ">
                 <View className="flex center">
                   <View className="item">
@@ -233,10 +242,17 @@ export default class PaySuccess extends Component<Props> {
                   <View className="count">{this.state.activity_group[0].participation_number}人团</View>
                 </View>
               </View>
-              <View className="image-list">
-                <Image className="image" src={this.state.activity_group[0].image_url} />
-                <Image className="image" src={this.state.activity_group[0].image_url} />
-              </View>
+              {this.state.activity_group[0].gift_pic == null ?
+                <View className="image-list0">
+                  <Image className="image0" src={this.state.activity_group[0].image_url} />
+                  {/* <Image className="image" src={this.state.activity_group[0].image_url} />
+                  <Image className="image" src={this.state.activity_group[0].image_url} /> */}
+                </View> :
+                <View className="image-list0">
+                  <Image className="image" src={this.state.activity_group[0].image_url} />
+                  <Image className="image" src={this.state.activity_group[0].gift_pic} />
+                </View>
+              }
               <View className="ft ">
                 <View className="flex center">
                   <View className="item">
@@ -254,6 +270,13 @@ export default class PaySuccess extends Component<Props> {
           }} >{this.state.activity_group_bull ? "收回" : "查看更多"}{this.state.activity_group_bull ? <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />}</View>
 
         <hr />
+
+
+
+
+
+
+
 
         {/* 增值活动 */}
         {
@@ -281,7 +304,7 @@ export default class PaySuccess extends Component<Props> {
                     {/* <View className="present_recommend">送价值3000元耳机</View> */}
                   </View>
                   <View className="box_right" style={{ overflow: "hidden" }}>
-                    <Image className="image" src={item.image_url} style={{ width: "100%",height:"100%" }} />
+                    <Image className="image" src={item.image_url} style={{ width: "100%", height: "100%" }} />
                   </View>
                 </View>
               </View>
@@ -318,7 +341,7 @@ export default class PaySuccess extends Component<Props> {
                   </View>
 
                   <View className="box_right" style={{ overflow: "hidden" }}>
-                    <Image className="image" src={this.state.activity_appre[0].image_url} style={{ width: "100%" ,height:"100%"}} />
+                    <Image className="image" src={this.state.activity_appre[0].image_url} style={{ width: "100%", height: "100%" }} />
                   </View>
                 </View>
               </View>

@@ -51,8 +51,8 @@ export default class CashCoupon extends Component<Props> {
             <View className="head flex">
               <View className="label flex center">{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View>{this.props.sname}
             </View>
-            {/* <View className="date">{this.props.timer}</View> */}
-            <View className="info" style={{ position: "absolute", bottom: "20px", padding: "0" }}>极速退/免预约/全部商品可用</View>
+            <View className="date">{this.props.timer}</View>
+            <View className="info" >{this.props.list_brief}</View>
           </View>
         </View>
       </View>

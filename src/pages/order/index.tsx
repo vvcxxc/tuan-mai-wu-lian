@@ -18,6 +18,7 @@ export default class Order extends Component {
 
   handlerTabChange(current) {
     this.setState({ current });
+    // console.log(current)
   }
 
   componentWillMount() {
@@ -40,7 +41,7 @@ export default class Order extends Component {
       <View className="order flex column">
         <Tabs list={list} onChange={this.handlerTabChange.bind(this)} />
         <ScrollView scrollY className="item content-wrap">
-          <Content list={this.state.coupon} loading={this.state.loading} />
+          <Content list={this.state.coupon} loading={this.state.loading} current={this.state.current}/>
         </ScrollView>
       </View>
     );

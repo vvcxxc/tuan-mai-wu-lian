@@ -102,19 +102,22 @@ export default class ConfirmOrder extends Component {
     })
     //请求支付属性
     request({
-      url: 'api/merchant/youhui/wxWechatPay',
-      method: "GET",
+      url: 'api/wap/coupon/wxWechatPay',
+      method: "POST",
+      // header:{
+      //   Authorization:"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3Rlc3QuYXBpLnRkaWFueWkuY29tL3dlY2hhdC9qc2NvZGUyc2Vzc2lvbiIsImlhdCI6MTU2MjA2MDA5MCwiZXhwIjoxNTYyMzYwMDkwLCJuYmYiOjE1NjIwNjAwOTAsImp0aSI6IkFaMHNlcmtSb29jY2Rwa2MiLCJzdWIiOjMwMzEsInBydiI6ImY2YjcxNTQ5ZGI4YzJjNDJiNzU4MjdhYTQ0ZjAyYjdlZTUyOWQyNGQifQ.BKuDc9LWnwK30cVTRwVksMySuuAvPwNnHd0y9RHyBYY",
+      // },
       data: {
         youhui_id: this.state.coupon.id,
         store_id: this.state.store.id,
         youhui_number: this.state.amount,
         type: "1",  //1 微信 2支付宝			
-        openid: Taro.getStorageSync("openid"),
+        openid: Taro.getStorageSync("openid"), //登录时获取设置本地缓存
+        // open_id: "oCRAS0aZJrVnuK3K-pw0b1AZslzM"
         // alipay_user_id: ""
       }
     })
-      .then((...res: any) => {
-        console.log("request成功");
+      .then((res: any) => {
         console.log(res);
         Taro.hideLoading();
         // 发起支付
@@ -125,20 +128,27 @@ export default class ConfirmOrder extends Component {
           signType: res.signType,
           paySign: res.paySign,
           success(res) {
+
             console.log("支付成功");
             console.log(res);
-            this.setState({
-              pay_bull: "支付成功",
-              pay_data: true
-            })
+            () => {
+              this.setState({
+                pay_bull: "支付成功",
+                pay_data: true
+              })
+            }
+
           },
           fail(err) {
+
             console.log("支付失败");
             console.log(err);
-            this.setState({
-              pay_bull: "支付失败",
-              pay_data: true
-            })
+            () => {
+              this.setState({
+                pay_bull: "支付失败",
+                pay_data: true
+              })
+            }
           },
           complete() {
             // Taro.navigateTo({

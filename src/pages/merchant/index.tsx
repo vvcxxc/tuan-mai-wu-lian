@@ -37,8 +37,8 @@ export default class MerChantPage extends Component {
 	handleClick = id => {
 		console.log(id);
 		Taro.navigateTo({
-			// url: '/pages/business/index?id=' + id
-			url: '/pages/business/index?id=717'
+			url: '/pages/business/index?id=' + id
+			// url: '/pages/business/index?id=717'
 		})
 	};
 

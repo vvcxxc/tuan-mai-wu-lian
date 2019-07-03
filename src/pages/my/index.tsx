@@ -42,7 +42,23 @@ export default class My extends Component<any, State> {
       })
       .catch(Taro.hideLoading);
   }
-
+  handleClick1 = (e) => {
+    Taro.switchTab({
+      url: '../order/index'
+    })
+  }
+  // handleClick2 = (e) => {
+  //   Taro.navigateTo({
+  //   })
+  // }
+  // handleClick3 = (e) => {
+  //   Taro.navigateTo({
+  //   })
+  // }
+  // handleClick4 = (e) => {
+  //   Taro.navigateTo({
+  //   })
+  // }
   render() {
     return (
       <View className="flex column center">
@@ -56,6 +72,7 @@ export default class My extends Component<any, State> {
               arrow="right"
               extraText={this.state.userInfo.order_msg}
               thumb={icon1}
+              onClick={this.handleClick1.bind(this)}
             />
             <AtListItem
               title="我的收藏"
