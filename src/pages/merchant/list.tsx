@@ -14,7 +14,8 @@ export default class List extends Component<Props> {
   }
 
   render() {
-    const list = this.props.list.map(_ => <Merchant onClick={this.props.onClick} key={_.id} merchant={_} />)
+    console.log(this.props.list,'list')
+    const list = this.props.list.map((item, indexs,_) => <Merchant onClick={this.props.onClick} key={item.id} merchant={item} />)
     return (
       <View>
         {list}

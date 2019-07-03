@@ -20,6 +20,7 @@ import request from './services/request';
 
 // Set Dva
 const dva = dvaCore.createApp({
+	defienSear:{},
 	initialState: {},
 	models: models,
 	onAction: createLogger(),
@@ -28,7 +29,6 @@ const dva = dvaCore.createApp({
 	}
 });
 const store = dva.getStore();
-
 class App extends Component {
 	/**
 	 * 指定config的类型声明为: Taro.Config
@@ -46,8 +46,7 @@ class App extends Component {
 			'pages/merchant/index',
 			'pages/activity/index',
 			'pages/business/index',
-			'pages/orderdetail/index',
-			'pages/orderdetail/index2'
+			'pages/orderdetail/index'
 		],
 		subPackages: [
 			// {
@@ -89,7 +88,15 @@ class App extends Component {
 			backgroundTextStyle: 'dark',
 			navigationBarBackgroundColor: '#fff',
 			navigationBarTitleText: '团卖物联',
-			navigationBarTextStyle: 'black'
+			navigationBarTextStyle: 'black',
+			enablePullDownRefresh: true, //启用下拉刷新
+			onReachBottomDistance: 50 //距离底部多少px时触发上拉加载事件
+		},
+		permission: {
+			// 需要配置这里才能使用位置定位
+			"scope.userLocation": {
+				"desc": "团卖物联"
+			}
 		},
 		tabBar: {
 			color: '#313131',
@@ -130,6 +137,10 @@ class App extends Component {
 			]
 		}
 	};
+
+	defineApp:{
+		define:'22'
+	}
 	componentDidShow() {
 		this.getToken();
 	}

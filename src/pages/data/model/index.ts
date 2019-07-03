@@ -9,7 +9,7 @@ import Taro from '@tarojs/taro'
 import { fromJS } from 'immutable'
 import cloneDeep from 'lodash/cloneDeep'
 
-import * as dataServices from '../../../services/data'
+// import * as dataServices from '../../../services/data'
 
 const SET_ASYNC_DATA = 'SET_ASYNC_DATA'
 
@@ -33,7 +33,7 @@ export default {
       Taro.showLoading({ title: 'Loading...' })
       let res = []
       try {
-        res = yield call(dataServices.getAsyncData)
+        // res = yield call(dataServices.getAsyncData)
       } catch (e) {
         console.log('fetch 请求失败!')
         Taro.showToast({

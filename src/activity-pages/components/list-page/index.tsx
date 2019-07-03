@@ -16,7 +16,9 @@ class ListPage extends PureComponent<Props> {
 
 	handleSearchBarChange = value => this.setState({ searchStr: value });
 
-	handleSearch = () => {};
+	handleSearch = () => {
+		// let res = global2
+	};
 
 	render() {
 		return (
@@ -28,7 +30,7 @@ class ListPage extends PureComponent<Props> {
 					onConfirm={this.handleSearch}
 				/>
 				<View className={this.props.hasBg ? 'bg' : ''}>
-					<FilterTab />
+					<FilterTab onChange={this.handleSearch}/>
 				</View>
 				<View className="item">{this.props.children}</View>
 			</View>

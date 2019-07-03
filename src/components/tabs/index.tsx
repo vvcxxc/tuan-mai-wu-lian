@@ -5,7 +5,7 @@ import "./index.styl";
 interface Props {
   /**默认当前高亮的索引值 */
   defaultCurrent?: number;
-  list: Array<string>;
+  list: any;
   onChange: (number) => any;
 }
 export default class Tabs extends Component<Props> {
@@ -18,23 +18,24 @@ export default class Tabs extends Component<Props> {
     current: 0
   };
 
-  handlerTablChange(current) {
+  handlerTablChange(current, id, _this) {
     this.setState({ current });
-    this.props.onChange(current);
+    this.props.onChange(id);
   }
   render() {
     return (
       <View className="tab flex">
-        {this.props.list.map((_, index) => (
+        {this.props.list.map((item, index) => (
           <View
-            key={index}
+            key={" "}
             className={
               "item flex center " +
               (this.state.current === index ? "active" : "")
             }
-            onClick={this.handlerTablChange.bind(this, index)}
+            onClick={this.handlerTablChange.bind(this, index,item.id)}
           >
-            <View className="label">{_}</View>
+            
+            <View className="label">{item.name}</View>
           </View>
         ))}
       </View>
