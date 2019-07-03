@@ -20,7 +20,14 @@ export default class Content extends Component<Props> {
 
     console.log(this.props.current)
   }
-  
+  handleClick = (e) => {
+    // console.log();
+    Taro.navigateTo({
+      // url: '../../orderdetail/index.tsx?id=' +_id
+      url: '../../pages/orderdetail/index'
+    })
+  }
+
   render() {
     return (
       <View className="content">
@@ -37,10 +44,12 @@ export default class Content extends Component<Props> {
                 <CashCoupon1 _id="" return_money="" pay_money="" youhui_type="" timer="" sname="" list_brief="" _image="" />
               ))} */}
 
+              <View onClick={this.handleClick.bind(this)}>
+                <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              </View>
               <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
               <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
               <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon2 _id="0" return_money="60" pay_money="100" youhui_type="1" timer="846hdf" sname="京津冀" list_brief="解放萨哈林岛" />
               <CashCoupon1 _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
               <CashCoupon1 _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
               <CashCoupon1 _id="1" return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
