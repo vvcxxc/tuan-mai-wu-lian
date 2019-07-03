@@ -39,7 +39,7 @@ export default class CashCoupon extends Component<Props> {
         /> */}
         <View className="item content">
           <View className="head flex">
-            <View className="label flex center">{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View>{this.props.sname}
+            <View className="label flex center">{this.props.sname}</View>
           </View>
           <View className="date">{this.props.timer}</View>
           <View className="info">{this.props.list_brief}</View>
