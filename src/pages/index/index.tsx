@@ -124,7 +124,7 @@ export default class Index extends Component {
 		}
 
 		request({
-			url: 'v3/stores/index',
+			url: 'v3/stores',
 			data: { city_id: thatTwo, xpoint: that.longitude, ypoint: that.latitude }
 		})
 			.then((res: any) => {

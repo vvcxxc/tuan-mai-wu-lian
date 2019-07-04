@@ -26,7 +26,7 @@ export default class CashCoupon extends Component<Props> {
       <View
         className="cash-coupon flex active"
         style={{
-          backgroundImage: `url(${require("./active-bg.png")})`
+          backgroundImage: `url(${require("./active-bg2.png")})`
         }}
         onClick={this.handleClick.bind(this, this.props._id)}
       >
@@ -45,6 +45,7 @@ export default class CashCoupon extends Component<Props> {
           <View className="info">{this.props.timer}</View>
           <View className="date">{this.props.list_brief}</View>
           <View className="usenow" >立即使用</View>
+          {/* <View className="buymore" >再来一单</View> */}
         </View>
       </View>
     );

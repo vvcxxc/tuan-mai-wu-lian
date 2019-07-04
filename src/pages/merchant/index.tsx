@@ -104,10 +104,7 @@ export default class MerChantPage extends Component {
 	// }
 
 	handleClick = id => {
-		Taro.navigateTo({
-			url: '/pages/business/index?id=' + id
-			// url: '/pages/business/index?id=717'
-		})
+		console.log(id)
 	};
 
 	filterClick = (type, id, res) => {
