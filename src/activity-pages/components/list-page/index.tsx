@@ -17,7 +17,6 @@ class ListPage extends PureComponent<Props> {
 	handleSearchBarChange = value => this.setState({ searchStr: value });
 
 	handleSearch = () => {
-		// let res = global2
 	};
 
 	render() {
