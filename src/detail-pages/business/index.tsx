@@ -104,8 +104,8 @@ export default class PaySuccess extends Component<Props> {
     activity_group_bull: false,
     activity_appre_bull: false,
 
-
-    keepCollect_bull: false,
+    keepCollect_show: false,
+    keepCollect_bull: this.state.business_list.collect=="1"?true:false,
     keepCollect_data: "收藏成功"
   };
 
@@ -152,11 +152,12 @@ export default class PaySuccess extends Component<Props> {
     request({ url: 'v3/stores/collection', method: "PUT", data: { store_id: _id } })
       .then((res: any) => {
         if (res) {
-          // console.log(this.state.keepCollect_bull)
+          console.log(res)
           this.setState({
             keepCollect_data: res,
             //控制AtToast显示，set为true就好了，每次set都会触发AtToast
-            keepCollect_bull: true
+            keepCollect_show: true,
+            keepCollect_bull: !this.state.keepCollect_bull
           })
         }
       })
@@ -167,7 +168,9 @@ export default class PaySuccess extends Component<Props> {
       <View className="merchant-details">
         {
 
-          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} icon={"star-2"} duration={2000} ></AtToast> : ""
+          !this.state.keepCollect_show ? "" : (this.state.keepCollect_bull ?
+            <AtToast isOpened text={this.state.keepCollect_data} icon={"star-2"} duration={2000} ></AtToast> :
+            <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast>)
         }
 
         <View className="shop bcfff">
