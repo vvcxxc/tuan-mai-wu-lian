@@ -6,11 +6,16 @@
     margin-top: 10px;
     display:flex;  
     justify-content: space-around;
-    // padding-top: 10px;
     .line {
       text-align: center;
       width:30%; 
       padding: 8px 0px;
+    }
+    .linRed {
+      color:'#fe7b70'
+    }
+    .linWat {
+      color:'#666666'
     }
   }
 

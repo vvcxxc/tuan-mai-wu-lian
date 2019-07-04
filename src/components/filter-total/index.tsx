@@ -3,7 +3,6 @@ import { View } from '@tarojs/components';
 import { AtIcon } from 'taro-ui'
 import request from '../../services/request';
 import './index.scss';
-// import { type } from 'os';
 
 interface Props {
   onClick: (type, id?, res?) => any;
@@ -29,87 +28,57 @@ export default class filterTotal extends Component<Props> {
   componentDidMount() {
   }
 
-  titleClick = (type?, index?) => () => {
-    let that = this.state
-    if (that.titleClick === index) { // 判断点击了两次
-      console.log('点击两次')
-      this.setState({ titleClick: null })
-      this.setState({ selectData: [{}] })
-      return
-    }
-    console.log('点击一次')
-    that.titleList[index].titleShow = false //每行不显示
-    this.setState({ titleClick: index })
-    this.getSelect(type)
+  titleClick = (index?, type?) => () => {
+    console.log(index,'index')
+    // this.state.titleList[index].titleShow = true
+    let that = this.state.titleList
+    // this.setState({})
+    that[index].titleShow = !that[index].titleShow
+    // console.log(that[index].titleShow,'取反没有成男公关')
+    // let that = this.state
+    // if (that.titleClick === index) { // 判断点击了两次
+    //   this.setState({ titleClick: null })
+    //   this.setState({ selectData: [{}] })
+    //   return
+    // }
+    // that.titleList[index].titleShow = false //每行不显示
+    // this.setState({ titleClick: index })
+    // this.getSelect(type)
   };
 
-
-
-
-
-
-
-
-
-
-
-  listClick = (index, type, name, id, res, item) => () => {
-
-    if (this.state.listClick === index) {
-      console.log('点击22次')
-      this.setState({ selectData: [{}] })
-      this.setState({ listClick: undefined }) //设置为空 保证第三次点击
-      this.setState({ titleClick: undefined })
-      this.state.titleList[type - 1] = { name: name, type: type, titleShow: true }
-      // Taro.setStorage({ key: `${'type' + type}`, data: type })
-      Taro.removeStorage({ key: `${'type' + type}` })
-      //   .then(res => console.log(res))
-      return
-    }
-    console.log('点击11次')
-    Taro.setStorageSync(`${'type' + type}`, type)
-    // Taro.setStorage({ key: `${'type' + type}`, data: {id} })
-
-    // Taro.getStorage({ key: `${'type' + type}` })
-    //   .then(res => {
-    //       console.log(res.data, '存储2')
-    //   })
-    
-    this.setState({ selectData: [{}] })
-    // Taro.setStorageSync(`${'type' + type}`, type)
-
-    //替换掉 title的数据
-    this.state.titleList[type - 1] = { name: name, type: type, titleShow: true }
-    this.setState({ titleList: this.state.titleList })
-    this.setState({ iconData: { icon: name } })
-
-    // 更改上面的点击按钮 
-    this.setState({ listClick: index })
-    this.setState({ titleClick: null })
-
-    this.props.onClick(type, id, res)
-
-    console.log(type, '真实type2')
-
-    // 异步存储
-    // console.log(`${ 'type' + type }`,55555)
-    // this.saveData(type)
+  listClick = (index, type, name, id) => () => {
+    // console.log(type, 'type')
+    // // console.log(`'type'+${type}`, '你要的type', `${'type' + type}`)
+    // if (this.state.listClick === index) {
+    //   console.log('第2次触发')
+    //   this.setState({ selectData: [{}] })
+    //   this.setState({ listClick: undefined }) //设置为空 保证第三次点击
+    //   this.setState({ titleClick: undefined })
+    //   this.state.titleList[type - 1] = { name: name, type: type, titleShow: true }
+    //   // Taro.removeStorage({ key: `${'type' + type}` })
+    //   Taro.removeStorage({ key: `${'type' + type}` })
+    //   return
+    // }
+    // console.log('第1次触发')
     // Taro.setStorage({ key: `${'type' + type}`, data: type })
 
-    // Taro.setStorage({ key: `'type'+${type}`, data: {['data'+`${type}`]:type} })
-  }
+    // Taro.getStorage({ key: 'type1' }).then(res => console.log(res.data, '1'))
+    
+    // Taro.getStorage({ key: 'type2' }).then(res => console.log(res.data,'2'))
+    // Taro.getStorage({ key: 'type3' }).then(res => console.log(res.data, '3'))
+    // // Taro.setStorage(`${'type' + type}`, type)
+    // this.setState({ selectData: [{}] })
+    // //替换掉 title的数据
+    // this.state.titleList[type - 1] = { name: name, type: type, titleShow: true }
+    // this.setState({ titleList: this.state.titleList })
+    // this.setState({ iconData: { icon: name } })
 
-  // 本地存储数据 
-  // saveData(type) {
-  //   Taro.getStorage({ key: `${type}` })
-  //     .then(res => {
-  //       if (res) {
-  //         console.log(res.data, '存储2')
-  //         return res.data
-  //       }
-  //       return ''
-  //     })
-  // }
+    // // 更改上面的点击按钮 
+    // this.setState({ listClick: index })
+    // this.setState({ titleClick: null })
+
+    // this.props.onClick(type, id)
+  }
 
   getSelect = (type: number) => {
     request({
@@ -124,9 +93,24 @@ export default class filterTotal extends Component<Props> {
   }
 
   render() {
+    let that = this.state.titleList
     return <View className="page">
       <View className="title">
-        {
+        {/* line  line */}
+        <View className={that[1].titleShow ? 'line linRed' : " line linWat"}
+          onClick={this.titleClick(1,'type1')}  >
+          美食
+          <AtIcon value={'chevron-up'} size='12' color={that[1].titleShow ? '#fe7b70' : '#666666' }></AtIcon>
+        </View>
+        <View className="line" onClick={this.titleClick(1, 'type2')}>
+          附近
+          <AtIcon value={'chevron-up'} size='12' color={'#fe7b70'}></AtIcon>
+        </View>
+        <View className="line" onClick={this.titleClick(1, 'type3')}>
+          智能排序
+          <AtIcon value={'chevron-up'} size='12' color={'#fe7b70'}></AtIcon>
+        </View>
+        {/* {
           this.state.titleList.map((item, index) => {
             let titleShow = this.state.titleList[index].titleShow
             return <View
@@ -138,17 +122,14 @@ export default class filterTotal extends Component<Props> {
               <AtIcon value={titleShow ? 'chevron-up' : 'chevron-down'} size='12' color={titleShow ? '#fe7b70' : '#666666'}></AtIcon>
             </View>
           })
-        }
+        } */}
       </View>
       {
         this.state.selectData.map((item, index) => {
           let that = this.state.selectData[index]
-          // let then = this.state.iconData
           var then = {}
-
-          return <View className={that.id ? 'list' : 'mt-5'} onClick={this.listClick(index, item.type, item.name, item.id,
-            { ['type' + item.type]: item.id }, item
-          )}
+          return <View className={that.id ? 'list' : 'mt-5'}
+            onClick={this.listClick(index, item.type, item.name, item.id)}
           >
             <View>{item.name}</View>
             <AtIcon value='check' size={(then === item.name ? '12' : '0')} color='#fe7b70'></AtIcon>

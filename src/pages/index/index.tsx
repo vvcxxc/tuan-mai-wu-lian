@@ -22,14 +22,12 @@ export default class Index extends Component {
 	};
 
 	state = {
-		searchValue: '',
 		storeList: [],
 		storeHeadImg: '',
-		cityId: '',
-		titleList: [],
-		manageTypeId: '',
-		locationPosition: { longitude: 1, latitude: 1 },//存储获取到的地理位置
-		router: { cityId: '', longitude: '', latitude:''}
+		titleList: [], // title列表
+		locations: { longitude: 1, latitude: 1 },//存储地理位置
+		routerId:'', //路由传递的id
+		cityName: ''
 	};
 
 	constructor(props) {
@@ -37,55 +35,78 @@ export default class Index extends Component {
 	}
 
 	componentWillMount() {
-		this.requestCityId();//城市id
-		this.getPosition();// 经纬度
-		this.requestBusinessList(); //经营列表
-		this.requestLoading(); //菊花loding
+		this.showLoading();
+		this.requestTab(); //经营列表
+		this.requestAllCity(); //获取全国各地列表
+		this.getLocation();//经纬度
+	
 	}
 
 	componentDidMount() {
-		this.questRouter();//从路由跳转
 	}
 
-	
-	// 微信自带监听 滑动事件
-	onPullDownRefresh = () => {
-		this.requestHomeList()
-	}
 
-	// 往下滚动触发
-	onPageScroll = (e) => {
-		// console.log(e, 'e')
-	}
-
-	requestLoading() {
+	// show loading
+	showLoading = () => {
 		Taro.showLoading({
 			title: 'loading',
 			mask: true
 		})
 	}
 
-	getPosition() {
+
+	// get location
+	getLocation = () => {
 		Taro.getLocation({ type: 'wgs84' }).then(res => {
-			this.setState({ locationPosition: res }, () => {
+			this.setState({ locations: res }, () => {
+				this.getCity();
 				this.requestHomeList();
+				this.searChange();
 			})
 		})
 	}
 
-	
-	requestCityId = () => {
-		if(this.state)
+	// 获取城市
+	getCity = () => {
+		let that = this.state.locations
 		request({
-			url: 'v3/city/getList',
-			data: { name: '广州', initial: 'G' }
+			url: 'v3/city_name',
+			data: { xpoint: that.longitude, ypoint: that.latitude }
 		})
 			.then((res: any) => {
-				this.setState({ cityId: res.initial.G[0].id })
+				this.setState({ cityName: res.city })
 			})
-	};
+	}
 
-	requestBusinessList = () => {
+	// get AllCity
+	requestAllCity = () => {
+		request({ url: 'v3/district', data: { model_type: '2' } })
+			.then((res: any) => {
+				Taro.setStorage({ key: 'city', data: res.city_list })
+			})
+	}
+
+
+	// 微信自带监听 滑动事件
+	onPullDownRefresh = () => {
+		this.requestHomeList()
+		// console.log('测试')
+		
+	}
+	// 触底事件
+	onReachBottom = () => {
+		this.showLoading()
+		setTimeout(() => {
+			Taro.hideLoading()
+		}, 1000);
+	}
+	// 往下滚动触发
+	onPageScroll = (e) => {
+		// console.log(e, 'e')
+	}
+
+	// 获取title数据
+	requestTab = () => {
 		questTwo({
 			url: 'v3/manage_type'
 		})
@@ -96,36 +117,22 @@ export default class Index extends Component {
 			})
 	}
 
-	questRouter=()=> {
-		this.setState({
-			router:
-			{
-				cityId: this.$router.params.id,
-				longitude: this.$router.params.lng,
-				latitude: this.$router.params.lat
-			}
-		})
-	}
+	// router  搜索
+	handleSearch = () => Taro.navigateTo({ url: './search/index' });
+	// router city-search
+	showSelectCity = () => Taro.navigateTo({ url: '/business-pages/select-city/index' });
 
-	requestHomeList=()=> {
-		let that
-		let thatTwo
-		if (typeof (this.state.router.cityId) === 'string') {
-			if (this.state.router.cityId.length > 1) {
-				that = this.state.router
-				thatTwo = this.state.router.cityId
-			} else {
-				that = this.state.locationPosition
-				thatTwo = this.state.cityId
-			}
-		} else {
-			that = this.state.locationPosition
-			thatTwo = this.state.cityId
+	handleActivityClick = () => { };
+
+	// 首页数据 初始渲染
+	requestHomeList = () => {
+		if (this.$router.params.id) {
+			return
 		}
-
+		let that = this.state.locations
 		request({
-			url: 'v3/stores/index',
-			data: { city_id: thatTwo, xpoint: that.longitude, ypoint: that.latitude }
+			url: 'v3/stores',
+			data: { xpoint: that.longitude, ypoint: that.latitude }
 		})
 			.then((res: any) => {
 				Taro.stopPullDownRefresh()
@@ -133,40 +140,44 @@ export default class Index extends Component {
 				this.setState({ storeList: res.store_info.data, storeHeadImg: res.banner });
 			})
 			.catch(() => {
-				this.requestLoading()
+				this.showLoading()
 			})
 	}
 
-
-
-
-	handleSearch = () => Taro.navigateTo({ url: './search/index' });
-
-	showSelectCity = () => Taro.navigateTo({ url: '/business-pages/select-city/index' });
-
-	requestIndexData = () => {
-	};
-
-	handleActivityClick = () => { };
-
-	
+	// title 点击渲染
 	tabChange = (id: string) => {
-		this.requestLoading()
+		this.showLoading()
 		if (id === 'all') {
 			this.requestHomeList()
 			return
 		}
-		let that = this.state.locationPosition
+		let that = this.state.locations
 		request({
-			url: 'v3/stores/index',
-			data: { city_id: this.state.cityId, xpoint: that.longitude, ypoint: that.latitude, deal_cate_id: id }
+			url: 'v3/stores',
+			data: {  xpoint: that.longitude, ypoint: that.latitude, deal_cate_id: id }
 		})
 			.then((res: any) => {
 				Taro.hideLoading()
 				this.setState({ storeList: res.store_info.data, storeHeadImg: res.banner });
 			})
 	};
-	
+
+	// 搜索触发渲染
+	searChange = () => {
+		if (!this.$router.params.id) {
+			return
+		}
+		let that = this.state.locations
+		request({
+			url: 'v3/stores',
+			data: { xpoint: that.longitude, ypoint: that.latitude, city_id: this.$router.params.id}
+		})
+			.then((res: any) => {
+				Taro.hideLoading()
+				this.setState({ storeList: res.store_info.data, storeHeadImg: res.banner });
+			})
+	}
+
 
 	render() {
 		return (
@@ -175,7 +186,8 @@ export default class Index extends Component {
 					<View className="search">
 						<View className="flex center container">
 							<View className="city" onClick={this.showSelectCity}>
-								广州
+								{/* 广州 */}
+								{this.state.cityName}
 							</View>
 							<AtIcon
 								onClick={this.showSelectCity}
@@ -200,7 +212,9 @@ export default class Index extends Component {
 						autoplay
 					>
 						<SwiperItem>
-							<Image src={require('../../assets/banner.png')} mode="widthFix" className="banner" />
+							<View className="swiper">
+								<Image src={require('../../assets/banner.png')} className="image" />
+							</View>
 						</SwiperItem>
 					</Swiper>
 				</View>

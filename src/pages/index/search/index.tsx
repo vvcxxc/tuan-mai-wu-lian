@@ -28,12 +28,9 @@ class IndexSearchPage extends PureComponent<Props> {
 
 	constructor(props) {
 		super(props);//把this轉會
-
 	}
 
 	componentWillMount() {
-		this.requestLocation()
-		// this.requestLoading()
 	}
 
 	componentDidMount() {
@@ -41,7 +38,6 @@ class IndexSearchPage extends PureComponent<Props> {
 
 	// 往下滚动触发
 	onPageScroll = (e) => {
-		console.log(e, 'e')
 	}
 
 	requestLoading = () => {
@@ -50,37 +46,15 @@ class IndexSearchPage extends PureComponent<Props> {
 			mask: true
 		})
 	}
-	onClick(item, event) {
-		console.log(item, event)
-	}
-	onDelete() {
-		this.setState({list:[]})
-	}
-
-	requestLocation = () => {
-		request({ url: 'v3/district', data: { model_type: '2' } })
-			.then((res: any) => {
-				let define = res.city_list.filter((item, index) => {
-					// if (item.length !== 0) {
-				})
-				// console.log(define)
-				this.setState({ locationList: [res.city_list[0]] }, () => {
-					// res.city_list ? Taro.hideLoading() : this.requestLoading()
-					console.log(this.state.locationList)
-				})
-
-			})
-	}
 
 	handleSearchBarChange = value => {
-		console.log(value, 'value')
 		this.setState({ searchStr: value });
 	}
 
-	onActionClick() {
-		Taro.navigateTo({
-			url: '../../../components/filter-tab/index?search' + this.state.searchStr,
-		})
+	onActionClick=()=> {
+		Taro.reLaunch(
+			{ url: '../../merchant/index?value=' + this.state.searchStr  }
+    )
 	}
 
 	handleSearch = () => { };
@@ -90,7 +64,7 @@ class IndexSearchPage extends PureComponent<Props> {
 			<View style='height:100vh; background-color:#fff;'>
 				<View className="flex column page">
 					<AtSearchBar
-						placeholder="请输入城市名/拼音"
+						placeholder="请输入商家名、品类"
 						value={this.state.searchStr}
 						onChange={this.handleSearchBarChange}
 						onConfirm={this.handleSearch}
@@ -100,9 +74,7 @@ class IndexSearchPage extends PureComponent<Props> {
 						<View className="head flex center">
 							<View className="text item" style=" display:flex;  justify-content:space-between;">
 								<View style="color:#999999;">历史搜索</View>
-								<AtIcon value='trash' size='20' color='#999999'
-									onClick={this.onDelete.bind(this)}
-								></AtIcon>
+								<AtIcon value='trash' size='20' color='#999999'></AtIcon>
 							</View>
 						</View>
 						<View className="history">
