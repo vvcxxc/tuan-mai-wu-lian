@@ -9,8 +9,8 @@ import AddressImg from '../../assets/address.png'
 import "taro-ui/dist/style/components/toast.scss";
 // import "taro-ui/dist/style/components/icon.scss";
 // import 'taro-ui/dist/style/index.scss'
-import "./index.styl";
-
+// import "./index.styl";
+import "./ActivityGroup.styl";
 
 interface Props {
     activity_group: any;
@@ -66,7 +66,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                                 <View className="image-list0">
                                     <Image className="image0" src={item.image_url} />
                                 </View> :
-                                <View className="image-list0">
+                                <View className="image-list">
                                     <Image className="image" src={item.image_url} />
                                     <Image className="image" src={item.gift_pic} />
                                 </View>
@@ -89,7 +89,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                                 </View>
                                 <View className="flex center">
                                     <View className="item desc">{this.state.activity_group[0].activity_brief}</View>
-                                    <View className="count">{this.state.activity_group[0].participation_number}人团</View>
+                                    {/* <View className="count">{this.state.activity_group[0].participation_number}人团</View> */}
                                 </View>
                             </View>
                             {this.state.activity_group[0].gift_pic == null ?
@@ -98,7 +98,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                                     {/* <Image className="image" src={this.state.activity_group[0].image_url} />
                   <Image className="image" src={this.state.activity_group[0].image_url} /> */}
                                 </View> :
-                                <View className="image-list0">
+                                <View className="image-list">
                                     <Image className="image" src={this.state.activity_group[0].image_url} />
                                     <Image className="image" src={this.state.activity_group[0].gift_pic} />
                                 </View>
