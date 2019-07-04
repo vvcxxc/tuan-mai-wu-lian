@@ -6,7 +6,6 @@ import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 // import starImg from '../../assets/starcollect.png'
 import AddressImg from '../../assets/address.png'
-import ticketImg from '../../assets/ticket.png'
 import "taro-ui/dist/style/components/toast.scss";
 // import "taro-ui/dist/style/components/icon.scss";
 // import 'taro-ui/dist/style/index.scss'

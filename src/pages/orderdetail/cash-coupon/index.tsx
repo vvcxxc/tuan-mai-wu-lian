@@ -26,7 +26,7 @@ export default class CashCoupon extends Component<Props> {
       <View
         onClick = {this.handerClick.bind(this)}
         className="cash-coupon flex active"
-        style={{ backgroundImage: `url(${require("./active-bg.png")})` }}
+        style={{ backgroundImage: `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png")` }}
       >
         <View
           className="secondary flex center"

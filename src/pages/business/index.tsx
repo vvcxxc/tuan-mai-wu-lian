@@ -6,7 +6,6 @@ import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 // import starImg from '../../assets/starcollect.png'
 import AddressImg from '../../assets/address.png'
-import ticketImg from '../../assets/ticket.png'
 import "taro-ui/dist/style/components/toast.scss";
 // import "taro-ui/dist/style/components/icon.scss";
 // import 'taro-ui/dist/style/index.scss'
@@ -305,7 +304,7 @@ export default class PaySuccess extends Component<Props> {
                   </View>
                 </View>
                 <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
-                  <Image className="backg-image" src={ticketImg} />
+                  <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                   <View className="img" style={{ width: "100%" }}   >
                     <View className="box_left">
                       <View className="box_left_price">￥{item.return_money}</View>
@@ -341,7 +340,7 @@ export default class PaySuccess extends Component<Props> {
                   </View>
                 </View>
                 <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
-                  <Image className="backg-image" src={ticketImg} />
+                  <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                   <View className="img" style={{ width: "100%" }}   >
                     <View className="box_left">
                       <View className="box_left_price">￥{this.state.activity_appre[0].return_money}</View>

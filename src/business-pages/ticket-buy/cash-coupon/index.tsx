@@ -1,6 +1,5 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
-import CouponImg from './active-bg.png';
 // import secondaryActiveBg from "./secondary-avitve-bg.png";
 
 import "./index.styl";
@@ -26,10 +25,10 @@ export default class CashCoupon extends Component<Props> {
   render() {
     return (
       <View className="cash-coupon-box">
-        <Image className="image" src={CouponImg} />
+        <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png"} />
         <View
           className="cash-coupon flex active"
-          // style={{ backgroundImage: `url(${require("./active-bg.png")})` }}
+          // style={{ backgroundImage: `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png")` }}
           onClick={this.handleClick.bind(this, this.props._id)}
         >
 

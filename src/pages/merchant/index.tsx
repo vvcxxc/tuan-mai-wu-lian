@@ -29,8 +29,6 @@ export default class MerChantPage extends Component {
 	componentWillMount() {
 		this.getPosition();// 经纬度
 		Taro.showLoading({ title: 'loading', mask: true })//显示loading
-		
-		// this.requestSearch(this.$router.params.value);//路由搜索 渲染页面
 	}
 
 
@@ -39,10 +37,6 @@ export default class MerChantPage extends Component {
 		// console.log(this.$router.params.value,'路由')
 		// this.requestSort()
 	}
-
-	
-		
-	
 
 	// 搜索赋值
 	handlerSearch = (value) => {
@@ -140,13 +134,9 @@ export default class MerChantPage extends Component {
 
 	// 跳转详情
 	handleClick = id => {
-<<<<<<< HEAD
-		console.log(id)
-=======
 		Taro.navigateTo({
 			url: '/pages/business/index?id=' + id
 		})
->>>>>>> 90b3cdad9655cc3545047719e9898e20478b53e7
 	};
 
 	render() {
