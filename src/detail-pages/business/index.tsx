@@ -133,12 +133,12 @@ export default class PaySuccess extends Component<Props> {
   }
   handleClick = (_id, e) => {
     Taro.navigateTo({
-      url: '../../business-pages/ticket-buy/index?id=' + _id
+      url: '../../detail-pages/ticket-buy/index?id=' + _id
     })
   }
   handleClick2 = (_id, e) => {
     Taro.navigateTo({
-      url: '../../business-pages/set-meal/index?id=' + _id
+      url: '../../detail-pages/set-meal/index?id=' + _id
     })
   }
   handleClick3 = (_id, e) => {

@@ -45,7 +45,7 @@ export default class CashCouponListComponent extends Component<Props> {
 	}
 	handleClick = (_id, e) => {
 		Taro.navigateTo({
-			url: '../../business-pages/ticket-buy/index?id=' + _id
+			url: '../../detail-pages/ticket-buy/index?id=' + _id
 		})
 	}
 	render() {

@@ -30,7 +30,7 @@ export default class Merchant extends Component<Props> {
 
 	handleClick = (_id, e) => {
 		Taro.navigateTo({
-			url: '/pages/business/index?id=' + _id
+			url: '/detail-pages/business/index?id=' + _id
 		})
 	};
 	// 三元判断函数
