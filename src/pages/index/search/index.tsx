@@ -6,9 +6,6 @@ import request from '../../../services/request'
 // import { Search } from "../../../../defienGlobal";
 
 interface Props {
-	/**默认当前高亮的索引值 */
-	// defaultCurrent?: number;
-	// list: any;
 	history: {
 		push: (number) => any;
 	}

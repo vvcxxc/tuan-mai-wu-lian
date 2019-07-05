@@ -17,7 +17,7 @@ export default class List extends Component<Props> {
     console.log(this.props.list,'list')
     const list = this.props.list.map((item, indexs,_) => <Merchant onClick={this.props.onClick} key={item.id} merchant={item} />)
     return (
-      <View>
+      <View style="height:100vh;">
         {list}
       </View>
     );

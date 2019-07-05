@@ -32,7 +32,9 @@ export default class Merchant extends Component<Props> {
 	render() {
 		const that = this.props.merchant
 		return (
-			<View className={this.props.type === 'activity' ? 'merchant inset' : 'merchant'} onClick={this.handleTap}>
+			<View
+				style=""
+				className={this.props.type === 'activity' ? 'merchant inset' : 'merchant'} onClick={this.handleTap}>
 				<View className="content flex">
 					{this.props.type !== 'activity' && <Image className="img" src={that.shop_door_header_img} />}
 					<View className="item">

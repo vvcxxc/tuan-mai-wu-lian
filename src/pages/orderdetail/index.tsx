@@ -58,7 +58,6 @@ function Index () {
              data:{  coupons_log_id : 333  },
          })
          .then((res:any)=>{
-             console.log(res)
          })   
         }
         request({

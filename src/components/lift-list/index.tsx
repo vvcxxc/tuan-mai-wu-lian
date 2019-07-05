@@ -30,7 +30,6 @@ class LiftList extends PureComponent<Props> {
   
   handleClick = (index, id,name) => () => {
     this.setState({ current: index})
-    console.log(index,'缩影',id,'current')
     // this.props.updateData({null,id,name})
   };
  

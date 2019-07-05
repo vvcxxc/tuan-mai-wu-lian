@@ -22,7 +22,6 @@ export default class PaySuccess extends Component {
   };
 
   componentWillMount() {
-    console.log(this.state.drawActive)
   }
   componentDidMount() {
     setInterval(() => this.noticeAminRemove(), 50);

@@ -35,7 +35,6 @@ export default class ConfirmOrder extends Component {
     // console.log(this.$router.params.id )
     request({ url: '/v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
-        console.log(res);
         this.setState({
           coupon: res.info.coupon,
           store: res.info.store
