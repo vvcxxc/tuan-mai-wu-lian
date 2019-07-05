@@ -23,6 +23,17 @@ export default class Auth extends Component {
       url: login_url,
       method: 'GET',
       data
+    }).then( res => {
+      console.log(res.data);
+      let { expires_in, openid, session_key, token, unionid } = res.data;
+      Taro.setStorageSync('token', 'Bearer '+ token);
+      Taro.setStorageSync('expires_in', expires_in);
+      Taro.setStorageSync('openid', openid);
+      Taro.setStorageSync('session_key', session_key);
+      Taro.setStorageSync('unionid', unionid);
+      Taro.switchTab({
+        url: '/pages/index/index'
+      })
     })
 
   }
