@@ -16,14 +16,15 @@ export default class CashCoupon extends Component<Props> {
     addGlobalClass: true
   };
   handleClick = (_id, e) => {
+    console.log(_id);
     Taro.navigateTo({
-      url: '../ticket-buy/index?id=' + _id
+      url: '/pages/orderdetail/index?id='+_id
     })
   }
   render() {
     return (
       <View className="cash-coupon-box">
-        <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png"} />
+        <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/HEJnbDiTa3ShmHbCd6WsRGMaXR55zMrF.png"} />
         <View
           className="cash-coupon flex active"
           // style={{ backgroundImage: `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png")` }}
@@ -48,8 +49,8 @@ export default class CashCoupon extends Component<Props> {
             <View className="head flex">
               <View className="label flex center">{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View>{this.props.sname}
             </View>
-            <View className="date">{this.props.timer}</View>
-            <View className="info" >{this.props.list_brief}</View>
+            {/* <View className="date">{this.props.timer}</View> */}
+            <View className="info" style={{ position: "absolute", bottom: "20px", padding: "0" }}>{this.props.list_brief}</View>
           </View>
         </View>
       </View>

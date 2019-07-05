@@ -226,10 +226,10 @@ export default class Index extends Component {
 				</View>
 				<View className="menus flex">
 					<View className="item">
-						<Image mode="widthFix" className="img" src={require('./menu-1.png')} />
+						<Image mode="widthFix" className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"} />
 					</View>
 					<View className="item">
-						<Image mode="widthFix" className="img" src={require('./menu-2.png')} />
+						<Image mode="widthFix" className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"} />
 					</View>
 				</View>
 				<Tabs list={this.state.titleList} onChange={this.tabChange} />
