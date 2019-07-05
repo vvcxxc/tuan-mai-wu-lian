@@ -50,7 +50,6 @@ function Index () {
        store_name,
        image,
      } = dataInfo
-     console.log(dataInfo)
     useAsyncEffect( async ()=>{
         if(coupons_type * 1 ===0){ //兑换券获取兑换码
          request({
@@ -67,7 +66,6 @@ function Index () {
         .then((res: any) => res.data && setDataInfo(Object.assign({},dataInfo,res.data)) )
         .catch(()=>{
             Taro.showToast({ title: '数据请求失败' ,icon:'none'  })  
-            // setTimeOut(Taro.navigateBack,500)
         })
     },[cuoPonsId])
 

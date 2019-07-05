@@ -101,11 +101,9 @@ export default class PaySuccess extends Component<Props> {
     Taro.showLoading({
       title: 'loading',
     })
-    console.log(this.$router.params.id);
     let that = this;
     request({ url: 'v3/stores/' + this.$router.params.id })
       .then((res: any) => {
-        console.log(res);
         that.setState({
           business_list: res.store.Info,
           recommend: res.recommend,
@@ -130,7 +128,6 @@ export default class PaySuccess extends Component<Props> {
     })
   }
   handleClick3 = (_id, e) => {
-    // console.log(_id);
     Taro.navigateTo({
       url: './index?id=' + _id
     })
@@ -140,7 +137,6 @@ export default class PaySuccess extends Component<Props> {
     request({ url: 'v3/stores/collection', method: "PUT", data: { store_id: _id } })
       .then((res: any) => {
         if (res) {
-          // console.log(this.state.keepCollect_bull)
           this.setState({
             keepCollect_data: res,
             //控制AtToast显示，set为true就好了，每次set都会触发AtToast
@@ -150,7 +146,6 @@ export default class PaySuccess extends Component<Props> {
       })
   }
   render() {
-    // console.log(this.state.keepCollect_bull);
     return (
       <View className="merchant-details">
         {

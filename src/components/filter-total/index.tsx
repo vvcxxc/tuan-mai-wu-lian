@@ -200,6 +200,7 @@ export default class filterTotal extends Component<Props> {
           this.state.selectData1.map((item, index) => {
             const checked1 = index === this.state.list1;
             return <View className='list'
+              key={''}
               onClick={this.listClick1(index, item.id,item.name)}
             >
               <View>{item.name}</View>
@@ -213,6 +214,7 @@ export default class filterTotal extends Component<Props> {
           this.state.selectData2.map((item, index) => {
             const checked2 = index === this.state.list2;
             return <View className='list'
+              key={''}
               onClick={this.listClick2(index, item.id,item.name)}
             >
               <View>{item.name}</View>
@@ -225,7 +227,7 @@ export default class filterTotal extends Component<Props> {
         {
           this.state.selectData3.map((item, index) => {
             const checked3 = index === this.state.list3;
-            return <View className='list' onClick={this.listClick3(index, item.id,item.name)} >
+            return <View className='list' key={''} onClick={this.listClick3(index, item.id,item.name)} >
               <View>{item.name}</View>
               <AtIcon value='check' size={(checked3 ? '12' : '0')} color='#fe7b70'></AtIcon>
             </View>

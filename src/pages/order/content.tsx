@@ -17,11 +17,8 @@ export default class Content extends Component<Props> {
     addGlobalClass: true
   };
   componentWillMount() {
-
-    console.log(this.props.current)
   }
   handleClick = (e) => {
-    // console.log();
     Taro.navigateTo({
       // url: '../../orderdetail/index.tsx?id=' +_id
       url: '../../pages/orderdetail/index'

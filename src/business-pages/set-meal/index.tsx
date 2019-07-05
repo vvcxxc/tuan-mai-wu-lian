@@ -71,7 +71,6 @@ export default class PaySuccess extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    console.log(this.$router.params)
     request({ url: 'v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
         this.setState({
