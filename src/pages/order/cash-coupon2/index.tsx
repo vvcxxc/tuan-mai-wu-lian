@@ -7,7 +7,7 @@ import "./index.styl";
 interface Props {
   _id: any,
   return_money: any,
-  pay_money: any,
+  _total_fee: any,
   youhui_type: any,
   timer: any,
   sname: any,
@@ -24,7 +24,9 @@ export default class CashCoupon extends Component<Props> {
   };
   handleClick = (_id, e) => {
     Taro.navigateTo({
-      url: '/pages/orderdetail/index?id=' + _id
+      // url: '/pages/orderdetail/index?couponType="1"&ticketColor='+this.props.bg_img_type+'&ticketUsed=' + this.props.bg_img_type
+      url: '/pages/orderdetail/index'
+
     })
   }
   render() {
@@ -49,7 +51,7 @@ export default class CashCoupon extends Component<Props> {
           >
             <View className="money-wrap" style={{ paddingTop: '20px' }}>
               ￥<Text className="money">{this.props.return_money}</Text>
-              <View className="info">满{this.props.pay_money}可用</View>
+              <View className="info">满{this.props._total_fee}可用</View>
             </View>
           </View>
           {/* <Image

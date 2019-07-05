@@ -4,7 +4,7 @@ import { View , Text } from '@tarojs/components';
 import './style.scss'
 import { defaultData , handerExceedTimeLimit ,routeGo } from './unit'
 import request from '../../services/request'
-// import CashCoupon from "../../../components/cash-coupon/index";
+import CashCoupon from "../../components/cash-coupon/index";
 import { BuyShouldKnow   } from './components/BuyShouldKnow'
 import { BillingInfo } from './components/BillingInfo'
 import { SuitStore } from './components/SuitStore'
@@ -27,7 +27,7 @@ function setTimeoutCallback(){
 }
 
 function Index () {
-    const { cuoPonsId , type  } = this.$router.params
+    const { cuoPonsId   } = this.$router.params
     const [ dataInfo , setDataInfo ] = useState(Object.assign({},defaultData))
     const [ isApply, showApply ] = useState(false)
     let setTimeOut =setTimeoutCallback()
@@ -96,7 +96,8 @@ function Index () {
     return (
       <View className='index'>
         <View className='a_head' >
-          {/* <CashCoupon  cuoPonsId={cuoPonsId}  /> */}
+
+          <CashCoupon  cuoPonsId={cuoPonsId}  />
         </View>
         { /* 购买须知  */ }
         {

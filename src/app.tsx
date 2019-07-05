@@ -47,19 +47,19 @@ class App extends Component {
 			'pages/order/index',
 			'pages/merchant/index',
 			'pages/activity/index',
-			// 'pages/business/index',
+			'pages/business/index',
 			'pages/orderdetail/index'
 		],
 		subPackages: [
-			{
-				/**各种详情页面 比如商家详情页 */
-				root: "detail-pages",
-				pages: [
-					'business/index',
-					'set-meal/index',
-					'ticket-buy/index'
-				]
-			},
+			// {
+			// 	/**各种详情页面 比如商家详情页 */
+			// 	root: "detail-pages",
+			// 	pages: [
+			// 		'business/index',
+			// 		'set-meal/index',
+			// 		'ticket-buy/index'
+			// 	]
+			// },
 			{
 				/**其他业务页面 比如订单流程，礼物，物流 */
 				root: 'business-pages',
@@ -71,8 +71,8 @@ class App extends Component {
 					'select-city/index',
 					'pay-success/index',
 					'merchant/index',
-					// 'set-meal/index',
-					// 'ticket-buy/index',
+					'set-meal/index',
+					'ticket-buy/index',
 					'daily-recommend/index',
 					'search/index'
 				]
