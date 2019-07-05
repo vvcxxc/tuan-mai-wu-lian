@@ -4,6 +4,8 @@ module.exports = {
   },
   defineConstants: {
   },
-  weapp: {},
+  weapp: {
+    login_url: 'https://test.api.tdianyi.com/wechat/jscode2session',
+  },
   h5: {}
 }
