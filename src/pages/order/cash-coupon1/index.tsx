@@ -14,8 +14,11 @@ interface Props {
   sname: any,
   list_brief: any,
   _image: any,
-  type: any
+  type: any,
+  bg_img_type: any
 }
+//type: 0为空白，1立即使用，2再来一单
+// bg_img_type: 0为正常，1为已使用
 
 /**现金优惠券 */
 export default class CashCoupon extends Component<Props> {
@@ -36,7 +39,7 @@ export default class CashCoupon extends Component<Props> {
       <View
         className="cash-coupon flex active"
         style={{
-          backgroundImage: `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/D3Ws4B7kH8PwEsDdJiDtzaNtZdtWcZBr.png")`
+          backgroundImage: this.props.bg_img_type == 0 ? `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/D3Ws4B7kH8PwEsDdJiDtzaNtZdtWcZBr.png")` : `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/by5b6PKpQ5QYREYfdMZhSPD5rBYRefyR.png")`
         }}
         onClick={this.handleClick.bind(this, this.props._id)}
       >

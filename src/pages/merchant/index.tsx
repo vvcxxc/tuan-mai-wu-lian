@@ -135,7 +135,7 @@ export default class MerChantPage extends Component {
 	// 跳转详情
 	handleClick = id => {
 		Taro.navigateTo({
-			url: '/pages/business/index?id=' + id
+			url: '/detail-pages/business/index?id=' + id
 		})
 	};
 
