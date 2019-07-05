@@ -44,7 +44,7 @@ export default class ExchangeCouponComponent extends Component<Props> {
     }
     handleClick2 = (_id, e) => {
         Taro.navigateTo({
-            url: '../../detail-pages/set-meal/index?id=' + _id
+            url: '../../business-pages/set-meal/index?id=' + _id
         })
     }
     render() {

@@ -1,25 +1,19 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
+import { View, Image } from "@tarojs/components";
 
-import secondaryActiveBg from "./secondary-avitve-bg.png";
 
 import "./index.styl";
 
 interface Props {
   _id: any,
   return_money: any,
-  pay_money: any,
   youhui_type: any,
   timer: any,
   sname: any,
   list_brief: any,
   _image: any,
-<<<<<<< HEAD
   type: any,
   bg_img_type: any
-=======
-  type?: any
->>>>>>> 5b85fbcf174a2fc70aee9af5a175757a982f1e69
 }
 //type: 0为空白，1立即使用，2再来一单
 // bg_img_type: 0为正常，1为已使用
@@ -34,8 +28,7 @@ export default class CashCoupon extends Component<Props> {
   };
   handleClick = (_id, e) => {
     Taro.navigateTo({
-      // url: '../../orderdetail/index.tsx?id=' +_id
-      url: '/pages/orderdetail/index?id=' + _id
+      url: '/pages/orderdetail/index'
     })
   }
   render() {
