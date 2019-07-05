@@ -4,7 +4,6 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import "taro-ui/dist/style/components/tabs.scss";
 import CashCoupon1 from "./cash-coupon1/index";
 import CashCoupon2 from "./cash-coupon2/index";
-import CashCoupon3 from "./cash-coupon3/index";
 import CashCoupon4 from "./cash-coupon4/index";
 import CashCoupon5 from "./cash-coupon5/index";
 import "./index.styl";
@@ -52,7 +51,6 @@ export default class Order extends Component {
     })
   }
   render() {
-    // const list = ["未使用", "已使用", "已过期", "已退款"];
     const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }, { title: '已退款' }]
 
     return (
@@ -66,10 +64,10 @@ export default class Order extends Component {
               {this.props.list.map((_) => (
                 <CashCoupon1 _id="" return_money="" pay_money="" youhui_type="" timer="" sname="" list_brief="" _image="" />
               ))} */}
-              <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon1 _id="1" type={1} return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
-              <CashCoupon1 _id="1" type={1} return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon2 bg_img_type={1} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon2 bg_img_type={1} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon1 bg_img_type={0} _id="1" type={1} return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon1 bg_img_type={0} _id="1" type={1} return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
             </View>
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>
@@ -80,10 +78,10 @@ export default class Order extends Component {
               {this.props.list.map((_) => (
                 <CashCoupon5 _id="" return_money="" pay_money="" youhui_type="" timer="" sname="" list_brief="" _image="" />
               ))} */}
-              <CashCoupon4 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon4 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon5 _id="1" return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
-              <CashCoupon5 _id="1" return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon2 bg_img_type={2} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon2 bg_img_type={2} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon1 bg_img_type={1} type={0} _id="1" return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon1 bg_img_type={1} type={0} _id="1" return_money="100" pay_money="300" youhui_type="1" timer="100" sname="广告费个" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
 
             </View>
           </AtTabsPane>
@@ -95,10 +93,10 @@ export default class Order extends Component {
               {this.props.list.map((_) => (
                 <CashCoupon1 _id="" return_money="" pay_money="" youhui_type="" timer="" sname="" list_brief="" _image="" />
               ))} */}
-              <CashCoupon3 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon3 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon1 type={0} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
-              <CashCoupon1 type={0} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon2 bg_img_type={0} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon2 bg_img_type={0} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon1 bg_img_type={0} type={0} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon1 bg_img_type={0} type={0} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
             </View>
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={3}>
@@ -109,10 +107,10 @@ export default class Order extends Component {
               {this.props.list.map((_) => (
                 <CashCoupon1 _id="" return_money="" pay_money="" youhui_type="" timer="" sname="" list_brief="" _image="" />
               ))} */}
-              <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon2 _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
-              <CashCoupon1 type={2} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
-              <CashCoupon1 type={2} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon2 bg_img_type={1} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon2 bg_img_type={1} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
+              <CashCoupon1 bg_img_type={0} type={2} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
+              <CashCoupon1 bg_img_type={0} type={2} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" />
             </View>
           </AtTabsPane>
         </AtTabs>

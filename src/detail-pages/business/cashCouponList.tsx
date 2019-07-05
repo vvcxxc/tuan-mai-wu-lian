@@ -38,14 +38,14 @@ export default class CashCouponListComponent extends Component<Props> {
 		couponList_bull: false
 	}
 	componentDidMount() {
-		console.log(this.props.cashCouponList)
+		// console.log(this.props.cashCouponList)
 		this.setState({
 			cashCouponList: this.props.cashCouponList
 		})
 	}
 	handleClick = (_id, e) => {
 		Taro.navigateTo({
-			url: '../../business-pages/ticket-buy/index?id=' + _id
+			url: '../../detail-pages/ticket-buy/index?id=' + _id
 		})
 	}
 	render() {

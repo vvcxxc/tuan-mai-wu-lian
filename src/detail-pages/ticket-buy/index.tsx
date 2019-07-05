@@ -13,7 +13,7 @@ export default class PaySuccess extends Component {
     navigationBarTitleText: "优惠信息"
   };
 
-  state = { 
+  state = {
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,

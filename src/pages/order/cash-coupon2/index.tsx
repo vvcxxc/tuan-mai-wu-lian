@@ -5,7 +5,14 @@ import { View, Text, Image } from "@tarojs/components";
 import "./index.styl";
 
 interface Props {
-  _id: any, return_money: any, pay_money: any, youhui_type: any, timer: any, sname: any, list_brief: any
+  _id: any,
+  return_money: any,
+  pay_money: any,
+  youhui_type: any,
+  timer: any,
+  sname: any,
+  list_brief: any,
+  bg_img_type: any
 }
 
 /**现金优惠券 */
@@ -17,13 +24,19 @@ export default class CashCoupon extends Component<Props> {
   };
   handleClick = (_id, e) => {
     Taro.navigateTo({
-      url: '/pages/orderdetail/index?id='+_id
+      url: '/pages/orderdetail/index?id=' + _id
     })
   }
   render() {
     return (
       <View className="cash-coupon-box">
-        <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png"} />
+        {
+          this.props.bg_img_type == 1 ?
+            <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png"} /> : (
+              this.props.bg_img_type == 2 ?
+                <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/HB4K8yy3R88B6sw3xhjpTQCKPQTyBCG3.png"} /> :
+                <Image className="image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/HEJnbDiTa3ShmHbCd6WsRGMaXR55zMrF.png"} />)
+        }
         <View
           className="cash-coupon flex active"
           // style={{ backgroundImage: `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png")` }}
@@ -46,7 +59,12 @@ export default class CashCoupon extends Component<Props> {
         /> */}
           <View className="item content" style={{ position: "relative" }}>
             <View className="head flex">
-              <View className="label flex center">{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View>{this.props.sname}
+              {
+                this.props.bg_img_type == 1 ?
+                  <View className="label flex center" style={{ background: "#5d84e0" }}>{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View> :
+                  <View className="label flex center" style={{ background: "#cccccc" }}>{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View>
+              }
+              {this.props.sname}
             </View>
             {/* <View className="date">{this.props.timer}</View> */}
             <View className="info" style={{ position: "absolute", bottom: "20px", padding: "0" }}>{this.props.list_brief}</View>

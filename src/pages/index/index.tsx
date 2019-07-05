@@ -219,7 +219,7 @@ export default class Index extends Component {
 					>
 						<SwiperItem>
 							<View className="swiper">
-								<Image src={require('../../assets/banner.png')} className="image" />
+								<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} className="image" />
 							</View>
 						</SwiperItem>
 					</Swiper>
