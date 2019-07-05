@@ -14,8 +14,12 @@ interface Props {
   sname: any,
   list_brief: any,
   _image: any,
+<<<<<<< HEAD
   type: any,
   bg_img_type: any
+=======
+  type?: any
+>>>>>>> 5b85fbcf174a2fc70aee9af5a175757a982f1e69
 }
 //type: 0为空白，1立即使用，2再来一单
 // bg_img_type: 0为正常，1为已使用

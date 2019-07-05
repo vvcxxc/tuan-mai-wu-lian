@@ -23,21 +23,21 @@
     display:flex;
     justify-content:space-between;
     padding:15px 30px 15px 80px;
-     border-bottom:1px solid #ededed;
+    border-bottom:1px solid #ededed;
   }
-}
-.mt-5{
-  margin-top :-18px;
-}
+  .mt-5{
+    margin-top :-18px;
+  }
   .myPositing {
     position:absolute;
     background-color:#fff;
     width:100%;
   }
   .rising {
-    z-index: 1;
+    z-index: 3;
   }
 
   .falling {
-    z-index: -1;
+    z-index: -6;
   }
+}

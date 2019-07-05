@@ -71,10 +71,8 @@ export default class PaySuccess extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    console.log(this.$router.params)
     request({ url: 'v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
-        console.log(res);
         this.setState({
           coupon: res.info.coupon,
           store: res.info.store,
@@ -88,7 +86,6 @@ export default class PaySuccess extends Component {
 
   }
   handleClick = (id, e) => {
-    console.log(id)
     Taro.navigateTo({
       url: '../../business-pages/confirm-order/index?id=' + id
     })
