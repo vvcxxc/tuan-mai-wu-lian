@@ -2,31 +2,36 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Image, Button } from "@tarojs/components";
 import './index.styl';
 import { getCode } from '@/src/utils/common';
-
+const login_url = process.env.LOGIN_URL || 'https://test.api.tdianyi.com/wechat/jscode2session';
 export default class Auth extends Component {
   state = {
 
   }
   handleGetUserInfo = async(e: any) => {
     console.log(e.target)
-    let { encryptedData,  } = e.target;
+    let { encryptedData, iv } = e.target;
     let { avatarUrl, nickName } = e.target.userInfo;
     const { code } = await getCode();
     let data = {
       avatar: avatarUrl,
       nickname: nickName,
       js_code: code,
-      encrypted_data: encryptedData
+      encrypted_data: encryptedData,
+      iv
     }
-    let login_url = process.env.login_url;
-    console.log(login_url)
+    Taro.request({
+      url: login_url,
+      method: 'GET',
+      data
+    })
+
   }
   render (){
     return (
       <View>
         <View className="auth">
           <View className="logo-wrapper">
-            <Image className="logo" src={require("../../static/images/ic_logo.jpg")} />
+            <Image className="logo" src={'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/w35HkGCSnYSXP3myQCC2dKfb4k3wcyCJ.png'} />
           </View>
           <View className="description">
             <View className="item">* 申请获取以下授权</View>

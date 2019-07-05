@@ -1,11 +1,12 @@
 module.exports = {
   env: {
-    NODE_ENV: '"development"'
+    NODE_ENV: '"development"',
+    LOGIN_URL: 'https://test.api.tdianyi.com/wechat/jscode2session',
   },
   defineConstants: {
   },
   weapp: {
-    login_url: 'https://test.api.tdianyi.com/wechat/jscode2session',
+
   },
   h5: {}
 }

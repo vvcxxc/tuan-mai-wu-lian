@@ -27,7 +27,8 @@ export default class Index extends Component {
 		titleList: [], // title列表
 		locations: { longitude: 1, latitude: 1 },//存储地理位置
 		routerId:'', //路由传递的id
-		cityName: ''
+		cityName: '',
+		page:1
 	};
 
 	constructor(props) {
@@ -90,15 +91,20 @@ export default class Index extends Component {
 	// 微信自带监听 滑动事件
 	onPullDownRefresh = () => {
 		this.requestHomeList()
-		// console.log('测试')
-		
 	}
 	// 触底事件
 	onReachBottom = () => {
 		this.showLoading()
-		setTimeout(() => {
-			Taro.hideLoading()
-		}, 1000);
+		this.setState({page:this.state.page+1})
+		request({
+			url: 'v3/stores',
+			data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude, page:this.state.page }
+		})
+			.then((res: any) => {
+				Taro.stopPullDownRefresh()
+				Taro.hideLoading()
+				this.setState({ storeList: [...this.state.storeList, ...res.store_info.data] , storeHeadImg: res.banner });
+			})
 	}
 	// 往下滚动触发
 	onPageScroll = (e) => {
@@ -213,7 +219,7 @@ export default class Index extends Component {
 					>
 						<SwiperItem>
 							<View className="swiper">
-								<Image src={require('../../assets/banner.png')} className="image" />
+								<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} className="image" />
 							</View>
 						</SwiperItem>
 					</Swiper>
