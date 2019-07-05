@@ -5,14 +5,14 @@ import { View, Text, Image } from "@tarojs/components";
 import "./index.styl";
 
 interface Props {
-  _id: any,
-  return_money: any,
-  pay_money: any,
-  youhui_type: any,
-  timer: any,
-  sname: any,
-  list_brief: any,
-  bg_img_type: any
+  _id?: any,
+  return_money?: any,
+  pay_money?: any,
+  youhui_type?: any,
+  timer?: any,
+  sname?: any,
+  list_brief?: any,
+  bg_img_type?: any
 }
 
 /**现金优惠券 */
