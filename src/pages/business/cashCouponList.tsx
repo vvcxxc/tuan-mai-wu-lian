@@ -38,7 +38,7 @@ export default class CashCouponListComponent extends Component<Props> {
 		couponList_bull: false
 	}
 	componentDidMount() {
-		console.log(this.props.cashCouponList)
+		// console.log(this.props.cashCouponList)
 		this.setState({
 			cashCouponList: this.props.cashCouponList
 		})
@@ -58,7 +58,7 @@ export default class CashCouponListComponent extends Component<Props> {
 								<View className="merchant-details__tit" >
 									<View style={{ height: "5px" }}></View>
 									<Text className="mark bc5D84E0">券</Text>
-									<Text className="fwb">{item.youhui_type == '1' ? '现金卷' : '兑换卷'}</Text>
+									<Text className="fwb">{item.youhui_type == '1' ? '现金券' : '兑换卷'}</Text>
 								</View>
 								<View className="ticket-view flex center" style={{ position: 'relative' }} onClick={this.handleClick.bind(this, item.id)}>
 									<View className="left" style={{ position: 'absolute', left: '30px' }}>
@@ -75,7 +75,7 @@ export default class CashCouponListComponent extends Component<Props> {
 							</div>
 						)) : <div><View className="merchant-details__tit">
 							<Text className="mark bc5D84E0">券</Text>
-							<Text className="fwb">{this.state.cashCouponList[0].youhui_type == '1' ? '现金卷' : '兑换卷'}</Text>
+							<Text className="fwb">{this.state.cashCouponList[0].youhui_type == '1' ? '现金券' : '兑换卷'}</Text>
 						</View>
 								<View className="ticket-view flex center" style={{ position: 'relative' }} onClick={this.handleClick.bind(this, this.state.cashCouponList[0].id)}>
 									<View className="left" style={{ position: 'absolute', left: '30px' }}>

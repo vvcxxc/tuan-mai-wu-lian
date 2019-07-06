@@ -11,7 +11,6 @@ interface Props {
 /**收藏-优惠券列表 */
 class Merchant extends Component<Props> {
   componentWillReceiveProps(props) {
-    console.log(props);
   }
 
   static options: ComponentOptions = {

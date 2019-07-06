@@ -10,7 +10,6 @@ interface Props {
 /**收藏-商家列表 */
 class Merchant extends Component<Props> {
   componentWillReceiveProps(props) {
-    console.log(props);
   }
 
   static options: ComponentOptions = {

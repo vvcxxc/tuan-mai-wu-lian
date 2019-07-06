@@ -32,10 +32,8 @@ export default class ConfirmOrder extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    // console.log(this.$router.params.id )
     request({ url: '/v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
-        console.log(res);
         this.setState({
           coupon: res.info.coupon,
           store: res.info.store
@@ -54,7 +52,7 @@ export default class ConfirmOrder extends Component {
 
   }
   addnum() {
-    if (this.state.amount < 99) {
+    if (this.state.amount < 10) {
       this.setState({ amount: Number(this.state.amount) + 1 })
     }
   }
@@ -64,7 +62,6 @@ export default class ConfirmOrder extends Component {
   // });
   // Taro.login({
   //   success: function (res) {
-  //     console.log(res);
   //     if (res.code) {
   //       let wcode = res.code;
   //       // 用户登录凭证（有效期五分钟）。开发者需要在开发者服务器后台调用 api，使用 code 换取 openid 和 session_key 等信息
@@ -87,11 +84,9 @@ export default class ConfirmOrder extends Component {
   //           }
   //         },
   //         fail(err) {
-  //           console.log(err)
   //         }
   //       })
   //     } else {
-  //       console.log("登录失败！" + res.errMsg);
   //     }
   //   }
   // })
@@ -118,7 +113,6 @@ export default class ConfirmOrder extends Component {
       }
     })
       .then((res: any) => {
-        console.log(res);
         Taro.hideLoading();
         // 发起支付
         Taro.requestPayment({
@@ -130,7 +124,6 @@ export default class ConfirmOrder extends Component {
           success(res) {
 
             console.log("支付成功");
-            console.log(res);
             () => {
               this.setState({
                 pay_bull: "支付成功",
@@ -142,7 +135,6 @@ export default class ConfirmOrder extends Component {
           fail(err) {
 
             console.log("支付失败");
-            console.log(err);
             () => {
               this.setState({
                 pay_bull: "支付失败",
@@ -175,7 +167,7 @@ export default class ConfirmOrder extends Component {
             <View className="flex center">
               <AtIcon value="subtract-circle" color={this.state.amount > 1 ? "#FF6654" : "#999"} onClick={this.cutnum.bind(this)} />
               <View className="amount" >{this.state.amount}</View>
-              <AtIcon value="add-circle" color={this.state.amount < 99 ? "#FF6654" : "#999"} onClick={this.addnum.bind(this)} />
+              <AtIcon value="add-circle" color={this.state.amount < 10 ? "#FF6654" : "#999"} onClick={this.addnum.bind(this)} />
             </View>
           </View>
         </View>

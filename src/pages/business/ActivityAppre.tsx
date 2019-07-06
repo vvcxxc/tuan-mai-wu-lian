@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtToast } from "taro-ui"
 import { View, Text, Image, ScrollView, Button } from "@tarojs/components";
-import "./index.styl";
+
 import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 // import starImg from '../../assets/starcollect.png'
@@ -9,7 +9,7 @@ import AddressImg from '../../assets/address.png'
 import "taro-ui/dist/style/components/toast.scss";
 // import "taro-ui/dist/style/components/icon.scss";
 // import 'taro-ui/dist/style/index.scss'
-
+import "./index.scss";
 
 interface Props {
     activity_appre: any;

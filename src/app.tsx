@@ -12,6 +12,8 @@ import './app.styl';
 import 'taro-ui/dist/style/index.scss';
 import request from './services/request';
 
+
+
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
@@ -20,7 +22,7 @@ import request from './services/request';
 
 // Set Dva
 const dva = dvaCore.createApp({
-	defienSear:{},
+	defienSear: {},
 	initialState: {},
 	models: models,
 	onAction: createLogger(),
@@ -39,6 +41,7 @@ class App extends Component {
 	 */
 	config: Config = {
 		pages: [
+    //   'pages/auth/index',
 			'pages/index/index',
 			'pages/index/search/index',
 			'pages/my/index',
@@ -50,9 +53,13 @@ class App extends Component {
 		],
 		subPackages: [
 			// {
-			//   /**各种详情页面 比如商家详情页 */
-			//   root: "detail-pages",
-			//   pages: []
+			// 	/**各种详情页面 比如商家详情页 */
+			// 	root: "detail-pages",
+			// 	pages: [
+			// 		'business/index',
+			// 		'set-meal/index',
+			// 		'ticket-buy/index'
+			// 	]
 			// },
 			{
 				/**其他业务页面 比如订单流程，礼物，物流 */
@@ -138,14 +145,14 @@ class App extends Component {
 		}
 	};
 
-	defineApp:{
-		define:'22'
+	defineApp: {
+		define: '22'
 	}
 	componentDidShow() {
 		this.getToken();
 	}
-	componentDidHide() {}
-	componentDidCatchError() {}
+	componentDidHide() { }
+	componentDidCatchError() { }
 
 	getToken() {
 		request({

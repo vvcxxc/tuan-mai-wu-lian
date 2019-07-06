@@ -93,6 +93,11 @@ export default class PaySuccess extends Component {
       url: '../../business-pages/confirm-order/index?id=' + id
     })
   };
+  handleClick2 = (_id, e) => {
+		Taro.navigateTo({
+			url: '/pages/business/index?id=' + _id
+		})
+	};
   keepCollect(e) {
     //假接口，还没好
     // let _id = this.state.coupon.id;
@@ -136,7 +141,7 @@ export default class PaySuccess extends Component {
         <View className="info bcff">
           {/* <Image className="image" src={starImg} onClick={this.keepCollect.bind(this)} /> */}
 
-          {
+          {/* {
             this.state.coupon.collect == "1" ? <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" />
               :
               (
@@ -145,7 +150,7 @@ export default class PaySuccess extends Component {
                   :
                   <AtIcon className="image" value="star" color="#999" size="24px" onClick={this.keepCollect.bind(this)} />
               )
-          }
+          } */}
           <View className="tit">{this.state.coupon.yname} </View>
 
           <View className="desc">{this.state.coupon.list_brief}</View>
@@ -156,7 +161,7 @@ export default class PaySuccess extends Component {
             <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '#fde8e5' : '#fff' }}>免预约</Text>
           </View>
         </View>
-        <View className="shop mt20 pd30 bcff">
+        <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
           <View className="set-meal__tit">
             <Text className="fwb">适用店铺</Text>
           </View>

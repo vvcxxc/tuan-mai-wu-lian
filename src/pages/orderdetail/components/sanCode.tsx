@@ -13,7 +13,6 @@ function SanCode (props:sanCodeProps) {
   
   const { code ,url } = props
  
-  console.log(code,url)
 
   return <View  className='z_sanCodeContent' >
             <View>

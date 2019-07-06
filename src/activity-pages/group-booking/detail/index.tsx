@@ -22,7 +22,7 @@ class GroupBookingDetail extends PureComponent {
 								<Image
 									className="banner-img"
 									mode="widthFix"
-									src={require('../../../assets/banner.png')}
+									src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"}
 								/>
 							</SwiperItem>
 						</Swiper>

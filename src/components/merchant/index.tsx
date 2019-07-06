@@ -55,7 +55,7 @@ export default class Merchant extends Component<Props> {
 						<View className="flex">
 							<View className="tag" style={{ backgroundColor: that.label.indexOf('免费礼品') !== -1 ? '#fde8e5' : '#fff' }}>免费礼品</View>
 							<View className="tag" style={{ backgroundColor: that.label.indexOf('优秀商家') !== -1 ? '#fde8e5' : '#fff' }}>优秀商家</View>
-							<View className="tag" style={{ backgroundColor: that.label.indexOf('现金卷') !== -1 ? '#fde8e5' : '#fff' }}>现金卷</View>
+							<View className="tag" style={{ backgroundColor: that.label.indexOf('现金券') !== -1 ? '#fde8e5' : '#fff' }}>现金券</View>
 						</View>
 					</View>
 				</View>

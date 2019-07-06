@@ -2,9 +2,9 @@ import Taro, {   useState  , useEffect , DependencyList, navigateBack} from "@ta
 import { View , Text } from '@tarojs/components';
 
 import './style.scss'
-import { defaultData , handerExceedTimeLimit ,routeGo } from './unit'
+ import { defaultData , handerExceedTimeLimit ,routeGo } from './unit'
 import request from '../../services/request'
-// import CashCoupon from "../../../components/cash-coupon/index";
+import CashCoupon from "../../components/cash-coupon/index";
 import { BuyShouldKnow   } from './components/BuyShouldKnow'
 import { BillingInfo } from './components/BillingInfo'
 import { SuitStore } from './components/SuitStore'
@@ -27,7 +27,7 @@ function setTimeoutCallback(){
 }
 
 function Index () {
-    const { cuoPonsId , type  } = this.$router.params
+    const  cuoPonsId   = this.$router.params.id
     const [ dataInfo , setDataInfo ] = useState(Object.assign({},defaultData))
     const [ isApply, showApply ] = useState(false)
     let setTimeOut =setTimeoutCallback()
@@ -50,7 +50,6 @@ function Index () {
        store_name,
        image,
      } = dataInfo
-     console.log(dataInfo)
     useAsyncEffect( async ()=>{
         if(coupons_type * 1 ===0){ //兑换券获取兑换码
          request({
@@ -58,7 +57,6 @@ function Index () {
              data:{  coupons_log_id : 333  },
          })
          .then((res:any)=>{
-             console.log(res)
          })   
         }
         request({
@@ -68,7 +66,6 @@ function Index () {
         .then((res: any) => res.data && setDataInfo(Object.assign({},dataInfo,res.data)) )
         .catch(()=>{
             Taro.showToast({ title: '数据请求失败' ,icon:'none'  })  
-            // setTimeOut(Taro.navigateBack,500)
         })
     },[cuoPonsId])
 
@@ -84,7 +81,7 @@ function Index () {
         }).then((res:any)=>{
             if(res.code===200){
                 Taro.showToast({ title: '退款成功' }) 
-                routeGo('/pages/order/orderdetail/refundProgress',cuoPonsId)  
+                routeGo('/pages/orderdetail/refundProgress',cuoPonsId)  
             }else{
                 handerApplyShow()
                 setTimeOut(()=>{
@@ -99,7 +96,7 @@ function Index () {
     return (
       <View className='index'>
         <View className='a_head' >
-          {/* <CashCoupon  cuoPonsId={cuoPonsId}  /> */}
+          <CashCoupon  cuoPonsId={cuoPonsId}  />
         </View>
         { /* 购买须知  */ }
         {

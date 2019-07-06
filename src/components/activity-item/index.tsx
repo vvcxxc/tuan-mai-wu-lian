@@ -27,10 +27,10 @@ class ActivityItem extends PureComponent<Props> {
 				<View className="line" />
 				<View className="flex hot-img">
 					<View className="item">
-						<Image mode="widthFix" className="img" src={require('../../assets/banner.png')} />
+						<Image mode="widthFix" className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} />
 					</View>
 					<View className="item">
-						<Image mode="widthFix" className="img" src={require('../../assets/banner.png')} />
+						<Image mode="widthFix" className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} />
 					</View>
 				</View>
 				<View className="flex bottom">

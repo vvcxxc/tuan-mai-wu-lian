@@ -30,7 +30,7 @@ export default class Activity extends Component {
 				</View>
 				<Swiper indicator-dots circular className="swiper">
 					<SwiperItem>
-						<Image className="banner-image" mode="widthFix" src={require('../../assets/banner.png')} />
+						<Image className="banner-image" mode="widthFix" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} />
 					</SwiperItem>
 				</Swiper>
 				<View className="flex hot-icon">
