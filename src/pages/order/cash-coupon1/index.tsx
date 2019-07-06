@@ -28,7 +28,7 @@ export default class CashCoupon extends Component<Props> {
   };
   handleClick = (_id, e) => {
     Taro.navigateTo({
-      url: '/pages/orderdetail/index'
+      url: '/pages/orderdetail/?id='+_id
     })
   }
   render() {

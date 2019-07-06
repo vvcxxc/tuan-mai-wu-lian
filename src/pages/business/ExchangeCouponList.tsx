@@ -42,24 +42,40 @@ export default class ExchangeCouponComponent extends Component<Props> {
             exchangeCouponList: this.props.exchangeCouponList
         })
     }
-    handleClick2 = (_id, e) => {
+    handleClick = (_id, e) => {
         Taro.navigateTo({
             url: '../../business-pages/set-meal/index?id=' + _id
+        })
+    }
+    handleClick2 = (id, e) => {
+        Taro.navigateTo({
+            url: '../../business-pages/confirm-order/index?id=' + id
         })
     }
     render() {
         return (
             <View >
+                <View className="merchant-details__tit" style={{ fontSize: "19px", paddingLeft: "20px" }}>
+                    <Text className="mark" style={{
+                        fontSize: " 10px",
+                        color: "#fff",
+                        backgroundColor: "#5DD8A5",
+                        padding: "3px 5px",
+                        borderRadius: " 2px",
+                        marginRight: "10px"
+                    }}>惠</Text>
+                    <Text className="fwb" style={{ fontWeight: "bold" }}>优惠信息</Text>
+                </View>
                 <View className="discounts-view bcfff" >
                     {
                         this.state.exchangeCouponList_bull ? this.state.exchangeCouponList.map((item) => (
                             <div >
-                                <View className="merchant-details__tit">
+                                {/* <View className="merchant-details__tit">
                                     <View style={{ height: "10px" }}></View>
                                     <Text className="mark bc5D84E0" style={{ background: "#58bc58" }}>惠</Text>
                                     <Text className="fwb">优惠信息</Text>
-                                </View>
-                                <View className="discounts-cells">
+                                </View> */}
+                                <View className="discounts-cells"  onClick={this.handleClick.bind(this, item.id)}>
                                     <View className="discounts-cell flex center">
                                         <Image className="image" src={item.image} />
                                         <View className="discounts-cell__bd item">
@@ -74,12 +90,12 @@ export default class ExchangeCouponComponent extends Component<Props> {
                                 </View>
                             </div>)) :
                             <div >
-                                <View className="merchant-details__tit">
+                                {/* <View className="merchant-details__tit">
                                     <View style={{ height: "10px" }}></View>
                                     <Text className="mark bc5D84E0" style={{ background: "#58bc58" }}>惠</Text>
                                     <Text className="fwb">优惠信息</Text>
-                                </View>
-                                <View className="discounts-cells">
+                                </View> */}
+                                <View className="discounts-cells" onClick={this.handleClick.bind(this, this.state.exchangeCouponList[0].id)}>
                                     <View className="discounts-cell flex center">
                                         <Image className="image" src={this.state.exchangeCouponList[0].image} />
                                         <View className="discounts-cell__bd item">
@@ -87,7 +103,7 @@ export default class ExchangeCouponComponent extends Component<Props> {
                                             <View className="desc">{this.state.exchangeCouponList[0].brief}</View>
                                             <View className="flex center" style={{ position: "relative" }}>
                                                 <View className="money" style={{ position: 'absolute', left: '20px' }}>￥{this.state.exchangeCouponList[0].pay_money}</View>
-                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, this.state.exchangeCouponList[0].id)} style={{ position: 'absolute', right: '20px' }}>立即购买</Button>
+                                                <Button className="btn-buy"  onClick={this.handleClick2.bind(this, this.state.exchangeCouponList[0].id)}style={{ position: 'absolute', right: '20px' }}>立即购买</Button>
                                             </View>
                                         </View>
                                     </View>

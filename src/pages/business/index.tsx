@@ -41,7 +41,7 @@ export default class PaySuccess extends Component<Props> {
     recommend: [//本店其它的推荐
       {
         id: "",
-        shop_door_header_img: '',
+        preview: '',
         name: '',
         address: '',
         label: ['免费礼品']
@@ -259,7 +259,7 @@ export default class PaySuccess extends Component<Props> {
             {
               this.state.recommend.map((item) => (
                 <View className="recommend-cell flex center" onClick={this.handleClick3.bind(this, item.id)}>
-                  <Image className="image" src={item.shop_door_header_img} />
+                  <Image className="image" src={item.preview} />
                   <View className="recommend-cell__bd item">
                     <View className="tit">{item.name}</View>
                     <View className="flex center mb33">

@@ -43,16 +43,27 @@ export default class ActivityAppreComponent extends Component<Props> {
     render() {
         return (
             <View>
+                <View className="merchant-details__tit" style={{ fontSize: "19px" ,paddingLeft:"20px"}}>
+                    <Text className="mark" style={{
+                        fontSize: " 10px",
+                        color: "#fff",
+                        backgroundColor: "#C71D0B",
+                        padding: "3px 5px",
+                        borderRadius: " 2px",
+                        marginRight: "10px"
+                    }}>增</Text>
+                    <Text className="fwb" style={{fontWeight: "bold"}}>增值低价买</Text>
+                </View>
                 {/* 增值活动 */}
                 {
                     this.state.activity_appre_bull ? this.state.activity_appre.map((item) => (
                         <View className="group-purchase bcfff">
                             <View style={{ height: "5px" }}></View>
                             <View className="hd">
-                                <View className="merchant-details__tit">
+                                {/* <View className="merchant-details__tit">
                                     <Text className="mark">增</Text>
                                     <Text className="fwb">增值低价买</Text>
-                                </View>
+                                </View> */}
                                 <View className="flex center">
                                     <View className="item desc">{item.name}</View>
                                 </View>
@@ -85,10 +96,10 @@ export default class ActivityAppreComponent extends Component<Props> {
                         </View>
                     )) : <View className="group-purchase bcfff">
                             <View className="hd">
-                                <View className="merchant-details__tit">
+                                {/* <View className="merchant-details__tit">
                                     <Text className="mark">增</Text>
                                     <Text className="fwb">增值低价买</Text>
-                                </View>
+                                </View> */}
                                 <View className="flex center">
                                     <View className="item desc">{this.state.activity_appre[0].name}</View>
                                 </View>
