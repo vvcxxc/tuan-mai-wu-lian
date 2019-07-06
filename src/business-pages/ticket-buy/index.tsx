@@ -14,6 +14,8 @@ export default class PaySuccess extends Component {
   };
 
   state = {
+    yPoint: 0,
+    xPoint: 0,
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,
@@ -43,7 +45,8 @@ export default class PaySuccess extends Component {
       route: "",
       saddress: "",
       sname: "",
-      tel: ""
+      tel: "",
+      // distance:""
     },
     goods_album: [
       {
@@ -70,18 +73,31 @@ export default class PaySuccess extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    console.log(this.$router.params)
-    request({ url: '/v3/discount_coupons/' + this.$router.params.id })
-      .then((res: any) => {
-        console.log(res);
-        this.setState({
-          coupon: res.info.coupon,
-          store: res.info.store,
-          goods_album: res.info.goods_album,
-          recommend: res.recommend.data
+    // console.log(this.$router.params)
+    Taro.getLocation({ type: 'wgs84' }).then(res => {
+      this.setState({
+        yPoint: res.latitude,
+        xPoint: res.longitude
+      }, () => {
+        request({
+          url: '/v3/discount_coupons/' + this.$router.params.id
+          // , method: "GET", data: { xPoint: this.state.xPoint, yPoint: this.state.yPoint } 
         })
-        Taro.hideLoading()
-      }).catch(function (error) { console.log(error); });
+          .then((res: any) => {
+            console.log(res);
+            this.setState({
+              coupon: res.info.coupon,
+              store: res.info.store,
+              goods_album: res.info.goods_album,
+              recommend: res.recommend.data
+            })
+            Taro.hideLoading()
+          }).catch(function (error) { console.log(error); });
+
+      })
+    })
+
+
   }
   handleClick = (id, e) => {
     console.log(id)
@@ -90,10 +106,10 @@ export default class PaySuccess extends Component {
     })
   }
   handleClick2 = (_id, e) => {
-		Taro.navigateTo({
-			url: '/pages/business/index?id=' + _id
-		})
-	};
+    Taro.navigateTo({
+      url: '/pages/business/index?id=' + _id
+    })
+  };
   keepCollect(e) {
     //假接口，还没好
     // let _id = this.state.coupon.id;
@@ -108,12 +124,13 @@ export default class PaySuccess extends Component {
     //     // }
     //   })
   }
-  
+
   render() {
     return (
       <View className="set-meal">
         {
-          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
+          this.state.keepCollect_bull ? 
+          <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
         }
         <View className=" pd30 bcff">
           <View className="ticket-buy-view">
@@ -150,8 +167,8 @@ export default class PaySuccess extends Component {
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
           <View className="address-view flex center">
-             <Image className="address-image" src={AddressImg} />
-            {/* <View className="distance">2.6m</View> */} 
+            <Image className="address-image" src={AddressImg} />
+            {/* <View className="distance">{this.state.2.6km}</View> */}
             <View className="text flex-item">{this.state.store.saddress}</View>
             <Image className="mobile-image" src={MobileImg} />
           </View>

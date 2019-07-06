@@ -38,7 +38,7 @@ export default class ActivityGroupComponent extends Component<Props> {
         activity_group_bull: false,
     }
     componentDidMount() {
-        console.log(this.props.activity_group)
+        // console.log(this.props.activity_group)
         this.setState({
             activity_group: this.props.activity_group
         })
@@ -47,16 +47,27 @@ export default class ActivityGroupComponent extends Component<Props> {
     render() {
         return (
             <View >
+                <View className="merchant-details__tit" style={{ fontSize: "19px" ,paddingLeft:"20px"}}>
+                    <Text className="mark" style={{
+                        fontSize: " 10px",
+                        color: "#fff",
+                        backgroundColor: "#D97B0B",
+                        padding: "3px 5px",
+                        borderRadius: " 2px",
+                        marginRight: "10px"
+                    }}>礼</Text>
+                    <Text className="fwb" style={{fontWeight: "bold"}}>拼团送豪礼</Text>
+                </View>
                 {/* 拼团活动 */}
                 {
                     this.state.activity_group_bull ? this.state.activity_group.map((item) => (
                         <View className="group-purchase bcfff">
                             <View style={{ height: "5px" }}></View>
                             <View className="hd">
-                                <View className="merchant-details__tit">
+                                {/* <View className="merchant-details__tit">
                                     <Text className="mark">礼</Text>
-                                    <Text className="fwb">拼团送好礼</Text>
-                                </View>
+                                    <Text className="fwb">拼团送豪礼</Text>
+                                </View> */}
                                 <View className="flex center">
                                     <View className="item desc">{item.activity_brief}</View>
                                     {/* <View className="count">{item.participation_number}人团</View> */}
@@ -83,10 +94,10 @@ export default class ActivityGroupComponent extends Component<Props> {
                         </View>
                     )) : <View className="group-purchase bcfff">
                             <View className="hd">
-                                <View className="merchant-details__tit">
+                                {/* <View className="merchant-details__tit">
                                     <Text className="mark">礼</Text>
-                                    <Text className="fwb">拼团送好礼</Text>
-                                </View>
+                                    <Text className="fwb">拼团送豪礼</Text>
+                                </View> */}
                                 <View className="flex center">
                                     <View className="item desc">{this.state.activity_group[0].activity_brief}</View>
                                     {/* <View className="count">{this.state.activity_group[0].participation_number}人团</View> */}
