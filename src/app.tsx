@@ -7,7 +7,7 @@ import models from './models';
 import dvaCore from './dvaCore';
 
 import Index from './pages/index';
-
+import "../src/styles/weui.scss"
 import './app.styl';
 import 'taro-ui/dist/style/index.scss';
 import request from './services/request';
@@ -49,7 +49,11 @@ class App extends Component {
 			'pages/merchant/index',
 			'pages/activity/index',
 			'pages/business/index',
-			'pages/orderdetail/index'
+      'pages/orderdetail/index',
+      "pages/activity/pages/detail/detail",
+      "pages/activity/pages/group/group",
+      "pages/activity/pages/appreciation/appreciation",
+      "pages/activity/pages/list/list",
 		],
 		subPackages: [
 			// {

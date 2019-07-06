@@ -22,6 +22,11 @@
       "node_modules/@types",
       "global.d.ts"
     ],
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
   },
   "compileOnSave": false
 }
