@@ -26,6 +26,8 @@ export default class PaySuccess extends Component<Props> {
 
 
   state = {
+    yPoint: 0,
+    xPoint: 0,
     business_list: {//自家店铺
       id: "",
       name: '',
@@ -33,7 +35,8 @@ export default class PaySuccess extends Component<Props> {
       store_img_one: "",
       store_img_three: "",
       store_img_two: "",
-      collect: "0"
+      collect: "0",
+      distance: ""
     },
     recommend: [//本店其它的推荐
       {
@@ -104,7 +107,7 @@ export default class PaySuccess extends Component<Props> {
     activity_group_bull: false,
     activity_appre_bull: false,
 
-
+    keepCollect_show: false,
     keepCollect_bull: false,
     keepCollect_data: "收藏成功"
   };
@@ -113,24 +116,35 @@ export default class PaySuccess extends Component<Props> {
     Taro.showLoading({
       title: 'loading',
     })
-    console.log(this.$router.params.id);
     let that = this;
-    request({ url: 'v3/stores/' + this.$router.params.id })
-      .then((res: any) => {
-        console.log(res);
-        that.setState({
-          business_list: res.store.Info,
-          recommend: res.recommend,
-          activity_group: res.store.activity_group,
-          activity_appre: res.store.activity_appreciation,
-          cashCouponList: res.store.cashCouponList,
-          exchangeCouponList: res.store.exchangeCouponList
-        })
-        Taro.hideLoading()
-      });
+    Taro.getLocation({ type: 'wgs84' }).then(res => {
+      // let yPoint= res.latitude;
+      // let xPoint=res.longitude;
+      this.setState({
+        yPoint: res.latitude,
+        xPoint: res.longitude
+      }, () => {
+        request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xPoint: this.state.xPoint, yPoint: this.state.yPoint } })
+          .then((res: any) => {
+            console.log(res);
+            that.setState({
+              business_list: res.store.Info,
+              recommend: res.recommend,
+              activity_group: res.store.activity_group,
+              activity_appre: res.store.activity_appreciation,
+              cashCouponList: res.store.cashCouponList,
+              exchangeCouponList: res.store.exchangeCouponList,
+              keepCollect_bull: res.store.Info.collect ? true : false
+            })
+            Taro.hideLoading()
+          });
+      })
+
+    })
   }
   componentDidMount() {
   }
+
   handleClick = (_id, e) => {
     Taro.navigateTo({
       url: '../../business-pages/ticket-buy/index?id=' + _id
@@ -149,14 +163,19 @@ export default class PaySuccess extends Component<Props> {
   }
   keepCollect(e) {
     let _id = this.state.business_list.id;
+    Taro.showLoading({
+      title: 'loading',
+    })
     request({ url: 'v3/stores/collection', method: "PUT", data: { store_id: _id } })
       .then((res: any) => {
+        Taro.hideLoading();
         if (res) {
           // console.log(this.state.keepCollect_bull)
           this.setState({
             keepCollect_data: res,
             //控制AtToast显示，set为true就好了，每次set都会触发AtToast
-            keepCollect_bull: true
+            keepCollect_show: true,
+            keepCollect_bull: !this.state.keepCollect_bull
           })
         }
       })
@@ -166,8 +185,10 @@ export default class PaySuccess extends Component<Props> {
     return (
       <View className="merchant-details">
         {
-
-          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} icon={"star-2"} duration={2000} ></AtToast> : ""
+          !this.state.keepCollect_show ? "" : (
+            this.state.keepCollect_bull ?
+              <AtToast isOpened text={this.state.keepCollect_data} icon={"star-2"} duration={2000} ></AtToast> : <AtToast isOpened text={this.state.keepCollect_data} icon={"star"} duration={2000} ></AtToast>
+          )
         }
 
         <View className="shop bcfff">
@@ -176,14 +197,13 @@ export default class PaySuccess extends Component<Props> {
               <View className="name">{this.state.business_list.name}</View>
               {/* <View className="money">人均：￥62</View> */}
             </View>
-            {/* <Image className="image" src={starImg} onClick={this.keepCollect.bind(this)} /> */}
             {
-              this.state.business_list.collect == "1" ?
-                <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" />
+              this.state.business_list.collect.toString() == "1" ?
+                <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" onClick={this.keepCollect.bind(this)} />
                 :
                 (
                   this.state.keepCollect_bull ?
-                    <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" />
+                    <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" onClick={this.keepCollect.bind(this)} />
                     :
                     <AtIcon className="image" value="star" color="#999" size="24px" onClick={this.keepCollect.bind(this)} />
                 )
@@ -198,6 +218,7 @@ export default class PaySuccess extends Component<Props> {
           </ScrollView>
           <View className="address flex center">
             <Image className="address-img" src={AddressImg} />
+            <View className="distance" >{this.state.business_list.distance}</View>
             <View className="text item" >{this.state.business_list.address}</View>
             <Image className="mobile-img" src={MobileImg} />
           </View>

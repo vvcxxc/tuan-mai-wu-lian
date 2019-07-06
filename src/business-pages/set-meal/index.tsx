@@ -14,13 +14,15 @@ export default class PaySuccess extends Component {
   };
 
   state = {
+    yPoint: 0,
+    xPoint: 0,
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,
     coupon: {
       begin_time: "",
       brief: "",
-       //真正的收藏
+      //真正的收藏
       collect: "0",
       description: "",
       end_time: "",
@@ -43,7 +45,8 @@ export default class PaySuccess extends Component {
       route: "",
       saddress: "",
       sname: "",
-      tel: ""
+      tel: "",
+      // distance:""
     },
     goods_album: [
       {
@@ -71,18 +74,26 @@ export default class PaySuccess extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    console.log(this.$router.params)
-    request({ url: 'v3/discount_coupons/' + this.$router.params.id })
-      .then((res: any) => {
-        console.log(res);
-        this.setState({
-          coupon: res.info.coupon,
-          store: res.info.store,
-          goods_album: res.info.goods_album,
-          recommend: res.recommend.data
-        })
-        Taro.hideLoading()
-      });
+    // console.log(this.$router.params)
+    Taro.getLocation({ type: 'wgs84' }).then(res => {
+      this.setState({
+        yPoint: res.latitude,
+        xPoint: res.longitude
+      }, () => {
+        request({ url: 'v3/discount_coupons/' + this.$router.params.id })
+          .then((res: any) => {
+            console.log(res);
+            this.setState({
+              coupon: res.info.coupon,
+              store: res.info.store,
+              goods_album: res.info.goods_album,
+              recommend: res.recommend.data
+            })
+            Taro.hideLoading()
+          }).catch(function (error) { console.log(error); });
+      })
+    })
+
   }
   componentDidMount() {
 
@@ -94,10 +105,10 @@ export default class PaySuccess extends Component {
     })
   };
   handleClick2 = (_id, e) => {
-		Taro.navigateTo({
-			url: '/pages/business/index?id=' + _id
-		})
-	};
+    Taro.navigateTo({
+      url: '/pages/business/index?id=' + _id
+    })
+  };
   keepCollect(e) {
     //假接口，还没好
     // let _id = this.state.coupon.id;

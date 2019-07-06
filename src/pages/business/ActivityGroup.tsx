@@ -38,7 +38,7 @@ export default class ActivityGroupComponent extends Component<Props> {
         activity_group_bull: false,
     }
     componentDidMount() {
-        console.log(this.props.activity_group)
+        // console.log(this.props.activity_group)
         this.setState({
             activity_group: this.props.activity_group
         })
@@ -55,7 +55,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                             <View className="hd">
                                 <View className="merchant-details__tit">
                                     <Text className="mark">礼</Text>
-                                    <Text className="fwb">拼团送好礼</Text>
+                                    <Text className="fwb">拼团送豪礼</Text>
                                 </View>
                                 <View className="flex center">
                                     <View className="item desc">{item.activity_brief}</View>
@@ -85,7 +85,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                             <View className="hd">
                                 <View className="merchant-details__tit">
                                     <Text className="mark">礼</Text>
-                                    <Text className="fwb">拼团送好礼</Text>
+                                    <Text className="fwb">拼团送豪礼</Text>
                                 </View>
                                 <View className="flex center">
                                     <View className="item desc">{this.state.activity_group[0].activity_brief}</View>

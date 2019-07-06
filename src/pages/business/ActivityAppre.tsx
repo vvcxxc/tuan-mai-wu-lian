@@ -34,7 +34,7 @@ export default class ActivityAppreComponent extends Component<Props> {
         activity_appre_bull: false,
     }
     componentDidMount() {
-        console.log(this.props.activity_appre)
+        // console.log(this.props.activity_appre)
         this.setState({
             activity_appre: this.props.activity_appre
         })
