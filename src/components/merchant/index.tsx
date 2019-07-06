@@ -19,11 +19,21 @@ export default class Merchant extends Component<Props> {
 	state: {
 		showLine: false
 	}
-	componentDidMount(){
+	componentDidMount() {
 		// console.log(this.props.merchant)
 	}
 	heightChange = () => {
 		this.setState({ showLine: !this.state.showLine })
+	}
+
+	styleControl = () => {
+		const that = this.props.merchant
+		if (
+			that.exchange_coupon_name === null &&
+			that.gift_coupon_name === null &&
+			that.gift_name === null
+		) return false
+		return true
 	}
 
 	// handleTap = () => this.props.onClick(this.props.merchant.id);
@@ -39,17 +49,20 @@ export default class Merchant extends Component<Props> {
 	}
 	render() {
 		const that = this.props.merchant
+		this.styleControl()
 		return (
-			<View className={this.props.type === 'activity' ? 'merchant inset' : 'merchant'} >
-				<View className="content flex" onClick={this.handleClick.bind(this,this.props.merchant.id)}>
+			<View className={
+				'merchant ' + (this.props.type === 'activity' ? 'inset ' : ' ') +
+					(this.styleControl() ? '' : 'update-inset')
+				 } >
+				<View className="content flex" onClick={this.handleClick.bind(this, this.props.merchant.id)}>
 					{this.props.type !== 'activity' && <Image className="img" src={that.shop_door_header_img} />}
 					<View className="item">
 						<View className="flex">
 							<View className="title item">{that.name}</View>
 							<AtIcon value="chevron-right" color="#999" size="16px" />
 						</View>
-						<View className="flex label">
-							<View className="item">便利店</View>
+						<View className="flex label flex-right">
 							<View>{that.distance}</View>
 						</View>
 						<View className="flex">
@@ -59,7 +72,9 @@ export default class Merchant extends Component<Props> {
 						</View>
 					</View>
 				</View>
-				<View style="display:flex;padding:0px 12px;margin-top:15px;" onClick={this.handleClick.bind(this,this.props.merchant.id)}>
+				<View
+					className={'all-data ' + (this.styleControl() ? '' :'pb8')}
+					onClick={this.handleClick.bind(this, this.props.merchant.id)}>
 					<View className='banner'
 						style={{ width: typeof (that.coupon_image_url) === 'string' ? (that.coupon_image_url.length > 1 ? '50%' : '100%') : '100%' }}>
 						<Image src={that.coupon_image_url} />
@@ -92,7 +107,10 @@ export default class Merchant extends Component<Props> {
 							{that.exchange_coupon_name}
 						</View>
 					</View>
-					<View className="more flex center" onClick={this.heightChange}>
+					<View className="more flex center" onClick={this.heightChange} style={
+						{
+							display: this.styleControl() ? '' : 'none'
+						}}>
 						<View style="color:#939393;margin-right:3px;">{this.state.showLine ? '收起' : '更多活动'}</View>
 						<AtIcon value={this.state.showLine ? 'chevron-up' : 'chevron-down'} size='12' color='#939393'></AtIcon>
 					</View>
