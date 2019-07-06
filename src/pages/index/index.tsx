@@ -6,7 +6,7 @@ import Tabs from '../../components/tabs';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
 import ActivityList from './activity-list';
-import { Current } from 'dist/npm/@tarojs/taro/dist';
+
 // import { set as setGlobalData, get as getGlobalData } from '../../../defienGlobal'
 
 export default class Index extends Component {
@@ -39,7 +39,7 @@ export default class Index extends Component {
 		this.requestTab(); //经营列表
 		this.requestAllCity(); //获取全国各地列表
 		this.getLocation();//经纬度
-	
+
 	}
 
 	componentDidMount() {
@@ -91,7 +91,7 @@ export default class Index extends Component {
 	onPullDownRefresh = () => {
 		this.requestHomeList()
 		// console.log('测试')
-		
+
 	}
 	// 触底事件
 	onReachBottom = () => {

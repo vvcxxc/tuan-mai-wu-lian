@@ -12,7 +12,7 @@ const config = {
     "828": 1.81 / 2
   },
   alias: {
-    "@": "./",
+    "@": path.resolve(__dirname, "..", "src/"),
     src: "./src/"
   },
   sourceRoot: "src",
