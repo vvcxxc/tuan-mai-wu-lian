@@ -19,6 +19,7 @@ export default class Auth extends Component {
       encrypted_data: encryptedData,
       iv
     }
+    console.log(e.target)
     Taro.request({
       url: login_url,
       method: 'GET',
@@ -31,9 +32,9 @@ export default class Auth extends Component {
       Taro.setStorageSync('openid', openid);
       Taro.setStorageSync('session_key', session_key);
       Taro.setStorageSync('unionid', unionid);
-      Taro.switchTab({
-        url: '/pages/index/index'
-      })
+      // Taro.switchTab({
+      //   url: '/pages/index/index'
+      // })
     })
 
   }

@@ -25,9 +25,9 @@ export default class Index extends Component {
 		storeHeadImg: '',
 		titleList: [], // title列表
 		locations: { longitude: 1, latitude: 1 },//存储地理位置
-		routerId:'', //路由传递的id
+		routerId: '', //路由传递的id
 		cityName: '',
-		page:1
+		page: 1
 	};
 
 	constructor(props) {
@@ -43,8 +43,13 @@ export default class Index extends Component {
 	}
 
 	componentDidMount() {
+		this.getToken();
 	}
-
+	getToken() {
+		request({
+			url: 'api/wap/testLogin'
+		}).then((res: any) => Taro.setStorageSync('token', res.token));
+	}
 
 	// show loading
 	showLoading = () => {
@@ -94,15 +99,15 @@ export default class Index extends Component {
 	// 触底事件
 	onReachBottom = () => {
 		this.showLoading()
-		this.setState({page:this.state.page+1})
+		this.setState({ page: this.state.page + 1 })
 		request({
 			url: 'v3/stores',
-			data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude, page:this.state.page }
+			data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude, page: this.state.page }
 		})
 			.then((res: any) => {
 				Taro.stopPullDownRefresh()
 				Taro.hideLoading()
-				this.setState({ storeList: [...this.state.storeList, ...res.store_info.data] , storeHeadImg: res.banner });
+				this.setState({ storeList: [...this.state.storeList, ...res.store_info.data], storeHeadImg: res.banner });
 			})
 	}
 	// 往下滚动触发
@@ -159,7 +164,7 @@ export default class Index extends Component {
 		let that = this.state.locations
 		request({
 			url: 'v3/stores',
-			data: {  xpoint: that.longitude, ypoint: that.latitude, deal_cate_id: id }
+			data: { xpoint: that.longitude, ypoint: that.latitude, deal_cate_id: id }
 		})
 			.then((res: any) => {
 				Taro.hideLoading()
@@ -175,7 +180,7 @@ export default class Index extends Component {
 		let that = this.state.locations
 		request({
 			url: 'v3/stores',
-			data: { xpoint: that.longitude, ypoint: that.latitude, city_id: this.$router.params.id}
+			data: { xpoint: that.longitude, ypoint: that.latitude, city_id: this.$router.params.id }
 		})
 			.then((res: any) => {
 				Taro.hideLoading()

@@ -1,5 +1,5 @@
 import Taro, { Component, Config } from "@tarojs/taro";
-import { View } from "@tarojs/components";
+import { View, Image } from "@tarojs/components";
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import "taro-ui/dist/style/components/tabs.scss";
 import CashCoupon1 from "./cash-coupon1/index";
@@ -7,178 +7,196 @@ import CashCoupon2 from "./cash-coupon2/index";
 
 import "./index.styl";
 import request from "../../services/request";
+import img1 from "./1.png";
+import img2 from "./2.png";
+import img3 from "./3.png";
+import img4 from "./4.png";
+interface State {
+  coupon1:couponArray,
+  current:number,
+  coupon2:couponArray,
+  coupon3:couponArray,
+  page1: number,
+  page2: number,
+  page3: number,
+  page4: number,
+  loading:boolean
+}
+interface couponType {
+    coupons_log_id?:string | number,
+    coupons_id?: string | number,
+    expiration?:string | number,
+    coupons_name?: string | number,
+    money?: string | number,
+    suppliername?:string | number,
+    image?: string | number,
+    coupons_type?:string | number,
+    confirm_time?:string | number,
+    total_fee?:string | number,
+}
 
-export default class Order extends Component {
+interface couponArray {
+  couponType?:couponType[]
+}
+export default class Order extends Component<State> {
   config: Config = {
     navigationBarTitleText: "我的订单"
   };
   state = {
     current: 0,//taro组件用的
     coupon: [],//taro组件用的
-    coupon1: [
-      {
-        coupons_log_id: 880,
-        coupons_id: 936,
-        expiration: "2019-08-08 18:33:06",
-        coupons_name: "多美优惠券",
-        money: "100",
-        suppliername: "多美蛋糕店",
-        image: "http://oss.tdianyi.com/front/Bpn8iRjEmWid5yQJ8iWpNDrFNMJ8Ja6D.jpg",
-        coupons_type: 0,
-        confirm_time: "2018-12-10 15:07:43",
-        total_fee: 0
-      },
-      {
-      coupons_log_id: 880,
-      coupons_id: 936,
-      expiration: "2019-08-08 18:33:06",
-      coupons_name: "多美优惠券",
-      money: "100",
-      suppliername: "多美蛋糕店",
-      image: "http://oss.tdianyi.com/front/Bpn8iRjEmWid5yQJ8iWpNDrFNMJ8Ja6D.jpg",
-      coupons_type: 1,
-      confirm_time: "2018-12-10 15:07:43",
-      total_fee: 20
-    },
-    {
-      coupons_log_id: 877,
-      coupons_id: 936,
-      expiration: "2019-08-08 18:33:06",
-      coupons_name: "多美优惠券",
-      money: "100",
-      suppliername: "多美蛋糕店",
-      image: "http://oss.tdianyi.com/front/Bpn8iRjEmWid5yQJ8iWpNDrFNMJ8Ja6D.jpg",
-      coupons_type: 0,
-      confirm_time: "2018-12-10 15:08:03",
-      total_fee: 0
-    }],//4个tab的数据分开算
-    coupon2: [{
-      coupons_log_id: "",
-      coupons_id: "",
-      expiration: "",
-      coupons_name: "",
-      money: "",
-      suppliername: "",
-      image: "",
-      coupons_type: "",
-      confirm_time: "",
-      total_fee: ""
-    }],
-    coupon3: [{
-      coupons_log_id: "",
-      coupons_id: "",
-      expiration: "",
-      coupons_name: "",
-      money: "",
-      suppliername: "",
-      image: "",
-      coupons_type: "",
-      confirm_time: "",
-      total_fee: ""
-    }],
-    coupon4: [{
-      coupons_log_id: "",
-      coupons_id: "",
-      expiration: "",
-      coupons_name: "",
-      money: "",
-      suppliername: "",
-      image: "",
-      coupons_type: "",
-      confirm_time: "",
-      total_fee: ""
-    }],
+    coupon1 : [
+     { coupons_log_id: "",
+        coupons_id: "",
+        expiration: "",
+        coupons_name: "",
+        money: "",
+        suppliername: "",
+        image: "",
+        coupons_type: "",
+        confirm_time: "",
+        total_fee: "",}], // <this.couponType>
+    coupon2:[], // <this.couponType>
+    coupon3:[], // <this.couponType>
+    // coupon1: [
+    //   {
+    //     coupons_log_id: "",
+    //     coupons_id: "",
+    //     expiration: "",
+    //     coupons_name: "",
+    //     money: "",
+    //     suppliername: "",
+    //     image: "",
+    //     coupons_type: "",
+    //     confirm_time: "",
+    //     total_fee: "",
+    //   }
+    //  ],//4个tab的数据分开算
+    // coupon2: [{
+    //   coupons_log_id: 880,
+    //   coupons_id: 936,
+    //   expiration: "2019-08-08 18:33:06",
+    //   coupons_name: "多美优惠券",
+    //   money: 100.0000,
+    //   suppliername: "多美蛋糕店",
+    //   image: "http://oss.tdianyi.com/front/Bpn8iRjEmWid5yQJ8iWpNDrFNMJ8Ja6D.jpg",
+    //   coupons_type: 0,
+    //   confirm_time: "2018-12-10 15:07:43",
+    //   total_fee: 0
+    // }],
+    // coupon3: [{
+    //   coupons_log_id: "",
+    //   coupons_id: "",
+    //   expiration: "",
+    //   coupons_name: "",
+    //   money: "",
+    //   suppliername: "",
+    //   image: "",
+    //   coupons_type: "",
+    //   confirm_time: "",
+    //   total_fee: ""
+    // }],
+    // coupon4: [{
+    //   coupons_log_id: "",
+    //   coupons_id: "",
+    //   expiration: "",
+    //   coupons_name: "",
+    //   money: "",
+    //   suppliername: "",
+    //   image: "",
+    //   coupons_type: "",
+    //   confirm_time: "",
+    //   total_fee: ""
+    // }],
     page1: 1,
     page2: 0,
     page3: 0,
     page4: 0,
-    pages: [
-      { page: 1 },
-      { page: 0 },
-      { page: 0 },
-      { page: 0 }
-    ],
-    coupons: [
-      [{
-        coupons_log_id: "",
-        coupons_id: "",
-        expiration: "",
-        coupons_name: "",
-        money: "",
-        suppliername: "",
-        image: "",
-        coupons_type: "",
-        confirm_time: "",
-        total_fee: ""
-      }
-      ],//4个tab的数据分开算
-      [{
-        coupons_log_id: "",
-        coupons_id: "",
-        expiration: "",
-        coupons_name: "",
-        money: "",
-        suppliername: "",
-        image: "",
-        coupons_type: "",
-        confirm_time: "",
-        total_fee: ""
-      }],
-      [{
-        coupons_log_id: "",
-        coupons_id: "",
-        expiration: "",
-        coupons_name: "",
-        money: "",
-        suppliername: "",
-        image: "",
-        coupons_type: "",
-        confirm_time: "",
-        total_fee: ""
-      }],
-      [{
-        coupons_log_id: "",
-        coupons_id: "",
-        expiration: "",
-        coupons_name: "",
-        money: "",
-        suppliername: "",
-        image: "",
-        coupons_type: "",
-        confirm_time: "",
-        total_fee: ""
-      }],
-    ],
+    // pages: [
+    //   { page: 1 },
+    //   { page: 0 },
+    //   { page: 0 },
+    //   { page: 0 }
+    // ],
+    // coupons: [
+    //   [{
+    //     coupons_log_id: "",
+    //     coupons_id: "",
+    //     expiration: "",
+    //     coupons_name: "",
+    //     money: "",
+    //     suppliername: "",
+    //     image: "",
+    //     coupons_type: "",
+    //     confirm_time: "",
+    //     total_fee: ""
+    //   }
+    //   ],//4个tab的数据分开算
+    //   [{
+    //     coupons_log_id: "",
+    //     coupons_id: "",
+    //     expiration: "",
+    //     coupons_name: "",
+    //     money: "",
+    //     suppliername: "",
+    //     image: "",
+    //     coupons_type: "",
+    //     confirm_time: "",
+    //     total_fee: ""
+    //   }],
+    //   [{
+    //     coupons_log_id: "",
+    //     coupons_id: "",
+    //     expiration: "",
+    //     coupons_name: "",
+    //     money: "",
+    //     suppliername: "",
+    //     image: "",
+    //     coupons_type: "",
+    //     confirm_time: "",
+    //     total_fee: ""
+    //   }],
+    //   [{
+    //     coupons_log_id: "",
+    //     coupons_id: "",
+    //     expiration: "",
+    //     coupons_name: "",
+    //     money: "",
+    //     suppliername: "",
+    //     image: "",
+    //     coupons_type: "",
+    //     confirm_time: "",
+    //     total_fee: ""
+    //   }],
+    // ],
 
     loading: false
   };
 
-  handlerTabChange(current) {
-    this.setState({ current });
-  }
   componentWillMount() {
-    // this.getData1();
+    console.log("order--componentWillMount")
+    this.getData1();
   }
 
-  getData(_coupons_status, e) {
-    let temp0 = this.state.pages;
-    temp0[_coupons_status].page + 1;
-    this.setState({ loading: true, pages: temp0 });
-    request({
-      url: "v3/user/coupons",
-      data: {
-        coupons_status: _coupons_status,
-        page: temp0[_coupons_status].page
-      }
-    })
-      .then((res: any) => {
-        let temp = this.state.coupons[_coupons_status].concat(res);
-        let temp2 = this.state.coupons;
-        temp2[_coupons_status] = temp;
-        this.setState({ coupon: temp, coupons: temp2, loading: false })
-      })
-      .catch(() => this.setState({ loading: false }));
-  }
+  // getData(_coupons_status, e) {
+  //   let temp0 = this.state.pages;
+  //   temp0[_coupons_status].page + 1;
+  //   this.setState({ loading: true, pages: temp0 });
+  //   request({
+  //     url: "v3/user/coupons",
+  //     data: {
+  //       coupons_status: _coupons_status,
+  //       page: temp0[_coupons_status].page
+  //     }
+  //   })
+  //     .then((res: any) => {
+  //       let temp = this.state.coupons[_coupons_status].concat(res);
+  //       let temp2 = this.state.coupons;
+  //       temp2[_coupons_status] = temp;
+  //       this.setState({ coupon: temp, coupons: temp2, loading: false })
+  //     })
+  //     .catch(() => this.setState({ loading: false }));
+  // }
 
 
 
@@ -194,11 +212,15 @@ export default class Order extends Component {
     })
       .then((res: any) => {
         console.log(res)
+        console.log(this.state.coupon.length)
         let temp = this.state.coupon1.concat(res);
-        this.setState({ coupon: temp, coupon1: temp, loading: false })
+        console.log(temp.length)
+
+         this.setState({ coupon: temp, coupon1: temp, loading: false })
       })
       .catch(() => this.setState({ loading: false }));
   }
+
   getData2() {
     this.setState({ loading: true, page2: this.state.page2 + 1 });
     request({
@@ -248,26 +270,59 @@ export default class Order extends Component {
     this.setState({
       current: value
     })
+    console.log(this.state.coupon.length)
   }
 
   render() {
     const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }, { title: '已退款' }]
     return (
       <View className="order flex column">
+        {
+          this.state.coupon.length == 0 ?
+            <View>
+              {/* {
+                this.state.current == 0 ?
+                  <View className="msgBox">
+                    <View className="imgBox">
+                      <Image className="logo" src={img1} />
+                    </View>
+                    <View className="_msg">没有可使用的订单，快去逛逛吧！</View>
+                    <View className="toHome"
+                      onClick={() => {
+                        Taro.switchTab({
+                          url: '../../pages/index/index'
+                        })
+                      }}>去首页</View>
+                  </View> : (this.state.current == 1 ? <View className="msgBox">
+                    <View className="imgBox">
+                      <Image className="logo" src={img2} />
+                    </View>
+                    <View className="_msg">您还没有使用过的订单哦</View>
+                  </View> : (this.state.current == 2 ?
+                    <View className="msgBox">
+                      <View className="imgBox">
+                        <Image className="logo" src={img3} />
+                      </View>
+                      <View className="_msg">您还没有已过期的订单哦</View>
+                    </View> :
+                    <View className="msgBox">
+                      <View className="imgBox">
+                        <Image className="logo" src={img4} />
+                      </View>
+                      <View className="_msg">您还没有已退款的订单哦</View>
+                    </View>))
+              } */}11111111111111111111111111
+            </View> : ""
+        }
         <AtTabs current={this.state.current} tabList={tabList} onClick={this.handleClick0.bind(this)}>
           <AtTabsPane current={this.state.current} index={0} >
             <View className="tiket_box">
               {this.state.coupon1.map((item) => (
-                item.coupons_type == 1 ?
-                  <View
-                    // onClick={this.getData.bind(this, 1)
-                      // onClick={this.getData1.bind(this)
-                    >
-                    <CashCoupon2 bg_img_type={1} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} /></View> : ""
-
+                item.coupons_type.toString() == "1" ?
+                  <CashCoupon2 bg_img_type={1} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} /> : ""
               ))}
               {this.state.coupon1.map((item) => (
-                item.coupons_type == 0 ?
+                item.coupons_type.toString() == "0" ?
                   <CashCoupon1 bg_img_type={0} type={1} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} /> : ""
               ))}
               {/* <CashCoupon2 bg_img_type={1} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
@@ -283,7 +338,7 @@ export default class Order extends Component {
                   <CashCoupon2 bg_img_type={2} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} /> : ""
               ))}
               {this.state.coupon2.map((item) => (
-                item.coupons_type.toString()  == "0" ?
+                item.coupons_type.toString() == "0" ?
                   <CashCoupon1 bg_img_type={1} type={0} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} /> : ""
               ))}
             </View>
@@ -292,12 +347,12 @@ export default class Order extends Component {
             <View className="tiket_box">
               {/* <CashCoupon2 bg_img_type={0} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
               <CashCoupon1 bg_img_type={0} type={0} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" /> */}
-              {this.state.coupon2.map((item) => (
-                item.coupons_type.toString()  == "1" ?
+              {this.state.coupon3.map((item) => (
+                item.coupons_type.toString() == "1" ?
                   <CashCoupon2 bg_img_type={0} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} /> : ""
               ))}
-              {this.state.coupon2.map((item) => (
-                item.coupons_type.toString()  == "0" ?
+              {this.state.coupon3.map((item) => (
+                item.coupons_type.toString() == "0" ?
                   <CashCoupon1 bg_img_type={0} type={0} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} /> : ""
               ))}
             </View>
@@ -306,12 +361,12 @@ export default class Order extends Component {
             <View className="tiket_box">
               {/* <CashCoupon2 bg_img_type={1} _id="0" return_money="50" pay_money="150" youhui_type="1" timer="654564" sname="滴滴滴" list_brief="解放萨哈林岛" />
               <CashCoupon1 bg_img_type={0} type={2} _id="1" return_money="100" pay_money="20" youhui_type="1" timer="100" sname="ddddd" list_brief="解放萨哈林岛" _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" /> */}
-              {this.state.coupon2.map((item) => (
-                item.coupons_type.toString()  == "1" ?
+              {this.state.coupon4.map((item) => (
+                item.coupons_type.toString() == "1" ?
                   <CashCoupon2 bg_img_type={1} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} /> : ""
               ))}
-              {this.state.coupon2.map((item) => (
-                item.coupons_type.toString()  == "0" ?
+              {this.state.coupon4.map((item) => (
+                item.coupons_type.toString() == "0" ?
                   <CashCoupon1 bg_img_type={0} type={2} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} /> : ""
               ))}
             </View>

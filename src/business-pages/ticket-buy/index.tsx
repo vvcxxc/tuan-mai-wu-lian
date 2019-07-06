@@ -89,6 +89,11 @@ export default class PaySuccess extends Component {
       url: '../../business-pages/confirm-order/index?id=' + id
     })
   }
+  handleClick2 = (_id, e) => {
+		Taro.navigateTo({
+			url: '/pages/business/index?id=' + _id
+		})
+	};
   keepCollect(e) {
     //假接口，还没好
     // let _id = this.state.coupon.id;
@@ -113,12 +118,12 @@ export default class PaySuccess extends Component {
         <View className=" pd30 bcff">
           <View className="ticket-buy-view">
             {/* <Image className="image" src={this.state.coupon.icon} /> */}
-            {
+            {/* {
               this.state.keepCollect_bull ?
                 <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" />
                 :
                 <AtIcon className="image" value="star" color="#999" size="24px" onClick={this.keepCollect.bind(this)} />
-            }
+            } */}
 
             <View className="hd tit">{this.state.coupon.brief}</View>
             <View className="bd money">¥{this.state.coupon.return_money}</View>
@@ -132,9 +137,9 @@ export default class PaySuccess extends Component {
             </View>
           </View>
         </View>
-        <View className="shop mt20 pd30 bcff">
+        <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
           <View className="set-meal__tit">
-            <Text className="fwb">优惠信息</Text>
+            <Text className="fwb">适用店铺</Text>
           </View>
           <View className="flex center">
             <Image className="image" src={this.state.coupon.image} />
@@ -163,7 +168,7 @@ export default class PaySuccess extends Component {
             </View>
           </View>
         </View> */}
-        <View className="graphic-details bt20 pd30 bcff">
+        {/* <View className="graphic-details bt20 pd30 bcff">
           <View className="set-meal__tit">
             <Text className="fwb">图文详情</Text>
           </View>
@@ -173,8 +178,7 @@ export default class PaySuccess extends Component {
                 <Image className="image" src={item.image_url} />))
             }
           </View>
-          {/* <View className="ft-more flex center">查看更多<AtIcon value="chevron-right" color="#999" size="16px" /></View> */}
-        </View>
+        </View> */}
         <View className="examine-more mt20 pd30 bcff">
           <View className="set-meal__tit">
             <Text className="fwb">更多本店宝贝</Text>

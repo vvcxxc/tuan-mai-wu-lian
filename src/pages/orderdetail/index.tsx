@@ -2,7 +2,7 @@ import Taro, {   useState  , useEffect , DependencyList, navigateBack} from "@ta
 import { View , Text } from '@tarojs/components';
 
 import './style.scss'
-import { defaultData , handerExceedTimeLimit ,routeGo } from './unit'
+ import { defaultData , handerExceedTimeLimit ,routeGo } from './unit'
 import request from '../../services/request'
 import CashCoupon from "../../components/cash-coupon/index";
 import { BuyShouldKnow   } from './components/BuyShouldKnow'
@@ -27,7 +27,7 @@ function setTimeoutCallback(){
 }
 
 function Index () {
-    const { cuoPonsId   } = this.$router.params
+    const  cuoPonsId   = this.$router.params.id
     const [ dataInfo , setDataInfo ] = useState(Object.assign({},defaultData))
     const [ isApply, showApply ] = useState(false)
     let setTimeOut =setTimeoutCallback()
@@ -81,7 +81,7 @@ function Index () {
         }).then((res:any)=>{
             if(res.code===200){
                 Taro.showToast({ title: '退款成功' }) 
-                routeGo('/pages/order/orderdetail/refundProgress',cuoPonsId)  
+                routeGo('/pages/orderdetail/refundProgress',cuoPonsId)  
             }else{
                 handerApplyShow()
                 setTimeOut(()=>{
@@ -96,7 +96,6 @@ function Index () {
     return (
       <View className='index'>
         <View className='a_head' >
-
           <CashCoupon  cuoPonsId={cuoPonsId}  />
         </View>
         { /* 购买须知  */ }

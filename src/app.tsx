@@ -41,7 +41,7 @@ class App extends Component {
 	 */
 	config: Config = {
 		pages: [
-      'pages/auth/index',
+    //   'pages/auth/index',
 			'pages/index/index',
 			'pages/index/search/index',
 			'pages/my/index',

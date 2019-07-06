@@ -52,7 +52,7 @@ export default class ConfirmOrder extends Component {
 
   }
   addnum() {
-    if (this.state.amount < 99) {
+    if (this.state.amount < 10) {
       this.setState({ amount: Number(this.state.amount) + 1 })
     }
   }
@@ -167,7 +167,7 @@ export default class ConfirmOrder extends Component {
             <View className="flex center">
               <AtIcon value="subtract-circle" color={this.state.amount > 1 ? "#FF6654" : "#999"} onClick={this.cutnum.bind(this)} />
               <View className="amount" >{this.state.amount}</View>
-              <AtIcon value="add-circle" color={this.state.amount < 99 ? "#FF6654" : "#999"} onClick={this.addnum.bind(this)} />
+              <AtIcon value="add-circle" color={this.state.amount < 10 ? "#FF6654" : "#999"} onClick={this.addnum.bind(this)} />
             </View>
           </View>
         </View>
