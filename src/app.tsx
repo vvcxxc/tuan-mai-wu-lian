@@ -41,8 +41,8 @@ class App extends Component {
 	 */
 	config: Config = {
 		pages: [
-    //   'pages/auth/index',
-			'pages/index/index',
+      'pages/index/index',
+      'pages/auth/auth',
 			'pages/index/search/index',
 			'pages/my/index',
 			'pages/order/index',
@@ -56,15 +56,13 @@ class App extends Component {
       "pages/activity/pages/list/list",
 		],
 		subPackages: [
-			// {
-			// 	/**各种详情页面 比如商家详情页 */
-			// 	root: "detail-pages",
-			// 	pages: [
-			// 		'business/index',
-			// 		'set-meal/index',
-			// 		'ticket-buy/index'
-			// 	]
-			// },
+			{
+				/**各种详情页面 比如商家详情页 */
+				root: "detail-pages",
+				pages: [
+					'gift/gift'
+				]
+			},
 			{
 				/**其他业务页面 比如订单流程，礼物，物流 */
 				root: 'business-pages',
@@ -91,7 +89,11 @@ class App extends Component {
 					'group-booking/index',
 					'appreciation/index',
 					'appreciation/friend-help/index',
-					'group-booking/detail/index'
+          'group-booking/detail/index',
+          'my-activity/my.activity',
+          "my-welfare/pages/gift/welfare.gift",
+          'offline/order'
+
 				]
 			}
 		],

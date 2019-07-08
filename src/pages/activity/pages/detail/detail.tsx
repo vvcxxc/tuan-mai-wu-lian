@@ -62,7 +62,7 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
 
     const {list_brief, image  } = this.state.detail
     const { id = "1095",  activity_id, gift_id, type} = this.$router.params
-    
+
     return {
       title: `${userInfo.nickName}邀请您参加『${list_brief}』`,
       path: `/pages/activity/pages/detail/detail?id=${id}&type=${type}&activity_id=${activity_id}&gift_id=${gift_id}`,
@@ -83,7 +83,8 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
    * 用户动作处理
    */
   // @ts-ignore
-  handleAction(action: string, data: any): void {
+  handleAction = (action: string, data: any): void => {
+    console.log(this.fetchPayment)
     switch(action) {
       case ACTION_CHECKED:
         const { isChecked } = this.state
@@ -97,7 +98,7 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
       case ACTION_VIEW: {
         const { gift_id, activity_id } = this.state.giftBasicInfo
         Taro.navigateTo({
-          url: `/pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
+          url: `/detail-pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
         })
         break
       }

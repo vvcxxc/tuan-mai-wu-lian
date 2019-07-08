@@ -125,7 +125,7 @@ export default class Appreciation extends Component {
       case ACTION_VIEW:
         const { gift_id, activity_id } = this.state.basicinfo.userYonhuiInfo
         Taro.navigateTo({
-          url: `/pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
+          url: `/detail-pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
         })
         break
       case ACTION_APPRECIATION:

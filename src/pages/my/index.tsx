@@ -1,110 +1,85 @@
-import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image } from "@tarojs/components";
-import { AtList, AtListItem } from "taro-ui";
-import request from "src/services/request";
-import bg from "./bg.png";
-import icon1 from "./3.png";
-import icon2 from "./4.png";
-import icon3 from "./5.png";
-import icon4 from "./6.png";
-import "./index.styl";
+import Taro, { Component, Config } from "@tarojs/taro"
+import { Block, View, Image, Text, Navigator } from "@tarojs/components"
+import { cells } from "./data"
+import "./style.my.styl"
 
+interface Cell {
+  text: string;
+  icon: string;
+  path: string;
+}
 interface State {
+  cells: Cell[];
   userInfo: any;
 }
-
-export default class My extends Component<any, State> {
-  config = {
+export default class My extends Component {
+  config: Config = {
     navigationBarTitleText: "我的"
-  };
+  }
+  state: State = {
+    cells,
+    userInfo: {}
+  }
+  componentDidMount() {
+    this.handleGetUserinfo()
+    Taro.showShareMenu()
+  }
 
-  state = {
-    userInfo: {
-      user_name: "",
-      avatar: "",
-      order_msg: "",
-      collect_msg: "",
-      gift_msg: "",
-      activity_msg: ""
+  /**
+   * 获取用户信息
+   */
+  handleGetUserinfo = (): void => {
+    const { userInfo } = this.state
+    if (!userInfo.nickName) {
+      const userInfo = Taro.getStorageSync("userInfo")
+      if (userInfo) {
+        this.setState({
+          userInfo
+        })
+      } else {
+        const { toMiniProgramSign } = require("../../utils/sign")
+        toMiniProgramSign(process.env.BASIC_API)
+      }
     }
-  };
-
-  componentWillMount() {
-    this.getInfo();
   }
-
-  getInfo() {
-    Taro.showLoading();
-    request({ url: "v3/user/home_index" })
-      .then((res) => {
-        Taro.hideLoading();
-        this.setState({ userInfo: res });
-      })
-      .catch(Taro.hideLoading);
-  }
-  handleClick1 = (e) => {
-    Taro.switchTab({
-      url: '../order/index'
-    })
-  }
-  // handleClick2 = (e) => {
-  //   Taro.navigateTo({
-  //   })
-  // }
-  // handleClick3 = (e) => {
-  //   Taro.navigateTo({
-  //   })
-  // }
-  // handleClick4 = (e) => {
-  //   Taro.navigateTo({
-  //   })
-  // }
   render() {
+    const { cells, userInfo } = this.state
     return (
-      <View className="flex column center">
-        <Image src={bg} className="bg" />
-        <Image className="head-img" src={this.state.userInfo.avatar} />
-        <View className="name">{this.state.userInfo.user_name}</View>
-        <View className="meuns">
-          <AtList>
-            <AtListItem
-              title="我的订单"
-              arrow="right"
-              extraText={this.state.userInfo.order_msg}
-              thumb={icon1}
-              onClick={this.handleClick1.bind(this)}
-            />
-            <AtListItem
-              title="我的收藏"
-              arrow="right"
-              extraText={this.state.userInfo.collect_msg}
-              thumb={icon2}
-              onClick={() =>
-                Taro.navigateTo({ url: "/business-pages/stars/index" })
-              }
-            />
-            <AtListItem
-              title="我的礼品"
-              arrow="right"
-              extraText={this.state.userInfo.gift_msg}
-              thumb={icon3}
-              onClick={() =>
-                Taro.navigateTo({ url: "/business-pages/gift/index" })
-              }
-            />
-            <AtListItem
-              title="我参与的活动"
-              arrow="right"
-              extraText={this.state.userInfo.activity_msg}
-              thumb={icon4}
-            />
-          </AtList>
+      <Block>
+        <View className="my">
+          <View className="area-userinfo">
+            <View className="avatar">
+              <Image className="icon" src={userInfo.avatarUrl} />
+            </View>
+            <View className="description">
+              <Text className="text">{userInfo.nickName}</Text>
+            </View>
+          </View>
+          <View className="area-menu weui-cells weui-cells_after-title">
+            {
+              cells.map((item, index) => {
+                return (
+                  <Navigator
+                    key={index}
+                    url={item.path}
+                    openType={item.open_type}
+                    className="weui-cell weui-cell_access"
+                    hoverClass="weui-cell_active"
+                  >
+                    <View className="weui-cell__hd">
+                      <Image src={item.icon} style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" />
+                    </View>
+                    <View className="weui-cell__bd" style="font-size: 14px; padding-top: 7px; color: #333;">
+                      {item.text}
+                    </View>
+                    <View className="weui-cell__ft weui-cell__ft_in-access" />
+                  </Navigator>
+                )
+              })
+            }
+          </View>
         </View>
-        <View className="info">
-          <Text className="theme">客服电话：10101010</Text>
-          （服务时间：9：00~20：00）
-        </View>
-      </View>
-    );
+      </Block>
+    )
   }
 }

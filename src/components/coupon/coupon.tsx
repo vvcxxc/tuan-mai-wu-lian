@@ -32,7 +32,7 @@ export default class Coupon extends Component<CouponProp> {
   /**
    * 点击集中处理(这里会做下处理, 这些接口返回的数据都tm不一样, 做个屁, 我吃柠檬, 如: list页面用的是id(券id), 有些又用youhui_id)
    */
-  handleClick(e: any) {
+  handleClick = (e: any) => {
     const { action, type } = e.currentTarget.dataset
     const {
       data: { youhui_id, id, activity_id, gift_id }
