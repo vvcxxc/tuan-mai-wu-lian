@@ -17,33 +17,36 @@ export default class Merchant extends Component<Props> {
 		addGlobalClass: true
 	};
 	state: {
-		showLine: false
+		showLine: false,
+		num:1
 	}
 	componentDidMount() {
-		// console.log(this.props.merchant)
 	}
+
 	heightChange = () => {
 		this.setState({ showLine: !this.state.showLine })
 	}
 
 	styleControl = () => {
 		const that = this.props.merchant
-		if (
-			that.exchange_coupon_name === null &&
-			that.gift_coupon_name === null &&
-			that.gift_name === null
-		) return false
-		return true
+		if (this.props.merchant) {
+			if (
+				that.exchange_coupon_name ===null &&
+				that.gift_coupon_name === null &&
+				that.gift_name === null) {
+				return false
+			} 
+			return true
+		}
 	}
 
-	// handleTap = () => this.props.onClick(this.props.merchant.id);
 
 	handleClick = (_id, e) => {
 		Taro.navigateTo({
 			url: '/detail-pages/business/index?id=' + _id
 		})
 	};
-	// 三元判断函数
+
 	judgeData = (value1) => {
 		return typeof (value1) === 'string' ? (value1.length > 1 ? '' : 'none') : 'none'
 	}
@@ -105,6 +108,7 @@ export default class Merchant extends Component<Props> {
 						<View className="icon" style="background: #5dd8a5">惠</View>
 						<View className="title item ellipsis-one">
 							{that.exchange_coupon_name}
+							
 						</View>
 					</View>
 					<View className="more flex center" onClick={this.heightChange} style={

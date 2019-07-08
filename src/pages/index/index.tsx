@@ -1,15 +1,35 @@
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Swiper, SwiperItem, Input, Image } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+import { AtIcon,AtButton } from 'taro-ui';
 import './index.styl';
 import Tabs from '../../components/tabs';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
 import ActivityList from './activity-list';
-import { Current } from 'dist/npm/@tarojs/taro/dist';
-// import { set as setGlobalData, get as getGlobalData } from '../../../defienGlobal'
+import { connect } from '@tarojs/redux'
+// import { ComponentClass } from 'react'
 
-export default class Index extends Component {
+@connect(
+	state => ({
+		serchName: state.search.get('serchName'),
+	}),
+	dispatch => ({
+		getDataList(payload: any): void {
+			dispatch({
+				type: 'search/getDataList',
+				payload,
+			})
+		},
+		onIncrement(): void {
+			dispatch({
+				type: 'search/searchname',
+				// payload: { serchName:'44343242'}
+			})
+		},
+	})
+)
+	
+export default class Index extends Component<any> {
 	/**
 	 * 指定config的类型声明为: Taro.Config
 	 *
@@ -35,17 +55,32 @@ export default class Index extends Component {
 		super(props);
 	}
 
+	/* 
+		刚开始打开首页的时候， 获取一次定位 然后渲染数据  
+		然后就只能通过
+	*/
+
 	componentWillMount() {
 		this.showLoading();
 		this.requestTab(); //经营列表
 		this.requestAllCity(); //获取全国各地列表
 		this.getLocation();//经纬度
-	
+		if (this.$router.params.locationsY || this.$router.params.locationsX) {
+			this.setState(
+				{ locations: { longitude: this.$router.params.locationsX, latitude: this.$router.params.locationsY } },
+				() => {
+					console.log(this.state.locations ,'uiiuiu')
+				}
+			)
+		}
 	}
 
 	componentDidMount() {
+		console.log(this.props.serchName,'这里是')
+		// console.log(store.getState())
 	}
 
+	
 
 	// show loading
 	showLoading = () => {
@@ -79,7 +114,7 @@ export default class Index extends Component {
 			})
 	}
 
-	// get AllCity
+	// 获取所有城市  只获取一次 本地存储之后， 就再也不获取了
 	requestAllCity = () => {
 		request({ url: 'v3/district', data: { model_type: '2' } })
 			.then((res: any) => {
@@ -88,11 +123,11 @@ export default class Index extends Component {
 	}
 
 
-	// 微信自带监听 滑动事件
+	// 自带 下拉事件
 	onPullDownRefresh = () => {
 		this.requestHomeList()
 	}
-	// 触底事件
+	// 自带 触底事件
 	onReachBottom = () => {
 		this.showLoading()
 		this.setState({page:this.state.page+1})
@@ -123,22 +158,16 @@ export default class Index extends Component {
 			})
 	}
 
-	// router  搜索
-	handleSearch = () => Taro.navigateTo({ url: './search/index' });
-	// router city-search
-	showSelectCity = () => Taro.navigateTo({ url: '/business-pages/select-city/index' });
+
 
 	handleActivityClick = () => { };
 
 	// 首页数据 初始渲染
 	requestHomeList = () => {
-		if (this.$router.params.id) {
-			return
-		}
-		let that = this.state.locations
+		if (this.$router.params.id) return
 		request({
 			url: 'v3/stores',
-			data: { xpoint: that.longitude, ypoint: that.latitude }
+			data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
 		})
 			.then((res: any) => {
 				Taro.stopPullDownRefresh()
@@ -150,7 +179,7 @@ export default class Index extends Component {
 			})
 	}
 
-	// title 点击渲染
+	// 首页标题  点击然后筛选数据
 	tabChange = (id: string) => {
 		this.showLoading()
 		if (id === 'all') {
@@ -168,7 +197,8 @@ export default class Index extends Component {
 			})
 	};
 
-	// 搜索触发渲染
+
+	// 选中城市列表 使用城市id去查数据
 	searChange = () => {
 		if (!this.$router.params.id) {
 			return
@@ -184,15 +214,50 @@ export default class Index extends Component {
 			})
 	}
 
+	// 跳转 搜索商家列表页面
+	handleSearch = () => Taro.navigateTo({ url: './search/index' });
+	// 跳转 搜素城市页面
+	showSelectCity = () => Taro.navigateTo({ url: '/business-pages/select-city/index' });
 
+/* 
+	刚开始的时候 获取一次经纬度  
+	后面获取位置 就只能通过 点击定位的页面传位置过来 包括（重新定位 或者是点 城市名字 城市id）
+
+	这里 给获取定位页面一个固定的 搜索和点击一个假的城市名字都给 keyName   
+	重新获取定位 给经纬度 还是名字
+	然后点全国列表  这里是传城市id
+
+	需要改变 首页上面的城市显示的名字   
+
+	限制 ： 从定位页面过来之后  首页如果刷新的话， 就再也不能重新获取经纬度  想要改变， 唯一的方法就是再去定位页面
+
+	第二部分， 首页页面数据刷新的 时候， 餐饮 ， 全部那些选项怎么说
+
+*/
+	
+	cesi = () => {
+		// this.props.dispatch({
+		// 	type: 'search/searchname',
+		// 	payload: {
+		// 		serarch : 333333333
+		// 	}
+		// })
+		this.props.onIncrement
+
+		setTimeout(() => {
+			console.log(this.props.serchName,'1')
+		}, 1000);
+		}
 	render() {
 		return (
 			<View className="index">
 				<View className="head">
+					{/* <button onClick={this.props.onIncrement}>按钮{console.log(this.props.serchName)}</button> */}
+					<AtButton onClick={this.props.onIncrement} size='small'> 3 {this.props.serchName}333</AtButton>
+					<AtButton onClick={this.cesi.bind(this)} size='small'> + {this.props.serchName}333</AtButton>
 					<View className="search">
 						<View className="flex center container">
 							<View className="city" onClick={this.showSelectCity}>
-								{/* 广州 */}
 								{this.state.cityName}
 							</View>
 							<AtIcon
@@ -209,29 +274,36 @@ export default class Index extends Component {
 							</View>
 						</View>
 					</View>
-					<Swiper
+					{/* <Swiper
 						className="swiper"
 						indicatorColor="#999"
 						indicatorActiveColor="#333"
 						circular
 						indicatorDots
 						autoplay
-					>
-						<SwiperItem>
+					> */}
+						{/* <SwiperItem> */}
 							<View className="swiper">
 								<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} className="image" />
 							</View>
-						</SwiperItem>
-					</Swiper>
+						{/* </SwiperItem> */}
+					{/* </Swiper> */}
 				</View>
-				<View className="menus flex">
-					<View className="item">
-						<Image mode="widthFix" className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"} />
+				{/* flex */}
+				{/* <View className="menus" style="overflow:hidden"> */}
+					{/* <View className="item"> */}
+						 {/* mode="widthFix" */}
+						{/* <Image className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"} /> */}
+					{/* </View> */}
+					{/* <View className="item"> */}
+						{/* mode="widthFix" */}
+						{/* <Image  className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"} /> */}
+					{/* </View> */}
+				<View  className="advert">
+						<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"}></Image>
+						<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"}></Image>
 					</View>
-					<View className="item">
-						<Image mode="widthFix" className="img" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"} />
-					</View>
-				</View>
+				{/* </View> */}
 				<Tabs list={this.state.titleList} onChange={this.tabChange} />
 				<ActivityList list={this.state.storeList} onClick={this.handleActivityClick} />
 			</View>
