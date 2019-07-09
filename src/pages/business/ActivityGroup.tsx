@@ -47,7 +47,7 @@ export default class ActivityGroupComponent extends Component<Props> {
     render() {
         return (
             <View >
-                <View className="merchant-details__tit" style={{ fontSize: "19px" ,paddingLeft:"20px"}}>
+                <View className="merchant-details__tit" style={{ fontSize: "19px", paddingLeft: "20px" }}>
                     <Text className="mark" style={{
                         fontSize: " 10px",
                         color: "#fff",
@@ -56,12 +56,12 @@ export default class ActivityGroupComponent extends Component<Props> {
                         borderRadius: " 2px",
                         marginRight: "10px"
                     }}>礼</Text>
-                    <Text className="fwb" style={{fontWeight: "bold"}}>拼团送豪礼</Text>
+                    <Text className="fwb" style={{ fontWeight: "bold" }}>拼团送豪礼</Text>
                 </View>
                 {/* 拼团活动 */}
                 {
                     this.state.activity_group_bull ? this.state.activity_group.map((item) => (
-                        <View className="group-purchase bcfff">
+                        <View className="group-purchase bcfff" key={item.name}>
                             <View style={{ height: "5px" }}></View>
                             <View className="hd">
                                 {/* <View className="merchant-details__tit">
@@ -125,13 +125,20 @@ export default class ActivityGroupComponent extends Component<Props> {
                             </View>
                         </View>
                 }
-                <View className="ft-more flex center" style={{ textAlign: "center", margin: "0", width: "100%", background: "#fff" }}
-                    onClick={() => { this.setState({ activity_group_bull: !this.state.activity_group_bull }); }}>
-                    {this.state.activity_group_bull ? "收回" : "查看更多"}
-                    {this.state.activity_group_bull ?
-                        <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />}</View>
+                {
+                    this.state.activity_group.length != 1 ?
+                        <View className="ft-more flex center" style={{ textAlign: "center", margin: "0", width: "100%", background: "#fff" }}
+                            onClick={() => { this.setState({ activity_group_bull: !this.state.activity_group_bull }); }}>
+                            {this.state.activity_group_bull ? "收回" : "查看更多"}
+                            {this.state.activity_group_bull ?
+                                <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />}
+                        </View>
+                        : ""
+                }
                 <hr />
             </View>
+
+
         );
     }
 }

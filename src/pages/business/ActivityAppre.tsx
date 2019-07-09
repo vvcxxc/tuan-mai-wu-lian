@@ -43,7 +43,8 @@ export default class ActivityAppreComponent extends Component<Props> {
     render() {
         return (
             <View>
-                <View className="merchant-details__tit" style={{ fontSize: "19px" ,paddingLeft:"20px"}}>
+                <View style={{ height: "10px" }}></View>
+                <View className="merchant-details__tit" style={{ fontSize: "19px", paddingLeft: "20px" }}>
                     <Text className="mark" style={{
                         fontSize: " 10px",
                         color: "#fff",
@@ -52,12 +53,12 @@ export default class ActivityAppreComponent extends Component<Props> {
                         borderRadius: " 2px",
                         marginRight: "10px"
                     }}>增</Text>
-                    <Text className="fwb" style={{fontWeight: "bold"}}>增值低价买</Text>
+                    <Text className="fwb" style={{ fontWeight: "bold" }}>增值低价买</Text>
                 </View>
                 {/* 增值活动 */}
                 {
                     this.state.activity_appre_bull ? this.state.activity_appre.map((item) => (
-                        <View className="group-purchase bcfff">
+                        <View className="group-purchase bcfff" key={item.name}>
                             <View style={{ height: "5px" }}></View>
                             <View className="hd">
                                 {/* <View className="merchant-details__tit">
@@ -133,11 +134,16 @@ export default class ActivityAppreComponent extends Component<Props> {
                         </View>
                 }
 
-                <View className="ft-more flex center"
-                    style={{ textAlign: "center", margin: "0", width: "100%", background: "#fff" }}
-                    onClick={() => { this.setState({ activity_appre_bull: !this.state.activity_appre_bull }) }}
-                >{this.state.activity_appre_bull ? "收回" : "查看更多"}
-                    {this.state.activity_appre_bull ? <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />}</View>
+                {
+                    this.state.activity_appre.length != 1 ?
+                        <View className="ft-more flex center"
+                            style={{ textAlign: "center", margin: "0", width: "100%", background: "#fff" }}
+                            onClick={() => { this.setState({ activity_appre_bull: !this.state.activity_appre_bull }) }}
+                        >{this.state.activity_appre_bull ? "收回" : "查看更多"}
+                            {this.state.activity_appre_bull ? <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />}
+                        </View>
+                        : ""
+                }
                 <View style={{ height: "10px" }}></View>
                 <hr />
             </View>

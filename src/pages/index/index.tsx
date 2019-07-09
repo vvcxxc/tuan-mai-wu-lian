@@ -47,12 +47,6 @@ export default class Index extends Component {
 	}
 
 	componentDidMount() {
-		this.getToken();
-	}
-	getToken() {
-		request({
-			url: 'api/wap/testLogin'
-		}).then((res: any) => Taro.setStorageSync('token', res.token));
 	}
 
 	// show loading
@@ -69,7 +63,7 @@ export default class Index extends Component {
 		Taro.getLocation({ type: 'wgs84' }).then(res => {
 			this.setState({ locations: res }, () => {
 				console.log(res)
-				
+
 				this.getCity();
 				this.requestHomeList();
 				this.searChange();

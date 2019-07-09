@@ -3,5 +3,9 @@
  */
 export const tabbar = [
   "/pages/my/index",
-  "/pages/activity/index"
+  "/pages/order/index",
+  "/pages/merchant/index",
+  "/pages/activity/index",
+  "/pages/index/index",
+
 ]

@@ -1,5 +1,13 @@
 import Taro, { RequestParams } from "@tarojs/taro";
-
+import {
+  FETCH_BAD,
+  FETCH_OK,
+  SERVER_ERROR,
+  NOT_FIND,
+  NOT_SIGN
+} from "@/utils/constants";
+import { toMiniProgramSign } from "@/utils/sign";
+const BASIC_API = process.env.BASIC_API;
 interface Options extends RequestParams {
   /**替换的主机域名 */
   host?: string;
@@ -33,9 +41,45 @@ export default function request(options: Options) {
       ? options.host + options.url
       : host + options.url;
     /**统一请求 */
-    options.success = (res) => resolve(res.data.data);
-    options.fail = (res) => reject(res);
-    Taro.request(options);
+    // options.success = (res) => resolve(res.data.data);
+    // options.fail = (res) => reject(res);
+    Taro.request({
+      ...options,
+      success (res){
+        const { statusCode, data } = res;
+        switch (statusCode) {
+          case SERVER_ERROR:
+            Taro.showToast({
+              title: 'server error :d',
+              icon: 'none'
+            })
+            break
+          case FETCH_OK:
+            return resolve(res.data.data)
+          case FETCH_BAD:
+            Taro.showToast({
+              title: data.message || "bad request",
+              icon: "none"
+            })
+            break
+          case NOT_SIGN:
+            toMiniProgramSign(BASIC_API)
+            return reject(new Error('--- no sign ---'))
+          case NOT_FIND:
+              Taro.showToast({
+                title: "not find",
+                icon: "none"
+              })
+              break
+          default:
+            Taro.showToast({
+              title: "unknow error",
+              icon: "none"
+            })
+            break
+        }
+      }
+    });
   });
 
 }
