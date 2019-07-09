@@ -46,7 +46,7 @@ export default class PaySuccess extends Component {
       saddress: "",
       sname: "",
       tel: "",
-      // distance:""
+      distance: ""
     },
     goods_album: [
       {
@@ -80,7 +80,9 @@ export default class PaySuccess extends Component {
         yPoint: res.latitude,
         xPoint: res.longitude
       }, () => {
-        request({ url: 'v3/discount_coupons/' + this.$router.params.id })
+        request({
+          url: 'v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint }
+        })
           .then((res: any) => {
             console.log(res);
             this.setState({
@@ -188,7 +190,7 @@ export default class PaySuccess extends Component {
             <View style={{ width: "10%" }}>
               <Image className="address-image" src={AddressImg} />
             </View>
-            {/* <View className="distance">2.6m</View> */}
+            <View className="distance">{this.state.store.distance}</View>
             <View className="text flex-item" style={{ width: "80%" }}>{this.state.store.saddress}</View>
             <View style={{ width: "10%" }}>
               <Image className="mobile-image" src={MobileImg} />

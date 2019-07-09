@@ -1,7 +1,7 @@
 import Taro, {   useEffect  , useState } from "@tarojs/taro";
 import { View , Text } from '@tarojs/components';
 
-import request from '../../../services/request'
+import request from '../../services/request'
 import './style.scss'
 
 function Index (){
@@ -22,9 +22,10 @@ function Index (){
             url: "v3/user/coupons/refund/schedule",
             data: { coupons_log_id : id },
         }).then((res:any)=>{
-           if(res.code===200){
-               res.data && setData( Object.assign({},defaultData,res.data) )
-           }
+           
+               console.log(res)
+               setData( Object.assign({},defaultData,res) )
+           
         }).catch(()=>{
            Taro.showToast({ title:'加载失败',icon:'none' })
            timer = setTimeout(()=>{ Taro.navigateBack()  },2000)

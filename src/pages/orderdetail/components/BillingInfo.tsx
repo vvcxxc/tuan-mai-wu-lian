@@ -45,7 +45,7 @@ export function BillingInfo (props:billingInfoProps){
                 status*1 === 3 ? 
                 <View   className='a_billingInfo' >
                  <Text>退款时间:</Text><Text style={{ marginLeft:'48rpx' }}  >{refund_time}</Text>
-                 <Text className='a_returnState' onClick={()=>{  routeGo('/pages/orderdetail/refundProgress',cuoPonsId) }}  >退款进度</Text>
+                 <Text className='a_returnState' onClick={()=>{  routeGo('/pages/orderdetail/refundProgress'  ,cuoPonsId ) }}  >退款进度</Text>
                 </View>  :null
               }
           </View>    

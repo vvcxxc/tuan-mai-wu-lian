@@ -46,7 +46,7 @@ export default class PaySuccess extends Component {
       saddress: "",
       sname: "",
       tel: "",
-      // distance:""
+      distance:""
     },
     goods_album: [
       {
@@ -80,8 +80,7 @@ export default class PaySuccess extends Component {
         xPoint: res.longitude
       }, () => {
         request({
-          url: '/v3/discount_coupons/' + this.$router.params.id
-          // , method: "GET", data: { xPoint: this.state.xPoint, yPoint: this.state.yPoint } 
+          url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint }
         })
           .then((res: any) => {
             console.log(res);
@@ -129,8 +128,8 @@ export default class PaySuccess extends Component {
     return (
       <View className="set-meal">
         {
-          this.state.keepCollect_bull ? 
-          <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
+          this.state.keepCollect_bull ?
+            <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
         }
         <View className=" pd30 bcff">
           <View className="ticket-buy-view">
@@ -168,7 +167,7 @@ export default class PaySuccess extends Component {
           </View>
           <View className="address-view flex center">
             <Image className="address-image" src={AddressImg} />
-            {/* <View className="distance">{this.state.2.6km}</View> */}
+            <View className="distance">{this.state.store.distance}</View>
             <View className="text flex-item">{this.state.store.saddress}</View>
             <Image className="mobile-image" src={MobileImg} />
           </View>

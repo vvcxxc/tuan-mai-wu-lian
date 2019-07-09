@@ -22,9 +22,9 @@ export function BuyShouldKnow (props:shouldKnowProps){
     const [ isMore , showMore  ] = useState( description.length > 4 ? false : true )
     let showDes = [...description]
 
-    function handerShowMore(){
-        showMore(!isMore)
-    }
+    // function handerShowMore(){
+    //     showMore(!isMore)
+    // }
    
     if(!isMore) showDes=[...description].slice(0,4) 
     return <View className='a_buyBox' >
@@ -38,7 +38,7 @@ export function BuyShouldKnow (props:shouldKnowProps){
              {
                showDes.map((item:string,i:number)=> <View key={i} className='a_item' > · {item} </View>)       
              }          
-             <View className='a_last'  onClick={handerShowMore}  > { isMore ? '收起更多' : '查看更多' } </View> 
+             {/* <View className='a_last'  onClick={handerShowMore}  > { isMore ? '收起更多' : '查看更多' } </View>  */}
            </View>
 }
 

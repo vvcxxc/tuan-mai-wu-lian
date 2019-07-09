@@ -15,6 +15,9 @@ interface Props {
   bg_img_type: any
 }
 
+
+// bg_img_type: 0为灰色，1为蓝色,2为灰色已使用
+
 /**现金优惠券 */
 export default class CashCoupon extends Component<Props> {
   state = {};

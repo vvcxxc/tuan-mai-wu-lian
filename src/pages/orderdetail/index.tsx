@@ -2,19 +2,22 @@ import Taro, { useState, useEffect, DependencyList, navigateBack } from "@tarojs
 import { View, Text } from '@tarojs/components';
 
 import './style.scss'
-import { defaultData, handerExceedTimeLimit, routeGo } from './unit'
+import { defaultYouhuiImg, defaultData, handerExceedTimeLimit, routeGo } from './unit'
 import request from '../../services/request'
-import CashCoupon from "../../components/cash-coupon/index";
 import { BuyShouldKnow } from './components/BuyShouldKnow'
 import { BillingInfo } from './components/BillingInfo'
 import { SuitStore } from './components/SuitStore'
 import SanCode from './components/sanCode'
-
+import CashCoupon1 from "../order/cash-coupon1/index";
+import CashCoupon2 from "../order/cash-coupon2/index";
+import component from "dist/npm/taro-ui/dist/weapp/common/component";
 function useAsyncEffect(cb: Function, dep: DependencyList) {
   useEffect(() => {
     cb()
   }, dep)
 }
+
+
 
 function setTimeoutCallback() {
   let timer: any
@@ -26,39 +29,53 @@ function setTimeoutCallback() {
   }
 }
 
+
+
+
+
 function Index() {
-  console.log(this.$router)
+ 
+  // console.log(this.$router)
   const cuoPonsId = this.$router.params.id
   const [dataInfo, setDataInfo] = useState(Object.assign({}, defaultData))
+  const [youhuiurl, setYouhuiurl] = useState(Object.assign({}, defaultYouhuiImg))
   const [isApply, showApply] = useState(false)
   let setTimeOut = setTimeoutCallback()
   const {
-    description,
-    begin_time,
-    end_time,
-    youhui_sn,
-    expiration,
-    tel,
-    money,
-    create_time,
-    refund_time,
-    confirm_time,
+    description, //["仅限本店使用"]
+    begin_time,//"2019-01-07 00:00:00"
+    end_time, //"2019-01-15 00:00:00"
+    youhui_sn,// youhui_sn
+    expiration, //过期时间	
+    tel, //"13026875303"
+    money, //100
+    create_time, // 付款时间
+    refund_time, //退款时间
+    confirm_time, //确认使用时间
     status, // 1未使用 2已使用 3已退款
-    distance,
-    capita,
+    distance,//距离
+    capita,//人均费用多少
     coupons_type,//券类型 0 兑换券 1 现金券
-    location_address,
-    store_name,
-    image,
+    location_address,//店铺地址
+    store_name,//店铺名称
+    image,//券图片
+    coupons_name,//优惠券名称
+    total_fee,
+    supplier_id
   } = dataInfo
+  const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
+    console.log(_Imgurl);
     if (coupons_type * 1 === 0) { //兑换券获取兑换码
       request({
         url: 'api/wap/coupon/showCode',
         data: { coupons_log_id: cuoPonsId },
       })
         .then((res: any) => {
-          console.log(res)
+          // console.log(res);
+          let youhuiurl_temp = { _Imgurl: res };
+          // console.log(youhuiurl_temp);
+          setYouhuiurl(Object.assign({}, youhuiurl, youhuiurl_temp))
         })
     }
     request({
@@ -66,7 +83,8 @@ function Index() {
       data: { coupons_log_id: cuoPonsId, xpoint: '', ypoint: '' }
     })
       .then((res: any) => {
-        res.data && setDataInfo(Object.assign({}, dataInfo, res.data))
+        console.log(res)
+        setDataInfo(Object.assign({}, dataInfo, res));
       })
       .catch(() => {
         Taro.showToast({ title: '数据请求失败', icon: 'none' })
@@ -98,9 +116,13 @@ function Index() {
     })
   }
   return (
-    <View className='index'>
+    <View className='index' > 
       <View className='a_head' >
-        <CashCoupon cuoPonsId={cuoPonsId} />
+        {
+          coupons_type == 1 ?
+            <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} _id={cuoPonsId} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} /> :
+            <CashCoupon1 bg_img_type={status == "2" ? 1 : 0} type={0} _id={cuoPonsId} return_money={money} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} _image={image}  clickcode={null}/>
+        }
       </View>
       { /* 购买须知  */}
       {
@@ -114,12 +136,22 @@ function Index() {
         coupons_type * 1 === 0 ?
           <View  >
             <View className='a_buyBox'  >
-              <View className='a_one' >扫码/输入验证</View>
-              <View className='a_sanCodeBox' >
+
+              <View className='a_one' >扫码/输入验证
+                <View className='a_state' >
+                  {
+                    status == "2" ? "已使用" : (status == "3" ? "已退款" : (status == "4" ? "已过期" : ""))
+                    // 1未使用 2已使用 3已退款}</View></View>
+                  }
+                </View>
+              </View>
+
+              <View className='a_sanCodeBox' style={{ opacity: status == "1" ? 1 : 0.3 }}>
                 <View className='a_sancodeLast' >
                   <Text style={{ letterSpacing: '10rpx' }} >订单号:</Text>
                 </View>
-                <SanCode code={youhui_sn} url={null} />
+                <SanCode code={youhui_sn} url={_Imgurl} status={status} />
+                {/* <View>{_Imgurl}</View> */}
               </View>
             </View>
           </View>
@@ -131,7 +163,7 @@ function Index() {
       </View>
       { /* 适用商铺  */}
       <View className='z_billingInfo' >
-        <SuitStore suitStoreProps={{ distance, location_address, store_name, capita, image }} />
+        <SuitStore suitStoreProps={{ distance, location_address, store_name, capita, image,supplier_id }} />
       </View>
       { /* 申请退款 */}
       {
