@@ -162,10 +162,7 @@ export default class Order extends Component {
       }
     })
       .then((res: any) => {
-        console.log(res)
-        console.log(this.state.coupon.length)
         let temp = this.state.coupon1.concat(res);
-        console.log(temp.length)
 
         this.setState({ coupon: temp, coupon1: temp, loading: false })
       })
