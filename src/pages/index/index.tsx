@@ -6,10 +6,6 @@ import Tabs from '../../components/tabs';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
 import ActivityList from './activity-list';
-<<<<<<< HEAD
-
-=======
->>>>>>> 5a23b7310c17e26089ba561439c159f3bba978d5
 // import { set as setGlobalData, get as getGlobalData } from '../../../defienGlobal'
 
 export default class Index extends Component {
@@ -94,11 +90,8 @@ export default class Index extends Component {
 	// 微信自带监听 滑动事件
 	onPullDownRefresh = () => {
 		this.requestHomeList()
-<<<<<<< HEAD
 		// console.log('测试')
 
-=======
->>>>>>> 5a23b7310c17e26089ba561439c159f3bba978d5
 	}
 	// 触底事件
 	onReachBottom = () => {
