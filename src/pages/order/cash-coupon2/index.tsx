@@ -1,6 +1,5 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
-// import secondaryActiveBg from "./secondary-avitve-bg.png";
 
 import "./index.styl";
 
@@ -28,7 +27,7 @@ export default class CashCoupon extends Component<Props> {
   handleClick = (_id, e) => {
     Taro.navigateTo({
       // url: '/pages/orderdetail/index?couponType="1"&ticketColor='+this.props.bg_img_type+'&ticketUsed=' + this.props.bg_img_type
-      url: '/pages/orderdetail/index?id='+_id
+      url: '/detail-pages/orderdetail/index?id='+_id
 
     })
   }

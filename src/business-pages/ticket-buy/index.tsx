@@ -46,7 +46,7 @@ export default class PaySuccess extends Component {
       saddress: "",
       sname: "",
       tel: "",
-      distance:""
+      distance: ""
     },
     goods_album: [
       {
@@ -83,7 +83,6 @@ export default class PaySuccess extends Component {
           url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint }
         })
           .then((res: any) => {
-            console.log(res);
             this.setState({
               coupon: res.info.coupon,
               store: res.info.store,
@@ -191,7 +190,9 @@ export default class PaySuccess extends Component {
           <View>
             {
               this.state.goods_album.map((item) => (
+                <View key={item.id}>
                 <Image className="image" src={item.image_url} />))
+                </View>
             }
           </View>
         </View> */}
@@ -201,7 +202,10 @@ export default class PaySuccess extends Component {
           </View>
           {
             this.state.recommend.map((item) => (
-              <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} />))
+              <View key={item.id}>
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} />
+              </View>
+            ))
           }
 
         </View>

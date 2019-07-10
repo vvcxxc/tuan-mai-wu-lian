@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, DependencyList, navigateBack } from "@tarojs/taro";
+import Taro, { useState, useEffect, DependencyList } from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
 
 import './style.scss'
@@ -8,9 +8,8 @@ import { BuyShouldKnow } from './components/BuyShouldKnow'
 import { BillingInfo } from './components/BillingInfo'
 import { SuitStore } from './components/SuitStore'
 import SanCode from './components/sanCode'
-import CashCoupon1 from "../order/cash-coupon1/index";
-import CashCoupon2 from "../order/cash-coupon2/index";
-import component from "dist/npm/taro-ui/dist/weapp/common/component";
+import CashCoupon1 from "@/pages/order/cash-coupon1/index";
+import CashCoupon2 from "@/pages/order/cash-coupon2/index";
 function useAsyncEffect(cb: Function, dep: DependencyList) {
   useEffect(() => {
     cb()
@@ -34,7 +33,7 @@ function setTimeoutCallback() {
 
 
 function Index() {
- 
+
   // console.log(this.$router)
   const cuoPonsId = this.$router.params.id
   const [dataInfo, setDataInfo] = useState(Object.assign({}, defaultData))
@@ -46,7 +45,7 @@ function Index() {
     begin_time,//"2019-01-07 00:00:00"
     end_time, //"2019-01-15 00:00:00"
     youhui_sn,// youhui_sn
-    expiration, //过期时间	
+    expiration, //过期时间
     tel, //"13026875303"
     money, //100
     create_time, // 付款时间
@@ -65,7 +64,6 @@ function Index() {
   } = dataInfo
   const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
-    console.log(_Imgurl);
     if (coupons_type * 1 === 0) { //兑换券获取兑换码
       request({
         url: 'api/wap/coupon/showCode',
@@ -83,7 +81,6 @@ function Index() {
       data: { coupons_log_id: cuoPonsId, xpoint: '', ypoint: '' }
     })
       .then((res: any) => {
-        console.log(res)
         setDataInfo(Object.assign({}, dataInfo, res));
       })
       .catch(() => {
@@ -116,7 +113,7 @@ function Index() {
     })
   }
   return (
-    <View className='index' > 
+    <View className='index' >
       <View className='a_head' >
         {
           coupons_type == 1 ?
@@ -195,4 +192,4 @@ Index.config = {
   navigationBarTitleText: '订单详情',
 }
 
-export default Index 
+export default Index

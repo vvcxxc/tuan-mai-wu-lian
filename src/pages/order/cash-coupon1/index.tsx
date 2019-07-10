@@ -28,19 +28,15 @@ export default class CashCoupon extends Component<Props> {
     addGlobalClass: true
   };
   handleClick = (_id, e) => {
-    // console.log(e.target)
     Taro.navigateTo({
-      url: '/pages/orderdetail/index?id=' + _id
+      url: '/detail-pages/orderdetail/index?id=' + _id
     })
   }
   useNow = (_id, e) => {
-    console.log("儿子" + _id)
     this.props.clickcode(this.props._id);
     e.stopPropagation();
   }
   buyMore = (_id, e) => {
-    console.log(e.target)
-    // console.log("buymore"+_id)
     Taro.navigateTo({
       url: '/business-pages/confirm-order/index?id=' + _id
     })

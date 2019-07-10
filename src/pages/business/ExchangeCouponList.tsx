@@ -37,7 +37,6 @@ export default class ExchangeCouponComponent extends Component<Props> {
         exchangeCouponList_bull: false
     }
     componentDidMount() {
-        console.log(this.props.exchangeCouponList)
         this.setState({
             exchangeCouponList: this.props.exchangeCouponList
         })

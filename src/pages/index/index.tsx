@@ -62,7 +62,6 @@ export default class Index extends Component {
 	getLocation = () => {
 		Taro.getLocation({ type: 'wgs84' }).then(res => {
 			this.setState({ locations: res }, () => {
-				console.log(res)
 
 				this.getCity();
 				this.requestHomeList();
@@ -117,7 +116,6 @@ export default class Index extends Component {
 	}
 	// 往下滚动触发
 	onPageScroll = (e) => {
-		// console.log(e, 'e')
 	}
 
 	// 获取title数据

@@ -84,8 +84,6 @@ export default class ConfirmOrder extends Component {
           signType: res.signType,
           paySign: res.paySign,
           success(res) {
-
-            console.log("支付成功");
             () => {
               this.setState({
                 pay_bull: "支付成功",
@@ -95,8 +93,6 @@ export default class ConfirmOrder extends Component {
 
           },
           fail(err) {
-
-            console.log("支付失败");
             () => {
               this.setState({
                 pay_bull: "支付失败",
