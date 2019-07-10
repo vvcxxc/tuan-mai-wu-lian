@@ -168,7 +168,7 @@
 
 .a_dres ._address {
   float: left;
-  width: 600rpx;
+  width: 80%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -195,6 +195,7 @@
   top: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
 }
 
 .a_mastContent {

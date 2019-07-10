@@ -1,4 +1,4 @@
-import Taro, { useState, useEffect, DependencyList } from "@tarojs/taro";
+import Taro, { useState, useEffect, DependencyList, navigateBack } from "@tarojs/taro";
 import { View, Text } from '@tarojs/components';
 
 import './style.scss'
@@ -64,6 +64,7 @@ function Index() {
   } = dataInfo
   const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
+    console.log(_Imgurl);
     if (coupons_type * 1 === 0) { //兑换券获取兑换码
       request({
         url: 'api/wap/coupon/showCode',
@@ -81,6 +82,7 @@ function Index() {
       data: { coupons_log_id: cuoPonsId, xpoint: '', ypoint: '' }
     })
       .then((res: any) => {
+        console.log(res)
         setDataInfo(Object.assign({}, dataInfo, res));
       })
       .catch(() => {
@@ -117,8 +119,8 @@ function Index() {
       <View className='a_head' >
         {
           coupons_type == 1 ?
-            <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} _id={cuoPonsId} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} /> :
-            <CashCoupon1 bg_img_type={status == "2" ? 1 : 0} type={0} _id={cuoPonsId} return_money={money} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} _image={image}  clickcode={null}/>
+            <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} type={0} _id={cuoPonsId} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} expiration={expiration}/> :
+            <CashCoupon1 bg_img_type={status == "2" ? 1 : 0} type={0} _id={cuoPonsId} return_money={money} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} _image={image}  clickcode={null}  expiration={expiration}/>
         }
       </View>
       { /* 购买须知  */}
