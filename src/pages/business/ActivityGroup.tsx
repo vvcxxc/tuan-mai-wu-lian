@@ -25,7 +25,7 @@ export default class ActivityGroupComponent extends Component<Props> {
         participation_money: '',
         market_price: '',
         gift_pic: "",
-        // id: ''
+        activity_id: ''
       }
     ],
     activity_group_bull: false,
@@ -36,11 +36,12 @@ export default class ActivityGroupComponent extends Component<Props> {
       activity_group: this.props.activity_group
     })
   }
-  gotoGroup(_id, e) {
+  gotoGroup(_id) {
     Taro.navigateTo({
-      url: 'pages/index/index?'
+      url: '/pages/activity/pages/detail/detail?id='+_id+'&type=5'
     })
   }
+
 
   render() {
     return (
@@ -86,7 +87,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                     <Text className="money">￥{item.pay_money}</Text>
                     <Text className="count">已拼{item.participation_number}件</Text>
                   </View>
-                  <Button className="btn-go">立刻开团</Button>
+                  <Button className="btn-go" onClick={this.gotoGroup.bind(this,item.youhui_id)}>立刻开团</Button>
                 </View>
               </View>
             </View>
@@ -118,7 +119,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                     <Text className="money" >￥{this.state.activity_group[0].pay_money}</Text>
                     <Text className="count">已拼{this.state.activity_group[0].participation_number}件</Text>
                   </View>
-                  <Button className="btn-go">立刻开团</Button>
+                  <Button className="btn-go"  onClick={this.gotoGroup.bind(this,this.state.activity_group[0].youhui_id)}>立刻开团</Button>
                 </View>
               </View>
             </View>

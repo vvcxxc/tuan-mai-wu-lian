@@ -39,6 +39,12 @@ export default class ActivityAppreComponent extends Component<Props> {
             activity_appre: this.props.activity_appre
         })
     }
+    gotoAppreciation(_id) {
+      console.log(_id)
+      Taro.navigateTo({
+        url: '/pages/activity/pages/detail/detail?id='+_id+'&type=1'
+      })
+    }
 
     render() {
         return (
@@ -91,7 +97,7 @@ export default class ActivityAppreComponent extends Component<Props> {
                                         <Text className="money">￥{item.pay_money}</Text>
                                         <Text className="count">{item.activity_brief}</Text>
                                     </View>
-                                    <Button className="btn-go">立刻增值</Button>
+                                    <Button className="btn-go" onClick={this.gotoAppreciation.bind(this,item.youhui_id)}>立刻增值</Button>
                                 </View>
                             </View>
                         </View>
@@ -128,7 +134,7 @@ export default class ActivityAppreComponent extends Component<Props> {
                                         <Text className="money">￥{this.state.activity_appre[0].pay_money}</Text>
                                         <Text className="count">{this.state.activity_appre[0].activity_brief}</Text>
                                     </View>
-                                    <Button className="btn-go">立刻增值</Button>
+                                    <Button className="btn-go" onClick={this.gotoAppreciation.bind(this,this.state.activity_appre[0].youhui_id)}>立刻增值</Button>
                                 </View>
                             </View>
                         </View>
