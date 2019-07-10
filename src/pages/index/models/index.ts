@@ -5,41 +5,30 @@
  * @LastEditTime: 2019-02-06 16:32:02
  * @Description: counter - model
  */
-// import Taro from '@tarojs/taro'
 import { fromJS } from 'immutable'
 
 const SEARCHNAME = 'SEARCHNAME'
+const SETSEARCHNAME = 'SETSEARCHNAME'
 const initState = fromJS({
-  serchName:''
+  serchName: ''
 })
 
 export default {
-  namespace: 'search',// search  什么意思， 名字么
-  state: initState,  // 这里是 将上面定义好的一个对象  给state
+  namespace: 'search',
+  state: initState,  
   effects: { // Action 处理器，处理异步动作
-    * searchname(_: void, { put }: DvaApi) {
-      yield put({ type: SEARCHNAME }) //put 发出一个action
-    },
-    * setCoupon(_: void, { put }: DvaApi) {
-      yield put({ type: SEARCHNAME }) //put 发出一个action
+    * searchname({ payload }, { put }: DvaApi) {
+      yield put({ type: SEARCHNAME, payload }) //put 发出一个action
     }
   },
   reducers: { // 处理同步操作
-    setCoupon(state, { payload }) {
-      return {
-        payload,
-        // couponForm: {
-        //   ...state.couponForm,
-        //   ...payload
-        // }
-      };
-    },
-    SEARCHNAME(state: any, { }: void): any {
+    SEARCHNAME(state: any, payload: any): any {
+      console.log(payload,'paylodad')
       return state
         .merge({
-          serchName: state.get('serchName')+1
+          serchName: payload.payload.serchName
         })
-    },
+    }
   }
 }
 

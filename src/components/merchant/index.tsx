@@ -54,24 +54,20 @@ export default class Merchant extends Component<Props> {
 		const that = this.props.merchant
 		this.styleControl()
 		return (
-			<View className={
-				'merchant ' + (this.props.type === 'activity' ? 'inset ' : ' ') +
-					(this.styleControl() ? '' : 'update-inset')
-				 } >
+			<View className={('merchant') + ' ' + (this.styleControl() ? '' : 'update-inset')}>
 				<View className="content flex" onClick={this.handleClick.bind(this, this.props.merchant.id)}>
 					{this.props.type !== 'activity' && <Image className="img" src={that.shop_door_header_img} />}
-					<View className="item">
+					<View className="item" style="padding-top:15px">
 						<View className="flex">
 							<View className="title item">{that.name}</View>
 							<AtIcon value="chevron-right" color="#999" size="16px" />
 						</View>
-						<View className="flex label flex-right">
-							<View>{that.distance}</View>
-						</View>
-						<View className="flex">
+						<View className="flex " style="position:relative">
 							<View className="tag" style={{ backgroundColor: that.label.indexOf('免费礼品') !== -1 ? '#fde8e5' : '#fff' }}>免费礼品</View>
 							<View className="tag" style={{ backgroundColor: that.label.indexOf('优秀商家') !== -1 ? '#fde8e5' : '#fff' }}>优秀商家</View>
 							<View className="tag" style={{ backgroundColor: that.label.indexOf('现金卷') !== -1 ? '#fde8e5' : '#fff' }}>现金卷</View>
+							<View style="position:absolute; right:0px; line-height:1; bottom:2px;font-size:12px;" >{that.distance}
+							</View>
 						</View>
 					</View>
 				</View>
@@ -118,6 +114,7 @@ export default class Merchant extends Component<Props> {
 						<View style="color:#939393;margin-right:3px;">{this.state.showLine ? '收起' : '更多活动'}</View>
 						<AtIcon value={this.state.showLine ? 'chevron-up' : 'chevron-down'} size='12' color='#939393'></AtIcon>
 					</View>
+					<View  style={{height:'10px',backgroundColor:'#ededed'}}></View>
 				</View>
 			</View>
 		);
