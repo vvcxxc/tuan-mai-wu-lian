@@ -26,7 +26,8 @@ export default class ActivityGroupComponent extends Component<Props> {
         market_price: '',
         gift_pic: "",
         activity_id: '',
-        youhui_id:''
+        youhui_id: '',
+        image_url_info: ''
       }
     ],
     activity_group_bull: false,
@@ -39,7 +40,7 @@ export default class ActivityGroupComponent extends Component<Props> {
   }
   gotoGroup(_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id='+_id+'&type=5'
+      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5'
     })
   }
 
@@ -74,8 +75,9 @@ export default class ActivityGroupComponent extends Component<Props> {
                 </View>
               </View>
               {this.state.activity_group[0].gift_pic == null ?
-                <View className="image-list0">
-                  <Image className="image0" src={item.image_url} />
+                <View className="image-list">
+                  <Image className="image" src={item.image_url} />
+                  <Image className="image" src={item.image_url_info} />
                 </View> :
                 <View className="image-list">
                   <Image className="image" src={item.image_url} />
@@ -88,7 +90,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                     <Text className="money">￥{item.pay_money}</Text>
                     <Text className="count">已拼{item.participation_number}件</Text>
                   </View>
-                  <Button className="btn-go" onClick={this.gotoGroup.bind(this,item.youhui_id)}>立刻开团</Button>
+                  <Button className="btn-go" onClick={this.gotoGroup.bind(this, item.youhui_id)}>立刻开团</Button>
                 </View>
               </View>
             </View>
@@ -104,10 +106,9 @@ export default class ActivityGroupComponent extends Component<Props> {
                 </View>
               </View>
               {this.state.activity_group[0].gift_pic == "" ?
-                <View className="image-list0">
-                  <Image className="image0" src={this.state.activity_group[0].image_url} />
-                  {/* <Image className="image" src={this.state.activity_group[0].image_url} />
-                  <Image className="image" src={this.state.activity_group[0].image_url} /> */}
+                <View className="image-list">
+                  <Image className="image" src={this.state.activity_group[0].image_url} />
+                  <Image className="image" src={this.state.activity_group[0].image_url_info} />
                 </View> :
                 <View className="image-list">
                   <Image className="image" src={this.state.activity_group[0].image_url} />
@@ -120,7 +121,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                     <Text className="money" >￥{this.state.activity_group[0].pay_money}</Text>
                     <Text className="count">已拼{this.state.activity_group[0].participation_number}件</Text>
                   </View>
-                  <Button className="btn-go"  onClick={this.gotoGroup.bind(this,this.state.activity_group[0].youhui_id)}>立刻开团</Button>
+                  <Button className="btn-go" onClick={this.gotoGroup.bind(this, this.state.activity_group[0].youhui_id)}>立刻开团</Button>
                 </View>
               </View>
             </View>

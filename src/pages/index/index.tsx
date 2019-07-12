@@ -1,13 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro';
-import { View, Swiper, SwiperItem, Input, Image, Text } from '@tarojs/components';
-import { AtIcon, AtButton } from 'taro-ui';
+import { View, Image, Text } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
 import './index.styl';
-import Tabs from '../../components/tabs';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
-import ActivityList from './activity-list';
 import { connect } from '@tarojs/redux'
-import { timingSafeEqual } from 'crypto';
 
 @connect(
 	state => ({
@@ -269,7 +266,6 @@ export default class Index extends Component<any> {
 	}
 
 	controlPicture = (gift, coupon, preview?) => { // 控制图片显示
-		// if (!coupon && !gift && !preview) return 9
 		if (!coupon && !gift) return false //两个图片都没有 显示门头照preview
 		if (!gift) return 1 //礼品图不存在 只显示一张coupon
 		return 2 //两张都显示
@@ -278,10 +274,7 @@ export default class Index extends Component<any> {
 	render() {
 		return (
 			<View className="index">
-				{/* <View style="	display: flex; justify-content: center; height:48px; backgroundColor:rgba(255,242,230,1);
-					align-items:center">
-				你还有未领取的礼品 去“我的礼品”看看
-			</View> */}
+
 				<View className="head">
 					<View className="search">
 						<View className="flex center container">
@@ -348,11 +341,7 @@ export default class Index extends Component<any> {
 									</View>
 								</View>
 							</View>
-							{/* {</View>
-							// 如果左边的图有  右边的没有  就显示左边的图百分百的比例
-								 如果两张图都没有  就显示门头照
-								 item.preview   coupon_image_url gift_pic
-							 */}
+
 							<View className="content_box" onClick={this.handleClick.bind(this, item.id)}
 						>
 								<View className='content_img'	>

@@ -29,13 +29,11 @@ export default class CashCoupon extends Component<Props> {
     addGlobalClass: true
   };
   handleClick = (_id, e) => {
-    // console.log(e.target)
     Taro.navigateTo({
       url: '/detail-pages/orderdetail/index?id=' + _id
     })
   }
   useNow = (_id, e) => {
-    // console.log("儿子" + _id)
     this.props.clickcode(this.props._id);
     e.stopPropagation();
   }
@@ -66,11 +64,6 @@ export default class CashCoupon extends Component<Props> {
         <View className="secondary flex center" >
           <Image src={this.props._image} style={{ width: "100%", height: "100%" }} />
         </View>
-        {/* <Image
-          className="middle-bg"
-          mode="widthFix"
-          src={{this.props.image}}
-        /> */}
         <View className="item content">
           <View className="head flex">
             <View className="label flex center">{this.props.sname}</View>

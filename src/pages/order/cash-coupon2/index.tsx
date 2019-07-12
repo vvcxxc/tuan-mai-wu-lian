@@ -29,7 +29,6 @@ export default class CashCoupon extends Component<Props> {
   };
   handleClick = (_id, e) => {
     Taro.navigateTo({
-      // url: '/pages/orderdetail/index?couponType="1"&ticketColor='+this.props.bg_img_type+'&ticketUsed=' + this.props.bg_img_type
       url: '/detail-pages/orderdetail/index?id=' + _id
 
     })
@@ -64,13 +63,11 @@ export default class CashCoupon extends Component<Props> {
         }
         <View
           className="cash-coupon flex active"
-          // style={{ backgroundImage: `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/kG4tMT5SerAGN44WsKpbE5dNsYAp5dhC.png")` }}
           onClick={this.handleClick.bind(this, this.props._id)}
         >
 
           <View
             className="secondary flex center"
-          // style={{ backgroundImage: `url(${secondaryActiveBg})` }}
           >
             <View className="money-wrap" style={{ paddingTop: '20px' }}>
               ￥<Text className="money">{this.props.return_money}</Text>
@@ -86,7 +83,6 @@ export default class CashCoupon extends Component<Props> {
               }
               {this.props.sname}
             </View>
-            {/* <View className="date">{this.props.timer}</View> */}
             <View className="info" style={{ position: "absolute", bottom: "20px", padding: "0" }}>{this.props.list_brief}</View>
             {
               this.props.type == 1 ? <View className="buymore" onClick={this.buyMore.bind(this, this.props._id, this.props.expiration)}>再来一单</View> : ""

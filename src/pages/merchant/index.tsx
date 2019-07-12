@@ -72,7 +72,7 @@ export default class MerChantPage extends Component {
 			},
 		})
 			.then((res: any) => {
-				this.setState({ stores: res.store_info.data })
+				this.setState({ stores: res.data.store_info.data })
 				Taro.hideLoading()
 			});
 	}
@@ -89,7 +89,7 @@ export default class MerChantPage extends Component {
 		})
 			.then((res: any) => {
 				Taro.stopPullDownRefresh()
-				this.setState({ stores: res.store_info.data })
+				this.setState({ stores: res.data.store_info.data })
 				Taro.hideLoading()
 			})
 	}
@@ -115,7 +115,7 @@ export default class MerChantPage extends Component {
 			}
 		})
 			.then((res: any) => {
-				this.setState({ stores: res.store_info.data })
+				this.setState({ stores: res.data.store_info.data })
 				Taro.hideLoading()
 			})
 	}
@@ -136,7 +136,7 @@ export default class MerChantPage extends Component {
 			.then((res: any) => {
 				Taro.stopPullDownRefresh()
 				Taro.hideLoading()
-				this.setState({ stores: [...this.state.stores, ...res.store_info.data], storeHeadImg: res.banner });
+				this.setState({ stores: [...this.state.stores, ...res.data.store_info.data], storeHeadImg: res.data.banner });
 			})
 	}
 
@@ -155,7 +155,7 @@ export default class MerChantPage extends Component {
 					onChange={this.handlerSearch.bind(this)}
 				/>
 				<FilterTotal onClick={this.filterClick.bind(this)} />
-				<View className="merchant-list" style="height:100vh; background-color:#fff;">
+				<View className="merchant-list" style="height:100vh; overflow-x: hidden; background-color:#fff;">
 					<List onClick={this.handleClick} list={
 						this.state.stores
 					} />

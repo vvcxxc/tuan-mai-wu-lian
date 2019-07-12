@@ -4,11 +4,8 @@ import { View, Text, Image, ScrollView, Button } from "@tarojs/components";
 import "./index.styl";
 import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
-// import starImg from '../../assets/starcollect.png'
 import AddressImg from '../../assets/address.png'
 import "taro-ui/dist/style/components/toast.scss";
-// import "taro-ui/dist/style/components/icon.scss";
-// import 'taro-ui/dist/style/index.scss'
 
 import ActivityGroupComponent from './ActivityGroup'
 import ActivityAppreComponent from './ActivityAppre'
@@ -49,63 +46,10 @@ export default class PaySuccess extends Component<Props> {
         label: ['免费礼品']
       }
     ],
-    activity_group: [
-      // {
-      //   //拼团活动
-      //   name: '',
-      //   activity_brief: '	',
-      //   image_url: "",
-      //   pay_money: '',
-      //   return_money: '',
-      //   participation_number: '',
-      //   participation_money: '',
-      //   market_price: '',
-      //   gift_pic: ""
-      // }
-    ],
-    activity_appre: [
-      // {
-      //   //增值活动
-      //   name: "",
-      //   activity_brief: '',
-      //   image_url: "",
-      //   pay_money: '',
-      //   return_money: '',
-      //   market_price: '',
-      //   init_money: '',
-      //   gift_pic: ""
-      // }
-    ],
-    cashCouponList: [
-      //{//优惠券列表
-      //   id: '',
-      //   name: '',
-      //   image: "",
-      //   image_type: '',
-      //   address: '',
-      //   list_brief: '',
-      //   brief: '',
-      //   youhui_type: '1',
-      //   begin_time: '',
-      //   end_time: '',
-      //   pay_money: "",
-      //   expire_day: ""
-      // }
-    ],
-    exchangeCouponList: [
-      //   {
-      //   begin_time: "",
-      //   brief: "",
-      //   end_time: "",
-      //   id: 1590,
-      //   image: "",
-      //   list_brief: "",
-      //   name: "",
-      //   youhui_type: 0,
-      //   pay_money: ""
-      // }
-    ]
-    ,
+    activity_group: [],
+    activity_appre: [],
+    cashCouponList: [],
+    exchangeCouponList: [],
     activity_group_bull: false,
     activity_appre_bull: false,
 
@@ -156,7 +100,6 @@ export default class PaySuccess extends Component<Props> {
     })
   }
   handleClick3 = (_id, e) => {
-    // console.log(_id);
     Taro.navigateTo({
       url: './index?id=' + _id
     })
@@ -170,10 +113,8 @@ export default class PaySuccess extends Component<Props> {
       .then((res: any) => {
         Taro.hideLoading();
         if (res) {
-          // console.log(this.state.keepCollect_bull)
           this.setState({
             keepCollect_data: res.data,
-            //控制AtToast显示，set为true就好了，每次set都会触发AtToast
             keepCollect_show: true,
             keepCollect_bull: !this.state.keepCollect_bull
           })
@@ -181,7 +122,6 @@ export default class PaySuccess extends Component<Props> {
       })
   }
   render() {
-    // console.log(this.state.keepCollect_bull);
     return (
       <View className="merchant-details">
         {
@@ -218,7 +158,6 @@ export default class PaySuccess extends Component<Props> {
           </ScrollView>
           <View className="address flex center">
             <Image className="address-img" src={AddressImg} />
-            {/* <View className="distance" >{this.state.business_list.distance}</View> */}
             <View className="text item" >{this.state.business_list.address}</View>
             <Image className="mobile-img" src={MobileImg} />
           </View>
@@ -263,8 +202,6 @@ export default class PaySuccess extends Component<Props> {
                   <View className="recommend-cell__bd item">
                     <View className="tit">{item.name}</View>
                     <View className="flex center mb33">
-                      {/* <Text className="ellipsis-one ">{item.address}</Text> */}
-                      {/* <Text>洛溪 923m</Text> */}
                     </View>
                     <View className="flex center">
                       <View className="tags">

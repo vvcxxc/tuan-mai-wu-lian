@@ -1,16 +1,13 @@
 import Taro, { Component, Config } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
-import { AtTabs, AtTabsPane, AtIcon } from 'taro-ui'
+import { AtTabs, AtTabsPane } from 'taro-ui'
 import "taro-ui/dist/style/components/tabs.scss";
 import CashCoupon1 from "./cash-coupon1/index";
 import CashCoupon2 from "./cash-coupon2/index";
 
 import "./index.styl";
 import request from "../../services/request";
-import img1 from "./1.png";
-import img2 from "./2.png";
-import img3 from "./3.png";
-import img4 from "./4.png";
+
 
 
 export default class Order extends Component {
@@ -279,7 +276,7 @@ export default class Order extends Component {
             (this.state.current == 0 && this.state.coupon1.length == 0) ?
               <View className="msgBox">
                 <View className="imgBox">
-                  <Image className="logo" src={img1} />
+                  <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/sXMSERHX2BaZa23cDXwfQ8JymfZSaGip.png"} />
                 </View>
                 <View className="_msg">没有可使用的订单，快去逛逛吧！</View>
                 <View className="toHome"
@@ -290,18 +287,18 @@ export default class Order extends Component {
                   }}>去首页</View>
               </View> : ((this.state.current == 1 && this.state.coupon2.length == 0) ? <View className="msgBox">
                 <View className="imgBox">
-                  <Image className="logo" src={img2} />
+                  <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TXNJyF2kydtBeKkitG4xpcRYhAHiiseK.png"} />
                 </View>
                 <View className="_msg">您还没有使用过的订单哦</View>
               </View> : ((this.state.current == 2 && this.state.coupon3.length == 0) ?
                 <View className="msgBox">
                   <View className="imgBox">
-                    <Image className="logo" src={img3} />
+                    <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/eNxGKWKYEHdGKGNh8jGGD24E8a6Tfy4r.png"} />
                   </View>
                   <View className="_msg">您还没有已过期的订单哦</View>
                 </View> : ((this.state.current == 3 && this.state.coupon4.length == 0) ? <View className="msgBox">
                   <View className="imgBox">
-                    <Image className="logo" src={img4} />
+                    <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/h4jNAQHbyK8Xx6zra3fBEHwBtAepmhCz.png"} />
                   </View>
                   <View className="_msg">您还没有已退款的订单哦</View>
                 </View> : "")

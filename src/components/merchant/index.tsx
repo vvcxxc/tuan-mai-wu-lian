@@ -24,7 +24,8 @@ export default class Merchant extends Component<Props> {
 	}
 
 	heightChange = () => {
-		this.setState({ showLine: !this.state.showLine })
+		this.setState({ showLine: !this.state.showLine }, () => {
+		})
 	}
 
 	styleControl = () => {
@@ -43,7 +44,7 @@ export default class Merchant extends Component<Props> {
 
 	handleClick = (_id, e) => {
 		Taro.navigateTo({
-			url: '/detail-pages/business/index?id=' + _id
+			url: '/pages/business/index?id=' + _id
 		})
 	};
 
@@ -55,16 +56,44 @@ export default class Merchant extends Component<Props> {
 		if (!gift) return 1 //礼品图不存在 只显示一张coupon
 		return 2 //两张都显示
 	}
+
+	// 控制活动信息展示    礼     券      惠
+	controlActivity = (gift, coupons, preferential, key?) => {
+		if (this.judgeActivity(gift) && key === 'gift') return 'gift'
+		if (this.judgeActivity(coupons) && key === 'coupons') return 'coupons'
+		if (this.judgeActivity(preferential) && key === 'preferential') return 'preferential'
+		return false
+	}
+
+	threeActivity = (value1, value2, value3) => {
+		if (this.judgeActivity(value1) && this.judgeActivity(value2) && this.judgeActivity(value3)) return true
+		return false
+	}
+	twoActivity = (value1, value2, value3) => {
+		if (this.judgeActivity(value1) && this.judgeActivity(value2) && this.judgeActivity(value3)) return true
+		if (this.judgeActivity(value1) && this.judgeActivity(value2)) return 'preferential'
+		if (this.judgeActivity(value1) && this.judgeActivity(value3)) return 'coupons'
+		if (this.judgeActivity(value2) && this.judgeActivity(value3)) return 'gift'
+		return false
+	}
+	// 判断活动信息
+	judgeActivity = (data) => {
+		if (!data) return false
+		if (data) {
+			if (typeof (data) === 'string' && data.length >= 1) return true
+			return false
+		}
+	}
+
 	render() {
 		const that = this.props.merchant
 		this.styleControl()
 		return (
 			<View className={('merchant') + ' ' + (this.styleControl() ? '' : 'update-inset')}>
 				<View className="content flex"
-					style={{ paddingBottom: this.controlPicture(that.gift_pic, that.coupon_image_url) === false ? '10px' : ' 0px'}}
+					style={{ paddingBottom: '10px' }}
 					onClick={this.handleClick.bind(this, this.props.merchant.id)}>
 					{this.props.type !== 'activity' && <Image className="img" src={that.preview} />}
-					{/* shop_door_header_img */}
 					<View className="item" style="padding-top:15px">
 						<View className="flex">
 							<View className="title item">{that.name}</View>
@@ -77,52 +106,109 @@ export default class Merchant extends Component<Props> {
 								})
 							}
 							<View style="position:absolute; right:0px; line-height:1; bottom:2px;font-size:12px;" >{that.distance}
-							</View> 
+							</View>
 						</View>
 					</View>
 				</View>
-				<View className="content_box" onClick={this.handleClick.bind(this, that.id)} style={{ display: this.controlPicture(that.gift_pic, that.coupon_image_url)===false? 'none':''}}>
+				<View className="content_box" onClick={this.handleClick.bind(this, that.id)}
+					style="padding-top:0px"
+				>
 					<View className='content_img'	>
-						<Image src={that.coupon_image_url} />
+						<Image src={this.controlPicture(that.gift_pic, that.coupon_image_url) === false ? that.preview : that.coupon_image_url} />
 					</View>
 					<View className={this.controlPicture(that.gift_pic, that.coupon_image_url) === 2 ?
-						'content_img' : 'hidden_content_img'}>
+						'content_img' : 'hidden_content_img'} style="position:relative;  padding-left:2px; margin-left:5px; ">
+						<Image src={require("./border.png")} style="position:absolute; top:0px;left:0px;" />
+						<Image src={require("./qiu.png")} style="position:absolute; top:-4px;left:41%; width:25px;height:25px;" />
 						<Image src={that.gift_pic} />
 					</View>
 				</View>
-				<View>
-					<View className="give flex center" style={{ display: this.judgeData(that.gift_name) }}>
+				<View></View>
+				{/* // 第一行有 */}
+				<View style={{ display: this.judgeActivity(that.gift_name) ? '' : 'none' }}>
+					<View className={this.judgeActivity(that.gift_name) ? 'flex give center' : ' hidden'}>
 						<View className="icon">礼</View>
 						<View className="title item ellipsis-one">
 							<Text className="strong">{that.gift_name}</Text>
 						</View>
 					</View>
-					<View className="give flex center"
-						style={{ display: typeof (that.gift_coupon_name) === 'string' && this.state.showLine ? '' : 'none' }}>
-						<View className="icon" style="background: #5d84e0">卷</View>
+					<View
+						className='flex give center'
+						style={{ display: this.judgeActivity(that.cash_coupon_name) && this.state.showLine ? '' : 'none' }}>
+						<View className="icon" style="background: #5d84e0">券</View>
 						<View className="title item">
-							<Text className="strong">{that.gift_coupon_name}</Text>
+							<Text className="strong">{that.cash_coupon_name}</Text>
 						</View>
 					</View>
-					<View className="give flex center"
-						style={{
-							display: typeof (that.exchange_coupon_name) === 'string' && this.state.showLine ? '' : 'none'
-						}}>
+					<View
+						className='flex give center'
+						style={{ display: this.judgeActivity(that.exchange_coupon_name) && this.state.showLine ? '' : 'none' }}>
 						<View className="icon" style="background: #5dd8a5">惠</View>
 						<View className="title item ellipsis-one">
 							{that.exchange_coupon_name}
-
 						</View>
 					</View>
 					<View className="more flex center" onClick={this.heightChange} style={
 						{
-							display: this.styleControl() ? '' : 'none'
+							display: this.twoActivity(that.gift_name, that.cash_coupon_name, that.exchange_coupon_name) !== false
+								? '' : 'none'
 						}}>
 						<View style="color:#939393;margin-right:3px;">{this.state.showLine ? '收起' : '更多活动'}</View>
 						<AtIcon value={this.state.showLine ? 'chevron-up' : 'chevron-down'} size='12' color='#939393'></AtIcon>
 					</View>
 					<View style={{ height: '10px', backgroundColor: '#ededed' }}></View>
 				</View>
+
+				<View style={{
+					display: !this.judgeActivity(that.gift_name) && this.judgeActivity(that.cash_coupon_name) ? '' : 'none'
+				}}>
+					<View
+						className='flex give center'
+						style={{ display: this.judgeActivity(that.cash_coupon_name)  ? '' : 'none' }}>
+						<View className="icon" style="background: #5d84e0">券</View>
+						<View className="title item">
+							<Text className="strong">{that.cash_coupon_name}</Text>
+						</View>
+					</View>
+					<View
+						className='flex give center'
+						style={{ display: this.judgeActivity(that.exchange_coupon_name) && this.state.showLine ? '' : 'none' }}>
+						<View className="icon" style="background: #5dd8a5">惠</View>
+						<View className="title item ellipsis-one">
+							{that.exchange_coupon_name}
+						</View>
+					</View>
+					<View className="more flex center" onClick={this.heightChange} style={
+						{
+							display: this.twoActivity(that.gift_name, that.cash_coupon_name, that.exchange_coupon_name) !== false
+								? '' : 'none'
+						}}>
+						<View style="color:#939393;margin-right:3px;">{this.state.showLine ? '收起' : '更多活动'}</View>
+						<AtIcon value={this.state.showLine ? 'chevron-up' : 'chevron-down'} size='12' color='#939393'></AtIcon>
+					</View>
+					<View style={{ height: '10px', backgroundColor: '#ededed' }}></View>
+				</View>
+
+				<View style={{
+					display: !this.judgeActivity(that.gift_name) && !this.judgeActivity(that.cash_coupon_name) ? '' : 'none'
+				}}>
+
+					<View
+						className='flex give center'
+						style={{
+							display: !this.judgeActivity(that.exchange_coupon_name) &&
+								!this.judgeActivity(that.gift_name) &&
+								this.judgeActivity(that.exchange_coupon_name) ? '' : 'none'
+						}}>
+						<View className="icon" style="background: #5dd8a5">惠</View>
+						<View className="title item ellipsis-one">
+							{that.exchange_coupon_name}
+						</View>
+					</View>
+					<View style={{ height: '10px', backgroundColor: '#ededed' }}></View>
+				</View>
+
+
 			</View>
 		);
 	}

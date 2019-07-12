@@ -1,10 +1,4 @@
-/*
- * @Author: yanxiaodi 929213769@qq.com
- * @Date: 2019-02-03 16:33:44
- * @LastEditors: yanxiaodi 929213769@qq.com
- * @LastEditTime: 2019-02-06 19:24:49
- * @Description: counter page
- */
+
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View } from '@tarojs/components'

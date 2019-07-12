@@ -2,8 +2,6 @@ import Taro, { PureComponent } from '@tarojs/taro';
 import { View, Image, Canvas } from '@tarojs/components';
 import { AtSearchBar, AtIndexes, AtIcon } from 'taro-ui';
 import './index.scss';
-import request from '../../../services/request'
-// import { Search } from "../../../../defienGlobal";
 
 interface Props {
 	history: {

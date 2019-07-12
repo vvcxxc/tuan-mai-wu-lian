@@ -144,6 +144,15 @@
 	}
 	.hidden_content_img {
 		display: none;
+		
 	}
 }
+
+.hidden{
+	height: 0px;
+	overflow: hidden;
+	visibility: hidden;
+	padding: 0px;
+}
+
 
