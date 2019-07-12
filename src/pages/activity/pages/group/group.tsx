@@ -73,7 +73,7 @@ export default class Group extends Component {
   /**
    * 点击动作(如果是跳转动作的时候, 带上参数type, id, publictypeid)
    */
-  handleClick(e): void {
+  handleClick = (e): void => {
     const { action, type } = e.currentTarget.dataset
     this.handleAction(action, null, type)
   }
@@ -82,7 +82,8 @@ export default class Group extends Component {
    * 用户动作集中处理(跳转, 查看, 使用, 关闭动作)
    */
   // @ts-ignore
-  handleAction(action: string, data: any, type = 0): void {
+  handleAction = (action: string, data: any, type = 0): void => {
+    // console.log(this.state.basicinfo)
     switch(action) {
       case ACTION_JUMP: {
         const {
@@ -91,6 +92,7 @@ export default class Group extends Component {
           gift_id,
           activity_id
         } = this.state.basicinfo
+
         let dataId = 0
         if (data && data.id) {
           dataId = data.id
@@ -123,7 +125,7 @@ export default class Group extends Component {
   /**
    * 计算: 已完成?|参团?|去使用?
    */
-  handleCalculate(data: any): void {
+  handleCalculate = (data: any): void => {
     const {
       number: groupNumber,
       participation_number: groupParticipator,

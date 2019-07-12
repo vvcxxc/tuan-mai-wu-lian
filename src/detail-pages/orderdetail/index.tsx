@@ -64,13 +64,16 @@ function Index() {
   } = dataInfo
   const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
+    console.log(_Imgurl);
     if (coupons_type * 1 === 0) { //兑换券获取兑换码
       request({
         url: 'api/wap/coupon/showCode',
         data: { coupons_log_id: cuoPonsId },
       })
         .then((res: any) => {
-          let youhuiurl_temp = { _Imgurl: res };
+          // console.log(res.data);
+          let youhuiurl_temp = { _Imgurl: res.data };
+          // console.log(youhuiurl_temp);
           setYouhuiurl(Object.assign({}, youhuiurl, youhuiurl_temp))
         })
     }
@@ -79,7 +82,8 @@ function Index() {
       data: { coupons_log_id: cuoPonsId, xpoint: '', ypoint: '' }
     })
       .then((res: any) => {
-        setDataInfo(Object.assign({}, dataInfo, res));
+        console.log(res.data)
+        setDataInfo(Object.assign({}, dataInfo, res.data));
       })
       .catch(() => {
         Taro.showToast({ title: '数据请求失败', icon: 'none' })
@@ -136,6 +140,7 @@ function Index() {
                 <View className='a_state' >
                   {
                     status == "2" ? "已使用" : (status == "3" ? "已退款" : (status == "4" ? "已过期" : ""))
+                    // 1未使用 2已使用 3已退款}</View></View>
                   }
                 </View>
               </View>
@@ -145,6 +150,7 @@ function Index() {
                   <Text style={{ letterSpacing: '10rpx' }} >订单号:</Text>
                 </View>
                 <SanCode code={youhui_sn} url={_Imgurl} status={status} />
+                {/* <View>{_Imgurl}</View> */}
               </View>
             </View>
           </View>

@@ -84,10 +84,10 @@ export default class PaySuccess extends Component {
         })
           .then((res: any) => {
             this.setState({
-              coupon: res.info.coupon,
-              store: res.info.store,
-              goods_album: res.info.goods_album,
-              recommend: res.recommend.data
+              coupon: res.data.info.coupon,
+              store: res.data.info.store,
+              goods_album: res.data.info.goods_album,
+              recommend: res.data.recommend.data
             })
             Taro.hideLoading()
           }).catch(function (error) { console.log(error); });

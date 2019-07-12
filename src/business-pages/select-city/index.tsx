@@ -13,7 +13,8 @@ export default class SelectCity extends Component {
     searchList: [],
     hot_city: [],
     showSearchList: false,
-    searchValue:''
+    searchValue: '',
+    showIndicator:false
   };
   globalData: {
     userInfo: {}
@@ -39,7 +40,7 @@ export default class SelectCity extends Component {
     request({ url: 'v3/district', data: { model_type: '2' } })
       .then((res: any) => {
         // this.setState({ locationList: res.city_list })
-        this.setState({ hot_city: res.hot_city })
+        this.setState({ hot_city: res.data.hot_city })
         setTimeout(() => {
           Taro.hideLoading()
         }, 2000);
@@ -63,20 +64,25 @@ export default class SelectCity extends Component {
       data: { xpoint: that.longitude, ypoint: that.latitude }
     })
       .then((res: any) => {
-        this.setState({ cityName: res.city })
+        this.setState({ cityName: res.data.city })
       })
   }
   // agin location
   reLocation = (index?) => {
+    this.setState({ showIndicator:true})
     this.getLocation();
     Taro.setStorage({
       key: 'router',
       data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
-    }) 
-    if (index == 1) {
+    })
+    setTimeout(() => {
+      this.setState({ showIndicator: false })
       Taro.reLaunch({ url: '../../pages/index/index?router' })
-    }
-   
+    }, 1000);
+    // if (index == 1) {
+    //   Taro.reLaunch({ url: '../../pages/index/index?router' })
+    // }
+
   }
 
   handleSearchBarChange = value => {
@@ -91,13 +97,13 @@ export default class SelectCity extends Component {
   onActionClick = () => {
     request({ url: 'v3/citys', data: { keyword: this.state.searchStr } })
       .then((res: any) => {
-        this.setState({ searchList: res })
+        this.setState({ searchList: res.data })
       })
   }
 
   // click 热门城市
   searchData = (name, id) => {
-    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } }) 
+    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
     Taro.reLaunch({ url: '../../pages/index/index?router' })
   }
 
@@ -167,10 +173,15 @@ export default class SelectCity extends Component {
           >
             <View className="current-tip">当前定位</View>
             <View className="current-position flex center">
-              <AtIcon value="map-pin" color="#FF6654" size={12} />
-              <View className="item name" onClick={this.reLocation.bind(this, 1)} >
+
+              <View className="item name" style={{ display: this.state.showIndicator? '':'none'}}>
+                <AtActivityIndicator content='定位中...'></AtActivityIndicator>
+              </View>
+              <View className="item name"  style={{ display: this.state.showIndicator ? 'none': ' '  }}>
+                <AtIcon value="map-pin" color="#FF6654" size={14} />
                 {this.state.cityName ? this.state.cityName : '广州市'}
               </View>
+
               <View className="btn" onClick={this.reLocation.bind(this)}>重新定位</View>
             </View>
             <View className="bg" />

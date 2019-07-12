@@ -119,23 +119,22 @@ export default class PaySuccess extends Component<Props> {
       title: 'loading',
     })
     let that = this;
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
-      // let yPoint= res.latitude;
-      // let xPoint=res.longitude;
+    Taro.getLocation({ type: 'wgs84' }).then((res:any )=> {
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude
       }, () => {
         request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
           .then((res: any) => {
+            console.log(res.data);
             that.setState({
-              business_list: res.store.Info,
-              recommend: res.recommend,
-              activity_group: res.store.activity_group,
-              activity_appre: res.store.activity_appreciation,
-              cashCouponList: res.store.cashCouponList,
-              exchangeCouponList: res.store.exchangeCouponList,
-              keepCollect_bull: res.store.Info.collect ? true : false
+              business_list: res.data.store.Info,
+              recommend: res.data.recommend,
+              activity_group: res.data.store.activity_group,
+              activity_appre: res.data.store.activity_appreciation,
+              cashCouponList: res.data.store.cashCouponList,
+              exchangeCouponList: res.data.store.exchangeCouponList,
+              keepCollect_bull: res.data.store.Info.collect ? true : false
             })
             Taro.hideLoading()
           });
@@ -173,7 +172,7 @@ export default class PaySuccess extends Component<Props> {
         if (res) {
           // console.log(this.state.keepCollect_bull)
           this.setState({
-            keepCollect_data: res,
+            keepCollect_data: res.data,
             //控制AtToast显示，set为true就好了，每次set都会触发AtToast
             keepCollect_show: true,
             keepCollect_bull: !this.state.keepCollect_bull
@@ -210,16 +209,16 @@ export default class PaySuccess extends Component<Props> {
                 )
             }
           </View>
-          <ScrollView scrollX className="scroll-view">
+          <ScrollView scrollX className="scroll-view" >
             <View className="flex">
-              <Image className="image" src={this.state.business_list.preview} />
-              <Image className="image" src={this.state.business_list.store_img_one} />
-              <Image className="image" src={this.state.business_list.store_img_two} />
+              <Image className="image"  src={this.state.business_list.preview} />
+              <Image className="image"  src={this.state.business_list.store_img_one} />
+              <Image className="image"  src={this.state.business_list.store_img_two} />
             </View>
           </ScrollView>
           <View className="address flex center">
             <Image className="address-img" src={AddressImg} />
-            <View className="distance" >{this.state.business_list.distance}</View>
+            {/* <View className="distance" >{this.state.business_list.distance}</View> */}
             <View className="text item" >{this.state.business_list.address}</View>
             <Image className="mobile-img" src={MobileImg} />
           </View>

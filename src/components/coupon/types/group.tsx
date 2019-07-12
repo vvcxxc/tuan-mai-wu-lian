@@ -11,6 +11,7 @@ export default class CouponGroup extends Component<CouponProp> {
   }
 
   render() {
+
     const { data, onAction } = this.props
     return (
       <View className="coupon">

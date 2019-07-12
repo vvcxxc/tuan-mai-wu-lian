@@ -74,7 +74,7 @@ export default class PaySuccess extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
+    Taro.getLocation({ type: 'wgs84' }).then((res:any) => {
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude
@@ -84,10 +84,10 @@ export default class PaySuccess extends Component {
         })
           .then((res: any) => {
             this.setState({
-              coupon: res.info.coupon,
-              store: res.info.store,
-              goods_album: res.info.goods_album,
-              recommend: res.recommend.data
+              coupon: res.data.info.coupon,
+              store: res.data.info.store,
+              goods_album: res.data.info.goods_album,
+              recommend: res.data.recommend.data
             })
             Taro.hideLoading()
           }).catch(function (error) { console.log(error); });
@@ -113,10 +113,10 @@ export default class PaySuccess extends Component {
     // let _id = this.state.coupon.id;
     // request({ url: 'v3/coupons/collection', method: "PUT", data: { coupon_id: _id } })
     //   .then((res: any) => {
-    //     console.log(res)
+    //     console.log(res.data)
     //     // if (res) {
     //     //   this.setState({
-    //     //     keepCollect_data: res,
+    //     //     keepCollect_data: res.data,
     //     //     keepCollect_bull: !this.state.keepCollect_bull
     //     //   })
     //     // }

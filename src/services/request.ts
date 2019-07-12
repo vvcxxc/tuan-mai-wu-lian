@@ -55,7 +55,7 @@ export default function request(options: Options) {
             })
             break
           case FETCH_OK:
-            return resolve(res.data.data)
+            return resolve(res.data)
           case FETCH_BAD:
             Taro.showToast({
               title: data.message || "bad request",

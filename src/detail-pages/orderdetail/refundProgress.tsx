@@ -23,8 +23,8 @@ function Index (){
             data: { coupons_log_id : id },
         }).then((res:any)=>{
            
-               console.log(res)
-               setData( Object.assign({},defaultData,res) )
+               console.log(res.data)
+               setData( Object.assign({},defaultData,res.data) )
            
         }).catch(()=>{
            Taro.showToast({ title:'加载失败',icon:'none' })

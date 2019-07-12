@@ -53,7 +53,7 @@ export default class Index extends Component<any> {
 		page: 1,
 		meta: {},
 		deal_cate_id: null,
-		current: null,
+		current: 0,
 		showLine: false,
 	};
 
@@ -78,7 +78,7 @@ export default class Index extends Component<any> {
 			})
 		request({ url: 'v3/district', data: { model_type: '2' } })
 			.then((res: any) => {
-				Taro.setStorage({ key: 'allCity', data: res.city_list })
+				Taro.setStorage({ key: 'allCity', data: res.data.city_list })
 
 			})
 	}
@@ -120,7 +120,7 @@ export default class Index extends Component<any> {
 							data: { xpoint: res.data.xpoint, ypoint: res.data.ypoint }
 						})
 							.then((res: any) => {
-								this.setState({ cityName: res.city })
+								this.setState({ cityName: res.data.city })
 							})
 						this.requestHomeList(this.state.meta)
 					})
@@ -159,7 +159,7 @@ export default class Index extends Component<any> {
 			data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
 		})
 			.then((res: any) => {
-				this.setState({ cityName: res.city })
+				this.setState({ cityName: res.data.city })
 			})
 	}
 
@@ -173,7 +173,7 @@ export default class Index extends Component<any> {
 		})
 			.then((res: any) => {
 				Taro.hideLoading()
-				this.setState({ storeList: res.store_info.data, storeHeadImg: res.banner });
+				this.setState({ storeList: res.data.store_info.data, storeHeadImg: res.data.banner });
 			})
 			.catch(() => {
 				this.showLoading()
@@ -203,7 +203,7 @@ export default class Index extends Component<any> {
 			.then((res: any) => {
 				Taro.stopPullDownRefresh()
 				Taro.hideLoading()
-				this.setState({ storeList: [...this.state.storeList, ...res.store_info.data], storeHeadImg: res.banner });
+				this.setState({ storeList: [...this.state.storeList, ...res.store_info.data], storeHeadImg: res.data.banner });
 			})
 	}
 
@@ -268,7 +268,8 @@ export default class Index extends Component<any> {
 		return typeof (value1) === 'string' ? (value1.length > 1 ? '' : 'none') : 'none'
 	}
 
-	controlPicture = (gift, coupon) => { // 控制图片显示
+	controlPicture = (gift, coupon, preview?) => { // 控制图片显示
+		// if (!coupon && !gift && !preview) return 9
 		if (!coupon && !gift) return false //两个图片都没有 显示门头照preview
 		if (!gift) return 1 //礼品图不存在 只显示一张coupon
 		return 2 //两张都显示
@@ -333,10 +334,10 @@ export default class Index extends Component<any> {
 							<View className="content flex" onClick={this.handleClick.bind(this, item.id)}>
 								<View className="item">
 									<View className="flex">
-										<View className="title item">{item.name}</View>
+										<View className="title item" style="font-weight:500;">{item.name}</View>
 										<AtIcon value="chevron-right" color="#999" size="16px" />
 									</View>
-									<View className="flex " style="position:relative;">
+									<View className="flex " style="position:relative; margin-top:5px;">
 										{
 											item.label.map((item1: any, index1: any) => {
 												return <View className="tag" style="background-color:#fff">{item1}</View>
@@ -352,12 +353,18 @@ export default class Index extends Component<any> {
 								 如果两张图都没有  就显示门头照
 								 item.preview   coupon_image_url gift_pic
 							 */}
-							<View className="content_box" onClick={this.handleClick.bind(this, item.id)}>
+							<View className="content_box" onClick={this.handleClick.bind(this, item.id)}
+						>
 								<View className='content_img'	>
-									<Image src={this.controlPicture(item.gift_pic, item.coupon_image_url) === false ? item.preview : item.coupon_image_url} />
+									<Image src={
+										this.controlPicture(item.gift_pic, item.coupon_image_url) === false ||
+										this.controlPicture(item.gift_pic, item.coupon_image_url) === 1 ?
+										item.preview : item.coupon_image_url} />
 								</View>
 								<View className={this.controlPicture(item.gift_pic, item.coupon_image_url) === 2 ?
-									'content_img' : 'hidden_content_img'}>
+									'content_img' : 'hidden_content_img'} style="position:relative;  padding-left:2px; margin-left:5px; ">
+									<Image src={require("./border.png")} style="position:absolute; top:0px;left:0px;" />
+									<Image src={require("./qiu.png")} style="position:absolute; top:-4px;left:41%; width:25px;height:25px;" />
 									<Image src={item.gift_pic} />
 								</View>
 							</View>
@@ -369,10 +376,10 @@ export default class Index extends Component<any> {
 									</View>
 								</View>
 								<View className="give flex center"
-									style={{ display: typeof (item.gift_coupon_name) === 'string' ? '' : 'none' }}>
-									<View className="icon" style="background: #5d84e0">卷</View>
+									style={{ display: typeof (item.cash_coupon_name) === 'string' ? '' : 'none' }}>
+									<View className="icon" style="background: #5d84e0">券</View>
 									<View className="title item">
-										<Text className="strong">{item.gift_coupon_name}</Text>
+										<Text className="strong">{item.cash_coupon_name}</Text>
 									</View>
 								</View>
 								<View className="give flex center"

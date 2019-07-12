@@ -25,7 +25,8 @@ export default class ActivityGroupComponent extends Component<Props> {
         participation_money: '',
         market_price: '',
         gift_pic: "",
-        activity_id: ''
+        activity_id: '',
+        youhui_id:''
       }
     ],
     activity_group_bull: false,
@@ -102,7 +103,7 @@ export default class ActivityGroupComponent extends Component<Props> {
                   {/* <View className="count">{this.state.activity_group[0].participation_number}人团</View> */}
                 </View>
               </View>
-              {this.state.activity_group[0].gift_pic == null ?
+              {this.state.activity_group[0].gift_pic == "" ?
                 <View className="image-list0">
                   <Image className="image0" src={this.state.activity_group[0].image_url} />
                   {/* <Image className="image" src={this.state.activity_group[0].image_url} />

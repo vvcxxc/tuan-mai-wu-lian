@@ -83,8 +83,8 @@ export default class ActivityAppreComponent extends Component<Props> {
                                         <View className="box_left_return">最高可抵{item.return_money}元</View>
                                     </View>
                                     <View className="box_center">
-                                        <View className="present">{item.activity_brief}</View>
-                                        {/* <View className="present_recommend">送价值3000元耳机</View> */}
+                                        <View className="present">{item.name}</View>
+                                        <View className="present_recommend">{item.activity_brief}</View>
                                     </View>
                                     <View className="box_right" style={{ overflow: "hidden" }}>
                                         <Image className="image" src={item.image_url} style={{ width: "100%", height: "100%" }} />

@@ -34,9 +34,11 @@ export default class ConfirmOrder extends Component {
     })
     request({ url: '/v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
+        console.log(res.data);
+
         this.setState({
-          coupon: res.info.coupon,
-          store: res.info.store
+          coupon: res.data.info.coupon,
+          store: res.data.info.store
         })
         Taro.hideLoading()
       });
@@ -78,11 +80,11 @@ export default class ConfirmOrder extends Component {
         Taro.hideLoading();
         // 发起支付
         Taro.requestPayment({
-          timeStamp: res.timeStamp,
-          nonceStr: res.nonceStr,
-          package: res.package,
-          signType: res.signType,
-          paySign: res.paySign,
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: res.data.signType,
+          paySign: res.data.paySign,
           success(res) {
             () => {
               this.setState({
