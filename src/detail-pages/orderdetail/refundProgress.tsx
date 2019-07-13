@@ -17,15 +17,14 @@ function Index (){
         refund_channel:4,//退款渠道 1微信，2支付宝，3快付通，4条条码，5网银在线，6快钱
     })
     let timer :any
-    useEffect(()=>{
+    useEffect(async ()=>{
         request({
             url: "v3/user/coupons/refund/schedule",
             data: { coupons_log_id : id },
         }).then((res:any)=>{
-           
                console.log(res)
-               setData( Object.assign({},defaultData,res) )
-           
+               setData( Object.assign({},defaultData,res.data) )
+
         }).catch(()=>{
            Taro.showToast({ title:'加载失败',icon:'none' })
            timer = setTimeout(()=>{ Taro.navigateBack()  },2000)
@@ -49,12 +48,12 @@ function Index (){
             case 6:
                 return '快钱'
             default :
-            return ''                
-        }       
+            return ''
+        }
     }
     return <View className='z_refundBox' >
              <View className='z_head'  >
-                 ￥{ defaultData.refund_money }  { defaultData.refund_typ === 1 ? '已退款' : '部分退款'  } 
+                 ￥{ defaultData.refund_money }  { defaultData.refund_typ === 1 ? '已退款' : '部分退款'  }
              </View>
              <View className='z_item'  >
                 <Text>退款金额：</Text><Text>￥{defaultData.refund_money}</Text>
@@ -76,6 +75,6 @@ function Index (){
 
 Index.config  = {
     navigationBarTitleText: '退款进度',
-}  
+}
 
 export default Index

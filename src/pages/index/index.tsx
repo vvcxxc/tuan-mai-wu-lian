@@ -324,7 +324,18 @@ export default class Index extends Component<any> {
 		// 	{ url: '../../pages/my/index' }
 		// )
 		Taro.navigateTo({ url: '/activity-pages/my-welfare/pages/gift/welfare.gift' });
-	}
+  }
+  gotoGroup = () => {
+    Taro.navigateTo({
+      url: '/pages/activity/pages/list/list?type=5'
+    })
+  }
+  gotoAppre = () => {
+    Taro.navigateTo({
+      url: '/pages/activity/pages/list/list?type=1'
+    })
+  }
+
 
 	render() {
 		return (
@@ -356,8 +367,8 @@ export default class Index extends Component<any> {
 					</View>
 				</View>
 				<View className="advert">
-					<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"}></Image>
-					<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"}></Image>
+					<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"} onClick={this.gotoGroup}></Image>
+					<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"} onClick={this.gotoAppre}></Image>
 				</View>
 				<View className="no_receive" style={{display:this.state.showGift == 1? '':'none'}}
 				>你还有未领取的礼品 去

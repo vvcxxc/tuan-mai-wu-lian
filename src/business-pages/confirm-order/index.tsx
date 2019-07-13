@@ -103,9 +103,9 @@ export default class ConfirmOrder extends Component {
             }
           },
           complete() {
-            // Taro.navigateTo({
-            //   url: ""
-            // })
+            Taro.switchTab({
+              url: '/pages/order/index'
+            })
           }
         })
       });

@@ -10,7 +10,8 @@ import request from "../../services/request";
 
 export default class Order extends Component {
   config: Config = {
-    navigationBarTitleText: "我的订单"
+    navigationBarTitleText: "我的订单",
+    enablePullDownRefresh: true,
   };
   constructor(props) {
     super(props);
@@ -247,6 +248,9 @@ export default class Order extends Component {
       })
     this.setState({ _codeshow: true });
     Taro.hideLoading();
+  }
+  onPullDownRefresh = () => { // 自带 下拉事件
+    this.getData();
   }
 
   render() {

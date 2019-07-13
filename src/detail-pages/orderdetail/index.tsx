@@ -61,7 +61,8 @@ function Index() {
     coupons_name,//优惠券名称
     total_fee,
     supplier_id,
-    source
+    source,
+    pay_money
   } = dataInfo
   const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
@@ -106,8 +107,9 @@ function Index() {
       data: { coupons_log_id: cuoPonsId },
     }).then((res: any) => {
       if (res.code === 200) {
+        handerApplyShow()
         Taro.showToast({ title: '退款成功' })
-        routeGo('/pages/orderdetail/refundProgress', cuoPonsId)
+        routeGo('/detail-pages/orderdetail/refundProgress', cuoPonsId)
       } else {
         handerApplyShow()
         setTimeOut(() => {
@@ -115,7 +117,7 @@ function Index() {
         }, 500)
       }
     }).catch(() => {
-      Taro.showToast({ title: '退款失败', icon: 'none' })
+      Taro.showToast({ title: '请求错误', icon: 'none' })
       handerApplyShow()
     })
   }
@@ -163,7 +165,7 @@ function Index() {
       }
       { /* 订单信息  */}
       <View className='z_billingInfo' >
-        <BillingInfo billingInfoProps={{ youhui_sn, cuoPonsId, tel, money, create_time, refund_time, confirm_time, status }} />
+        <BillingInfo billingInfoProps={{ youhui_sn, cuoPonsId, tel, money, create_time, refund_time, confirm_time, status ,pay_money}} />
       </View>
       { /* 适用商铺  */}
       <View className='z_billingInfo' >
@@ -171,7 +173,7 @@ function Index() {
       </View>
       { /* 申请退款 */}
       {
-        status * 1 === 1 && !handerExceedTimeLimit(end_time) && (source == 3 || source == 4 || source == 5) ?
+        status * 1 === 1 && (source == 3 || source == 4 || source == 5) ?
           <View className='z_applyReturn' >
             <View onClick={handerApplyShow}  >申请退款</View>
           </View>

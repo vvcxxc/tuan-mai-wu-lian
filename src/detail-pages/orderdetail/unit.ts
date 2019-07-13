@@ -27,14 +27,14 @@ export const defaultData: any = {
     youhui_sn: '',//订单号 与码同一个
     create_time: 0,//付款时间
     refund_time: 0,//退款时间
-    status: 0,//状态 状态 1未使用 2已使用 3已退款 只有显示已退款才可以请求查看退款进度 退款进度接口 /v3/user/coupons/refund/schedule	
+    status: 0,//状态 状态 1未使用 2已使用 3已退款 只有显示已退款才可以请求查看退款进度 退款进度接口 /v3/user/coupons/refund/schedule
     location_address: '******',//店铺地址
     tel: '',//电话号码
     distance: '',//距离
     capita: '',//人均费用
     total_fee:'',
     supplier_id:'',
-    source:''
+    source:'',
     // "coupons_log_id":877,
     // "coupons_id":936,
     // "expiration":"2019-08-08 18:33:06",
