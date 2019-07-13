@@ -37,6 +37,7 @@ export default class ExchangeCouponComponent extends Component<Props> {
         exchangeCouponList_bull: false
     }
     componentDidMount() {
+        console.log(this.props.exchangeCouponList)
         this.setState({
             exchangeCouponList: this.props.exchangeCouponList
         })
@@ -54,16 +55,18 @@ export default class ExchangeCouponComponent extends Component<Props> {
     render() {
         return (
             <View >
-                <View className="merchant-details__tit" style={{ fontSize: "19px", paddingLeft: "20px" }}>
+                <View className="merchant-details__tit" style={{fontSize: "19px",paddingLeft:"24rpx",height:"26px",position:"relative",display:"flex",alignItems:"center"}}>
                     <Text className="mark" style={{
-                        fontSize: " 10px",
-                        color: "#fff",
-                        backgroundColor: "#5DD8A5",
-                        padding: "3px 5px",
-                        borderRadius: " 2px",
-                        marginRight: "10px"
+                         fontSize: " 10px",
+                         color: "#fff",
+                         backgroundColor: "#5DD8A5",
+                         padding: "1px 5px",
+                         borderRadius: " 2px",
+                         marginRight: "10px",
+                         verticalAlign:"inherit",
+                         bottom:"0"
                     }}>惠</Text>
-                    <Text className="fwb" style={{ fontWeight: "bold" }}>优惠信息</Text>
+                    <Text className="fwb" style={{ fontWeight: "bold", padding: "3px 5px", position: "absolute",left: "40px",bottom:"-6px" }}>优惠信息</Text>
                 </View>
                 <View className="discounts-view bcfff" >
                     {
@@ -82,7 +85,7 @@ export default class ExchangeCouponComponent extends Component<Props> {
                                             <View className="desc">{item.brief}</View>
                                             <View className="flex center" style={{ position: "relative" }}>
                                                 <View className="money" style={{ position: 'absolute', left: '0' }}>￥{item.pay_money}</View>
-                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, item.id)} style={{ position: 'absolute', right: '20px' }}>立即购买</Button>
+                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, item.id)} style={{ position: 'absolute', right: '0', width: "104px", height: "33px", lineHeight: "3" }}>立即购买</Button>
                                             </View>
                                         </View>
                                     </View>
@@ -101,15 +104,15 @@ export default class ExchangeCouponComponent extends Component<Props> {
                                             <View className="tit">{this.state.exchangeCouponList[0].name}</View>
                                             <View className="desc">{this.state.exchangeCouponList[0].brief}</View>
                                             <View className="flex center" style={{ position: "relative" }}>
-                                                <View className="money" style={{ position: 'absolute', left: '20px' }}>￥{this.state.exchangeCouponList[0].pay_money}</View>
-                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, this.state.exchangeCouponList[0].id)} style={{ position: 'absolute', right: '20px' }}>立即购买</Button>
+                                                <View className="money" style={{ position: 'absolute', left: '0' }}>￥{this.state.exchangeCouponList[0].pay_money}</View>
+                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, this.state.exchangeCouponList[0].id)} style={{ position: 'absolute', right: '0', width: "104px", height: "33px", lineHeight: "3" }}>立即购买</Button>
                                             </View>
                                         </View>
                                     </View>
                                 </View>
                             </div>
                     }
-
+                    <View style={{ height: "20px" }}></View>
                     {
                         this.state.exchangeCouponList.length != 1 ?
                             <View className="ft-more flex center"

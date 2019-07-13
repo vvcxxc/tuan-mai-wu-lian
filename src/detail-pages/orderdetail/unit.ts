@@ -33,7 +33,8 @@ export const defaultData: any = {
     distance: '',//距离
     capita: '',//人均费用
     total_fee:'',
-    supplier_id:''
+    supplier_id:'',
+    source:''
     // "coupons_log_id":877,
     // "coupons_id":936,
     // "expiration":"2019-08-08 18:33:06",

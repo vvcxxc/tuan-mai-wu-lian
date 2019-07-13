@@ -29,7 +29,8 @@ export default class ActivityAppreComponent extends Component<Props> {
             return_money: '',
             market_price: '',
             init_money: '',
-            gift_pic: ""
+            gift_pic: "",
+            gift_desc:''
         }],
         activity_appre_bull: false,
     }
@@ -50,16 +51,18 @@ export default class ActivityAppreComponent extends Component<Props> {
         return (
             <View>
                 <View style={{ height: "10px" }}></View>
-                <View className="merchant-details__tit" style={{ fontSize: "19px", paddingLeft: "20px" }}>
+                <View className="merchant-details__tit" style={{ fontSize: "19px",paddingLeft:"24rpx",height:"26px",position:"relative",display:"flex",alignItems:"center"}}>
                     <Text className="mark" style={{
                         fontSize: " 10px",
                         color: "#fff",
-                        backgroundColor: "#C71D0B",
-                        padding: "3px 5px",
+                        backgroundColor: "#C71D08",
+                        padding: "1px 5px",
                         borderRadius: " 2px",
-                        marginRight: "10px"
+                        marginRight: "10px",
+                        verticalAlign:"inherit",
+                        bottom:"0"
                     }}>增</Text>
-                    <Text className="fwb" style={{ fontWeight: "bold" }}>增值低价买</Text>
+                    <Text className="fwb" style={{ fontWeight: "bold", padding: "3px 5px", position: "absolute",left: "40px",bottom:"-6px"}}>增值低价买</Text>
                 </View>
                 {/* 增值活动 */}
                 {
@@ -67,24 +70,20 @@ export default class ActivityAppreComponent extends Component<Props> {
                         <View className="group-purchase bcfff" key={item.name}>
                             <View style={{ height: "5px" }}></View>
                             <View className="hd">
-                                {/* <View className="merchant-details__tit">
-                                    <Text className="mark">增</Text>
-                                    <Text className="fwb">增值低价买</Text>
-                                </View> */}
                                 <View className="flex center">
-                                    <View className="item desc">{item.name}</View>
+                                    <View className="item desc">{item.activity_brief}</View>
                                 </View>
                             </View>
                             <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                                 <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                                 <View className="img" style={{ width: "100%" }}   >
                                     <View className="box_left">
-                                        <View className="box_left_price">￥{item.return_money}</View>
+                                        <View className="box_left_price">￥{item.pay_money}</View>
                                         <View className="box_left_return">最高可抵{item.return_money}元</View>
                                     </View>
                                     <View className="box_center">
                                         <View className="present">{item.name}</View>
-                                        <View className="present_recommend">{item.activity_brief}</View>
+                                        <View className="present_recommend">{item.gift_desc}</View>
                                     </View>
                                     <View className="box_right" style={{ overflow: "hidden" }}>
                                         <Image className="image" src={item.image_url} style={{ width: "100%", height: "100%" }} />
@@ -95,18 +94,14 @@ export default class ActivityAppreComponent extends Component<Props> {
                                 <View className="flex center">
                                     <View className="item">
                                         <Text className="money">￥{item.pay_money}</Text>
-                                        <Text className="count">{item.activity_brief}</Text>
+                                        {/* <Text className="count">{item.activity_brief}</Text> */}
                                     </View>
-                                    <Button className="btn-go" onClick={this.gotoAppreciation.bind(this,item.youhui_id)}>立刻增值</Button>
+                                    <Button className="btn-go" style={{width:"104px",height:"33px"}} onClick={this.gotoAppreciation.bind(this,item.youhui_id)}>立刻增值</Button>
                                 </View>
                             </View>
                         </View>
                     )) : <View className="group-purchase bcfff">
                             <View className="hd">
-                                {/* <View className="merchant-details__tit">
-                                    <Text className="mark">增</Text>
-                                    <Text className="fwb">增值低价买</Text>
-                                </View> */}
                                 <View className="flex center">
                                     <View className="item desc">{this.state.activity_appre[0].name}</View>
                                 </View>
@@ -115,12 +110,12 @@ export default class ActivityAppreComponent extends Component<Props> {
                                 <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                                 <View className="img" style={{ width: "100%" }}   >
                                     <View className="box_left">
-                                        <View className="box_left_price">￥{this.state.activity_appre[0].return_money}</View>
+                                        <View className="box_left_price">￥{this.state.activity_appre[0].pay_money}</View>
                                         <View className="box_left_return">最高可抵{this.state.activity_appre[0].return_money}元</View>
                                     </View>
                                     <View className="box_center">
                                         <View className="present">{this.state.activity_appre[0].activity_brief}</View>
-                                        {/* <View className="present_recommend">送价值3000元耳机</View> */}
+                                        <View className="present_recommend">{this.state.activity_appre[0].gift_desc}</View>
                                     </View>
 
                                     <View className="box_right" style={{ overflow: "hidden" }}>
@@ -132,9 +127,9 @@ export default class ActivityAppreComponent extends Component<Props> {
                                 <View className="flex center">
                                     <View className="item">
                                         <Text className="money">￥{this.state.activity_appre[0].pay_money}</Text>
-                                        <Text className="count">{this.state.activity_appre[0].activity_brief}</Text>
+                                        {/* <Text className="count">{this.state.activity_appre[0].activity_brief}</Text> */}
                                     </View>
-                                    <Button className="btn-go" onClick={this.gotoAppreciation.bind(this,this.state.activity_appre[0].youhui_id)}>立刻增值</Button>
+                                    <Button className="btn-go" style={{width:"104px",height:"33px"}} onClick={this.gotoAppreciation.bind(this,this.state.activity_appre[0].youhui_id)}>立刻增值</Button>
                                 </View>
                             </View>
                         </View>

@@ -27,7 +27,8 @@ export function SuitStore(props: suitStoreProps) {
    return <View className='a_buyBox' style={{ paddingBottom: '0' }}
       onClick={() => {
          Taro.navigateTo({
-            url: '/pages/business/index?id='+supplier_id
+            //url: '/detail-pages/business/index?id='+supplier_id
+            url: '/pages/business/index?id=' + supplier_id
          })
       }}
    >

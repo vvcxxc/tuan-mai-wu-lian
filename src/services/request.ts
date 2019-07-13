@@ -13,7 +13,7 @@ interface Options extends RequestParams {
   host?: string;
 }
 
-const host = "http://test.api.tdianyi.com/";
+const host = process.env.BASIC_API;
 
 export default function request(options: Options) {
   const pages = Taro.getCurrentPages();

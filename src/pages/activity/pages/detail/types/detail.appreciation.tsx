@@ -72,10 +72,10 @@ export default class DetailAppreciation extends Component<DetailProp> {
                   {data.location_name || "暂无"}
                 </View>
                 <View className="item name">{data.name || "暂无"}</View>
-                <View className="item brief">
+                {/* <View className="item brief">
                   {data.list_brief || "暂无"}
                 </View>
-                <Image className="item image" src={data.image} />
+                <Image className="item image" src={data.image} /> */}
               </View>
             </View>
             <View className="area-attention">

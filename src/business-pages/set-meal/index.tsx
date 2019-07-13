@@ -24,7 +24,7 @@ export default class PaySuccess extends Component {
       brief: "",
       //真正的收藏
       collect: "0",
-      description: "",
+      description: [],
       end_time: "",
       icon: "h",
       id: 1311,
@@ -66,7 +66,8 @@ export default class PaySuccess extends Component {
       return_money: "",
       sname: "",
       yname: "",
-      youhui_type: '0'
+      youhui_type: '0',
+      expire_day: ''
     }]
   };
 
@@ -74,7 +75,8 @@ export default class PaySuccess extends Component {
     Taro.showLoading({
       title: 'loading',
     })
-    Taro.getLocation({ type: 'wgs84' }).then((res:any) => {
+    // console.log(this.$router.params)
+    Taro.getLocation({ type: 'wgs84' }).then(res => {
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude
@@ -83,6 +85,7 @@ export default class PaySuccess extends Component {
           url: 'v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint }
         })
           .then((res: any) => {
+            console.log(res);
             this.setState({
               coupon: res.data.info.coupon,
               store: res.data.info.store,
@@ -90,7 +93,14 @@ export default class PaySuccess extends Component {
               recommend: res.data.recommend.data
             })
             Taro.hideLoading()
-          }).catch(function (error) { console.log(error); });
+          }).catch(function (error) {
+            Taro.hideLoading()
+            Taro.showToast({ title: '数据请求失败', icon: 'none' })
+            setTimeout(() => {
+              Taro.navigateBack({
+              })
+            }, 2000)
+          });
       })
     })
 
@@ -99,12 +109,14 @@ export default class PaySuccess extends Component {
 
   }
   handleClick = (id, e) => {
+    console.log(id)
     Taro.navigateTo({
       url: '../../business-pages/confirm-order/index?id=' + id
     })
   };
   handleClick2 = (_id, e) => {
     Taro.navigateTo({
+      // url: '/detail-pages/business/index?id=' + _id
       url: '/pages/business/index?id=' + _id
     })
   };
@@ -113,7 +125,7 @@ export default class PaySuccess extends Component {
     // let _id = this.state.coupon.id;
     // request({ url: 'v3/coupons/collection', method: "PUT", data: { coupon_id: _id } })
     //   .then((res: any) => {
-    //     console.log(res.data)
+    //     console.log(res)
     //     // if (res) {
     //     //   this.setState({
     //     //     keepCollect_data: res.data,
@@ -203,26 +215,32 @@ export default class PaySuccess extends Component {
             <View className="label-value">{this.state.coupon.begin_time + "   -   " + this.state.coupon.end_time}</View>
             <View className="label">使用规则：</View>
 
-            {/* <View className="label-value">{this.state.store.brief}</View> */}
+            <View className="label-value">
+              <ul>
+                {
+                  this.state.coupon.description.map((item) => (
+                    <li className="label-value"><View >. {item}</View ></li>
+                  ))
+                }
+              </ul>
+            </View>
           </View>
           {/* <View className="ft-more flex center">查看更多<AtIcon value="chevron-right" color="#999" size="16px" /></View> */}
         </View>
 
-        <View className="examine-more mt20 pd30 bcff">
-          <View className="set-meal__tit">
-            <Text className="fwb">图文详情</Text>
-
-            {
-              this.state.goods_album.map((item) => (
-                <Image src={item.image_url} style={{ width: "100%" }} key={item.id} />
-              ))
-            }
-
-
-
-          </View>
-        </View>
-
+        {
+          this.state.goods_album.length != 0 ?
+            <View className="examine-more mt20 pd30 bcff">
+              <View className="set-meal__tit">
+                <Text className="fwb">图文详情</Text>
+                {
+                  this.state.goods_album.map((item) => (
+                    <Image src={item.image_url} style={{ width: "100%" }} key={item.id} />
+                  ))
+                }
+              </View>
+            </View> : ""
+        }
         <View className="examine-more mt20 pd30 bcff">
           <View className="set-meal__tit">
             <Text className="fwb">更多本店宝贝</Text>
@@ -230,7 +248,7 @@ export default class PaySuccess extends Component {
           {
             this.state.recommend.map((item) => (
               <View key={item.id} >
-                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} _image={item.image} />
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} _image={item.image} expire_day={item.expire_day} />
               </View>
             ))
           }

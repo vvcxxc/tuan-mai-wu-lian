@@ -47,7 +47,7 @@ export default class Activity extends Component<ActivityProps> {
     menu: 0,
   }
   config: Config = {
-    navigationBarTitleText: "活动中心"
+    navigationBarTitleText: "活动中心",
   }
 
   componentDidMount() {

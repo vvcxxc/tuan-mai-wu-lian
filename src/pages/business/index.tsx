@@ -4,9 +4,9 @@ import { View, Text, Image, ScrollView, Button } from "@tarojs/components";
 import "./index.styl";
 import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
+// import starImg from '../../assets/starcollect.png'
 import AddressImg from '../../assets/address.png'
 import "taro-ui/dist/style/components/toast.scss";
-
 import ActivityGroupComponent from './ActivityGroup'
 import ActivityAppreComponent from './ActivityAppre'
 import CashCouponListComponent from './cashCouponList'
@@ -29,7 +29,7 @@ export default class PaySuccess extends Component<Props> {
       id: "",
       name: '',
       address: '',
-      preview:"",
+      preview: "",
       store_img_one: "",
       store_img_three: "",
       store_img_two: "",
@@ -43,13 +43,67 @@ export default class PaySuccess extends Component<Props> {
         preview: '',
         name: '',
         address: '',
-        label: ['免费礼品']
+        label: [''],
+        distance: ''
       }
     ],
-    activity_group: [],
-    activity_appre: [],
-    cashCouponList: [],
-    exchangeCouponList: [],
+    activity_group: [
+      // {
+      //   //拼团活动
+      //   name: '',
+      //   activity_brief: '	',
+      //   image_url: "",
+      //   pay_money: '',
+      //   return_money: '',
+      //   participation_number: '',
+      //   participation_money: '',
+      //   market_price: '',
+      //   gift_pic: ""
+      // }
+    ],
+    activity_appre: [
+      // {
+      //   //增值活动
+      //   name: "",
+      //   activity_brief: '',
+      //   image_url: "",
+      //   pay_money: '',
+      //   return_money: '',
+      //   market_price: '',
+      //   init_money: '',
+      //   gift_pic: ""
+      // }
+    ],
+    cashCouponList: [
+      //{//优惠券列表
+      //   id: '',
+      //   name: '',
+      //   image: "",
+      //   image_type: '',
+      //   address: '',
+      //   list_brief: '',
+      //   brief: '',
+      //   youhui_type: '1',
+      //   begin_time: '',
+      //   end_time: '',
+      //   pay_money: "",
+      //   expire_day: ""
+      // }
+    ],
+    exchangeCouponList: [
+      //   {
+      //   begin_time: "",
+      //   brief: "",
+      //   end_time: "",
+      //   id: 1590,
+      //   image: "",
+      //   list_brief: "",
+      //   name: "",
+      //   youhui_type: 0,
+      //   pay_money: ""
+      // }
+    ]
+    ,
     activity_group_bull: false,
     activity_appre_bull: false,
 
@@ -63,24 +117,39 @@ export default class PaySuccess extends Component<Props> {
       title: 'loading',
     })
     let that = this;
-    Taro.getLocation({ type: 'wgs84' }).then((res:any )=> {
+    Taro.getLocation({ type: 'wgs84' }).then(res => {
+      // let yPoint= res.latitude;
+      // let xPoint=res.longitude;
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude
       }, () => {
         request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
           .then((res: any) => {
-            console.log(res.data);
-            that.setState({
-              business_list: res.data.store.Info,
-              recommend: res.data.recommend,
-              activity_group: res.data.store.activity_group,
-              activity_appre: res.data.store.activity_appreciation,
-              cashCouponList: res.data.store.cashCouponList,
-              exchangeCouponList: res.data.store.exchangeCouponList,
-              keepCollect_bull: res.data.store.Info.collect ? true : false
-            })
+            console.log(res);
             Taro.hideLoading()
+            if (res.code != 200) {
+              Taro.showToast({
+                title: "没有该店信息",
+                icon: 'none',
+                duration: 2000
+              })
+              setTimeout(() => {
+                Taro.navigateBack({
+                })
+              }, 2000)
+            } else {
+              that.setState({
+                business_list: res.data.store.Info,
+                recommend: res.data.recommend,
+                activity_group: res.data.store.activity_group,
+                activity_appre: res.data.store.activity_appreciation,
+                cashCouponList: res.data.store.cashCouponList,
+                exchangeCouponList: res.data.store.exchangeCouponList,
+                keepCollect_bull: res.data.store.Info.collect ? true : false
+              })
+              Taro.hideLoading()
+            }
           });
       })
 
@@ -100,6 +169,7 @@ export default class PaySuccess extends Component<Props> {
     })
   }
   handleClick3 = (_id, e) => {
+    // console.log(_id);
     Taro.navigateTo({
       url: './index?id=' + _id
     })
@@ -113,8 +183,10 @@ export default class PaySuccess extends Component<Props> {
       .then((res: any) => {
         Taro.hideLoading();
         if (res) {
+          // console.log(this.state.keepCollect_bull)
           this.setState({
             keepCollect_data: res.data,
+            //控制AtToast显示，set为true就好了，每次set都会触发AtToast
             keepCollect_show: true,
             keepCollect_bull: !this.state.keepCollect_bull
           })
@@ -122,6 +194,7 @@ export default class PaySuccess extends Component<Props> {
       })
   }
   render() {
+    // console.log(this.state.keepCollect_bull);
     return (
       <View className="merchant-details">
         {
@@ -149,17 +222,17 @@ export default class PaySuccess extends Component<Props> {
                 )
             }
           </View>
-          <ScrollView scrollX className="scroll-view" >
+          <ScrollView scrollX className="scroll-view">
             <View className="flex">
-              <Image className="image"  src={this.state.business_list.preview} />
-              <Image className="image"  src={this.state.business_list.store_img_one} />
-              <Image className="image"  src={this.state.business_list.store_img_two} />
+              <Image className="image" src={this.state.business_list.preview} />
+              <Image className="image" src={this.state.business_list.store_img_one} />
+              <Image className="image" src={this.state.business_list.store_img_two} />
             </View>
           </ScrollView>
           <View className="address flex center">
-            <Image className="address-img" src={AddressImg} />
-            <View className="text item" >{this.state.business_list.address}</View>
-            <Image className="mobile-img" src={MobileImg} />
+            <Image className="address-img" style={{ marginRight: "10px" }} src={AddressImg} />
+            <View className="text item">{this.state.business_list.address}</View>
+            <Image className="mobile-img" style={{ paddingLeft: "10px", paddingTop: "2px", paddingBottom: "2px", borderLeft: "1px solid #ccc" }} src={MobileImg} />
           </View>
         </View>
 
@@ -197,11 +270,13 @@ export default class PaySuccess extends Component<Props> {
           <View className="recommend-cells">
             {
               this.state.recommend.map((item) => (
-                <View className="recommend-cell flex center"  key={item.id} onClick={this.handleClick3.bind(this, item.id)}>
+                <View className="recommend-cell flex center" key={item.id} onClick={this.handleClick3.bind(this, item.id)}>
                   <Image className="image" src={item.preview} />
                   <View className="recommend-cell__bd item">
                     <View className="tit">{item.name}</View>
                     <View className="flex center mb33">
+                      <Text className="ellipsis-one "></Text>
+                      <Text>{item.distance}</Text>
                     </View>
                     <View className="flex center">
                       <View className="tags">

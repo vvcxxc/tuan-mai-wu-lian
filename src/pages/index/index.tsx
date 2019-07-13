@@ -1,10 +1,13 @@
 import Taro, { Component, Config } from '@tarojs/taro';
-import { View, Image, Text } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+import { View, Swiper, SwiperItem, Input, Image, Text } from '@tarojs/components';
+import { AtIcon, AtButton } from 'taro-ui';
 import './index.styl';
+import Tabs from '../../components/tabs';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
+import ActivityList from './activity-list';
 import { connect } from '@tarojs/redux'
+import { timingSafeEqual } from 'crypto';
 
 @connect(
 	state => ({
@@ -37,7 +40,8 @@ export default class Index extends Component<any> {
 	 * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
 	 */
 	config: Config = {
-		navigationBarTitleText: '团卖物联'
+		navigationBarTitleText: '团卖物联',
+		enablePullDownRefresh: true,
 	};
 
 	state = {
@@ -52,6 +56,9 @@ export default class Index extends Component<any> {
 		deal_cate_id: null,
 		current: 0,
 		showLine: false,
+		cityId: null,
+		indexImg: '',
+		showGift:null
 	};
 
 	constructor(props) {
@@ -66,6 +73,7 @@ export default class Index extends Component<any> {
 		this.requestTab(); //经营列表
 		this.localStorageData();
 		this.requestLocation();
+		this.showGift();
 	}
 
 	requestLocation = () => {
@@ -89,6 +97,7 @@ export default class Index extends Component<any> {
 		Taro.getStorage({ key: 'router' }).then((res: any) => {
 			if (res.data.city_name && res.data.city_id) {
 				this.setState({ cityName: res.data.city_name })
+				this.setState({ cityId: res.data.city_id})
 				if (this.state.deal_cate_id) {
 					this.setState({ meta: { city_id: res.data.city_id, deal_cate_id: this.state.deal_cate_id } }, () => {
 						this.requestHomeList(this.state.meta)
@@ -120,6 +129,7 @@ export default class Index extends Component<any> {
 								this.setState({ cityName: res.data.city })
 							})
 						this.requestHomeList(this.state.meta)
+						this.getCityId()
 					})
 				}
 			}
@@ -156,8 +166,23 @@ export default class Index extends Component<any> {
 			data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
 		})
 			.then((res: any) => {
-				this.setState({ cityName: res.data.city })
+				this.setState({ cityName: res.data.city }, () => {
+					this.getCityId()
+				})
 			})
+	}
+
+
+	getCityId = () => {
+		request({
+			url: 'v3/citys',
+			data: { keyword: this.state.cityName}
+		})
+			.then((res: any) => {
+				this.setState({ cityId: res.data[0].id }, () => {
+					this.showImage()
+				})
+		})
 	}
 
 	// 首页数据 初始渲染
@@ -271,10 +296,39 @@ export default class Index extends Component<any> {
 		return 2 //两张都显示
 	}
 
+	showGift = () => {
+		request({
+			url: 'v3/user/home_index'
+		})
+			.then((res:any) => {
+				this.setState({ showGift: res.data.have_gift})
+			})
+	}
+
+	showImage = () => {
+		request({
+			url: 'v3/ads',
+			data: {
+				position_id: '3',
+				city_id: this.state.cityId
+			}
+		})
+			.then((res: any) => {
+				this.setState({ indexImg: res.data.pic})
+			})
+	}
+
+	// 跳转到我的礼品
+	routerGift = () => {
+		// Taro.reLaunch(
+		// 	{ url: '../../pages/my/index' }
+		// )
+		Taro.navigateTo({ url: '/activity-pages/my-welfare/pages/gift/welfare.gift' });
+	}
+
 	render() {
 		return (
 			<View className="index">
-
 				<View className="head">
 					<View className="search">
 						<View className="flex center container">
@@ -296,14 +350,20 @@ export default class Index extends Component<any> {
 						</View>
 					</View>
 					<View className="swiper">
-						<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"} className="image" />
+						<Image src={
+							this.state.indexImg ? this.state.indexImg : "http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"
+						} className="image" />
 					</View>
 				</View>
 				<View className="advert">
 					<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"}></Image>
 					<Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"}></Image>
 				</View>
-				<View className="tab flex" style="background-color:#fff ; overflow :hidden;">
+				<View className="no_receive" style={{display:this.state.showGift == 1? '':'none'}}
+				>你还有未领取的礼品 去
+					<Text style="color:#FF6654" onClick={this.routerGift}>“我的礼品”</Text>	看看
+				</View>
+				<View className="tab flex" style="background-color:#f6f6f6 ; overflow :hidden;">
 					{this.state.titleList.map((item: any, index) => (
 						<View
 							key={" "}
@@ -341,14 +401,13 @@ export default class Index extends Component<any> {
 									</View>
 								</View>
 							</View>
-
 							<View className="content_box" onClick={this.handleClick.bind(this, item.id)}
-						>
+							>
 								<View className='content_img'	>
 									<Image src={
 										this.controlPicture(item.gift_pic, item.coupon_image_url) === false ||
-										this.controlPicture(item.gift_pic, item.coupon_image_url) === 1 ?
-										item.preview : item.coupon_image_url} />
+											this.controlPicture(item.gift_pic, item.coupon_image_url) === 1 ?
+											item.preview : item.coupon_image_url} />
 								</View>
 								<View className={this.controlPicture(item.gift_pic, item.coupon_image_url) === 2 ?
 									'content_img' : 'hidden_content_img'} style="position:relative;  padding-left:2px; margin-left:5px; ">
@@ -361,14 +420,14 @@ export default class Index extends Component<any> {
 								<View className="give flex center" style={{ display: this.judgeData(item.gift_name) }}>
 									<View className="icon">礼</View>
 									<View className="title item ellipsis-one">
-										<Text className="strong">{item.gift_name}</Text>
+										<Text>{item.gift_name}</Text>
 									</View>
 								</View>
 								<View className="give flex center"
 									style={{ display: typeof (item.cash_coupon_name) === 'string' ? '' : 'none' }}>
 									<View className="icon" style="background: #5d84e0">券</View>
 									<View className="title item">
-										<Text className="strong">{item.cash_coupon_name}</Text>
+										<Text>{item.cash_coupon_name}</Text>
 									</View>
 								</View>
 								<View className="give flex center"

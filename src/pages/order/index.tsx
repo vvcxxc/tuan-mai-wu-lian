@@ -1,14 +1,12 @@
 import Taro, { Component, Config } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
-import { AtTabs, AtTabsPane } from 'taro-ui'
+import { AtTabs, AtTabsPane, AtIcon } from 'taro-ui'
 import "taro-ui/dist/style/components/tabs.scss";
 import CashCoupon1 from "./cash-coupon1/index";
 import CashCoupon2 from "./cash-coupon2/index";
 
 import "./index.styl";
 import request from "../../services/request";
-
-
 
 export default class Order extends Component {
   config: Config = {
@@ -29,6 +27,7 @@ export default class Order extends Component {
       {
         coupons_log_id: "",
         coupons_id: "",
+        create_time:"",
         expiration: "",
         coupons_name: "",
         money: "",
@@ -42,6 +41,7 @@ export default class Order extends Component {
     coupon2: [{
       coupons_log_id: "",
       coupons_id: "",
+      create_time:"",
       expiration: "",
       coupons_name: "",
       money: "",
@@ -54,6 +54,7 @@ export default class Order extends Component {
     coupon3: [{
       coupons_log_id: "",
       coupons_id: "",
+      create_time:"",
       expiration: "",
       coupons_name: "",
       money: "",
@@ -66,6 +67,7 @@ export default class Order extends Component {
     coupon4: [{
       coupons_log_id: "",
       coupons_id: "",
+      create_time:"",
       expiration: "",
       coupons_name: "",
       money: "",
@@ -83,13 +85,9 @@ export default class Order extends Component {
   };
 
   componentWillMount() {
-    // console.log("xinyemiian")
     this.getData();
   }
-  onPullDownRefresh = () => { // 自带 下拉事件
-    this.getData();
-  }
-  com
+
   // 触底事件
   onReachBottom = () => {
     Taro.showLoading({
@@ -113,7 +111,6 @@ export default class Order extends Component {
       }
     })
       .then((res: any) => {
-        console.log(res)
         this.setState({ coupon: res.data, coupon1: res.data, loading: false })
       })
       .catch(() => this.setState({ loading: false }));
@@ -164,7 +161,7 @@ export default class Order extends Component {
       }
     })
       .then((res: any) => {
-        console.log(res.data)
+        // console.log(res)
         console.log(this.state.coupon.length)
         let temp = this.state.coupon1.concat(res.data);
         console.log(temp.length)
@@ -237,7 +234,7 @@ export default class Order extends Component {
       data: { coupons_log_id: _id, xpoint: '', ypoint: '' }
     })
       .then((res: any) => {
-        // console.log(res.data.youhui_sn);
+        // console.log(res.youhui_sn);
         this.setState({ _codeinfo: res.data.youhui_sn });
       })
     request({
@@ -245,7 +242,7 @@ export default class Order extends Component {
       data: { coupons_log_id: _id },
     })
       .then((res: any) => {
-        // console.log(res.data);
+        // console.log(res);
         this.setState({ _codeimg: res.data });
       })
     this.setState({ _codeshow: true });
@@ -312,17 +309,19 @@ export default class Order extends Component {
               {
                 this.state.coupon1.map((item) => (
                   item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={1} type={0} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={1} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon1.map((item) => (
                   item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
-                    <CashCoupon1 bg_img_type={0} type={1} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} clickcode={this.showcode} expiration={item.expiration} />
+                    <CashCoupon1 bg_img_type={0} type={1} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={this.showcode} />
                   </View> : ""
                 ))
               }
+              {/* 测试用例 */}
+              {/* <CashCoupon1 bg_img_type={0} type={1} _id={1039} return_money={"100"} youhui_type={1} timer={"11-11"} sname={"2222"} list_brief={"66666"} _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" clickcode={this.showcode} /> */}
             </View>
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>
@@ -330,14 +329,14 @@ export default class Order extends Component {
               {
                 this.state.coupon2.map((item) => (
                   item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={2} type={0} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={2} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon2.map((item) => (
                   item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
-                    <CashCoupon1 bg_img_type={1} type={0} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} clickcode={null} expiration={item.expiration} />
+                    <CashCoupon1 bg_img_type={1} type={0} _id={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                   </View> : ""
                 ))
               }
@@ -348,14 +347,14 @@ export default class Order extends Component {
               {
                 this.state.coupon3.map((item) => (
                   item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={0} type={0} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={0} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon3.map((item) => (
                   item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
-                    <CashCoupon1 bg_img_type={0} type={0} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} clickcode={null} expiration={item.expiration} />
+                    <CashCoupon1 bg_img_type={0} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name}  _image={item.image} clickcode={null} />
                   </View> : ""
                 ))
               }
@@ -366,14 +365,14 @@ export default class Order extends Component {
               {
                 this.state.coupon4.map((item) => (
                   item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={1} type={1} _id={item.coupons_log_id} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={1} type={1} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon4.map((item) => (
                   item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
-                    <CashCoupon1 bg_img_type={0} type={2} _id={item.coupons_log_id} return_money={item.money} youhui_type={item.coupons_type} timer={item.confirm_time} sname={item.coupons_name} list_brief={item.suppliername} _image={item.image} clickcode={null} expiration={item.expiration} />
+                    <CashCoupon1 bg_img_type={0} type={2} _id={item.coupons_log_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                   </View> : ""
                 ))
               }

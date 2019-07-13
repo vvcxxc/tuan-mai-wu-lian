@@ -37,6 +37,7 @@ export default class PaySuccess extends Component {
       return_money: "",
       yname: "",
       youhui_type: 0,
+      expire_day: ''
     },
     store: {
       brief: "",
@@ -65,7 +66,9 @@ export default class PaySuccess extends Component {
       return_money: "",
       sname: "",
       yname: "",
-      youhui_type: '0'
+      youhui_type: '0',
+      expire_day: '',
+      total_fee: ''
     }]
   };
 
@@ -83,6 +86,7 @@ export default class PaySuccess extends Component {
           url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint }
         })
           .then((res: any) => {
+            console.log(res);
             this.setState({
               coupon: res.data.info.coupon,
               store: res.data.info.store,
@@ -90,7 +94,14 @@ export default class PaySuccess extends Component {
               recommend: res.data.recommend.data
             })
             Taro.hideLoading()
-          }).catch(function (error) { console.log(error); });
+          }).catch(function (error) {
+            Taro.hideLoading()
+            Taro.showToast({ title: '数据请求失败', icon: 'none' })
+            setTimeout(() => {
+              Taro.navigateBack({
+              })
+            }, 2000)
+          });
 
       })
     })
@@ -105,6 +116,7 @@ export default class PaySuccess extends Component {
   }
   handleClick2 = (_id, e) => {
     Taro.navigateTo({
+      //url: '/detail-pages/business/index?id=' + _id
       url: '/pages/business/index?id=' + _id
     })
   };
@@ -139,11 +151,12 @@ export default class PaySuccess extends Component {
                 :
                 <AtIcon className="image" value="star" color="#999" size="24px" onClick={this.keepCollect.bind(this)} />
             } */}
-
-            <View className="hd tit">{this.state.coupon.brief}</View>
+            <View className="_expire">购买后{this.state.coupon.expire_day}日内有效</View>
+            <View className="hd tit">{this.state.store.sname}</View>
             <View className="bd money">¥{this.state.coupon.return_money}</View>
             <View className="ft" style={{ position: "relative" }}>
               <View className="desc">{this.state.coupon.yname}</View>
+
               <View className="tags" style={{ position: "absolute", right: "0" }}>
                 <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '#fde8e5' : '#fff' }}>可叠加</Text>
                 <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') !== -1 ? '#fde8e5' : '#fff' }}>随时退</Text>
@@ -203,7 +216,7 @@ export default class PaySuccess extends Component {
           {
             this.state.recommend.map((item) => (
               <View key={item.id}>
-                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} />
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} expire_day={item.expire_day} total_fee={item.total_fee} />
               </View>
             ))
           }

@@ -1,8 +1,9 @@
 import Taro, { Component, getApp } from "@tarojs/taro";
-import { View, ScrollView } from "@tarojs/components";
+import { View, ScrollView, Image } from "@tarojs/components";
 import { AtSearchBar, AtIcon, AtIndexes, AtActivityIndicator, AtList, AtListItem } from "taro-ui";
 import "./index.styl";
 import request from '../../services/request'
+import { relative } from "path";
 export default class SelectCity extends Component {
 
   state = {
@@ -74,7 +75,7 @@ export default class SelectCity extends Component {
     Taro.setStorage({
       key: 'router',
       data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
-    })
+    }) 
     setTimeout(() => {
       this.setState({ showIndicator: false })
       Taro.reLaunch({ url: '../../pages/index/index?router' })
@@ -82,7 +83,7 @@ export default class SelectCity extends Component {
     // if (index == 1) {
     //   Taro.reLaunch({ url: '../../pages/index/index?router' })
     // }
-
+   
   }
 
   handleSearchBarChange = value => {
@@ -103,7 +104,7 @@ export default class SelectCity extends Component {
 
   // click 热门城市
   searchData = (name, id) => {
-    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
+    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } }) 
     Taro.reLaunch({ url: '../../pages/index/index?router' })
   }
 
@@ -173,15 +174,18 @@ export default class SelectCity extends Component {
           >
             <View className="current-tip">当前定位</View>
             <View className="current-position flex center">
-
+             
               <View className="item name" style={{ display: this.state.showIndicator? '':'none'}}>
                 <AtActivityIndicator content='定位中...'></AtActivityIndicator>
               </View>
-              <View className="item name"  style={{ display: this.state.showIndicator ? 'none': ' '  }}>
-                <AtIcon value="map-pin" color="#FF6654" size={14} />
+              <View className="item name"
+                style={{ display: this.state.showIndicator ? 'none' : ' ', position: 'relative', paddingLeft: '14px' }}>
+                <View className="position_img">
+                  <Image src={require("./position.png")} ></Image>
+                </View>
                 {this.state.cityName ? this.state.cityName : '广州市'}
               </View>
-
+             
               <View className="btn" onClick={this.reLocation.bind(this)}>重新定位</View>
             </View>
             <View className="bg" />

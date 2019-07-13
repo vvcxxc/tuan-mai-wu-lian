@@ -60,7 +60,8 @@ function Index() {
     image,//券图片
     coupons_name,//优惠券名称
     total_fee,
-    supplier_id
+    supplier_id,
+    source
   } = dataInfo
   const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
@@ -71,7 +72,7 @@ function Index() {
         data: { coupons_log_id: cuoPonsId },
       })
         .then((res: any) => {
-          // console.log(res.data);
+          // console.log(res);
           let youhuiurl_temp = { _Imgurl: res.data };
           // console.log(youhuiurl_temp);
           setYouhuiurl(Object.assign({}, youhuiurl, youhuiurl_temp))
@@ -82,11 +83,15 @@ function Index() {
       data: { coupons_log_id: cuoPonsId, xpoint: '', ypoint: '' }
     })
       .then((res: any) => {
-        console.log(res.data)
+        console.log(res)
         setDataInfo(Object.assign({}, dataInfo, res.data));
       })
       .catch(() => {
         Taro.showToast({ title: '数据请求失败', icon: 'none' })
+        setTimeout(() => {
+          Taro.navigateBack({
+          })
+        }, 2000)
       })
   }, [cuoPonsId])
 
@@ -119,8 +124,8 @@ function Index() {
       <View className='a_head' >
         {
           coupons_type == 1 ?
-            <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} type={0} _id={cuoPonsId} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} expiration={expiration}/> :
-            <CashCoupon1 bg_img_type={status == "2" ? 1 : 0} type={0} _id={cuoPonsId} return_money={money} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={coupons_name} list_brief={store_name} _image={image}  clickcode={null}  expiration={expiration}/>
+            <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} type={0} _id={cuoPonsId} confirm_time={confirm_time} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={store_name} list_brief={coupons_name} expiration={expiration} /> :
+            <CashCoupon1 bg_img_type={status == "2" ? 1 : 0} type={0} _id={cuoPonsId} confirm_time={confirm_time} return_money={money} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={store_name} list_brief={coupons_name} _image={image} clickcode={null} />
         }
       </View>
       { /* 购买须知  */}
@@ -162,11 +167,11 @@ function Index() {
       </View>
       { /* 适用商铺  */}
       <View className='z_billingInfo' >
-        <SuitStore suitStoreProps={{ distance, location_address, store_name, capita, image,supplier_id }} />
+        <SuitStore suitStoreProps={{ distance, location_address, store_name, capita, image, supplier_id }} />
       </View>
       { /* 申请退款 */}
       {
-        status * 1 === 1 && !handerExceedTimeLimit(end_time) ?
+        status * 1 === 1 && !handerExceedTimeLimit(end_time) && (source == 3 || source == 4 || source == 5) ?
           <View className='z_applyReturn' >
             <View onClick={handerApplyShow}  >申请退款</View>
           </View>

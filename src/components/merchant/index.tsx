@@ -1,7 +1,6 @@
 import Taro, { Component, ComponentOptions } from '@tarojs/taro';
 import { View, Text, Image } from '@tarojs/components';
 import { AtIcon } from "taro-ui";
-
 import './index.scss';
 
 interface Props {
@@ -57,18 +56,6 @@ export default class Merchant extends Component<Props> {
 		return 2 //两张都显示
 	}
 
-	// 控制活动信息展示    礼     券      惠
-	controlActivity = (gift, coupons, preferential, key?) => {
-		if (this.judgeActivity(gift) && key === 'gift') return 'gift'
-		if (this.judgeActivity(coupons) && key === 'coupons') return 'coupons'
-		if (this.judgeActivity(preferential) && key === 'preferential') return 'preferential'
-		return false
-	}
-
-	threeActivity = (value1, value2, value3) => {
-		if (this.judgeActivity(value1) && this.judgeActivity(value2) && this.judgeActivity(value3)) return true
-		return false
-	}
 	twoActivity = (value1, value2, value3) => {
 		if (this.judgeActivity(value1) && this.judgeActivity(value2) && this.judgeActivity(value3)) return true
 		if (this.judgeActivity(value1) && this.judgeActivity(value2)) return 'preferential'
@@ -90,6 +77,7 @@ export default class Merchant extends Component<Props> {
 		this.styleControl()
 		return (
 			<View className={('merchant') + ' ' + (this.styleControl() ? '' : 'update-inset')}>
+				<View style={{ height: '7px', backgroundColor: '#F6F6F6' }}></View>
 				<View className="content flex"
 					style={{ paddingBottom: '10px' }}
 					onClick={this.handleClick.bind(this, this.props.merchant.id)}>
@@ -124,12 +112,11 @@ export default class Merchant extends Component<Props> {
 					</View>
 				</View>
 				<View></View>
-				{/* // 第一行有 */}
 				<View style={{ display: this.judgeActivity(that.gift_name) ? '' : 'none' }}>
 					<View className={this.judgeActivity(that.gift_name) ? 'flex give center' : ' hidden'}>
 						<View className="icon">礼</View>
 						<View className="title item ellipsis-one">
-							<Text className="strong">{that.gift_name}</Text>
+							<Text >{that.gift_name}</Text>
 						</View>
 					</View>
 					<View
@@ -137,7 +124,7 @@ export default class Merchant extends Component<Props> {
 						style={{ display: this.judgeActivity(that.cash_coupon_name) && this.state.showLine ? '' : 'none' }}>
 						<View className="icon" style="background: #5d84e0">券</View>
 						<View className="title item">
-							<Text className="strong">{that.cash_coupon_name}</Text>
+							<Text>{that.cash_coupon_name}</Text>
 						</View>
 					</View>
 					<View
@@ -153,10 +140,9 @@ export default class Merchant extends Component<Props> {
 							display: this.twoActivity(that.gift_name, that.cash_coupon_name, that.exchange_coupon_name) !== false
 								? '' : 'none'
 						}}>
-						<View style="color:#939393;margin-right:3px;">{this.state.showLine ? '收起' : '更多活动'}</View>
+						<View style="color:#939393;margin-right:3px; font-size: 12px;">{this.state.showLine ? '收起' : '更多活动'}</View>
 						<AtIcon value={this.state.showLine ? 'chevron-up' : 'chevron-down'} size='12' color='#939393'></AtIcon>
 					</View>
-					<View style={{ height: '10px', backgroundColor: '#ededed' }}></View>
 				</View>
 
 				<View style={{
@@ -167,7 +153,7 @@ export default class Merchant extends Component<Props> {
 						style={{ display: this.judgeActivity(that.cash_coupon_name)  ? '' : 'none' }}>
 						<View className="icon" style="background: #5d84e0">券</View>
 						<View className="title item">
-							<Text className="strong">{that.cash_coupon_name}</Text>
+							<Text>{that.cash_coupon_name}</Text>
 						</View>
 					</View>
 					<View
@@ -183,10 +169,10 @@ export default class Merchant extends Component<Props> {
 							display: this.twoActivity(that.gift_name, that.cash_coupon_name, that.exchange_coupon_name) !== false
 								? '' : 'none'
 						}}>
-						<View style="color:#939393;margin-right:3px;">{this.state.showLine ? '收起' : '更多活动'}</View>
+						<View style="color:#939393;margin-right:3px; font-size: 12px;"
+						>{this.state.showLine ? '收起' : '更多活动'}</View>
 						<AtIcon value={this.state.showLine ? 'chevron-up' : 'chevron-down'} size='12' color='#939393'></AtIcon>
 					</View>
-					<View style={{ height: '10px', backgroundColor: '#ededed' }}></View>
 				</View>
 
 				<View style={{
@@ -205,10 +191,7 @@ export default class Merchant extends Component<Props> {
 							{that.exchange_coupon_name}
 						</View>
 					</View>
-					<View style={{ height: '10px', backgroundColor: '#ededed' }}></View>
 				</View>
-
-
 			</View>
 		);
 	}

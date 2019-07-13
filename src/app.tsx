@@ -101,7 +101,7 @@ class App extends Component {
 			navigationBarBackgroundColor: '#fff',
 			navigationBarTitleText: '团卖物联',
 			navigationBarTextStyle: 'black',
-			enablePullDownRefresh: true, //启用下拉刷新
+			// enablePullDownRefresh: true, //启用下拉刷新
 			onReachBottomDistance: 50 //距离底部多少px时触发上拉加载事件
 		},
 		permission: {
