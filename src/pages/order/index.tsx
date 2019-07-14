@@ -312,34 +312,32 @@ export default class Order extends Component {
             <View className="tiket_box">
               {
                 this.state.coupon1.map((item) => (
-                  item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "1" ? <View key={item.coupons_log_id}>
                     <CashCoupon2 bg_img_type={1} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon1.map((item) => (
-                  item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "0" ? <View key={item.coupons_log_id}>
                     <CashCoupon1 bg_img_type={0} type={1} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={this.showcode} />
                   </View> : ""
                 ))
               }
-              {/* 测试用例 */}
-              {/* <CashCoupon1 bg_img_type={0} type={1} _id={1039} return_money={"100"} youhui_type={1} timer={"11-11"} sname={"2222"} list_brief={"66666"} _image="http://oss.tdianyi.com/front/mCAEJZbM3kmRGGJtDpnhKNzdEtWAnBEf.jpg" clickcode={this.showcode} /> */}
             </View>
           </AtTabsPane>
           <AtTabsPane current={this.state.current} index={1}>
             <View className="tiket_box">
               {
                 this.state.coupon2.map((item) => (
-                  item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "1" ? <View key={item.coupons_log_id}>
                     <CashCoupon2 bg_img_type={2} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon2.map((item) => (
-                  item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "0" ? <View key={item.coupons_log_id}>
                     <CashCoupon1 bg_img_type={1} type={0} _id={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                   </View> : ""
                 ))
@@ -350,14 +348,14 @@ export default class Order extends Component {
             <View className="tiket_box">
               {
                 this.state.coupon3.map((item) => (
-                  item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "1" ? <View key={item.coupons_log_id}>
                     <CashCoupon2 bg_img_type={0} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon3.map((item) => (
-                  item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "0" ? <View key={item.coupons_log_id}>
                     <CashCoupon1 bg_img_type={0} type={0} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name}  _image={item.image} clickcode={null} />
                   </View> : ""
                 ))
@@ -368,14 +366,14 @@ export default class Order extends Component {
             <View className="tiket_box">
               {
                 this.state.coupon4.map((item) => (
-                  item.coupons_type.toString() == "1" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "1" ? <View key={item.coupons_log_id}>
                     <CashCoupon2 bg_img_type={1} type={1} _id={item.coupons_log_id} confirm_time={item.confirm_time}  return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : ""
                 ))
               }
               {
                 this.state.coupon4.map((item) => (
-                  item.coupons_type.toString() == "0" ? <View key={item.coupons_log_id}>
+                  item.coupons_type == "0" ? <View key={item.coupons_log_id}>
                     <CashCoupon1 bg_img_type={0} type={2} _id={item.coupons_log_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time+" - "+item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                   </View> : ""
                 ))
