@@ -87,6 +87,14 @@ export default class PaySuccess extends Component {
         })
           .then((res: any) => {
             console.log(res);
+            if (res.code != 200) {
+              Taro.hideLoading()
+              Taro.showToast({ title: '信息错误', icon: 'none' })
+              setTimeout(() => {
+                Taro.navigateBack({
+                })
+              }, 2000)
+            }
             this.setState({
               coupon: res.data.info.coupon,
               store: res.data.info.store,
@@ -216,7 +224,7 @@ export default class PaySuccess extends Component {
           {
             this.state.recommend.map((item) => (
               <View key={item.id}>
-                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} expire_day={item.expire_day} total_fee={item.total_fee} />
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} yname={item.yname} expire_day={item.expire_day} total_fee={item.total_fee} />
               </View>
             ))
           }

@@ -129,7 +129,7 @@ export default class MerChantPage extends Component {
 			data: {
 				xpoint: this.state.locationPosition.longitude,
 				ypoint: this.state.locationPosition.latitude,
-				page: this.state.page,
+				pages: this.state.page,
 				...define
 			}
 		})

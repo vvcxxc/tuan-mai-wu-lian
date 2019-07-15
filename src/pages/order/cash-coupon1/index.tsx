@@ -29,22 +29,24 @@ export default class CashCoupon extends Component<Props> {
     addGlobalClass: true
   };
   handleClick = (_id, e) => {
+    console.log(1)
     // console.log(e.target)
     Taro.navigateTo({
       url: '/detail-pages/orderdetail/index?id=' + _id
     })
+    e.stopPropagation();
   }
   useNow = (_id, e) => {
     // console.log("儿子" + _id)
-    // this.props.clickcode(this.props._id);
+     this.props.clickcode(this.props._id);
     e.stopPropagation();
   }
   buyMore = (_id, e) => {
-    console.log(e.target)
+    console.log(2)
     // console.log("buymore"+_id)
     Taro.navigateTo({
-      // url: '/business-pages/confirm-order/index?id=' + _id
-      url: '/detail-pages/set-meal/index?id=' + _id
+     // url: '/business-pages/confirm-order/index?id=' + _id
+       url: '/business-pages/set-meal/index?id=' + _id
     })
     e.stopPropagation();
   }

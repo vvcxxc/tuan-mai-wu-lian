@@ -37,6 +37,7 @@ export default class PaySuccess extends Component {
       return_money: "",
       yname: "",
       youhui_type: 0,
+      expire_day: ''
     },
     store: {
       brief: "",
@@ -86,6 +87,14 @@ export default class PaySuccess extends Component {
         })
           .then((res: any) => {
             console.log(res);
+            if (res.code !== 200) {
+              Taro.hideLoading()
+              Taro.showToast({ title: '信息错误', icon: 'none' })
+              setTimeout(() => {
+                Taro.navigateBack({
+                })
+              }, 2000)
+            }
             this.setState({
               coupon: res.data.info.coupon,
               store: res.data.info.store,
@@ -188,10 +197,10 @@ export default class PaySuccess extends Component {
             <Text className="fwb">适用店铺</Text>
           </View>
           <View className="flex center">
-            <Image className="image" src={this.state.coupon.icon} />
+            <Image className="image" src={this.state.store.shop_door_header_img} />
             <View className="item">
               <View className="tit">{this.state.store.sname}</View>
-              <View className="money">{this.state.store.tel}</View>
+              {/* <View className="money">{this.state.store.tel}</View> */}
             </View>
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
@@ -212,7 +221,7 @@ export default class PaySuccess extends Component {
           </View>
           <View>
             <View className="label">有效期：</View>
-            <View className="label-value">{this.state.coupon.begin_time + "   -   " + this.state.coupon.end_time}</View>
+            <View className="label-value">购买后{this.state.coupon.expire_day}天有效</View>
             <View className="label">使用规则：</View>
 
             <View className="label-value">
@@ -248,7 +257,7 @@ export default class PaySuccess extends Component {
           {
             this.state.recommend.map((item) => (
               <View key={item.id} >
-                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} sname={item.sname} _image={item.image} expire_day={item.expire_day} />
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} yname={item.yname} _image={item.image} expire_day={item.expire_day} />
               </View>
             ))
           }

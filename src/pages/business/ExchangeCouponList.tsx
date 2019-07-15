@@ -31,7 +31,8 @@ export default class ExchangeCouponComponent extends Component<Props> {
                 list_brief: "",
                 name: "",
                 youhui_type: 0,
-                pay_money: ""
+                pay_money: "",
+                expire_day:''
             }
         ],
         exchangeCouponList_bull: false
@@ -46,11 +47,13 @@ export default class ExchangeCouponComponent extends Component<Props> {
         Taro.navigateTo({
             url: '../../business-pages/set-meal/index?id=' + _id
         })
+        e.stopPropagation();
     }
     handleClick2 = (id, e) => {
         Taro.navigateTo({
-            url: '../../business-pages/confirm-order/index?id=' + id
+            url: '../../business-pages/confirm-order/index?id=' + id,
         })
+        e.stopPropagation();
     }
     render() {
         return (
@@ -82,12 +85,13 @@ export default class ExchangeCouponComponent extends Component<Props> {
                                         <Image className="image" src={item.image} />
                                         <View className="discounts-cell__bd item">
                                             <View className="tit">{item.name}</View>
-                                            <View className="desc">{item.brief}</View>
+                                            <View className="desc">购买后{item.expire_day}日内有效</View>
                                             <View className="flex center" style={{ position: "relative" }}>
                                                 <View className="money" style={{ position: 'absolute', left: '0' }}>￥{item.pay_money}</View>
-                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, item.id)} style={{ position: 'absolute', right: '0', width: "104px", height: "33px", lineHeight: "3" }}>立即购买</Button>
                                             </View>
                                         </View>
+                                        <Button className="btn-buy" onClick={this.handleClick2.bind(this, item.id)} style={{  width: "104px", height: "33px", lineHeight: "33px" }}>立即购买</Button>
+
                                     </View>
                                 </View>
                             </div>)) :
@@ -102,12 +106,13 @@ export default class ExchangeCouponComponent extends Component<Props> {
                                         <Image className="image" src={this.state.exchangeCouponList[0].image} />
                                         <View className="discounts-cell__bd item">
                                             <View className="tit">{this.state.exchangeCouponList[0].name}</View>
-                                            <View className="desc">{this.state.exchangeCouponList[0].brief}</View>
+                                            <View className="desc">购买后{this.state.exchangeCouponList[0].expire_day}日内有效</View>
                                             <View className="flex center" style={{ position: "relative" }}>
                                                 <View className="money" style={{ position: 'absolute', left: '0' }}>￥{this.state.exchangeCouponList[0].pay_money}</View>
-                                                <Button className="btn-buy" onClick={this.handleClick2.bind(this, this.state.exchangeCouponList[0].id)} style={{ position: 'absolute', right: '0', width: "104px", height: "33px", lineHeight: "3" }}>立即购买</Button>
                                             </View>
                                         </View>
+                                        <Button className="btn-buy" onClick={this.handleClick2.bind(this, this.state.exchangeCouponList[0].id)} style={{ width: "104px", height: "33px", lineHeight: "33px" }}>立即购买</Button>
+
                                     </View>
                                 </View>
                             </div>

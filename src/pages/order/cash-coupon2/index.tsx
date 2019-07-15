@@ -10,7 +10,7 @@ interface Props {
   _total_fee: any,
   youhui_type: any,
   timer: any,
-  confirm_time:any,
+  confirm_time: any,
   sname: any,
   list_brief: any,
   bg_img_type: any,
@@ -36,20 +36,9 @@ export default class CashCoupon extends Component<Props> {
     })
   }
   buyMore = (_id, expiration, e) => {
-    let arr1 = expiration.toString().split(" ");
-    let data1 = arr1[0].toString().split("-");
-    let data2 = arr1[1].toString().split(":");
-    var expirationDate = new Date(data1[0], data1[1], data1[2], data2[0], data2[1], data2[2]);
-    let nowDate = new Date();
-    if (expirationDate >= nowDate) {
       Taro.navigateTo({
-        url: '/detail-pages/ticket-buy/index?id=' + _id
+        url: '/business-pages/ticket-buy/index?id=' + _id
       })
-    } else {
-      Taro.showToast({ title: '活动已过期', icon: 'none' })
-    }
-
-
     e.stopPropagation();
   }
   render() {
@@ -88,7 +77,7 @@ export default class CashCoupon extends Component<Props> {
             <View className="info" >{this.props.timer}</View>
             <View className="info" >极速退/免预约/全部商品可用</View>
 
-            {this.props.bg_img_type == 2 ? <View className="info" style={{marginTop:"10px"}}>使用日期： {this.props.confirm_time}</View> : ""}
+            {this.props.bg_img_type == 2 ? <View className="info" style={{ marginTop: "10px" }}>使用日期： {this.props.confirm_time}</View> : ""}
             {
               this.props.type == 1 ? <View className="buymore" onClick={this.buyMore.bind(this, this.props._id, this.props.expiration)}>再来一单</View> : ""
             }

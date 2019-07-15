@@ -2,13 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtToast } from "taro-ui"
 import { View, Text, Image, ScrollView, Button } from "@tarojs/components";
 import "./index.styl";
-import request from '../../services/request'
-import MobileImg from '../../assets/dianhua.png'
-// import starImg from '../../assets/starcollect.png'
-import AddressImg from '../../assets/address.png'
 import "taro-ui/dist/style/components/toast.scss";
-// import "taro-ui/dist/style/components/icon.scss";
-// import 'taro-ui/dist/style/index.scss'
 
 
 
@@ -33,7 +27,8 @@ export default class CashCouponListComponent extends Component<Props> {
 			begin_time: '',
 			end_time: '',
 			pay_money: "",
-			expire_day: ""
+      expire_day: "",
+      return_money:''
 		}],
 		couponList_bull: false
 	}
@@ -46,12 +41,14 @@ export default class CashCouponListComponent extends Component<Props> {
 	handleClick = (_id, e) => {
 		Taro.navigateTo({
 			url: '../../business-pages/ticket-buy/index?id=' + _id
-		})
+    })
+    e.stopPropagation();
 	}
 	handleClick2 = (id, e) => {
 		Taro.navigateTo({
 			url: '../../business-pages/confirm-order/index?id=' + id
-		})
+    })
+    e.stopPropagation();
 	}
 	render() {
 		return (
@@ -75,9 +72,9 @@ export default class CashCouponListComponent extends Component<Props> {
 							<div key={item.id}>
 								<View className="ticket-view flex center" style={{ position: 'relative' }} onClick={this.handleClick.bind(this, item.id)}>
 									<View className="left" style={{ position: 'absolute', left: '30px' }}>
-										<View className="money"><View style={{ fontWeight: 'bold', float: "left", marginRight: "10px" }}>￥{item.pay_money}</View>{item.name}</View>
-										<View className="desc">购买后{item.expire_day}天有效</View>
-										<View className="sales">{item.brief}</View>
+										<View className="money"><View style={{ fontWeight: 'bold', float: "left", marginRight: "10px" }}>￥{item.return_money}</View>{item.name}</View>
+										<View className="desc">购买后{item.expire_day}日内有效</View>
+										<View className="sales">极速退/免预约/全部商品可用</View>
 									</View>
 									<View className="right" style={{ position: 'absolute', right: '20px' }}>
 										<View className="money">￥<Text>{item.pay_money}</Text></View>
@@ -89,9 +86,9 @@ export default class CashCouponListComponent extends Component<Props> {
 						)) : <div>
 								<View className="ticket-view flex center" style={{ position: 'relative' }} onClick={this.handleClick.bind(this, this.state.cashCouponList[0].id)}>
 									<View className="left" style={{ position: 'absolute', left: '30px' }}>
-										<View className="money"><View style={{ fontWeight: 'bold', float: "left", marginRight: "10px" }}>￥{this.state.cashCouponList[0].pay_money}</View>{this.state.cashCouponList[0].name}</View>
-										<View className="desc">购买后{this.state.cashCouponList[0].expire_day}天有效</View>
-										<View className="sales">{this.state.cashCouponList[0].brief}</View>
+										<View className="money"><View style={{ fontWeight: 'bold', float: "left", marginRight: "10px" }}>￥{this.state.cashCouponList[0].return_money}</View>{this.state.cashCouponList[0].name}</View>
+										<View className="desc">购买后{this.state.cashCouponList[0].expire_day}日内有效</View>
+										<View className="sales">极速退/免预约/全部商品可用</View>
 									</View>
 									<View className="right" style={{ position: 'absolute', right: '20px' }}>
 										<View className="money">￥<Text>{this.state.cashCouponList[0].pay_money}</Text></View>

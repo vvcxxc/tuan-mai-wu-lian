@@ -83,12 +83,12 @@
                 border-radius: 10px
                 &:last-child
                     margin-left: 9px
-            .img 
+            .img
                 width:100%
                 height:100%
                 position:relative
                 display:flex
-                padding: 0 25px 
+                padding: 0 25px
                 box-sizing :border-box
                 padding: 0;
             .box_left
@@ -137,7 +137,7 @@
             .box_right
                 box-sizing: border-box
                 height:99%
-                padding 0 
+                padding 0
                 padding-top: 5%
                 padding-bottom 2%
                 flex:220
@@ -253,6 +253,7 @@
         .discounts-cell
             padding: 45px 0
             border-bottom: 1px solid rgba(0,0,0,.07)
+            position relative
             .image
                 width 160px
                 height 160px
@@ -275,16 +276,19 @@
                 .count
                     font-size: 24px
                     color #999
-                .btn-buy
-                    width 180px
-                    height 44px
-                    line-height: 44px
-                    border-radius: 5px
-                    background:linear-gradient(90deg,#FE7450,#FF2614);
-                    color: #fff
-                    border: 0
-                    font-size: 24px
-                    padding: 0 20px
+            .btn-buy
+                width 180px
+                height 44px
+                line-height: 44px
+                border-radius: 5px
+                background:linear-gradient(90deg,#FE7450,#FF2614)
+                color: #fff
+                border: 0
+                font-size: 24px
+                padding: 0 20px
+                position absolute
+                bottom 40px
+                right: 0
     .recommend-view
         padding: 24px
         margin-top: 20px
@@ -309,7 +313,7 @@
                     .money
                         font-size: 30px
                         color: #FF850B
-                .ellipsis-one 
+                .ellipsis-one
                     overflow:hidden
                     white-space: nowrap
                     text-overflow: ellipsis
@@ -334,5 +338,5 @@
       font-size :30px
       font-weight:bolder
       line-height:150px
-      border-radius:20px 
+      border-radius:20px
       text-align :center

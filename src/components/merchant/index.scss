@@ -34,7 +34,6 @@
 		.tag {
 			width: 105px;
 			height: 38px;
-			border: 1px solid rgba(255, 102, 84, 1);
 			border-radius: 5px;
 			font-size: 20px;
 			color: rgba(255, 102, 84, 1);
@@ -71,11 +70,11 @@
 }
 
 
-	
+
 .give {
 	height: 84px;
 	font-size: 24px;
-	margin-left: 22px; 
+	margin-left: 22px;
 	box-sizing: border-box;
 	border-bottom: 1px solid #EDEDED;
 	.icon {
@@ -108,7 +107,7 @@
 	}
 }
 .ellipsis-one {
-	overflow:hidden; 
+	overflow:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
@@ -119,13 +118,13 @@
 
 // 重新构造图片
 .content_box {
-	display: flex; 
+	display: flex;
 	justify-content: space-between;
 	align-items:center;
-	padding:20px 25px; 
+	padding:20px 25px;
 	.content_img {
-		height:20vh; 
-		width:50% ; 
+		height:20vh;
+		width:50% ;
 		image {
 			height:100%;
 			width:100% ;
@@ -133,8 +132,8 @@
 		}
 	}
 	.content_update_img {
-		height:22vh; 
-		width:100% ; 
+		height:22vh;
+		width:100% ;
 			image {
 			height:100%;
 			width:100% ;
@@ -143,7 +142,7 @@
 	}
 	.hidden_content_img {
 		display: none;
-		
+
 	}
 }
 

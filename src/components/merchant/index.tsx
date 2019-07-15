@@ -83,14 +83,14 @@ export default class Merchant extends Component<Props> {
 					onClick={this.handleClick.bind(this, this.props.merchant.id)}>
 					{this.props.type !== 'activity' && <Image className="img" src={that.preview} />}
 					<View className="item" style="padding-top:15px">
-						<View className="flex">
-							<View className="title item">{that.name}</View>
-							<AtIcon value="chevron-right" color="#999" size="16px" />
-						</View>
+          <View className="flex">
+              <View className="title item ellipsis-one" style="width:50px">{that.name}</View>
+              <AtIcon value="chevron-right" color="#999" size="16px" />
+            </View>
 						<View className="flex " style="position:relative">
 							{
 								that.label.map((item1: any, index1: any) => {
-									return <View className="tag" style="background-color:#fff">{item1}</View>
+									return <View className="tag" style="background-color:#fff; border: 1px solid rgba(255, 102, 84, 1);">{item1}</View>
 								})
 							}
 							<View style="position:absolute; right:0px; line-height:1; bottom:2px;font-size:12px;" >{that.distance}

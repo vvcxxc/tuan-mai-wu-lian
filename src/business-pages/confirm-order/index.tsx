@@ -90,6 +90,15 @@ export default class ConfirmOrder extends Component {
               this.setState({
                 pay_bull: "支付成功",
                 pay_data: true
+              },()=>{
+                Taro.switchTab({
+                  url: '/pages/order/index',
+                  success: () => {
+                    var page = Taro.getCurrentPages().pop();
+                    if (page == undefined || page == null) return;
+                    page.onLoad();
+                    }
+                })
               })
             }
 
@@ -102,11 +111,6 @@ export default class ConfirmOrder extends Component {
               })
             }
           },
-          complete() {
-            Taro.switchTab({
-              url: '/pages/order/index'
-            })
-          }
         })
       });
   }
@@ -119,7 +123,7 @@ export default class ConfirmOrder extends Component {
         }
         <View className="content">
           <View className="flex center">
-            <View className="item label">{this.state.coupon.yname}</View>
+            <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
             <View>{this.state.coupon.pay_money}元</View>
           </View>
           <View className="flex center">
@@ -135,7 +139,7 @@ export default class ConfirmOrder extends Component {
           <View className="flex center">
             <View className="item label">金额</View>
             <View className="price">
-              {this.state.coupon.pay_money * this.state.amount}元
+              ￥{this.state.coupon.pay_money * this.state.amount}
             </View>
           </View>
         </View>
