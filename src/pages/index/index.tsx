@@ -1,13 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro';
-import { View, Swiper, SwiperItem, Input, Image, Text } from '@tarojs/components';
-import { AtIcon, AtButton } from 'taro-ui';
+import { View, Image, Text } from '@tarojs/components';
+import { AtIcon } from 'taro-ui';
 import './index.styl';
-import Tabs from '../../components/tabs';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
-import ActivityList from './activity-list';
 import { connect } from '@tarojs/redux'
-import { timingSafeEqual } from 'crypto';
 
 @connect(
   state => ({
