@@ -74,7 +74,7 @@ export default class CashCoupon extends Component<Props> {
 
           <View className="date">{this.props.list_brief}</View>
           {this.props.type == 2 ? "" : <View className="info">{this.props.timer}</View>}
-          {this.props.type == 2 ? <View className="info">极速退/免预约</View> : ""}
+          {this.props.type == 2 ? <View className="info">免预约</View> : ""}
           {this.props.bg_img_type == 1 ? <View className="info" style={{marginTop:"10px"}}>使用日期： {this.props.confirm_time}</View> : ""}
           {
             this.props.type == 1 ? <View className="usenow" onClick={this.useNow.bind(this, this.props._id)}>立即使用</View> : (

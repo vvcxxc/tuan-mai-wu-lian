@@ -62,7 +62,8 @@ function Index() {
     total_fee,
     supplier_id,
     source,
-    pay_money
+    pay_money,
+    preview
   } = dataInfo
   const { _Imgurl } = youhuiurl;
   useAsyncEffect(async () => {
@@ -169,7 +170,7 @@ function Index() {
       </View>
       { /* 适用商铺  */}
       <View className='z_billingInfo' >
-        <SuitStore suitStoreProps={{ distance, location_address, store_name, capita, image, supplier_id }} />
+        <SuitStore suitStoreProps={{ distance, location_address, store_name, capita, image, supplier_id,preview}} />
       </View>
       { /* 申请退款 */}
       {

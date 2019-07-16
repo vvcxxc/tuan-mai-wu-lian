@@ -47,7 +47,7 @@ export default class ActivityGroupComponent extends Component<Props> {
 
   gotoGroup(_id, gift_id, activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id='+ gift_id + '&activity_id='+ activity_id
+      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
 
@@ -78,29 +78,27 @@ export default class ActivityGroupComponent extends Component<Props> {
                   <View className="count">{item.participation_number}人团</View>
                 </View>
               </View>
-              {this.state.activity_group[0].gift_pic == '' ?
-                <View className="image-list">
+              {
+                item.gift_pic == "" || item.gift_pic == null ? <View className="image-list">
                   <Image className="image" src={item.image_url} />
-                  <View className="image" style={{ position: "relative" ,display:"flex",background:"red"}}>
-                    <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px' }} />
-                    <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px' }} />
-                    <Image className="image" src={item.image_url_info} style={{ width: "100%", height: "100%" , top: '0px', left: '0px', flex:"1"}}/>
-                  </View>
+                  <Image className="image" src={item.image_url_info} />
+
                 </View> :
-                <View className="image-list">
-                  <Image className="image" src={item.image_url} />
-                  <View className="image" style={{ position: "relative",display:"flex",background:"red" }}>
-                    <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px' }} />
-                    <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px' }} />
-                    <Image src={item.gift_pic} style={{ width: "100%", height: "100%", top: '0px', left: '0px', flex:"1"}} />
+                  <View className="image-list">
+                    <Image className="image" src={item.image_url} />
+                    <View className="image" style={{ position: "relative", display: "flex", background: "red" }}>
+                      <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px' }} />
+                      <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px' }} />
+                      <Image src={item.gift_pic} style={{ width: "100%", height: "100%", top: '0px', left: '0px', flex: "1" }} />
+                    </View>
                   </View>
-                </View>
+
               }
               <View className="ft ">
                 <View className="flex center">
                   <View className="item">
                     <Text className="money">￥{item.participation_money}</Text>
-                    <Text className="count">已拼{item.participation_number}件</Text>
+                    {/* <Text className="count">已拼{item.participation_number}件</Text> */}
                   </View>
                   <Button className="btn-go" style={{ width: "104px", height: "33px" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>立刻开团</Button>
                 </View>
@@ -113,29 +111,28 @@ export default class ActivityGroupComponent extends Component<Props> {
                   <View className="count">{this.state.activity_group[0].participation_number}人团</View>
                 </View>
               </View>
-              {this.state.activity_group[0].gift_pic == '' ?
-                <View className="image-list">
-                  <Image className="image" src={this.state.activity_group[0].image_url} />
-                  <View className="image" style={{ position: "relative" ,display:"flex",background:"red"}}>
-                    <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px' }} />
-                    <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px' }} />
-                    <Image className="image" src={this.state.activity_group[0].image_url_info} style={{ width: "100%", height: "100%" , top: '0px', left: '0px', flex:"1"}} />
+              {
+                this.state.activity_group[0].gift_pic == "" || this.state.activity_group[0].gift_pic == null ?
+                  <View className="image-list">
+                    <Image className="image" src={this.state.activity_group[0].image_url} />
+                    <Image className="image" src={this.state.activity_group[0].image_url_info} />
+
+                  </View> :
+                  <View className="image-list">
+                    <Image className="image" src={this.state.activity_group[0].image_url} />
+                    <View className="image" style={{ position: "relative", display: "flex", background: "red" }}>
+                      <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px' }} />
+                      <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px' }} />
+                      <Image src={this.state.activity_group[0].gift_pic} style={{ width: "100%", height: "100%", top: '0px', left: '0px', flex: "1" }} />
+                    </View>
                   </View>
-                </View> :
-                <View className="image-list">
-                  <Image className="image" src={this.state.activity_group[0].image_url} />
-                  <View className="image" style={{ position: "relative" ,display:"flex",background:"red" }}>
-                    <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px' }} />
-                    <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px' }} />
-                    <Image src={this.state.activity_group[0].gift_pic} style={{ width: "100%", height: "100%" , top: '0px', left: '0px', flex:"1"}} />
-                  </View>
-                </View>
+
               }
               <View className="ft ">
                 <View className="flex center">
                   <View className="item">
                     <Text className="money" >￥{this.state.activity_group[0].participation_money}</Text>
-                    <Text className="count">已拼{this.state.activity_group[0].participation_number}件</Text>
+                    {/* <Text className="count">已拼{this.state.activity_group[0].participation_number}件</Text> */}
                   </View>
                   <Button className="btn-go" style={{ width: "104px", height: "33px" }} onClick={this.gotoGroup.bind(this, this.state.activity_group[0].youhui_id, this.state.activity_group[0].gift_id, this.state.activity_group[0].activity_id)}>立刻开团</Button>
                 </View>

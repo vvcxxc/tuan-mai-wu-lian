@@ -47,7 +47,8 @@ export default class PaySuccess extends Component {
       saddress: "",
       sname: "",
       tel: "",
-      distance: ""
+      distance: "",
+      shop_door_header_img:""
     },
     goods_album: [
       {
@@ -178,7 +179,7 @@ export default class PaySuccess extends Component {
             <Text className="fwb">适用店铺</Text>
           </View>
           <View className="flex center">
-            <Image className="image" src={this.state.coupon.image} />
+            <Image className="image" src={this.state.store.shop_door_header_img} />
             <View className="item">
               <View className="tit">{this.state.store.sname}</View>
               {/* <View className="money">人均：￥222.00</View> */}

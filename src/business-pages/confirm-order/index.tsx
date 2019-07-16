@@ -86,21 +86,20 @@ export default class ConfirmOrder extends Component {
           signType: res.data.signType,
           paySign: res.data.paySign,
           success(res) {
-            () => {
+            Taro.switchTab({
+              url: '/pages/order/index',
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+                }
+            })
+            console.log('支付成功')
               this.setState({
                 pay_bull: "支付成功",
                 pay_data: true
-              },()=>{
-                Taro.switchTab({
-                  url: '/pages/order/index',
-                  success: () => {
-                    var page = Taro.getCurrentPages().pop();
-                    if (page == undefined || page == null) return;
-                    page.onLoad();
-                    }
-                })
-              })
-            }
+              });
+
 
           },
           fail(err) {

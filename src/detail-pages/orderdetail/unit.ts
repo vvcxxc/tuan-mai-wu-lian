@@ -35,6 +35,7 @@ export const defaultData: any = {
     total_fee:'',
     supplier_id:'',
     source:'',
+    preview:''
     // "coupons_log_id":877,
     // "coupons_id":936,
     // "expiration":"2019-08-08 18:33:06",

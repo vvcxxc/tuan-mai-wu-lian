@@ -74,7 +74,7 @@ export default class CashCouponListComponent extends Component<Props> {
 									<View className="left" style={{ position: 'absolute', left: '30px' }}>
 										<View className="money"><View style={{ fontWeight: 'bold', float: "left", marginRight: "10px" }}>￥{item.return_money}</View>{item.name}</View>
 										<View className="desc">购买后{item.expire_day}日内有效</View>
-										<View className="sales">极速退/免预约/全部商品可用</View>
+										<View className="sales">免预约/全部商品可用</View>
 									</View>
 									<View className="right" style={{ position: 'absolute', right: '20px' }}>
 										<View className="money">￥<Text>{item.pay_money}</Text></View>
@@ -88,7 +88,7 @@ export default class CashCouponListComponent extends Component<Props> {
 									<View className="left" style={{ position: 'absolute', left: '30px' }}>
 										<View className="money"><View style={{ fontWeight: 'bold', float: "left", marginRight: "10px" }}>￥{this.state.cashCouponList[0].return_money}</View>{this.state.cashCouponList[0].name}</View>
 										<View className="desc">购买后{this.state.cashCouponList[0].expire_day}日内有效</View>
-										<View className="sales">极速退/免预约/全部商品可用</View>
+										<View className="sales">免预约/全部商品可用</View>
 									</View>
 									<View className="right" style={{ position: 'absolute', right: '20px' }}>
 										<View className="money">￥<Text>{this.state.cashCouponList[0].pay_money}</Text></View>

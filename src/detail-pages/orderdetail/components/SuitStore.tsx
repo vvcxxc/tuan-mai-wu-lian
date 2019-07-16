@@ -21,7 +21,8 @@ export function SuitStore(props: suitStoreProps) {
       store_name,
       capita,
       image,
-      supplier_id
+      supplier_id,
+      preview
    } = props.suitStoreProps
    // console.log(props.suitStoreProps);
    return <View className='a_buyBox' style={{ paddingBottom: '0' }}
@@ -34,7 +35,7 @@ export function SuitStore(props: suitStoreProps) {
    >
       <View className='a_one' >适用商铺</View>
       <View className='a_imgBox'  >
-         <Image src={image} />
+         <Image src={preview} />
          <View className='a_imgDes'  >
             <View>{store_name}</View>
             <View>人均：{capita}</View>

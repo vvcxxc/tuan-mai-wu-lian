@@ -27,9 +27,9 @@ export function BillingInfo (props:billingInfoProps){
              <View className='a_billingInfo' >
                <Text style={{ letterSpacing : '10rpx' }} >订单号:</Text><Text>{youhui_sn}</Text>
              </View>
-             <View className='a_billingInfo' >
+             {/* <View className='a_billingInfo' >
                <Text style={{ letterSpacing : '10rpx' }}  >手机号:</Text><Text>{tel}</Text>
-             </View>
+             </View> */}
              <View className='a_billingInfo'  >
                <Text style={{ letterSpacing : '28rpx' }} >总价:</Text><Text style={{ marginLeft:'12rpx',color:'#ED2424' }} >￥{money}</Text>
              </View>

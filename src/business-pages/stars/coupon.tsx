@@ -1,7 +1,7 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
 import { View, ScrollView } from "@tarojs/components";
 import { AtIcon } from "taro-ui";
-import CashCoupon from "../../components/cash-coupon";
+// import CashCoupon from "../../components/cash-coupon";
 import "./coupon.styl";
 
 interface Props {

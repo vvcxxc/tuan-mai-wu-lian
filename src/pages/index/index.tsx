@@ -348,7 +348,7 @@ export default class Index extends Component<any> {
   console.log(this.state.need_jump,'0-00099099')
     if (!this.state.need_jump) return
     request({
-      url: '/v3/ads/onclick',
+      url: 'v3/ads/onclick',
       data: {
         ad_id: this.state.indexImgId, //广告id
         ad_log_id: this.state.adLogId //广告日志id
