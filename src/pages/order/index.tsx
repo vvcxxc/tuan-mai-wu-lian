@@ -313,9 +313,9 @@ export default class Order extends Component {
               {
                 this.state.coupon1.map((item) => (
                   item.coupons_type == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={1} type={0} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={1} type={0} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : <View key={item.coupons_log_id}>
-                      <CashCoupon1 bg_img_type={0} type={1} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={this.showcode} />
+                      <CashCoupon1 bg_img_type={0} type={1} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={this.showcode} />
                     </View>
                 ))
               }
@@ -327,9 +327,9 @@ export default class Order extends Component {
               {
                 this.state.coupon2.map((item) => (
                   item.coupons_type == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={2} type={0} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={2} type={0} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : <View key={item.coupons_log_id}>
-                      <CashCoupon1 bg_img_type={1} type={0} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
+                      <CashCoupon1 bg_img_type={1} type={0} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                     </View>
                 ))
               }
@@ -341,9 +341,9 @@ export default class Order extends Component {
               {
                 this.state.coupon3.map((item) => (
                   item.coupons_type == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={0} type={0} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={0} type={0} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : <View key={item.coupons_log_id}>
-                      <CashCoupon1 bg_img_type={0} type={0} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
+                      <CashCoupon1 bg_img_type={0} type={0} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                     </View>
                 ))
               }
@@ -355,9 +355,9 @@ export default class Order extends Component {
               {
                 this.state.coupon4.map((item) => (
                   item.coupons_type == "1" ? <View key={item.coupons_log_id}>
-                    <CashCoupon2 bg_img_type={1} type={1} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
+                    <CashCoupon2 bg_img_type={1} type={1} _id={item.coupons_id} _logid={item.coupons_log_id}  confirm_time={item.confirm_time} return_money={item.money} _total_fee={item.total_fee} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} expiration={item.expiration} />
                   </View> : <View key={item.coupons_log_id}>
-                      <CashCoupon1 bg_img_type={0} type={2} _id={item.coupons_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
+                      <CashCoupon1 bg_img_type={0} type={2} _id={item.coupons_id} _logid={item.coupons_log_id} confirm_time={item.confirm_time} return_money={item.money} youhui_type={item.coupons_type} timer={item.create_time + " - " + item.expiration} sname={item.suppliername} list_brief={item.coupons_name} _image={item.image} clickcode={null} />
                     </View>
                 ))
               }

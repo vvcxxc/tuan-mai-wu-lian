@@ -74,7 +74,7 @@ export default class ActivityGroupComponent extends Component<Props> {
               <View style={{ height: "5px" }}></View>
               <View className="hd">
                 <View className="flex center">
-                  <View className="item desc">{item.activity_brief}</View>
+                  <View className="item desc">{item.name}</View>
                   <View className="count">{item.participation_number}人团</View>
                 </View>
               </View>
@@ -107,7 +107,7 @@ export default class ActivityGroupComponent extends Component<Props> {
           )) : <View className="group-purchase bcfff">
               <View className="hd">
                 <View className="flex center">
-                  <View className="item desc">{this.state.activity_group[0].activity_brief}</View>
+                  <View className="item desc">{this.state.activity_group[0].name}</View>
                   <View className="count">{this.state.activity_group[0].participation_number}人团</View>
                 </View>
               </View>

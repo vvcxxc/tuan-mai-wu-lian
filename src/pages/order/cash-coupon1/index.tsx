@@ -6,6 +6,7 @@ import "./index.styl";
 
 interface Props {
   _id: any,
+  _logid:any,
   return_money: any,
   youhui_type: any,
   timer: any,
@@ -57,7 +58,7 @@ export default class CashCoupon extends Component<Props> {
         style={{
           backgroundImage: this.props.bg_img_type == 0 ? `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/D3Ws4B7kH8PwEsDdJiDtzaNtZdtWcZBr.png")` : `url("http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/by5b6PKpQ5QYREYfdMZhSPD5rBYRefyR.png")`
         }}
-        onClick={this.handleClick.bind(this, this.props._id)}
+        onClick={this.handleClick.bind(this, this.props._logid)}
       >
         <View className="secondary flex center" >
           <Image src={this.props._image} style={{ width: "100%", height: "100%" }} />

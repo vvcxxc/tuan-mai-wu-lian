@@ -6,6 +6,7 @@ import "./index.styl";
 
 interface Props {
   _id: any,
+  _logid:any,
   return_money: any,
   _total_fee: any,
   youhui_type: any,
@@ -53,7 +54,7 @@ export default class CashCoupon extends Component<Props> {
         }
         <View
           className="cash-coupon flex active"
-          onClick={this.handleClick.bind(this, this.props._id)}
+          onClick={this.handleClick.bind(this, this.props._logid)}
         >
 
           <View

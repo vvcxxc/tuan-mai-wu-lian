@@ -356,11 +356,11 @@ export default class Index extends Component<any> {
     })
       .then((res: any) => {
         let define:any = {
-          [1]: '/detail-pages/business/index?id=' + res.data.store_id,
-          [2]: '/detail-pages/ticket-buy/index?id='+ res.data.coupon_id ,//卷
-          [3]: '/detail-pages/set-meal/index?id=' + res.data.coupon_id,
-          [4]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=1',
-          [5]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=5'
+          [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
+          [2]: '/business-pages/ticket-buy/index?id='+ res.data.coupon_id ,//现金券
+          [3]: '/business-pages/set-meal/index?id=' + res.data.coupon_id,//兑换券
+          [4]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=1',//拼团
+          [5]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=5'//增值
         }
         Taro.navigateTo({
           url: define[res.data.popularize_type]
