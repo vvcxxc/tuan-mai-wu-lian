@@ -1,7 +1,7 @@
 {
   "name": "tuan-mai-wu-lian",
   "version": "0.0.1",
-  "description": "团卖物联项目 线上商城",
+  "description": "小熊敬礼项目 线上商城",
   "repository": "ssh://git@git.tdianyi.com:10022/domen/tuan-mai-wu-lian.git",
   "author": "李冯 <mixiaofeng1996@gmail.com>",
   "scripts": {

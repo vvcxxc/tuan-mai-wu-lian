@@ -1,4 +1,4 @@
-# 团卖物联项目
+# 小熊敬礼项目
 
 Taro 小程序 脚手架 (Taro + Dva + Typescript + Immutable)
 

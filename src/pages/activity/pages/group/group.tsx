@@ -20,7 +20,7 @@ import { GROUP_AREADY, UNUSED, USED } from "../../data"
 import { ACTION_JUMP, ACTION_USE, ACTION_VIEW, ACTION_CLOSE } from "@/utils/constants"
 import Coupon from "@/components/coupon/coupon"
 import Qrcode from "@/components/qrcode/qrcode"
-
+let timer = null;
 interface State {
   basicinfo: any;
   giftBasicInfo: any;
@@ -155,11 +155,14 @@ export default class Group extends Component {
         isQrcode: false
       })
     }
-    const timer = setTimeout(() => {
+    timer = setTimeout(() => {
       const { isQrcode } = this.state
       clearTimeout(timer)
       isQrcode && this.fetchListenQrcode()
     }, 2000)
+  }
+  componentWillUnmount(){
+    clearTimeout(timer)
   }
 
   /**
@@ -220,6 +223,7 @@ export default class Group extends Component {
       basicinfo: data
     })
   }
+
   render() {
     const {
       basicinfo,

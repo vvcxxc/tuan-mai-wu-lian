@@ -18,6 +18,6 @@ export const activtys = [
     text: "增值买"
   },
   {
-    text: "团团购"
+    text: "拼团"
   }
 ]

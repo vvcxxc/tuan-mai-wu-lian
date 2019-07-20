@@ -37,7 +37,7 @@ export default class Index extends Component<any> {
 	 * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
 	 */
   config: Config = {
-    navigationBarTitleText: '团卖物联',
+    navigationBarTitleText: '小熊敬礼',
     enablePullDownRefresh: true,
   };
 
@@ -77,15 +77,16 @@ export default class Index extends Component<any> {
   }
 
   requestLocation = () => {
-    Taro.getStorage({ key: 'allCity' })
-      .then(res => {
-        return
-      })
-    request({ url: 'v3/district', data: { model_type: '2' } })
-      .then((res: any) => {
-        Taro.setStorage({ key: 'allCity', data: res.data.city_list })
+    // Taro.getStorage({ key: 'allCity' })
+    //   .then(res => {
+    //     return
+    //   })
+    // request({ url: 'v3/district', data: { model_type: '2' } })
+    //   .then((res: any) => {
+        // console.log(res,'res34543')
+        // Taro.setStorage({ key: 'allCity', data: res.data.city_list })
 
-      })
+      // })
   }
 
 

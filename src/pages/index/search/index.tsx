@@ -12,7 +12,7 @@ interface Props {
 
 class IndexSearchPage extends PureComponent<Props> {
 	config = {
-		navigationBarTitleText: '团卖物联'
+		navigationBarTitleText: '小熊敬礼'
 	};
 
 	state = {
@@ -28,8 +28,8 @@ class IndexSearchPage extends PureComponent<Props> {
 	}
 
 	componentWillMount() {
-		
-		
+
+
 	}
 
 	componentDidMount() {
@@ -104,7 +104,7 @@ class IndexSearchPage extends PureComponent<Props> {
 								<View style="color:#999999;">历史搜索</View>
 								<AtIcon value='trash' size='20' color='#999999' onClick={this.clearStorage.bind(this)}></AtIcon>
 							</View>
-						</View>	
+						</View>
 						<View className="history">
 							{
 								saveSearch.map((item, index) => {
