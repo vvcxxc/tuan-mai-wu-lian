@@ -137,8 +137,9 @@ function Index() {
     })
   }
   return (
-    <View className='index' >
-      <View className='a_head' >
+    <View className='index'>
+      <View className='a_head' style={{position:"relative"}}>
+      <View className='a_head_content' style={{width:"100%",height:"100%",position:"absolute",zIndex:"6"}}></View>
         {
           coupons_type == 1 ?
             <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} type={0} _id={cuoPonsId} _logid={coupons_log_id} confirm_time={confirm_time} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={store_name} list_brief={coupons_name} expiration={expiration} /> :

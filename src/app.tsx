@@ -74,7 +74,7 @@ class App extends Component {
 					'stars/index',
 					'gift/index',
 					'select-city/index',
-					'pay-success/index',
+					// 'pay-success/index',
 					'merchant/index',
 					'set-meal/index',
 					'ticket-buy/index',

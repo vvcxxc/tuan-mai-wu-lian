@@ -8,6 +8,7 @@
     "lint-staged": "lint-staged",
     "lint-staged:ts": "tslint -c tslint.js -p tsconfig.json",
     "build:weapp": "taro build --type weapp",
+    "test:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
     "build:tt": "taro build --type tt",
