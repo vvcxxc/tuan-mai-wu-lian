@@ -376,8 +376,11 @@ export default class Index extends Component<any> {
         <View className="head">
           <View className="search">
             <View className="flex center container">
-              <View className="city" style="padding-right:15px;" onClick={this.showSelectCity}>
+
+            <View className="city" style="padding-right:15px; width: 20%" onClick={this.showSelectCity}>
+                <View className='ellipsis-one flex' style='width:70%; display: inline-block'>
                 {this.state.cityName}
+                </View>
                 <AtIcon
                   onClick={this.showSelectCity}
                   className="chevron-down"
@@ -386,6 +389,16 @@ export default class Index extends Component<any> {
                   size="12"
                 />
               </View>
+              {/* <View className="city" style="padding-right:15px;" onClick={this.showSelectCity}>
+                {this.state.cityName}
+                <AtIcon
+                  onClick={this.showSelectCity}
+                  className="chevron-down"
+                  value="chevron-down"
+                  color="#313131"
+                  size="12"
+                />
+              </View> */}
               <View className="long-string" style="margin-right:15px;" />
               <AtIcon className="search-icon" value="search" color="#666666" size={14} />
               <View className="item search-input" onClick={this.handleSearch}>
