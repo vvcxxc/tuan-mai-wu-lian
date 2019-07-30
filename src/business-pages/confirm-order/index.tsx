@@ -92,13 +92,13 @@ export default class ConfirmOrder extends Component {
                 var page = Taro.getCurrentPages().pop();
                 if (page == undefined || page == null) return;
                 page.onLoad();
-                }
+              }
             })
             console.log('支付成功')
-              this.setState({
-                pay_bull: "支付成功",
-                pay_data: true
-              });
+            this.setState({
+              pay_bull: "支付成功",
+              pay_data: true
+            });
 
 
           },
@@ -138,17 +138,20 @@ export default class ConfirmOrder extends Component {
           <View className="flex center">
             <View className="item label">金额</View>
             <View className="price">
-              ￥{this.state.coupon.pay_money * this.state.amount}
+              {this.state.coupon.pay_money * this.state.amount}元
             </View>
           </View>
         </View>
-        <View className="btn-wrap">
+        <View className="pay-btn-box">
+          <View className="pay-btn" onClick={this.payMoney.bind(this)}>￥ {this.state.coupon.pay_money * this.state.amount} 去支付</View>
+        </View>
+        {/* <View className="btn-wrap">
           <View className="submit-btn flex center"
             onClick={this.payMoney.bind(this)}
           >
             ￥ {this.state.coupon.pay_money * this.state.amount} 去支付
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }
