@@ -32,7 +32,9 @@ export default class PaySuccess extends Component<Props> {
       store_img_two: "",
       collect: "0",
       distance: "",
-      tel:""
+      tel: "",
+      xpoint: 0,
+      ypoint: 0
 
     },
     recommend: [//本店其它的推荐
@@ -209,6 +211,17 @@ export default class PaySuccess extends Component<Props> {
         console.log(res)
       })
   }
+  //地图
+  routePlanning = () => {
+    Taro.openLocation({
+      latitude: Number(this.state.business_list.ypoint),
+      longitude:Number(this.state.business_list.xpoint),
+      scale: 18,
+      name: this.state.business_list.name,
+      address: this.state.business_list.address,
+    })
+  }
+
   //收藏
   keepCollect(e: any) {
     let _id = this.state.business_list.id;
@@ -270,7 +283,7 @@ export default class PaySuccess extends Component<Props> {
             </View>
           </ScrollView>
           <View className="address flex center">
-            <Image className="address-img" style={{ marginRight: "10px" }} src={AddressImg} />
+            <Image className="address-img" style={{ marginRight: "10px" }} src={AddressImg} onClick={this.routePlanning.bind(this)} />
             <View className="text item">{this.state.business_list.address}</View>
             <Image className="mobile-img" style={{ paddingLeft: "10px", paddingTop: "2px", paddingBottom: "2px", borderLeft: "1px solid #ccc" }} src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
