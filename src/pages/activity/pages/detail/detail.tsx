@@ -74,7 +74,7 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
    */
   handleAfterPayment(): void {
     Taro.navigateTo({
-      url: "/pages/my-activity/my.activity"
+      url: "/activity-pages/my-activity/my.activity"
     })
   }
 
