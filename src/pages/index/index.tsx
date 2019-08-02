@@ -56,9 +56,9 @@ export default class Index extends Component<any> {
     cityId: null,
     indexImg: '',
     showGift: null,
-    indexImgId: null,
-    adLogId: null,
-    need_jump:null
+    indexImgId: null,
+    adLogId: null,
+    need_jump: null
   };
 
   constructor(props) {
@@ -72,22 +72,9 @@ export default class Index extends Component<any> {
     this.showLoading();
     this.requestTab(); //经营列表
     this.localStorageData();
-    this.requestLocation();
     this.showGift();
   }
 
-  requestLocation = () => {
-    // Taro.getStorage({ key: 'allCity' })
-    //   .then(res => {
-    //     return
-    //   })
-    // request({ url: 'v3/district', data: { model_type: '2' } })
-    //   .then((res: any) => {
-        // console.log(res,'res34543')
-        // Taro.setStorage({ key: 'allCity', data: res.data.city_list })
-
-      // })
-  }
 
 
   localStorageData = () => {
@@ -100,16 +87,33 @@ export default class Index extends Component<any> {
         this.setState({ cityName: res.data.city_name })
         this.setState({ cityId: res.data.city_id })
         if (this.state.deal_cate_id) {
+
           this.setState({ meta: { city_id: res.data.city_id, deal_cate_id: this.state.deal_cate_id } }, () => {
-            this.requestHomeList(this.state.meta)
+            Taro.getLocation({
+              type: 'wgs84',
+              success: (res)=>{
+                this.requestHomeList({...this.state.meta, xpoint: res.longitude || '', ypoint: res.latitude || ''})
+
+              }
+            })
           })
         } else {
-          this.setState({ meta: { city_id: res.data.city_id } }, () => {
-            this.requestHomeList(this.state.meta)
+          this.setState({ meta: { city_id: res.data.city_id} }, () => {
+            // this.requestHomeList(this.state.meta)
+            Taro.getLocation({
+              type: 'wgs84',
+              success: (res)=>{
+                this.requestHomeList({...this.state.meta, xpoint: res.longitude || '', ypoint: res.latitude || ''})
+              },
+              fail: ()=> {
+                this.requestHomeList({...this.state.meta, xpoint: '', ypoint: ''})
+              }
+            })
           })
         }
       }
       if (res.data.xpoint || res.data.ypoint) {
+        console.log(3)
         if (this.state.deal_cate_id) {
           this.setState({
             meta: {
@@ -139,24 +143,44 @@ export default class Index extends Component<any> {
   }
   // get location
   getLocation = () => {
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
-      this.setState({ meta: { xpoint: res.longitude, ypoint: res.latitude } })
-      this.setState({ locations: res }, () => {
-        this.getCity();
-        if (this.state.deal_cate_id == null) {
-          this.requestHomeList({ xpoint: res.longitude, ypoint: res.latitude })
-        } else {
-          this.setState({
-            meta: {
-              xpoint: this.state.locations.longitude,
-              ypoint: this.state.locations.latitude,
-              deal_cate_id: this.state.deal_cate_id
-            }
-          }, () => {
-            this.requestHomeList(this.state.meta)
+    Taro.getLocation({
+      type: 'wgs84',
+      success: (res)=> {
+        this.setState({ meta: { xpoint: res.longitude, ypoint: res.latitude } })
+        this.setState({ locations: res }, () => {
+          request({
+            url: 'v3/city_name',
+            data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
           })
-        }
-      })
+            .then((rr: any) => {
+              // console.log(res)
+              // this.setState({ cityName: res.data.city, city_id: res.data.city_id }, () => {
+              //   this.getCityId()
+              // });
+              if (this.state.deal_cate_id == null) {
+                // console.log(' 4')
+                this.requestHomeList({ xpoint: res.longitude || '', ypoint: res.latitude || '', city_id: rr.data.city_id })
+              } else {
+                console.log('5')
+                this.setState({
+                  meta: {
+                    xpoint: this.state.locations.longitude,
+                    ypoint: this.state.locations.latitude,
+                    deal_cate_id: this.state.deal_cate_id
+                  }
+                }, () => {
+                  this.requestHomeList(this.state.meta)
+                })
+              }
+            })
+
+
+        })
+      },
+      fail: ()=>{
+        this.requestHomeList({xpoint: '', ypoint: '', city_id: 1942});
+        Taro.setStorageSync("location", {xpoint: '', ypoint: ''})
+      }
     })
   }
 
@@ -167,7 +191,8 @@ export default class Index extends Component<any> {
       data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
     })
       .then((res: any) => {
-        this.setState({ cityName: res.data.city }, () => {
+        console.log(res)
+        this.setState({ cityName: res.data.city, city_id: res.data.city_id }, () => {
           this.getCityId()
         })
       })
@@ -180,6 +205,8 @@ export default class Index extends Component<any> {
       data: { keyword: this.state.cityName }
     })
       .then((res: any) => {
+         this.setState({meta:{city_id: res.data[0].id}})
+
         this.setState({ cityId: res.data[0].id }, () => {
           this.showImage()
         })
@@ -210,26 +237,33 @@ export default class Index extends Component<any> {
 
   onReachBottom = () => { 	// 自带 触底事件
     this.showLoading()
-    this.setState({ page: this.state.page + 1 },()=>{
-      let miss = {
-        ...this.state.meta, pages: this.state.page
-      }
-      if (this.state.deal_cate_id) {
-        miss['deal_cate_id'] = this.state.deal_cate_id
-      }
-      request({
-        url: 'v3/stores',
-        data: {
-          ...miss
-        }
-      })
-        .then((res: any) => {
-          Taro.stopPullDownRefresh()
-          Taro.hideLoading()
-          console.log(res.data,'data')
-          this.setState({ storeList: [...this.state.storeList, ...res.data.store_info.data], storeHeadImg: res.data.banner });
-        })
+    request({
+      url: 'v3/city_name',
+      data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
     })
+      .then((res: any) => {
+        console.log(res)
+        this.setState({ page: this.state.page + 1 }, () => {
+          let miss = {
+            ...this.state.meta, pages: this.state.page, city_id: res.data.city_id
+          }
+          if (this.state.deal_cate_id) {
+            miss['deal_cate_id'] = this.state.deal_cate_id
+          }
+          request({
+            url: 'v3/stores',
+            data: {
+              ...miss
+            }
+          })
+            .then((res: any) => {
+              Taro.stopPullDownRefresh()
+              Taro.hideLoading()
+              console.log(res.data, 'data')
+              this.setState({ storeList: [...this.state.storeList, ...res.data.store_info.data], storeHeadImg: res.data.banner });
+            })
+        })
+      })
 
   }
 
@@ -318,11 +352,11 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
-        console.log(res,'res')
+        console.log(res, 'res')
         this.setState({ indexImg: res.data.pic })
-        this.setState({ indexImgId: res.data.id })
-        this.setState({ adLogId: res.data.adLogId })
-        this.setState({ need_jump: res.data.need_jump})
+        this.setState({ indexImgId: res.data.id })
+        this.setState({ adLogId: res.data.adLogId })
+        this.setState({ need_jump: res.data.need_jump })
       })
   }
 
@@ -344,30 +378,30 @@ export default class Index extends Component<any> {
     })
   }
 
-     // 点击广告
-  advertOnclick = () => {
-  console.log(this.state.need_jump,'0-00099099')
-    if (!this.state.need_jump) return
-    request({
-      url: 'v3/ads/onclick',
-      data: {
-        ad_id: this.state.indexImgId, //广告id
-        ad_log_id: this.state.adLogId //广告日志id
-      }
-    })
-      .then((res: any) => {
-        let define:any = {
-          [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
-          [2]: '/business-pages/ticket-buy/index?id='+ res.data.coupon_id ,//现金券
-          [3]: '/business-pages/set-meal/index?id=' + res.data.coupon_id,//兑换券
-          [4]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=1',//拼团
-          [5]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=5'//增值
-        }
-        Taro.navigateTo({
-          url: define[res.data.popularize_type]
-        })
-      })
-  }
+  // 点击广告
+  advertOnclick = () => {
+    console.log(this.state.need_jump, '0-00099099')
+    if (!this.state.need_jump) return
+    request({
+      url: 'v3/ads/onclick',
+      data: {
+        ad_id: this.state.indexImgId, //广告id
+        ad_log_id: this.state.adLogId //广告日志id
+      }
+    })
+      .then((res: any) => {
+        let define: any = {
+          [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
+          [2]: '/business-pages/ticket-buy/index?id=' + res.data.coupon_id,//现金券
+          [3]: '/business-pages/set-meal/index?id=' + res.data.coupon_id,//兑换券
+          [4]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=1',//拼团
+          [5]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=5'//增值
+        }
+        Taro.navigateTo({
+          url: define[res.data.popularize_type]
+        })
+      })
+  }
 
 
   render() {
@@ -377,9 +411,9 @@ export default class Index extends Component<any> {
           <View className="search">
             <View className="flex center container">
 
-            <View className="city" style="padding-right:10px; width: 22%" onClick={this.showSelectCity}>
+              <View className="city" style="padding-right:10px; width: 22%" onClick={this.showSelectCity}>
                 <View className='ellipsis-one flex' style='width:70%; display: inline-block'>
-                {this.state.cityName}
+                  {this.state.cityName || '广州市'}
                 </View>
                 <AtIcon
                   onClick={this.showSelectCity}
@@ -406,12 +440,12 @@ export default class Index extends Component<any> {
 							</View>
             </View>
           </View>
-          <View className="swiper"  onClick={this.advertOnclick.bind(this)}>
+          <View className="swiper" onClick={this.advertOnclick.bind(this)}>
             <Image
 
-            src={
-              this.state.indexImg ? this.state.indexImg : "http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"
-            } className="image" />
+              src={
+                this.state.indexImg ? this.state.indexImg : "http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/dHBc2GQi27cjhNpsYpAnQYxybxPdADHG.png"
+              } className="image" />
           </View>
         </View>
         <View className="advert">

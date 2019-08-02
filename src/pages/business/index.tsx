@@ -126,8 +126,33 @@ export default class PaySuccess extends Component<Props> {
     })
     let that = this;
 
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
+    // Taro.getLocation({ type: 'wgs84' }).then(res => {
 
+    //   this.setState({
+    //     yPoint: res.latitude,
+    //     xPoint: res.longitude
+    //   }, () => {
+    //     request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
+    //       .then((res: any) => {
+    //         console.log(res);
+    //         that.setState({
+    //           business_list: res.data.store.Info,
+    //           recommend: res.data.recommend,
+    //           activity_group: res.data.store.activity_group,
+    //           activity_appre: res.data.store.activity_appreciation,
+    //           cashCouponList: res.data.store.cashCouponList,
+    //           exchangeCouponList: res.data.store.exchangeCouponList,
+    //           keepCollect_bull: res.data.store.Info.collect ? true : false
+    //         })
+    //         Taro.hideLoading()
+    //       }).catch(err => {
+    //         console.log(err);
+    //       })
+    //   })
+    // })
+    Taro.getLocation({
+      type: 'wgs84',
+      success: res => {
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude
@@ -149,29 +174,44 @@ export default class PaySuccess extends Component<Props> {
             console.log(err);
           })
       })
+      },
+      fail: ()=> {
+        this.setState({
+          yPoint: '',
+          xPoint: ''
+        }, () => {
+          request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
+            .then((res: any) => {
+              console.log(res);
+              that.setState({
+                business_list: res.data.store.Info,
+                recommend: res.data.recommend,
+                activity_group: res.data.store.activity_group,
+                activity_appre: res.data.store.activity_appreciation,
+                cashCouponList: res.data.store.cashCouponList,
+                exchangeCouponList: res.data.store.exchangeCouponList,
+                keepCollect_bull: res.data.store.Info.collect ? true : false
+              })
+              Taro.hideLoading()
+            }).catch(err => {
+              console.log(err);
+            })
+        })
+      }
     })
   }
 
-  componentDidMount() {
-  }
-  onPullDownRefresh() {
-    console.log('下拉事件')
-  }
 
-  onReachBottom() {
-    console.log('触底事件')
-  }
   //去拼团活动
-  gotoGroup(_id) {
+  gotoGroup(_id, gift_id, activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5'
+      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id='+gift_id+'&activity_id='+activity_id
     })
   }
   // 去增值活动
-  gotoAppreciation(_id) {
-    console.log(_id)
+  gotoAppreciation(_id,gift_id,activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1'
+      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id='+gift_id+'&activity_id='+activity_id
     })
   }
   //现金券详情
@@ -330,7 +370,7 @@ export default class PaySuccess extends Component<Props> {
                           <Text className="money">￥{item.participation_money}</Text>
                           {/* <Text className="count">已拼{item.participation_number}件</Text> */}
                         </View>
-                        <Button className="btn-go" onClick={this.gotoGroup.bind(this, item.youhui_id)}>立刻开团</Button>
+                        <Button className="btn-go" onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>立刻开团</Button>
                       </View>
                     </View>
                   </View>
@@ -398,7 +438,7 @@ export default class PaySuccess extends Component<Props> {
                           <Text className="money">￥{item.pay_money}</Text>
                           {/* <Text className="count">{item.activity_brief}</Text> */}
                         </View>
-                        <Button className="btn-go" onClick={this.gotoAppreciation.bind(this, item.youhui_id)}>立刻增值</Button>
+                        <Button className="btn-go" onClick={this.gotoAppreciation.bind(this, item.youhui_id,item.gift_id,item.activity_id)}>立刻增值</Button>
                       </View>
                     </View>
                   </View>
