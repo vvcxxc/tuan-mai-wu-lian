@@ -91,7 +91,7 @@ export default class Group extends Component {
           id: publictypeid,
           gift_id,
           activity_id
-        } = this.state.basicinfo
+        } = data
 
         let dataId = 0
         if (data && data.id) {

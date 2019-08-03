@@ -22,7 +22,7 @@ export default class MerChantPage extends Component {
     search: '',
     stores: [],
     filter: [],
-    locationPosition: { longitude: '', latitude: '' },//存储获取到的地理位置
+    locationPosition: { },//存储获取到的地理位置
     select: [],
     selectData: { name: '', type: "" },
     page: 1,
@@ -48,40 +48,84 @@ export default class MerChantPage extends Component {
   }
 
   // 获取经纬度
-  getPosition() {
-    // Taro.getLocation({ type: 'wgs84' }).then(res => {
-    // 	this.setState({ locationPosition: res }, () => {
-    // 		if (this.$router.params.value) {
-    // 			this.setState({ search: this.$router.params.value})
-    // 		}
-    // 		this.requestSearch(this.$router.params.value)//路由渲染
-    // 		let that = this.state.locationPosition
-    // 		this.requestData(that.longitude, that.latitude, this.$router.params.value) //渲染页面
-    // 	})
-    // })
+  // getPosition() {
+  //   // Taro.getLocation({ type: 'wgs84' }).then(res => {
+  //   // 	this.setState({ locationPosition: res }, () => {
+  //   // 		if (this.$router.params.value) {
+  //   // 			this.setState({ search: this.$router.params.value})
+  //   // 		}
+  //   // 		this.requestSearch(this.$router.params.value)//路由渲染
+  //   // 		let that = this.state.locationPosition
+  //   // 		this.requestData(that.longitude, that.latitude, this.$router.params.value) //渲染页面
+  //   // 	})
+  //   // })
+  //   Taro.getLocation({
+  //     type: 'wgs84',
+  //     success: (res) => {
+  //       this.setState({ locationPosition: res }, () => {
+  //         if (this.$router.params.value) {
+  //           this.setState({ search: this.$router.params.value })
+  //         }
+  //         this.requestSearch(this.$router.params.value)//路由渲染
+  //         let that = this.state.locationPosition
+  //         this.requestData(that.longitude, that.latitude, this.$router.params.value) //渲染页面
+  //       })
+  //     },
+  //     fail: () => {
+  //       this.setState({ locationPosition: { longitude: '', latitude: '' } }, () => {
+  //         if (this.$router.params.value) {
+  //           this.setState({ search: this.$router.params.value })
+  //         }
+  //         this.requestSearch(this.$router.params.value)//路由渲染
+  //         let that = this.state.locationPosition
+  //         this.requestData(that.longitude, that.latitude, this.$router.params.value) //渲染页面
+  //       }
+  //   })
+  // }
+
+    getPosition() {
+        Taro.getStorage({ key: 'router' }).then((res: any) => {
+          let data: any = this.state.locationPosition
+          data.xpoint = res.data.xpoint
+          data.ypoint = res.data.ypoint
+          data.city_id = res.data.city_id
+          data.pages = 1
+          this.setState({ locationPosition: data }, () => {
+            if (this.$router.params.value) {
+              this.setState({ search: this.$router.params.value })
+               this.requestSearch(this.$router.params.value)//路由渲染
+              // let data = this.state.locationPosition
+              // data.ke
+                return
+            }
+            this.requestData(this.state.locationPosition)
+          })
+        })
+
     Taro.getLocation({
-      type: 'wgs84',
-      success: (res) => {
-        this.setState({ locationPosition: res }, () => {
-          if (this.$router.params.value) {
-            this.setState({ search: this.$router.params.value })
-          }
-          this.requestSearch(this.$router.params.value)//路由渲染
-          let that = this.state.locationPosition
-          this.requestData(that.longitude, that.latitude, this.$router.params.value) //渲染页面
-        })
-      },
-      fail: () => {
-        this.setState({ locationPosition: { longitude: '', latitude: '' } }, () => {
-          if (this.$router.params.value) {
-            this.setState({ search: this.$router.params.value })
-          }
-          this.requestSearch(this.$router.params.value)//路由渲染
-          let that = this.state.locationPosition
-          this.requestData(that.longitude, that.latitude, this.$router.params.value) //渲染页面
+        type: 'wgs84',
+        fail:()=>{
+          console.log('323321')
+            Taro.getStorage({ key: 'router' }).then((res: any) => {
+            console.log(res.data,'dat  a')
+                let data: any = this.state.locationPosition
+                data.xpoint = res.data.xpoint
+                data.ypoint = res.data.ypoint
+                data.city_id = res.data.city_id
+                data.pages = 1
+                this.setState({ locationPosition: data }, () => {
+                  if (this.$router.params.value) {
+                      this.requestSearch(this.$router.params.value)//路由渲染
+                     return
+                  }
+          //         this.requestSearch(this.$router.params.value)//路由渲染
+                  this.requestData(this.state.locationPosition)
+                })
+              })
+
         }
-    })
-  }
+       })
+      }
 
   //处理 路由跳转 和 搜索
   requestSearch = (search) => {
@@ -90,8 +134,8 @@ export default class MerChantPage extends Component {
     request({
       url: 'v3/stores',
       data: {
-        xpoint: this.state.locationPosition.longitude,
-        ypoint: this.state.locationPosition.latitude,
+        xpoint: this.state.locationPosition.xpoint,
+        ypoint: this.state.locationPosition.ypoint,
         keyword: search
       },
     })
@@ -101,91 +145,156 @@ export default class MerChantPage extends Component {
       });
   }
 
-  // 首页页面渲染
-  requestData = async(xpoint, ypoint, search?) => {
-    if (search) return
 
-    let aa = await request({
-      url: 'v3/city_name',
-      data: { xpoint, ypoint }
-    })
 
-    request({
-      url: 'v3/stores',
-      data: {
-        xpoint: xpoint,
-        ypoint: ypoint,
-        city_id: aa.data.city_id
-      }
-    })
-      .then((res: any) => {
-        Taro.stopPullDownRefresh()
-        console.log(res)
-        this.setState({ stores: res.data.store_info.data })
-        Taro.hideLoading()
-      })
-  }
-
+  // filterClick(index, id1?, id2?, id3?) {
+  //   let define: defineType = {}
+  //   if (id1) {
+  //     define.deal_cate_id = id1
+  //     this.setState({ deal_cate_id: id1 })
+  //   } else {
+  //     this.setState({ deal_cate_id: null })
+  //   }
+  //   if (id2) {
+  //     define.distance_id = id2
+  //     this.setState({ distance_id: id2 })
+  //   } else {
+  //     this.setState({ distance_id: null })
+  //   }
+  //   if (id3) {
+  //     define.sort_id = id3
+  //     this.setState({ sort_id: id3 })
+  //   } else {
+  //     this.setState({ sort_id: null })
+  //   }
+  //   if (this.$router.params.value) {
+  //     define.keyword = this.$router.params.value
+  //     this.setState({ search: this.$router.params.value })
+  //   }
+  //   if (this.state.search) {
+  //     define.keyword = this.state.search
+  //   }
+  //   request({
+  //     url: 'v3/stores',
+  //     data: {
+  //       xpoint: this.state.locationPosition.longitude,
+  //       ypoint: this.state.locationPosition.latitude,
+  //       pages: this.state.page,
+  //       ...define
+  //     }
+  //   })
+  //     .then((res: any) => {
+  //       if (index === 1) {
+  //         this.setState({ stores: [...this.state.stores, ...res.data.store_info.data], storeHeadImg: res.data.banner });
+  //       } else {
+  //         this.setState({ page: 1 })
+  //         this.setState({ stores: res.data.store_info.data })
+  //       }
+  //       Taro.hideLoading()
+  //     })
+  // }
 
   filterClick(index, id1?, id2?, id3?) {
-    let define: defineType = {}
-    if (id1) {
-      define.deal_cate_id = id1
-      this.setState({ deal_cate_id: id1 })
-    } else {
-      this.setState({ deal_cate_id: null })
+    // let define: defineType = {}
+     let define: any = this.state.locationPosition
+		if (id1) {
+			define.deal_cate_id = id1
+			this.setState({ deal_cate_id:id1})
+		} else {
+			this.setState({ deal_cate_id: null })
+		}
+		if (id2) {
+			define.distance_id = id2
+			this.setState({ distance_id: id2 })
+		} else {
+			this.setState({ distance_id: null })
+		}
+		if (id3) {
+			define.sort_id = id3
+			this.setState({ sort_id: id3 })
+		} else {
+			this.setState({ sort_id: null })
+		}
+		if (this.$router.params.value) {
+			define.keyword = this.$router.params.value
+			this.setState({ search: this.$router.params.value})
+		}
+		if (this.state.search) {
+			define.keyword=this.state.search
     }
-    if (id2) {
-      define.distance_id = id2
-      this.setState({ distance_id: id2 })
-    } else {
-      this.setState({ distance_id: null })
-    }
-    if (id3) {
-      define.sort_id = id3
-      this.setState({ sort_id: id3 })
-    } else {
-      this.setState({ sort_id: null })
-    }
-    if (this.$router.params.value) {
-      define.keyword = this.$router.params.value
-      this.setState({ search: this.$router.params.value })
-    }
-    if (this.state.search) {
-      define.keyword = this.state.search
-    }
-    request({
-      url: 'v3/stores',
-      data: {
-        xpoint: this.state.locationPosition.longitude,
-        ypoint: this.state.locationPosition.latitude,
-        pages: this.state.page,
-        ...define
-      }
-    })
-      .then((res: any) => {
-        if (index === 1) {
-          this.setState({ stores: [...this.state.stores, ...res.data.store_info.data], storeHeadImg: res.data.banner });
-        } else {
-          this.setState({ page: 1 })
-          this.setState({ stores: res.data.store_info.data })
+    define.pages = this.state.page
+    this.setState({
+      locationPosition:define
+    })
+		request({
+			url: 'v3/stores',
+			data: define
+		})
+			.then((res: any) => {
+        if(res.data.store_info.data.length<1){
+          this.setState({show_bottom:true})
+        }else {
+          this.setState({show_bottom:false})
         }
-        Taro.hideLoading()
-      })
-  }
+				if (index === 1) {
+					this.setState({ stores: [...this.state.stores, ...res.data.store_info.data], storeHeadImg: res.data.banner });
+				} else {
+					this.setState({ page: 1 })
+					this.setState({ stores: res.data.store_info.data })
+				}
+				Taro.hideLoading()
+			})
+	}
 
-  // 微信自带监听 滑动事件
-  onPullDownRefresh = () => {
-    this.requestData(this.state.locationPosition.longitude, this.state.locationPosition.latitude) //渲染页面
-  }
 
-  // 触底事件
-  onReachBottom = () => {
+  // // 微信自带监听 滑动事件
+  // onPullDownRefresh = () => {
+  //   this.requestData(this.state.locationPosition.longitude, this.state.locationPosition.latitude) //渲染页面
+  // }
+
+  // // 触底事件
+  // onReachBottom = () => {
+  //   Taro.showLoading({ title: 'loading', mask: true })//显示loading
+  //   this.setState({ page: this.state.page + 1 }, () => {
+  //     this.filterClick(1, this.state.deal_cate_id, this.state.distance_id, this.state.sort_id)
+  //   })
+  // }
+   // 微信自带监听 滑动事件
+    onPullDownRefresh() {
+    //     this.setState({ show_bottom: false })
+        this.setState({ page: 1 }, () => {
+          let data: any = this.state.locationPosition
+          data.pages = 1
+          this.setState({ locationPosition: data }, () => {
+            this.requestData(this.state.locationPosition)
+          })
+        }
+        )
+      }
+
+      // 触底事件
+      onReachBottom () {
+    // if(this.state.show_bottom) return
     Taro.showLoading({ title: 'loading', mask: true })//显示loading
-    this.setState({ page: this.state.page + 1 }, () => {
-      this.filterClick(1, this.state.deal_cate_id, this.state.distance_id, this.state.sort_id)
-    })
-  }
+        this.setState({ page: this.state.page + 1 }, ()=> {
+          this.filterClick(1, this.state.deal_cate_id, this.state.distance_id, this.state.sort_id)
+        })
+      }
+
+    	// 首页页面渲染
+	requestData = (data, search?) => {
+		if (search) return
+		request({
+			url: 'v3/stores',
+			data
+		})
+			.then((res: any) => {
+				Taro.stopPullDownRefresh()
+				this.setState({ stores: res.data.store_info.data })
+				Taro.hideLoading()
+			})
+	}
+
 
   // 标题点击
   titleOnClick = (index, deal_cate_id, distance_id, sort_id) => { // 点击事件

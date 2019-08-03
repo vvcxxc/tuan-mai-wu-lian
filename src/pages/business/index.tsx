@@ -153,29 +153,29 @@ export default class PaySuccess extends Component<Props> {
     Taro.getLocation({
       type: 'wgs84',
       success: res => {
-      this.setState({
-        yPoint: res.latitude,
-        xPoint: res.longitude
-      }, () => {
-        request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
-          .then((res: any) => {
-            console.log(res);
-            that.setState({
-              business_list: res.data.store.Info,
-              recommend: res.data.recommend,
-              activity_group: res.data.store.activity_group,
-              activity_appre: res.data.store.activity_appreciation,
-              cashCouponList: res.data.store.cashCouponList,
-              exchangeCouponList: res.data.store.exchangeCouponList,
-              keepCollect_bull: res.data.store.Info.collect ? true : false
+        this.setState({
+          yPoint: res.latitude,
+          xPoint: res.longitude
+        }, () => {
+          request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
+            .then((res: any) => {
+              console.log(res);
+              that.setState({
+                business_list: res.data.store.Info,
+                recommend: res.data.recommend,
+                activity_group: res.data.store.activity_group,
+                activity_appre: res.data.store.activity_appreciation,
+                cashCouponList: res.data.store.cashCouponList,
+                exchangeCouponList: res.data.store.exchangeCouponList,
+                keepCollect_bull: res.data.store.Info.collect ? true : false
+              })
+              Taro.hideLoading()
+            }).catch(err => {
+              console.log(err);
             })
-            Taro.hideLoading()
-          }).catch(err => {
-            console.log(err);
-          })
-      })
+        })
       },
-      fail: ()=> {
+      fail: () => {
         this.setState({
           yPoint: '',
           xPoint: ''
@@ -205,13 +205,13 @@ export default class PaySuccess extends Component<Props> {
   //去拼团活动
   gotoGroup(_id, gift_id, activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id='+gift_id+'&activity_id='+activity_id
+      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   // 去增值活动
-  gotoAppreciation(_id,gift_id,activity_id) {
+  gotoAppreciation(_id, gift_id, activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id='+gift_id+'&activity_id='+activity_id
+      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   //现金券详情
@@ -255,7 +255,7 @@ export default class PaySuccess extends Component<Props> {
   routePlanning = () => {
     Taro.openLocation({
       latitude: Number(this.state.business_list.ypoint),
-      longitude:Number(this.state.business_list.xpoint),
+      longitude: Number(this.state.business_list.xpoint),
       scale: 18,
       name: this.state.business_list.name,
       address: this.state.business_list.address,
@@ -351,11 +351,23 @@ export default class PaySuccess extends Component<Props> {
                     {
                       item.gift_pic == "" || item.gift_pic == null ?
                         <View className="image-list">
-                          <Image className="image" src={item.image_url} />
+                          <View className="image" style={{ position: "relative",overflow:"hidden"  }}>
+                            {/* <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: "3", padding: "5px 10px 0 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex" }}>
+                              <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.pay_money}</View>
+                              <View style={{ textDecoration: "line-through", height: "100%", fontSize: "16px", color: "rgba(225,225,225,.5)" }}>￥{item.}</View>
+                            </View> */}
+                            <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
+                          </View>
                           <Image className="image" src={item.image_url_info} style={{ marginLeft: "7px" }} />
                         </View> :
                         <View className="image-list">
-                          <Image className="image" src={item.image_url} />
+                          <View className="image" style={{ position: "relative",overflow:"hidden" }}>
+                            {/* <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: "3", padding: "5px 10px 0 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex" }}>
+                              <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥100</View>
+                              <View style={{ textDecoration: "line-through", height: "100%", fontSize: "16px", color: "rgba(225,225,225,.5)" }}>￥300</View>
+                            </View> */}
+                            <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
+                          </View>
                           <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
                             <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: '2' }} />
                             <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: "3" }} />
@@ -438,7 +450,7 @@ export default class PaySuccess extends Component<Props> {
                           <Text className="money">￥{item.pay_money}</Text>
                           {/* <Text className="count">{item.activity_brief}</Text> */}
                         </View>
-                        <Button className="btn-go" onClick={this.gotoAppreciation.bind(this, item.youhui_id,item.gift_id,item.activity_id)}>立刻增值</Button>
+                        <Button className="btn-go" onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>立刻增值</Button>
                       </View>
                     </View>
                   </View>
