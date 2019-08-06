@@ -168,7 +168,16 @@ export default class PaySuccess extends Component {
     //     // }
     //   })
   }
-
+  routePlanning = (e) => {
+		Taro.openLocation({
+			latitude: Number(this.state.store.ypoint),
+			longitude: Number(this.state.store.xpoint),
+			scale: 18,
+			name: this.state.store.sname,
+			address: this.state.store.saddress,
+		})
+		e.stopPropagation();
+	}
   render() {
     return (
       <View className="set-meal">
@@ -212,9 +221,9 @@ export default class PaySuccess extends Component {
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
           <View className="address-view flex center">
-            <Image className="address-image" onClick = {this.routePlanning.bind(this)} src={AddressImg} />
-            <View className="distance" onClick = {this.routePlanning.bind(this)} >{this.state.store.distance}</View>
-            <View className="text flex-item" onClick = {this.routePlanning.bind(this)} >{this.state.store.saddress}</View>
+            <Image className="address-image" src={AddressImg} onClick={this.routePlanning.bind(this)}/>
+            <View className="distance" onClick = {this.routePlanning.bind(this)}>{this.state.store.distance}</View>
+            <View className="text flex-item" onClick = {this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
             <Image className="mobile-image" src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
         </View>

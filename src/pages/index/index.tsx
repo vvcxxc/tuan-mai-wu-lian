@@ -440,8 +440,8 @@ export default class Index extends Component<any> {
           </View>
         </View>
         <View className="advert">
-          <Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/MfwcW2Qn5hC8T4mfJT8t5NcAEh7pTQRb.png"} onClick={this.gotoGroup}></Image>
-          <Image src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/wWmWHKBjWZbkxYNPGPRZAst8CKbfNsGk.png"} onClick={this.gotoAppre}></Image>
+          <Image src={require('@/assets/group.png')} onClick={this.gotoGroup}></Image>
+          <Image src={require('@/assets/appre.png')} onClick={this.gotoAppre}></Image>
         </View>
         <View className="no_receive" style={{ display: this.state.showGift == 1 ? '' : 'none' }}
         >你还有未领取的礼品 去
@@ -528,7 +528,7 @@ export default class Index extends Component<any> {
                       </View>
                     </View>
                     <View onClick={this.telescopicBox.bind(this, index)}>
-                      <View className="active">
+                      <View className="active" style={{paddingRight: '13rpx'}}>
                         {
                           item2.activity_num ? item2.activity_num + '个活动' : null
                         }

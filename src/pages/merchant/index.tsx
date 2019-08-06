@@ -338,7 +338,7 @@ export default class MerChantPage extends Component {
                         </View>
                       </View>
                       <View onClick={this.telescopicBox.bind(this, index)}>
-                        <View style={{ marginRight: '10px' }}>
+                        <View style={{ marginRight: '13rpx' }}>
                           {
                             item2.activity_num ? item2.activity_num + '个活动' : null
                           }
