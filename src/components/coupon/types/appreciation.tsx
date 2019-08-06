@@ -42,7 +42,7 @@ export default class Appreciation extends Component<CouponProp> {
           }
           <View className="item price">
             <Text className="text money">
-              {data.pay_money || "price"}
+              {data.pay_money}
             </Text>
             <Text className="text max">
               {"可增至" + (data.return_money || "0.00") + "元"}
@@ -62,3 +62,4 @@ export default class Appreciation extends Component<CouponProp> {
     )
   }
 }
+,

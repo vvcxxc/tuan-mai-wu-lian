@@ -74,6 +74,7 @@ export default class Group extends Component {
    * 点击动作(如果是跳转动作的时候, 带上参数type, id, publictypeid)
    */
   handleClick = (e): void => {
+    console.log(e.currentTarget.dataset)
     const { action, type } = e.currentTarget.dataset
     this.handleAction(action, null, type)
   }
@@ -86,13 +87,13 @@ export default class Group extends Component {
     // console.log(this.state.basicinfo)
     switch(action) {
       case ACTION_JUMP: {
+        console.log(data)
         const {
           youhui_id: id,
           id: publictypeid,
           gift_id,
           activity_id
-        } = data
-
+        } = this.state.basicinfo
         let dataId = 0
         if (data && data.id) {
           dataId = data.id
@@ -135,6 +136,9 @@ export default class Group extends Component {
     const isFinish = groupParticipator === groupNumber
     const isJoin = is_group_participation !== GROUP_AREADY
     const isShowUse = isFinish && (is_employ === UNUSED)
+    // const isFinish = false
+    // const isJoin = true
+    // const isShowUse = false
     this.setState({
       isFinish,
       isJoin,

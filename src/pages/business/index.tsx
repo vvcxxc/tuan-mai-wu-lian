@@ -324,7 +324,7 @@ export default class PaySuccess extends Component<Props> {
           </ScrollView>
           <View className="address flex center">
             <Image className="address-img" style={{ marginRight: "10px" }} src={AddressImg} onClick={this.routePlanning.bind(this)} />
-            <View className="text item">{this.state.business_list.address}</View>
+            <View className="text item" onClick={this.routePlanning.bind(this)}>{this.state.business_list.address}</View>
             <Image className="mobile-img" style={{ paddingLeft: "10px", paddingTop: "2px", paddingBottom: "2px", borderLeft: "1px solid #ccc" }} src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
         </View>

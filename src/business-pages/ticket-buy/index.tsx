@@ -48,7 +48,9 @@ export default class PaySuccess extends Component {
       sname: "",
       tel: "",
       distance: "",
-      shop_door_header_img:""
+      shop_door_header_img:"",
+      xpoint:0,
+      ypoint:0
     },
     goods_album: [
       {
@@ -130,7 +132,7 @@ export default class PaySuccess extends Component {
     })
   };
   //打电话
-  makePhoneCall = () => {
+  makePhoneCall = (e) => {
     console.log(this.state.store.tel)
     Taro.makePhoneCall({
       phoneNumber: this.state.store.tel
@@ -138,7 +140,19 @@ export default class PaySuccess extends Component {
       .then((res: any) => {
         console.log(res)
       })
+      e.stopPropagation();
   }
+  //地图
+  routePlanning = (e) => {
+		Taro.openLocation({
+			latitude: Number(this.state.store.ypoint),
+			longitude: Number(this.state.store.xpoint),
+			scale: 18,
+			name: this.state.store.sname,
+			address: this.state.store.saddress,
+		})
+		e.stopPropagation();
+	}
   //收藏
   keepCollect(e) {
     //假接口，还没好
@@ -198,9 +212,9 @@ export default class PaySuccess extends Component {
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
           <View className="address-view flex center">
-            <Image className="address-image" src={AddressImg} />
-            <View className="distance">{this.state.store.distance}</View>
-            <View className="text flex-item">{this.state.store.saddress}</View>
+            <Image className="address-image" onClick = {this.routePlanning.bind(this)} src={AddressImg} />
+            <View className="distance" onClick = {this.routePlanning.bind(this)} >{this.state.store.distance}</View>
+            <View className="text flex-item" onClick = {this.routePlanning.bind(this)} >{this.state.store.saddress}</View>
             <Image className="mobile-image" src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
         </View>
