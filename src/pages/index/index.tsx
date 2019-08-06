@@ -485,7 +485,7 @@ export default class Index extends Component<any> {
                         item2.label.map((item3: any, index1: any) => {
                           return <View key={''}
                             className={this.labelColor(item3) === '#FFFFFF' ? 'span' : ''}
-                            style={{ backgroundColor: this.labelColor(item3) }}
+                            style={{ backgroundColor: this.labelColor(item3), border: this.labelColor(item3) == '#FFFFFF' ? '1px solid #ff6654' : 'none', marginBottom: 0 }}
                           >{item3}</View>
                         })
                       }

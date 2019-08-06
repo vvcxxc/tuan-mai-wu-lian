@@ -292,8 +292,7 @@ export default class MerChantPage extends Component {
                           item2.label.map((item3: any, index1: any) => {
                             return <View key={''}
                               className={this.labelColor(item3) === '#FFFFFF' ? 'span' : ''}
-                              style={{ backgroundColor: this.labelColor(item3) }}
-                            >{item3}</View>
+                              style={{border: this.labelColor(item3) == '#FFFFFF' ? '1px solid #ff6654' : 'none',backgroundColor: this.labelColor(item3), marginBottom: 0}}>{item3}</View>
                           })
                         }
                       </View>
