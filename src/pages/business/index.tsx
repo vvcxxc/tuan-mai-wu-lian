@@ -325,7 +325,7 @@ export default class PaySuccess extends Component<Props> {
           <View className="address flex center">
             <Image className="address-img" style={{ marginRight: "10px" }} src={AddressImg} onClick={this.routePlanning.bind(this)} />
             <View className="text item" onClick={this.routePlanning.bind(this)}>{this.state.business_list.address}</View>
-            <Image className="mobile-img" style={{ paddingLeft: "10px", paddingTop: "2px", paddingBottom: "2px", borderLeft: "1px solid #ccc" }} src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
+            <Image className="mobile-img" style={{ paddingLeft: "30px", paddingTop: "2px", paddingBottom: "2px", borderLeft: "1px solid #f0eff0" }} src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
         </View>
 
@@ -392,9 +392,9 @@ export default class PaySuccess extends Component<Props> {
 
             {
               this.state.activity_group.length != 1 ?
-                <View className="ft-more flex center" style={{ textAlign: "center", width: "100%", background: "#fff" }}
+                <View className="ft-more flex center" style={{ textAlign: "center", width: "100%", background: "#fff",color:"#999" }}
                   onClick={() => { this.setState({ activity_group_bull: !this.state.activity_group_bull }); }}>
-                  <View className="more-box">
+                  <View className="more-box" style={{color:"#999",fontSize:"12px" }}>
                     {this.state.activity_group_bull ? "收回" : "查看更多"}
                     {
                       this.state.activity_group_bull ?
@@ -460,10 +460,10 @@ export default class PaySuccess extends Component<Props> {
             {
               this.state.activity_appre.length != 1 ?
                 <View className="ft-more flex center"
-                  style={{ textAlign: "center", width: "100%", background: "#fff" }}
+                  style={{ textAlign: "center", width: "100%", background: "#fff",color:"#999"  }}
                   onClick={() => { this.setState({ activity_appre_bull: !this.state.activity_appre_bull }) }}
                 >
-                  <View className="more-box">
+                  <View className="more-box"  style={{color:"#999",fontSize:"12px" }}>
                     {this.state.activity_appre_bull ? "收回" : "查看更多"}
                     {
                       this.state.activity_appre_bull ? <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />
@@ -501,9 +501,9 @@ export default class PaySuccess extends Component<Props> {
             </View>
             {
               this.state.cashCouponList.length != 1 ? <View className="ft-more flex center"
-                style={{ textAlign: "center", width: "100%", background: "#fff" }}
+                style={{ textAlign: "center", width: "100%", background: "#fff",color:"#999"  }}
                 onClick={() => { this.setState({ couponList_bull: !this.state.couponList_bull }) }} >
-                < View className="more-box">
+                < View className="more-box"  style={{color:"#999",fontSize:"12px" }}>
                   {this.state.couponList_bull ? "收回" : "查看更多"}
                   {
                     this.state.couponList_bull ? <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />
@@ -545,7 +545,7 @@ export default class PaySuccess extends Component<Props> {
                 <View className="ft-more flex center"
                   style={{ textAlign: "center", width: "100%", background: "#fff", paddingBottom: "0", marginTop: "0" }}
                   onClick={() => { this.setState({ exchangeCouponList_bull: !this.state.exchangeCouponList_bull }) }} >
-                  < View className="more-box" style={{ borderTop: "1px solid rgba(0,0,0,0.07)" }}>
+                  < View className="more-box" style={{ borderTop: "1px solid rgba(0,0,0,0.07)",color:"#999" ,fontSize:"12px" }}>
 
                     {this.state.exchangeCouponList_bull ? "收回" : "查看更多"}
                     {
