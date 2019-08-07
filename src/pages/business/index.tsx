@@ -343,14 +343,14 @@ export default class PaySuccess extends Component<Props> {
                   <View className="group-purchase bcfff _pintuan" key={item.name}>
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
-                      <View className="flex center tuan" style={{ paddingBottom: "5px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+                      <View className="flex center tuan" style={{ paddingBottom: "10px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                         <View className="item desc">{item.name}</View>
                         <View className="count">{item.participation_number}人团</View>
                       </View>
                     </View>
                     {
                       item.gift_pic == "" || item.gift_pic == null ?
-                        <View className="image-list">
+                        <View className="image-list" style={{paddingTop:"5px",boxSizing:"border-box"}}>
                           <View className="image" style={{ position: "relative",overflow:"hidden"  }}>
                             {/* <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: "3", padding: "5px 10px 0 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.pay_money}</View>
@@ -360,7 +360,7 @@ export default class PaySuccess extends Component<Props> {
                           </View>
                           <Image className="image" src={item.image_url_info} style={{ marginLeft: "7px" }} />
                         </View> :
-                        <View className="image-list">
+                        <View className="image-list"  style={{paddingTop:"5px",boxSizing:"border-box"}}>
                           <View className="image" style={{ position: "relative",overflow:"hidden" }}>
                             {/* <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: "3", padding: "5px 10px 0 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥100</View>
@@ -377,7 +377,7 @@ export default class PaySuccess extends Component<Props> {
                         </View>
                     }
                     <View className="ft ">
-                      <View className="flex center">
+                      <View className="flex center" style={{height:"100%",alignItems:"flex-start"}}>
                         <View className="item">
                           <Text className="money">￥{item.participation_money}</Text>
                           {/* <Text className="count">已拼{item.participation_number}件</Text> */}
