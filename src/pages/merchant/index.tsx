@@ -288,7 +288,7 @@ export default class MerChantPage extends Component {
                   <View className="box" style={{ paddingBottom: item2.activity ? '' : '4px' }} onClick={this.handleClick.bind(this, item2.id)}>
                     <View className="box_title">
                       <View className="title_l">
-                        <Image src={item2.preview} />
+                        <Image className="Image" src={item2.preview} />
                       </View>
                       <View className="title_r">
                         <View className="view_name1 ellipsis-one"
