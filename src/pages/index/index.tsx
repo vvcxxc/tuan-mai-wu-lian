@@ -440,8 +440,8 @@ export default class Index extends Component<any> {
           </View>
         </View>
         <View className="advert">
-          <Image src={require('@/assets/group.png')} onClick={this.gotoGroup}></Image>
-          <Image src={require('@/assets/appre.png')} onClick={this.gotoAppre}></Image>
+          <Image src={'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/QcEQXztiHR44hjrESayHxxAznnyCwRNX.png'} onClick={this.gotoGroup}></Image>
+          <Image src={'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/iHeHrD4MDyQF8R5eGcNSETSAKa7r8w3M.png'} onClick={this.gotoAppre}></Image>
         </View>
         <View className="no_receive" style={{ display: this.state.showGift == 1 ? '' : 'none' }}
         >你还有未领取的礼品 去
@@ -472,14 +472,14 @@ export default class Index extends Component<any> {
                   </View>
                   <View className="title_r">
                     <View className="view_name1 ellipsis-one"
-                            style={{ width: '15.2rem', display: 'block' }}>{item2.name}</View>
+                      style={{ width: '15.2rem', display: 'block' }}>{item2.name}</View>
                     <View className="view_name2">
                       <Text>
                         {
                           item2.deal_cate ? item2.deal_cate : null
                         }
                       </Text>
-                      <Text>{item2.distance}</Text>
+                      <Text style={{ paddingRight: '5rpx' }}>{item2.distance}</Text>
                     </View>
                     <View className="view">
                       {
@@ -497,7 +497,7 @@ export default class Index extends Component<any> {
                 <View
                   className="box_bottom" id="box_bottom"
                   style={{
-                    position:'relative',
+                    position: 'relative',
                     height:
                       !this.state.storeList[index].height ?
                         item2.activity_num > 2 ? '4.9rem' : 'auto' : this.state.storeList[index].height,
@@ -507,19 +507,19 @@ export default class Index extends Component<any> {
                 >
 
                   <View onClick={this.telescopicBox.bind(this, index)}
-                  style={{position:'absolute',top:'0',right:'0', display: item2.activity_num > 2 ? '' : 'none'}}
-                    >
-                      <View style={{ marginRight: '8px', color: '#999' }}>
-                        {
-                          item2.activity_num ? item2.activity_num + '个活动' : null
-                        }
-                      </View>
-                      <Image src={
-                        this.state.storeList[index].height !== 'auto' ?
-                          require('../../assets/jiao_bottom.png') : require('../../assets/jiao_top.png')}
-
-                      />
+                    style={{ position: 'absolute', top: '0', right: '0', display: item2.activity_num > 2 ? '' : 'none' }}
+                  >
+                    <View style={{ marginRight: '8px', color: '#999' }}>
+                      {
+                        item2.activity_num ? item2.activity_num + '个活动' : null
+                      }
                     </View>
+                    <Image src={
+                      this.state.storeList[index].height !== 'auto' ?
+                        require('../../assets/jiao_bottom.png') : require('../../assets/jiao_top.png')}
+                      style={{ marginRight: 0 }}
+                    />
+                  </View>
 
                   <View
                     style={{
@@ -534,17 +534,16 @@ export default class Index extends Component<any> {
                           (item2.activity.group ? item2.activity.group.icon : null)
                           : null}
                       />
-
                       <View className=" ellipsis-one"
-                        style={{ width: '12rem', display: 'block' }}
+                        style={{ width: '12rem', display: 'block', height: '27rpx' }}
                       >
-                        <Text>
+                        <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                           {
                             item2.activity ? (item2.activity.group ? item2.activity.group.activity_info : null)
                               : null
                           }
                         </Text>
-                        <Text style={{ color: '#C71D0B' }}>
+                        <Text style={{ color: '#C71D0B',fontSize: '13px', lineHeight: '1' }}>
                           {
                             item2.activity ? (item2.activity.group ? item2.activity.group.gift_info : null)
                               : null
@@ -566,8 +565,8 @@ export default class Index extends Component<any> {
                         : null}
                     />
                     <View className=" ellipsis-one"
-                      style={{ width: '12rem', display: 'block' }}>
-                      <Text>
+                      style={{ width: '12rem', display: 'block', height: '27rpx' }}>
+                      <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.cash_coupon ? item2.activity.cash_coupon.activity_info : null)
                             : null
@@ -585,8 +584,8 @@ export default class Index extends Component<any> {
                         : null}
                     />
                     <View className=" ellipsis-one"
-                      style={{ width: '12rem', display: 'block' }}>
-                      <Text>
+                      style={{ width: '12rem', display: 'block', height: '27rpx' }}>
+                      <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
                             : null
@@ -605,14 +604,14 @@ export default class Index extends Component<any> {
                         : null}
                     />
                     <View className=" ellipsis-one"
-                      style={{ width: '12rem', display: 'block' }}>
-                      <Text>
+                      style={{ width: '12rem', display: 'block', height: '27rpx' }}>
+                      <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.zeng ? item2.activity.zeng.activity_info : null)
                             : null
                         }
                       </Text>
-                      <Text style={{ color: '#C71D0B' }}>
+                      <Text style={{ color: '#C71D0B',fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.zeng ? item2.activity.zeng.gift_info : null)
                             : null
