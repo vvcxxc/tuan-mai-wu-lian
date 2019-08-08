@@ -220,12 +220,12 @@ export default class PaySuccess extends Component {
           } */}
           <View className="tit">{this.state.coupon.yname} </View>
 
-          <View className="desc" style={{ height: "20px" }}></View>
+          <View className="desc" style={{ height: "auto" }}></View>
 
           <View className="tags">
-            <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '#fde8e5' : '#fff' }}>可叠加</Text>
-            <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') !== -1 ? '#fde8e5' : '#fff' }}>随时退</Text>
-            <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '#fde8e5' : '#fff' }}>免预约</Text>
+            <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '' : '#fff' }}>可叠加</Text>
+            <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') !== -1 ? '' : '#fff' }}>随时退</Text>
+            <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '' : '#fff' }}>免预约</Text>
           </View>
         </View>
         <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
@@ -242,7 +242,7 @@ export default class PaySuccess extends Component {
           </View>
           <View className="address-view flex center">
 
-            <Image className="address-image" src={AddressImg} onClick={this.routePlanning.bind(this)}/>
+            <Image className="address-image" src={AddressImg} onClick={this.routePlanning.bind(this)} />
             <View className="distance" onClick={this.routePlanning.bind(this)}>{this.state.store.distance}</View>
             <View className="text flex-item" style={{ width: "80%" }} onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
 
@@ -277,12 +277,13 @@ export default class PaySuccess extends Component {
             <View className="examine-more mt20 pd30 bcff">
               <View className="set-meal__tit">
                 <Text className="fwb">图文详情</Text>
-                {
-                  this.state.goods_album.map((item) => (
-                    <Image src={item.image_url} style={{ width: "100%" }} key={item.id} />
-                  ))
-                }
               </View>
+              {
+                this.state.goods_album.map((item) => (
+                  <Image src={item.image_url} style={{ width: "100%",borderRadius: "8rpx" }} key={item.id} />
+                ))
+              }
+
             </View> : ""
         }
         <View className="examine-more mt20 pd30 bcff">
@@ -292,7 +293,7 @@ export default class PaySuccess extends Component {
           {
             this.state.recommend.map((item) => (
               <View key={item.id} >
-                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} yname={item.yname} _image={item.image} expire_day={item.expire_day} />
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} yname={item.yname} sname={item.sname} _image={item.image} expire_day={item.expire_day} />
               </View>
             ))
           }

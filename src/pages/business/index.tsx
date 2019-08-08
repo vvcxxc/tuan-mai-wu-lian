@@ -521,7 +521,7 @@ export default class PaySuccess extends Component<Props> {
               <Text className="mark" style={{ backgroundColor: "#5DD8A5" }}>惠</Text>
               <Text className="fwb">优惠信息</Text>
             </View>
-            <View className="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.exchangeCouponList_bull ? "auto" : "7.52rem" }}>
+            <View className="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.exchangeCouponList_bull ? "auto" : "6.52rem" }}>
               {
                 this.state.exchangeCouponList.map((item) => (
                   <View className="discounts-view" key={item.id} onClick={this.handleClick2.bind(this, item.id)}>
