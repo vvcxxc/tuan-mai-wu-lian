@@ -29,13 +29,12 @@
 
 .box_title {
   display: flex;
+  width 645px
   .title_l {
-    width:153px;
-    height:152px;
     margin-right 19px;
-    Image {
-      height 100%
-      width 100%
+    .Image {
+      width:154px;
+      height:152px;
     }
   }
   .title_r{
@@ -46,6 +45,7 @@
       font-family:PingFang-SC-Bold;
       color:rgba(49,49,49,1);
       line-height:1;
+      overflow hidden
       margin-bottom 19px;
       font-weight: bold
     }
@@ -57,6 +57,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom 28px;
+      width 480px
     }
    .view{
       display: flex;
@@ -91,12 +92,12 @@
     padding-top:.86rem
     line-height: 1
     display: flex
-    border-bottom:1px solid rgba(0,0,0,0.1)
+    border-bottom:1px solid #eeeeee
     view {
       padding-top 0;
       padding-bottom 0
       border: 0;
-      line-height 1.1
+      line-height 1
     }
     Image {
       width 32px
@@ -107,7 +108,10 @@
 }
 
 .ellipsis-one {
-	overflow:hidden;
+	overflow-x:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+// .asd {
+//   height 30px
+// }

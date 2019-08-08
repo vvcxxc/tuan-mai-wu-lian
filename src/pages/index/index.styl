@@ -54,7 +54,7 @@
     width: 335px
     height: 147px
 .tab
-    height 70px
+    height 72px
     background: #fff
     .label
       height 100%
@@ -64,7 +64,7 @@
 		.label
 			font-size: 37px
 			color theme-color
-			border-bottom 8px solid theme-color
+			border-bottom .3rem solid theme-color
 			font-weight bold
 .merchant {
 	background-color: #fff;
@@ -176,7 +176,7 @@
 	}
 }
 .ellipsis-one {
-	overflow:hidden;
+	overflow-x:hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
@@ -243,34 +243,35 @@
 
 .box_title {
   display: flex;
+  width 645px
   .title_l {
-    width:153px;
-    height:153px;
     margin-right 19px;
-    Image {
-      height 100%
-      width 100%
+    .Image {
+      width:154px;
+      height:152px;
     }
   }
   .title_r{
-    flex: 1;
+    // flex: 1;
     margin-top: 1px
+    // padding-left:19px
    .view_name1{
       font-size:32px;
       font-family:PingFang-SC-Bold;
       color:rgba(49,49,49,1);
       line-height:1;
+      overflow hidden
       margin-bottom 19px
       font-weight: bold;
     }
     .view_name2{
       font-family:PingFang-SC-Medium;
-      // color:rgba(102,102,102,1);
       font-size: 24px;
       color:#999;
       display: flex;
       justify-content: space-between;
       margin-bottom 28px;
+      width 480px
     }
     .view{
       display: flex;
@@ -300,7 +301,6 @@
   view {
     font-size: 24px;
     display: flex
-    // color:rgba(49,49,49,1);
     color:#313131;
     font-family:PingFang-SC-Regular
     padding-bottom .86rem
@@ -312,7 +312,7 @@
       padding-top 0;
       padding-bottom 0
       border: 0;
-      line-height 1.1
+      line-height 1
       view {
         .acitve {
           margin-right: 10px;
@@ -327,6 +327,9 @@
     }
   }
 }
+// .asd {
+//   height 30px
+//   }
 
 
 
