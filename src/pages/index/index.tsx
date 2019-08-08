@@ -509,7 +509,7 @@ export default class Index extends Component<any> {
                   <View onClick={this.telescopicBox.bind(this, index)}
                     style={{ position: 'absolute', top: '0', right: '0', display: item2.activity_num > 2 ? '' : 'none' }}
                   >
-                    <View style={{ marginRight: '8px', color: '#999' }}>
+                    <View style={{ marginRight: '8px', color: '#999', borderBottom: 0 }}>
                       {
                         item2.activity_num ? item2.activity_num + '个活动' : null
                       }
