@@ -534,8 +534,8 @@ export default class Index extends Component<any> {
                           (item2.activity.group ? item2.activity.group.icon : null)
                           : null}
                       />
-                      <View className=" ellipsis-one"
-                        style={{ width: '12rem', display: 'block', height: '27rpx' }}
+                      <View className=" ellipsis-one asd"
+                        style={{ width: '12rem', display: 'block' }}
                       >
                         <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                           {
@@ -564,8 +564,8 @@ export default class Index extends Component<any> {
                         (item2.activity.cash_coupon ? item2.activity.cash_coupon.icon : null)
                         : null}
                     />
-                    <View className=" ellipsis-one"
-                      style={{ width: '12rem', display: 'block', height: '27rpx' }}>
+                    <View className=" ellipsis-one asd"
+                      style={{ width: '12rem', display: 'block', height: '30rpx' }}>
                       <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.cash_coupon ? item2.activity.cash_coupon.activity_info : null)
@@ -583,8 +583,8 @@ export default class Index extends Component<any> {
                         (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.icon : null)
                         : null}
                     />
-                    <View className=" ellipsis-one"
-                      style={{ width: '12rem', display: 'block', height: '27rpx' }}>
+                    <View className=" ellipsis-one asd"
+                      style={{ width: '12rem', display: 'block', height: '30rpx' }}>
                       <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
@@ -603,8 +603,8 @@ export default class Index extends Component<any> {
                         (item2.activity.zeng ? item2.activity.zeng.icon : null)
                         : null}
                     />
-                    <View className=" ellipsis-one"
-                      style={{ width: '12rem', display: 'block', height: '27rpx' }}>
+                    <View className=" ellipsis-one asd"
+                      style={{ width: '12rem', display: 'block', height: '30rpx' }}>
                       <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.zeng ? item2.activity.zeng.activity_info : null)
