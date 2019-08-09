@@ -314,7 +314,7 @@ export default class MerChantPage extends Component {
                     >
 
                       <View onClick={this.telescopicBox.bind(this, index)}
-                        style={{ position: 'absolute', top: '0', right: '0', display: item2.activity_num > 2 ? '' : 'none' }}
+                        style={{ position: 'absolute', top: '0', right: '0', display: item2.activity_num > 2 ? '' : 'none', borderBottom: 0 }}
                       >
                         <View style={{ paddingRight: '13rpx', fontSize: '20rpx', display: 'flex', alignItems: 'center', color: '#999', borderBottom: 0 }}>
                           {
@@ -341,7 +341,7 @@ export default class MerChantPage extends Component {
                               : null}
                           />
                           <View className=" ellipsis-one asd"
-                            style={{ width: '12rem', display: 'block' }}
+                            style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}
                           >
                             <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
@@ -368,7 +368,7 @@ export default class MerChantPage extends Component {
                             : null}
                         />
                         <View className=" ellipsis-one asd"
-                          style={{ width: '12rem', display: 'block', height: '30rpx' }}>
+                          style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
                             <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
                               item2.activity ? (item2.activity.cash_coupon ? item2.activity.cash_coupon.activity_info : null)
@@ -388,7 +388,7 @@ export default class MerChantPage extends Component {
                             : null}
                         />
                         <View className=" ellipsis-one asd"
-                          style={{ width: '12rem', display: 'block', height: '30rpx' }}>
+                          style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
                             <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
                             item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
@@ -408,7 +408,7 @@ export default class MerChantPage extends Component {
                             : null}
                         />
                         <View className=" ellipsis-one asd"
-                          style={{ width: '12rem', display: 'block' }}>
+                          style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
                           <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                             {
                               item2.activity ? (item2.activity.zeng ? item2.activity.zeng.activity_info : null)
