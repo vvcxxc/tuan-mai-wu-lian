@@ -148,7 +148,7 @@ export default class ConfirmOrder extends Component {
           <View className="flex center">
             <View className="item label">金额</View>
             <View className="price">
-              {this.state.coupon.pay_money * this.state.amount}元
+              ￥{this.state.coupon.pay_money * this.state.amount}
             </View>
           </View>
         </View>
