@@ -174,6 +174,7 @@ export default class Index extends Component<any> {
   // 获取城市
   getCity = (data?: any) => {
     let datas = data ? data : this.state.meta
+    console.log('处罚来看')
     request({
       url: 'v3/city_name',
       data: datas
@@ -203,6 +204,7 @@ export default class Index extends Component<any> {
     })
       .then((res: any) => {
         Taro.hideLoading()
+        this.showImage();
         this.setState({ storeList: res.data.store_info.data, storeHeadImg: res.data.banner });
         if (this.state.meta.pages > 1) {
           this.setState({ storeList: [...this.state.storeList, ...res.data.store_info.data], storeHeadImg: res.data.banner });
@@ -330,7 +332,7 @@ export default class Index extends Component<any> {
       url: 'v3/ads',
       data: {
         position_id: '3',
-        city_id: this.state.cityId
+        city_id: this.state.meta.city_id
       }
     })
       .then((res: any) => {
