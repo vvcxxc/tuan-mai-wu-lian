@@ -177,12 +177,6 @@ export default class MerChantPage extends Component {
 
   // 微信自带监听 滑动事件
   onPullDownRefresh() {
-    console.log('触发')
-    Taro.stopPullDownRefresh();
-    setTimeout(() => {
-      Taro.stopPullDownRefresh();
-    }, 100);
-    //     this.setState({ show_bottom: false })
     this.setState({ page: 1 }, () => {
       let data: any = this.state.locationPosition
       data.pages = 1
@@ -277,12 +271,8 @@ export default class MerChantPage extends Component {
 
   
   render() {
-    // catchtouchmove = { true}
     return (
-      <View
-        // className={this.state.banScroll == true ? 'merchant' : ''}
-        // catchtouchmove={this.state.banScroll == true ? true : false}
-      >
+      <View>
         <View style="position:relative; z-index:2;">
           <AtSearchBar
             value={this.state.search}

@@ -224,7 +224,7 @@ export default class filterTotal extends Component<Props> {
           </View>
         </View>
         <View
-          className={("myPositing") + " " + (this.state.click1 % 2 !== 0 ? " falling" : "rising")}>
+          className={("myPositing") + " " + (this.state.click1 % 2 !== 0 ? " falling" : "rising")} catchtouchmove={true}>
           {
             this.state.selectData1.map((item, index) => {
               const checked1 = index === this.state.list1;
@@ -238,7 +238,7 @@ export default class filterTotal extends Component<Props> {
             })
           }
         </View>
-        <View className={("myPositing") + " " + (this.state.click2 % 2 !== 0 ? " falling" : "rising")}>
+        <View className={("myPositing") + " " + (this.state.click2 % 2 !== 0 ? " falling" : "rising")} catchtouchmove={true}>
           {
             this.state.selectData2.map((item, index) => {
               const checked2 = index === this.state.list2;
@@ -252,7 +252,7 @@ export default class filterTotal extends Component<Props> {
             })
           }
         </View>
-        <View className={("myPositing") + " " + (this.state.click3 % 2 !== 0 ? " falling" : "rising")}>
+        <View className={("myPositing") + " " + (this.state.click3 % 2 !== 0 ? " falling" : "rising")} catchtouchmove={true}>
           {
             this.state.selectData3.map((item, index) => {
               const checked3 = index === this.state.list3;
