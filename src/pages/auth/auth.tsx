@@ -146,7 +146,7 @@ export default class Auth extends Component {
                 openType="getUserInfo"
                 onGetUserInfo={this.handleGetUserInfo}
               >
-                授权登陆
+                授权登录
               </Button>
             {/* )
           } */}

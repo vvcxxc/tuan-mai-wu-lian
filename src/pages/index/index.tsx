@@ -83,6 +83,10 @@ export default class Index extends Component<any> {
   // 识别器
   recognizer = () => {
     this.requestTab(); //经营列表
+    // Taro.getStorage({ key: 'city_name' }).then((res4: any) => {
+    //     this.setState({cityName:res4.data.city_name})
+    // })
+    // Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
     // this.getLocationxy()// 获取定位和 城市id 城市名字
     Taro.getStorage({ key: 'router' }).then((res: any) => {
       if (Object.keys(res.data).length < 1) {
@@ -105,13 +109,17 @@ export default class Index extends Component<any> {
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
               data.pages = 1
-              this.setState({ cityName: res.data.city_name })
+              // this.setState({ cityName: res.data.city_name },()=>{
+              //   Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
+              // })
               this.setState({ meta: data }, () => {
                 this.requestHomeList(data)
               })
             },
             fail: () => {
-              this.setState({ cityName: res.data.city_name })
+              // this.setState({ cityName: res.data.city_name },()=>{
+              //   Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
+              // })
               let data: any = this.state.meta
               data.pages = 1
               data.city_id = res.data.city_id
@@ -180,13 +188,24 @@ export default class Index extends Component<any> {
       data: datas
     })
       .then((res: any) => {
-        this.setState({ cityName: res.data.city }) //城市名字
+
+        // let data: any = this.state.meta
+        // data.city_name = res.data.city
+        // this.setState({ meta: data })
+        this.setState({ cityName: res.data.city }, () => {
+          // Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
+          console.log('出发')
+          // let data:any = this.state.meta
+          // data.city_name = res.data.city
+          // this.setState({meta:data})
+        }) //城市名字
         this.setState({ // 保存了城市id 和经纬度
           meta: {
             city_id: res.data.city_id,
             xpoint: this.state.meta.xpoint,
             ypoint: this.state.meta.ypoint,
-            pages: this.state.page
+            pages: this.state.page,
+            city_name:res.data.city
           }
         }, () => {
           this.showImage();
@@ -213,7 +232,7 @@ export default class Index extends Component<any> {
       .catch(() => {
         this.showLoading()
       })
-
+    console.log('33', this.state.meta)
     Taro.setStorage({
       key: 'router',
       data: this.state.meta
@@ -416,7 +435,8 @@ export default class Index extends Component<any> {
 
               <View className="city" style="padding-right:10px; width: 22%" onClick={this.showSelectCity}>
                 <View className='ellipsis-one flex' style='width:70%; display: inline-block'>
-                  {this.state.cityName || '广州市'}
+                  {/* {this.state.cityName || '1广州市'} */}
+                  {this.state.meta.city_name || '广州市'}
                 </View>
                 <AtIcon
                   onClick={this.showSelectCity}
@@ -537,7 +557,7 @@ export default class Index extends Component<any> {
                           : null}
                       />
                       <View className=" ellipsis-one asd"
-                        style={{ width: '12rem', display: 'block', overflow: 'hidden',height: '30rpx' }}
+                        style={{ width: '12rem', display: 'block', overflow: 'hidden', height: '30rpx' }}
                       >
                         <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                           {
@@ -545,7 +565,7 @@ export default class Index extends Component<any> {
                               : null
                           }
                         </Text>
-                        <Text style={{ color: '#C71D0B',fontSize: '13px', lineHeight: '1' }}>
+                        <Text style={{ color: '#C71D0B', fontSize: '13px', lineHeight: '1' }}>
                           {
                             item2.activity ? (item2.activity.group ? item2.activity.group.gift_info : null)
                               : null
@@ -567,8 +587,8 @@ export default class Index extends Component<any> {
                         : null}
                     />
                     <View className=" ellipsis-one asd"
-                      style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden'}}>
-                      <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
+                      style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
+                      <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.cash_coupon ? item2.activity.cash_coupon.activity_info : null)
                             : null
@@ -587,7 +607,7 @@ export default class Index extends Component<any> {
                     />
                     <View className=" ellipsis-one asd"
                       style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
-                      <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
+                      <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
                             : null
@@ -607,13 +627,13 @@ export default class Index extends Component<any> {
                     />
                     <View className=" ellipsis-one asd"
                       style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
-                      <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
+                      <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.zeng ? item2.activity.zeng.activity_info : null)
                             : null
                         }
                       </Text>
-                      <Text style={{ color: '#C71D0B',fontSize: '13px', lineHeight: '1' }}>
+                      <Text style={{ color: '#C71D0B', fontSize: '13px', lineHeight: '1' }}>
                         {
                           item2.activity ? (item2.activity.zeng ? item2.activity.zeng.gift_info : null)
                             : null
