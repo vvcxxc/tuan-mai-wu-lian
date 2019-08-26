@@ -2,7 +2,11 @@
 	"miniprogramRoot": "dist/",
 	"projectname": "tarojs-ts-cli",
 	"description": "tarojs-ts-cli",
+<<<<<<< HEAD
 	"appid": "wx5f2271a7c946fef1",
+=======
+	"appid": "wxf9fc81d996208c2b",
+>>>>>>> f7950bfc91af346947460377e3baded604407c58
 	"setting": {
 		"urlCheck": false,
 		"es6": false,

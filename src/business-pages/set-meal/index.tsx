@@ -169,16 +169,6 @@ export default class PaySuccess extends Component {
     //     // }
     //   })
   }
-  routePlanning = (e) => {
-    Taro.openLocation({
-      latitude: Number(this.state.store.ypoint),
-      longitude: Number(this.state.store.xpoint),
-      scale: 18,
-      name: this.state.store.sname,
-      address: this.state.store.saddress,
-    })
-    e.stopPropagation();
-  }
   render() {
     return (
       <View className="set-meal">
