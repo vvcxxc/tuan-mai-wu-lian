@@ -1,20 +1,15 @@
 import Taro, { Component, hideToast } from '@tarojs/taro';
-import { View, Image, Text } from '@tarojs/components';
+import { View, Image, Text,ScrollView} from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
 import './index.styl';
 import request from '../../services/request';
 
 import FilterTotal from "src/components/filter-total";
-interface defineType {
-  deal_cate_id?: number,
-  distance_id?: number,
-  sort_id?: number,
-  page?: number,
-  keyword?: number | string
-}
+
 export default class MerChantPage extends Component {
   config = {
-    navigationBarTitleText: '商家'
+    navigationBarTitleText: '商家',
+    enablePullDownRefresh: true
   };
 
   state = {
@@ -30,6 +25,7 @@ export default class MerChantPage extends Component {
     sort_id: null,
     telescopic: false,
     telescopicBox: 'auto',
+    banScroll:false  //是否禁止滚动
   };
 
   constructor(props) {
@@ -37,10 +33,18 @@ export default class MerChantPage extends Component {
   }
   componentWillMount() {
     this.getPosition();// 经纬度
-    Taro.showLoading({ title: 'loading', mask: true })//显示loading
+    Taro.showLoading({ title: 'loading', mask: true })//显示loading 
   }
 
   componentDidMount() {
+    if (this.state.banScroll) {
+      // Taro.stopPullDownRefresh()
+      // console.log('333')
+      this.config.enablePullDownRefresh = false
+    }
+    // document.body.addEventListener('touchmove', function (e) {
+    //   e.preventDefault();
+    // }, { passive: false }); 
   }
 
   // 搜索赋值
@@ -173,7 +177,6 @@ export default class MerChantPage extends Component {
 
   // 微信自带监听 滑动事件
   onPullDownRefresh() {
-    //     this.setState({ show_bottom: false })
     this.setState({ page: 1 }, () => {
       let data: any = this.state.locationPosition
       data.pages = 1
@@ -213,6 +216,14 @@ export default class MerChantPage extends Component {
     this.setState({ page: 1 }, () => {
       this.filterClick(0, deal_cate_id, distance_id, sort_id)
     })
+  }
+
+  filteronScroll = (scroll) => {
+    Taro.hideNavigationBarLoading()
+    Taro.hideLoading()
+    console.log('7878787')
+    this.config.enablePullDownRefresh = false
+    this.setState({ banScroll: scroll })
   }
 
   // 点击搜索触发
@@ -257,20 +268,21 @@ export default class MerChantPage extends Component {
     })
     e.stopPropagation();
   }
+
+  
   render() {
     return (
       <View>
-        <AtSearchBar
-          value={this.state.search}
-          onActionClick={this.onActionClick.bind(this)}
-          onClear={this.onClearSearch.bind(this)}
-          onChange={this.handlerSearch.bind(this)}
-        />
-        <FilterTotal onClick={this.titleOnClick.bind(this, 0)} />
+        <View style="position:relative; z-index:2;">
+          <AtSearchBar
+            value={this.state.search}
+            onActionClick={this.onActionClick.bind(this)}
+            onClear={this.onClearSearch.bind(this)}
+            onChange={this.handlerSearch.bind(this)}
+          />
+        </View>
+        <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)}/>
         <View className="merchant-list" style="height:100vh;background-color:#fff;">
-          {/* <List onClick={this.handleClick} list={
-            this.state.stores
-          } /> */}
           <View style={{ minHeight: '100vh', height: 'auto', background: '#ededed' }}>
             {
               this.state.stores.map((item2: any, index: any) => {
@@ -314,7 +326,7 @@ export default class MerChantPage extends Component {
                     >
 
                       <View onClick={this.telescopicBox.bind(this, index)}
-                        style={{ position: 'absolute', top: '0', right: '0', display: item2.activity_num > 2 ? '' : 'none' }}
+                        style={{ position: 'absolute', top: '0', right: '0', display: item2.activity_num > 2 ? '' : 'none', borderBottom: 0 }}
                       >
                         <View style={{ paddingRight: '13rpx', fontSize: '20rpx', display: 'flex', alignItems: 'center', color: '#999', borderBottom: 0 }}>
                           {
@@ -341,7 +353,7 @@ export default class MerChantPage extends Component {
                               : null}
                           />
                           <View className=" ellipsis-one asd"
-                            style={{ width: '12rem', display: 'block' }}
+                            style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}
                           >
                             <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
@@ -368,7 +380,7 @@ export default class MerChantPage extends Component {
                             : null}
                         />
                         <View className=" ellipsis-one asd"
-                          style={{ width: '12rem', display: 'block', height: '30rpx' }}>
+                          style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
                             <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
                               item2.activity ? (item2.activity.cash_coupon ? item2.activity.cash_coupon.activity_info : null)
@@ -388,7 +400,7 @@ export default class MerChantPage extends Component {
                             : null}
                         />
                         <View className=" ellipsis-one asd"
-                          style={{ width: '12rem', display: 'block', height: '30rpx' }}>
+                          style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
                             <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
                             item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
@@ -408,7 +420,7 @@ export default class MerChantPage extends Component {
                             : null}
                         />
                         <View className=" ellipsis-one asd"
-                          style={{ width: '12rem', display: 'block' }}>
+                          style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
                           <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                             {
                               item2.activity ? (item2.activity.zeng ? item2.activity.zeng.activity_info : null)
