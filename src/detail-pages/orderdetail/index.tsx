@@ -128,7 +128,7 @@ function Index() {
         method: 'POST',
         data: { coupons_log_id: cuoPonsId },
       }).then((res: any) => {
-        Taro.hideToast();
+        Taro.hideLoading();
         if (res.code === 200) {
           handerApplyShow()
           Taro.showToast({ title: '退款成功' })
