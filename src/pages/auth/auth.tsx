@@ -78,9 +78,11 @@ export default class Auth extends Component {
     const method = tabbar.includes(currentUrl)
       ? "switchTab"
       : "redirectTo"
-    Taro[method]({
-      url: `${currentUrl}?id=${id}`
-    })
+    console.log(method)
+    // Taro[method]({
+    //   url: `${currentUrl}?id=${id}`
+    // })
+    Taro.switchTab({url: '/pages/index/index'})
   }
 
   /**

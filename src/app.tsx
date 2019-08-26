@@ -70,6 +70,7 @@ class App extends Component {
 				root: 'business-pages',
 
 				pages: [
+          // 'auth/anth',
 					'confirm-order/index',
 					'stars/index',
 					'gift/index',

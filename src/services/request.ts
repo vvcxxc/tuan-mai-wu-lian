@@ -62,9 +62,9 @@ export default function request(options: Options) {
               icon: "none"
             })
             break
-          // case NOT_SIGN:
-          //   toMiniProgramSign(BASIC_API)
-          //   return reject(new Error('--- no sign ---'))
+          case NOT_SIGN:
+            toMiniProgramSign(BASIC_API)
+            return reject(new Error('--- no sign ---'))
           case NOT_FIND:
               Taro.showToast({
                 title: "not find",
