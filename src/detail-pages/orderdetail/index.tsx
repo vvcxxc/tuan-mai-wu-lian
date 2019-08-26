@@ -116,30 +116,37 @@ function Index() {
   }
 
   const toReturnMoney = () => {
-    request({
-      url: "v3/user/coupons/refund",
-      method: 'POST',
-      data: { coupons_log_id: cuoPonsId },
-    }).then((res: any) => {
-      if (res.code === 200) {
-        handerApplyShow()
-        Taro.showToast({ title: '退款成功' })
-        routeGo('/detail-pages/orderdetail/refundProgress', cuoPonsId)
-      } else {
-        handerApplyShow()
-        setTimeOut(() => {
-          Taro.showToast({ title: '退款失败', icon: 'none' })
-        }, 500)
-      }
-    }).catch(() => {
-      Taro.showToast({ title: '请求错误', icon: 'none' })
-      handerApplyShow()
+    Taro.showLoading({
+      title: 'loading',
+      mask: true
     })
+    let timeout: any;
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      request({
+        url: "v3/user/coupons/refund",
+        method: 'POST',
+        data: { coupons_log_id: cuoPonsId },
+      }).then((res: any) => {
+        Taro.hideToast();
+        if (res.code === 200) {
+          handerApplyShow()
+          Taro.showToast({ title: '退款成功' })
+          routeGo('/detail-pages/orderdetail/refundProgress', cuoPonsId)
+        } else {
+          handerApplyShow()
+          Taro.showToast({ title: '退款失败', icon: 'none' })
+        }
+      }).catch(() => {
+        Taro.showToast({ title: '请求错误', icon: 'none' })
+        handerApplyShow()
+      })
+    }, 1000)
   }
   return (
     <View className='index'>
-      <View className='a_head' style={{position:"relative"}}>
-      <View className='a_head_content' style={{width:"100%",height:"100%",position:"absolute",zIndex:"6"}}></View>
+      <View className='a_head' style={{ position: "relative" }}>
+        <View className='a_head_content' style={{ width: "100%", height: "100%", position: "absolute", zIndex: 6 }}></View>
         {
           coupons_type == 1 ?
             <CashCoupon2 bg_img_type={status == "1" ? 1 : (status == "2" ? 2 : 0)} type={0} _id={cuoPonsId} _logid={coupons_log_id} confirm_time={confirm_time} return_money={money} _total_fee={total_fee} youhui_type={coupons_type} timer={begin_time + " - " + end_time} sname={store_name} list_brief={coupons_name} expiration={expiration} /> :
