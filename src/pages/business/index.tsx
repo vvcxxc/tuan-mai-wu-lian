@@ -125,8 +125,6 @@ export default class PaySuccess extends Component<Props> {
       title: 'loading',
     })
     let that = this;
-
-
     Taro.getLocation({
       type: 'wgs84',
       success: res => {
@@ -178,6 +176,18 @@ export default class PaySuccess extends Component<Props> {
     })
   }
 
+  componentDidMount() {
+    Taro.showShareMenu({
+      withShareTicket: true
+    })
+  }
+  onShareAppMessage=(res)=> {
+    return {
+      title: '听说你找了很久，'+this.state.business_list.name+'优惠力度超大，推荐给你看看！',
+      path: '/page/business?id='+this.state.business_list.id,
+      imageUrl:this.state.business_list.preview
+    }
+  }
 
   //去拼团活动
   gotoGroup(_id, gift_id, activity_id) {

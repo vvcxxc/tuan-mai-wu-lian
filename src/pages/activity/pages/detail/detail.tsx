@@ -36,7 +36,7 @@ export interface DetailProp {
   showButton: number;
 }
 export default class Detail extends Component<{ getPaymentSignature: Function; triggerPayment: Function }> {
-  static defaultProps ={
+  static defaultProps = {
     xx: 1
   }
   config = {
@@ -51,21 +51,39 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
   }
 
   componentDidMount() {
-    const { type = 1, id = "", gift_id = "", activity_id = "" } = this.$router.params
+    const { type, id, gift_id, activity_id } = this.$router.params
     this.fetchDetail(type, id)
     this.fetchGiftinfo(gift_id, activity_id)
     Taro.showShareMenu()
   }
 
   onShareAppMessage() {
-    const userInfo = Taro.getStorageSync("userInfo")
-
-    const {list_brief, image  } = this.state.detail
-    const { id = "1095",  activity_id, gift_id, type} = this.$router.params
+    const userInfo = Taro.getStorageSync("userInfo");
+    const { name, youhui_name, pay_money, return_money, participation_money, preview, image } = this.state.detail;
+    const { id, activity_id, gift_id, type } = this.$router.params;
+    console.log(this.state.detail)
+    let title, imageUrl;
+    if (type == TYPE_APPRECIATION) {
+      if (gift_id) {
+        title = `快来！${pay_money}增值至${return_money}，还可免费领${pay_money}礼品，机会仅此一次！`;
+        imageUrl = preview;
+      } else {
+        title = `送你一次免费增值机会！${pay_money}可增值至${return_money}，速领！`;
+        imageUrl = preview;
+      }
+    } else if (type == TYPE_GROUP) {
+      if (gift_id) {
+        title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
+        imageUrl = preview;
+      } else {
+        title = `${name}正在发起${youhui_name}拼团活动，速来！`;
+        imageUrl = preview;
+      }
+    }
     return {
-      title: `${userInfo.nickName}邀请您参加『${list_brief}』`,
+      title: title,
       path: `/pages/activity/pages/detail/detail?id=${id}&type=${type}&activity_id=${activity_id}&gift_id=${gift_id}`,
-      imageUrl: image
+      imageUrl: imageUrl
     }
   }
 
@@ -84,7 +102,7 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
   // @ts-ignore
   handleAction = (action: string, data: any): void => {
     console.log(this.fetchPayment)
-    switch(action) {
+    switch (action) {
       case ACTION_CHECKED:
         const { isChecked } = this.state
         this.setState({
@@ -129,7 +147,7 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
           : ""
       )
     }
-    switch(+type) {
+    switch (+type) {
       case TYPE_APPRECIATION:
         params = {
           ...params,
@@ -224,21 +242,21 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
         {
           type === TYPE_APPRECIATION
             ? <DetailAppreciation
-                data={rest}
-                giftinfo={giftBasicInfo}
-                onAction={this.handleAction}
-                isChecked={isChecked}
-                isFreePostage={isFreePostage}
-                showButton={showButton}
-              />
+              data={rest}
+              giftinfo={giftBasicInfo}
+              onAction={this.handleAction}
+              isChecked={isChecked}
+              isFreePostage={isFreePostage}
+              showButton={showButton}
+            />
             : <DetailGroup
-                data={rest}
-                giftinfo={giftBasicInfo}
-                onAction={this.handleAction}
-                isChecked={isChecked}
-                isFreePostage={isFreePostage}
-                showButton={showButton}
-              />
+              data={rest}
+              giftinfo={giftBasicInfo}
+              onAction={this.handleAction}
+              isChecked={isChecked}
+              isFreePostage={isFreePostage}
+              showButton={showButton}
+            />
         }
       </Block>
     )
