@@ -184,7 +184,7 @@ export default class PaySuccess extends Component<Props> {
   onShareAppMessage=(res)=> {
     return {
       title: '听说你找了很久，'+this.state.business_list.name+'优惠力度超大，推荐给你看看！',
-      path: '/page/business?id='+this.state.business_list.id,
+      path: '/pages/business/index?id='+this.$router.params.id,
       imageUrl:this.state.business_list.preview
     }
   }
