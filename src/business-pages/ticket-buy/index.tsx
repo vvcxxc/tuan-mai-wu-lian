@@ -116,9 +116,21 @@ export default class PaySuccess extends Component {
 
       })
     })
-
-
   }
+
+  componentDidMount() {
+    Taro.showShareMenu({
+      withShareTicket: true
+    })
+  }
+  onShareAppMessage=(res)=> {
+    return {
+      title: '老板送钱！'+this.state.coupon.return_money+'元现金券限时发放中，快来一起领取！',
+      path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id,
+      imageUrl:this.state.store.shop_door_header_img
+    }
+  }
+
   handleClick = (id, e) => {
     console.log(id)
     Taro.navigateTo({

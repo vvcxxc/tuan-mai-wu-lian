@@ -28,6 +28,8 @@ import { connect } from '@tarojs/redux'
   })
 )
 
+
+
 export default class Index extends Component<any> {
 	/**
 	 * 指定config的类型声明为: Taro.Config
@@ -67,8 +69,9 @@ export default class Index extends Component<any> {
     super(props);
   }
 
-  componentWillMount() {
-  }
+
+
+
 
   componentDidMount() {
     let id = this.$router.params.id;
@@ -205,7 +208,7 @@ export default class Index extends Component<any> {
             xpoint: this.state.meta.xpoint,
             ypoint: this.state.meta.ypoint,
             pages: this.state.page,
-            city_name:res.data.city
+            city_name: res.data.city
           }
         }, () => {
           this.showImage();
