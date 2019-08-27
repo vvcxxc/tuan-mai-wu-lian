@@ -10,6 +10,7 @@ import {
 import "./style.detail.appreciation.styl"
 import "@/styles/iconfont.styl"
 import { DetailProp } from "../detail"
+import data from "@/pages/data";
 
 export default class DetailAppreciation extends Component<DetailProp> {
   static defaultProps: DetailProp = {
@@ -17,7 +18,7 @@ export default class DetailAppreciation extends Component<DetailProp> {
     giftinfo: null,
     isChecked: false,
     isFreePostage: false,
-    onAction() {},
+    onAction() { },
     showButton: 1,
   }
 
@@ -178,19 +179,42 @@ export default class DetailAppreciation extends Component<DetailProp> {
                 <View className="price">
                   <View className="text">
                     {`¥${data.pay_money || "0.00"}`}
-                    {isChecked && giftinfo.postage ? ` + ${giftinfo.postage || ""}` : '' }
+                    {isChecked && giftinfo.postage ? ` + ${giftinfo.postage || ""}` : ''}
                   </View>
                   <View className="text">
                     {`起始金额 ￥${data.init_money || "0.00"} 最高增值 ¥${data.return_money || "0.00"}`}
                   </View>
                 </View>
-                <Button
+                {/* <Button
                   className="action-buy"
                   data-action="get"
                   onClick={this.handleClick}
                 >
                   立即购买
+                </Button> */}
+                {
+                  data.activity_time_status == 1 ? (
+                    <Button
+                      className="action-no-buy"
+                    >
+                      暂未开始
                 </Button>
+                  ) : data.activity_time_status == 2 ? (
+                    <Button
+                      className="action-buy"
+                      data-action="get"
+                      onClick={this.handleClick}
+                    >
+                      立即购买
+                  </Button>
+                  ) : (
+                        <Button
+                          className="action-no-buy"
+                        >
+                          已结束
+                  </Button>
+                      )
+                }
               </View>
             }
           </View>

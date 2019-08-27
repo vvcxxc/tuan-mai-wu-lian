@@ -7,5 +7,4 @@ export const tabbar = [
   "/pages/merchant/index",
   "/pages/activity/index",
   "/pages/index/index",
-
 ]
