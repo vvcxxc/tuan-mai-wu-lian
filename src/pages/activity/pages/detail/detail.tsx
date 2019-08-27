@@ -59,20 +59,20 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
 
   onShareAppMessage() {
     const userInfo = Taro.getStorageSync("userInfo");
-    const { name, youhui_name, pay_money, return_money, participation_money, preview, image } = this.state.detail;
+    const { name, youhui_name, gift,pay_money, return_money, participation_money, preview, image } = this.state.detail;
     const { id, activity_id, gift_id, type } = this.$router.params;
     console.log(this.state.detail)
     let title, imageUrl;
     if (type == TYPE_APPRECIATION) {
-      if (gift_id) {
-        title = `快来！${pay_money}增值至${return_money}，还可免费领${pay_money}礼品，机会仅此一次！`;
+      if (gift) {
+        title = `快来！${pay_money}增值至${return_money}，还可免费领${gift.price}礼品，机会仅此一次！`;
         imageUrl = preview;
       } else {
         title = `送你一次免费增值机会！${pay_money}可增值至${return_money}，速领！`;
         imageUrl = preview;
       }
     } else if (type == TYPE_GROUP) {
-      if (gift_id) {
+      if (gift) {
         title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
         imageUrl = preview;
       } else {
