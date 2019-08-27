@@ -16,8 +16,6 @@ function useAsyncEffect(cb: Function, dep: DependencyList) {
   }, dep)
 }
 
-
-
 function setTimeoutCallback() {
   let timer: any
   return function (fn: Function, time: number) {
@@ -27,10 +25,6 @@ function setTimeoutCallback() {
     }, time)
   }
 }
-
-
-
-
 
 function Index() {
 
@@ -101,15 +95,7 @@ function Index() {
           }, 2000)
         })
     })
-
-
-
-
   }, [cuoPonsId])
-
-
-
-
 
   const handerApplyShow = () => {
     showApply(!isApply)
