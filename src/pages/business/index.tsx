@@ -415,8 +415,24 @@ export default class PaySuccess extends Component<Props> {
                       </View>
                     </View>
 
-
-
+                    {/* 没礼品图片 */}
+                    {/* <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                      <View className="image" style={{ position: "relative", overflow: "hidden" }}>
+                        <Image src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ width: "100%", height: "100%" }} />
+                      </View>
+                      <Image className="image" src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ marginLeft: "7px" }} />
+                    </View> */}
+                    {/* 有礼品图片 */}
+                    {/* <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                      <View className="image" style={{ position: "relative", overflow: "hidden" }}>
+                        <Image src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ width: "100%", height: "100%" }} />
+                      </View>
+                      <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
+                        <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
+                        <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
+                        <Image src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ width: "100%", height: "100%" }} />
+                      </View>
+                    </View> */}
 
                     <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                       {
@@ -425,21 +441,23 @@ export default class PaySuccess extends Component<Props> {
                       }
                       <View className="img" style={{ width: "100%" }}   >
                         <View className="box_left">
-                          <View className="box_left_price">￥ <View className="_price">{item.pay_money}</View></View>
-                          <View className="box_left_return">最高可抵{parseInt(item.return_money)}元</View>
+                          <View className="box_left_return">最高价值</View>
+                          <View className="box_left_price">￥ <View className="_price">{item.return_money}</View></View>
                         </View>
                         <View className="box_center">
-                          {/* 使用stylus时多行文本省略要写父容器行内 */}
-                          <View className="present" style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-camp:2;overflow:hidden"><View className="present_text">{item.name}</View></View>
-                          <View className="present_recommend">{item.gift_desc}</View>
+                          <View className="present">
+                            <View className="present_text1">
+                              <View className="present_text1_box">全场通用</View>
+                            </View>
+                            <View className="present_text2">七天内有效</View>
+                            <View className="present_text3">满200元可用</View>
+                          </View>
                         </View>
                         <View className="box_right" style={{ overflow: "hidden" }}>
                           <Image className="image" src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                         </View>
                       </View>
                     </View>
-
-
 
                     <View className="ft ">
                       <View className="flex center">
@@ -559,8 +577,8 @@ export default class PaySuccess extends Component<Props> {
         {
           this.state.recommend.length == 0 ? "" :
             <View className="recommend-view bcfff">
-              <View className="merchant-details__tit">
-                <Text className="fwb" style={{ left: "0" }}>附近推荐</Text>
+              <View className="merchant-details__tit" style={{paddingLeft:0}}>
+                <Text className="fwb" >附近推荐</Text>
               </View>
               <View className="recommend-cells">
                 {
