@@ -417,7 +417,7 @@ export default class PaySuccess extends Component<Props> {
                         <View className="item desc">{item.name}</View>
                       </View>
                     </View>
-
+                        {/* 有分全场券和品类券的时候删掉下面这段，打开注释的一段，test1替换参数为item.判断券类型，test2替换参数为item.判断品类券有无礼品 */}
                     <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                         {
                           item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
@@ -442,7 +442,6 @@ export default class PaySuccess extends Component<Props> {
                           </View>
                         </View>
                       </View>
-
                     {/* {
                       this.state.test1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                         {
