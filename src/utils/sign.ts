@@ -78,7 +78,7 @@ export const toMiniProgramSign = (basicApi: string): void => {
   const currentUrl = pages[0]["route"];
   console.log(currentUrl)
   const id = Taro.getStorageSync("authid") || "";
-  Taro.redirectTo({
+  Taro.navigateTo({
     url: `/pages/auth/auth?basicApi=${basicApi}&currentUrl=/${currentUrl}&id=${id}`
   });
 }

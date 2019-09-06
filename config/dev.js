@@ -9,7 +9,6 @@ module.exports = {
   defineConstants: {
   },
   weapp: {
-
   },
   h5: {}
 }

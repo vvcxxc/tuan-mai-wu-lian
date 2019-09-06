@@ -77,7 +77,7 @@ export default class Auth extends Component {
     })
     const method = tabbar.includes(currentUrl)
       ? "switchTab"
-      : "redirectTo"
+      : "navigateBack"
     Taro[method]({
       url: `${currentUrl}?id=${id}`
     })

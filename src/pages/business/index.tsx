@@ -119,8 +119,7 @@ export default class PaySuccess extends Component<Props> {
     keepCollect_bull: false,
     keepCollect_data: "收藏成功"
   };
-
-  componentWillMount() {
+  componentDidShow() {
     Taro.showLoading({
       title: 'loading',
     })
@@ -175,6 +174,10 @@ export default class PaySuccess extends Component<Props> {
       }
     })
   }
+  // componentWillMount() {
+
+  // }
+
 
   componentDidMount() {
     Taro.showShareMenu({

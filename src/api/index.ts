@@ -122,7 +122,7 @@ export const getCouponDetail = (params: GetCouponDetail) => {
   const { url, ...rest } = params
   return http({
     url,
-    data: rest
+    data: {...rest,is_xcx:1}
   })
 }
 
@@ -255,7 +255,7 @@ export const listenQrcodeForGroup = (params: QrcodeGroup) =>
     data: params
   })
 
-export const getOrderQrcode = (id) => 
+export const getOrderQrcode = (id) =>
 	http({
 		url: "api/wap/orderGift/code",
 		method: "get",

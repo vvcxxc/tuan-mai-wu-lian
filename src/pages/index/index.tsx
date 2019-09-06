@@ -80,7 +80,11 @@ export default class Index extends Component<any> {
     }
     this.requestLocation();
     this.recognizer();
+    // this.showGift()
     // this.getPayStore();//获取中奖门店信息
+  }
+  componentDidShow(){
+    this.showGift()
   }
 
   // 识别器
@@ -276,6 +280,7 @@ export default class Index extends Component<any> {
   }
 
   onPullDownRefresh() { // 自带 下拉事件
+    this.showGift()
     let data = this.state.meta
     data.pages = 1
     this.setState({ meta: data })
