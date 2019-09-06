@@ -34,6 +34,7 @@ export default class MyActivity extends Component<MyActivityProp> {
 
   onShareAppMessage = e => {
     const { id, image, title } = e.target.dataset
+    console.log( e.target.dataset)
     const userInfo = Taro.getStorageSync('userInfo')
     return {
       title: `${userInfo.nickName}邀请您参加拼团抢购${title}优惠券`,
