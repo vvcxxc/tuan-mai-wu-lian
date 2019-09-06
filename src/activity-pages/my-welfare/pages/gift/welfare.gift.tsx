@@ -117,7 +117,7 @@ export default class MyWelfare extends Component {
               list.map((item, index) => {
                 return (
                   <GiftItem
-                    key={index}
+                    key={item}
                     data={item}
                     onAction={this.handleAction}
                   />

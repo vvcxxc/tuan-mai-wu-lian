@@ -98,13 +98,13 @@ export default class MyActivity extends Component<MyActivityProp> {
                   return current === 0
                     ? <View className="activity-appreciation">
                         <ActivityAppreciation
-                          key={index}
+                          key={item}
                           data={item}
                           onAction={this.handleAction}
                         />
                       </View>
                     : <ActivityGroup
-                        key={index}
+                        key={item}
                         data={item}
                         onAction={this.handleAction}
                       />

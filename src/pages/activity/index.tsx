@@ -123,7 +123,7 @@ export default class Activity extends Component<ActivityProps> {
               {
                 activitys.map((item, index) => {
                   return (
-                    <Block key={index}>
+                    <Block key={item}>
                       <View
                         onClick={this.goTo.bind(this, item.path)}
                         className="weui-grid"
@@ -146,7 +146,7 @@ export default class Activity extends Component<ActivityProps> {
                 recommend.map((item, index) => {
                   return (
                     <Coupon
-                      key={index}
+                      key={item}
                       data={item}
                       onAction={this.handleAction}
                     />

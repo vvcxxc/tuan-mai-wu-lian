@@ -285,7 +285,7 @@ export default class Group extends Component {
                   {
                     basicinfo.rsParticipate.map((item, index) => {
                       return (
-                        <View className="item" key={index}>
+                        <View className="item" key={item}>
                           <Image className="icon" src={item.user_portrait} />
                         </View>
                       )
@@ -367,7 +367,7 @@ export default class Group extends Component {
                 list.map((item, index) => {
                   return (
                     <Coupon
-                      key={index}
+                      key={item}
                       data={item}
                       onAction={this.handleAction}
                     />

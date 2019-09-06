@@ -56,7 +56,7 @@ export default class Tab extends Component<TabProp> {
                   return (
                     <View
                       className={`item ${checkedStyle}`}
-                      key={index}
+                      key={item}
                       data-index={index}
                       onClick={this.handleToggle}
                     >
