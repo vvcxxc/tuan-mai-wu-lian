@@ -275,6 +275,7 @@ export default class Index extends Component<any> {
   }
 
   onPullDownRefresh() { // 自带 下拉事件
+
     let data = this.state.meta
     data.pages = 1
     this.setState({ meta: data })

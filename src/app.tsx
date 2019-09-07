@@ -41,28 +41,28 @@ class App extends Component {
 	 */
 	config: Config = {
 		pages: [
-      'pages/index/index',
-      'pages/auth/auth',
+			'pages/index/index',
+			'pages/auth/auth',
 			'pages/index/search/index',
 			'pages/my/index',
 			'pages/order/index',
 			'pages/merchant/index',
 			'pages/activity/index',
 			'pages/business/index',
-      "pages/activity/pages/detail/detail",
-      "pages/activity/pages/group/group",
-      "pages/activity/pages/appreciation/appreciation",
-      "pages/activity/pages/list/list",
-
+			"pages/activity/pages/detail/detail",
+			"pages/activity/pages/group/group",
+			"pages/activity/pages/appreciation/appreciation",
+			"pages/activity/pages/list/list",
+			"pages/activity/appreciation/index",
 		],
 		subPackages: [
 			{
 				/**各种详情页面 比如商家详情页 */
 				root: "detail-pages",
 				pages: [
-          'gift/gift',
-          'orderdetail/index',
-          'orderdetail/refundProgress'
+					'gift/gift',
+					'orderdetail/index',
+					'orderdetail/refundProgress'
 				]
 			},
 			{
@@ -70,7 +70,7 @@ class App extends Component {
 				root: 'business-pages',
 
 				pages: [
-          // 'auth/anth',
+					// 'auth/anth',
 					'confirm-order/index',
 					'stars/index',
 					'gift/index',
@@ -89,10 +89,10 @@ class App extends Component {
 
 				pages: [
 					'group-booking/index',
-          'group-booking/detail/index',
-          'my-activity/my.activity',
-          "my-welfare/pages/gift/welfare.gift",
-          'offline/order'
+					'group-booking/detail/index',
+					'my-activity/my.activity',
+					"my-welfare/pages/gift/welfare.gift",
+					'offline/order'
 
 				]
 			}
