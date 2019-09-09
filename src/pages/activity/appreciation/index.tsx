@@ -148,8 +148,13 @@ export default class Appre extends Component<Props>{
       url: 'v1/youhui/wxXcxuWechatPay',
       method: "POST",
       data: {
-        youhui_id: this.state.data.id,
-        open_id: Taro.getStorageSync("openid")
+        youhui_id: this.$router.params.id,
+        activity_id: this.$router.params.activity_id,
+        gift_id: this.$router.params.gift_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: "1",
+        xcx: 1
       }
     }).then((res: any) => {
       Taro.hideLoading();
