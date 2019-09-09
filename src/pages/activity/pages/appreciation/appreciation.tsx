@@ -57,7 +57,8 @@ export default class Appreciation extends Component {
     giftBasicInfo: {
       price: '',
       short_name: '',
-      cover_image: ''
+      cover_image: '',
+      gift_id: ''
     },
     isInvite: false,
     isAppreciation: false,
@@ -266,13 +267,12 @@ export default class Appreciation extends Component {
       dateTime,
       buttonstatus
     } = this.state.basicinfo
-
+    const { gift_id, cover_image } = this.state.giftBasicInfo
     let coupon_info = {
       money: this.state.basicinfo.userYonhuiInfo.money || '',
       limit_money: this.state.basicinfo.userYonhuiInfo.total_fee,
-      gift_price: this.state.giftBasicInfo.price,
-      short_name: this.state.giftBasicInfo.short_name,
-      gift_image: this.state.giftBasicInfo.cover_image
+      gift_image: this.state.giftBasicInfo.cover_image,
+      youhui_type: this.state.basicinfo.userYonhuiInfo.youhui_type
     }
     return (
       <Block>
@@ -291,17 +291,6 @@ export default class Appreciation extends Component {
                 <Image className="icon" src={require('@/assets/shop.png')} />
                 <View className="text">{couponinfo.store_name}</View>
               </View>
-              {/* <View className="rule">活动规则</View> */}
-              {/* <View className="coupon-info">
-                <View className="avatar">
-                  <Image className="icon" src={couponinfo.image} />
-                </View>
-                <View className="description">
-                  <View className="item name text-ellipsis-two-lines">{couponinfo.name}</View>
-                  <View className="item brief">{couponinfo.text}</View>
-                  <View className="item price">{couponinfo.appreciation_count_money}</View>
-                </View>
-              </View> */}
               {/* 增值券 */}
               {
                 couponinfo.youhui_type == 1 ? (
@@ -310,9 +299,39 @@ export default class Appreciation extends Component {
                     <View className='coupon_name'>{couponinfo.name}</View>
                     <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
                   </View>
-                ) : (
-                  <View>12</View>
-                )
+                ) : couponinfo.youhui_type == 0 ? (
+                  <View>
+                    {
+                      gift_id ? (
+                        <View>
+                            <View style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <View>
+                              <Image src={couponinfo.image} className='coupon_image'/>
+                            </View>
+                            <View className='gift_image'>
+                              <Image src={cover_image} className='coupon_image' style={{position: 'absolute', top: 0, left: 0}}/>
+                              <Image src={require('@/pages/business/border.png')} className='border_image' />
+                              <Image src={require('@/pages/business/qiu.png')} className='qiu_image'/>
+                            </View>
+                          </View>
+                          <View className='coupon_name'>{couponinfo.name}</View>
+                          <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                        </View>
+
+                      ) : (
+                        <View style={{display: 'flex', justifyContent: 'space-between'}}>
+                          <View>
+                            <Image src={couponinfo.image} className='coupon_image'/>
+                          </View>
+                          <View className='coupon_infos'>
+                            <View className='coupon_name'>{couponinfo.name}</View>
+                            <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                          </View>
+                      </View>
+                      )
+                    }
+                  </View>
+                ) : null
               }
 
               <View className="process">
