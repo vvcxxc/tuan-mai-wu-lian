@@ -44,8 +44,9 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
+					"name": "activity-pages/my-activity/my.activity",
+					"pathName": "activity-pages/my-activity/my.activity",
+					"query": "",
 					"scene": null
 				}
 			]

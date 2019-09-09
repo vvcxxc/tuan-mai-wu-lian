@@ -99,14 +99,16 @@ export default class Group extends Component {
           dataId = data.id
         }
         Taro.navigateTo({
-          url: `/pages/activity/pages/detail/detail?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`
+          url: `/pages/activity/pages/detail/detail?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`,
+
         })
         break
       }
       case ACTION_VIEW: {
         const { gift_id, activity_id } = this.state.basicinfo
         Taro.navigateTo({
-          url: `/pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
+          // url: `/pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
+          url: `/detail-pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
         })
         break
       }
