@@ -108,7 +108,7 @@ class IndexSearchPage extends PureComponent<Props> {
 						<View className="history">
 							{
 								saveSearch.map((item, index) => {
-									return <View className="item" onClick={this.lineOnclick.bind(this,item)} key={index}>{item}</View>
+									return <View className="item" onClick={this.lineOnclick.bind(this,item)} key={item}>{item}</View>
 								})
 							}
 						</View>
@@ -118,7 +118,7 @@ class IndexSearchPage extends PureComponent<Props> {
 						{/* <View className="history" style="padding:0px 20px 0px 20px;">
 							{
 								this.state.list.map((item, index) => {
-									return <View className="item" key={index}>{item}</View>
+									return <View className="item" key={item}>{item}</View>
 								})
 							}
 						</View> */}

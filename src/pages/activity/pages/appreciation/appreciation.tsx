@@ -422,7 +422,7 @@ export default class Appreciation extends Component {
                   {
                     participators.map((item, index) => {
                       return (
-                        <View className="item" key={index}>
+                        <View className="item" key={item}>
                           <View className="avatar">
                             <Image className="icon" src={item.user_portrait} />
                             <View className="text">{item.user_name}</View>
@@ -443,7 +443,7 @@ export default class Appreciation extends Component {
                 list.map((item, index) => {
                   return (
                     <Coupon
-                      key={index}
+                      key={item}
                       data={item}
                       onAction={this.handleAction}
                     />

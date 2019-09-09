@@ -48,9 +48,9 @@ export default class PaySuccess extends Component {
       sname: "",
       tel: "",
       distance: "",
-      shop_door_header_img:"",
-      xpoint:0,
-      ypoint:0
+      shop_door_header_img: "",
+      xpoint: 0,
+      ypoint: 0
     },
     goods_album: [
       {
@@ -123,11 +123,11 @@ export default class PaySuccess extends Component {
       withShareTicket: true
     })
   }
-  onShareAppMessage=(res)=> {
+  onShareAppMessage = (res) => {
     return {
-      title: '老板送钱！'+this.state.coupon.return_money+'元现金券限时发放中，快来一起领取！',
+      title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
       path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id,
-      imageUrl:this.state.store.shop_door_header_img
+      imageUrl: this.state.store.shop_door_header_img
     }
   }
 
@@ -152,19 +152,19 @@ export default class PaySuccess extends Component {
       .then((res: any) => {
         console.log(res)
       })
-      e.stopPropagation();
+    e.stopPropagation();
   }
   //地图
   routePlanning = (e) => {
-		Taro.openLocation({
-			latitude: Number(this.state.store.ypoint),
-			longitude: Number(this.state.store.xpoint),
-			scale: 18,
-			name: this.state.store.sname,
-			address: this.state.store.saddress,
-		})
-		e.stopPropagation();
-	}
+    Taro.openLocation({
+      latitude: Number(this.state.store.ypoint),
+      longitude: Number(this.state.store.xpoint),
+      scale: 18,
+      name: this.state.store.sname,
+      address: this.state.store.saddress,
+    })
+    e.stopPropagation();
+  }
   //收藏
   keepCollect(e) {
     //假接口，还没好
@@ -181,15 +181,15 @@ export default class PaySuccess extends Component {
     //   })
   }
   routePlanning = (e) => {
-		Taro.openLocation({
-			latitude: Number(this.state.store.ypoint),
-			longitude: Number(this.state.store.xpoint),
-			scale: 18,
-			name: this.state.store.sname,
-			address: this.state.store.saddress,
-		})
-		e.stopPropagation();
-	}
+    Taro.openLocation({
+      latitude: Number(this.state.store.ypoint),
+      longitude: Number(this.state.store.xpoint),
+      scale: 18,
+      name: this.state.store.sname,
+      address: this.state.store.saddress,
+    })
+    e.stopPropagation();
+  }
   render() {
     return (
       <View className="set-meal">
@@ -213,9 +213,21 @@ export default class PaySuccess extends Component {
               <View className="desc">{this.state.coupon.yname}</View>
 
               <View className="tags" style={{ position: "absolute", right: "0" }}>
-                <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '' : '#fff' }}>可叠加</Text>
-                <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') !== -1 ? '' : '#fff' }}>随时退</Text>
-                <Text className="tag-text" style={{marginRight:"0", backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '' : '#fff' }}>免预约</Text>
+                {/* <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') == -1 ? '' : '#fff' }}>可叠加</Text>
+                <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') == -1 ? '' : '#fff' }}>随时退</Text>
+                <Text className="tag-text" style={{ marginRight: "0", backgroundColor: this.state.coupon.label.indexOf('免预约') == -1 ? '' : '#fff' }}>免预约</Text> */}
+                {
+                   this.state.coupon.label.indexOf('可叠加') !== -1 ?
+                    <Text className="tag-text">可叠加</Text> : null
+                }
+                {
+                   this.state.coupon.label.indexOf('随时退') !== -1 ?
+                    <Text className="tag-text">随时退</Text> : null
+                }
+                {
+                   this.state.coupon.label.indexOf('免预约') !== -1 ?
+                    <Text className="tag-text"  >免预约</Text> : null
+                }
               </View>
             </View>
           </View>
@@ -227,15 +239,15 @@ export default class PaySuccess extends Component {
           <View className="flex center">
             <Image className="image" src={this.state.store.shop_door_header_img} />
             <View className="item">
-              <View className="tit"  style={{fontWeight:"bold",fontSize:"16px"}}>{this.state.store.sname}</View>
+              <View className="tit" style={{ fontWeight: "bold", fontSize: "16px" }}>{this.state.store.sname}</View>
               {/* <View className="money">人均：￥222.00</View> */}
             </View>
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
           <View className="address-view flex center">
-            <Image className="address-image" src={AddressImg} onClick={this.routePlanning.bind(this)}/>
-            <View className="distance" onClick = {this.routePlanning.bind(this)}>{this.state.store.distance}</View>
-            <View className="text flex-item" onClick = {this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
+            <Image className="address-image" src={AddressImg} onClick={this.routePlanning.bind(this)} />
+            <View className="distance" onClick={this.routePlanning.bind(this)}>{this.state.store.distance}</View>
+            <View className="text flex-item" onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
             <Image className="mobile-image" src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
         </View>

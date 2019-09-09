@@ -60,7 +60,7 @@ export default class ActivityGroup extends Component<ActivityGroupProp> {
                     return (
                       <Image
                         className="participator"
-                        key={index}
+                        key={item}
                         src={item}
                       />
                     )

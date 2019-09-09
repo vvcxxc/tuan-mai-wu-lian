@@ -1,12 +1,13 @@
 import Taro, { Component, ComponentOptions } from "@tarojs/taro";
 import { View, Text, Image } from "@tarojs/components";
 // import secondaryActiveBg from "./secondary-avitve-bg.png";
-
+import quan from '../../../assets/quan.png';
+import quan2 from '../../../assets/quan2.png';
 import "./index.styl";
 
 interface Props {
   _id: any,
-  _logid:any,
+  _logid: any,
   return_money: any,
   _total_fee: any,
   youhui_type: any,
@@ -37,9 +38,9 @@ export default class CashCoupon extends Component<Props> {
     })
   }
   buyMore = (_id, expiration, e) => {
-      Taro.navigateTo({
-        url: '/business-pages/ticket-buy/index?id=' + _id
-      })
+    Taro.navigateTo({
+      url: '/business-pages/ticket-buy/index?id=' + _id
+    })
     e.stopPropagation();
   }
   render() {
@@ -69,10 +70,15 @@ export default class CashCoupon extends Component<Props> {
             <View className="head flex">
               {
                 this.props.bg_img_type == 1 ?
-                  <View className="label flex center" style={{ background: "#5d84e0" }}>{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View> :
-                  <View className="label flex center" style={{ background: "#cccccc" }}>{this.props.youhui_type == "0" ? "兑换券" : "现金券"}</View>
+                  <View className="label flex center" >
+                    <Image src={quan} style={{ height: "100%", width: "80rpx" }} />
+                  </View> :
+                  <View className="label flex center">
+                    <Image src={quan2} style={{ height: "100%", width: "80rpx" }} />
+                  </View>
               }
-              {this.props.sname}
+              <View style={{ width: "135px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{this.props.sname}</View>
+
             </View>
             {/* <View className="date" >{this.props.list_brief}</View> */}
             <View className="info" >{this.props.timer}</View>

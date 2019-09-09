@@ -60,7 +60,7 @@ export default class My extends Component {
               cells.map((item, index) => {
                 return (
                   <Navigator
-                    key={index}
+                    key={item}
                     url={item.path}
                     openType={item.open_type}
                     className="weui-cell weui-cell_access"

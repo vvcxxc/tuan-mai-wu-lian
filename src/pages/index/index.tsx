@@ -191,7 +191,6 @@ export default class Index extends Component<any> {
   // 获取城市
   getCity = (data?: any) => {
     let datas = data ? data : this.state.meta
-    console.log('处罚来看')
     request({
       url: 'v3/city_name',
       data: datas
@@ -549,7 +548,7 @@ export default class Index extends Component<any> {
                     </View>
                     <Image src={
                       this.state.storeList[index].height !== 'auto' ?
-                        require('../../assets/jiao_bottom.png') : require('../../assets/jiao_top.png')}
+                      "http://oss.tdianyi.com/front/wRftjWN2D3aZwiHQjfH64ba27FXRBFCR.png":  "http://oss.tdianyi.com/front/NMKeBjaajWYJxRSmcjXYFEGxXFkGE7BA.png"}
                       style={{ marginRight: 0 }}
                     />
                   </View>

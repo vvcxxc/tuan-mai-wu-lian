@@ -100,7 +100,7 @@ export default class List extends Component {
               list.map((item, index) => {
                 return (
                   <Coupon
-                    key={index}
+                    key={item}
                     data={item}
                     onAction={this.handleAction}
                   />

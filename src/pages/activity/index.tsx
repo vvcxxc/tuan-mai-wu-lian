@@ -59,12 +59,20 @@ export default class Activity extends Component<ActivityProps> {
    * 用户动作
    */
   handleAction(action: string, data: any) {
-    switch(action) {
+    switch (action) {
       case ACTION_JUMP:
         const { type, id, gift_id, activity_id } = data
-        Taro.navigateTo({
-          url: `/pages/activity/pages/detail/detail?id=${id}&type=${type}&activity_id=${activity_id}&gift_id=${gift_id}`
-        })
+        if (type == 1) {
+          Taro.navigateTo({
+            url: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
+            // url: `/pages/activity/pages/detail/detail?id=${id}&type=${type}&activity_id=${activity_id}&gift_id=${gift_id}`
+          })
+        } else {
+          Taro.navigateTo({
+            url: `/pages/activity/pages/detail/detail?id=${id}&type=${type}&activity_id=${activity_id}&gift_id=${gift_id}`
+          })
+        }
+
         break
       default:
         console.log("no action~")
@@ -123,7 +131,7 @@ export default class Activity extends Component<ActivityProps> {
               {
                 activitys.map((item, index) => {
                   return (
-                    <Block key={index}>
+                    <Block key={item}>
                       <View
                         onClick={this.goTo.bind(this, item.path)}
                         className="weui-grid"
@@ -146,7 +154,7 @@ export default class Activity extends Component<ActivityProps> {
                 recommend.map((item, index) => {
                   return (
                     <Coupon
-                      key={index}
+                      key={item}
                       data={item}
                       onAction={this.handleAction}
                     />

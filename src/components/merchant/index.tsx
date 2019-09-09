@@ -106,7 +106,8 @@ export default class Merchant extends Component<Props> {
 					</View>
 					<View className={this.controlPicture(that.gift_pic, that.coupon_image_url) === 2 ?
 						'content_img' : 'hidden_content_img'} style="position:relative;  padding-left:2px; margin-left:5px; ">
-						<Image src={require("./border.png")} style="position:absolute; top:0px;left:0px;" />
+						<Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
+						style="position:absolute; top:0px;left:0px;" />
 						<Image src={require("./qiu.png")} style="position:absolute; top:-4px;left:41%; width:25px;height:25px;" />
 						<Image src={that.gift_pic} />
 					</View>
