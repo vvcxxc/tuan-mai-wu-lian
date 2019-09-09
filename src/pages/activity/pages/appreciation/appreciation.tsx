@@ -263,7 +263,8 @@ export default class Appreciation extends Component {
     const {
       userdata: userinfo,
       userYonhuiInfo: couponinfo,
-      dateTime
+      dateTime,
+      buttonstatus
     } = this.state.basicinfo
 
     let coupon_info = {
@@ -277,11 +278,18 @@ export default class Appreciation extends Component {
       <Block>
         <View className="appreciation" style={`background-image: url(http://tmwl-resources.tdianyi.com/miniProgram/MiMaQuan/img_appreciation.png)`}>
           <View className="container">
-            <View className="area-title">邀请好友增值</View>
+            {
+              buttonstatus.isself == 1 ? (
+                <View className="area-title">邀请好友增值</View>
+              ) : (
+                <View className="area-title">帮{userinfo.user_name}增值</View>
+              )
+            }
+
             <View className="area-panel">
               <View className="user-info">
-                <Image className="icon" src={userinfo.user_portrait} />
-                <View className="text">{userinfo.user_name}</View>
+                <Image className="icon" src={require('@/assets/shop.png')} />
+                <View className="text">{couponinfo.store_name}</View>
               </View>
               {/* <View className="rule">活动规则</View> */}
               {/* <View className="coupon-info">
@@ -295,9 +303,18 @@ export default class Appreciation extends Component {
                 </View>
               </View> */}
               {/* 增值券 */}
-              <AppreCoupon data={coupon_info} />
-              <View className='coupon_name'>{couponinfo.name}</View>
-              <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+              {
+                couponinfo.youhui_type == 1 ? (
+                  <View>
+                    <AppreCoupon data={coupon_info} />
+                    <View className='coupon_name'>{couponinfo.name}</View>
+                    <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                  </View>
+                ) : (
+                  <View>12</View>
+                )
+              }
+
               <View className="process">
                 <View className="process-in" style={`width: ${appreciationProcess}`}>
                   <Image className="icon" src={require("../../../../static/images/ic_process_bar.png")} />

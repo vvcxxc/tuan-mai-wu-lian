@@ -29,8 +29,8 @@ export default class AppreCoupon extends Component<Props> {
         <View className="box_left">
           <View className='max_text'>最高可抵</View>
           <View>
-            <Text style={{fontSize: '33rpx', color: '#EE3131', fontWeight: 600}}>￥</Text>
-            <Text style={{fontSize: '50rpx', color: '#EE3131', lineHeight: 1}}>{money}</Text>
+            <Text style={{fontSize: '14px', color: '#EE3131', fontWeight: 600}}>￥</Text>
+            <Text style={{fontSize: '22px', color: '#EE3131', lineHeight: 1}}>{money}</Text>
           </View>
         </View>
         <View className="box_center">
