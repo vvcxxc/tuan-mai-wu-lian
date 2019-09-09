@@ -18,6 +18,7 @@ import {
   COUPON_OTHER,
   NOT_GET
 } from "../../data"
+import AppreCoupon from '@/components/appreCoupon'
 import { ACTION_APPRECIATION, ACTION_JUMP, ACTION_VIEW } from "@/utils/constants"
 
 type State = {
@@ -45,10 +46,19 @@ export default class Appreciation extends Component {
     list: [],
     rules: [],
     participators: [],
-    basicinfo: {},
+    basicinfo: {
+      userYonhuiInfo:{
+        money: '',
+        total_fee: ''
+      }
+    },
     shareinfo: {},
     userStatusinfo: {},
-    giftBasicInfo: {},
+    giftBasicInfo: {
+      price: '',
+      short_name: '',
+      cover_image: ''
+    },
     isInvite: false,
     isAppreciation: false,
     isGet: false
@@ -232,6 +242,7 @@ export default class Appreciation extends Component {
     }
     const { data } = await getAppreciationinfo(params)
     const { userYonhuiInfo: couponinfo, buttonstatus: userCouponStatus } = data
+    console.log(data)
     this.fetchGiftinfo(couponinfo.gift_id, couponinfo.activity_id)
     this.handleCalculateProcess(couponinfo.init_money, couponinfo.appreciation_money, couponinfo.money)
     this.handleCalculate(couponinfo, userCouponStatus)
@@ -251,8 +262,17 @@ export default class Appreciation extends Component {
     } = this.state
     const {
       userdata: userinfo,
-      userYonhuiInfo: couponinfo
+      userYonhuiInfo: couponinfo,
+      dateTime
     } = this.state.basicinfo
+
+    let coupon_info = {
+      money: this.state.basicinfo.userYonhuiInfo.money || '',
+      limit_money: this.state.basicinfo.userYonhuiInfo.total_fee,
+      gift_price: this.state.giftBasicInfo.price,
+      short_name: this.state.giftBasicInfo.short_name,
+      gift_image: this.state.giftBasicInfo.cover_image
+    }
     return (
       <Block>
         <View className="appreciation" style={`background-image: url(http://tmwl-resources.tdianyi.com/miniProgram/MiMaQuan/img_appreciation.png)`}>
@@ -263,8 +283,8 @@ export default class Appreciation extends Component {
                 <Image className="icon" src={userinfo.user_portrait} />
                 <View className="text">{userinfo.user_name}</View>
               </View>
-              <View className="rule">活动规则</View>
-              <View className="coupon-info">
+              {/* <View className="rule">活动规则</View> */}
+              {/* <View className="coupon-info">
                 <View className="avatar">
                   <Image className="icon" src={couponinfo.image} />
                 </View>
@@ -273,7 +293,11 @@ export default class Appreciation extends Component {
                   <View className="item brief">{couponinfo.text}</View>
                   <View className="item price">{couponinfo.appreciation_count_money}</View>
                 </View>
-              </View>
+              </View> */}
+              {/* 增值券 */}
+              <AppreCoupon data={coupon_info} />
+              <View className='coupon_name'>{couponinfo.name}</View>
+              <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
               <View className="process">
                 <View className="process-in" style={`width: ${appreciationProcess}`}>
                   <Image className="icon" src={require("../../../../static/images/ic_process_bar.png")} />
