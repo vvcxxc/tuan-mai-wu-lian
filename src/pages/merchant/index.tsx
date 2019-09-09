@@ -283,7 +283,7 @@ export default class MerChantPage extends Component {
         </View>
         <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)}/>
         <View className="merchant-list" style="height:100vh;background-color:#fff;">
-          <View style={{ minHeight: '100vh', height: 'auto', background: '#ededed' }}>
+          <View style={{ minHeight: '100vh', height: 'auto', background: '#f4f4f4' }}>
             {
               this.state.stores.map((item2: any, index: any) => {
                 return <View className="new_box">
