@@ -30,6 +30,7 @@ export default class Appre extends Component<Props>{
       end_time: "",
       gift: { title: "", price: "", postage: "" },
       gift_id: 0,
+      gift_pic: '',
       id: 0,
       image: "",
       images: [],
@@ -267,15 +268,9 @@ export default class Appre extends Component<Props>{
                 <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
               </View>
               <View className="appre_gift_giftlist" >
-                {
-                 images ? images.map((item) => {
-                    return (
-                      <Image className="appre_gift_giftlistImg"
-                        onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                        src={item} />
-                    )
-                  }) : null
-                }
+                <Image className="appre_gift_giftlistImg"
+                  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.gift_pic }) }}
+                  src={this.state.data.gift_pic} />
               </View>
             </View> : null
         }
