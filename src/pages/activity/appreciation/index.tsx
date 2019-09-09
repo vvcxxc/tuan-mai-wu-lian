@@ -5,7 +5,6 @@ import request from '../../../services/request'
 import share from '../../../assets/share.png';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
-import briefImage from '../../../assets/brief2.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
 
@@ -139,6 +138,46 @@ export default class Appre extends Component<Props>{
     e.stopPropagation();
   }
 
+
+
+  payment = () => {
+    Taro.showLoading({
+      title: 'loading',
+    });
+    request({
+      url: 'v1/youhui/wxXcxuWechatPay',
+      method: "POST",
+      data: {
+        youhui_id: this.state.data.id,
+        open_id: Taro.getStorageSync("openid")
+      }
+    }).then((res: any) => {
+      Taro.hideLoading();
+      // 发起支付
+      Taro.requestPayment({
+        timeStamp: res.data.timeStamp,
+        nonceStr: res.data.nonceStr,
+        package: res.data.package,
+        signType: res.data.signType,
+        paySign: res.data.paySign,
+        success(res) {
+          Taro.switchTab({
+            url: '/activity-pages/my-activity/my.activity',
+            success: () => {
+              var page = Taro.getCurrentPages().pop();
+              if (page == undefined || page == null) return;
+              page.onLoad();
+            }
+          })
+
+        },
+        fail(err) {
+          Taro.showToast({ title: '支付失败', icon: 'none' })
+        }
+      })
+    })
+  }
+
   render() {
     const { images, description } = this.state.data;
     return (
@@ -201,31 +240,31 @@ export default class Appre extends Component<Props>{
             </View> */}
           </View>
         </View>
-        <View className="appre_gift" >
-          <View className="appre_gift_titlebox" >
-            <View className="appre_gift_title" >赠送礼品</View>
-            <View className="appre_gift_Imagelist" >图文详情</View>
-          </View>
-          <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
-          <View className="appre_gift_giftmsgbox" >
-            <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
-          </View>
-          <View className="appre_gift_giftlist" >
-            {
-              images ? images.map((item, index) => {
-                return (
-                  <Image className="appre_gift_giftlistImg"
-                    onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                    src={item} />
-                )
-              }) : null
-            }
-
-
-          </View>
-        </View>
+        {this.state.data.gift_id ?
+          <View className="appre_gift" >
+            <View className="appre_gift_titlebox" >
+              <View className="appre_gift_title" >赠送礼品</View>
+              <View className="appre_gift_Imagelist" >图文详情</View>
+            </View>
+            <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
+            <View className="appre_gift_giftmsgbox" >
+              <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
+            </View>
+            <View className="appre_gift_giftlist" >
+              {
+                images ? images.map((item, index) => {
+                  return (
+                    <Image className="appre_gift_giftlistImg"
+                      onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
+                      src={item} />
+                  )
+                }) : null
+              }
+            </View>
+          </View> : null
+        }
         <View className="appre_process2" >
-          <Image className="appre_process2_Image" src={briefImage} />
+          <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/XzPRtr5xGGiEiP8xHiS8tYEwCwyQWib8.png" />
         </View>
 
         {
@@ -291,7 +330,7 @@ export default class Appre extends Component<Props>{
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
             <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View>
           </View>
-          <View className="paymoney_buynow">立即购买</View>
+          <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
         </View>
 
         <Zoom
