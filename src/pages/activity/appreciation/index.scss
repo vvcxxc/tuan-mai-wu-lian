@@ -10,6 +10,7 @@
         box-sizing: border-box;
         padding: 24px 24px 0 24px;
         background: #fff;
+
         .appre_head_activityTitle_title {
             height: 60px;
             font-size: 45px;
@@ -26,9 +27,11 @@
     .test-h {
         width: 100%;
         height: 415px;
+
         .demo-text {
             width: 100%;
             height: 100%;
+
             .demo-text-Img {
                 width: 100%;
                 height: 100%;
@@ -125,13 +128,26 @@
                     height: 100%;
                     text-align: right;
                     float: left;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    justify-content: flex-end;
+                    .appre_head_right_type {
+                        padding: 5px 10px;
+                        line-height: 1;
+                        background: #fff;
+                        color: #FE7450;
+                        border: #FE7450 1px solid;
+                        border-radius: 8px;
+                        font-size: 25px;
+                    }
 
                     .appre_head_right_total {
-                        margin-top: 70px;
-                        height: 40px;
+                        margin: 10px 0;
                         text-align: right;
                         color: #666666;
                         font-size: 30px;
+                        line-height: 1;
                     }
 
                     .appre_head_right_days {
@@ -232,7 +248,8 @@
             margin-bottom: 20px;
 
             .appre_gift_giftmsg {
-                padding: 5px 15px;
+                padding: 8px 15px;
+                line-height: 1;
                 color: #fa5d49;
                 font-size: 25px;
                 float: left;
@@ -414,7 +431,7 @@
                     height: 115px;
                     width: 115px;
                     overflow: hidden;
-                    border-radius: 5px;
+                    border-radius: 8px;
                     float: left;
 
                     .setMeal_store_img {
@@ -448,7 +465,7 @@
                     width: 40px;
                     box-sizing: border-box;
                     color: #666666;
-                    padding-top: 50px;
+                    padding-top: 30px;
                     float: right;
                 }
             }
@@ -484,7 +501,7 @@
                         position: absolute;
                         left: 30px;
                         padding: 0 8px;
-                        font-size: 20px;
+                        font-size: 24px;
                     }
                 }
 
@@ -526,11 +543,11 @@
         padding: 20px 28px;
 
         .paymoney_price {
-            width: 305px;
+            width: 450px;
             height: 55px;
             float: left;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             margin-top: 15px;
 
 
@@ -552,6 +569,7 @@
             }
 
             .paymoney_price_info {
+                margin-left: 15px;
                 font-size: 30px;
                 color: #d6d6d6;
                 float: left;
