@@ -247,7 +247,7 @@ export default class Appre extends Component<Props>{
               </View>
               <View className="appre_head_right">
                 {
-                  this.state.data.type == 0 ? <View className="appre_head_right_type">全场通用</View> : null
+                  this.state.data.type != 0 ? <View className="appre_head_right_type">全场通用</View> : null
                 }
                 <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
                 <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
