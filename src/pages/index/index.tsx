@@ -78,12 +78,14 @@ export default class Index extends Component<any> {
     if (id) {
       sessionStorage.setItem('payStore', id)
     }
-    this.requestLocation();
-    this.recognizer();
+    // this.requestLocation();
+    // this.recognizer();
     // this.showGift()
     // this.getPayStore();//获取中奖门店信息
   }
   componentDidShow(){
+    this.requestLocation();
+    this.recognizer();
     this.showGift()
   }
 
@@ -355,6 +357,7 @@ export default class Index extends Component<any> {
   }
 
   showImage = () => {
+    console.log(213)
     request({
       url: 'v3/ads',
       data: {

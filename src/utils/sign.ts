@@ -72,11 +72,13 @@ export const miniProgramSign = (params: Params): Promise<SignResponse> => {
  */
 export const toMiniProgramSign = (basicApi: string): void => {
   const pages = Taro.getCurrentPages();
-  if(pages[0]["route"].includes('auth')){
-    return
-  }
   const currentUrl = pages[0]["route"];
-  console.log(currentUrl)
+  let is_login = Taro.getStorageSync('is_login');
+  if(is_login){
+    return
+  }else{
+    Taro.setStorageSync('is_login',1)
+  }
   const id = Taro.getStorageSync("authid") || "";
   Taro.navigateTo({
     url: `/pages/auth/auth?basicApi=${basicApi}&currentUrl=/${currentUrl}&id=${id}`
