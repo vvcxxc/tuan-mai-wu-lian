@@ -120,6 +120,13 @@ export default class Appre extends Component<Props>{
       }
     })
   };
+  //去图文详情
+  toImgList = () => {
+
+    Taro.navigateTo({
+                url: '/detail-pages/gift/gift?gift_id='+ this.$router.params.gift_id+'&activity_id='+ this.$router.params.activity_id
+              })
+  }
   //去商店
   handleClick2 = (e) => {
     Taro.navigateTo({
@@ -261,7 +268,7 @@ export default class Appre extends Component<Props>{
             <View className="appre_gift" >
               <View className="appre_gift_titlebox" >
                 <View className="appre_gift_title" >赠送礼品</View>
-                <View className="appre_gift_Imagelist" >图文详情</View>
+                <View className="appre_gift_Imagelist" onClick={this.toImgList.bind(this)}>图文详情</View>
               </View>
               <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
               <View className="appre_gift_giftmsgbox" >
