@@ -53,7 +53,7 @@ export default class Activity extends Component {
     vStyleB: {
       // height: '650px',
       backgroundColor: '#fff',
-      paddingBottom: '10px'
+      paddingBottom: '1px'
     },
     // tab标题
     titleList: [],
@@ -65,7 +65,9 @@ export default class Activity extends Component {
       { name: '增值', id: 1 },
       { name: '500米以内', id: 2 },
       { name: '1000米以内', id: 3 },
+      { name: '2000米以内', id: 4 },
     ],
+    reloadHeight: 0, // 刷新的高度
 
 
     dargStyle: {//下拉框的样式
@@ -82,7 +84,6 @@ export default class Activity extends Component {
   }
 
   componentDidMount = () => {
-    
 
     // 获取Tab栏距离的高度后再进去滚动时悬浮Tab栏
     const query = this.refs.tab.boundingClientRect()
@@ -90,7 +91,7 @@ export default class Activity extends Component {
       console.log(res)
       this.setState({
         tabDistanceTop: res[0].top,
-        tabHeight : res[0].height
+        tabHeight: res[0].height
       })
     })
 
@@ -114,6 +115,7 @@ export default class Activity extends Component {
         { name: '餐饮', id: 'canyin' },
         { name: '休闲', id: 'xiuxian' },
         { name: '服饰', id: 'fushi' },
+        { name: '体育', id: 'tiyu' },
       ]
     })
   }
@@ -121,7 +123,7 @@ export default class Activity extends Component {
   handlerTablChange(current, id, _this) {
     this.setState({
       current,
-      // indexGroup : []
+      indexGroup: []
     });
     // 根据current值来获取对应的商店数据然后存到storeList中
     console.log(current)
@@ -197,15 +199,33 @@ export default class Activity extends Component {
         })
       }
     }
+
+    // 下拉时获取高度值
+    let q = this.refs.downDragBox.boundingClientRect();
+    q.exec(res => {
+      this.setState({
+        reloadHeight: res[0].height
+      })
+    })
   }
   touchEnd(e) {
     if (this.state.dargState === 1) {
       this.down()
     }
     this.reduction()
+
+    // 放手后重置为0
+    this.setState({
+      reloadHeight: 0
+    })
   }
 
   down() {//下拉
+    Taro.showToast({
+      icon: 'loading',
+      title: 'loading',
+      mask: true
+    })
     console.log('下拉')
   }
 
@@ -225,9 +245,7 @@ export default class Activity extends Component {
           ...this.state.tabStyle,
           position: 'fixed',
           top: 0,
-          zIndex: 9999,
-          transform: 'translateZ(0)',
-          WebkitTransform: 'translateZ(0)'
+          zIndex: 9999
         },
         vStyleB: {
           ...this.state.vStyleB,
@@ -286,12 +304,12 @@ export default class Activity extends Component {
     let downDragStyle = this.state.downDragStyle;
     return (
       <Block>
-        <View className='downDragBox' style={downDragStyle}>
-          <View style={{ width: "100%", textAlign: "center", display: "flex", justifyContent: "center" }}>
-            <AtActivityIndicator></AtActivityIndicator>
-            <View>
-              <Text className='downText' style={{ marginLeft: "20px" }}>{this.state.downText}</Text>
-            </View>
+        <View className='downDragBox' ref="downDragBox" style={downDragStyle}>
+          <View style={{ width: "100%", textAlign: "center", display: "flex", justifyContent: "center", height: "100%", lineHeight: this.state.reloadHeight + 'px', position: 'relative' }}>
+            <AtActivityIndicator mode='center'></AtActivityIndicator>
+            {/* <View> */}
+            {/* <Text className='downText' style={{ marginLeft: "20px" }}>{this.state.downText}</Text> */}
+            {/* </View> */}
           </View>
         </View>
         <ScrollView
@@ -302,9 +320,9 @@ export default class Activity extends Component {
           style={dargStyle}
           lowerThreshold={Threshold}
           upperThreshold={Threshold}
-          // onTouchMove={this.touchmove}
-          // onTouchEnd={this.touchEnd}
-          // onTouchStart={this.touchStart}
+          onTouchMove={this.touchmove}
+          onTouchEnd={this.touchEnd}
+          onTouchStart={this.touchStart}
           onScrollToUpper={this.onScrollToUpper.bind(this)} // 使用箭头函数的时候 可以这样写 `onScrollToUpper={this.onScrollToUpper}`
           onScrollToLower={this.onScrollToLower.bind(this)}
           onScroll={this.onScroll}
@@ -340,13 +358,14 @@ export default class Activity extends Component {
               </View>
             ))}
           </View>
+
           <View style={this.state.vStyleB}>
 
             <View className="checkBox_bar">
               {
                 this.state.checkBoxList.map(item => (
                   <View className="checkBox_wrap" key={item.id} style={this.state.indexGroup.indexOf(item.id) != -1 ? { border: '1px solid #fe7d70', color: "#fe7d70" } : { border: '1px solid #ccc', color: '#ccc' }} onClick={this.handleSelected.bind(this, item.id)}>
-                    <Text className="checkBox_text">
+                    <Text className="checkBox_text" style={this.state.indexGroup.indexOf(item.id) != -1 ? { color: "#fe7d70" } : { color: "#7b7b7b" }}>
                       {item.name}
                     </Text>
                     <View className={this.state.indexGroup.indexOf(item.id) != -1 ? "checkBox_isCheck" : ""}></View>
@@ -358,6 +377,37 @@ export default class Activity extends Component {
                   </View>
                 ))
               }
+            </View>
+
+
+            <View className="store_item">
+              <View className="store_img">
+                <Image background-size="cover" src={carousel} />
+              </View>
+              <View className="store_info">
+                <View className="store_desc">
+                  <Text className="store_name">拼团活动拼团活动拼团活动拼团活动拼团活动拼团活动拼团活动拼团活动</Text>
+                  <View className="store_tips">
+                    <Text className="store_tips_item">5人团</Text>
+                    <Text className="store_tips_item">送3000元耳机</Text>
+                  </View>
+                </View>
+                <View className="store_msg">
+                  <View className="store_price">
+                    <Text className="store_price_new">￥100</Text>
+                    <Text className="store_price_old">￥300</Text>
+                  </View>
+                  <View className="store_other_info">
+                    <View className="store_any">
+                      <Text className="store_follow">关注的店 - </Text>
+                      <Text className="store_follow_name">杨大富的五金店</Text>
+                    </View>
+                    <View className="store_distance">
+                      <Text className="store_distance_num">3.5km</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
             </View>
 
 
@@ -461,7 +511,7 @@ export default class Activity extends Component {
                 </View>
               </View>
             </View>
-            
+
           </View>
 
 

@@ -53,35 +53,45 @@
         margin-top -4px
 
 .white-space
-  height 20px;
+  height 28px;
   background #fff;  
 
-.tab
-    height 90px
-    background: #fff
-    .label
-      height 100%
-      line-height 95px
-      border-bottom 4px solid #f6f6f6
-   .active
-		.label
-			font-size: 37px
-			color #fe7d70
-			// border-bottom .3rem solid #fe7d70
-			font-weight bold
+//.tab_navbar
+  //height 110px
+  .tab
+      height 110px
+      background: #fff
+      .label
+        height 100%
+        line-height 110px
+        border-bottom 4px solid #f6f6f6
+    .active
+      .label
+        font-size: 37px
+        color #fe7d70
+        border-bottom .3rem solid #fe7d70
+        font-weight bold
+
     
 .checkBox_bar
-  height 120px
+  height 100px
   display flex
-  justify-content space-around
+  justify-content flex-start
   align-items center
+  padding 0 15px
+  overflow auto
 .checkBox_wrap
     position relative
-    width 160px
+    //width 160px
     height 45px
     border-radius 5px
     text-align center
+    margin-right 20px
+    white-space: nowrap;
     // display inline-block
+    .checkBox_text
+      //color #7b7b7b
+      padding 5px 30px
     .checkBox_isCheck
         position absolute;
         bottom 0;
@@ -105,7 +115,7 @@
   display flex
   padding 0 15px
   height 280px
-  margin-bottom 10px
+  margin-bottom 20px
   .store_img
     flex 4
     Image
@@ -234,3 +244,7 @@
         color #f16953
         border 1px solid #f16953
 
+// 禁用滚动条
+::-webkit-scrollbar{
+  display:none;
+}
