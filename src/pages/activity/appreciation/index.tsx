@@ -74,8 +74,16 @@ export default class Appre extends Component<Props>{
           })
             .then((res: any) => {
               let { image, images } = res.data;
-              let imgList = new Array(image).concat(images);
-              this.setState({ data: res.data, imagesList: imgList });
+              let imgList;
+              if (image && images) {
+                imgList = new Array(image).concat(images);
+              } else {
+                imgList = [];
+              }
+              console.log("lala", imgList)
+              this.setState({ data: res.data, imagesList: imgList }, () => {
+                console.log("lalaal", this.state.imagesList)
+              });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -100,7 +108,9 @@ export default class Appre extends Component<Props>{
             .then((res: any) => {
               let { image, images } = res.data;
               let imgList = new Array(image).concat(images);
-              this.setState({ data: res.data, imagesList: imgList });
+              this.setState({ data: res.data, imagesList: imgList }, () => {
+                console.log(this.state.imagesList)
+              });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -202,7 +212,7 @@ export default class Appre extends Component<Props>{
               indicatorDots
               autoplay>
               {
-                this.state.imagesList.map((item, index) => {
+                this.state.imagesList ? this.state.imagesList.map((item, index) => {
                   return (
                     <SwiperItem key={item}>
                       <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
@@ -210,7 +220,7 @@ export default class Appre extends Component<Props>{
                       </View>
                     </SwiperItem>
                   )
-                })
+                }) : null
               }
             </Swiper> : null
         }
@@ -245,28 +255,29 @@ export default class Appre extends Component<Props>{
             </View> */}
           </View>
         </View>
-        {this.state.data.gift_id ?
-          <View className="appre_gift" >
-            <View className="appre_gift_titlebox" >
-              <View className="appre_gift_title" >赠送礼品</View>
-              <View className="appre_gift_Imagelist" >图文详情</View>
-            </View>
-            <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
-            <View className="appre_gift_giftmsgbox" >
-              <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
-            </View>
-            <View className="appre_gift_giftlist" >
-              {
-                images ? images.map((item, index) => {
-                  return (
-                    <Image className="appre_gift_giftlistImg"
-                      onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                      src={item} />
-                  )
-                }) : null
-              }
-            </View>
-          </View> : null
+        {
+          this.state.data.gift_id ?
+            <View className="appre_gift" >
+              <View className="appre_gift_titlebox" >
+                <View className="appre_gift_title" >赠送礼品</View>
+                <View className="appre_gift_Imagelist" >图文详情</View>
+              </View>
+              <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
+              <View className="appre_gift_giftmsgbox" >
+                <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
+              </View>
+              <View className="appre_gift_giftlist" >
+                {
+                 images ? images.map((item) => {
+                    return (
+                      <Image className="appre_gift_giftlistImg"
+                        onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
+                        src={item} />
+                    )
+                  }) : null
+                }
+              </View>
+            </View> : null
         }
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/XzPRtr5xGGiEiP8xHiS8tYEwCwyQWib8.png" />
@@ -288,11 +299,11 @@ export default class Appre extends Component<Props>{
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
-                    description.map((item) => {
+                    description ? description.map((item) => {
                       return (
                         <View className="appre_rule_list_msg" >. {item}</View>
                       )
-                    })
+                    }) : null
                   }
                 </View>
               </View> : null

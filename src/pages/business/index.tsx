@@ -332,7 +332,7 @@ export default class PaySuccess extends Component<Props> {
             </View>
             <View className="hidden-box" id="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
               {
-                this.state.activity_group.map((item:any) => (
+                this.state.activity_group.map((item: any) => (
                   <View className="group-purchase bcfff _pintuan" key={item.name}>
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
@@ -362,8 +362,10 @@ export default class PaySuccess extends Component<Props> {
                             <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                           </View>
                           <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
-                            <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
-                            <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
+                            <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
+                              style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
+                            <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
+                            style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
                             <Image src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                           </View>
                         </View>
@@ -410,7 +412,7 @@ export default class PaySuccess extends Component<Props> {
             </View>
             <View style={{ width: "100%", overflow: "hidden", height: this.state.activity_appre_bull ? "auto" : "12.56rem" }}>
               {
-                this.state.activity_appre.map((item:any) => (
+                this.state.activity_appre.map((item: any) => (
                   <View className="group-purchase bcfff" key={item.activity_brief} >
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
@@ -478,8 +480,10 @@ export default class PaySuccess extends Component<Props> {
                                 <Image src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ width: "100%", height: "100%" }} />
                               </View>
                               <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
-                                <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
-                                <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
+                                <Image src=src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
+                                 style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
+                                <Image src= src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
+                                style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
                                 <Image src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                               </View>
                             </View>
@@ -573,7 +577,7 @@ export default class PaySuccess extends Component<Props> {
                       <View className="discounts-cell__bd item">
                         <View className="tit">{item.name}</View>
                         <View className="desc">购买后{item.expire_day}日内有效</View>
-                        <View className="flex center" style={{ position: "relative",height: "41rpx"}}>
+                        <View className="flex center" style={{ position: "relative", height: "41rpx" }}>
                           <View className="money" style={{ position: 'absolute', left: '0' }}>￥{item.pay_money}</View>
                         </View>
                       </View>

@@ -335,7 +335,8 @@ export default class MerChantPage extends Component {
                         </View>
                         <Image src={
                           this.state.stores[index].height !== 'auto' ?
-                            require('../../assets/jiao_bottom.png') : require('../../assets/jiao_top.png')}
+                            "http://oss.tdianyi.com/front/wRftjWN2D3aZwiHQjfH64ba27FXRBFCR.png": "http://oss.tdianyi.com/front/NMKeBjaajWYJxRSmcjXYFEGxXFkGE7BA.png"
+                          }
                             style={{marginRight: 0}}
                         />
                       </View>
