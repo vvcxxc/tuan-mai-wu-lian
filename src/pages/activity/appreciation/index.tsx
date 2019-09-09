@@ -45,7 +45,7 @@ export default class Appre extends Component<Props>{
       tel: "",
       total_fee: 0,
       type: 0,
-      validity: 17,
+      validity: 0,
       xpoint: "",
       ypoint: "",
     }
