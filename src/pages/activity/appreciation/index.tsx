@@ -42,6 +42,7 @@ export default class Appre extends Component<Props>{
       preview: "",
       return_money: "",
       supplier_id: 0,
+      store_id: 0,
       tel: "",
       total_fee: 0,
       type: 0,
@@ -131,7 +132,7 @@ export default class Appre extends Component<Props>{
   handleClick2 = (e) => {
     Taro.navigateTo({
       // url: '/detail-pages/business/index?id=' + _id
-      url: '/pages/business/index?id=' + this.state.data.supplier_id
+      url: '/pages/business/index?id=' + this.state.data.store_id
     })
   };
   //打电话
@@ -222,7 +223,7 @@ export default class Appre extends Component<Props>{
               {
                 this.state.imagesList ? this.state.imagesList.map((item, index) => {
                   return (
-                    <SwiperItem key={item}>
+                    <SwiperItem key={item} >
                       <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
                         <Image className="demo-text-Img" src={item} />
                       </View>
