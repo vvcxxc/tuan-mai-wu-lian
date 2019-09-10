@@ -310,8 +310,8 @@ export default class Appreciation extends Component {
                             </View>
                             <View className='gift_image'>
                               <Image src={cover_image} className='coupon_image' style={{position: 'absolute', top: 0, left: 0}}/>
-                              <Image src={require('@/pages/business/border.png')} className='border_image' />
-                              <Image src={require('@/pages/business/qiu.png')} className='qiu_image'/>
+                              <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png" className='border_image' />
+                              <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png" className='qiu_image'/>
                             </View>
                           </View>
                           <View className='coupon_name'>{couponinfo.name}</View>
