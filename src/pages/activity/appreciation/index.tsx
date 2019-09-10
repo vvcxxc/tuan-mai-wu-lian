@@ -304,19 +304,20 @@ export default class Appre extends Component<Props>{
             <View className="appre_rule_time_key" >券有效期:</View>
             <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
           </View>
-          {description ?
-            <View className="appre_rule_list" >
-              <View className="appre_rule_list_key" >使用规则:</View>
-              <View className="appre_rule_list_data" >
-                {
-                  (this.state.data.type == 0 && description) ? description.map((item) => {
-                    return (
-                      <View className="appre_rule_list_msg" >. {item}</View>
-                    )
-                  }) : null
-                }
-              </View>
-            </View> : null
+          {
+            (this.state.data.type == 0 && description) ?
+              <View className="appre_rule_list" >
+                <View className="appre_rule_list_key" >使用规则:</View>
+                <View className="appre_rule_list_data" >
+                  {
+                    (this.state.data.type == 0 && description) ? description.map((item) => {
+                      return (
+                        <View className="appre_rule_list_msg" >. {item}</View>
+                      )
+                    }) : null
+                  }
+                </View>
+              </View> : null
           }
         </View>
         <View className="setMeal_store">
