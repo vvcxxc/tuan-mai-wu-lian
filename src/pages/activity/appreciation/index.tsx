@@ -177,7 +177,7 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.switchTab({
+          Taro.navigateTo({
             url: '/activity-pages/my-activity/my.activity',
             success: () => {
               var page = Taro.getCurrentPages().pop();
@@ -339,7 +339,10 @@ export default class Appre extends Component<Props>{
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
-            <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View>
+            {
+              this.state.data.gift ? <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View> : null
+            }
+
           </View>
           <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
         </View>

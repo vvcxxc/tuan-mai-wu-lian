@@ -4,11 +4,12 @@
 	"description": "tarojs-ts-cli",
 	"appid": "wx5f2271a7c946fef1",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
