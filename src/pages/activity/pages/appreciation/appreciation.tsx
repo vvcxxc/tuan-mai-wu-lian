@@ -64,7 +64,7 @@ export default class Appreciation extends Component {
     isAppreciation: false,
     isGet: false
   }
-  async componentDidMount() {
+  async componentDidShow() {
     Taro.showShareMenu()
 
     const { id = "1095" } = this.$router.params
