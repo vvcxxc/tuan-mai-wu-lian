@@ -41,13 +41,26 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
-					"name": "activity-pages/my-activity/my.activity",
-					"pathName": "activity-pages/my-activity/my.activity",
+					"name": "pages/activity/appreciation/index",
+					"pathName": "pages/activity/appreciation/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "detail-pages/orderdetail/index",
+					"pathName": "detail-pages/orderdetail/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/pages/detail/detail",
+					"pathName": "pages/activity/pages/detail/detail",
 					"scene": null
 				}
 			]

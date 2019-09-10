@@ -44,7 +44,6 @@
   width: 100%;
   box-sizing: border-box;
   background: #fff;
-  margin-bottom: 20px;
 }
 
 .d_appre .appre_hd .appre_head {
@@ -207,6 +206,7 @@
 .d_appre .appre_gift {
   padding: 30px 24px;
   background: #fff;
+  margin-top: 20px;
 }
 
 .d_appre .appre_gift .appre_gift_titlebox {
@@ -328,7 +328,7 @@
 .d_appre .appre_process2 {
   width: 100%;
   height: 100px;
-  margin: 7px 0;
+  margin: 10px 0;
   padding: 0;
 }
 
@@ -340,6 +340,7 @@
 .d_appre .appre_rule {
   background: #fff;
   padding: 24px;
+  margin-bottom: 20px;
 }
 
 .d_appre .appre_rule .appre_rule_title {
@@ -394,8 +395,7 @@
 
 .d_appre .setMeal_store {
   height: 315px;
-  padding: 15px 0;
-  background: #ededed;
+  background: #f4f4f4;
   border: none;
 }
 

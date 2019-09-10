@@ -45,7 +45,7 @@ export default class Appre extends Component<Props>{
       tel: "",
       total_fee: 0,
       type: 0,
-      validity: 17,
+      validity: 0,
       xpoint: "",
       ypoint: "",
     }
@@ -120,6 +120,13 @@ export default class Appre extends Component<Props>{
       }
     })
   };
+  //去图文详情
+  toImgList = () => {
+
+    Taro.navigateTo({
+      url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
+    })
+  }
   //去商店
   handleClick2 = (e) => {
     Taro.navigateTo({
@@ -240,7 +247,7 @@ export default class Appre extends Component<Props>{
               </View>
               <View className="appre_head_right">
                 {
-                  this.state.data.type == 0 ? <View className="appre_head_right_type">全场通用</View> : null
+                  this.state.data.type != 0 ? <View className="appre_head_right_type">全场通用</View> : null
                 }
                 <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
                 <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
@@ -261,7 +268,7 @@ export default class Appre extends Component<Props>{
             <View className="appre_gift" >
               <View className="appre_gift_titlebox" >
                 <View className="appre_gift_title" >赠送礼品</View>
-                <View className="appre_gift_Imagelist" >图文详情</View>
+                <View className="appre_gift_Imagelist" onClick={this.toImgList.bind(this)}>图文详情</View>
               </View>
               <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
               <View className="appre_gift_giftmsgbox" >
@@ -342,7 +349,6 @@ export default class Appre extends Component<Props>{
             {
               this.state.data.gift ? <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View> : null
             }
-
           </View>
           <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
         </View>
