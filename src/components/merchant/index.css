@@ -54,15 +54,10 @@
 }
 
 .merchant .flex-right {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .merchant .all-data {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding: 0px 12px;
   margin-top: 15px;
@@ -90,9 +85,8 @@
   height: 84px;
   font-size: 24px;
   margin-left: 22px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border-bottom: 1px solid #EDEDED;
+  box-sizing: border-box;
+  border-bottom: 1px solid #f4f4f4;
 }
 
 .give .icon {
@@ -139,15 +133,9 @@
 }
 
 .content_box {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 25px;
 }
 
@@ -183,4 +171,3 @@
   visibility: hidden;
   padding: 0px;
 }
-/*# sourceMappingURL=index.css.map */

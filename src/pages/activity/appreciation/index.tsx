@@ -30,6 +30,7 @@ export default class Appre extends Component<Props>{
       end_time: "",
       gift: { title: "", price: "", postage: "" },
       gift_id: 0,
+      gift_pic: '',
       id: 0,
       image: "",
       images: [],
@@ -44,7 +45,7 @@ export default class Appre extends Component<Props>{
       tel: "",
       total_fee: 0,
       type: 0,
-      validity: 17,
+      validity: 0,
       xpoint: "",
       ypoint: "",
     }
@@ -74,8 +75,16 @@ export default class Appre extends Component<Props>{
           })
             .then((res: any) => {
               let { image, images } = res.data;
-              let imgList = new Array(image).concat(images);
-              this.setState({ data: res.data, imagesList: imgList });
+              let imgList;
+              if (image && images) {
+                imgList = new Array(image).concat(images);
+              } else {
+                imgList = [];
+              }
+              console.log("lala", imgList)
+              this.setState({ data: res.data, imagesList: imgList }, () => {
+                console.log("lalaal", this.state.imagesList)
+              });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -100,7 +109,9 @@ export default class Appre extends Component<Props>{
             .then((res: any) => {
               let { image, images } = res.data;
               let imgList = new Array(image).concat(images);
-              this.setState({ data: res.data, imagesList: imgList });
+              this.setState({ data: res.data, imagesList: imgList }, () => {
+                console.log(this.state.imagesList)
+              });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -109,6 +120,13 @@ export default class Appre extends Component<Props>{
       }
     })
   };
+  //去图文详情
+  toImgList = () => {
+
+    Taro.navigateTo({
+      url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
+    })
+  }
   //去商店
   handleClick2 = (e) => {
     Taro.navigateTo({
@@ -166,7 +184,7 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.switchTab({
+          Taro.navigateTo({
             url: '/activity-pages/my-activity/my.activity',
             success: () => {
               var page = Taro.getCurrentPages().pop();
@@ -202,7 +220,7 @@ export default class Appre extends Component<Props>{
               indicatorDots
               autoplay>
               {
-                this.state.imagesList.map((item, index) => {
+                this.state.imagesList ? this.state.imagesList.map((item, index) => {
                   return (
                     <SwiperItem key={item}>
                       <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
@@ -210,7 +228,7 @@ export default class Appre extends Component<Props>{
                       </View>
                     </SwiperItem>
                   )
-                })
+                }) : null
               }
             </Swiper> : null
         }
@@ -229,7 +247,7 @@ export default class Appre extends Component<Props>{
               </View>
               <View className="appre_head_right">
                 {
-                  this.state.data.type == 0 ? <View className="appre_head_right_type">全场通用</View> : null
+                  this.state.data.type != 0 ? <View className="appre_head_right_type">全场通用</View> : null
                 }
                 <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
                 <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
@@ -245,28 +263,23 @@ export default class Appre extends Component<Props>{
             </View> */}
           </View>
         </View>
-        {this.state.data.gift_id ?
-          <View className="appre_gift" >
-            <View className="appre_gift_titlebox" >
-              <View className="appre_gift_title" >赠送礼品</View>
-              <View className="appre_gift_Imagelist" >图文详情</View>
-            </View>
-            <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
-            <View className="appre_gift_giftmsgbox" >
-              <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
-            </View>
-            <View className="appre_gift_giftlist" >
-              {
-                images ? images.map((item, index) => {
-                  return (
-                    <Image className="appre_gift_giftlistImg"
-                      onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                      src={item} />
-                  )
-                }) : null
-              }
-            </View>
-          </View> : null
+        {
+          this.state.data.gift_id ?
+            <View className="appre_gift" >
+              <View className="appre_gift_titlebox" >
+                <View className="appre_gift_title" >赠送礼品</View>
+                <View className="appre_gift_Imagelist" onClick={this.toImgList.bind(this)}>图文详情</View>
+              </View>
+              <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
+              <View className="appre_gift_giftmsgbox" >
+                <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
+              </View>
+              <View className="appre_gift_giftlist" >
+                <Image className="appre_gift_giftlistImg"
+                  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.gift_pic }) }}
+                  src={this.state.data.gift_pic} />
+              </View>
+            </View> : null
         }
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/XzPRtr5xGGiEiP8xHiS8tYEwCwyQWib8.png" />
@@ -288,11 +301,11 @@ export default class Appre extends Component<Props>{
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
-                    description.map((item) => {
+                    description ? description.map((item) => {
                       return (
                         <View className="appre_rule_list_msg" >. {item}</View>
                       )
-                    })
+                    }) : null
                   }
                 </View>
               </View> : null
@@ -333,7 +346,9 @@ export default class Appre extends Component<Props>{
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
-            <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View>
+            {
+              this.state.data.gift ? <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View> : null
+            }
           </View>
           <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
         </View>

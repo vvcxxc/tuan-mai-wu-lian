@@ -152,10 +152,11 @@ area-block()
           width 60px
           height 60px
           margin-right 20px
-          border-radius 50%
-          background-color rgba(0, 0, 0, 0.1)
           border 1px solid #f9f9f9
           box-sizing content-box
+      .coupon_name
+        font-size: 34px
+        font-weight: 600
       .rule
         position absolute
         top 20px
@@ -201,3 +202,32 @@ area-block()
               font-size 40px
           .tips
             margin-top 10px
+.coupon_image
+  width 324px
+  height 172px
+  border-radius:10px
+.gift_image
+  width 324px
+  height 172px
+  position relative
+  .border_image
+    width 100%
+    height 100%
+    position: absolute
+    top: 0
+    left : 0
+  .qiu_image
+    position: absolute
+    top: -15px
+    left 50%
+    transform: translateX(-50%)
+    width 45px
+    height 45px
+.coupon_infos
+  width 324px
+  height 172px
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  font-size: 24px
+

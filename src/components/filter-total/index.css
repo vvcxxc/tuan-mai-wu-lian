@@ -3,12 +3,9 @@
 }
 
 .page .title {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   overflow: hidden;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-around;
   position: relative;
   z-index: 10;
   background-color: #fff;
@@ -29,14 +26,10 @@
 }
 
 .page .list {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   padding: 15px 30px 15px 80px;
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid #f4f4f4;
 }
 
 .page .mt-5 {
@@ -65,4 +58,3 @@
   height: 90vh;
   width: 100vw;
 }
-/*# sourceMappingURL=index.css.map */

@@ -78,9 +78,15 @@ export default class Index extends Component<any> {
     if (id) {
       sessionStorage.setItem('payStore', id)
     }
+    // this.requestLocation();
+    // this.recognizer();
+    // this.showGift()
+    // this.getPayStore();//获取中奖门店信息
+  }
+  componentDidShow(){
     this.requestLocation();
     this.recognizer();
-    // this.getPayStore();//获取中奖门店信息
+    this.showGift()
   }
 
   // 识别器
@@ -275,7 +281,7 @@ export default class Index extends Component<any> {
   }
 
   onPullDownRefresh() { // 自带 下拉事件
-
+    this.showGift()
     let data = this.state.meta
     data.pages = 1
     this.setState({ meta: data })
@@ -350,6 +356,7 @@ export default class Index extends Component<any> {
   }
 
   showImage = () => {
+    console.log(213)
     request({
       url: 'v3/ads',
       data: {
@@ -541,7 +548,7 @@ export default class Index extends Component<any> {
                     </View>
                     <Image src={
                       this.state.storeList[index].height !== 'auto' ?
-                        require('../../assets/jiao_bottom.png') : require('../../assets/jiao_top.png')}
+                      "http://oss.tdianyi.com/front/wRftjWN2D3aZwiHQjfH64ba27FXRBFCR.png":  "http://oss.tdianyi.com/front/NMKeBjaajWYJxRSmcjXYFEGxXFkGE7BA.png"}
                       style={{ marginRight: 0 }}
                     />
                   </View>

@@ -265,7 +265,7 @@ export default class Order extends Component {
       <View className="order flex column"  >
 
         {this.state._codeshow ?
-          <View className="code_show" onClick={() => { this.setState({ _codeshow: false }) }}>
+          <View className="code_show" onClick={() => { this.setState({ _codeshow: false,_codeimg:'',_codeinfo:'' }) }}>
             <View className="code_background"> </View>
             <View className="codeBox" >
               <View className="codeBox_info">商家扫码/输码验证即可消费</View>

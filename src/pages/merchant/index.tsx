@@ -283,7 +283,7 @@ export default class MerChantPage extends Component {
         </View>
         <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)}/>
         <View className="merchant-list" style="height:100vh;background-color:#fff;">
-          <View style={{ minHeight: '100vh', height: 'auto', background: '#ededed' }}>
+          <View style={{ minHeight: '100vh', height: 'auto', background: '#f4f4f4' }}>
             {
               this.state.stores.map((item2: any, index: any) => {
                 return <View className="new_box">
@@ -335,7 +335,8 @@ export default class MerChantPage extends Component {
                         </View>
                         <Image src={
                           this.state.stores[index].height !== 'auto' ?
-                            require('../../assets/jiao_bottom.png') : require('../../assets/jiao_top.png')}
+                            "http://oss.tdianyi.com/front/wRftjWN2D3aZwiHQjfH64ba27FXRBFCR.png": "http://oss.tdianyi.com/front/NMKeBjaajWYJxRSmcjXYFEGxXFkGE7BA.png"
+                          }
                             style={{marginRight: 0}}
                         />
                       </View>
