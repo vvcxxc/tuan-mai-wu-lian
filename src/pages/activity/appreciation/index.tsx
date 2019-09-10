@@ -42,6 +42,7 @@ export default class Appre extends Component<Props>{
       preview: "",
       return_money: "",
       supplier_id: 0,
+      store_id: 0,
       tel: "",
       total_fee: 0,
       type: 0,
@@ -131,7 +132,7 @@ export default class Appre extends Component<Props>{
   handleClick2 = (e) => {
     Taro.navigateTo({
       // url: '/detail-pages/business/index?id=' + _id
-      url: '/pages/business/index?id=' + this.state.data.supplier_id
+      url: '/pages/business/index?id=' + this.state.data.store_id
     })
   };
   //打电话
@@ -222,7 +223,7 @@ export default class Appre extends Component<Props>{
               {
                 this.state.imagesList ? this.state.imagesList.map((item, index) => {
                   return (
-                    <SwiperItem key={item}>
+                    <SwiperItem key={item} >
                       <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
                         <Image className="demo-text-Img" src={item} />
                       </View>
@@ -285,23 +286,31 @@ export default class Appre extends Component<Props>{
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/XzPRtr5xGGiEiP8xHiS8tYEwCwyQWib8.png" />
         </View>
 
-        {
-          this.state.data.type == 0 ? <View className="appre_rule" >
-            <View className="appre_rule_title" >温馨提示</View>
-            {/* <View className="appre_rule_time" >
+        <View className="appre_rule" >
+          <View className="appre_rule_title" >使用规则</View>
+          {/* <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >适用商品:</View>
             <View className="appre_rule_time_data" >全场通用</View>
           </View> */}
-            <View className="appre_rule_time" >
-              <View className="appre_rule_time_key" >券有效期:</View>
-              <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
-            </View>
-            {description ?
+          <View className="appre_rule_time" >
+            <View className="appre_rule_time_key" >使用门槛:</View>
+            <View className="appre_rule_time_data" >满{this.state.data.total_fee}元可用</View>
+          </View>
+          <View className="appre_rule_time" >
+            <View className="appre_rule_time_key" >活动时间:</View>
+            <View className="appre_rule_time_data" >{this.state.data.begin_time}-{this.state.data.end_time}</View>
+          </View>
+          <View className="appre_rule_time" >
+            <View className="appre_rule_time_key" >券有效期:</View>
+            <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
+          </View>
+          {
+            (this.state.data.type == 0 && description) ?
               <View className="appre_rule_list" >
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
-                    description ? description.map((item) => {
+                    (this.state.data.type == 0 && description) ? description.map((item) => {
                       return (
                         <View className="appre_rule_list_msg" >. {item}</View>
                       )
@@ -309,9 +318,8 @@ export default class Appre extends Component<Props>{
                   }
                 </View>
               </View> : null
-            }
-          </View> : null
-        }
+          }
+        </View>
         <View className="setMeal_store">
           <View className="setMeal_store_box" onClick={this.handleClick2.bind(this)}>
             <View className="setMeal_store_title">适用店铺</View>
