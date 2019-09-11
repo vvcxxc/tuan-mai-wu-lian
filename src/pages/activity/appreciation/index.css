@@ -87,10 +87,12 @@
 }
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left {
-  width: 50%;
   height: 100%;
   text-align: left;
   float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox {
@@ -126,7 +128,7 @@
   width: 50%;
   height: 100%;
   text-align: right;
-  float: left;
+  float: right;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -447,10 +449,12 @@
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg {
-  width: 400px;
-  padding: 25px 0 15px 25px;
+  width: 500px;
+  padding: 0 0 15px 25px;
   box-sizing: border-box;
   float: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_name {
@@ -572,7 +576,7 @@
 
 .d_appre .paymoney_box .paymoney_price .paymoney_price_info {
   margin-left: 15px;
-  font-size: 30px;
+  font-size: 24px;
   color: #d6d6d6;
   float: left;
   width: 200px;

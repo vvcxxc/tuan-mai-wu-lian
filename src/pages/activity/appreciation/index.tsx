@@ -248,9 +248,7 @@ export default class Appre extends Component<Props>{
                 <View className="appre_head_left_pricebox_info">满{this.state.data.total_fee}可用</View>
               </View>
               <View className="appre_head_right">
-                {
-                  this.state.data.type != 0 ? <View className="appre_head_right_type">全场通用</View> : null
-                }
+
                 <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
                 <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
               </View>
@@ -293,6 +291,13 @@ export default class Appre extends Component<Props>{
             <View className="appre_rule_time_key" >适用商品:</View>
             <View className="appre_rule_time_data" >全场通用</View>
           </View> */}
+          {
+            this.state.data.type != 0 ?
+              <View className="appre_rule_time" >
+                <View className="appre_rule_time_key" >使用范围:</View>
+                <View className="appre_rule_time_data" >全场通用</View>
+              </View> : null
+          }
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >使用门槛:</View>
             <View className="appre_rule_time_data" >满{this.state.data.total_fee}元可用</View>
