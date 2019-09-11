@@ -131,6 +131,7 @@
                     flex-direction: column;
                     align-items: flex-end;
                     justify-content: flex-end;
+
                     .appre_head_right_type {
                         padding: 5px 10px;
                         line-height: 1;
@@ -210,6 +211,7 @@
         padding: 30px 24px;
         background: #fff;
         margin-top: 20px;
+
         .appre_gift_titlebox {
             height: 40px;
             width: 100%;
@@ -344,9 +346,10 @@
     .appre_rule {
         background: #fff;
         padding: 24px;
-margin-bottom: 20px;
+        margin-bottom: 20px;
+
         .appre_rule_title {
-            height: 70px;
+            height: 60px;
             text-align: left;
             font-weight: bold;
             font-size: 40px;
@@ -375,6 +378,8 @@ margin-bottom: 20px;
 
         .appre_rule_list {
             width: 100%;
+            min-height: 50px;
+            overflow: hidden;
 
             // display: flex;
             .appre_rule_list_key {
@@ -394,7 +399,17 @@ margin-bottom: 20px;
                     font-size: 25px;
                 }
             }
+        }
 
+        .appre_rule_list_more {
+            width: 100%;
+            height: 65px;
+            color: #adadad;
+            border-top: #d6d6d6 1px solid;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-end;
         }
     }
 

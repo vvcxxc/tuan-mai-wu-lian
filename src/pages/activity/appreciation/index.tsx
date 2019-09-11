@@ -14,6 +14,7 @@ interface Props {
 
 export default class Appre extends Component<Props>{
   state = {
+    ruleMore: false,
     imgZoom: false,
     imgZoomSrc: '',
     xPoint: 0,
@@ -305,8 +306,8 @@ export default class Appre extends Component<Props>{
             <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
           </View>
           {
-            (this.state.data.type == 0 && description) ?
-              <View className="appre_rule_list" >
+            (this.state.data.type == 0 && description && description.length > 2) ?
+              <View className="appre_rule_list" style={{ height: this.state.ruleMore ? "auto" : "4rem" }}>
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
@@ -317,6 +318,17 @@ export default class Appre extends Component<Props>{
                     }) : null
                   }
                 </View>
+
+              </View> : null
+          }
+          {
+            (this.state.data.type == 0 && description) ?
+              <View className="appre_rule_list_more" onClick={() => { this.setState({ ruleMore: !this.state.ruleMore }) }}>
+                {this.state.ruleMore ? "收回" : "查看更多"}
+                {
+                  this.state.ruleMore ?
+                    <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />
+                }
               </View> : null
           }
         </View>
