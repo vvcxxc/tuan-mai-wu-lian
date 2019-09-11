@@ -29,7 +29,7 @@ export default class Appre extends Component<Props>{
       description: [],
       distances: "",
       end_time: "",
-      gift: { title: "", price: "", postage: "" },
+      gift: { title: "", price: "", postage: "", mail_mode: '' },
       gift_id: 0,
       gift_pic: '',
       id: 0,
@@ -50,7 +50,8 @@ export default class Appre extends Component<Props>{
       validity: 0,
       xpoint: "",
       ypoint: "",
-    }
+    },
+    isPostage: true
   };
 
   componentDidMount = () => {
@@ -83,7 +84,13 @@ export default class Appre extends Component<Props>{
               } else {
                 imgList = [];
               }
-              console.log("lala", imgList)
+              if(res.data.gift_id){
+                if(res.data.gift.mail_mode == 2){
+                  this.setState({isPostage: true})
+                }
+              }else{
+                this.setState({isPostage: false})
+              }
               this.setState({ data: res.data, imagesList: imgList }, () => {
                 console.log("lalaal", this.state.imagesList)
               });
@@ -111,6 +118,13 @@ export default class Appre extends Component<Props>{
             .then((res: any) => {
               let { image, images } = res.data;
               let imgList = new Array(image).concat(images);
+              if(res.data.gift_id){
+                if(res.data.gift.mail_mode == 2){
+                  this.setState({isPostage: true})
+                }
+              }else{
+                this.setState({isPostage: false})
+              }
               this.setState({ data: res.data, imagesList: imgList }, () => {
                 console.log(this.state.imagesList)
               });
@@ -158,16 +172,19 @@ export default class Appre extends Component<Props>{
     e.stopPropagation();
   }
 
+  // 是否选择礼品
+  chooseGift = () => {
+    this.setState({isPostage: !this.state.isPostage})
+  }
 
 
   payment = () => {
     Taro.showLoading({
       title: 'loading',
     });
-    request({
-      url: 'v1/youhui/wxXcxuWechatPay',
-      method: "POST",
-      data: {
+    let data = {};
+    if(this.state.isPostage){
+      data = {
         youhui_id: this.$router.params.id,
         activity_id: this.$router.params.activity_id,
         gift_id: this.$router.params.gift_id,
@@ -176,6 +193,19 @@ export default class Appre extends Component<Props>{
         type: "1",
         xcx: 1
       }
+    }else{
+      data = {
+        youhui_id: this.$router.params.id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: "1",
+        xcx: 1
+      }
+    }
+    request({
+      url: 'v1/youhui/wxXcxuWechatPay',
+      method: "POST",
+      data
     }).then((res: any) => {
       Taro.hideLoading();
       // 发起支付
@@ -361,13 +391,27 @@ export default class Appre extends Component<Props>{
             </View>
           </View>
         </View>
+        {
+            this.state.data.gift.mail_mode == '2' ? (
+        <View className='choose_postage' onClick={this.chooseGift}>
 
+              <View>
+                {
+                  this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
+                }
+              </View>
+
+
+          （邮费 {this.state.data.gift.postage}元）{this.state.data.gift.title}
+        </View> ) : null
+              }
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
+
             {
-              this.state.data.gift ? <View className="paymoney_price_info">(含{this.state.data.gift.postage}元运费)</View> : null
+              this.state.isPostage ? <View className='paymoney_price_info'> {'+'+this.state.data.gift.postage}</View> : null
             }
           </View>
           <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>

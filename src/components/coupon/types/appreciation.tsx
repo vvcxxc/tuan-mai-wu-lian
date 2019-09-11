@@ -19,6 +19,7 @@ export default class Appreciation extends Component<CouponProp> {
       onAction,
       progress
     } = this.props
+    console.log(this.props)
     return (
       <View className="coupon">
         <View className="avatar">

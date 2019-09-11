@@ -55,9 +55,10 @@ export default class Coupon extends Component<CouponProp> {
 
   render() {
     const {
-      data: { type, ...params }
+      data: { type,is_share, ...params }
     } = this.props
-    const isAppreciation = type === TYPE_APPRECIATION
+    console.log(this.props)
+    const isAppreciation = is_share === TYPE_APPRECIATION
     return (
       <Block>
         {
