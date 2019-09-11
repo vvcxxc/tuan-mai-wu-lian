@@ -13,6 +13,8 @@ interface Props {
 }
 
 export default class Appre extends Component<Props>{
+
+
   state = {
     ruleMore: false,
     imgZoom: false,
