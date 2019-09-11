@@ -84,14 +84,15 @@
                 }
 
                 .appre_head_left {
-                    width: 50%;
                     height: 100%;
                     text-align: left;
                     float: left;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
 
                     .appre_head_left_pricebox {
                         text-align: center;
-                        width: 230px;
 
                         .appre_head_left_pricebox_msg {
                             height: 30px;
@@ -126,7 +127,7 @@
                     width: 50%;
                     height: 100%;
                     text-align: right;
-                    float: left;
+                    float: right;
                     display: flex;
                     flex-direction: column;
                     align-items: flex-end;
@@ -367,12 +368,18 @@
                 width: 165px;
                 text-align: left;
                 color: #adadad;
+                line-height: 1;
+                padding-top: 10px;
+                box-sizing: border-box;
             }
 
             .appre_rule_time_data {
                 float: left;
                 height: 40px;
                 font-size: 25px;
+                line-height: 1;
+                padding-top: 10px;
+                box-sizing: border-box;
             }
         }
 
@@ -388,6 +395,9 @@
                 text-align: left;
                 color: #adadad;
                 float: left;
+                line-height: 30px;
+                padding-top: 10px;
+                box-sizing: border-box;
             }
 
             .appre_rule_list_data {
@@ -395,8 +405,10 @@
                 margin-left: 165px;
 
                 .appre_rule_list_msg {
-                    line-height: 40px;
                     font-size: 25px;
+                    line-height: 30px;
+                    padding-top: 10px;
+                    box-sizing: border-box;
                 }
             }
         }
@@ -455,8 +467,8 @@
                 }
 
                 .setMeal_store_msg {
-                    width: 400px;
-                    padding: 25px 0 15px 25px;
+                    width: 500px;
+                    padding: 0 0 15px 25px;
                     box-sizing: border-box;
                     float: left;
 
@@ -465,6 +477,10 @@
                         font-size: 35px;
                         font-weight: bold;
                         text-align: left;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
                     }
 
                     .setMeal_store_price {
