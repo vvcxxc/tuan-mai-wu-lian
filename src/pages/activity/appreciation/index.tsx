@@ -287,10 +287,6 @@ export default class Appre extends Component<Props>{
 
         <View className="appre_rule" >
           <View className="appre_rule_title" >使用规则</View>
-          {/* <View className="appre_rule_time" >
-            <View className="appre_rule_time_key" >适用商品:</View>
-            <View className="appre_rule_time_data" >全场通用</View>
-          </View> */}
           {
             this.state.data.type != 0 ?
               <View className="appre_rule_time" >

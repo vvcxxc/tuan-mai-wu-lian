@@ -419,7 +419,7 @@ export default class PaySuccess extends Component<Props> {
                   <View className="group-purchase bcfff" key={item.activity_brief} >
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
-                      <View className="flex center"  style={{ paddingBottom: "10px" }}>
+                      <View className="flex center" style={{ paddingBottom: "10px" }}>
                         <View className="item desc">{item.name}</View>
                       </View>
                     </View>
@@ -472,8 +472,9 @@ export default class PaySuccess extends Component<Props> {
                             <Image className="image" src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                           </View>
                         </View>
-                      </View>) : (
-                          !item.gift_id ? <View className="image-list" style={{ boxSizing: "border-box",marginBottom:"5px" }}>
+                      </View>
+                      ) : (
+                          !item.gift_id ? <View className="image-list" style={{ boxSizing: "border-box", marginBottom: "5px" }}>
                             <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                               <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                             </View>
@@ -492,7 +493,7 @@ export default class PaySuccess extends Component<Props> {
                             </View>
                         )
                     }
-                    <View className="ft ">
+                    <View className="ft">
                       <View className="flex center">
                         <View className="item">
                           <Text className="money">￥{item.pay_money}</Text>

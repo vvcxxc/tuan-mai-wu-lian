@@ -97,7 +97,6 @@
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox {
   text-align: center;
-  width: 230px;
 }
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox .appre_head_left_pricebox_msg {
@@ -453,8 +452,6 @@
   padding: 0 0 15px 25px;
   box-sizing: border-box;
   float: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_name {
@@ -462,6 +459,9 @@
   font-size: 35px;
   font-weight: bold;
   text-align: left;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_price {

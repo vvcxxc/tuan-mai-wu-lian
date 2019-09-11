@@ -90,9 +90,9 @@
                     display: flex;
                     flex-direction: column;
                     align-items: center;
+
                     .appre_head_left_pricebox {
                         text-align: center;
-                        width: 230px;
 
                         .appre_head_left_pricebox_msg {
                             height: 30px;
@@ -459,13 +459,16 @@
                     padding: 0 0 15px 25px;
                     box-sizing: border-box;
                     float: left;
-                    overflow:hidden;
-                    text-overflow:ellipsis;
+
                     .setMeal_store_name {
                         height: 50px;
                         font-size: 35px;
                         font-weight: bold;
                         text-align: left;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+
                     }
 
                     .setMeal_store_price {
