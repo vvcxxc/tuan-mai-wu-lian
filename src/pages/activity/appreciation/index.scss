@@ -368,12 +368,18 @@
                 width: 165px;
                 text-align: left;
                 color: #adadad;
+                line-height: 1;
+                padding-top: 10px;
+                box-sizing: border-box;
             }
 
             .appre_rule_time_data {
                 float: left;
                 height: 40px;
                 font-size: 25px;
+                line-height: 1;
+                padding-top: 10px;
+                box-sizing: border-box;
             }
         }
 
@@ -389,6 +395,9 @@
                 text-align: left;
                 color: #adadad;
                 float: left;
+                line-height: 30px;
+                padding-top: 10px;
+                box-sizing: border-box;
             }
 
             .appre_rule_list_data {
@@ -398,6 +407,9 @@
                 .appre_rule_list_msg {
                     line-height: 40px;
                     font-size: 25px;
+                    line-height: 30px;
+                    padding-top: 10px;
+                    box-sizing: border-box;
                 }
             }
         }
