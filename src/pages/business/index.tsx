@@ -439,7 +439,7 @@ export default class PaySuccess extends Component<Props> {
                             <View className="present_text1">
                               <View className="present_text1_box">全场通用</View>
                             </View>
-                            <View className="present_text2">七天内有效</View>
+                            <View className="present_text2">{item.expire_day}天内有效</View>
                             <View className="present_text3">满{item.init_money}元可用</View>
                           </View>
                         </View>
