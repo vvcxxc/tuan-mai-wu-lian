@@ -422,6 +422,7 @@
   height: 315px;
   background: #f4f4f4;
   border: none;
+  margin-bottom: 100px;
 }
 
 .d_appre .setMeal_store .setMeal_store_box {
@@ -473,6 +474,7 @@
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_price {
@@ -549,13 +551,33 @@
   float: right;
 }
 
+.d_appre .choose_postage {
+  height: 55px;
+  background: #fff;
+  position: fixed;
+  bottom: 115px;
+  width: 100%;
+  padding: 10px 0;
+  line-height: 55px;
+  padding-left: 55px;
+}
+
+.d_appre .choose_postage .choose {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
 .d_appre .paymoney_box {
   height: 115px;
   position: fixed;
   bottom: 0;
   width: 100%;
   background: #fff;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #eee;
   box-sizing: border-box;
   padding: 20px 28px;
 }
@@ -587,13 +609,10 @@
 
 .d_appre .paymoney_box .paymoney_price .paymoney_price_info {
   margin-left: 15px;
-  font-size: 24px;
-  color: #d6d6d6;
-  float: left;
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  font-size: 50px;
+  color: #ee3131;
+  width: 203px;
+  line-height: 1;
 }
 
 .d_appre .paymoney_box .paymoney_buynow {
