@@ -52,9 +52,10 @@ export default class Order extends Component {
     lengthbull4: true
   };
 
-  componentWillMount() {
+  componentDidShow() {
     this.getData1()
   }
+
 
   onPullDownRefresh = () => { // 自带 下拉事件
     if (this.state.current == 0) {
