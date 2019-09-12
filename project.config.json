@@ -4,7 +4,7 @@
 	"description": "tarojs-ts-cli",
 	"appid": "wx5f2271a7c946fef1",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -52,9 +52,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "id=3731&type=1&gift_id=52&activity_id=1655",
+					"name": "detail-pages/orderdetail/index",
+					"pathName": "detail-pages/orderdetail/index",
 					"scene": null
 				},
 				{
