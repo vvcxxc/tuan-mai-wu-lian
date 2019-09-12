@@ -332,7 +332,7 @@ export default class Appre extends Component<Props>{
           </View>
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >活动时间:</View>
-            <View className="appre_rule_time_data" >{this.state.data.begin_time}-{this.state.data.end_time}</View>
+            <View className="appre_rule_time_data" >{this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
           </View>
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >券有效期:</View>
