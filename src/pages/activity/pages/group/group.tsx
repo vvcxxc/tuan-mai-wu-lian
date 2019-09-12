@@ -45,7 +45,7 @@ export default class Group extends Component {
     isQrcode: false,
     base64: "",
   }
-  async componentDidMount() {
+  async componentDidShow() {
     // Taro.showShareMenu()
 
     const { id = "" } = this.$router.params

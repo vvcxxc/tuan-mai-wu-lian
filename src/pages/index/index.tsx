@@ -86,7 +86,7 @@ export default class Index extends Component<any> {
   componentDidShow(){
     this.requestLocation();
     this.recognizer();
-    this.showGift()
+    // this.showGift()
   }
 
   // 识别器

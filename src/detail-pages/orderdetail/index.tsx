@@ -47,7 +47,7 @@ export default class Orderdetail extends Component {
     _Imgurl: "",
     isApply: false,
 
-    checkFlag: false,
+    checkFlag: false,  // true --> 收回  false --> 查看更多
     // description: [],
   };
 
@@ -62,7 +62,7 @@ export default class Orderdetail extends Component {
       })
         .then((res: any) => {
           console.log(res);
-          this.setState({ defaultData: res.data }, () => {
+          this.setState({defaultData: res.data}, () => {
             if (this.state.defaultData.coupons_type * 1 == 0) { //兑换券获取兑换码
               request({
                 url: 'api/wap/coupon/showCode',
@@ -233,12 +233,12 @@ export default class Orderdetail extends Component {
             <View className='a_one' >使用规则 </View>
             <View className='a_billingInfo' >
               <View className="flex">
-                <View>适合商品：</View>
+                {/* <View>适合商品：</View>
                 <View>
                   <View>夏季尾货服装类</View>
                   <View>夏季尾货服装类</View>
                   <View>夏季尾货服装类</View>
-                </View>
+                </View> */}
               </View>
 
               <View className="flex">
@@ -255,13 +255,13 @@ export default class Orderdetail extends Component {
                 </View>
               </View>
 
-              <View className="flex use_rules" style={{ overflow: "hidden", height: (this.state.checkFlag || this.state.defaultData.description.length <= 1) ? 'auto' : '4rem' }}>
-                <View>使用规则：</View>
+              <View className="flex use_rules" style={{ overflow: "hidden", height: (this.state.checkFlag || this.state.defaultData.description.length <= 2) ? 'auto' : '4rem' }}>
+                <View style={{whiteSpace:"nowrap"}}>使用规则：</View>
                 <View>
                   {
-                    this.state.defaultData.description.map((item, index) => (
+                    this.state.defaultData.description.length ? (this.state.defaultData.description.map((item, index) => (
                       <View key={index}>{index + 1}. {item}</View>
-                    ))
+                    ))) : null
                   }
                 </View>
               </View>

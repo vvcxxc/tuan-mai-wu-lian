@@ -368,7 +368,7 @@ export default class PaySuccess extends Component<Props> {
                             <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
                               style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
                             <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
-                            style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
+                              style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
                             <Image src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                           </View>
                         </View>
@@ -419,12 +419,12 @@ export default class PaySuccess extends Component<Props> {
                   <View className="group-purchase bcfff" key={item.activity_brief} >
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
-                      <View className="flex center">
+                      <View className="flex center" style={{ paddingBottom: "10px" }}>
                         <View className="item desc">{item.name}</View>
                       </View>
                     </View>
                     {/* 有分全场券和品类券的时候删掉下面这段，打开注释的一段，test1替换参数为item.判断券类型，test2替换参数为item.判断品类券有无礼品 */}
-                    <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
+                    {/* <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                       {
                         item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
                           <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
@@ -439,7 +439,7 @@ export default class PaySuccess extends Component<Props> {
                             <View className="present_text1">
                               <View className="present_text1_box">全场通用</View>
                             </View>
-                            <View className="present_text2">七天内有效</View>
+                            <View className="present_text2">{item.expire_day}天内有效</View>
                             <View className="present_text3">满{item.init_money}元可用</View>
                           </View>
                         </View>
@@ -447,9 +447,9 @@ export default class PaySuccess extends Component<Props> {
                           <Image className="image" src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                         </View>
                       </View>
-                    </View>
-                    {/* {
-                      this.state.test1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
+                    </View> */}
+                    {
+                      item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                         {
                           item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
                             <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
@@ -464,7 +464,7 @@ export default class PaySuccess extends Component<Props> {
                               <View className="present_text1">
                                 <View className="present_text1_box">全场通用</View>
                               </View>
-                              <View className="present_text2">七天内有效</View>
+                              <View className="present_text2">{item.expire_day}天内有效</View>
                               <View className="present_text3">满{item.init_money}元可用</View>
                             </View>
                           </View>
@@ -472,27 +472,28 @@ export default class PaySuccess extends Component<Props> {
                             <Image className="image" src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                           </View>
                         </View>
-                      </View>) : (
-                          this.state.test2 ? <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                      </View>
+                      ) : (
+                          !item.gift_id ? <View className="image-list" style={{ boxSizing: "border-box", marginBottom: "5px" }}>
                             <View className="image" style={{ position: "relative", overflow: "hidden" }}>
-                              <Image src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ width: "100%", height: "100%" }} />
+                              <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                             </View>
-                            <Image className="image" src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ marginLeft: "7px" }} />
+                            <Image className="image" src={item.image_url} style={{ marginLeft: "7px" }} />
                           </View> : <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
                               <View className="image" style={{ position: "relative", overflow: "hidden" }}>
-                                <Image src={"http://oss.tdianyi.com/front/HdPdCbyTs3FSz2EpmPFPBJcMBQJb58ec.png"} style={{ width: "100%", height: "100%" }} />
+                                <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                               </View>
                               <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
-                                <Image src=src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
-                                 style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
-                                <Image src= src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
-                                style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
+                                <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
+                                  style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
+                                <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
+                                  style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
                                 <Image src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                               </View>
                             </View>
                         )
-                    } */}
-                    <View className="ft ">
+                    }
+                    <View className="ft">
                       <View className="flex center">
                         <View className="item">
                           <Text className="money">￥{item.pay_money}</Text>

@@ -35,7 +35,7 @@ export default class CouponGroup extends Component<CouponProp> {
           }
           <View className="item price">
             <Text className="text money">
-              {data.participation_money || "price"}
+              {data.participation_money}
             </Text>
             <Text className="text money-before">
               {(data.pay_money || "0.00") + "元"}

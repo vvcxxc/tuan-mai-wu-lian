@@ -64,7 +64,7 @@ export default class Appreciation extends Component {
     isAppreciation: false,
     isGet: false
   }
-  async componentDidMount() {
+  async componentDidShow() {
     Taro.showShareMenu()
 
     const { id = "1095" } = this.$router.params
@@ -156,7 +156,7 @@ export default class Appreciation extends Component {
       case ACTION_JUMP: {
         const { id, gift_id, activity_id } = data
         Taro.navigateTo({
-          url: `/pages/activity/pages/detail/detail?id=${id}&type=1&activity_id=${activity_id}&gift_id=${gift_id}`
+          url: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
         })
         break
       }

@@ -87,15 +87,16 @@
 }
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left {
-  width: 50%;
   height: 100%;
   text-align: left;
   float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox {
   text-align: center;
-  width: 230px;
 }
 
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox .appre_head_left_pricebox_msg {
@@ -126,7 +127,7 @@
   width: 50%;
   height: 100%;
   text-align: right;
-  float: left;
+  float: right;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -327,7 +328,7 @@
 
 .d_appre .appre_process2 {
   width: 100%;
-  height: 100px;
+  height: 90px;
   margin: 10px 0;
   padding: 0;
 }
@@ -344,7 +345,7 @@
 }
 
 .d_appre .appre_rule .appre_rule_title {
-  height: 70px;
+  height: 60px;
   text-align: left;
   font-weight: bold;
   font-size: 40px;
@@ -363,16 +364,24 @@
   width: 165px;
   text-align: left;
   color: #adadad;
+  line-height: 1;
+  padding-top: 10px;
+  box-sizing: border-box;
 }
 
 .d_appre .appre_rule .appre_rule_time .appre_rule_time_data {
   float: left;
   height: 40px;
   font-size: 25px;
+  line-height: 1;
+  padding-top: 10px;
+  box-sizing: border-box;
 }
 
 .d_appre .appre_rule .appre_rule_list {
   width: 100%;
+  min-height: 50px;
+  overflow: hidden;
 }
 
 .d_appre .appre_rule .appre_rule_list .appre_rule_list_key {
@@ -381,6 +390,9 @@
   text-align: left;
   color: #adadad;
   float: left;
+  line-height: 30px;
+  padding-top: 10px;
+  box-sizing: border-box;
 }
 
 .d_appre .appre_rule .appre_rule_list .appre_rule_list_data {
@@ -389,14 +401,28 @@
 }
 
 .d_appre .appre_rule .appre_rule_list .appre_rule_list_data .appre_rule_list_msg {
-  line-height: 40px;
   font-size: 25px;
+  line-height: 30px;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+
+.d_appre .appre_rule .appre_rule_list_more {
+  width: 100%;
+  height: 65px;
+  color: #adadad;
+  border-top: #d6d6d6 1px solid;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .d_appre .setMeal_store {
   height: 315px;
   background: #f4f4f4;
   border: none;
+  margin-bottom: 100px;
 }
 
 .d_appre .setMeal_store .setMeal_store_box {
@@ -434,8 +460,8 @@
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg {
-  width: 400px;
-  padding: 25px 0 15px 25px;
+  width: 500px;
+  padding: 0 0 15px 25px;
   box-sizing: border-box;
   float: left;
 }
@@ -445,6 +471,10 @@
   font-size: 35px;
   font-weight: bold;
   text-align: left;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_storebox .setMeal_store_msg .setMeal_store_price {
@@ -521,13 +551,33 @@
   float: right;
 }
 
+.d_appre .choose_postage {
+  height: 55px;
+  background: #fff;
+  position: fixed;
+  bottom: 115px;
+  width: 100%;
+  padding: 10px 0;
+  line-height: 55px;
+  padding-left: 55px;
+}
+
+.d_appre .choose_postage .choose {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
 .d_appre .paymoney_box {
   height: 115px;
   position: fixed;
   bottom: 0;
   width: 100%;
   background: #fff;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #eee;
   box-sizing: border-box;
   padding: 20px 28px;
 }
@@ -559,13 +609,10 @@
 
 .d_appre .paymoney_box .paymoney_price .paymoney_price_info {
   margin-left: 15px;
-  font-size: 30px;
-  color: #d6d6d6;
-  float: left;
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  font-size: 50px;
+  color: #ee3131;
+  width: 203px;
+  line-height: 1;
 }
 
 .d_appre .paymoney_box .paymoney_buynow {
