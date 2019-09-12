@@ -83,6 +83,19 @@ export default class Appreciation extends Component {
     this.fetchParticipator(id)
     this.fetchCoupon(location)
   }
+  async componentDidMount(){
+    const { id = "1095" } = this.$router.params
+     /**
+     * 授权认证用
+     */
+    // Taro.setStorageSync("authid", id)
+    // const location = await getLocation().catch(err => {
+    //   console.log(err)
+    // })
+    // await this.fetchBasicinfo(id)
+    // this.fetchParticipator(id)
+    // this.fetchCoupon(location)
+  }
 
   onShareAppMessage() {
     const { getTextContent: { title, small_img: imageUrl  } } = this.state.basicinfo
@@ -109,6 +122,7 @@ export default class Appreciation extends Component {
       status: statusAppreciation
     } = userCouponStatus
     const isGet = (+statusGet === NOT_GET) && (+statusCoupon === COUPON_OTHER)
+    console.log(isGet)
     const isAppreciation = (+moneyMax !== +moneyInit + +moneyAppreciation) && (+statusAppreciation === APPRECIATE_NOT)
     const isInvite = (+statusAppreciation === APPRECIATE_ALREADY) && (+statusCoupon === COUPON_SELF)
     this.setState({
@@ -289,7 +303,7 @@ export default class Appreciation extends Component {
             <View className="area-panel">
               <View className="user-info">
                 <Image className="icon" src={require('@/assets/shop.png')} />
-                <View className="text" style={{fontWeight: '600'}}>{couponinfo.store_name}</View>
+                <View className="text" style={{fontWeight: 600}}>{couponinfo.store_name}</View>
               </View>
               {/* 增值券 */}
               {
@@ -297,7 +311,7 @@ export default class Appreciation extends Component {
                   <View>
                     <AppreCoupon data={coupon_info} />
                     <View className='coupon_name'>{couponinfo.name}</View>
-                    <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                    <View style={{color: '#999'}}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
                   </View>
                 ) : couponinfo.youhui_type == 0 ? (
                   <View>
@@ -315,7 +329,7 @@ export default class Appreciation extends Component {
                             </View>
                           </View>
                           <View className='coupon_name'>{couponinfo.name}</View>
-                          <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                          <View style={{color: '#999'}}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
                         </View>
 
                       ) : (
@@ -325,7 +339,7 @@ export default class Appreciation extends Component {
                           </View>
                           <View className='coupon_infos'>
                             <View className='coupon_name'>{couponinfo.name}</View>
-                            <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                            <View style={{color: '#999'}}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
                           </View>
                       </View>
                       )

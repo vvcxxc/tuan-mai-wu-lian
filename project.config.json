@@ -41,13 +41,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/activity/pages/appreciation/appreciation",
 					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "id=1908",
+					"query": "id=2497",
 					"scene": null
 				},
 				{
@@ -55,6 +55,13 @@
 					"name": "pages/activity/appreciation/index",
 					"pathName": "pages/activity/appreciation/index",
 					"query": "id=3731&type=1&gift_id=52&activity_id=1655",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "正式环境分享",
+					"pathName": "pages/index/index",
+					"query": "id=2497",
 					"scene": null
 				}
 			]
