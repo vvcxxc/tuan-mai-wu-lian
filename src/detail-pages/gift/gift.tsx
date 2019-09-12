@@ -46,7 +46,7 @@ export default class Gift extends Component<GiftProp> {
       <Block>
         <View className="gift">
           <View className="area-basic">
-            <Image src={data.cover_image} className="image" />
+            <Image src={data.cover_image} className="image" mode="widthFix"/>
             <View className="content description">
               <View className="name">{ data.gift_title }</View>
               <View className="score">
@@ -65,7 +65,7 @@ export default class Gift extends Component<GiftProp> {
             <View className="content">
               {
                 data.image_details.map((item, index) => {
-                  return <Image className="item image" key={item} src={item} />
+                  return <Image className="item image" key={item} src={item}  mode="widthFix" />
                 })
               }
             </View>

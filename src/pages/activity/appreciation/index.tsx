@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon,AtNoticebar } from 'taro-ui';
+import { AtIcon, AtNoticebar } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
@@ -308,6 +308,7 @@ export default class Appre extends Component<Props>{
               </View>
               <View className="appre_gift_giftlist" >
                 <Image className="appre_gift_giftlistImg"
+                  mode="widthFix"
                   onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.gift_pic }) }}
                   src={this.state.data.gift_pic} />
               </View>
