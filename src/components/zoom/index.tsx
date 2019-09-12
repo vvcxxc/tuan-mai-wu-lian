@@ -21,9 +21,10 @@ export default class Zoom extends Component<Props> {
     };
 
     handlerTablChange() {
-        console.log(this);
-        const { onChange } = this.props;
-        onChange && onChange();
+        // console.log(this);
+        // const { onChange } = this.props;
+        // onChange && onChange();
+        this.props.onChange();
     }
 
     render() {
