@@ -40,32 +40,19 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "detail-pages/orderdetail/index",
-					"pathName": "detail-pages/orderdetail/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/pages/detail/detail",
-					"pathName": "pages/activity/pages/detail/detail",
-=======
 					"name": "activity-pages/my-activity/my.activity",
 					"pathName": "activity-pages/my-activity/my.activity",
 					"query": "",
->>>>>>> 3155c8c4a5d9c810855db7328d463107691630d2
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
 					"scene": null
 				}
 			]
