@@ -1,7 +1,7 @@
 .d_appre {
     width: 100%;
     height: auto;
-    padding-bottom: 120px;
+    padding-bottom: 110px;
 
 
     .appre_head_activityTitle {
@@ -335,7 +335,7 @@
     .appre_process2 {
         width: 100%;
         height: 90px;
-        margin: 10px 0;
+        margin: 20px 0;
         padding: 0;
 
         .appre_process2_Image {
@@ -417,11 +417,10 @@
             width: 100%;
             height: 65px;
             color: #adadad;
-            border-top: #d6d6d6 1px solid;
             display: flex;
             flex-direction: row;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
         }
     }
 
@@ -578,6 +577,25 @@
         left: 20px;
         transform: translateY(-50%)
       }
+      .lbmsg {
+        width: 500px;
+        padding: 0;
+        display: inline-block;
+
+        .at-noticebar {
+            padding-left: 0;
+        }
+
+        .at-noticebar {
+            background: #fff;
+
+
+        }
+
+        .at-noticebar {
+            color: #000;
+        }
+    }
     }
     .paymoney_box {
         height: 115px;

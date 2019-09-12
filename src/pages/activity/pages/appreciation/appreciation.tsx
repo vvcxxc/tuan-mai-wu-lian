@@ -289,7 +289,7 @@ export default class Appreciation extends Component {
             <View className="area-panel">
               <View className="user-info">
                 <Image className="icon" src={require('@/assets/shop.png')} />
-                <View className="text">{couponinfo.store_name}</View>
+                <View className="text" style={{fontWeight: '600'}}>{couponinfo.store_name}</View>
               </View>
               {/* 增值券 */}
               {
@@ -340,7 +340,7 @@ export default class Appreciation extends Component {
                 </View>
               </View>
               <View className="status">
-                <View className="text appreciation-init">启始{couponinfo.init_money}元</View>
+                <View className="text appreciation-init">起始{couponinfo.init_money}元</View>
                 <View className="text appreciating">已增值{couponinfo.appreciation_money}元</View>
                 <View className="text appreciation-max">最高{couponinfo.money}元</View>
               </View>

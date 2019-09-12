@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon } from 'taro-ui';
+import { AtIcon,AtNoticebar } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
@@ -241,7 +241,7 @@ export default class Appre extends Component<Props>{
       <View className="d_appre" >
         <View className="appre_head_activityTitle">
           <View className="appre_head_activityTitle_title">{this.state.data.name}</View>
-          <View className="appre_head_activityTitle_time">活动时间 : {this.state.data.begin_time}-{this.state.data.end_time}</View>
+          <View className="appre_head_activityTitle_time">活动时间 : {this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
         </View>
 
         {
@@ -332,15 +332,15 @@ export default class Appre extends Component<Props>{
           </View>
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >活动时间:</View>
-            <View className="appre_rule_time_data" >{this.state.data.begin_time}-{this.state.data.end_time}</View>
+            <View className="appre_rule_time_data" >{this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
           </View>
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >券有效期:</View>
             <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
           </View>
           {
-            (this.state.data.type == 0 && description ) ?
-              <View className="appre_rule_list" style={{ height:description.length <= 3?"auto":( this.state.ruleMore ? "auto" : "4rem" )}}>
+            (this.state.data.type == 0 && description) ?
+              <View className="appre_rule_list" style={{ height: description.length <= 3 ? "auto" : (this.state.ruleMore ? "auto" : "2.5rem") }}>
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
@@ -395,7 +395,7 @@ export default class Appre extends Component<Props>{
           </View>
         </View>
         {
-          this.state.data.gift.mail_mode == '2' ? (
+          (this.state.data.gift && this.state.data.gift.mail_mode) == '2' ? (
             <View className='choose_postage' onClick={this.chooseGift}>
 
               <View>
@@ -405,7 +405,10 @@ export default class Appre extends Component<Props>{
               </View>
 
 
-              （邮费 {this.state.data.gift.postage}元）{this.state.data.gift.title}
+              （邮费 {this.state.data.gift.postage}元）
+          <View className='lbmsg' >
+                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
+              </View>
             </View>) : null
         }
         <View className="paymoney_box">

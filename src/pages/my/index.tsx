@@ -20,7 +20,7 @@ export default class My extends Component {
     cells,
     userInfo: {}
   }
-  componentDidMount() {
+  componentDidShow() {
     this.handleGetUserinfo()
     Taro.showShareMenu()
   }
