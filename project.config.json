@@ -4,7 +4,7 @@
 	"description": "tarojs-ts-cli",
 	"appid": "wx5f2271a7c946fef1",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
@@ -41,20 +41,26 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
-					"id": 0,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "id=1908",
+					"id": -1,
+					"name": "activity-pages/my-activity/my.activity",
+					"pathName": "activity-pages/my-activity/my.activity",
+					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "id=3731&type=1&gift_id=52&activity_id=1655",
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "detail-pages/orderdetail/index",
+					"pathName": "detail-pages/orderdetail/index",
 					"scene": null
 				}
 			]
