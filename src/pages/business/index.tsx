@@ -330,7 +330,7 @@ export default class PaySuccess extends Component<Props> {
           this.state.activity_group.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit" style={{ paddingTop: "10px" }} >
               {/* <View className="mark" style={{ backgroundColor: "#D97B0B" }}>礼</View> */}
-              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/ping.png" />
+              <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/ping.png" />
               <Text className="fwb" >拼团送豪礼</Text>
             </View>
             <View className="hidden-box" id="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
@@ -410,7 +410,7 @@ export default class PaySuccess extends Component<Props> {
           this.state.activity_appre.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit">
               {/* <Text className="mark" style={{ backgroundColor: "#C71D0B" }}>增</Text> */}
-              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/zeng.png" />
+              <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/zeng.png" />
               <Text className="fwb hidden-box" >增值低价买</Text>
             </View>
             <View style={{ width: "100%", overflow: "hidden", height: this.state.activity_appre_bull ? "auto" : "12.56rem" }}>
@@ -529,7 +529,7 @@ export default class PaySuccess extends Component<Props> {
           this.state.cashCouponList.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit" >
               {/* <Text className="mark" style={{ backgroundColor: "#5D84E0" }}>券</Text> */}
-              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/quan.png" />
+              <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/quan.png" />
               <Text className="fwb" >现金券</Text>
             </View>
             <View className="ticket hidden-box" style={{ boxSizing: "border-box", width: "100%", overflow: "hidden", height: this.state.couponList_bull ? "auto" : "9.1rem" }}>
@@ -569,7 +569,7 @@ export default class PaySuccess extends Component<Props> {
           this.state.exchangeCouponList.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit" >
               {/* <Text className="mark" style={{ backgroundColor: "#5DD8A5" }}>惠</Text> */}
-              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/hui.png" />
+              <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/hui.png" />
               <Text className="fwb">优惠信息</Text>
             </View>
             <View className="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.exchangeCouponList_bull ? "auto" : "7.52rem" }}>
