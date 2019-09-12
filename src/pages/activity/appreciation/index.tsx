@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon } from 'taro-ui';
+import { AtIcon,AtNoticebar } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
@@ -339,8 +339,8 @@ export default class Appre extends Component<Props>{
             <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
           </View>
           {
-            (this.state.data.type == 0 && description ) ?
-              <View className="appre_rule_list" style={{ height:description.length <= 3?"auto":( this.state.ruleMore ? "auto" : "4rem" )}}>
+            (this.state.data.type == 0 && description) ?
+              <View className="appre_rule_list" style={{ height: description.length <= 3 ? "auto" : (this.state.ruleMore ? "auto" : "4rem") }}>
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
@@ -405,7 +405,10 @@ export default class Appre extends Component<Props>{
               </View>
 
 
-              （邮费 {this.state.data.gift.postage}元）{this.state.data.gift.title}
+              （邮费 {this.state.data.gift.postage}元）
+          <View className='lbmsg' >
+                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
+              </View>
             </View>) : null
         }
         <View className="paymoney_box">
