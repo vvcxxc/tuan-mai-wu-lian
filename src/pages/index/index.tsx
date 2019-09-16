@@ -393,7 +393,7 @@ export default class Index extends Component<any> {
 
   // 点击广告
   advertOnclick = () => {
-    console.log(this.state.need_jump, '0-00099099')
+    console.log(this.state.need_jump)
     if (!this.state.need_jump) return
     request({
       url: 'v3/ads/onclick',
@@ -403,6 +403,7 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
+        console.log(res)
         let define: any = {
           [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
           [2]: '/business-pages/ticket-buy/index?id=' + res.data.coupon_id,//现金券
