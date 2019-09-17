@@ -1,11 +1,11 @@
 import Taro, { Component, Config } from '@tarojs/taro';
-import { View, Image, Text } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+import { View, Image, Text, Button } from '@tarojs/components';
+import { AtModal, AtModalHeader, AtModalContent, AtModalAction, AtIcon } from "taro-ui"
 import './index.styl';
 import request from '../../services/request';
 import questTwo from '../../services/requesTwo'
 import { connect } from '@tarojs/redux'
-
+import { getUserInfo } from "@/utils/getInfo"
 @connect(
   state => ({
     serchName: state.search.get('serchName'),
@@ -63,6 +63,7 @@ export default class Index extends Component<any> {
     need_jump: null,
     telescopic: false,
     telescopicBox: 'auto',
+    is_login: false
   };
 
   constructor(props) {
@@ -370,6 +371,8 @@ export default class Index extends Component<any> {
         this.setState({ indexImgId: res.data.id })
         this.setState({ adLogId: res.data.adLogId })
         this.setState({ need_jump: res.data.need_jump })
+      }).catch(err => {
+        this.setState({is_login: true})
       })
   }
 
@@ -393,7 +396,7 @@ export default class Index extends Component<any> {
 
   // 点击广告
   advertOnclick = () => {
-    console.log(this.state.need_jump, '0-00099099')
+    console.log(this.state.need_jump)
     if (!this.state.need_jump) return
     request({
       url: 'v3/ads/onclick',
@@ -403,6 +406,7 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
+        console.log(res)
         let define: any = {
           [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
           [2]: '/business-pages/ticket-buy/index?id=' + res.data.coupon_id,//现金券
@@ -413,6 +417,8 @@ export default class Index extends Component<any> {
         Taro.navigateTo({
           url: define[res.data.popularize_type]
         })
+      }).catch(err => {
+        this.setState({is_login: true})
       })
   }
 
@@ -434,7 +440,59 @@ export default class Index extends Component<any> {
     })
     e.stopPropagation();
   }
+  /**
+   * 监听授权登录按钮点击事件
+   */
+  handleGetUserInfo = (e): void => {
+    console.log('走着啦')
+    const { errMsg, userInfo, encryptedData, iv } = e.detail
+    if (errMsg === "getUserInfo:ok") {
+      Taro.setStorageSync("userInfo", userInfo)
+      // Taro.setStorageSync("encryptedData", encryptedData)
+      // Taro.setStorageSync("iv", iv)
+      this.handleSign()
+    }
+  }
+  /**
+   * 登录处理
+   */
+  handleSign = async (): Promise<void> => {
+    const { miniProgramSign } = require("@/utils/sign")
+    // const { currentUrl, tabbar, id } = this.state
+    // if (!currentUrl) return
+    const userInfo = Taro.getStorageSync("userInfo")
+    let encryptedData = Taro.getStorageSync("encryptedData")
+    let iv = Taro.getStorageSync("iv")
+    await Taro.login()
+    // if (!encryptedData || !iv) {
+      const {
+        errMsg,
+        encryptedData: _encryptedData,
+        iv: _iv
+      } = await getUserInfo()
+      if (errMsg === "getUserInfo:ok") {
+        // Taro.setStorageSync("encryptedData", _encryptedData)
+        // Taro.setStorageSync("iv", _iv)
+        encryptedData = _encryptedData
+        iv = _iv
+      }
+    // }
+    await miniProgramSign({
+      basicApi: process.env.BASIC_API,
+      userInfo,
+      encryptedData,
+      iv
+    }).catch(err => {
+      console.log(err)
+      throw Error("--- 登录出错(, auth) ---")
+    })
+    Taro.removeStorageSync('is_login')
+    this.setState({is_login: false})
+    this.requestLocation();
+    this.recognizer();
+    // Taro.switchTab({url: '/pages/index/index'})
 
+  }
 
   render() {
     return (
@@ -659,7 +717,13 @@ export default class Index extends Component<any> {
             </View>
           })
         }
-
+        <AtModal isOpened={this.state.is_login} className='confirm_box'>
+          <AtModalContent>
+            <Image src={require('@/assets/logo.png')} className='confirm_logo'/>
+            <View className='confirm_text'>登录后可访问更精彩的内容</View>
+          </AtModalContent>
+          <AtModalAction> <Button>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>微信登录</Button> </AtModalAction>
+        </AtModal>
       </View>
     );
   }

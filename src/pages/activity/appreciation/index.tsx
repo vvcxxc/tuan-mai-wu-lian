@@ -346,7 +346,14 @@ export default class Appre extends Component<Props>{
         </View>
 
         <View className="appre_rule" >
-          <View className="appre_rule_title" >使用规则</View>
+          <View className="appre_rule_title" >温馨提示</View>
+          {
+            this.state.data.type != 0 ?
+              <View className="appre_rule_time" >
+                <View className="appre_rule_time_key" >使用范围:</View>
+                <View className="appre_rule_time_data" >全场通用</View>
+              </View> : null
+          }
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >使用门槛:</View>
             <View className="appre_rule_time_data" >满{this.state.data.total_fee}元可用</View>

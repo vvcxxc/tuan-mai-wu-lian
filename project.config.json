@@ -44,23 +44,23 @@
 			"current": 2,
 			"list": [
 				{
-					"id": -1,
-					"name": "activity-pages/my-activity/my.activity",
-					"pathName": "activity-pages/my-activity/my.activity",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/index/index",
-					"pathName": "pages/index/index",
-					"query": "",
+					"id": 0,
+					"name": "pages/activity/pages/appreciation/appreciation",
+					"pathName": "pages/activity/pages/appreciation/appreciation",
+					"query": "id=2497",
 					"scene": null
 				},
 				{
 					"id": -1,
 					"name": "detail-pages/orderdetail/index",
 					"pathName": "detail-pages/orderdetail/index",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "正式环境分享",
+					"pathName": "pages/index/index",
+					"query": "id=2497",
 					"scene": null
 				}
 			]
