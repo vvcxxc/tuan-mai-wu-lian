@@ -57,10 +57,6 @@ export default class Detail extends Component<{ getPaymentSignature: Function; t
     Taro.showShareMenu()
   }
   componentDidShow(){
-    console.log('这')
-    // Taro.showToast({
-    //   title: '这'
-    // })
     const { type, id, gift_id, activity_id } = this.$router.params
     this.fetchDetail(type, id)
     this.fetchGiftinfo(gift_id, activity_id)

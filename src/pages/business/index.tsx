@@ -198,7 +198,8 @@ export default class PaySuccess extends Component<Props> {
   //去拼团活动
   gotoGroup(_id, gift_id, activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
+      url: '/pages/activity/group/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
+      // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   // 去增值活动
@@ -570,7 +571,7 @@ export default class PaySuccess extends Component<Props> {
             <View className="merchant-details__tit" >
               {/* <Text className="mark" style={{ backgroundColor: "#5DD8A5" }}>惠</Text> */}
               <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/hui.png" />
-              <Text className="fwb">优惠信息</Text>
+              <Text className="fwb">特惠商品</Text>
             </View>
             <View className="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.exchangeCouponList_bull ? "auto" : "7.52rem" }}>
               {
