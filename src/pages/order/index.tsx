@@ -53,7 +53,14 @@ export default class Order extends Component {
   };
 
   componentDidShow() {
-    this.getData1()
+    this.setState({
+      lengthbull1: true,
+      lengthbull2: true,
+      lengthbull3: true,
+      lengthbull4: true
+    },()=>{
+      this.getData1()
+    })
   }
 
 
@@ -119,7 +126,7 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-
+          console.log(5123123)
           let temp = this.state.coupon1.concat(res.data);
           console.log(temp.length)
           this.setState({ coupon: temp, coupon1: temp, page1: this.state.page1 + 1 }, () => {

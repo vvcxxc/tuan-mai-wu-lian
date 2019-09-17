@@ -113,7 +113,7 @@ export default class Index extends Component<any> {
       this.requestTab();
       if (res.data.city_id || res.data.city_name) {
         console.log(2)
-
+        console.log(res.data.city_name)
         Taro.getLocation(
           {
             type: 'wgs84',
@@ -138,7 +138,8 @@ export default class Index extends Component<any> {
               let data: any = this.state.meta
               data.pages = 1
               data.city_id = res.data.city_id
-              data.xpoint = ''
+              data.city_name = res.data.city_name
+               data.xpoint = ''
               data.ypoint = ''
               this.setState({ meta: data })
               this.requestHomeList(data);
