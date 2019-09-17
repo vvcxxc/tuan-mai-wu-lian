@@ -88,6 +88,11 @@ export default class Index extends Component<any> {
     this.requestLocation();
     this.recognizer();
     // this.showGift()
+    this.showGift()
+    let token = Taro.getStorageSync("token");
+    if(token){
+      this.setState({is_login: false})
+    }
   }
 
   // 识别器
@@ -372,6 +377,7 @@ export default class Index extends Component<any> {
         this.setState({ adLogId: res.data.adLogId })
         this.setState({ need_jump: res.data.need_jump })
       }).catch(err => {
+        console.log(err)
         this.setState({is_login: true})
       })
   }
@@ -490,6 +496,7 @@ export default class Index extends Component<any> {
     this.setState({is_login: false})
     this.requestLocation();
     this.recognizer();
+    this.showGift()
     // Taro.switchTab({url: '/pages/index/index'})
 
   }
@@ -719,10 +726,10 @@ export default class Index extends Component<any> {
         }
         <AtModal isOpened={this.state.is_login} className='confirm_box'>
           <AtModalContent>
-            <Image src={require('@/assets/logo.png')} className='confirm_logo'/>
+            <Image src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TQnWAHEBkpBtEiAW6wmfJDyGS6Kfzydj.png' className='confirm_logo'/>
             <View className='confirm_text'>登录后可访问更精彩的内容</View>
           </AtModalContent>
-          <AtModalAction> <Button>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>微信登录</Button> </AtModalAction>
+          <AtModalAction> <Button onClick={()=>{this.setState({is_login: false})}}>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>微信登录</Button> </AtModalAction>
         </AtModal>
       </View>
     );

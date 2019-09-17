@@ -421,7 +421,16 @@ export default class Appre extends Component<Props>{
               this.state.isPostage ? <View className='paymoney_price_info'> {'+' + this.state.data.gift.postage}</View> : null
             }
           </View>
-          <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
+          {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
+          {
+            this.state.data.activity_time_status == 1 ? (
+              <View className="paymoney_buynow_no">暂未开始</View>
+            ) : this.state.data.activity_time_status == 2 ? (
+              <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
+            ) : this.state.data.activity_time_status == 3 ?(
+              <View className="paymoney_buynow_no">已结束</View>
+            ) : null
+          }
         </View>
 
         <Zoom
