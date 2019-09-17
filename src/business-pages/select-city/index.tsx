@@ -112,6 +112,7 @@ export default class SelectCity extends Component {
 
   // click 热门城市
   searchData = (name, id) => {
+    console.log(name,id)
     Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
     Taro.reLaunch({ url: '../../pages/index/index?router' })
   }
