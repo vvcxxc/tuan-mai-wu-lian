@@ -63,7 +63,14 @@ export default function request(options: Options) {
             })
             break
           case NOT_SIGN:
-            toMiniProgramSign(BASIC_API)
+            // console.log(pages[pages.length - 1].route.includes('pages/index/index'))
+            let is_index = pages[pages.length - 1].route.includes('pages/index/index')
+            if(is_index){
+              console.log('在首页')
+            }else{
+              toMiniProgramSign(BASIC_API)
+            }
+            console.log('login')
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
               Taro.showToast({
