@@ -152,11 +152,6 @@ export default class Group extends Component<Props>{
     let title, imageUrl;
     if (gift) {
       title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
-
-
-
-
-
       imageUrl = preview;
     } else {
       title = `${name}正在发起${youhui_name}拼团活动，速来！`;

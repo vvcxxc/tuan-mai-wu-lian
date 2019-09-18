@@ -149,9 +149,6 @@ export default class Appre extends Component<Props>{
     let title, imageUrl;
     if (gift) {
       title = `快来！${pay_money}增值至${return_money}，还可免费领${gift.price}礼品，机会仅此一次！`;
-
-
-
       imageUrl = preview;
     } else {
       title = `送你一次免费增值机会！${pay_money}可增值至${return_money}，速领！`;
@@ -159,7 +156,7 @@ export default class Appre extends Component<Props>{
     }
     return {
       title: title,
-      path: '/pages/activity/group/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
+      path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
       imageUrl: imageUrl
     }
   }
