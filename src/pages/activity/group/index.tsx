@@ -276,7 +276,7 @@ export default class Group extends Component<Props>{
     return (
       <View className="d_appre" >
 
-        <Button className="group_head_bottom_share" open-type="share" plain="true">
+        <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
         </Button >
