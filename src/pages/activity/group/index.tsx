@@ -1,6 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtNoticebar } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem ,Button } from "@tarojs/components";
+import { View, Image, Swiper, SwiperItem, Button } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
 import AddressImg from '../../../assets/address.png';
@@ -96,9 +96,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
-                console.log("lalaal", this.state.imagesList)
-              });
+              this.setState({ data: res.data, imagesList: imgList });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -154,6 +152,11 @@ export default class Group extends Component<Props>{
     let title, imageUrl;
     if (gift) {
       title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
+
+
+
+
+
       imageUrl = preview;
     } else {
       title = `${name}正在发起${youhui_name}拼团活动，速来！`;
@@ -273,7 +276,7 @@ export default class Group extends Component<Props>{
     return (
       <View className="d_appre" >
 
-        <Button  className="group_head_bottom_share" open-type="share"  plain="true">
+        <Button className="group_head_bottom_share" open-type="share" plain="true">
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
         </Button >
@@ -460,7 +463,7 @@ export default class Group extends Component<Props>{
                 <View className="setMeal_store_distance_Image" >
                   <Image className="setMeal_store_distance_AddressImg" src={AddressImg} />
                 </View>
-                <View className="setMeal_store_distance_info" >{this.state.data.distances}</View>
+                <View className="setMeal_store_distance_info" > {this.state.data.distances}</View>
               </View>
               <View className="setMeal_store_address" onClick={this.routePlanning.bind(this)}>{this.state.data.address}</View>
               <View className="setMeal_store_mobile" onClick={this.makePhoneCall.bind(this)}>

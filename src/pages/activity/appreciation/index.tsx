@@ -138,16 +138,20 @@ export default class Appre extends Component<Props>{
       }
     })
     Taro.showShareMenu();
+
   };
 
 
   onShareAppMessage() {
     const userInfo = Taro.getStorageSync("userInfo");
-    const { gift, pay_money, return_money, image,preview } = this.state.data;
+    const { gift, pay_money, return_money, preview } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
     let title, imageUrl;
     if (gift) {
       title = `快来！${pay_money}增值至${return_money}，还可免费领${gift.price}礼品，机会仅此一次！`;
+
+
+
       imageUrl = preview;
     } else {
       title = `送你一次免费增值机会！${pay_money}可增值至${return_money}，速领！`;
@@ -159,11 +163,6 @@ export default class Appre extends Component<Props>{
       imageUrl: imageUrl
     }
   }
-
-
-
-
-
 
   //去图文详情
   toImgList = () => {
@@ -293,7 +292,6 @@ export default class Appre extends Component<Props>{
               }
             </Swiper> : null
         }
-
         <View className="appre_hd" >
           <View className="appre_head">
             <View className="appre_head_ticket">
@@ -431,8 +429,6 @@ export default class Appre extends Component<Props>{
                   this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
                 }
               </View>
-
-
               （邮费 {this.state.data.gift.postage}元）
           <View className='lbmsg' >
                 <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
@@ -454,7 +450,7 @@ export default class Appre extends Component<Props>{
               <View className="paymoney_buynow_no">暂未开始</View>
             ) : this.state.data.activity_time_status == 2 ? (
               <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
-            ) : this.state.data.activity_time_status == 3 ?(
+            ) : this.state.data.activity_time_status == 3 ? (
               <View className="paymoney_buynow_no">已结束</View>
             ) : null
           }
