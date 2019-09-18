@@ -407,7 +407,15 @@ export default class Group extends Component<Props>{
 
 
         <View className="appre_rule" >
-          <View className="appre_rule_title" >使用规则</View>
+
+
+
+          <View className="appre_rule_titlebox" >
+            <View className="appre_rule_title" >使用规则</View>
+            <View className="appre_rule_Imagelist" >?</View>
+          </View>
+
+
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >拼团人数:</View>
             <View className="appre_rule_time_data" >{this.state.data.number}人团</View>

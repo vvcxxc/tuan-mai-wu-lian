@@ -19,6 +19,7 @@
         justify-content: center;
         align-items: center;
         border: none;
+        height: 60px;
         .shareimg {
             height: 35px;
             width: 35px;
@@ -76,6 +77,8 @@
             font-size: 40px;
             text-align: left;
             color: #000;
+            line-height: 1;
+
         }
 
         .group_rule_time {
@@ -143,6 +146,8 @@
                 text-align: left;
                 padding-top: 25px;
                 box-sizing: border-box;
+                line-height: 1;
+
             }
 
             .group_msgBox {
@@ -207,6 +212,8 @@
                 float: left;
                 text-align: left;
                 color: #000;
+                line-height: 1;
+
             }
 
             .appre_gift_Imagelist {
@@ -345,6 +352,8 @@
                 float: left;
                 text-align: left;
                 color: #000;
+                line-height: 1;
+
             }
 
             .group_num_now {
@@ -461,13 +470,33 @@
         padding: 24px;
         margin-bottom: 20px;
 
-        .appre_rule_title {
+        .appre_rule_titlebox {
             height: 60px;
-            text-align: left;
-            font-weight: bold;
-            font-size: 40px;
-            font-weight: bold;
-            columns: #000;
+            width: 100%;
+
+            .appre_rule_title {
+                height: 100%;
+                vertical-align: bottom;
+                font-weight: bold;
+                font-size: 40px;
+                float: left;
+                text-align: left;
+                color: #000;
+                line-height: 1;
+
+            }
+
+            .appre_rule_Imagelist {
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                line-height: 40px;
+                font-size: 25px;
+                float: right;
+                text-align: center;
+                background: #7a7a7a;
+                color: #fff;
+            }
         }
 
         .appre_rule_time {
@@ -558,7 +587,9 @@
                 height: 60px;
                 text-align: left;
                 font-weight: bold;
-                font-size: 38px;
+                font-size: 40px;
+                line-height: 1;
+
             }
 
             .setMeal_store_storebox {

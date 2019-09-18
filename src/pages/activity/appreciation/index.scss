@@ -3,6 +3,29 @@
     height: auto;
     padding-bottom: 110px;
 
+    .group_head_bottom_share {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        color: #613f04;
+        background: #ffbf13;
+        border-radius: 8px;
+        font-size: 30px;
+        padding: 0px 25px;
+        box-sizing: border-box;
+        z-index: 3;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        height: 60px;
+        .shareimg {
+            height: 35px;
+            width: 35px;
+            margin-right: 10px;
+        }
+    }
 
     .appre_head_activityTitle {
         width: 100%;
@@ -225,6 +248,7 @@
                 float: left;
                 text-align: left;
                 color: #000;
+                line-height: 1;
             }
 
             .appre_gift_Imagelist {
@@ -357,6 +381,7 @@
             font-size: 40px;
             font-weight: bold;
             columns: #000;
+            line-height: 1;
         }
 
         .appre_rule_time {
@@ -447,7 +472,8 @@
                 height: 60px;
                 text-align: left;
                 font-weight: bold;
-                font-size: 38px;
+                font-size: 40px;
+                line-height: 1;
             }
 
             .setMeal_store_storebox {
