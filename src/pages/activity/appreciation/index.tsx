@@ -1,6 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtNoticebar } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem,Button } from "@tarojs/components";
+import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
 import AddressImg from '../../../assets/address.png';
@@ -94,7 +94,7 @@ export default class Appre extends Component<Props>{
                 this.setState({ isPostage: false })
               }
               this.setState({ data: res.data, imagesList: imgList }, () => {
-                console.log("lalaal", this.state.imagesList)
+                // this.draw();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -140,6 +140,51 @@ export default class Appre extends Component<Props>{
     Taro.showShareMenu();
 
   };
+
+  // draw = () => {
+  //   var ctx = Taro.createCanvasContext('canvas01', this)
+  //   ctx.fillStyle = "rgba(0,0,0,.2)";
+  //   ctx.fillRect(0, 0, 300, 300);
+
+  //     Taro.getImageInfo({
+  //     src: this.state.data.preview,
+  //     success(res:any){
+        
+  //       ctx.drawImage(res.path,0,0,300,300)
+        
+  //       ctx.fillStyle = "rgba(0,0,0,.5)";
+  //       ctx.fillRect(0, 200, 300, 100);
+    
+  //       ctx.setFillStyle('#fff')//文字颜色：默认黑色
+  //       ctx.setFontSize(16)//设置字体大小，默认10s
+  //       ctx.lineWidth = 1;
+  //       var str ="地址：" + this.state.data.address;
+  //       var lineWidth = 0;
+  //       var canvasWidth = 270; //计算canvas的宽度
+  //       var initHeight = 230; //绘制字体距离canvas顶部初始的高度
+  //       var lastSubStrIndex = 0; //每次开始截取的字符串的索引
+  //       for(let i = 0; i < str.length; i++) {
+  //         lineWidth += ctx.measureText(str[i]).width;
+  //         if(lineWidth > canvasWidth) {
+  //           ctx.fillText(str.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
+  //           initHeight += 20; //20为字体的高度
+  //           lineWidth = 0;
+  //           lastSubStrIndex = i;
+  //         }
+  //         if(i == str.length - 1) { //绘制剩余部分
+  //           ctx.fillText(str.substring(lastSubStrIndex, i + 1), 20, initHeight);
+  //         }
+  //       }
+    
+  //       ctx.fillText("电话："+this.state.data.tel, 20, 285);
+    
+  //       //调用draw()开始绘制
+  //       ctx.draw()
+       
+  //     }
+  //   })
+
+  // }
 
 
   onShareAppMessage() {
@@ -465,6 +510,8 @@ export default class Appre extends Component<Props>{
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
+
+        {/* <Canvas style='width: 300px; height: 300px;' canvasId='canvas01' /> */}
 
       </View>
     );
