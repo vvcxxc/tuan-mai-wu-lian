@@ -151,15 +151,18 @@ export default class Group extends Component<Props>{
 
   draw = () => {
     let that = this;
+    //创建画布
     var ctx = Taro.createCanvasContext('canvas01', this)
+    //填个底色方便看
     ctx.setFillStyle("rgba(0,0,0,.2)");
     ctx.fillRect(0, 0, 460, 360);
-
+    //放个图片
     ctx.drawImage(this.state.data.preview, 0, 0, 460, 360)
     ctx.stroke();
-
+    //加一半遮罩
     ctx.setFillStyle("rgba(0,0,0,.5)");
     ctx.fillRect(0, 200, 460, 360);
+    //写字
     ctx.setFillStyle("rgba(255,255,255,.9)")//文字颜色：默认黑色
     ctx.setFontSize(26)//设置字体大小，默认10s
     ctx.lineWidth = 1;
@@ -189,7 +192,6 @@ export default class Group extends Component<Props>{
         canvasId: 'canvas01',
         success: function (res) {
           var tempFilePath = res.tempFilePath;
-          console.log("556", tempFilePath)
           that.setState({
             imagePath: tempFilePath,
           });
@@ -199,7 +201,6 @@ export default class Group extends Component<Props>{
         }
       });
     }, 200);
-
   }
 
   onShareAppMessage() {
@@ -220,7 +221,6 @@ export default class Group extends Component<Props>{
       imageUrl: imageUrl
     }
   }
-
 
   //去图文详情
   toImgList = () => {
@@ -478,7 +478,7 @@ export default class Group extends Component<Props>{
           </View> */}
           {
             (description) ?
-              <View className="appre_rule_list" style={{ height: description.length <= 3 ? "auto" : (this.state.ruleMore ? "auto" : "2.5rem") }}>
+              <View className="appre_rule_list" style={{ height: description.length <= 4 ? "auto" : (this.state.ruleMore ? "auto" : "5.4rem") }}>
                 <View className="appre_rule_list_key" >详情描述:</View>
                 <View className="appre_rule_list_data" >
                   {
@@ -493,7 +493,7 @@ export default class Group extends Component<Props>{
               </View> : null
           }
           {
-            (description && description.length > 3) ?
+            (description && description.length > 4) ?
               <View className="appre_rule_list_more" onClick={() => { this.setState({ ruleMore: !this.state.ruleMore }) }}>
                 {this.state.ruleMore ? "收回" : "查看更多"}
                 {
