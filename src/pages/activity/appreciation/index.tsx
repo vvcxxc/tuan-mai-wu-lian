@@ -361,7 +361,6 @@ export default class Appre extends Component<Props>{
                 <View className="appre_head_left_pricebox_info">满{this.state.data.total_fee}可用</View>
               </View>
               <View className="appre_head_right">
-
                 <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
                 <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
               </View>
