@@ -53,6 +53,7 @@ export default class Appre extends Component<Props>{
       xpoint: "",
       ypoint: "",
     },
+    imagePath: '',
     isPostage: true
   };
 
@@ -94,7 +95,7 @@ export default class Appre extends Component<Props>{
                 this.setState({ isPostage: false })
               }
               this.setState({ data: res.data, imagesList: imgList }, () => {
-                // this.draw();
+                this.draw();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -128,7 +129,7 @@ export default class Appre extends Component<Props>{
                 this.setState({ isPostage: false })
               }
               this.setState({ data: res.data, imagesList: imgList }, () => {
-                console.log(this.state.imagesList)
+                this.draw();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -141,63 +142,72 @@ export default class Appre extends Component<Props>{
 
   };
 
-  // draw = () => {
-  //   var ctx = Taro.createCanvasContext('canvas01', this)
-  //   ctx.fillStyle = "rgba(0,0,0,.2)";
-  //   ctx.fillRect(0, 0, 300, 300);
+  draw = () => {
+    let that = this;
+    var ctx = Taro.createCanvasContext('canvas01', this)
+    ctx.setFillStyle("rgba(0,0,0,.2)");
+    ctx.fillRect(0, 0, 460, 360);
 
-  //     Taro.getImageInfo({
-  //     src: this.state.data.preview,
-  //     success(res:any){
-        
-  //       ctx.drawImage(res.path,0,0,300,300)
-        
-  //       ctx.fillStyle = "rgba(0,0,0,.5)";
-  //       ctx.fillRect(0, 200, 300, 100);
-    
-  //       ctx.setFillStyle('#fff')//文字颜色：默认黑色
-  //       ctx.setFontSize(16)//设置字体大小，默认10s
-  //       ctx.lineWidth = 1;
-  //       var str ="地址：" + this.state.data.address;
-  //       var lineWidth = 0;
-  //       var canvasWidth = 270; //计算canvas的宽度
-  //       var initHeight = 230; //绘制字体距离canvas顶部初始的高度
-  //       var lastSubStrIndex = 0; //每次开始截取的字符串的索引
-  //       for(let i = 0; i < str.length; i++) {
-  //         lineWidth += ctx.measureText(str[i]).width;
-  //         if(lineWidth > canvasWidth) {
-  //           ctx.fillText(str.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
-  //           initHeight += 20; //20为字体的高度
-  //           lineWidth = 0;
-  //           lastSubStrIndex = i;
-  //         }
-  //         if(i == str.length - 1) { //绘制剩余部分
-  //           ctx.fillText(str.substring(lastSubStrIndex, i + 1), 20, initHeight);
-  //         }
-  //       }
-    
-  //       ctx.fillText("电话："+this.state.data.tel, 20, 285);
-    
-  //       //调用draw()开始绘制
-  //       ctx.draw()
-       
-  //     }
-  //   })
+    ctx.drawImage(this.state.data.preview, 0, 0, 460, 360)
+    ctx.stroke();
 
-  // }
+    ctx.setFillStyle("rgba(0,0,0,.5)");
+    ctx.fillRect(0, 200, 460, 360);
+    ctx.setFillStyle("rgba(255,255,255,.9)")//文字颜色：默认黑色
+    ctx.setFontSize(26)//设置字体大小，默认10s
+    ctx.lineWidth = 1;
+    var str = "地址：" + this.state.data.address;
+    var lineWidth = 0;
+    var canvasWidth = 420; //计算canvas的宽度
+    var initHeight = 240; //绘制字体距离canvas顶部初始的高度
+    var lastSubStrIndex = 0; //每次开始截取的字符串的索引
+    for (let i = 0; i < str.length; i++) {
+      lineWidth += ctx.measureText(str[i]).width;
+      if (lineWidth > canvasWidth) {
+        ctx.fillText(str.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
+        initHeight += 35; //为字体的高度
+        lineWidth = 0;
+        lastSubStrIndex = i;
+      }
+      if (i == str.length - 1) { //绘制剩余部分
+        ctx.fillText(str.substring(lastSubStrIndex, i + 1), 20, initHeight);
+      }
+    }
+    ctx.fillText("电话：" + this.state.data.tel, 20, initHeight + 40);
+    //调用draw()开始绘制
+    ctx.draw()
+
+    setTimeout(function () {
+      Taro.canvasToTempFilePath({
+        canvasId: 'canvas01',
+        success: function (res) {
+          var tempFilePath = res.tempFilePath;
+          console.log("556", tempFilePath)
+          that.setState({
+            imagePath: tempFilePath,
+          });
+        },
+        fail: function (res) {
+          console.log(res);
+        }
+      });
+    }, 200);
+
+  }
 
 
   onShareAppMessage() {
+    console.log(this.state.imagePath)
     const userInfo = Taro.getStorageSync("userInfo");
     const { gift, pay_money, return_money, preview } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
     let title, imageUrl;
     if (gift) {
       title = `快来！${pay_money}增值至${return_money}，还可免费领${gift.price}礼品，机会仅此一次！`;
-      imageUrl = preview;
+      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
     } else {
       title = `送你一次免费增值机会！${pay_money}可增值至${return_money}，速领！`;
-      imageUrl = preview;
+      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
     }
     return {
       title: title,
@@ -510,9 +520,9 @@ export default class Appre extends Component<Props>{
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-
-        {/* <Canvas style='width: 300px; height: 300px;' canvasId='canvas01' /> */}
-
+        <View style={{position:"fixed",top:0,zIndex:-1,opacity:0}}>
+          <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
+        </View>
       </View>
     );
   }

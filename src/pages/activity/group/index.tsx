@@ -1,6 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtNoticebar } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem, Button } from "@tarojs/components";
+import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
 import AddressImg from '../../../assets/address.png';
@@ -56,6 +56,7 @@ export default class Group extends Component<Props>{
       youhui_name: "",//活动名
       ypoint: ""
     },
+    imagePath: '',
     isPostage: true
   };
 
@@ -96,7 +97,9 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList });
+              this.setState({ data: res.data, imagesList: imgList }, () => {
+                this.draw();
+              });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -134,7 +137,7 @@ export default class Group extends Component<Props>{
                 this.setState({ isPostage: false })
               }
               this.setState({ data: res.data, imagesList: imgList }, () => {
-                console.log(this.state.imagesList)
+                this.draw();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -145,6 +148,60 @@ export default class Group extends Component<Props>{
     })
     Taro.showShareMenu();
   };
+
+  draw = () => {
+    let that = this;
+    var ctx = Taro.createCanvasContext('canvas01', this)
+    ctx.setFillStyle("rgba(0,0,0,.2)");
+    ctx.fillRect(0, 0, 460, 360);
+
+    ctx.drawImage(this.state.data.preview, 0, 0, 460, 360)
+    ctx.stroke();
+
+    ctx.setFillStyle("rgba(0,0,0,.5)");
+    ctx.fillRect(0, 200, 460, 360);
+    ctx.setFillStyle("rgba(255,255,255,.9)")//文字颜色：默认黑色
+    ctx.setFontSize(26)//设置字体大小，默认10s
+    ctx.lineWidth = 1;
+    var str = "地址：" + this.state.data.address;
+    var lineWidth = 0;
+    var canvasWidth = 420; //计算canvas的宽度
+    var initHeight = 240; //绘制字体距离canvas顶部初始的高度
+    var lastSubStrIndex = 0; //每次开始截取的字符串的索引
+    for (let i = 0; i < str.length; i++) {
+      lineWidth += ctx.measureText(str[i]).width;
+      if (lineWidth > canvasWidth) {
+        ctx.fillText(str.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
+        initHeight += 35; //为字体的高度
+        lineWidth = 0;
+        lastSubStrIndex = i;
+      }
+      if (i == str.length - 1) { //绘制剩余部分
+        ctx.fillText(str.substring(lastSubStrIndex, i + 1), 20, initHeight);
+      }
+    }
+    ctx.fillText("电话：" + this.state.data.tel, 20, initHeight + 40);
+    //调用draw()开始绘制
+    ctx.draw()
+
+    setTimeout(function () {
+      Taro.canvasToTempFilePath({
+        canvasId: 'canvas01',
+        success: function (res) {
+          var tempFilePath = res.tempFilePath;
+          console.log("556", tempFilePath)
+          that.setState({
+            imagePath: tempFilePath,
+          });
+        },
+        fail: function (res) {
+          console.log(res);
+        }
+      });
+    }, 200);
+
+  }
+
   onShareAppMessage() {
     const userInfo = Taro.getStorageSync("userInfo");
     const { name, youhui_name, gift, pay_money, participation_money, preview } = this.state.data;
@@ -152,10 +209,10 @@ export default class Group extends Component<Props>{
     let title, imageUrl;
     if (gift) {
       title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
-      imageUrl = preview;
+      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
     } else {
       title = `${name}正在发起${youhui_name}拼团活动，速来！`;
-      imageUrl = preview;
+      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
     }
     return {
       title: title,
@@ -514,6 +571,9 @@ export default class Group extends Component<Props>{
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
 
+        <View style={{ position: "fixed", top: 0, zIndex: -1, opacity: 0 }}>
+          <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
+        </View>
       </View>
     );
   }
