@@ -362,7 +362,7 @@ export default class Group extends Component<Props>{
             <View className="group_rule_time_data" > {this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
           </View>
           <View className="group_head_bottom" style={{ borderBottom: "none" }}>
-            {this.state.data.gift ? <View className="group_head_bottom_gift">送{this.state.data.gift.title}</View> : null}
+            {this.state.data.gift ? <View className="group_head_bottom_gift">送价值{this.state.data.gift.price}{this.state.data.gift.title}</View> : null}
             <View className="group_head_bottom_list">{this.state.data.number}人团</View>
             {/* <View className="group_head_bottom_list">24小时</View> */}
           </View>
