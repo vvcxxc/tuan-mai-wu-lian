@@ -22,7 +22,7 @@ export default class Appre extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesList: [],
-    imagesCurrent:0,
+    imagesCurrent: 0,
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -146,52 +146,66 @@ export default class Appre extends Component<Props>{
   draw = () => {
     let that = this;
     var ctx = Taro.createCanvasContext('canvas01', this)
+    var addressStr = "地址：" + that.state.data.address;
+    var telStr = "电话：" + that.state.data.tel;
     // ctx.setFillStyle("rgba(0,0,0,.2)");
     // ctx.fillRect(0, 0, 460, 360);
-
-    ctx.drawImage(this.state.data.preview, 0, 0, 460, 360)
-    ctx.stroke();
-
-    ctx.setFillStyle("rgba(0,0,0,.5)");
-    ctx.fillRect(0, 200, 460, 360);
-    ctx.setFillStyle("rgba(255,255,255,.9)")//文字颜色：默认黑色
-    ctx.setFontSize(26)//设置字体大小，默认10s
-    ctx.lineWidth = 1;
-    var str = "地址：" + this.state.data.address;
-    var lineWidth = 0;
-    var canvasWidth = 420; //计算canvas的宽度
-    var initHeight = 240; //绘制字体距离canvas顶部初始的高度
-    var lastSubStrIndex = 0; //每次开始截取的字符串的索引
-    for (let i = 0; i < str.length; i++) {
-      lineWidth += ctx.measureText(str[i]).width;
-      if (lineWidth > canvasWidth) {
-        ctx.fillText(str.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
-        initHeight += 35; //为字体的高度
-        lineWidth = 0;
-        lastSubStrIndex = i;
-      }
-      if (i == str.length - 1) { //绘制剩余部分
-        ctx.fillText(str.substring(lastSubStrIndex, i + 1), 20, initHeight);
-      }
-    }
-    ctx.fillText("电话：" + this.state.data.tel, 20, initHeight + 40);
-    //调用draw()开始绘制
-    ctx.draw()
-
-    setTimeout(function () {
-      Taro.canvasToTempFilePath({
-        canvasId: 'canvas01',
-        success: function (res) {
-          var tempFilePath = res.tempFilePath;
-          that.setState({
-            imagePath: tempFilePath,
-          });
-        },
-        fail: function (res) {
-          console.log(res);
+    console.log("apprepreview", that.state.data.preview);
+    Taro.downloadFile({
+      url: that.state.data.preview,
+      success: function (res) {
+        console.log("downloadFile", res.tempFilePath);
+        ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
+        // ctx.stroke();
+        ctx.setFillStyle("rgba(0,0,0,.5)");
+        ctx.fillRect(0, 200, 460, 360);
+        ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
+        ctx.setFontSize(26);//设置字体大小，默认10s
+        ctx.lineWidth = 1;
+        var lineWidth = 0;
+        var canvasWidth = 420; //计算canvas的宽度
+        var initHeight = 240; //绘制字体距离canvas顶部初始的高度
+        var lastSubStrIndex = 0; //每次开始截取的字符串的索引
+        for (let i = 0; i < addressStr.length; i++) {
+          lineWidth += ctx.measureText(addressStr[i]).width;
+          if (lineWidth > canvasWidth) {
+            ctx.fillText(addressStr.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
+            initHeight += 35; //为字体的高度
+            lineWidth = 0;
+            lastSubStrIndex = i;
+          }
+          if (i == addressStr.length - 1) { //绘制剩余部分
+            ctx.fillText(addressStr.substring(lastSubStrIndex, i + 1), 20, initHeight);
+          }
         }
-      });
-    }, 200);
+        ctx.fillText(telStr, 20, initHeight + 40);
+        //调用draw()开始绘制
+        console.log("draw");
+
+        ctx.draw()
+
+        setTimeout(function () {
+          Taro.canvasToTempFilePath({
+            canvasId: 'canvas01',
+            success: function (res) {
+              console.log("drawres", res.tempFilePath);
+              var tempFilePath = res.tempFilePath;
+              that.setState({
+                imagePath: tempFilePath,
+              });
+            },
+            fail: function (res) {
+              console.log(res);
+            }
+          });
+        }, 200);
+      },
+      fail: function (res) {
+        that.setState({
+          imagePath: that.state.data.preview
+        });
+      }
+    })
   }
 
   onShareAppMessage() {
@@ -332,10 +346,10 @@ export default class Appre extends Component<Props>{
             <Swiper
               onChange={(e) => {
                 // console.log(e.detail.current)
-                this.setState({imagesCurrent:e.detail.current})
+                this.setState({ imagesCurrent: e.detail.current })
               }}
-              onClick={()=>{
-                this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] }) 
+              onClick={() => {
+                this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] })
               }}
               className='test-h'
               indicatorColor='#999'
@@ -349,7 +363,7 @@ export default class Appre extends Component<Props>{
                     <SwiperItem key={item} >
                       <View className='demo-text'
                       //  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                       >
+                      >
                         <Image className="demo-text-Img" src={item} />
                       </View>
                     </SwiperItem>
@@ -526,7 +540,7 @@ export default class Appre extends Component<Props>{
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-        <View style={{ position: "fixed", top:"-1000px", zIndex: -1, opacity: 0 }}>
+        <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
       </View>
