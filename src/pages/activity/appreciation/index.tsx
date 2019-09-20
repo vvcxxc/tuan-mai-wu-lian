@@ -146,8 +146,8 @@ export default class Appre extends Component<Props>{
   draw = () => {
     let that = this;
     var ctx = Taro.createCanvasContext('canvas01', this)
-    ctx.setFillStyle("rgba(0,0,0,.2)");
-    ctx.fillRect(0, 0, 460, 360);
+    // ctx.setFillStyle("rgba(0,0,0,.2)");
+    // ctx.fillRect(0, 0, 460, 360);
 
     ctx.drawImage(this.state.data.preview, 0, 0, 460, 360)
     ctx.stroke();
@@ -526,7 +526,7 @@ export default class Appre extends Component<Props>{
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-        <View style={{ position: "fixed", top: 0, zIndex: -1, opacity: 0 }}>
+        <View style={{ position: "fixed", top:"-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
       </View>
