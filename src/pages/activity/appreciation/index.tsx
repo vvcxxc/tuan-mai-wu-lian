@@ -22,6 +22,7 @@ export default class Appre extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesList: [],
+    imagesCurrent:0,
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -329,6 +330,13 @@ export default class Appre extends Component<Props>{
         {
           this.state.data.type == 0 ?
             <Swiper
+              onChange={(e) => {
+                // console.log(e.detail.current)
+                this.setState({imagesCurrent:e.detail.current})
+              }}
+              onClick={()=>{
+                this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] }) 
+              }}
               className='test-h'
               indicatorColor='#999'
               indicatorActiveColor='#333'
@@ -339,7 +347,9 @@ export default class Appre extends Component<Props>{
                 this.state.imagesList ? this.state.imagesList.map((item, index) => {
                   return (
                     <SwiperItem key={item} >
-                      <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
+                      <View className='demo-text'
+                      //  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
+                       >
                         <Image className="demo-text-Img" src={item} />
                       </View>
                     </SwiperItem>
@@ -516,7 +526,7 @@ export default class Appre extends Component<Props>{
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-        <View style={{position:"fixed",top:0,zIndex:-1,opacity:0}}>
+        <View style={{ position: "fixed", top: 0, zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
       </View>

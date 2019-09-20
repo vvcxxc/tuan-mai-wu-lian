@@ -22,6 +22,7 @@ export default class Group extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesList: [],
+    imagesCurrent:0,
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -335,6 +336,13 @@ export default class Group extends Component<Props>{
 
         {
           this.state.imagesList.length > 0 ? <Swiper
+          onChange={(e) => {
+            // console.log(e.detail.current)
+            this.setState({imagesCurrent:e.detail.current})
+          }}
+          onClick={()=>{
+            this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] }) 
+          }}
             className='test-h'
             indicatorColor='#999'
             indicatorActiveColor='#333'
@@ -345,7 +353,9 @@ export default class Group extends Component<Props>{
               this.state.imagesList ? this.state.imagesList.map((item, index) => {
                 return (
                   <SwiperItem key={item} >
-                    <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
+                    <View className='demo-text' 
+                    // onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
+                    >
                       <Image className="demo-text-Img" src={item} />
                     </View>
                   </SwiperItem>
