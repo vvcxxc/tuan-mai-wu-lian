@@ -79,7 +79,8 @@ export default class PaySuccess extends Component<Props> {
         init_money: '',
         gift_pic: "",
         youhui_id: '',
-        gift_desc: ''
+        gift_desc: '',
+        images:[]
       }
     ],
     cashCouponList: [
@@ -479,7 +480,7 @@ export default class PaySuccess extends Component<Props> {
                             <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                               <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                             </View>
-                            <Image className="image" src={item.image_url} style={{ marginLeft: "7px" }} />
+                            <Image className="image" src={item.images[0]} style={{ marginLeft: "7px" }} />
                           </View> : <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                               <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                                 <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
