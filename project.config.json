@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
@@ -53,6 +53,27 @@
 					"id": -1,
 					"name": "pages/order/index",
 					"pathName": "pages/order/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/index",
+					"pathName": "pages/mycardticket/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mycardticket/index",
+					"pathName": "pages/mycardticket/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mycardticket/index",
+					"pathName": "pages/mycardticket/index",
 					"scene": null
 				}
 			]

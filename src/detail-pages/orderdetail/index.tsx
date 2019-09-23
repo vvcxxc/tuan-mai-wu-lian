@@ -167,6 +167,9 @@ function Index() {
                 </View>
                 <SanCode code={youhui_sn} url={_Imgurl} status={status} />
                 {/* <View>{_Imgurl}</View> */}
+                {/* {
+                  console.log(youhui_sn,_Imgurl,status)
+                } */}
               </View>
             </View>
           </View>
