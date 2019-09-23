@@ -408,7 +408,9 @@ export default class Appre extends Component<Props>{
               </View>
               <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
               <View className="appre_gift_giftmsgbox" >
-                <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
+                <View className="appre_gift_giftmsg" >{
+                  this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
+                }</View>
               </View>
               <View className="appre_gift_giftlist" >
                 <Image className="appre_gift_giftlistImg"
@@ -520,7 +522,9 @@ export default class Appre extends Component<Props>{
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
 
             {
-              this.state.isPostage ? <View className='paymoney_price_info'> {'+' + this.state.data.gift.postage}</View> : null
+              this.state.isPostage ? <View className='paymoney_price_info'> {
+                this.state.data.gift.mail_mode == 1 ? null :
+                '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
           {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
