@@ -347,7 +347,7 @@ export default class PaySuccess extends Component<Props> {
                     </View>
                     {
                       item.gift_pic == "" || item.gift_pic == null ?
-                        <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                        <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>
                           <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                             {/* <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: "3", padding: "5px 10px 0 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.pay_money}</View>
@@ -357,7 +357,7 @@ export default class PaySuccess extends Component<Props> {
                           </View>
                           <Image className="image" src={item.image_url_info} style={{ marginLeft: "7px" }} />
                         </View> :
-                        <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                        <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                           <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                             {/* <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: "3", padding: "5px 10px 0 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥100</View>
@@ -450,7 +450,7 @@ export default class PaySuccess extends Component<Props> {
                       </View>
                     </View> */}
                     {
-                      item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
+                      item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                         {
                           item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
                             <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
@@ -475,12 +475,12 @@ export default class PaySuccess extends Component<Props> {
                         </View>
                       </View>
                       ) : (
-                          !item.gift_id ? <View className="image-list" style={{ boxSizing: "border-box", marginBottom: "5px" }}>
+                          !item.gift_id ? <View className="image-list" style={{ boxSizing: "border-box", marginBottom: "5px" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                             <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                               <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                             </View>
                             <Image className="image" src={item.image_url} style={{ marginLeft: "7px" }} />
-                          </View> : <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                          </View> : <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                               <View className="image" style={{ position: "relative", overflow: "hidden" }}>
                                 <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                               </View>
@@ -544,7 +544,7 @@ export default class PaySuccess extends Component<Props> {
                     </View>
                     <View className="right" style={{ position: 'absolute', right: '20PX' }}>
                       <View className="money">￥<Text>{item.pay_money}</Text></View>
-                      <Button className="btn-buy" onClick={this.handleClick4.bind(this, item.id)} >立即购买</Button>
+                      <Button className="btn-buy">立即购买</Button>
                     </View>
                   </View>
                 ))
@@ -586,7 +586,7 @@ export default class PaySuccess extends Component<Props> {
                           <View className="money" style={{ position: 'absolute', left: '0' }}>￥{item.pay_money}</View>
                         </View>
                       </View>
-                      <Button className="btn-buy" onClick={this.handleClick4.bind(this, item.id)} >立即购买</Button>
+                      <Button className="btn-buy">立即购买</Button>
                     </View>
                   </View>
                 ))
