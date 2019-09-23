@@ -10,7 +10,7 @@ import starImg from '../../assets/starcollect.png'
 
 export default class PaySuccess extends Component {
   config = {
-    navigationBarTitleText: "优惠信息"
+    navigationBarTitleText: "特惠商品"
   };
 
   state = {
