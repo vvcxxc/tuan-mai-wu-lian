@@ -1,6 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtNoticebar } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem } from "@tarojs/components";
+import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
 import AddressImg from '../../../assets/address.png';
@@ -22,6 +22,7 @@ export default class Appre extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesList: [],
+    imagesCurrent: 0,
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -31,7 +32,7 @@ export default class Appre extends Component<Props>{
       description: [],
       distances: "",
       end_time: "",
-      gift: { title: "", price: "", postage: "", mail_mode: '' },
+      gift: { title: "", price: "", postage: "", mail_mode: 2 },
       gift_id: 0,
       gift_pic: '',
       id: 0,
@@ -53,6 +54,7 @@ export default class Appre extends Component<Props>{
       xpoint: "",
       ypoint: "",
     },
+    imagePath: '',
     isPostage: true
   };
 
@@ -94,7 +96,7 @@ export default class Appre extends Component<Props>{
                 this.setState({ isPostage: false })
               }
               this.setState({ data: res.data, imagesList: imgList }, () => {
-                console.log("lalaal", this.state.imagesList)
+                this.draw();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -128,7 +130,7 @@ export default class Appre extends Component<Props>{
                 this.setState({ isPostage: false })
               }
               this.setState({ data: res.data, imagesList: imgList }, () => {
-                console.log(this.state.imagesList)
+                this.draw();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -137,7 +139,95 @@ export default class Appre extends Component<Props>{
         })
       }
     })
+    Taro.showShareMenu();
+
   };
+
+  draw = () => {
+    let that = this;
+    var ctx = Taro.createCanvasContext('canvas01', this)
+    var addressStr = "地址：" + that.state.data.address;
+    var telStr = "电话：" + that.state.data.tel;
+    // ctx.setFillStyle("rgba(0,0,0,.2)");
+    // ctx.fillRect(0, 0, 460, 360);
+    console.log("apprepreview", that.state.data.preview);
+    Taro.downloadFile({
+      url: that.state.data.preview,
+      success: function (res) {
+        console.log("downloadFile", res.tempFilePath);
+        ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
+        // ctx.stroke();
+        ctx.setFillStyle("rgba(0,0,0,.5)");
+        ctx.fillRect(0, 200, 460, 360);
+        ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
+        ctx.setFontSize(26);//设置字体大小，默认10s
+        ctx.lineWidth = 1;
+        var lineWidth = 0;
+        var canvasWidth = 420; //计算canvas的宽度
+        var initHeight = 240; //绘制字体距离canvas顶部初始的高度
+        var lastSubStrIndex = 0; //每次开始截取的字符串的索引
+        for (let i = 0; i < addressStr.length; i++) {
+          lineWidth += ctx.measureText(addressStr[i]).width;
+          if (lineWidth > canvasWidth) {
+            ctx.fillText(addressStr.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
+            initHeight += 35; //为字体的高度
+            lineWidth = 0;
+            lastSubStrIndex = i;
+          }
+          if (i == addressStr.length - 1) { //绘制剩余部分
+            ctx.fillText(addressStr.substring(lastSubStrIndex, i + 1), 20, initHeight);
+          }
+        }
+        ctx.fillText(telStr, 20, initHeight + 40);
+        //调用draw()开始绘制
+        console.log("draw");
+
+        ctx.draw()
+
+        setTimeout(function () {
+          Taro.canvasToTempFilePath({
+            canvasId: 'canvas01',
+            success: function (res) {
+              console.log("drawres", res.tempFilePath);
+              var tempFilePath = res.tempFilePath;
+              that.setState({
+                imagePath: tempFilePath,
+              });
+            },
+            fail: function (res) {
+              console.log(res);
+            }
+          });
+        }, 200);
+      },
+      fail: function (res) {
+        that.setState({
+          imagePath: that.state.data.preview
+        });
+      }
+    })
+  }
+
+  onShareAppMessage() {
+    console.log(this.state.imagePath)
+    const userInfo = Taro.getStorageSync("userInfo");
+    const { gift, init_money, return_money, preview } = this.state.data;
+    const { id, activity_id, gift_id, type } = this.$router.params;
+    let title, imageUrl;
+    if (gift) {
+      title = `快来！${init_money}增值至${return_money}，还可免费领${gift.price}礼品，机会仅此一次！`;
+      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
+    } else {
+      title = `送你一次免费增值机会！${init_money}可增值至${return_money}，速领！`;
+      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
+    }
+    return {
+      title: title,
+      path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
+      imageUrl: imageUrl
+    }
+  }
+
   //去图文详情
   toImgList = () => {
 
@@ -218,8 +308,8 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.navigateTo({
-            url: '/activity-pages/my-activity/my.activity',
+          Taro.switchTab({
+            url: '/pages/order/index',
             success: () => {
               var page = Taro.getCurrentPages().pop();
               if (page == undefined || page == null) return;
@@ -229,7 +319,7 @@ export default class Appre extends Component<Props>{
 
         },
         fail(err) {
-          // Taro.showToast({ title: '支付失败', icon: 'none' })
+          Taro.showToast({ title: '支付失败', icon: 'none' })
         }
       })
     })
@@ -239,6 +329,13 @@ export default class Appre extends Component<Props>{
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
+
+        <Button className="group_head_bottom_share" open-type="share" >
+          <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
+          分享
+        </Button >
+
+
         <View className="appre_head_activityTitle">
           <View className="appre_head_activityTitle_title">{this.state.data.name}</View>
           <View className="appre_head_activityTitle_time">活动时间 : {this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
@@ -247,6 +344,13 @@ export default class Appre extends Component<Props>{
         {
           this.state.data.type == 0 ?
             <Swiper
+              onChange={(e) => {
+                // console.log(e.detail.current)
+                this.setState({ imagesCurrent: e.detail.current })
+              }}
+              onClick={() => {
+                this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] })
+              }}
               className='test-h'
               indicatorColor='#999'
               indicatorActiveColor='#333'
@@ -257,7 +361,9 @@ export default class Appre extends Component<Props>{
                 this.state.imagesList ? this.state.imagesList.map((item, index) => {
                   return (
                     <SwiperItem key={item} >
-                      <View className='demo-text' onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}>
+                      <View className='demo-text'
+                      //  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
+                      >
                         <Image className="demo-text-Img" src={item} />
                       </View>
                     </SwiperItem>
@@ -266,7 +372,6 @@ export default class Appre extends Component<Props>{
               }
             </Swiper> : null
         }
-
         <View className="appre_hd" >
           <View className="appre_head">
             <View className="appre_head_ticket">
@@ -280,7 +385,6 @@ export default class Appre extends Component<Props>{
                 <View className="appre_head_left_pricebox_info">满{this.state.data.total_fee}可用</View>
               </View>
               <View className="appre_head_right">
-
                 <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
                 <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
               </View>
@@ -304,7 +408,9 @@ export default class Appre extends Component<Props>{
               </View>
               <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
               <View className="appre_gift_giftmsgbox" >
-                <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
+                <View className="appre_gift_giftmsg" >{
+                  this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
+                }</View>
               </View>
               <View className="appre_gift_giftlist" >
                 <Image className="appre_gift_giftlistImg"
@@ -341,7 +447,7 @@ export default class Appre extends Component<Props>{
           </View>
           {
             (this.state.data.type == 0 && description) ?
-              <View className="appre_rule_list" style={{ height: description.length <= 3 ? "auto" : (this.state.ruleMore ? "auto" : "2.5rem") }}>
+              <View className="appre_rule_list" style={{ height: description.length <= 4 ? "auto" : (this.state.ruleMore ? "auto" : "5.4rem") }}>
                 <View className="appre_rule_list_key" >使用规则:</View>
                 <View className="appre_rule_list_data" >
                   {
@@ -356,7 +462,7 @@ export default class Appre extends Component<Props>{
               </View> : null
           }
           {
-            (this.state.data.type == 0 && description && description.length > 3) ?
+            (this.state.data.type == 0 && description && description.length > 4) ?
               <View className="appre_rule_list_more" onClick={() => { this.setState({ ruleMore: !this.state.ruleMore }) }}>
                 {this.state.ruleMore ? "收回" : "查看更多"}
                 {
@@ -396,7 +502,7 @@ export default class Appre extends Component<Props>{
           </View>
         </View>
         {
-          (this.state.data.gift && this.state.data.gift.mail_mode) == '2' ? (
+          (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
             <View className='choose_postage' onClick={this.chooseGift}>
 
               <View>
@@ -404,8 +510,6 @@ export default class Appre extends Component<Props>{
                   this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
                 }
               </View>
-
-
               （邮费 {this.state.data.gift.postage}元）
           <View className='lbmsg' >
                 <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
@@ -418,7 +522,9 @@ export default class Appre extends Component<Props>{
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
 
             {
-              this.state.isPostage ? <View className='paymoney_price_info'> {'+' + this.state.data.gift.postage}</View> : null
+              this.state.isPostage ? <View className='paymoney_price_info'> {
+                this.state.data.gift.mail_mode == 1 ? null :
+                '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
           {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
@@ -427,7 +533,7 @@ export default class Appre extends Component<Props>{
               <View className="paymoney_buynow_no">暂未开始</View>
             ) : this.state.data.activity_time_status == 2 ? (
               <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
-            ) : this.state.data.activity_time_status == 3 ?(
+            ) : this.state.data.activity_time_status == 3 ? (
               <View className="paymoney_buynow_no">已结束</View>
             ) : null
           }
@@ -438,7 +544,9 @@ export default class Appre extends Component<Props>{
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-
+        <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
+          <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
+        </View>
       </View>
     );
   }
