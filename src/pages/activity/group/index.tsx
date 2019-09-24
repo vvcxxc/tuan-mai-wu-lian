@@ -22,7 +22,7 @@ export default class Group extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesList: [],
-    imagesCurrent:0,
+    imagesCurrent: 0,
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -347,13 +347,13 @@ export default class Group extends Component<Props>{
 
         {
           this.state.imagesList.length > 0 ? <Swiper
-          onChange={(e) => {
-            // console.log(e.detail.current)
-            this.setState({imagesCurrent:e.detail.current})
-          }}
-          onClick={()=>{
-            this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] }) 
-          }}
+            onChange={(e) => {
+              // console.log(e.detail.current)
+              this.setState({ imagesCurrent: e.detail.current })
+            }}
+            onClick={() => {
+              this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] })
+            }}
             className='test-h'
             indicatorColor='#999'
             indicatorActiveColor='#333'
@@ -364,7 +364,7 @@ export default class Group extends Component<Props>{
               this.state.imagesList ? this.state.imagesList.map((item, index) => {
                 return (
                   <SwiperItem key={item} >
-                    <View className='demo-text' 
+                    <View className='demo-text'
                     // onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
                     >
                       <Image className="demo-text-Img" src={item} />
@@ -420,7 +420,9 @@ export default class Group extends Component<Props>{
               </View>
               <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
               <View className="appre_gift_giftmsgbox" >
-                <View className="appre_gift_giftmsg" >运费{this.state.data.gift.postage}元</View>
+                <View className="appre_gift_giftmsg" >{
+                  this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
+                }</View>
               </View>
               <View className="appre_gift_giftlist" >
                 <Image className="appre_gift_giftlistImg"
@@ -575,7 +577,9 @@ export default class Group extends Component<Props>{
             <View className="paymoney_price_num">{this.state.data.participation_money}</View>
             <View className="paymoney_price_oldprice">￥{this.state.data.pay_money}</View>
             {
-              this.state.isPostage ? <View className='paymoney_price_info'> {'+' + this.state.data.gift.postage}</View> : null
+              this.state.isPostage ? <View className='paymoney_price_info'> {
+                this.state.data.gift.mail_mode == 1 ? null :
+                  '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
 
