@@ -308,8 +308,8 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.switchTab({
-            url: '/pages/order/index',
+          Taro.navigateTo({
+            url: '/activity-pages/my-activity/my.activity',
             success: () => {
               var page = Taro.getCurrentPages().pop();
               if (page == undefined || page == null) return;
