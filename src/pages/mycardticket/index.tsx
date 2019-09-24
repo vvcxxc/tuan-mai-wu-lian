@@ -22,7 +22,9 @@ export default class MyCardTicket extends Component {
 
         orderItem: {},
 
-        page: 1
+        page: 1,
+
+        routeID : null
     }
 
     handleClick = async (id) => {
@@ -66,7 +68,8 @@ export default class MyCardTicket extends Component {
         request({
             url: 'api/wap/orderGift/list',
             data: {
-                page: this.state.page
+                page: this.state.page,
+                id: this.state.routeID
             }
         }).then(res => {
             this.setState({
@@ -77,8 +80,12 @@ export default class MyCardTicket extends Component {
         })
     }
 
-    componentDidMount() {
-        this.getData()
+    componentDidMount = async () => {
+        await this.setState({
+            routeID: this.$router.params.id
+        },() => {
+            this.getData()
+        })     
     }
 
     render() {
