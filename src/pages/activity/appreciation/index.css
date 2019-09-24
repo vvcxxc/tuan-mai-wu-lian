@@ -5,6 +5,12 @@
 }
 
 .d_appre .group_head_bottom_share {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+  box-sizing: border-box;
   position: fixed;
   top: 24px;
   right: 24px;
@@ -12,8 +18,6 @@
   background: #ffbf13;
   border-radius: 8px;
   font-size: 30px;
-  padding: 0px 25px;
-  box-sizing: border-box;
   z-index: 3;
   display: flex;
   flex-direction: row;
@@ -21,6 +25,8 @@
   align-items: center;
   border: none;
   height: 60px;
+  width: 170px;
+  line-height: 1;
 }
 
 .d_appre .group_head_bottom_share .shareimg {
@@ -148,6 +154,17 @@
   border-radius: 8px;
 }
 
+.d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_left .appre_head_left_pricebox_info .appre_gift_title {
+  height: 100%;
+  vertical-align: bottom;
+  font-weight: bold;
+  font-size: 40px;
+  float: left;
+  text-align: left;
+  color: #000;
+  line-height: 1;
+}
+
 .d_appre .appre_hd .appre_head .appre_head_ticket .appre_head_right {
   width: 50%;
   height: 100%;
@@ -240,14 +257,13 @@
   width: 100%;
 }
 
-.d_appre .appre_gift .appre_gift_titlebox .appre_gift_title {
-  height: 100%;
-  vertical-align: bottom;
+.d_appre .appre_gift .appre_gift_titlebox .appre_rule_title {
+  height: 60px;
+  text-align: left;
   font-weight: bold;
   font-size: 40px;
-  float: left;
-  text-align: left;
-  color: #000;
+  font-weight: bold;
+  columns: #000;
   line-height: 1;
 }
 
@@ -375,9 +391,9 @@
   text-align: left;
   font-weight: bold;
   font-size: 40px;
+  line-height: 1;
   font-weight: bold;
   columns: #000;
-  line-height: 1;
 }
 
 .d_appre .appre_rule .appre_rule_time {
@@ -397,22 +413,29 @@
   font-size: 25px;
 }
 
-.d_appre .appre_rule .appre_rule_time .appre_rule_time_data {
-  float: left;
-  height: 40px;
-  font-size: 25px;
-  line-height: 1;
-  padding-top: 10px;
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 23px 40px 28px 30px;
   box-sizing: border-box;
 }
 
-.d_appre .appre_rule .appre_rule_list {
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .setMeal_store_title {
+  height: 60px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list {
   width: 100%;
   min-height: 50px;
   overflow: hidden;
 }
 
-.d_appre .appre_rule .appre_rule_list .appre_rule_list_key {
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .appre_rule_list_key {
   height: 40px;
   width: 165px;
   text-align: left;
@@ -424,16 +447,64 @@
   font-size: 25px;
 }
 
-.d_appre .appre_rule .appre_rule_list .appre_rule_list_data {
-  height: auto;
-  margin-left: 165px;
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox {
+  width: 100%;
+  height: 80px;
+  padding-top: 35px;
+  box-sizing: border-box;
+  display: flex;
+  line-height: 40px;
 }
 
-.d_appre .appre_rule .appre_rule_list .appre_rule_list_data .appre_rule_list_msg {
-  font-size: 25px;
-  line-height: 30px;
-  padding-top: 10px;
-  box-sizing: border-box;
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_distance {
+  width: 115px;
+  position: relative;
+  float: left;
+  border-right: 1px #ccc solid;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_distance .setMeal_store_distance_Image {
+  width: 30px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_distance .setMeal_store_distance_Image .setMeal_store_distance_AddressImg {
+  width: 30px;
+  height: 40px;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_distance .setMeal_store_distance_info {
+  height: 40px;
+  position: absolute;
+  left: 30px;
+  width: 85px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_address {
+  flex: 1;
+  padding: 0 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 26px;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_mobile {
+  width: 60px;
+  height: 40px;
+  padding-left: 30px;
+  float: right;
+  border-left: 1px #ccc solid;
+}
+
+.d_appre .appre_rule .appre_rule_time .setMeal_store_box .appre_rule_list .setMeal_store_addressbox .setMeal_store_mobile .setMeal_store_MobileImg {
+  width: 30px;
+  height: 40px;
+  float: right;
 }
 
 .d_appre .appre_rule .appre_rule_list_more {
@@ -553,9 +624,8 @@
   height: 40px;
   position: absolute;
   left: 30px;
-  width: 85px;
-  text-align: center;
-  font-size: 18px;
+  padding: 0 8px;
+  font-size: 24px;
 }
 
 .d_appre .setMeal_store .setMeal_store_box .setMeal_store_addressbox .setMeal_store_address {
