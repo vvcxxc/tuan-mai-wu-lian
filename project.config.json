@@ -65,10 +65,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 3,
 					"name": "pages/activity/pages/group/group",
 					"pathName": "pages/activity/pages/group/group",
-					"query": "id=298",
+					"query": "id=265",
 					"scene": null
 				}
 			]

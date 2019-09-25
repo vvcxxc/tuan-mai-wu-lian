@@ -33,6 +33,7 @@ interface State {
   isQrcode: boolean;
   base64: string;
   isShowStartGroup: boolean;
+  time: any;
 }
 export default class Group extends Component {
   config = {
@@ -47,7 +48,11 @@ export default class Group extends Component {
     isShowUse: false,
     isQrcode: false,
     base64: "",
-    isShowStartGroup: false
+    isShowStartGroup: false,
+    time: {
+      date: '',
+      display: 2
+    }
   }
   async componentDidShow() {
     // Taro.showShareMenu()
@@ -78,7 +83,6 @@ export default class Group extends Component {
    * 点击动作(如果是跳转动作的时候, 带上参数type, id, publictypeid)
    */
   handleClick = (e): void => {
-    console.log(e.currentTarget.dataset)
     const { action, type } = e.currentTarget.dataset
     this.handleAction(action, null, type)
   }
@@ -88,10 +92,8 @@ export default class Group extends Component {
    */
   // @ts-ignore
   handleAction = (action: string, data: any, type = 0): void => {
-    // console.log(this.state.basicinfo)
     switch(action) {
       case ACTION_JUMP: {
-        console.log(data)
         const {
           youhui_id: id,
           id: publictypeid,
@@ -177,14 +179,23 @@ export default class Group extends Component {
    * 定时
    */
   setTime = () => {
-     timer2 = setTimeout(()=>{
-      clearTimeout(timer)
-      getTime(this.state.basicinfo.activity_end_time)
-      this.setTime()
-    },1000)
+    if(this.state.time.display <= 0){
+      clearTimeout(timer2)
+      return
+    }else{
+      timer2 = setTimeout(()=>{
+       clearTimeout(timer)
+       let time = getTime(this.state.basicinfo.activity_end_time)
+       this.setState({
+         time
+       })
+       this.setTime()
+     },1000)
+    }
   }
   componentWillUnmount(){
     clearTimeout(timer)
+    clearTimeout(timer2)
   }
 
   /**
@@ -245,6 +256,11 @@ export default class Group extends Component {
       basicinfo: data
     })
   }
+  toMoreGroup = () => {
+    Taro.navigateTo({
+      url: '/pages/activity/pages/list/list?type=5'
+    })
+  }
 
   render() {
     const {
@@ -294,7 +310,7 @@ export default class Group extends Component {
               </View>
               <View className="time">
                 <Text className="text">距离结束时间还剩:</Text>
-                <Text>{basicinfo.expire_time || "00:00:00"}</Text>
+                <Text>{this.state.time.date}</Text>
               </View>
               <ScrollView
                 scrollX
@@ -313,7 +329,10 @@ export default class Group extends Component {
                 </View>
               </ScrollView>
               <View className="group-tips">{groupDesc}</View>
-                  {
+              {
+                this.state.time.display > 0 ? (
+                  <View>
+                    {
                     isShowStartGroup ? (<View className='actions'>
                       <Button
                       className="item join"
@@ -366,6 +385,31 @@ export default class Group extends Component {
                     </View>
                     )
                   }
+                  </View>
+                ) : isShowUse && this.state.basicinfo.is_group_participation ? (
+                  (
+                    <View className="actions">
+                    <Button
+                    className="item used"
+                    data-action="use"
+                    onClick={this.handleClick}
+                  >
+                    去使用
+                  </Button>
+                  </View>
+                  )
+                ) :(
+                  <View className='actions'>
+                      <Button
+                      className="item used"
+                      onClick={this.toMoreGroup}
+                    >
+                      查看更多拼团送礼
+                    </Button>
+                    </View>
+                )
+              }
+
 
             </View>
             {
@@ -402,7 +446,7 @@ export default class Group extends Component {
                 list.map((item, index) => {
                   return (
                     <Coupon
-                      key={item}
+                      key={''}
                       data={item}
                       onAction={this.handleAction}
                     />
