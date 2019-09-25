@@ -593,9 +593,6 @@ export default class Group extends Component<Props>{
 
         </View>
 
-
-
-
         <Zoom
           src={this.state.imgZoomSrc}
           showBool={this.state.imgZoom}
