@@ -199,7 +199,7 @@ export default class PaySuccess extends Component<Props> {
   //去拼团活动
   gotoGroup(_id, gift_id, activity_id) {
     Taro.navigateTo({
-      url: '/pages/activity/group/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
+      url: '/pages/activity/group/index?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
       // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }

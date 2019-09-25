@@ -62,7 +62,7 @@ export default class Group extends Component<Props>{
   };
 
   componentDidMount = () => {
-    console.log(this.$router.params);
+    console.log('params:', this.$router.params);
     Taro.showLoading({
       title: 'loading',
     })
@@ -279,27 +279,31 @@ export default class Group extends Component<Props>{
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
     // 店ID:store_id==this.state.data.id;
     // 店名==this.state.data.name
+
+    //一般进来：id，type == 5 ，gift_id，activity_id，
+    //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
+
     Taro.showLoading({
       title: 'loading',
     });
     let data = {};
     if (this.state.isPostage) {
       data = {
-        public_type_id: this.$router.params.id,
+        public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
         activity_id: this.$router.params.activity_id,
         gift_id: this.$router.params.gift_id,
         open_id: Taro.getStorageSync("openid"),
         unionid: Taro.getStorageSync("unionid"),
-        type: "5",
+        type: this.$router.params.type,
         xcx: 1,
         number: 1
       }
     } else {
       data = {
-        public_type_id: this.$router.params.id,
+        public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
         open_id: Taro.getStorageSync("openid"),
         unionid: Taro.getStorageSync("unionid"),
-        type: "5",
+        type: this.$router.params.type,
         xcx: 1,
         number: 1
       }
@@ -583,8 +587,10 @@ export default class Group extends Component<Props>{
             }
           </View>
 
+          {
+            this.$router.params.type == "55" ? <View className="paymoney_buynow" onClick={this.payment.bind(this)}>参加拼团</View> : <View className="paymoney_buynow" onClick={this.payment.bind(this)}>发起拼团</View>
+          }
 
-          <View className="paymoney_buynow" onClick={this.payment.bind(this)}>发起拼团</View>
         </View>
 
 
