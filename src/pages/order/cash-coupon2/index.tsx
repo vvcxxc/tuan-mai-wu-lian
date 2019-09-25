@@ -77,7 +77,7 @@ export default class CashCoupon extends Component<Props> {
                     <Image src={quan2} style={{ height: "100%", width: "80rpx" }} />
                   </View>
               }
-              <View style={{ width: "135px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{this.props.sname}</View>
+              <View style={{ width: "135px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",lineHeight:1 }}>{this.props.sname}</View>
 
             </View>
             {/* <View className="date" >{this.props.list_brief}</View> */}

@@ -149,6 +149,16 @@
             display: inline-block;
             border-radius: 8px;
 
+            .appre_gift_title {
+                height: 100%;
+                vertical-align: bottom;
+                font-weight: bold;
+                font-size: 40px;
+                float: left;
+                text-align: left;
+                color: #000;
+                line-height: 1;
+            }
 
           }
         }
@@ -247,15 +257,15 @@
       height: 40px;
       width: 100%;
 
-      .appre_gift_title {
-        height: 100%;
-        vertical-align: bottom;
-        font-weight: bold;
-        font-size: 40px;
-        float: left;
-        text-align: left;
-        color: #000;
-      }
+        .appre_rule_title {
+            height: 60px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 40px;
+            font-weight: bold;
+            columns: #000;
+            line-height: 1;
+        }
 
       .appre_gift_Imagelist {
         height: 100%;
@@ -385,6 +395,7 @@
       text-align: left;
       font-weight: bold;
       font-size: 40px;
+      line-height: 1;
       font-weight: bold;
       columns: #000;
     }
@@ -405,15 +416,20 @@
         font-size: 25px;
       }
 
-      .appre_rule_time_data {
-        float: left;
-        height: 40px;
-        font-size: 25px;
-        line-height: 1;
-        padding-top: 10px;
-        box-sizing: border-box;
-      }
-    }
+        .setMeal_store_box {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            padding: 23px 40px 28px 30px;
+            box-sizing: border-box;
+
+            .setMeal_store_title {
+                height: 60px;
+                text-align: left;
+                font-weight: bold;
+                font-size: 40px;
+                line-height: 1;
+            }
 
     .appre_rule_list {
       width: 100%;
@@ -433,15 +449,65 @@
         font-size: 25px;
       }
 
-      .appre_rule_list_data {
-        height: auto;
-        margin-left: 165px;
+            .setMeal_store_addressbox {
+                width: 100%;
+                height: 80px;
+                padding-top: 35px;
+                box-sizing: border-box;
+                display: flex;
+                line-height: 40px;
 
-        .appre_rule_list_msg {
-          font-size: 25px;
-          line-height: 30px;
-          padding-top: 10px;
-          box-sizing: border-box;
+                .setMeal_store_distance {
+                    width: 115px;
+                    position: relative;
+                    float: left;
+                    border-right: 1px #ccc solid;
+
+                    .setMeal_store_distance_Image {
+                        width: 30px;
+                        height: 40px;
+                        position: absolute;
+                        left: 0;
+
+                        .setMeal_store_distance_AddressImg {
+                            width: 30px;
+                            height: 40px;
+                        }
+                    }
+
+                    .setMeal_store_distance_info {
+                        height: 40px;
+                        position: absolute;
+                        left: 30px;
+                        width: 85px;
+                        text-align: center;
+                        font-size: 18px;
+                    }
+                }
+
+                .setMeal_store_address {
+                    flex: 1;
+                    padding: 0 16px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 26px;
+                }
+
+                .setMeal_store_mobile {
+                    width: 60px;
+                    height: 40px;
+                    padding-left: 30px;
+                    float: right;
+                    border-left: 1px #ccc solid;
+
+                    .setMeal_store_MobileImg {
+                        width: 30px;
+                        height: 40px;
+                        float: right;
+                    }
+                }
+            }
         }
       }
     }
@@ -477,7 +543,8 @@
         height: 60px;
         text-align: left;
         font-weight: bold;
-        font-size: 38px;
+        font-size: 40px;
+        line-height: 1;
       }
 
       .setMeal_store_storebox {
