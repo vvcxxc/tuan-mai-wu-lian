@@ -3,7 +3,7 @@ import { AtModal, AtModalHeader, AtModalContent, AtModalAction, AtIcon } from "t
 import request from '../../services/request';
 import { View, Button, Image } from '@tarojs/components';
 import { getUserInfo } from "@/utils/getInfo"
-
+import './index.styl'
 interface Props {
   is_login: boolean;
   onClose: any;

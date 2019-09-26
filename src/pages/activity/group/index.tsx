@@ -339,7 +339,7 @@ export default class Group extends Component<Props>{
 
         },
         fail(err) {
-          Taro.showToast({ title: '支付失败', icon: 'none' })
+          // Taro.showToast({ title: '支付失败', icon: 'none' })
         }
       })
     })
