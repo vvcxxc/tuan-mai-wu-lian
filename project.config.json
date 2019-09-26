@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 2,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
@@ -54,6 +54,7 @@
 					"id": -1,
 					"name": "detail-pages/orderdetail/index",
 					"pathName": "detail-pages/orderdetail/index",
+					"query": "",
 					"scene": null
 				},
 				{
@@ -61,6 +62,13 @@
 					"name": "正式环境分享",
 					"pathName": "pages/index/index",
 					"query": "id=2497",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "pages/activity/pages/group/group",
+					"pathName": "pages/activity/pages/group/group",
+					"query": "id=265",
 					"scene": null
 				}
 			]

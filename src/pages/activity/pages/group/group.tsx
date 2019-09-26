@@ -15,12 +15,14 @@ import {
   getQrcode,
   listenQrcodeForGroup
 } from "@/api"
+import { getTime } from '@/utils/common';
 import { getLocation } from "@/utils/getInfo"
 import { GROUP_AREADY, UNUSED, USED } from "../../data"
 import { ACTION_JUMP, ACTION_USE, ACTION_VIEW, ACTION_CLOSE } from "@/utils/constants"
 import Coupon from "@/components/coupon/coupon"
 import Qrcode from "@/components/qrcode/qrcode"
 let timer = null;
+let timer2 = null
 interface State {
   basicinfo: any;
   giftBasicInfo: any;
@@ -30,6 +32,8 @@ interface State {
   isShowUse: boolean;
   isQrcode: boolean;
   base64: string;
+  isShowStartGroup: boolean;
+  time: any;
 }
 export default class Group extends Component {
   config = {
@@ -44,10 +48,14 @@ export default class Group extends Component {
     isShowUse: false,
     isQrcode: false,
     base64: "",
+    isShowStartGroup: false,
+    time: {
+      date: '',
+      display: 2
+    }
   }
   async componentDidShow() {
     // Taro.showShareMenu()
-
     const { id = "" } = this.$router.params
     /**
      * 授权认证用
@@ -58,6 +66,7 @@ export default class Group extends Component {
     })
     await this.fetchBasicinfo(id)
     this.fetchCoupon(location)
+    this.setTime()
   }
 
   onShareAppMessage() {
@@ -74,7 +83,6 @@ export default class Group extends Component {
    * 点击动作(如果是跳转动作的时候, 带上参数type, id, publictypeid)
    */
   handleClick = (e): void => {
-    console.log(e.currentTarget.dataset)
     const { action, type } = e.currentTarget.dataset
     this.handleAction(action, null, type)
   }
@@ -84,10 +92,8 @@ export default class Group extends Component {
    */
   // @ts-ignore
   handleAction = (action: string, data: any, type = 0): void => {
-    // console.log(this.state.basicinfo)
     switch(action) {
       case ACTION_JUMP: {
-        console.log(data)
         const {
           youhui_id: id,
           id: publictypeid,
@@ -138,13 +144,15 @@ export default class Group extends Component {
     const isFinish = groupParticipator === groupNumber
     const isJoin = is_group_participation !== GROUP_AREADY
     const isShowUse = isFinish && (is_employ === UNUSED)
+    const isShowStartGroup = isFinish && !is_group_participation
     // const isFinish = false
     // const isJoin = true
     // const isShowUse = false
     this.setState({
       isFinish,
       isJoin,
-      isShowUse
+      isShowUse,
+      isShowStartGroup
     })
   }
 
@@ -167,8 +175,27 @@ export default class Group extends Component {
       isQrcode && this.fetchListenQrcode()
     }, 2000)
   }
+  /**
+   * 定时
+   */
+  setTime = () => {
+    if(this.state.time.display <= 0){
+      clearTimeout(timer2)
+      return
+    }else{
+      timer2 = setTimeout(()=>{
+       clearTimeout(timer)
+       let time = getTime(this.state.basicinfo.activity_end_time)
+       this.setState({
+         time
+       })
+       this.setTime()
+     },1000)
+    }
+  }
   componentWillUnmount(){
     clearTimeout(timer)
+    clearTimeout(timer2)
   }
 
   /**
@@ -229,6 +256,11 @@ export default class Group extends Component {
       basicinfo: data
     })
   }
+  toMoreGroup = () => {
+    Taro.navigateTo({
+      url: '/pages/activity/pages/list/list?type=5'
+    })
+  }
 
   render() {
     const {
@@ -239,7 +271,8 @@ export default class Group extends Component {
       isShowUse,
       isJoin,
       isQrcode,
-      base64
+      base64,
+      isShowStartGroup
     } = this.state
     const surplus = basicinfo.number
       ? basicinfo.number - basicinfo.participation_number
@@ -277,7 +310,7 @@ export default class Group extends Component {
               </View>
               <View className="time">
                 <Text className="text">距离结束时间还剩:</Text>
-                <Text>{basicinfo.expire_time || "00:00:00"}</Text>
+                <Text>{this.state.time.date}</Text>
               </View>
               <ScrollView
                 scrollX
@@ -296,10 +329,12 @@ export default class Group extends Component {
                 </View>
               </ScrollView>
               <View className="group-tips">{groupDesc}</View>
-              <View className="actions">
-                {
-                  isJoin && (
-                    <Button
+              {
+                this.state.time.display > 0 ? (
+                  <View>
+                    {
+                    isShowStartGroup ? (<View className='actions'>
+                      <Button
                       className="item join"
                       data-action="jump"
                       data-publictypeid={basicinfo.id}
@@ -307,12 +342,53 @@ export default class Group extends Component {
                       data-type="55"
                       onClick={this.handleClick}
                     >
-                      参加拼团
+                      我也要发起拼团
                     </Button>
-                  )
-                }
-                {
-                  isShowUse && (
+                    </View>) : (
+                      <View className="actions">
+                      {
+                        isJoin && (
+                          <Button
+                            className="item join"
+                            data-action="jump"
+                            data-publictypeid={basicinfo.id}
+                            data-id={basicinfo.youhui_id}
+                            data-type="55"
+                            onClick={this.handleClick}
+                          >
+                            参加拼团
+                          </Button>
+                        )
+                      }
+                      {
+                        isShowUse && (
+                          <Button
+                          className="item used"
+                          data-action="use"
+                          onClick={this.handleClick}
+                        >
+                          去使用
+                        </Button>
+                        )
+                      }
+                      {
+                        // 未完成就表示可以参团
+                        !isFinish && (
+                          <Button
+                          className="item invite"
+                          openType="share"
+                        >
+                          邀请好友参团
+                        </Button>
+                        )
+                      }
+                    </View>
+                    )
+                  }
+                  </View>
+                ) : isShowUse && this.state.basicinfo.is_group_participation ? (
+                  (
+                    <View className="actions">
                     <Button
                     className="item used"
                     data-action="use"
@@ -320,20 +396,21 @@ export default class Group extends Component {
                   >
                     去使用
                   </Button>
+                  </View>
                   )
-                }
-                {
-                  // 未完成就表示可以参团
-                  !isFinish && (
-                    <Button
-                    className="item invite"
-                    openType="share"
-                  >
-                    邀请好友参团
-                  </Button>
-                  )
-                }
-              </View>
+                ) :(
+                  <View className='actions'>
+                      <Button
+                      className="item used"
+                      onClick={this.toMoreGroup}
+                    >
+                      查看更多拼团送礼
+                    </Button>
+                    </View>
+                )
+              }
+
+
             </View>
             {
               giftBasicInfo.gift_title &&
@@ -369,7 +446,7 @@ export default class Group extends Component {
                 list.map((item, index) => {
                   return (
                     <Coupon
-                      key={item}
+                      key={''}
                       data={item}
                       onAction={this.handleAction}
                     />

@@ -85,6 +85,7 @@ export default class Index extends Component<any> {
     // this.getPayStore();//获取中奖门店信息
   }
   componentDidShow(){
+    this.SilentAuthorization()
     this.requestLocation();
     this.recognizer();
     // this.showGift()
@@ -93,6 +94,27 @@ export default class Index extends Component<any> {
     if(token){
       this.setState({is_login: false})
     }
+  }
+
+  //静默授权
+  SilentAuthorization = () => {
+    let token = Taro.getStorageSync("token");
+    if(token){
+      return
+    }
+    Taro.login({
+      success: res => {
+        console.log(res.code)
+        request({
+          url: 'wechat/jscode2sessionGetOpenId',
+          method: 'GET',
+          data: {js_code: res.code},
+        }).then(res => {
+          let token = res.token
+          Taro.setStorageSync("token", `Bearer ${token}`)
+        })
+      }
+    })
   }
 
   // 识别器
