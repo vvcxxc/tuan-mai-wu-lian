@@ -7,7 +7,7 @@ import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
-
+import AlertLogin from '@/components/alertLogin'
 interface Props {
   id: any;
 }
@@ -58,7 +58,8 @@ export default class Group extends Component<Props>{
       ypoint: ""
     },
     imagePath: '',
-    isPostage: true
+    isPostage: true,
+    is_login:false
   };
 
   componentDidMount = () => {
@@ -282,7 +283,12 @@ export default class Group extends Component<Props>{
 
     //一般进来：id，type == 5 ，gift_id，activity_id，
     //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
-
+    if(!Taro.getStorageSync("unionid")){
+      this.setState({
+        is_login: true
+      })
+      return
+    }
     Taro.showLoading({
       title: 'loading',
     });
@@ -338,6 +344,7 @@ export default class Group extends Component<Props>{
       })
     })
   }
+
 
   render() {
     const { images, description } = this.state.data;
@@ -602,6 +609,10 @@ export default class Group extends Component<Props>{
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
+        {
+          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+        }
+
       </View>
     );
   }

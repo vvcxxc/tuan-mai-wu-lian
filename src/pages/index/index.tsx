@@ -127,15 +127,12 @@ export default class Index extends Component<any> {
     // this.getLocationxy()// 获取定位和 城市id 城市名字
     Taro.getStorage({ key: 'router' }).then((res: any) => {
       if (Object.keys(res.data).length < 1) {
-        console.log(1)
         this.requestTab(); //经营列表
         this.getLocationxy()// 获取定位和 城市id 城市名字
         return
       }
       this.requestTab();
       if (res.data.city_id || res.data.city_name) {
-        console.log(2)
-        console.log(res.data.city_name)
         Taro.getLocation(
           {
             type: 'wgs84',
