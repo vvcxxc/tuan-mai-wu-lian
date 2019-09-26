@@ -124,7 +124,7 @@ export default class PaySuccess extends Component {
   }
   onShareAppMessage=(res)=> {
     return {
-      title: this.state.store.sname+'送福利啦！'+this.state.coupon.yname+'兑换券下单立刻抵扣，快点抢！',
+      title: this.state.store.sname+'送福利啦！'+this.state.coupon.return_money+'元兑换券下单立刻抵扣，快点抢！',
       path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
       imageUrl:this.state.coupon.image
     }
