@@ -22,7 +22,7 @@ interface GetAppreciationinfo {
 export const getAppreciationinfo = (params: GetAppreciationinfo) =>
   http({
     url: "api/wap/user/getApperciationUserYonhuiInfo",
-    data: params
+    data: { ...params, is_xcx: 1 }
   })
 
 /**
@@ -96,7 +96,7 @@ interface GetCouponinfoForGroup {
 export const getCouponinforForGroup = (params: GetCouponinfoForGroup) =>
   http({
     url: "api/wap/user/getYonhuiActiveGroupInfo",
-    data: params
+    data: { ...params, is_xcx: 1 }
   })
 
 /**
@@ -122,7 +122,7 @@ export const getCouponDetail = (params: GetCouponDetail) => {
   const { url, ...rest } = params
   return http({
     url,
-    data: {...rest,is_xcx:1}
+    data: { ...rest, is_xcx: 1 }
   })
 }
 
@@ -256,10 +256,10 @@ export const listenQrcodeForGroup = (params: QrcodeGroup) =>
   })
 
 export const getOrderQrcode = (id) =>
-	http({
-		url: "api/wap/orderGift/code",
-		method: "get",
-		data: {
-			id:id
-		}
-	})
+  http({
+    url: "api/wap/orderGift/code",
+    method: "get",
+    data: {
+      id: id
+    }
+  })
