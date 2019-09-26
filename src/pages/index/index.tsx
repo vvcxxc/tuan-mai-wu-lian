@@ -110,8 +110,10 @@ export default class Index extends Component<any> {
           method: 'GET',
           data: {js_code: res.code},
         }).then(res => {
+          console.log(4234123)
           let token = res.token
           Taro.setStorageSync("token", `Bearer ${token}`)
+          this.showGift()
         })
       }
     })
