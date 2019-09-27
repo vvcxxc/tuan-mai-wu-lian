@@ -41,7 +41,7 @@ export default class Activity extends Component {
     indexGroup: [],
     tabDistanceTop: 0,
     tabHeight: 0,
-    tabStyle: {
+    tabStyle: { 
       width: '100%',
       // height: '50px',
       backgroundColor: '#f6f6f6',
