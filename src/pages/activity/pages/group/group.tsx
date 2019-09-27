@@ -45,7 +45,7 @@ export default class Group extends Component {
     isQrcode: false,
     base64: "",
   }
-  async componentDidMount() {
+  async componentDidShow() {
     // Taro.showShareMenu()
 
     const { id = "" } = this.$router.params
@@ -99,14 +99,16 @@ export default class Group extends Component {
           dataId = data.id
         }
         Taro.navigateTo({
-          url: `/pages/activity/pages/detail/detail?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`
+          url: `/pages/activity/pages/detail/detail?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`,
+
         })
         break
       }
       case ACTION_VIEW: {
         const { gift_id, activity_id } = this.state.basicinfo
         Taro.navigateTo({
-          url: `/pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
+          // url: `/pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
+          url: `/detail-pages/gift/gift?gift_id=${gift_id}&activity_id=${activity_id}`
         })
         break
       }
@@ -285,7 +287,7 @@ export default class Group extends Component {
                   {
                     basicinfo.rsParticipate.map((item, index) => {
                       return (
-                        <View className="item" key={index}>
+                        <View className="item" key={item}>
                           <Image className="icon" src={item.user_portrait} />
                         </View>
                       )
@@ -367,7 +369,7 @@ export default class Group extends Component {
                 list.map((item, index) => {
                   return (
                     <Coupon
-                      key={index}
+                      key={item}
                       data={item}
                       onAction={this.handleAction}
                     />

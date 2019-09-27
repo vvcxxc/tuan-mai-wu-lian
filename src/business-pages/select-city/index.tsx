@@ -168,7 +168,7 @@ export default class SelectCity extends Component {
         >
           {
             this.state.searchList.map((item: any, index: any) => {
-              return <View className="line" key={index} onClick={this.lineOnClick.bind(this, item.id, item.name)}>{item.name}</View>
+              return <View className="line" key={item} onClick={this.lineOnClick.bind(this, item.id, item.name)}>{item.name}</View>
             })
           }
         </View>
@@ -201,7 +201,7 @@ export default class SelectCity extends Component {
             <View className="big-item">
               {
                 hidenData.map((item: any, index: any) => {
-                  return <View className="item" key={index} onClick={this.searchData.bind(this, item.name, item.id)}>{item.name}</View>
+                  return <View className="item" key={item} onClick={this.searchData.bind(this, item.name, item.id)}>{item.name}</View>
                 })
               }
             </View>

@@ -75,9 +75,10 @@ export default class Auth extends Component {
       console.log(err)
       throw Error("--- 登录出错(, auth) ---")
     })
+    Taro.removeStorageSync('is_login')
     const method = tabbar.includes(currentUrl)
       ? "switchTab"
-      : "redirectTo"
+      : "navigateBack"
     Taro[method]({
       url: `${currentUrl}?id=${id}`
     })
@@ -129,6 +130,11 @@ export default class Auth extends Component {
       }
     })
   }
+
+  close = () => {
+    Taro.removeStorageSync('is_login')
+    Taro.switchTab({url: '/pages/index/index'})
+  }
   render() {
     const { isShowButton } = this.state
     return (
@@ -150,6 +156,7 @@ export default class Auth extends Component {
               >
                 授权登录
               </Button>
+              <View className='close' onClick={this.close}>取消登录</View>
             {/* )
           } */}
         </View>

@@ -29,14 +29,14 @@
                 padding-right :5px
                 border-right 1px solid #000
             .address-img
-                width 21px
+                width 30px
                 height 30px
             .mobile-img
                 width 30px
                 height 30px
     .group-purchase
         margin-top: 11px
-        padding: 0.256rem 0.512rem 0
+        padding: 0.256rem 24px 0
         height :12rem
         @media screen and (min-device-width : 768px) and (max-device-width : 1024px)
             height 24rem
@@ -89,6 +89,12 @@
                 flex-direction:column
                 justify-content:center
                 align-items:center
+                .box_left_return
+                    text-align :center
+                    font-size :23px
+                    font-weight bold
+                    color: #000;
+                    font-size 36px
                 .box_left_price
                     height: 30%
                     width: 100%
@@ -96,20 +102,14 @@
                     color: #EE3131
                     font-size: 45px
                     margin: 0 auto
-                    margin-bottom: 10%
-                    display: inline-block
+                    display flex
+                    flex-direction:row
+                    justify-content:center
                     ._price
                         font-size: 60px
-                        display: inline-block
-                        text-align: center
+                        line-height 1
                         color: #EE3131
                         font-weight: bold
-                .box_left_return
-                    text-align :center
-                    font-size :23px
-                    background: #FDE8E5;
-                    color: #ff4530;
-                    padding 5px 15px
             .box_center
                 height:100%
                 flex:250
@@ -118,24 +118,55 @@
                 font-weight bold
                 box-sizing border-box
                 .present
-                    height: 50%
+                    height: 70%
                     width: 90%
-                    margin: 20% 5% 0
+                    margin: 17% 5% 0
                     font-size: 25px
-                   .present_text
-                    display:-webkit-box
-                    -webkit-line-clamp: 2
-                    overflow: hidden
-                    -webkit-box-orient: vertical
-                .present_recommend
-                    height: 30%
-                    width: 200px
-                    padding-left: 5%
-                    font-size: 20px
-                    color: #ccc
-                    overflow: hidden
-                    white-space: nowrap
-                    text-overflow: ellipsis
+                    display flex
+                    flex-direction : column
+                    align-items :flex-end	
+                    .present_text
+                        display:-webkit-box
+                        -webkit-line-clamp: 2
+                        overflow: hidden
+                        -webkit-box-orient: vertical
+                    .present_text1
+                        flex 4
+                        font-size 24px
+                        display flex
+                        flex-direction : column
+                        align-items :flex-end
+                        justify-content center
+                        .present_text1_box
+                            border 1px red solid
+                            padding 0px 20px
+                            border-radius 28px 
+                    .present_text2
+                        font-size 20px
+                        color #686868
+                        flex 2 
+                        display flex
+                        flex-direction : column
+                        align-items :flex-end
+                        justify-content flex-end
+                    .present_text3
+                        flex 3 
+                        font-size 28px
+                        color #000
+                        display flex
+                        flex-direction : column
+                        align-items :flex-end
+                        justify-content flex-end
+                // .present_recommend
+                //     background yellow
+                //     height: 30%
+                //     width: 200px
+                //     padding-left: 5%
+                //     font-size: 20px
+                //     color: #ccc
+                //     overflow: hidden
+                //     white-space: nowrap
+                //     text-overflow: ellipsis
             .box_right
                 box-sizing: border-box
                 height:99%
@@ -182,31 +213,22 @@
             padding-top : 10px
     .merchant-details__tit
         font-size: 36px
-        paddingLeft: 24px
+        padding-left: 24px
+        padding-top 24px
+        box-sizing:border-box
         fontSize: 19px
-        paddingLeft: 24px
         height: 52px
-        position: relative
         display: flex
-        alig-items: center
-        justify-content center
+        flex-direction:row
+        align-items: center
+        justify-content : flex-start
         .mark
-            font-size:  20px
-            color: #fff
-            padding: 5px 5px
-            border-radius:  2px
-            margin-right: 20px
-            position: absolute
-            left: 16px
-            bottom:0
-            text-align: center
-            width: 24px
-            line-height: 1;
+           height 27px
+           width 32px
+           margin-right 17px
         .fwb
             font-weight: bold
-            position: absolute
-            left: 80px
-            bottom -12px
+   
 
     .ticket
         padding: 1.5rem 24px 0
@@ -286,7 +308,8 @@
                 width 160px
                 height 160px
             .discounts-cell__bd
-                padding-left: 23px
+                padding-left: 24px
+                height 160px
                 .tit
                     font-size: 30px
                     color #333333
@@ -353,7 +376,7 @@
                     padding: 6px
                     border-radius: 5px
                     border: 0.05rem solid #FA5D49
-                    font-size: 24px
+                    font-size: 18px
                     color: #FA5D49
                     margin-right: 10px
 .check

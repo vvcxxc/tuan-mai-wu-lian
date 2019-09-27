@@ -20,6 +20,9 @@ export default class PaySuccess extends Component<Props> {
 
 
   state = {
+    // test1: false,
+    // test2: false,
+
     yPoint: 0,
     xPoint: 0,
     business_list: {//自家店铺
@@ -101,7 +104,7 @@ export default class PaySuccess extends Component<Props> {
         begin_time: "",
         brief: "",
         end_time: "",
-        id: 1590,
+        id: 0,
         image: "",
         list_brief: "",
         name: "",
@@ -119,8 +122,7 @@ export default class PaySuccess extends Component<Props> {
     keepCollect_bull: false,
     keepCollect_data: "收藏成功"
   };
-
-  componentWillMount() {
+  componentDidShow() {
     Taro.showLoading({
       title: 'loading',
     })
@@ -175,17 +177,21 @@ export default class PaySuccess extends Component<Props> {
       }
     })
   }
+  // componentWillMount() {
+
+  // }
+
 
   componentDidMount() {
     Taro.showShareMenu({
       withShareTicket: true
     })
   }
-  onShareAppMessage=(res)=> {
+  onShareAppMessage = (res) => {
     return {
-      title: '听说你找了很久，'+this.state.business_list.name+'优惠力度超大，推荐给你看看！',
-      path: '/pages/business/index?id='+this.$router.params.id,
-      imageUrl:this.state.business_list.preview
+      title: '听说你找了很久，' + this.state.business_list.name + '优惠力度超大，推荐给你看看！',
+      path: '/pages/business/index?id=' + this.$router.params.id,
+      imageUrl: this.state.business_list.preview
     }
   }
 
@@ -197,8 +203,10 @@ export default class PaySuccess extends Component<Props> {
   }
   // 去增值活动
   gotoAppreciation(_id, gift_id, activity_id) {
+
     Taro.navigateTo({
-      url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
+      url: '/pages/activity/appreciation/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
+      // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   //现金券详情
@@ -321,12 +329,13 @@ export default class PaySuccess extends Component<Props> {
         {
           this.state.activity_group.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit" style={{ paddingTop: "10px" }} >
-              <View className="mark" style={{ backgroundColor: "#D97B0B" }}>礼</View>
+              {/* <View className="mark" style={{ backgroundColor: "#D97B0B" }}>礼</View> */}
+              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/ping.png" />
               <Text className="fwb" >拼团送豪礼</Text>
             </View>
             <View className="hidden-box" id="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
               {
-                this.state.activity_group.map((item) => (
+                this.state.activity_group.map((item: any) => (
                   <View className="group-purchase bcfff _pintuan" key={item.name}>
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
@@ -356,9 +365,10 @@ export default class PaySuccess extends Component<Props> {
                             <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                           </View>
                           <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
-                            <Image src={require("./border.png")} style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: '2' }} />
-                            <Image src={require("./qiu.png")} style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: "3" }} />
-                            {/* 飙红是z-index的原因，可以忽略 */}
+                            <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
+                              style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
+                            <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
+                              style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
                             <Image src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                           </View>
                         </View>
@@ -399,40 +409,91 @@ export default class PaySuccess extends Component<Props> {
         {
           this.state.activity_appre.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit">
-              <Text className="mark" style={{ backgroundColor: "#C71D0B" }}>增</Text>
+              {/* <Text className="mark" style={{ backgroundColor: "#C71D0B" }}>增</Text> */}
+              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/zeng.png" />
               <Text className="fwb hidden-box" >增值低价买</Text>
             </View>
             <View style={{ width: "100%", overflow: "hidden", height: this.state.activity_appre_bull ? "auto" : "12.56rem" }}>
               {
-                this.state.activity_appre.map((item) => (
+                this.state.activity_appre.map((item: any) => (
                   <View className="group-purchase bcfff" key={item.activity_brief} >
                     <View style={{ height: "5px" }}></View>
                     <View className="hd">
-                      <View className="flex center">
+                      <View className="flex center" style={{ paddingBottom: "10px" }}>
                         <View className="item desc">{item.name}</View>
                       </View>
                     </View>
-                    <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
+                    {/* 有分全场券和品类券的时候删掉下面这段，打开注释的一段，test1替换参数为item.判断券类型，test2替换参数为item.判断品类券有无礼品 */}
+                    {/* <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                       {
                         item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
                           <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                       }
                       <View className="img" style={{ width: "100%" }}   >
                         <View className="box_left">
-                          <View className="box_left_price">￥ <View className="_price">{item.pay_money}</View></View>
-                          <View className="box_left_return">最高可抵{parseInt(item.return_money)}元</View>
+                          <View className="box_left_return">最高价值</View>
+                          <View className="box_left_price">￥ <View className="_price">{item.return_money}</View></View>
                         </View>
                         <View className="box_center">
-                          {/* 使用stylus时多行文本省略要写父容器行内 */}
-                          <View className="present" style="display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-camp:2;overflow:hidden"><View className="present_text">{item.name}</View></View>
-                          <View className="present_recommend">{item.gift_desc}</View>
+                          <View className="present">
+                            <View className="present_text1">
+                              <View className="present_text1_box">全场通用</View>
+                            </View>
+                            <View className="present_text2">{item.expire_day}天内有效</View>
+                            <View className="present_text3">满{item.init_money}元可用</View>
+                          </View>
                         </View>
                         <View className="box_right" style={{ overflow: "hidden" }}>
                           <Image className="image" src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
                         </View>
                       </View>
-                    </View>
-                    <View className="ft ">
+                    </View> */}
+                    {
+                      item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
+                        {
+                          item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
+                            <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
+                        }
+                        <View className="img" style={{ width: "100%" }}   >
+                          <View className="box_left">
+                            <View className="box_left_return">最高价值</View>
+                            <View className="box_left_price">￥ <View className="_price">{item.return_money}</View></View>
+                          </View>
+                          <View className="box_center">
+                            <View className="present">
+                              <View className="present_text1">
+                                <View className="present_text1_box">全场通用</View>
+                              </View>
+                              <View className="present_text2">{item.expire_day}天内有效</View>
+                              <View className="present_text3">满{item.init_money}元可用</View>
+                            </View>
+                          </View>
+                          <View className="box_right" style={{ overflow: "hidden" }}>
+                            <Image className="image" src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
+                          </View>
+                        </View>
+                      </View>
+                      ) : (
+                          !item.gift_id ? <View className="image-list" style={{ boxSizing: "border-box", marginBottom: "5px" }}>
+                            <View className="image" style={{ position: "relative", overflow: "hidden" }}>
+                              <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
+                            </View>
+                            <Image className="image" src={item.image_url} style={{ marginLeft: "7px" }} />
+                          </View> : <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }}>
+                              <View className="image" style={{ position: "relative", overflow: "hidden" }}>
+                                <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
+                              </View>
+                              <View className="image" style={{ position: "relative", display: "flex", background: "red", marginLeft: "7px" }}>
+                                <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png"
+                                  style={{ width: "100%", height: "100%", position: 'absolute', top: '0px', left: '0px', zIndex: 2 }} />
+                                <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png"
+                                  style={{ position: 'absolute', top: '-4px', left: '41%', width: '25px', height: '25px', zIndex: 3 }} />
+                                <Image src={item.gift_pic} style={{ width: "100%", height: "100%" }} />
+                              </View>
+                            </View>
+                        )
+                    }
+                    <View className="ft">
                       <View className="flex center">
                         <View className="item">
                           <Text className="money">￥{item.pay_money}</Text>
@@ -467,7 +528,8 @@ export default class PaySuccess extends Component<Props> {
         {
           this.state.cashCouponList.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit" >
-              <Text className="mark" style={{ backgroundColor: "#5D84E0" }}>券</Text>
+              {/* <Text className="mark" style={{ backgroundColor: "#5D84E0" }}>券</Text> */}
+              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/quan.png" />
               <Text className="fwb" >现金券</Text>
             </View>
             <View className="ticket hidden-box" style={{ boxSizing: "border-box", width: "100%", overflow: "hidden", height: this.state.couponList_bull ? "auto" : "9.1rem" }}>
@@ -506,7 +568,8 @@ export default class PaySuccess extends Component<Props> {
         {
           this.state.exchangeCouponList.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
             <View className="merchant-details__tit" >
-              <Text className="mark" style={{ backgroundColor: "#5DD8A5" }}>惠</Text>
+              {/* <Text className="mark" style={{ backgroundColor: "#5DD8A5" }}>惠</Text> */}
+              <Image className="mark" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/hui.png" />
               <Text className="fwb">优惠信息</Text>
             </View>
             <View className="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.exchangeCouponList_bull ? "auto" : "7.52rem" }}>
@@ -518,7 +581,7 @@ export default class PaySuccess extends Component<Props> {
                       <View className="discounts-cell__bd item">
                         <View className="tit">{item.name}</View>
                         <View className="desc">购买后{item.expire_day}日内有效</View>
-                        <View className="flex center" style={{ position: "relative" }}>
+                        <View className="flex center" style={{ position: "relative", height: "41rpx" }}>
                           <View className="money" style={{ position: 'absolute', left: '0' }}>￥{item.pay_money}</View>
                         </View>
                       </View>
@@ -548,8 +611,8 @@ export default class PaySuccess extends Component<Props> {
         {
           this.state.recommend.length == 0 ? "" :
             <View className="recommend-view bcfff">
-              <View className="merchant-details__tit">
-                <Text className="fwb" style={{ left: "0" }}>附近推荐</Text>
+              <View className="merchant-details__tit" style={{ paddingLeft: 0 }}>
+                <Text className="fwb" >附近推荐</Text>
               </View>
               <View className="recommend-cells">
                 {
@@ -564,9 +627,21 @@ export default class PaySuccess extends Component<Props> {
                         </View>
                         <View className="flex center">
                           <View className="tags">
-                            <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('免费礼品') !== -1 ? '#fde8e5' : '#fff' }}>免费礼品</Text>
+                            {
+                              item.label.indexOf('免费礼品') !== -1 ?
+                                <Text className="tag-text">免费礼品</Text> : null
+                            }
+                            {
+                              item.label.indexOf('优秀商家') !== -1 ?
+                                <Text className="tag-text">优秀商家</Text> : null
+                            }
+                            {
+                              item.label.indexOf('现金券') !== -1 ?
+                                <Text className="tag-text">现金券</Text> : null
+                            }
+                            {/* <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('免费礼品') !== -1 ? '#fde8e5' : '#fff' }}>免费礼品</Text>
                             <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('优秀商家') !== -1 ? '#fde8e5' : '#fff' }}>优秀商家</Text>
-                            <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('现金券') !== -1 ? '#fde8e5' : '#fff' }}>现金券</Text>
+                            <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('现金券') !== -1 ? '#fde8e5' : '#fff' }}>现金券</Text> */}
                           </View>
                         </View>
                       </View>

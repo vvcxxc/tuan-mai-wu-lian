@@ -9,6 +9,7 @@
 		"postcss": false,
 		"minified": false,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -40,50 +41,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 7,
+			"current": 2,
 			"list": [
-				{
-					"id": -1,
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/order/index",
-					"pathName": "pages/order/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/index",
-					"pathName": "pages/mycardticket/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/mycardticket/index",
-					"pathName": "pages/mycardticket/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/mycardticket/index",
-					"pathName": "pages/mycardticket/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
-					"query": "",
-					"scene": null
-				},
 				{
 					"id": -1,
 					"name": "activity-pages/my-activity/my.activity",
@@ -93,8 +52,15 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "detail-pages/orderdetail/index",
+					"pathName": "detail-pages/orderdetail/index",
 					"scene": null
 				}
 			]

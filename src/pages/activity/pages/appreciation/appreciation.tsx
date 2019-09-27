@@ -18,6 +18,7 @@ import {
   COUPON_OTHER,
   NOT_GET
 } from "../../data"
+import AppreCoupon from '@/components/appreCoupon'
 import { ACTION_APPRECIATION, ACTION_JUMP, ACTION_VIEW } from "@/utils/constants"
 
 type State = {
@@ -45,15 +46,25 @@ export default class Appreciation extends Component {
     list: [],
     rules: [],
     participators: [],
-    basicinfo: {},
+    basicinfo: {
+      userYonhuiInfo:{
+        money: '',
+        total_fee: ''
+      }
+    },
     shareinfo: {},
     userStatusinfo: {},
-    giftBasicInfo: {},
+    giftBasicInfo: {
+      price: '',
+      short_name: '',
+      cover_image: '',
+      gift_id: ''
+    },
     isInvite: false,
     isAppreciation: false,
     isGet: false
   }
-  async componentDidMount() {
+  async componentDidShow() {
     Taro.showShareMenu()
 
     const { id = "1095" } = this.$router.params
@@ -145,7 +156,7 @@ export default class Appreciation extends Component {
       case ACTION_JUMP: {
         const { id, gift_id, activity_id } = data
         Taro.navigateTo({
-          url: `/pages/activity/pages/detail/detail?id=${id}&type=1&activity_id=${activity_id}&gift_id=${gift_id}`
+          url: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
         })
         break
       }
@@ -232,6 +243,7 @@ export default class Appreciation extends Component {
     }
     const { data } = await getAppreciationinfo(params)
     const { userYonhuiInfo: couponinfo, buttonstatus: userCouponStatus } = data
+    console.log(data)
     this.fetchGiftinfo(couponinfo.gift_id, couponinfo.activity_id)
     this.handleCalculateProcess(couponinfo.init_money, couponinfo.appreciation_money, couponinfo.money)
     this.handleCalculate(couponinfo, userCouponStatus)
@@ -251,36 +263,84 @@ export default class Appreciation extends Component {
     } = this.state
     const {
       userdata: userinfo,
-      userYonhuiInfo: couponinfo
+      userYonhuiInfo: couponinfo,
+      dateTime,
+      buttonstatus
     } = this.state.basicinfo
+    const { gift_id, cover_image } = this.state.giftBasicInfo
+    let coupon_info = {
+      money: this.state.basicinfo.userYonhuiInfo.money || '',
+      limit_money: this.state.basicinfo.userYonhuiInfo.total_fee,
+      gift_image: this.state.giftBasicInfo.cover_image,
+      youhui_type: this.state.basicinfo.userYonhuiInfo.youhui_type
+    }
     return (
       <Block>
         <View className="appreciation" style={`background-image: url(http://tmwl-resources.tdianyi.com/miniProgram/MiMaQuan/img_appreciation.png)`}>
           <View className="container">
-            <View className="area-title">邀请好友增值</View>
+            {
+              buttonstatus.isself == 1 ? (
+                <View className="area-title">邀请好友增值</View>
+              ) : (
+                <View className="area-title">帮{userinfo.user_name}增值</View>
+              )
+            }
+
             <View className="area-panel">
               <View className="user-info">
-                <Image className="icon" src={userinfo.user_portrait} />
-                <View className="text">{userinfo.user_name}</View>
+                <Image className="icon" src={require('@/assets/shop.png')} />
+                <View className="text" style={{fontWeight: '600'}}>{couponinfo.store_name}</View>
               </View>
-              <View className="rule">活动规则</View>
-              <View className="coupon-info">
-                <View className="avatar">
-                  <Image className="icon" src={couponinfo.image} />
-                </View>
-                <View className="description">
-                  <View className="item name text-ellipsis-two-lines">{couponinfo.name}</View>
-                  <View className="item brief">{couponinfo.text}</View>
-                  <View className="item price">{couponinfo.appreciation_count_money}</View>
-                </View>
-              </View>
+              {/* 增值券 */}
+              {
+                couponinfo.youhui_type == 1 ? (
+                  <View>
+                    <AppreCoupon data={coupon_info} />
+                    <View className='coupon_name'>{couponinfo.name}</View>
+                    <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                  </View>
+                ) : couponinfo.youhui_type == 0 ? (
+                  <View>
+                    {
+                      gift_id ? (
+                        <View>
+                            <View style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <View>
+                              <Image src={couponinfo.image} className='coupon_image'/>
+                            </View>
+                            <View className='gift_image'>
+                              <Image src={cover_image} className='coupon_image' style={{position: 'absolute', top: 0, left: 0}}/>
+                              <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png" className='border_image' />
+                              <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png" className='qiu_image'/>
+                            </View>
+                          </View>
+                          <View className='coupon_name'>{couponinfo.name}</View>
+                          <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                        </View>
+
+                      ) : (
+                        <View style={{display: 'flex', justifyContent: 'space-between'}}>
+                          <View>
+                            <Image src={couponinfo.image} className='coupon_image'/>
+                          </View>
+                          <View className='coupon_infos'>
+                            <View className='coupon_name'>{couponinfo.name}</View>
+                            <View>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                          </View>
+                      </View>
+                      )
+                    }
+                  </View>
+                ) : null
+              }
+
               <View className="process">
                 <View className="process-in" style={`width: ${appreciationProcess}`}>
                   <Image className="icon" src={require("../../../../static/images/ic_process_bar.png")} />
                 </View>
               </View>
               <View className="status">
-                <View className="text appreciation-init">启始{couponinfo.init_money}元</View>
+                <View className="text appreciation-init">起始{couponinfo.init_money}元</View>
                 <View className="text appreciating">已增值{couponinfo.appreciation_money}元</View>
                 <View className="text appreciation-max">最高{couponinfo.money}元</View>
               </View>
@@ -362,7 +422,7 @@ export default class Appreciation extends Component {
                   {
                     participators.map((item, index) => {
                       return (
-                        <View className="item" key={index}>
+                        <View className="item" key={item}>
                           <View className="avatar">
                             <Image className="icon" src={item.user_portrait} />
                             <View className="text">{item.user_name}</View>
@@ -383,7 +443,7 @@ export default class Appreciation extends Component {
                 list.map((item, index) => {
                   return (
                     <Coupon
-                      key={index}
+                      key={item}
                       data={item}
                       onAction={this.handleAction}
                     />

@@ -54,8 +54,7 @@ class App extends Component {
 			"pages/activity/pages/group/group",
 			"pages/activity/pages/appreciation/appreciation",
 			"pages/activity/pages/list/list",
-
-
+			"pages/activity/appreciation/index",
 		],
 		subPackages: [
 			{

@@ -84,7 +84,7 @@ export default class DetailAppreciation extends Component<DetailProp> {
                 <View className="item">
                   <Text className="name">使用开始时间: </Text>
                   <Text className="text">
-                    {`${data.begin_time}-${data.end_time}`}
+                    {`${data.activity_begin_time}-${data.activity_end_time}`}
                   </Text>
                 </View>
                 <View className="item">
@@ -93,7 +93,7 @@ export default class DetailAppreciation extends Component<DetailProp> {
                     {
                       data.description.map((item, index) => {
                         return (
-                          <View className="item-sub" key={index}>
+                          <View className="item-sub" key={item}>
                             {item}
                           </View>
                         )
@@ -139,7 +139,7 @@ export default class DetailAppreciation extends Component<DetailProp> {
                         >
                           {
                             giftinfo.image_details.map((item, index) => {
-                              return <Image className="item" key={index} src={item} />
+                              return <Image className="item" key={item} src={item} />
                             })
                           }
                         </View>
