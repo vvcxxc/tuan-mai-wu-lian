@@ -14,7 +14,7 @@ import "./activity.styl"
 import Coupon from "@/components/coupon/coupon"
 import { ACTION_JUMP } from "@/utils/constants"
 import { getLocation } from "@/utils/getInfo"
-
+import request from '../../services/request'
 // import { connect } from "@tarojs/redux"
 
 interface State {
@@ -22,6 +22,11 @@ interface State {
   recommend: any[];
   seckill?: any[];
   menu: number;
+  cityId: number | string;
+  need_jump: number;
+  indexImgId: number;
+  adLogId: number;
+  indexImg:string
 }
 interface ActivityProps {
   handleChange: any;
@@ -45,11 +50,25 @@ export default class Activity extends Component<ActivityProps> {
   state: State = {
     recommend: [],
     menu: 0,
+    cityId: 1942,
+    need_jump: 0,
+    indexImgId: 0,
+    adLogId: 0,
+    indexImg:''
   }
   config: Config = {
     navigationBarTitleText: "活动中心",
   }
 
+  componentWillMount() {
+    let data:any = Taro.getStorageSync('router')
+    this.setState({
+      city: data.city_id
+    }, () => {
+        this.getAdvertising()
+    })
+
+  }
   componentDidMount() {
     Taro.showShareMenu()
     this.fetchActivityCenter()
@@ -115,6 +134,65 @@ export default class Activity extends Component<ActivityProps> {
     }
   }
 
+
+  // get 广告
+  getAdvertising = () => {
+    console.log('广告')
+    request({
+      url: "v3/ads",
+      method: 'GET',
+      data: {
+        position_id:2, //位置id
+        city_id:this.state.cityId
+      }
+    })
+      .then((res: any) => {
+        // console.log(res,'res');
+        if (res.code == 200) {
+          this.setState({ indexImg: res.data.pic })
+          this.setState({ indexImgId: res.data.id })
+          this.setState({ adLogId: res.data.adLogId })
+          this.setState({ need_jump: res.data.need_jump })
+        }
+
+      })
+
+  }
+    // 点击广告
+    advertOnclick = () => {
+      if (!this.state.need_jump) return
+      // let store_id = this.$router.params.store_id || sessionStorage.getItem('storeId')
+      let data = {}
+      // if (store_id) {
+        // data = {
+        //   ad_id: this.state.indexImgId, //广告id
+        //   ad_log_id: this.state.adLogId, //广告日志id
+        //   store_id
+        // }
+      // } else {
+        data = {
+          ad_id: this.state.indexImgId, //广告id
+          ad_log_id: this.state.adLogId //广告日志id
+        }
+      // }
+      request({
+        url: 'v3/ads/onclick',
+        data
+      })
+        .then((res: any) => {
+          let define: any = {
+            [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
+            [2]: '/business-pages/ticket-buy/index?id=' + res.data.coupon_id,//现金券
+            [3]: '/business-pages/set-meal/index?id=' + res.data.coupon_id,//兑换券
+            [4]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=1',//拼团
+            [5]: '/pages/activity/pages/detail/detail?id=' + res.data.activity_id + '&type=5'//增值
+          }
+          Taro.navigateTo({
+            url: define[res.data.popularize_type]
+          })
+        })
+    }
+
   render() {
     const { recommend } = this.state;
     return (
@@ -122,9 +200,9 @@ export default class Activity extends Component<ActivityProps> {
         <View className="activity">
           <Swiper className="area-banner" indicatorDots={false}>
             <SwiperItem>
-              <Navigator url="">
-                <Image background-size="cover" src={carousel} className="image" />
-              </Navigator>
+              {/* <Navigator url=""> */}
+              <Image onClick={this.advertOnclick} background-size="cover" src={this.state.indexImg} className="image" />
+              {/* </Navigator> */}
             </SwiperItem>
           </Swiper>
           <View className="area-activity-list">
