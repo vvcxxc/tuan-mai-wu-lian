@@ -6,11 +6,11 @@ import "./index.styl";
 
 interface Props {
   _id: any,
-  _logid:any,
+  _logid: any,
   return_money: any,
   youhui_type: any,
   timer: any,
-  confirm_time:any,
+  confirm_time: any,
   sname: any,
   list_brief: any,
   _image: any,
@@ -39,15 +39,15 @@ export default class CashCoupon extends Component<Props> {
   }
   useNow = (_logid, e) => {
     // console.log("儿子" + _id)
-     this.props.clickcode(this.props._logid);
+    this.props.clickcode(this.props._logid);
     e.stopPropagation();
   }
   buyMore = (_id, e) => {
     console.log(2)
     // console.log("buymore"+_id)
     Taro.navigateTo({
-     // url: '/business-pages/confirm-order/index?id=' + _id
-       url: '/business-pages/set-meal/index?id=' + _id
+      // url: '/business-pages/confirm-order/index?id=' + _id
+      url: '/business-pages/set-meal/index?id=' + _id
     })
     e.stopPropagation();
   }
@@ -70,18 +70,20 @@ export default class CashCoupon extends Component<Props> {
         /> */}
         <View className="item content">
           <View className="head flex">
-            <View className="verification_coupons">核销券</View>
-            <View className="center" style={{color:"#000",borderBottom:"none",width: "135px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>{this.props.sname}</View>
+            <View className="label flex center" >
+              <Image src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/s3YhfNZ8NH3as4DZ7p45nPiQKdiRKTwi.png" style={{ height: "100%", width: "80rpx" }} />
+            </View>
+            <View className="center" style={{ color: "#000", borderBottom: "none", width: "135px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{this.props.sname}</View>
           </View>
 
           <View className="date">{this.props.list_brief}</View>
           {this.props.type == 2 ? "" : <View className="info">{this.props.timer}</View>}
           {this.props.type == 2 ? <View className="info">免预约</View> : ""}
-          {this.props.bg_img_type == 1 ? <View className="info" style={{marginTop:"10px"}}>使用日期： {this.props.confirm_time}</View> : ""}
+          {this.props.bg_img_type == 1 ? <View className="info" style={{ marginTop: "10px" }}>使用日期： {this.props.confirm_time}</View> : ""}
           {
-            this.props.type == 1 ? <View className="usenow" onClick={this.useNow.bind(this, this.props._logid)}>立即使用</View> : (
-              // this.props.type == 2 ? <View className="buymore" onClick={this.buyMore.bind(this, this.props._id)} >再来一单</View> :
-              <View></View>)
+            this.props.type == 1 ? <View className="usenow" onClick={this.useNow.bind(this, this.props._logid)}>
+              <Image className="usenowimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/yfJ6M8WSptFzZpxYtbyBiJtBXFSsznrH.png" />
+            </View> : null
           }
 
 
