@@ -147,7 +147,7 @@ class App extends Component {
 					text: '我的',
 					iconPath: './assets/tabbar/5.png',
 					selectedIconPath: './assets/tabbar/10.png'
-				}
+        },
 			]
 		}
 	};
