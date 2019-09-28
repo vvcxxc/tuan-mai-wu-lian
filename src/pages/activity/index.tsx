@@ -634,7 +634,7 @@ export default class Activity extends Component {
                             }
                             {
                               item.gift_name ? (
-                                <Text className="store_tips_item">{item.gift_name}</Text>
+                                <Text className="store_tips_item">送{item.gift_name}</Text>
                               ) : ''
                             }
                           </View>
