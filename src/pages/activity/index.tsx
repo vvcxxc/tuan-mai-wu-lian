@@ -7,8 +7,6 @@ import { AtIcon, AtActivityIndicator, AtDivider } from 'taro-ui';
 import carousel from "@/static/images/img_carousel.png"
 import logo from "@/assets/logo.png";
 import "./activity.styl"
-// import "~taro-ui/dist/style/components/divider.scss";
-// import "~taro-ui/dist/style/components/icon.scss";
 
 import request from '../../services/request';
 
@@ -41,7 +39,7 @@ export default class Activity extends Component {
     indexGroup: [],
     tabDistanceTop: 0,
     tabHeight: 0,
-    tabStyle: { 
+    tabStyle: {
       width: '100%',
       // height: '50px',
       backgroundColor: '#f6f6f6',
