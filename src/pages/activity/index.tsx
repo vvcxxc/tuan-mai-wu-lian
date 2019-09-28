@@ -668,7 +668,7 @@ export default class Activity extends Component {
                                 ) : ''
                               } */}
                               {/* <Text className="store_follow">关注的店 - </Text> */}
-                              <Text className="store_follow_name">{item.store_name}</Text>
+                              <View className="store_follow_name">{item.store_name}</View>
                             </View>
                             <View className="store_distance">
                               <Text className="store_distance_num">{item.distance}</Text>
