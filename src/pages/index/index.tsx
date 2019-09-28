@@ -400,7 +400,7 @@ export default class Index extends Component<any> {
         this.setState({ need_jump: res.data.need_jump })
       }).catch(err => {
         console.log(err)
-        this.setState({is_login: true})
+        // this.setState({is_login: true})
       })
   }
 
@@ -446,7 +446,7 @@ export default class Index extends Component<any> {
           url: define[res.data.popularize_type]
         })
       }).catch(err => {
-        this.setState({is_login: true})
+        // this.setState({is_login: true})
       })
   }
 
