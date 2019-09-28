@@ -212,11 +212,11 @@ export default class Appre extends Component<Props>{
   onShareAppMessage() {
     console.log(this.state.imagePath)
     const userInfo = Taro.getStorageSync("userInfo");
-    const { gift, init_money, return_money, preview } = this.state.data;
+    const { gift, init_money, return_money, preview,pay_money } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
     let title, imageUrl;
     if (gift) {
-      title = `快来！${init_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
+      title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
       imageUrl = this.state.imagePath ? this.state.imagePath : preview;
     } else {
       title = `送你一次免费增值机会！${init_money}元可增值至${return_money}元，速领！`;
