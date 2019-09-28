@@ -121,9 +121,17 @@ export default class PaySuccess extends Component<Props> {
     exchangeCouponList_bull: false,
     keepCollect_show: false,
     keepCollect_bull: false,
-    keepCollect_data: "收藏成功"
+    keepCollect_data: "收藏成功",
+
+    isFromShare: false
   };
   componentDidShow() {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
     Taro.showLoading({
       title: 'loading',
     })
@@ -286,6 +294,15 @@ export default class PaySuccess extends Component<Props> {
           })
         }
       })
+  }
+
+  /**
+   * 回首页
+   */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
+    })
   }
   render() {
     // console.log(this.state.keepCollect_bull);
@@ -653,6 +670,17 @@ export default class PaySuccess extends Component<Props> {
               </View>
             </View>
         }
+
+
+        {/* 去首页 */}
+        {
+          this.state.isFromShare ? (
+            <View style={{ position: 'fixed', bottom: '20px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go_home.png')} className="go_home" />
+            </View>
+          ) : ''
+        }
+
 
 
       </View>

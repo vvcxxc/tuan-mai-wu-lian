@@ -34,6 +34,7 @@ interface State {
   base64: string;
   isShowStartGroup: boolean;
   time: any;
+  isFromShare: boolean;
 }
 export default class Group extends Component {
   config = {
@@ -52,9 +53,17 @@ export default class Group extends Component {
     time: {
       date: '',
       display: 2
-    }
+    },
+    isFromShare: false
   }
   async componentDidShow() {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
+
     // Taro.showShareMenu()
     const { id = "" } = this.$router.params
     /**
@@ -92,7 +101,7 @@ export default class Group extends Component {
    */
   // @ts-ignore
   handleAction = (action: string, data: any, type = 0): void => {
-    switch(action) {
+    switch (action) {
       case ACTION_JUMP: {
         const {
           youhui_id: id,
@@ -179,21 +188,21 @@ export default class Group extends Component {
    * 定时
    */
   setTime = () => {
-    if(this.state.time.display <= 0){
+    if (this.state.time.display <= 0) {
       clearTimeout(timer2)
       return
-    }else{
-      timer2 = setTimeout(()=>{
-       clearTimeout(timer)
-       let time = getTime(this.state.basicinfo.activity_end_time)
-       this.setState({
-         time
-       })
-       this.setTime()
-     },1000)
+    } else {
+      timer2 = setTimeout(() => {
+        clearTimeout(timer)
+        let time = getTime(this.state.basicinfo.activity_end_time)
+        this.setState({
+          time
+        })
+        this.setTime()
+      }, 1000)
     }
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearTimeout(timer)
     clearTimeout(timer2)
   }
@@ -259,6 +268,15 @@ export default class Group extends Component {
   toMoreGroup = () => {
     Taro.navigateTo({
       url: '/pages/activity/pages/list/list?type=5'
+    })
+  }
+
+  /**
+   * 回首页
+   */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
     })
   }
 
@@ -333,81 +351,81 @@ export default class Group extends Component {
                 this.state.time.display > 0 ? (
                   <View>
                     {
-                    isShowStartGroup ? (<View className='actions'>
-                      <Button
-                      className="item join"
-                      data-action="jump"
-                      data-publictypeid={basicinfo.id}
-                      data-id={basicinfo.youhui_id}
-                      data-type="55"
-                      onClick={this.handleClick}
-                    >
-                      我也要发起拼团
-                    </Button>
-                    </View>) : (
-                      <View className="actions">
-                      {
-                        isJoin && (
-                          <Button
-                            className="item join"
-                            data-action="jump"
-                            data-publictypeid={basicinfo.id}
-                            data-id={basicinfo.youhui_id}
-                            data-type="5"
-                            onClick={this.handleClick}
-                          >
-                            参加拼团
-                          </Button>
-                        )
-                      }
-                      {
-                        isShowUse && (
-                          <Button
-                          className="item used"
-                          data-action="use"
+                      isShowStartGroup ? (<View className='actions'>
+                        <Button
+                          className="item join"
+                          data-action="jump"
+                          data-publictypeid={basicinfo.id}
+                          data-id={basicinfo.youhui_id}
+                          data-type="55"
                           onClick={this.handleClick}
                         >
-                          去使用
+                          我也要发起拼团
+                    </Button>
+                      </View>) : (
+                          <View className="actions">
+                            {
+                              isJoin && (
+                                <Button
+                                  className="item join"
+                                  data-action="jump"
+                                  data-publictypeid={basicinfo.id}
+                                  data-id={basicinfo.youhui_id}
+                                  data-type="5"
+                                  onClick={this.handleClick}
+                                >
+                                  参加拼团
+                          </Button>
+                              )
+                            }
+                            {
+                              isShowUse && (
+                                <Button
+                                  className="item used"
+                                  data-action="use"
+                                  onClick={this.handleClick}
+                                >
+                                  去使用
                         </Button>
-                        )
-                      }
-                      {
-                        // 未完成就表示可以参团
-                        !isFinish && (
-                          <Button
-                          className="item invite"
-                          openType="share"
-                        >
-                          邀请好友参团
+                              )
+                            }
+                            {
+                              // 未完成就表示可以参团
+                              !isFinish && (
+                                <Button
+                                  className="item invite"
+                                  openType="share"
+                                >
+                                  邀请好友参团
                         </Button>
+                              )
+                            }
+                          </View>
                         )
-                      }
-                    </View>
-                    )
-                  }
+                    }
                   </View>
                 ) : isShowUse && this.state.basicinfo.is_group_participation ? (
                   (
                     <View className="actions">
-                    <Button
-                    className="item used"
-                    data-action="use"
-                    onClick={this.handleClick}
-                  >
-                    去使用
-                  </Button>
-                  </View>
-                  )
-                ) :(
-                  <View className='actions'>
                       <Button
-                      className="item used"
-                      onClick={this.toMoreGroup}
-                    >
-                      查看更多拼团送礼
-                    </Button>
+                        className="item used"
+                        data-action="use"
+                        onClick={this.handleClick}
+                      >
+                        去使用
+                  </Button>
                     </View>
-                )
+                  )
+                ) : (
+                      <View className='actions'>
+                        <Button
+                          className="item used"
+                          onClick={this.toMoreGroup}
+                        >
+                          查看更多拼团送礼
+                    </Button>
+                      </View>
+                    )
               }
 
 
@@ -456,6 +474,15 @@ export default class Group extends Component {
             </View>
           </View>
           {isQrcode && <Qrcode data={base64} onAction={this.handleClick} />}
+
+          {/* 去首页 */}
+          {
+            this.state.isFromShare ? (
+              <View style={{ position: 'fixed', bottom: '20px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+                <Image src={require('../../../../assets/go_home.png')} className="go_home" />
+              </View>
+            ) : ''
+          }
         </View>
       </Block>
     )
