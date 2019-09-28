@@ -62,7 +62,7 @@ export default class NewPage extends Component<Props>{
 
 
 
-  componentDidMount() {
+  componentDidShow() {
     this.handleGetUserinfo()
     request({
       url: 'v3/user/home_index'
