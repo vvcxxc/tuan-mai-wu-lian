@@ -19,7 +19,7 @@ interface State {
   user_img: string;
   data: string,
   list: Object[],
-  userData:Object
+  userData: Object
 }
 
 export default class NewPage extends Component<Props>{
@@ -29,7 +29,7 @@ export default class NewPage extends Component<Props>{
   }
 
   state: State = {
-    cells:{},
+    cells: {},
     userInfo: {},
     userData: {},
     user_img: '',
@@ -66,13 +66,20 @@ export default class NewPage extends Component<Props>{
     this.handleGetUserinfo()
     request({
       url: 'v3/user/home_index'
-    }).then((res:any) => {
+    }).then((res: any) => {
 
       this.setState({
         userData: {
           head_img: res.data.avatar,
           user_name: res.data.user_name
         }
+      })
+      let myData: any = this.state.list
+      myData[0].prompt = res.data.order_msg
+      myData[1].prompt = res.data.gift_msg
+      myData[2].prompt = res.data.activity_msg
+      this.setState({
+        list: myData
       })
       // console.log(res,'res')
       // this.setState({
@@ -101,13 +108,13 @@ export default class NewPage extends Component<Props>{
   }
 
   // 跳转路径
-  jumpData = (data:string) => {
+  jumpData = (data: string) => {
     console.log(data.indexOf('order'))
-    if(data.indexOf('order') > 0){
-      Taro.switchTab({url: data})
-    }else{
+    if (data.indexOf('order') > 0) {
+      Taro.switchTab({ url: data })
+    } else {
       Taro.navigateTo({
-        url:data
+        url: data
       })
     }
 
@@ -129,7 +136,7 @@ export default class NewPage extends Component<Props>{
         <View className="newPage_content">
           <View className="content">
             {
-              this.state.list.map((item:any, index) => {
+              this.state.list.map((item: any, index) => {
                 return <View className="list" onClick={this.jumpData.bind(this, item.path)}>
                   <View className="list_left">
                     <Image src={item.img} />
