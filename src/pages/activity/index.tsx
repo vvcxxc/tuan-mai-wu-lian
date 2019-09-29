@@ -7,8 +7,6 @@ import { AtIcon, AtActivityIndicator, AtDivider } from 'taro-ui';
 import carousel from "@/static/images/img_carousel.png"
 import logo from "@/assets/logo.png";
 import "./activity.styl"
-// import "~taro-ui/dist/style/components/divider.scss";
-// import "~taro-ui/dist/style/components/icon.scss";
 
 import request from '../../services/request';
 
@@ -41,7 +39,7 @@ export default class Activity extends Component {
     indexGroup: [],
     tabDistanceTop: 0,
     tabHeight: 0,
-    tabStyle: { 
+    tabStyle: {
       width: '100%',
       // height: '50px',
       backgroundColor: '#f6f6f6',
@@ -198,7 +196,8 @@ export default class Activity extends Component {
   // 获取全部的数据
   getAllData = () => {
     Taro.showLoading({
-      title: 'loading'
+      title: 'loading',
+      mask:true
     })
     request({
       url: 'api/wap/zero/index2',
@@ -229,7 +228,8 @@ export default class Activity extends Component {
   // 获取增值的数据
   getAppreciationData = () => {
     Taro.showLoading({
-      title: 'loading'
+      title: 'loading',
+      mask:true
     })
     request({
       url: 'api/wap/user/appreciation/getYouhuiList2',
@@ -261,7 +261,8 @@ export default class Activity extends Component {
   // 获取拼团的数据
   getGroupData = () => {
     Taro.showLoading({
-      title: 'loading'
+      title: 'loading',
+      mask:true
     })
     request({
       url: 'api/wap/user/getYonhuiActiveGroupList',
@@ -308,6 +309,10 @@ export default class Activity extends Component {
   }
 
   handlerTablChange(current, id, _this) {
+    Taro.showLoading({
+      title: 'loading',
+      mask:true
+    })
     // 防止切换tab时数据没重置而出现问题
     this.setState({
       current,
@@ -636,7 +641,7 @@ export default class Activity extends Component {
                             }
                             {
                               item.gift_name ? (
-                                <Text className="store_tips_item">{item.gift_name}</Text>
+                                <View className="store_tips_item">送{item.gift_name}</View>
                               ) : ''
                             }
                           </View>
@@ -668,7 +673,7 @@ export default class Activity extends Component {
                                 ) : ''
                               } */}
                               {/* <Text className="store_follow">关注的店 - </Text> */}
-                              <Text className="store_follow_name">{item.store_name}</Text>
+                              <View className="store_follow_name">{item.store_name}</View>
                             </View>
                             <View className="store_distance">
                               <Text className="store_distance_num">{item.distance}</Text>
