@@ -130,7 +130,11 @@ export default class PaySuccess extends Component<Props> {
     if (arrs.length <= 1) {
       this.setState({
         isFromShare: true
+      },() => {
+        console.log('isFromShare',this.state.isFromShare)
       })
+    } else {
+      console.log('isFromShare',this.state.isFromShare)
     }
     Taro.showLoading({
       title: 'loading',
