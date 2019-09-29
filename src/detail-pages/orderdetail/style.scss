@@ -97,18 +97,23 @@
 
     .a_billingInfo {
         // height: 56px;
-        line-height: 56px;
+        line-height: 30px;
         color: rgba(153, 153, 153, 1);
 
         .a_billingInfo_1 {
             font-size: 28px;
             font-family: PingFang-SC-Regular;
             color: rgba(49, 49, 49, 1);
-            text-align-last: justify;
+            // text-align-last: justify;
             width: 150px;
             display: inline-block;
+            text-align: justify;
         }
-
+        .a_billingInfo_1:after {
+          content: '';
+          width: 100%;
+          display: inline-block;
+      }
         .a_billingInfo_2 {
             color: rgba(153, 153, 153, 0.8);
         }

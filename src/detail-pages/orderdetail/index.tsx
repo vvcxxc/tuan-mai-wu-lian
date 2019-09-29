@@ -180,38 +180,38 @@ export default class Orderdetail extends Component {
 
           <View className='a_buyBox' >
             <View className='a_one' >订单信息 </View>
-            <View className='a_billingInfo' >
+            <View className='a_billingInfo flex' >
               <Text className="a_billingInfo_1" >订单号</Text>:
-      <Text className="a_billingInfo_2" style={{ marginLeft: '9px' }}>{this.state.defaultData.youhui_sn}</Text>
+      <View className="a_billingInfo_2" style={{ marginLeft: '9px' }}>{this.state.defaultData.youhui_sn}</View>
             </View>
             {/* <View className='a_billingInfo' >
               <Text className="a_billingInfo_1"  >手机号</Text>:
       <Text className="a_billingInfo_2" style={{ marginLeft: '9px' }}>{this.state.defaultData.tel}</Text>
             </View> */}
-            <View className='a_billingInfo'  >
+            <View className='a_billingInfo flex'  >
               <Text className="a_billingInfo_1" >总价</Text>:
-      <Text className="a_billingInfo_2" style={{ marginLeft: '9px', color: '#ED2424' }} >￥{this.state.defaultData.money}</Text>
+      <View className="a_billingInfo_2" style={{ marginLeft: '9px', color: '#ED2424' }} >￥{this.state.defaultData.money}</View>
             </View>
-            <View className='a_billingInfo'  >
+            <View className='a_billingInfo flex'  >
               <Text className="a_billingInfo_1" >实付</Text>:
-      <Text className="a_billingInfo_2" style={{ marginLeft: '9px', color: '#ED2424' }} >￥{this.state.defaultData.pay_money}</Text>
+      <View className="a_billingInfo_2" style={{ marginLeft: '9px', color: '#ED2424' }} >￥{this.state.defaultData.pay_money}</View>
             </View>
-            <View className='a_billingInfo' >
+            <View className='a_billingInfo flex' >
               <Text className="a_billingInfo_1" >付款时间</Text>:
-      <Text className="a_billingInfo_2" style={{ marginLeft: '9px' }}  >{this.state.defaultData.create_time}</Text>
+      <View className="a_billingInfo_2" style={{ marginLeft: '9px' }}  >{this.state.defaultData.create_time}</View>
             </View>
             {
               this.state.defaultData.status * 1 === 2 ?
-                <View className='a_billingInfo' >
+                <View className='a_billingInfo flex' >
                   <Text className="a_billingInfo_1">使用时间</Text>:
-          <Text className="a_billingInfo_2" style={{ marginLeft: '9px' }}  >{this.state.defaultData.confirm_time}</Text>
+          <View className="a_billingInfo_2" style={{ marginLeft: '9px' }}  >{this.state.defaultData.confirm_time}</View>
                 </View> : null
             }
             {
               this.state.defaultData.status * 1 === 3 ?
-                <View className='a_billingInfo' >
+                <View className='a_billingInfo flex' >
                   <Text className="a_billingInfo_1">退款时间</Text>:
-          <Text className="a_billingInfo_2" style={{ marginLeft: '9px' }}  >{this.state.defaultData.refund_time}</Text>
+          <View className="a_billingInfo_2" style={{ marginLeft: '9px' }}  >{this.state.defaultData.refund_time}</View>
                   <Text className='a_returnState' onClick={() => {
                     // console.log(this.state.defaultData.coupons_id,this.state.defaultData.coupons_log_id)
                     Taro.navigateTo({
@@ -220,9 +220,9 @@ export default class Orderdetail extends Component {
                   }}  >退款进度</Text>
                 </View> : null
             }
-            <View className='a_billingInfo'  >
+            <View className='a_billingInfo flex'  >
               <Text className="a_billingInfo_1" >来源</Text>:
-      <Text className="a_billingInfo_2" style={{ marginLeft: '9px' }} >{this.state.defaultData.source_name}</Text>
+      <View className="a_billingInfo_2" style={{ marginLeft: '9px' }} >{this.state.defaultData.source_name}</View>
             </View>
           </View>
         </View>
@@ -256,8 +256,8 @@ export default class Orderdetail extends Component {
                 </View>
               </View>
 
-              <View className="flex use_rules" style={{ overflow: "hidden", height: (this.state.checkFlag || this.state.defaultData.description.length <= 2) ? 'auto' : '4rem' }}>
-                <View style={{whiteSpace:"nowrap"}} className='a_billingInfo_1'>使用规则</View>:
+              {this.state.defaultData.description.length ? <View className="flex use_rules" style={{ overflow: "hidden", height: (this.state.checkFlag || this.state.defaultData.description.length <= 2) ? 'auto' : '4rem' }}>
+                <View className='a_billingInfo_1'>使用规则</View>:
                 <View style={{marginLeft: '9px'}}>
                   {
                     this.state.defaultData.description.length ? (this.state.defaultData.description.map((item, index) => (
@@ -265,7 +265,7 @@ export default class Orderdetail extends Component {
                     ))) : null
                   }
                 </View>
-              </View>
+              </View> : null}
               {
                 this.state.defaultData.description.length >= 3 ?
                   <View className="ft-more flex center" style={{ textAlign: "center", width: "100%", background: "#fff", color: "#999" }}
