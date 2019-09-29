@@ -72,10 +72,18 @@ export default class PaySuccess extends Component {
       youhui_type: '0',
       expire_day: '',
       total_fee: ''
-    }]
+    }],
+
+    isFromShare: false
   };
 
   componentWillMount() {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
     Taro.showLoading({
       title: 'loading',
     })
@@ -190,6 +198,15 @@ export default class PaySuccess extends Component {
     })
     e.stopPropagation();
   }
+
+  /**
+   * 回首页
+   */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
+    })
+  }
   render() {
     return (
       <View className="set-meal">
@@ -295,6 +312,15 @@ export default class PaySuccess extends Component {
             <View><Button className="btn-buy" onClick={this.handleClick.bind(this, this.state.coupon.id)} >立即抢购</Button></View>
           </View>
         </View>
+
+        {/* 去首页 */}
+        {
+          this.state.isFromShare ? (
+            <View style={{ position: 'fixed', bottom: '50px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go_home.png')} className="go_home" />
+            </View>
+          ) : ''
+        }
       </View>
     );
   }
