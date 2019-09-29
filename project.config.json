@@ -41,7 +41,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 15,
 			"list": [
 				{
 					"id": 0,
@@ -145,6 +145,13 @@
 					"id": -1,
 					"name": "pages/activity/index",
 					"pathName": "pages/activity/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/appreciation/index",
+					"pathName": "pages/activity/appreciation/index",
 					"scene": null
 				}
 			]
