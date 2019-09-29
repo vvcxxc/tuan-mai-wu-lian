@@ -89,7 +89,9 @@ export default class ActivityGroup extends Component<ActivityGroupProp> {
                 ? <Button className="action">{desc}</Button>
                 : <Button
                     className="action"
-                    openType="share"
+                    // openType="share"
+                    data-action="jump"
+                    onClick={this.handleClick}
                     data-id={data.id}
                     data-image={data.image}
                     data-title={data.name}
