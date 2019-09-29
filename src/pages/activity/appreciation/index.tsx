@@ -56,10 +56,19 @@ export default class Appre extends Component<Props>{
     },
     imagePath: '',
     isPostage: true,
-    is_login: false
+    is_login: false,
+
+
+    isFromShare: false
   };
 
   componentDidMount = () => {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
     console.log(this.$router.params);
     Taro.showLoading({
       title: 'loading',
@@ -332,6 +341,15 @@ export default class Appre extends Component<Props>{
     })
   }
 
+  /**
+   * 回首页
+   */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
+    })
+  }
+
   render() {
     const { images, description } = this.state.data;
     return (
@@ -556,6 +574,15 @@ export default class Appre extends Component<Props>{
         </View>
         {
           this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+        }
+
+        {/* 去首页 */}
+        {
+          this.state.isFromShare ? (
+            <View style={{ position: 'fixed', bottom: '20px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../../assets/go_home.png')} className="go_home" />
+            </View>
+          ) : ''
         }
       </View>
     );

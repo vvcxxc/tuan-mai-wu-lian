@@ -140,10 +140,12 @@ export default class Orderdetail extends Component {
                 </View>
                 <View className='a_two' >有效期</View>
                 <View className='a_three' >{this.state.defaultData.begin_time} - {this.state.defaultData.end_time}</View>
+               {this.state.defaultData.description.length ? <View>
                 <View className='a_four' >使用规则：</View>
                 {
                   this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={i} className='a_item' > · {item} </View>) : null
                 }
+                </View> : null}
                 {/* <View className='a_last'  onClick={handerShowMore}  > { isMore ? '收起更多' : '查看更多' } </View>  */}
               </View>
             </View> : null

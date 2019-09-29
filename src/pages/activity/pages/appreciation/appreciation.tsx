@@ -34,6 +34,7 @@ type State = {
   isAppreciation: boolean;
   isInvite: boolean;
   isGet: boolean;
+  isFromShare: boolean;  
 };
 
 export default class Appreciation extends Component {
@@ -47,7 +48,7 @@ export default class Appreciation extends Component {
     rules: [],
     participators: [],
     basicinfo: {
-      userYonhuiInfo:{
+      userYonhuiInfo: {
         money: '',
         total_fee: ''
       }
@@ -62,9 +63,17 @@ export default class Appreciation extends Component {
     },
     isInvite: false,
     isAppreciation: false,
-    isGet: false
+    isGet: false,
+
+    isFromShare: false
   }
   async componentDidShow() {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
     Taro.showShareMenu()
 
     const { id = "1095" } = this.$router.params
@@ -83,11 +92,11 @@ export default class Appreciation extends Component {
     this.fetchParticipator(id)
     this.fetchCoupon(location)
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const { id = "1095" } = this.$router.params
-     /**
-     * 授权认证用
-     */
+    /**
+    * 授权认证用
+    */
     // Taro.setStorageSync("authid", id)
     // const location = await getLocation().catch(err => {
     //   console.log(err)
@@ -98,7 +107,7 @@ export default class Appreciation extends Component {
   }
 
   onShareAppMessage() {
-    const { getTextContent: { title, small_img: imageUrl  } } = this.state.basicinfo
+    const { getTextContent: { title, small_img: imageUrl } } = this.state.basicinfo
     const { id = "1095" } = this.$router.params
     return {
       title,
@@ -106,6 +115,16 @@ export default class Appreciation extends Component {
       imageUrl
     }
   }
+
+  /**
+   * 回首页
+   */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
+    })
+  }
+
 
   /**
    * 计算: |我也想要?|点击增值?|邀请好友?
@@ -137,7 +156,7 @@ export default class Appreciation extends Component {
    */
   handleClick(e) {
     const { action } = e.currentTarget.dataset
-    switch(action) {
+    switch (action) {
       case ACTION_JUMP: {
         const { id, gift_id, activity_id } = this.state.basicinfo.userYonhuiInfo
         this.handleAction(action, {
@@ -163,7 +182,7 @@ export default class Appreciation extends Component {
    * 用户动作集中处理
    */
   handleAction(action: string, data: any) {
-    switch(action) {
+    switch (action) {
       case ACTION_APPRECIATION:
         this.fetchAppreciation()
         break
@@ -296,14 +315,14 @@ export default class Appreciation extends Component {
               buttonstatus.isself == 1 ? (
                 <View className="area-title">邀请好友增值</View>
               ) : (
-                <View className="area-title">帮{userinfo.user_name}增值</View>
-              )
+                  <View className="area-title">帮{userinfo.user_name}增值</View>
+                )
             }
 
             <View className="area-panel">
               <View className="user-info">
                 <Image className="icon" src={require('@/assets/shop.png')} />
-                <View className="text" style={{fontWeight: 600}}>{couponinfo.store_name}</View>
+                <View className="text" style={{ fontWeight: 600 }}>{couponinfo.store_name}</View>
               </View>
               {/* 增值券 */}
               {
@@ -311,38 +330,38 @@ export default class Appreciation extends Component {
                   <View>
                     <AppreCoupon data={coupon_info} />
                     <View className='coupon_name'>{couponinfo.name}</View>
-                    <View style={{color: '#999'}}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                    <View style={{ color: '#999' }}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
                   </View>
                 ) : couponinfo.youhui_type == 0 ? (
                   <View>
                     {
                       gift_id ? (
                         <View>
-                            <View style={{display: 'flex', justifyContent: 'space-between'}}>
+                          <View style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <View>
-                              <Image src={couponinfo.image} className='coupon_image'/>
+                              <Image src={couponinfo.image} className='coupon_image' />
                             </View>
                             <View className='gift_image'>
-                              <Image src={cover_image} className='coupon_image' style={{position: 'absolute', top: 0, left: 0}}/>
+                              <Image src={cover_image} className='coupon_image' style={{ position: 'absolute', top: 0, left: 0 }} />
                               <Image src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png" className='border_image' />
-                              <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png" className='qiu_image'/>
+                              <Image src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png" className='qiu_image' />
                             </View>
                           </View>
                           <View className='coupon_name'>{couponinfo.name}</View>
-                          <View style={{color: '#999'}}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                          <View style={{ color: '#999' }}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
                         </View>
 
                       ) : (
-                        <View style={{display: 'flex', justifyContent: 'space-between'}}>
-                          <View>
-                            <Image src={couponinfo.image} className='coupon_image'/>
+                          <View style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <View>
+                              <Image src={couponinfo.image} className='coupon_image' />
+                            </View>
+                            <View className='coupon_infos'>
+                              <View className='coupon_name'>{couponinfo.name}</View>
+                              <View style={{ color: '#999' }}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
+                            </View>
                           </View>
-                          <View className='coupon_infos'>
-                            <View className='coupon_name'>{couponinfo.name}</View>
-                            <View style={{color: '#999'}}>活动时间：{dateTime.activity_begin_time}-{dateTime.activity_end_time}</View>
-                          </View>
-                      </View>
-                      )
+                        )
                     }
                   </View>
                 ) : null
@@ -362,14 +381,14 @@ export default class Appreciation extends Component {
             <View className="area-action">
               {
                 isAppreciation
-                ? <Button
+                  ? <Button
                     className="item action-appreaciation"
                     data-action="appreciation"
                     onClick={this.handleClick}
                   >
                     点击增值
                   </Button>
-                : <Button className="item action-appreaciation">
+                  : <Button className="item action-appreaciation">
                     已经增值
                   </Button>
               }
@@ -465,6 +484,15 @@ export default class Appreciation extends Component {
                 })
               }
             </View>
+
+            {/* 去首页 */}
+            {
+              this.state.isFromShare ? (
+                <View style={{ position: 'fixed', bottom: '20px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+                  <Image src={require('../../../../assets/go_home.png')} className="go_home" />
+                </View>
+              ) : ''
+            }
           </View>
         </View>
       </Block>

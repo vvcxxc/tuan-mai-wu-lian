@@ -59,10 +59,18 @@ export default class Group extends Component<Props>{
     },
     imagePath: '',
     isPostage: true,
-    is_login:false
+    is_login: false,
+
+    isFromShare: false
   };
 
   componentDidMount = () => {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
     console.log('params:', this.$router.params);
     Taro.showLoading({
       title: 'loading',
@@ -216,6 +224,15 @@ export default class Group extends Component<Props>{
     })
   }
 
+  /**
+  * 回首页
+  */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
+    })
+  }
+
   onShareAppMessage() {
     const userInfo = Taro.getStorageSync("userInfo");
     const { name, youhui_name, gift, pay_money, participation_money, preview } = this.state.data;
@@ -283,7 +300,7 @@ export default class Group extends Component<Props>{
 
     //一般进来：id，type == 5 ，gift_id，activity_id，
     //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
-    if(!Taro.getStorageSync("unionid")){
+    if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
       })
@@ -610,7 +627,16 @@ export default class Group extends Component<Props>{
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
+        }
+
+        {/* 去首页 */}
+        {
+          this.state.isFromShare ? (
+            <View style={{ position: 'fixed', bottom: '70px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../../assets/go_home.png')} className="go_home" />
+            </View>
+          ) : ''
         }
 
       </View>
