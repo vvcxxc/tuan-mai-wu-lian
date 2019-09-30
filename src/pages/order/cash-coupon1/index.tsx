@@ -69,7 +69,7 @@ export default class CashCoupon extends Component<Props> {
           src={{this.props.image}}
         /> */}
         <View className="item content">
-          <View className="head flex">
+          <View className="heads flex">
             <View className="label flex center" >
               <Image src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/s3YhfNZ8NH3as4DZ7p45nPiQKdiRKTwi.png" style={{ height: "100%", width: "80rpx" }} />
             </View>
