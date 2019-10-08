@@ -221,7 +221,7 @@ export default class Appre extends Component<Props>{
   onShareAppMessage() {
     console.log(this.state.imagePath)
     const userInfo = Taro.getStorageSync("userInfo");
-    const { gift, return_money, preview,pay_money } = this.state.data;
+    const { gift, return_money, preview, pay_money } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
     let title, imageUrl;
     if (gift) {
@@ -279,9 +279,8 @@ export default class Appre extends Component<Props>{
     this.setState({ isPostage: !this.state.isPostage })
   }
 
-
   payment = () => {
-    if(!Taro.getStorageSync("unionid")){
+    if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
       })
@@ -324,16 +323,21 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.navigateTo({
-            // url: '/activity-pages/my-activity/my.activity',
-            url: '/pages/activity/pages/appreciation/appreciation?id='+this.$router.params.id,
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
+          //查询用户最后一次购买的增值活动id
+          request({
+            url: 'v1/youhui/getUserLastYouhuiId',
+            method: "GET"
+          }).then((res: any) => {
+            //得到增值活动id并跳转活动详情
+            Taro.navigateTo({
+              url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
           })
-
         },
         fail(err) {
           Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -550,7 +554,7 @@ export default class Appre extends Component<Props>{
             {
               this.state.isPostage ? <View className='paymoney_price_info'> {
                 this.state.data.gift.mail_mode == 1 ? null :
-                '+' + this.state.data.gift.postage}</View> : null
+                  '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
           {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
@@ -574,7 +578,7 @@ export default class Appre extends Component<Props>{
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
         }
 
         {/* 去首页 */}

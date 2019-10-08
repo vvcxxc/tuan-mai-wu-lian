@@ -345,16 +345,22 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id='+this.$router.params.id,
-            // url: '/activity-pages/my-activity/my.activity',
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
+          //查询用户最后一次购买的拼团活动id
+          request({
+            url: 'v1/youhui/getUserLastYouhuiGroupId',
+            method: "GET"
+          }).then((res: any) => {
+            console.log('支付id:', res.data.id)
+            //得到拼团活动id并跳转活动详情
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + res.data.id,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
           })
-
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -464,8 +470,6 @@ export default class Group extends Component<Props>{
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/x2WBTiwQwdap5ktNYYTyrGeP7E4zD5Qk.png" />
         </View>
-
-
         {/* <View className="group_num" >
           <View className="group_num_titlebox" >
             <View className="group_num_title" >4人正在拼</View>
@@ -511,15 +515,10 @@ export default class Group extends Component<Props>{
 
 
         <View className="appre_rule" >
-
-
-
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>
             {/* <View className="appre_rule_Imagelist" >?</View> */}
           </View>
-
-
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >拼团人数:</View>
             <View className="appre_rule_time_data" >{this.state.data.number}人团</View>
