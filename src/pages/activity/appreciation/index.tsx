@@ -325,7 +325,8 @@ export default class Appre extends Component<Props>{
         paySign: res.data.paySign,
         success(res) {
           Taro.navigateTo({
-            url: '/activity-pages/my-activity/my.activity',
+            // url: '/activity-pages/my-activity/my.activity',
+            url: '/pages/activity/pages/appreciation/appreciation?id='+this.$router.params.id,
             success: () => {
               var page = Taro.getCurrentPages().pop();
               if (page == undefined || page == null) return;

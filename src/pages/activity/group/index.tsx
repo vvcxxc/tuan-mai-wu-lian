@@ -346,7 +346,8 @@ export default class Group extends Component<Props>{
         paySign: res.data.paySign,
         success(res) {
           Taro.navigateTo({
-            url: '/activity-pages/my-activity/my.activity',
+            url: '/pages/activity/pages/group/group?id='+this.$router.params.id,
+            // url: '/activity-pages/my-activity/my.activity',
             success: () => {
               var page = Taro.getCurrentPages().pop();
               if (page == undefined || page == null) return;
