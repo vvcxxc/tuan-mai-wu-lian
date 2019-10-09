@@ -60,8 +60,8 @@ export default class Group extends Component<Props>{
     imagePath: '',
     isPostage: true,
     is_login: false,
-
-    isFromShare: false
+    isFromShare: false,
+    groupListShow: false
   };
 
   componentDidMount = () => {
@@ -375,6 +375,40 @@ export default class Group extends Component<Props>{
     return (
       <View className="d_appre" >
 
+        {
+          this.state.groupListShow ? <View className="d_appre_groupList"  onClick={()=>{this.setState({groupListShow:false}) }}>
+            <View className="d_appre_groupList_box" onClick={(e)=>{e.stopPropagation()}}>
+              <View className="d_appre_groupList_box_title">正在拼团</View>
+              <View className="d_appre_groupList_box_slideBox">
+                <View className="d_appre_groupList_box_slideBox_content" >
+                  <View className="group_list0" >
+                    <View className="group_list_img0" >
+                      <Image className="listImg0" src={this.state.data.preview} />
+                    </View>
+                    <View className="group_list_name0" >杨大富</View>
+                    <View className="group_list_timesbox0" >
+                      <View className="group_list_lack0" >
+                        <View className="group_list_lackredblack10" >还差</View>
+                        <View className="group_list_lackred0" >1人</View>
+                        <View className="group_list_lackredblack20" >拼成</View>
+                      </View>
+                      <View className="group_list_times0" >23.50.30</View>
+                    </View>
+                    <View className="group_list_btnbox0" >
+                      <View className="group_list_btn0" >立即参团</View>
+                    </View>
+                  </View>
+
+                </View>
+              </View>
+              <View className="group_list_toast" >上滑查看更多</View>
+            </View>
+            <View className="group_list_closebtn" >
+            <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
+            </View>
+          </View> : null
+        }
+
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
@@ -470,10 +504,10 @@ export default class Group extends Component<Props>{
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/x2WBTiwQwdap5ktNYYTyrGeP7E4zD5Qk.png" />
         </View>
-        {/* <View className="group_num" >
+        <View className="group_num" >
           <View className="group_num_titlebox" >
             <View className="group_num_title" >4人正在拼</View>
-            <View className="group_num_now" >正在拼团</View>
+            <View className="group_num_now" onClick={()=>this.setState({groupListShow:true}) }>查看更多</View>
           </View>
           <View className="group_listbox" >
             <View className="group_list" >
@@ -511,9 +545,7 @@ export default class Group extends Component<Props>{
               </View>
             </View>
           </View>
-        </View> */}
-
-
+        </View>
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>
