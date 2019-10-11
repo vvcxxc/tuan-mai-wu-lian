@@ -57,6 +57,25 @@ export default class Group extends Component<Props>{
       youhui_name: "",//活动名
       ypoint: ""
     },
+    data2: {
+      current_page: 1,
+      data: [
+        {
+          avatar: "",
+          id: 0,
+          number: 0,
+          participation_number: 0,
+          real_name: "",
+        }
+      ],
+      from: 1,
+      last_page: 1,
+      next_page_url: null,
+      per_page: 1,
+      prev_page_url: null,
+      to: 1,
+      total: 1,
+    },
     imagePath: '',
     isPostage: true,
     is_login: false,
@@ -71,7 +90,7 @@ export default class Group extends Component<Props>{
         isFromShare: true
       })
     }
-    console.log('params:', this.$router.params);
+
     Taro.showLoading({
       title: 'loading',
     })
@@ -82,6 +101,17 @@ export default class Group extends Component<Props>{
           yPoint: res.latitude,
           xPoint: res.longitude
         }, () => {
+          request({
+            url: 'api/wap/user/getGroupbuyings',
+            method: "GET",
+            data: {
+              group_info_id: this.$router.params.id,
+            }
+          })
+            .then((res: any) => {
+              this.setState({ data2: res.data })
+            });
+
           request({
             url: 'api/wap/user/getGroupYouhuiInfo',
             method: "GET",
@@ -121,6 +151,17 @@ export default class Group extends Component<Props>{
           yPoint: '',
           xPoint: ''
         }, () => {
+          request({
+            url: 'api/wap/user/getGroupbuyings',
+            method: "GET",
+            data: {
+              group_info_id: this.$router.params.id,
+            }
+          })
+            .then((res: any) => {
+              this.setState({ data2: res.data })
+            });
+
           request({
             url: 'api/wap/user/getGroupYouhuiInfo',
             method: "GET",
@@ -370,41 +411,125 @@ export default class Group extends Component<Props>{
   }
 
 
+
+
+
+
+  payment2 = (_groupid, e) => {
+    console.log(e, _groupid)
+    if (!Taro.getStorageSync("unionid")) {
+      this.setState({
+        is_login: true
+      })
+      return
+    }
+    Taro.showLoading({
+      title: 'loading',
+    });
+    let data = {};
+    if (this.state.isPostage) {
+      data = {
+        public_type_id: _groupid,
+        activity_id: this.$router.params.activity_id,
+        gift_id: this.$router.params.gift_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: 55,
+        xcx: 1,
+        number: 1
+      }
+    } else {
+      data = {
+        public_type_id: _groupid,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: 55,
+        xcx: 1,
+        number: 1
+      }
+    }
+    request({
+      url: 'payCentre/toWxPay',
+      method: "POST",
+      data
+    }).then((res: any) => {
+      Taro.hideLoading();
+      // 发起支付
+      Taro.requestPayment({
+        timeStamp: res.data.timeStamp,
+        nonceStr: res.data.nonceStr,
+        package: res.data.package,
+        signType: res.data.signType,
+        paySign: res.data.paySign,
+        success(res) {
+          //查询用户最后一次购买的拼团活动id
+          request({
+            url: 'v1/youhui/getUserLastYouhuiGroupId',
+            method: "GET"
+          }).then((res: any) => {
+            console.log('支付id:', res.data.id)
+            //得到拼团活动id并跳转活动详情
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + res.data.id,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
+          })
+        },
+        fail(err) {
+          // Taro.showToast({ title: '支付失败', icon: 'none' })
+        }
+      })
+    })
+  }
+
+
   render() {
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
 
         {
-          this.state.groupListShow ? <View className="d_appre_groupList"  onClick={()=>{this.setState({groupListShow:false}) }}>
-            <View className="d_appre_groupList_box" onClick={(e)=>{e.stopPropagation()}}>
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }}>
+            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
                 <View className="d_appre_groupList_box_slideBox_content" >
-                  <View className="group_list0" >
-                    <View className="group_list_img0" >
-                      <Image className="listImg0" src={this.state.data.preview} />
-                    </View>
-                    <View className="group_list_name0" >杨大富</View>
-                    <View className="group_list_timesbox0" >
-                      <View className="group_list_lack0" >
-                        <View className="group_list_lackredblack10" >还差</View>
-                        <View className="group_list_lackred0" >1人</View>
-                        <View className="group_list_lackredblack20" >拼成</View>
-                      </View>
-                      <View className="group_list_times0" >23.50.30</View>
-                    </View>
-                    <View className="group_list_btnbox0" >
-                      <View className="group_list_btn0" >立即参团</View>
-                    </View>
-                  </View>
 
+                  {
+                    this.state.data2.data.map((item) => {
+                      return (
+                        <View className="group_list0" >
+                          <View className="group_list_img0" >
+                            <Image className="listImg0" src={item.avatar} />
+                          </View>
+                          <View className="group_list_name0" >{item.real_name}</View>
+                          <View className="group_list_timesbox0" >
+                            <View className="group_list_lack0" >
+                              <View className="group_list_lackredblack10" >还差</View>
+                              <View className="group_list_lackred0" >{item.number}人</View>
+                              <View className="group_list_lackredblack20" >拼成</View>
+                            </View>
+                            <View className="group_list_times0" >23:50:30</View>
+                          </View>
+                          <View className="group_list_btnbox0" >
+                            <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)}>立即参团</View>
+                          </View>
+                        </View>
+                      )
+                    })
+                  }
                 </View>
               </View>
-              <View className="group_list_toast" >上滑查看更多</View>
+              {
+                this.state.data2.data && this.state.data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
+              }
             </View>
             <View className="group_list_closebtn" >
-            <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
+              <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
             </View>
           </View> : null
         }
@@ -477,7 +602,6 @@ export default class Group extends Component<Props>{
               </View>
             </View>
           </View> */}
-
         </View>
 
         {
@@ -504,48 +628,41 @@ export default class Group extends Component<Props>{
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/x2WBTiwQwdap5ktNYYTyrGeP7E4zD5Qk.png" />
         </View>
-        <View className="group_num" >
-          <View className="group_num_titlebox" >
-            <View className="group_num_title" >4人正在拼</View>
-            <View className="group_num_now" onClick={()=>this.setState({groupListShow:true}) }>查看更多</View>
-          </View>
-          <View className="group_listbox" >
-            <View className="group_list" >
-              <View className="group_list_img" >
-                <Image className="listImg" src={this.state.data.preview} />
-              </View>
-              <View className="group_list_name" >杨大富</View>
-              <View className="group_list_btnbox" >
-                <View className="group_list_btn" >立即参团</View>
-              </View>
-              <View className="group_list_timesbox" >
-                <View className="group_list_lack" >
-                  <View className="group_list_lackredblack1" >还差</View>
-                  <View className="group_list_lackred" >1人</View>
-                  <View className="group_list_lackredblack2" >拼成</View>
-                </View>
-                <View className="group_list_times" >23.50.30</View>
-              </View>
+
+
+        {
+          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" >
+            <View className="group_num_titlebox" >
+              <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
+              <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>
             </View>
-            <View className="group_list" >
-              <View className="group_list_img" >
-                <Image className="listImg" src={this.state.data.preview} />
-              </View>
-              <View className="group_list_name" >杨大富</View>
-              <View className="group_list_btnbox" >
-                <View className="group_list_btn" >立即参团</View>
-              </View>
-              <View className="group_list_timesbox" >
-                <View className="group_list_lack" >
-                  <View className="group_list_lackredblack1" >还差</View>
-                  <View className="group_list_lackred" >1人</View>
-                  <View className="group_list_lackredblack2" >拼成</View>
-                </View>
-                <View className="group_list_times" >23.50.30</View>
-              </View>
+            <View className="group_listbox" >
+              {
+                this.state.data2.data.map((item) => {
+                  return (
+                    <View className="group_list" >
+                      <View className="group_list_img" >
+                        <Image className="listImg" src={item.avatar} />
+                      </View>
+                      <View className="group_list_name" >{item.real_name}</View>
+                      <View className="group_list_btnbox" >
+                        <View className="group_list_btn" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
+                      </View>
+                      <View className="group_list_timesbox" >
+                        <View className="group_list_lack" >
+                          <View className="group_list_lackredblack1" >还差</View>
+                          <View className="group_list_lackred" >{item.number}人</View>
+                          <View className="group_list_lackredblack2" >拼成</View>
+                        </View>
+                        <View className="group_list_times" >23:50:30</View>
+                      </View>
+                    </View>
+                  )
+                })
+              }
             </View>
-          </View>
-        </View>
+          </View> : null
+        }
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>
