@@ -21,7 +21,6 @@ export default class Group extends Component<Props>{
     imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
-    imagesList: [],
     imagesCurrent: 0,
     data: {
       activity_begin_time: "",
@@ -123,13 +122,6 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let { image, images } = res.data;
-              let imgList;
-              if (image && images) {
-                imgList = new Array(image).concat(images);
-              } else {
-                imgList = [];
-              }
               if (res.data.gift_id) {
                 if (res.data.gift.mail_mode == 2) {
                   this.setState({ isPostage: true })
@@ -137,7 +129,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
+              this.setState({ data: res.data}, () => {
                 this.draw();
               });
               Taro.hideLoading()
@@ -173,13 +165,6 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let { image, images } = res.data;
-              let imgList;
-              if (image && images) {
-                imgList = new Array(image).concat(images);
-              } else {
-                imgList = [];
-              }
               if (res.data.gift_id) {
                 if (res.data.gift.mail_mode == 2) {
                   this.setState({ isPostage: true })
@@ -187,7 +172,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
+              this.setState({ data: res.data }, () => {
                 this.draw();
               });
               Taro.hideLoading()
@@ -540,13 +525,13 @@ export default class Group extends Component<Props>{
         </Button >
 
         {
-          this.state.imagesList.length > 0 ? <Swiper
+          this.state.data.images.length > 0 ? <Swiper
             onChange={(e) => {
               // console.log(e.detail.current)
               this.setState({ imagesCurrent: e.detail.current })
             }}
             onClick={() => {
-              this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] })
+              this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
             }}
             className='test-h'
             indicatorColor='#999'
@@ -555,7 +540,7 @@ export default class Group extends Component<Props>{
             indicatorDots
             autoplay>
             {
-              this.state.imagesList ? this.state.imagesList.map((item, index) => {
+              this.state.data.images ? this.state.data.images.map((item, index) => {
                 return (
                   <SwiperItem key={item} >
                     <View className='demo-text'
@@ -637,28 +622,42 @@ export default class Group extends Component<Props>{
               <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>
             </View>
             <View className="group_listbox" >
+
+              <View className="group_list" >
+                <View className="group_list_img" >
+                  <Image className="listImg" src={this.state.data2.data[0].avatar} />
+                </View>
+                <View className="group_list_name" >{this.state.data2.data[0].real_name}</View>
+                <View className="group_list_btnbox" >
+                  <View className="group_list_btn" onClick={this.payment2.bind(this, this.state.data2.data[0].id)} >立即参团</View>
+                </View>
+                <View className="group_list_timesbox" >
+                  <View className="group_list_lack" >
+                    <View className="group_list_lackredblack1" >还差</View>
+                    <View className="group_list_lackred" >{this.state.data2.data[0].number}人</View>
+                    <View className="group_list_lackredblack2" >拼成</View>
+                  </View>
+                  <View className="group_list_times" >23:50:30</View>
+                </View>
+              </View>
               {
-                this.state.data2.data.map((item) => {
-                  return (
-                    <View className="group_list" >
-                      <View className="group_list_img" >
-                        <Image className="listImg" src={item.avatar} />
-                      </View>
-                      <View className="group_list_name" >{item.real_name}</View>
-                      <View className="group_list_btnbox" >
-                        <View className="group_list_btn" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
-                      </View>
-                      <View className="group_list_timesbox" >
-                        <View className="group_list_lack" >
-                          <View className="group_list_lackredblack1" >还差</View>
-                          <View className="group_list_lackred" >{item.number}人</View>
-                          <View className="group_list_lackredblack2" >拼成</View>
-                        </View>
-                        <View className="group_list_times" >23:50:30</View>
-                      </View>
+                this.state.data2.data.length > 1 ? <View className="group_list" >
+                  <View className="group_list_img" >
+                    <Image className="listImg" src={this.state.data2.data[1].avatar} />
+                  </View>
+                  <View className="group_list_name" >{this.state.data2.data[1].real_name}</View>
+                  <View className="group_list_btnbox" >
+                    <View className="group_list_btn" onClick={this.payment2.bind(this, this.state.data2.data[1].id)} >立即参团</View>
+                  </View>
+                  <View className="group_list_timesbox" >
+                    <View className="group_list_lack" >
+                      <View className="group_list_lackredblack1" >还差</View>
+                      <View className="group_list_lackred" >{this.state.data2.data[1].number}人</View>
+                      <View className="group_list_lackredblack2" >拼成</View>
                     </View>
-                  )
-                })
+                    <View className="group_list_times" >23:50:30</View>
+                  </View>
+                </View> : null
               }
             </View>
           </View> : null

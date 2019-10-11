@@ -21,7 +21,7 @@ export default class Appre extends Component<Props>{
     imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
-    imagesList: [],
+
     imagesCurrent: 0,
     data: {
       activity_begin_time: "",
@@ -91,13 +91,6 @@ export default class Appre extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let { image, images } = res.data;
-              let imgList;
-              if (image && images) {
-                imgList = new Array(image).concat(images);
-              } else {
-                imgList = [];
-              }
               if (res.data.gift_id) {
                 if (res.data.gift.mail_mode == 2) {
                   this.setState({ isPostage: true })
@@ -105,7 +98,7 @@ export default class Appre extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
+              this.setState({ data: res.data }, () => {
                 this.draw();
               });
               Taro.hideLoading()
@@ -130,8 +123,6 @@ export default class Appre extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let { image, images } = res.data;
-              let imgList = new Array(image).concat(images);
               if (res.data.gift_id) {
                 if (res.data.gift.mail_mode == 2) {
                   this.setState({ isPostage: true })
@@ -139,7 +130,7 @@ export default class Appre extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
+              this.setState({ data: res.data }, () => {
                 this.draw();
               });
               Taro.hideLoading()
@@ -359,27 +350,24 @@ export default class Appre extends Component<Props>{
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
-
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
         </Button >
-
-
         <View className="appre_head_activityTitle">
           <View className="appre_head_activityTitle_title">{this.state.data.name}</View>
           <View className="appre_head_activityTitle_time">活动时间 : {this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
         </View>
 
         {
-          this.state.data.type == 0 ?
+          this.state.data.type == 0 && this.state.data.images.length > 0 ?
             <Swiper
               onChange={(e) => {
                 // console.log(e.detail.current)
                 this.setState({ imagesCurrent: e.detail.current })
               }}
               onClick={() => {
-                this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] })
+                this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
               }}
               className='test-h'
               indicatorColor='#999'
@@ -388,7 +376,7 @@ export default class Appre extends Component<Props>{
               indicatorDots
               autoplay>
               {
-                this.state.imagesList ? this.state.imagesList.map((item, index) => {
+                this.state.data.images ? this.state.data.images.map((item, index) => {
                   return (
                     <SwiperItem key={item} >
                       <View className='demo-text'
