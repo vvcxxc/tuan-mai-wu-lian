@@ -143,7 +143,7 @@ export default class Index extends Component<any> {
       if (res.data.city_id || res.data.city_name) {
         Taro.getLocation(
           {
-            type: 'wgs84',
+            type: 'gcj02',
             success: (res2) => {
               let data: any = this.state.meta
               data.xpoint = res2.longitude
@@ -195,7 +195,7 @@ export default class Index extends Component<any> {
   getLocationxy = () => {
     Taro.getLocation(
       {
-        type: 'wgs84',
+        type: 'gcj02',
         success: (res) => {
           this.setState({ meta: { xpoint: res.longitude, ypoint: res.latitude } }, () => {
             // if (res.longitude.length < 1 && res.latitude.length < 1) {

@@ -111,7 +111,7 @@ export default class Activity extends Component {
 
     // 获取定位
     Taro.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: res => {
         this.setState({
           yPoint: res.latitude,

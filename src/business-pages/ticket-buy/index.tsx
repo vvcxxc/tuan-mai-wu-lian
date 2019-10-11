@@ -88,7 +88,7 @@ export default class PaySuccess extends Component {
       title: 'loading',
     })
     // console.log(this.$router.params)
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
+    Taro.getLocation({ type: 'gcj02' }).then(res => {
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude

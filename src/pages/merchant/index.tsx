@@ -33,7 +33,7 @@ export default class MerChantPage extends Component {
   }
   componentWillMount() {
     this.getPosition();// 经纬度
-    Taro.showLoading({ title: 'loading', mask: true })//显示loading 
+    Taro.showLoading({ title: 'loading', mask: true })//显示loading
   }
 
   componentDidMount() {
@@ -44,7 +44,7 @@ export default class MerChantPage extends Component {
     }
     // document.body.addEventListener('touchmove', function (e) {
     //   e.preventDefault();
-    // }, { passive: false }); 
+    // }, { passive: false });
   }
 
   // 搜索赋值
@@ -73,7 +73,7 @@ export default class MerChantPage extends Component {
     })
 
     Taro.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       fail: () => {
         console.log('323321')
         Taro.getStorage({ key: 'router' }).then((res: any) => {
@@ -269,7 +269,7 @@ export default class MerChantPage extends Component {
     e.stopPropagation();
   }
 
-  
+
   render() {
     return (
       <View>
