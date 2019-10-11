@@ -141,7 +141,7 @@ export default class PaySuccess extends Component<Props> {
     })
     let that = this;
     Taro.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: res => {
         this.setState({
           yPoint: res.latitude,

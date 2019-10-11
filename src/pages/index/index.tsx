@@ -110,10 +110,16 @@ export default class Index extends Component<any> {
           method: 'GET',
           data: {js_code: res.code},
         }).then(res => {
-          console.log(4234123)
-          let token = res.token
-          Taro.setStorageSync("token", `Bearer ${token}`)
-          this.showGift()
+          if(res.token){
+            let token = res.token
+            Taro.setStorageSync("token", `Bearer ${token}`)
+            Taro.setStorageSync("openid", res.openid)
+            Taro.setStorageSync("unionid", res.unionid)
+            this.showGift()
+          }else{
+            this.setState({is_login: true})
+          }
+
         })
       }
     })
@@ -137,7 +143,7 @@ export default class Index extends Component<any> {
       if (res.data.city_id || res.data.city_name) {
         Taro.getLocation(
           {
-            type: 'wgs84',
+            type: 'gcj02',
             success: (res2) => {
               let data: any = this.state.meta
               data.xpoint = res2.longitude
@@ -189,7 +195,7 @@ export default class Index extends Component<any> {
   getLocationxy = () => {
     Taro.getLocation(
       {
-        type: 'wgs84',
+        type: 'gcj02',
         success: (res) => {
           this.setState({ meta: { xpoint: res.longitude, ypoint: res.latitude } }, () => {
             // if (res.longitude.length < 1 && res.latitude.length < 1) {
@@ -400,7 +406,7 @@ export default class Index extends Component<any> {
         this.setState({ need_jump: res.data.need_jump })
       }).catch(err => {
         console.log(err)
-        this.setState({is_login: true})
+        // this.setState({is_login: true})
       })
   }
 
@@ -446,7 +452,7 @@ export default class Index extends Component<any> {
           url: define[res.data.popularize_type]
         })
       }).catch(err => {
-        this.setState({is_login: true})
+        // this.setState({is_login: true})
       })
   }
 

@@ -88,7 +88,7 @@ export default class PaySuccess extends Component {
       title: 'loading',
     })
     // console.log(this.$router.params)
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
+    Taro.getLocation({ type: 'gcj02' }).then(res => {
       this.setState({
         yPoint: res.latitude,
         xPoint: res.longitude
@@ -243,7 +243,7 @@ export default class PaySuccess extends Component {
             {/* <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '' : '#fff' }}>可叠加</Text>
             <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') !== -1 ? '' : '#fff' }}>随时退</Text>
             <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '' : '#fff' }}>免预约</Text> */}
-         
+
             {
                    this.state.coupon.label.indexOf('可叠加') !== -1 ?
                     <Text className="tag-text">可叠加</Text> : null
@@ -256,8 +256,8 @@ export default class PaySuccess extends Component {
                    this.state.coupon.label.indexOf('免预约') !== -1 ?
                     <Text className="tag-text"  >免预约</Text> : null
                 }
-         
-         
+
+
           </View>
         </View>
         <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>

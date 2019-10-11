@@ -58,7 +58,7 @@ export default class SelectCity extends Component {
 
   // get location
   getLocation = () => {
-    Taro.getLocation({ type: 'wgs84' }).then(res => {
+    Taro.getLocation({ type: 'gcj02' }).then(res => {
       this.setState({ locations: res }, () => {
         this.getCity();
       })
