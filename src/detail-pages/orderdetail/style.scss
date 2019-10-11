@@ -125,8 +125,9 @@
             border-radius: 5px;
             display: inline-block;
             float: right;
-            margin-right: 23px;
-            margin-top: 10px;
+            // margin-right: 23px;
+            // margin-top: 10px;
+            margin-left: 100px;
             line-height: 44px;
             text-align: center;
         }
@@ -277,18 +278,18 @@
     }
 }
 
-.a_returnState {
-    width: 134px;
-    height: 44px;
-    border: 1px solid rgba(153, 153, 153, 1);
-    border-radius: 5px;
-    display: inline-block;
-    float: right;
-    margin-right: 23px;
-    margin-top: 10px;
-    line-height: 44px;
-    text-align: center;
-}
+// .a_returnState {
+//     width: 134px;
+//     height: 44px;
+//     border: 1px solid rgba(153, 153, 153, 1);
+//     border-radius: 5px;
+//     display: inline-block;
+//     float: right;
+//     margin-right: 23px;
+//     margin-top: 10px;
+//     line-height: 44px;
+//     text-align: center;
+// }
 
 .z_refundBox {
     padding-left: 23px;

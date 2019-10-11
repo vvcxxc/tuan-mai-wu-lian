@@ -263,7 +263,7 @@ export default class Orderdetail extends Component {
                 <View style={{marginLeft: '9px'}}>
                   {
                     this.state.defaultData.description.length ? (this.state.defaultData.description.map((item, index) => (
-                      <View key={index}>{index + 1}. {item}</View>
+                      <View key={index} style={{height: '32px'}}>{index + 1}. {item}</View>
                     ))) : null
                   }
                 </View>
