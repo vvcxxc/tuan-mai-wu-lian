@@ -12,8 +12,8 @@ interface Props {
   id: any;
 }
 
+let interval;
 export default class Appre extends Component<Props>{
-
 
   state = {
     ruleMore: false,
@@ -314,16 +314,17 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
+
           Taro.showLoading({
             title: 'loading',
           });
-          var interval = setInterval(function () {
+          interval = setInterval(function () {
             //查询用户最后一次购买的增值活动id
             request({
               url: 'v1/youhui/getUserLastYouhuiId',
               method: "GET"
             }).then((res: any) => {
-              if (res.code==200) {
+              if (res.code == 200) {
                 clearInterval(interval);
                 Taro.hideLoading();
                 //得到增值活动id并跳转活动详情
@@ -333,11 +334,10 @@ export default class Appre extends Component<Props>{
                     var page = Taro.getCurrentPages().pop();
                     if (page == undefined || page == null) return;
                     page.onLoad();
-                  }
+                 }
                 })
               }
-            })
-
+            }) 
           }, 200);
 
         },
@@ -355,6 +355,9 @@ export default class Appre extends Component<Props>{
     Taro.switchTab({
       url: '/pages/index/index'
     })
+  }
+  componentWillUnmount() {
+    clearInterval(interval);
   }
 
   render() {
