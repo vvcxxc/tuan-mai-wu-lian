@@ -314,21 +314,32 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          //查询用户最后一次购买的增值活动id
-          request({
-            url: 'v1/youhui/getUserLastYouhuiId',
-            method: "GET"
-          }).then((res: any) => {
-            //得到增值活动id并跳转活动详情
-            Taro.navigateTo({
-              url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
+          Taro.showLoading({
+            title: 'loading',
+          });
+          var interval = setInterval(function () {
+            //查询用户最后一次购买的增值活动id
+            request({
+              url: 'v1/youhui/getUserLastYouhuiId',
+              method: "GET"
+            }).then((res: any) => {
+              if (res.code==200) {
+                clearInterval(interval);
+                Taro.hideLoading();
+                //得到增值活动id并跳转活动详情
+                Taro.navigateTo({
+                  url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
+                  success: () => {
+                    var page = Taro.getCurrentPages().pop();
+                    if (page == undefined || page == null) return;
+                    page.onLoad();
+                  }
+                })
               }
             })
-          })
+
+          }, 200);
+
         },
         fail(err) {
           Taro.showToast({ title: '支付失败', icon: 'none' })
