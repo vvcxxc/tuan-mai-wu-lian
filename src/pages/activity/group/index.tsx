@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon, AtNoticebar } from 'taro-ui';
+import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
@@ -516,10 +516,17 @@ export default class Group extends Component<Props>{
                           <View className="group_list_timesbox0" >
                             <View className="group_list_lack0" >
                               <View className="group_list_lackredblack10" >还差</View>
-                              <View className="group_list_lackred0" >{item.number-item.participation_number}人</View>
+                              <View className="group_list_lackred0" >{item.number - item.participation_number}人</View>
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
-                            <View className="group_list_times0" >23:50:30</View>
+                            <View className="group_list_times0" > <AtCountdown
+                                isShowDay={false}
+                                format={{ hours: ':', minutes: ':', seconds: '' }}
+                                hours={23}
+                                minutes={50}
+                                seconds={30}
+                              />
+                              </View>
                           </View>
                           <View className="group_list_btnbox0" >
                             <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)}>立即参团</View>
@@ -668,10 +675,18 @@ export default class Group extends Component<Props>{
                           <View className="group_list_timesbox" >
                             <View className="group_list_lack" >
                               <View className="group_list_lackredblack1" >还差</View>
-                              <View className="group_list_lackred" >{item[0].number-item[0].participation_number}人</View>
+                              <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
-                            <View className="group_list_times" >23:50:30</View>
+                            <View className="group_list_times" >
+                              <AtCountdown
+                                isShowDay={false}
+                                format={{ hours: ':', minutes: ':', seconds: '' }}
+                                hours={23}
+                                minutes={50}
+                                seconds={30}
+                              />
+                            </View>
                           </View>
                         </View>
                         {
@@ -686,10 +701,18 @@ export default class Group extends Component<Props>{
                             <View className="group_list_timesbox" >
                               <View className="group_list_lack" >
                                 <View className="group_list_lackredblack1" >还差</View>
-                                <View className="group_list_lackred" >{item[1].number-item[1].participation_number}人</View>
+                                <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" >23:50:30</View>
+                              <View className="group_list_times" >
+                              <AtCountdown
+                                isShowDay={false}
+                                format={{ hours: ':', minutes: ':', seconds: '' }}
+                                hours={23}
+                                minutes={50}
+                                seconds={30}
+                              />
+                              </View>
                             </View>
                           </View> : null
                         }
