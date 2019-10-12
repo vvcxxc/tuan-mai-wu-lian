@@ -400,22 +400,30 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          //查询用户最后一次购买的拼团活动id
-          request({
-            url: 'v1/youhui/getUserLastYouhuiGroupId',
-            method: "GET"
-          }).then((res: any) => {
-            console.log('支付id:', res.data.id)
-            //得到拼团活动id并跳转活动详情
-            Taro.navigateTo({
-              url: '/pages/activity/pages/group/group?id=' + res.data.id,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
+          Taro.navigateTo({
+            url: '/pages/activity/pages/group/group?id=' + this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+            success: () => {
+              var page = Taro.getCurrentPages().pop();
+              if (page == undefined || page == null) return;
+              page.onLoad();
+            }
           })
+          // //查询用户最后一次购买的拼团活动id
+          // request({
+          //   url: 'v1/youhui/getUserLastYouhuiGroupId',
+          //   method: "GET"
+          // }).then((res: any) => {
+          //   console.log('支付id:', res.data.id)
+          //   //得到拼团活动id并跳转活动详情
+          //   Taro.navigateTo({
+          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
+          //     success: () => {
+          //       var page = Taro.getCurrentPages().pop();
+          //       if (page == undefined || page == null) return;
+          //       page.onLoad();
+          //     }
+          //   })
+          // })
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -471,22 +479,30 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          //查询用户最后一次购买的参团活动id
-          request({
-            url: 'v1/youhui/getUserLastParticipateId',
-            method: "GET"
-          }).then((res: any) => {
-            console.log('支付id:', res.data.id)
-            //得到拼团活动id并跳转活动详情
-            Taro.navigateTo({
-              url: '/pages/activity/pages/group/group?id=' + res.data.id,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
+          Taro.navigateTo({
+            url: '/pages/activity/pages/group/group?id=' + _groupid,
+            success: () => {
+              var page = Taro.getCurrentPages().pop();
+              if (page == undefined || page == null) return;
+              page.onLoad();
+            }
           })
+          // //查询用户最后一次购买的参团活动id
+          // request({
+          //   url: 'v1/youhui/getUserLastParticipateId',
+          //   method: "GET"
+          // }).then((res: any) => {
+          //   console.log('支付id:', res.data.id)
+          //   //得到拼团活动id并跳转活动详情
+          //   Taro.navigateTo({
+          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
+          //     success: () => {
+          //       var page = Taro.getCurrentPages().pop();
+          //       if (page == undefined || page == null) return;
+          //       page.onLoad();
+          //     }
+          //   })
+          // })
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -501,7 +517,7 @@ export default class Group extends Component<Props>{
     var days = Math.floor(temp_Time / (24 * 3600 * 1000))
     //计算出小时数  
     var leave1 = temp_Time % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数  
-    var hours = Math.floor(leave1 / (3600 * 1000)) 
+    var hours = Math.floor(leave1 / (3600 * 1000))
     console.log('小时', days, hours)
     //计算相差分钟数  
     var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数  
@@ -509,7 +525,7 @@ export default class Group extends Component<Props>{
     //计算相差秒数  
     var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数  
     var seconds = Math.round(leave3 / 1000)
-    var differ_time = [days,hours, minutes, seconds]
+    var differ_time = [days, hours, minutes, seconds]
     this.setState({ differ_time: differ_time });
   }
 
@@ -520,7 +536,7 @@ export default class Group extends Component<Props>{
       <View className="d_appre" >
 
         {
-          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e)=>{e.stopPropagation()}}>
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e) => { e.stopPropagation() }}>
             <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
