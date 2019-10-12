@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon, AtNoticebar } from 'taro-ui';
+import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
 import share from '../../../assets/share.png';
@@ -80,7 +80,8 @@ export default class Group extends Component<Props>{
     isPostage: true,
     is_login: false,
     isFromShare: false,
-    groupListShow: false
+    groupListShow: false,
+    differ_time: []
   };
 
   componentDidMount = () => {
@@ -133,6 +134,7 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
+                this.tempTime();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -177,6 +179,7 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
+                this.tempTime();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -397,22 +400,30 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          //查询用户最后一次购买的拼团活动id
-          request({
-            url: 'v1/youhui/getUserLastYouhuiGroupId',
-            method: "GET"
-          }).then((res: any) => {
-            console.log('支付id:', res.data.id)
-            //得到拼团活动id并跳转活动详情
-            Taro.navigateTo({
-              url: '/pages/activity/pages/group/group?id=' + res.data.id,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
+          Taro.navigateTo({
+            url: '/pages/activity/pages/group/group?id=' + this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+            success: () => {
+              var page = Taro.getCurrentPages().pop();
+              if (page == undefined || page == null) return;
+              page.onLoad();
+            }
           })
+          // //查询用户最后一次购买的拼团活动id
+          // request({
+          //   url: 'v1/youhui/getUserLastYouhuiGroupId',
+          //   method: "GET"
+          // }).then((res: any) => {
+          //   console.log('支付id:', res.data.id)
+          //   //得到拼团活动id并跳转活动详情
+          //   Taro.navigateTo({
+          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
+          //     success: () => {
+          //       var page = Taro.getCurrentPages().pop();
+          //       if (page == undefined || page == null) return;
+          //       page.onLoad();
+          //     }
+          //   })
+          // })
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -468,28 +479,54 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          //查询用户最后一次购买的参团活动id
-          request({
-            url: 'v1/youhui/getUserLastParticipateId',
-            method: "GET"
-          }).then((res: any) => {
-            console.log('支付id:', res.data.id)
-            //得到拼团活动id并跳转活动详情
-            Taro.navigateTo({
-              url: '/pages/activity/pages/group/group?id=' + res.data.id,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
+          Taro.navigateTo({
+            url: '/pages/activity/pages/group/group?id=' + _groupid,
+            success: () => {
+              var page = Taro.getCurrentPages().pop();
+              if (page == undefined || page == null) return;
+              page.onLoad();
+            }
           })
+          // //查询用户最后一次购买的参团活动id
+          // request({
+          //   url: 'v1/youhui/getUserLastParticipateId',
+          //   method: "GET"
+          // }).then((res: any) => {
+          //   console.log('支付id:', res.data.id)
+          //   //得到拼团活动id并跳转活动详情
+          //   Taro.navigateTo({
+          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
+          //     success: () => {
+          //       var page = Taro.getCurrentPages().pop();
+          //       if (page == undefined || page == null) return;
+          //       page.onLoad();
+          //     }
+          //   })
+          // })
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
         }
       })
     })
+  }
+
+  tempTime = () => {
+    let temp_Time = new Date(this.state.data.end_time).getTime() - new Date().getTime();   //时间差的毫秒数        
+    //计算出相差天数  
+    var days = Math.floor(temp_Time / (24 * 3600 * 1000))
+    //计算出小时数  
+    var leave1 = temp_Time % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数  
+    var hours = Math.floor(leave1 / (3600 * 1000))
+    console.log('小时', days, hours)
+    //计算相差分钟数  
+    var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数  
+    var minutes = Math.floor(leave2 / (60 * 1000))
+    //计算相差秒数  
+    var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数  
+    var seconds = Math.round(leave3 / 1000)
+    var differ_time = [days, hours, minutes, seconds]
+    this.setState({ differ_time: differ_time });
   }
 
 
@@ -499,7 +536,7 @@ export default class Group extends Component<Props>{
       <View className="d_appre" >
 
         {
-          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }}>
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e) => { e.stopPropagation() }}>
             <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
@@ -516,10 +553,18 @@ export default class Group extends Component<Props>{
                           <View className="group_list_timesbox0" >
                             <View className="group_list_lack0" >
                               <View className="group_list_lackredblack10" >还差</View>
-                              <View className="group_list_lackred0" >{item.number-item.participation_number}人</View>
+                              <View className="group_list_lackred0" >{item.number - item.participation_number}人</View>
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
-                            <View className="group_list_times0" >23:50:30</View>
+                            <View className="group_list_times0" > <AtCountdown
+                              isShowDay={true}
+                              format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+                              day={this.state.differ_time[0]}
+                              hours={this.state.differ_time[1]}
+                              minutes={this.state.differ_time[2]}
+                              seconds={this.state.differ_time[3]}
+                            />
+                            </View>
                           </View>
                           <View className="group_list_btnbox0" >
                             <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)}>立即参团</View>
@@ -668,10 +713,19 @@ export default class Group extends Component<Props>{
                           <View className="group_list_timesbox" >
                             <View className="group_list_lack" >
                               <View className="group_list_lackredblack1" >还差</View>
-                              <View className="group_list_lackred" >{item[0].number-item[0].participation_number}人</View>
+                              <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
-                            <View className="group_list_times" >23:50:30</View>
+                            <View className="group_list_times" >
+                              <AtCountdown
+                                isShowDay={true}
+                                format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+                                day={this.state.differ_time[0]}
+                                hours={this.state.differ_time[1]}
+                                minutes={this.state.differ_time[2]}
+                                seconds={this.state.differ_time[3]}
+                              />
+                            </View>
                           </View>
                         </View>
                         {
@@ -686,10 +740,19 @@ export default class Group extends Component<Props>{
                             <View className="group_list_timesbox" >
                               <View className="group_list_lack" >
                                 <View className="group_list_lackredblack1" >还差</View>
-                                <View className="group_list_lackred" >{item[1].number-item[1].participation_number}人</View>
+                                <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" >23:50:30</View>
+                              <View className="group_list_times" >
+                                <AtCountdown
+                                  isShowDay={true}
+                                  format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+                                  day={this.state.differ_time[0]}
+                                  hours={this.state.differ_time[1]}
+                                  minutes={this.state.differ_time[2]}
+                                  seconds={this.state.differ_time[3]}
+                                />
+                              </View>
                             </View>
                           </View> : null
                         }
