@@ -318,7 +318,7 @@ export default class Appre extends Component<Props>{
           Taro.showLoading({
             title: 'loading',
           });
-          interval = setInterval(function () {
+          interval = setInterval( () => {
             //查询用户最后一次购买的增值活动id
             request({
               url: 'v1/youhui/getUserLastYouhuiId',
@@ -337,7 +337,7 @@ export default class Appre extends Component<Props>{
                  }
                 })
               }
-            }) 
+            })
           }, 200);
 
         },
