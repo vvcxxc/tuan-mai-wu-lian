@@ -295,9 +295,9 @@ export default class Group extends Component {
     const surplus = basicinfo.number
       ? basicinfo.number - basicinfo.participation_number
       : 0
-    const groupDesc = isFinish
+    const groupDesc = this.state.time.display > 0 ? isFinish
       ? "拼团已经完成, 感谢您的参与!"
-      : `还差${surplus}人成团`
+      : `还差${surplus}人成团` : '活动已结束，更多活动正在进行中'
     return (
       <Block>
         <View className="group" style="background-image: url(http://tmwl-resources.tdianyi.com/miniProgram/MiMaQuan/img_group.png)">
