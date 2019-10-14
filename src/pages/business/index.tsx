@@ -80,7 +80,7 @@ export default class PaySuccess extends Component<Props> {
         gift_pic: "",
         youhui_id: '',
         gift_desc: '',
-        images:[]
+        images: []
       }
     ],
     cashCouponList: [
@@ -130,11 +130,11 @@ export default class PaySuccess extends Component<Props> {
     if (arrs.length <= 1) {
       this.setState({
         isFromShare: true
-      },() => {
-        console.log('isFromShare',this.state.isFromShare)
+      }, () => {
+        console.log('isFromShare', this.state.isFromShare)
       })
     } else {
-      console.log('isFromShare',this.state.isFromShare)
+      console.log('isFromShare', this.state.isFromShare)
     }
     Taro.showLoading({
       title: 'loading',
@@ -371,9 +371,9 @@ export default class PaySuccess extends Component<Props> {
                       item.gift_pic == "" || item.gift_pic == null ?
                         <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>
                           <View className="image" style={{ position: "relative", overflow: "hidden" }}>
-                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex",justifyContent:"flex-end" }}>
+                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex", justifyContent: "flex-end" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.participation_money}</View>
-                              <View style={{ textDecoration: "line-through",  fontSize: "14px", color: "rgba(225,225,225,.5)",lineHeight: 1 ,display:"flex",flexDirection:"column",justifyContent:"flex-end",alignItems:"flex-end" }}>￥{item.pay_money}</View>
+                              <View style={{ textDecoration: "line-through", fontSize: "14px", color: "rgba(225,225,225,.5)", lineHeight: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end" }}>￥{item.pay_money}</View>
                             </View>
                             <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                           </View>
@@ -381,9 +381,9 @@ export default class PaySuccess extends Component<Props> {
                         </View> :
                         <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                           <View className="image" style={{ position: "relative", overflow: "hidden" }}>
-                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex",justifyContent:"flex-end" }}>
+                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex", justifyContent: "flex-end" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.participation_money}</View>
-                              <View style={{ textDecoration: "line-through",  fontSize: "14px", color: "rgba(225,225,225,.5)",lineHeight: 1 ,display:"flex",flexDirection:"column",justifyContent:"flex-end",alignItems:"flex-end" }}>￥{item.pay_money}</View>
+                              <View style={{ textDecoration: "line-through", fontSize: "14px", color: "rgba(225,225,225,.5)", lineHeight: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end" }}>￥{item.pay_money}</View>
                             </View>
                             <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                           </View>
@@ -474,7 +474,7 @@ export default class PaySuccess extends Component<Props> {
                     {
                       item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                         {
-                          item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
+                          item.gift_id && item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
                             <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                         }
                         <View className="img" style={{ width: "100%" }}   >
@@ -650,7 +650,7 @@ export default class PaySuccess extends Component<Props> {
                         </View>
                         <View className="flex center">
                           <View className="tags">
-                          {
+                            {
                               item.label.indexOf('免费礼品') !== -1 ?
                                 <View className="tag-text">
                                   <Image className="tag-textImg" src="http://oss.tdianyi.com/front/GcMRM4HjnkyGnkws5FAJT4hRwiMRFDRd.png" />

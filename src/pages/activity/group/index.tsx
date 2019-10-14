@@ -2,7 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
-import share from '../../../assets/share.png';
+import ClockUp from './clockUp';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
@@ -84,7 +84,7 @@ export default class Group extends Component<Props>{
     differ_time: []
   };
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
       this.setState({
@@ -348,7 +348,7 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
-    let tempid=this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
+    let tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
     console.log(tempid);
     // 改前必看：本页面与众不同的傻狗命名一览
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
@@ -711,6 +711,12 @@ export default class Group extends Component<Props>{
                   this.state.newGroupList.map((item: any, index) => {
                     return (
                       <SwiperItem>
+                        <ClockUp itemtime={this.state.data.activity_end_time} avatar={item[0].avatar} itemid={item[0].id} number={item[0].number} participation_number={item[0].participation_number} real_name={item[0].real_name} handleclick={this.payment2.bind(this, item[0].id)} />
+                        {
+                          item[1] ? <ClockUp itemtime={this.state.data.activity_end_time} avatar={item[1].avatar} itemid={item[1].id} number={item[1].number} participation_number={item[1].participation_number} real_name={item[1].real_name} handleclick={this.payment2.bind(this, item[1].id)} />
+                            : null
+                        }
+                        {/*                        
                         <View className="group_list" >
                           <View className="group_list_img" >
                             <Image className="listImg" src={item[0].avatar} />
@@ -764,7 +770,7 @@ export default class Group extends Component<Props>{
                               </View>
                             </View>
                           </View> : null
-                        }
+                        } */}
                       </SwiperItem>
                     )
                   })

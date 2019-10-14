@@ -193,7 +193,7 @@ export default class Group extends Component {
       return
     } else {
       timer2 = setTimeout(() => {
-        clearTimeout(timer)
+        clearTimeout(timer2)
         let time = getTime(this.state.basicinfo.activity_end_time)
         this.setState({
           time
