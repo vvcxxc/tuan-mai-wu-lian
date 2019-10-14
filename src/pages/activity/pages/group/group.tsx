@@ -298,7 +298,7 @@ export default class Group extends Component {
       : 0
     const groupDesc = this.state.time.display > 0 ? isFinish
       ? "拼团已经完成, 感谢您的参与!"
-      : `还差${surplus}人成团` : this.state.basicinfo.is_group_participation ? '拼团失败，钱款将在2个工作日内返还' : '活动已结束，更多活动正在进行中'
+      : `还差${surplus}人成团` : this.state.basicinfo.is_group_participation ? '拼团失败，金额已返还至账户' : '活动已结束，更多活动正在进行中'
     return (
       <Block>
         <View className="group" style="background-image: url(http://tmwl-resources.tdianyi.com/miniProgram/MiMaQuan/img_group.png)">
