@@ -348,6 +348,8 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
+    let tempid=this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
+    console.log(tempid);
     // 改前必看：本页面与众不同的傻狗命名一览
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
     // 店ID:store_id==this.state.data.id;
@@ -401,7 +403,7 @@ export default class Group extends Component<Props>{
         paySign: res.data.paySign,
         success(res) {
           Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+            url: '/pages/activity/pages/group/group?id=' + tempid,
             success: () => {
               var page = Taro.getCurrentPages().pop();
               if (page == undefined || page == null) return;
