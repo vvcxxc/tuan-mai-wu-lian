@@ -305,6 +305,7 @@ export default class Appre extends Component<Props>{
       method: "POST",
       data
     }).then((res: any) => {
+      let order_sn = res.data.order_id;
       Taro.hideLoading();
       // 发起支付
       Taro.requestPayment({
@@ -317,12 +318,14 @@ export default class Appre extends Component<Props>{
 
           Taro.showLoading({
             title: 'loading',
+            mask: true
           });
-          interval = setInterval(function () {
+          interval = setInterval(() => {
             //查询用户最后一次购买的增值活动id
             request({
               url: 'v1/youhui/getUserLastYouhuiId',
-              method: "GET"
+              method: "GET",
+              data: { order_sn: order_sn }
             }).then((res: any) => {
               if (res.code == 200) {
                 clearInterval(interval);
@@ -334,11 +337,11 @@ export default class Appre extends Component<Props>{
                     var page = Taro.getCurrentPages().pop();
                     if (page == undefined || page == null) return;
                     page.onLoad();
-                 }
+                  }
                 })
               }
-            }) 
-          }, 200);
+            })
+          }, 500);
 
         },
         fail(err) {

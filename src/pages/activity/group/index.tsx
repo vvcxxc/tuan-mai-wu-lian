@@ -557,8 +557,13 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
                             <View className="group_list_times0" > <AtCountdown
+                              // onTimeUp={(e) => { console.log(this) }}
                               isShowDay={true}
                               format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+                              // day={0}
+                              // hours={0}
+                              // minutes={0}
+                              // seconds={3}
                               day={this.state.differ_time[0]}
                               hours={this.state.differ_time[1]}
                               minutes={this.state.differ_time[2]}
@@ -686,7 +691,7 @@ export default class Group extends Component<Props>{
             <View className="group_num_titlebox" >
               <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
               {
-                this.state.data2.data && this.state.data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>:null
+                this.state.data2.data && this.state.data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
               }
             </View>
             <View className="group_listbox" >
