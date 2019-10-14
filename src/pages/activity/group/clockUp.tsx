@@ -21,31 +21,19 @@ export default class ClockUp extends Component<Props>{
     state = {
         time: {
             date: '',
-            display: 2
+            display: 1
         },
         differ_time: []
     };
 
     componentDidMount() {
-        console.log(this.props.itemtime, this.props.itemid, this.props.real_name);
-        let temp_time = new Date(this.props.itemtime).getTime()/ 1000;
-        console.log(temp_time);
-        let time = {
-            date: temp_time,
-            display: 2
-        };
-        this.setState({ time: time })
+        this.setTime()
     }
-
-    componentWillReceiveProps (){
-        console.log(this.props.itemtime, this.props.itemid, this.props.real_name);
-        let temp_time = new Date(this.props.itemtime).getTime()/ 1000;
-        console.log(temp_time);
-        let time = {
-            date: temp_time,
-            display: 2
-        };
-        this.setState({ time: time })
+    componentDidShow() {
+        this.setTime()
+    }
+    componentWillReceiveProps() {
+        this.setTime()
     }
 
     /**
@@ -58,7 +46,7 @@ export default class ClockUp extends Component<Props>{
         } else {
             timer = setTimeout(() => {
                 clearTimeout(timer)
-                let time = getTime(this.props.itemtime)
+                let time = getTime(new Date(this.props.itemtime).getTime()/1000)
                 this.setState({
                     time
                 })
@@ -67,29 +55,9 @@ export default class ClockUp extends Component<Props>{
         }
     }
     componentWillUnmount() {
-        clearTimeout(timer)
+        console.log('unMount')
+        clearTimeout(timer);
     }
-
-
-
-    tempTime = () => {
-        let temp_Time = new Date(this.props.itemtime).getTime() - new Date().getTime();   //时间差的毫秒数        
-        //计算出相差天数  
-        var days = Math.floor(temp_Time / (24 * 3600 * 1000))
-        //计算出小时数  
-        var leave1 = temp_Time % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数  
-        var hours = Math.floor(leave1 / (3600 * 1000))
-        console.log('小时', days, hours)
-        //计算相差分钟数  
-        var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数  
-        var minutes = Math.floor(leave2 / (60 * 1000))
-        //计算相差秒数  
-        var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数  
-        var seconds = Math.round(leave3 / 1000)
-        var differ_time = [days, hours, minutes, seconds]
-        this.setState({ differ_time: differ_time });
-    }
-
 
     render() {
         return (
