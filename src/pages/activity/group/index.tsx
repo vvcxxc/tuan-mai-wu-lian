@@ -3,6 +3,8 @@ import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
 import request from '../../../services/request'
 import ClockUp from './clockUp';
+import TimeUp from './TimeUp';
+import ClockUp2 from './clockUp2';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
@@ -348,8 +350,8 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
-    let tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
-    console.log(tempid);
+    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
+    console.log(_tempid);
     // 改前必看：本页面与众不同的傻狗命名一览
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
     // 店ID:store_id==this.state.data.id;
@@ -403,7 +405,7 @@ export default class Group extends Component<Props>{
         paySign: res.data.paySign,
         success(res) {
           Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + tempid,
+            url: '/pages/activity/pages/group/group?id=' + _tempid,
             success: () => {
               var page = Taro.getCurrentPages().pop();
               if (page == undefined || page == null) return;
@@ -547,6 +549,8 @@ export default class Group extends Component<Props>{
                   {
                     this.state.data2.data.map((item) => {
                       return (
+                        // <ClockUp2 key={item.id} itemtime={this.state.data.activity_end_time} avatar={item.avatar} itemid={item.id} number={item.number} participation_number={item.participation_number} real_name={item.real_name} handleclick={this.payment2.bind(this, item.id)} />
+
                         <View className="group_list0" >
                           <View className="group_list_img0" >
                             <Image className="listImg0" src={item.avatar} />
@@ -558,7 +562,9 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackred0" >{item.number - item.participation_number}人</View>
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
-                            <View className="group_list_times0" > <AtCountdown
+                            <View className="group_list_times0" > 
+                            <TimeUp itemtime={this.state.data.activity_end_time}/>
+                            {/* <AtCountdown
                               // onTimeUp={(e) => { console.log(this) }}
                               isShowDay={true}
                               format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
@@ -570,7 +576,7 @@ export default class Group extends Component<Props>{
                               hours={this.state.differ_time[1]}
                               minutes={this.state.differ_time[2]}
                               seconds={this.state.differ_time[3]}
-                            />
+                            /> */}
                             </View>
                           </View>
                           <View className="group_list_btnbox0" >
@@ -711,12 +717,12 @@ export default class Group extends Component<Props>{
                   this.state.newGroupList.map((item: any, index) => {
                     return (
                       <SwiperItem>
-                        <ClockUp itemtime={this.state.data.activity_end_time} avatar={item[0].avatar} itemid={item[0].id} number={item[0].number} participation_number={item[0].participation_number} real_name={item[0].real_name} handleclick={this.payment2.bind(this, item[0].id)} />
+                        {/* <ClockUp key={item} itemtime={this.state.data.activity_end_time} avatar={item[0].avatar} itemid={item[0].id} number={item[0].number} participation_number={item[0].participation_number} real_name={item[0].real_name} handleclick={this.payment2.bind(this, item[0].id)} />
                         {
-                          item[1] ? <ClockUp itemtime={this.state.data.activity_end_time} avatar={item[1].avatar} itemid={item[1].id} number={item[1].number} participation_number={item[1].participation_number} real_name={item[1].real_name} handleclick={this.payment2.bind(this, item[1].id)} />
+                          item[1] ? <ClockUp key={item} itemtime={this.state.data.activity_end_time} avatar={item[1].avatar} itemid={item[1].id} number={item[1].number} participation_number={item[1].participation_number} real_name={item[1].real_name} handleclick={this.payment2.bind(this, item[1].id)} />
                             : null
-                        }
-                        {/*                        
+                        } */}
+                                               
                         <View className="group_list" >
                           <View className="group_list_img" >
                             <Image className="listImg" src={item[0].avatar} />
@@ -732,14 +738,15 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
                             <View className="group_list_times" >
-                              <AtCountdown
+                              {/* <AtCountdown
                                 isShowDay={true}
                                 format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
                                 day={this.state.differ_time[0]}
                                 hours={this.state.differ_time[1]}
                                 minutes={this.state.differ_time[2]}
                                 seconds={this.state.differ_time[3]}
-                              />
+                              /> */}
+                               <TimeUp itemtime={this.state.data.activity_end_time}/>
                             </View>
                           </View>
                         </View>
@@ -759,18 +766,19 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
                               <View className="group_list_times" >
-                                <AtCountdown
+                                {/* <AtCountdown
                                   isShowDay={true}
                                   format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
                                   day={this.state.differ_time[0]}
                                   hours={this.state.differ_time[1]}
                                   minutes={this.state.differ_time[2]}
                                   seconds={this.state.differ_time[3]}
-                                />
+                                /> */}
+                                 <TimeUp itemtime={this.state.data.activity_end_time}/>
                               </View>
                             </View>
                           </View> : null
-                        } */}
+                        }
                       </SwiperItem>
                     )
                   })

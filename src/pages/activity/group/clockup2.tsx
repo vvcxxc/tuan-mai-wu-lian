@@ -17,7 +17,7 @@ interface Props {
 }
 
 let timer;
-export default class ClockUp extends Component<Props>{
+export default class ClockUp2 extends Component<Props>{
 
     state = {
         time: {
@@ -47,7 +47,7 @@ export default class ClockUp extends Component<Props>{
         } else {
             timer = setTimeout(() => {
                 clearTimeout(timer)
-                let time = getTime(new Date(this.props.itemtime).getTime()/1000)
+                let time = getTime(new Date(this.props.itemtime).getTime() / 1000)
                 this.setState({
                     time
                 })
@@ -61,26 +61,27 @@ export default class ClockUp extends Component<Props>{
 
     render() {
         return (
-            <View className="group_list" >
-                <View className="group_list_img" >
-                    <Image className="listImg" src={this.props.avatar} />
+            <View className="group_list0" >
+                <View className="group_list_img0" >
+                    <Image className="listImg0" src={this.props.avatar} />
                 </View>
-                <View className="group_list_name" >{this.props.real_name}</View>
-                <View className="group_list_btnbox" >
-                    <View className="group_list_btn" onClick={(e) => {
-                        this.props.handleclick(this.props.itemid);
-                        e.stopPropagation();
-                    }} >立即参团</View>
-                </View>
-                <View className="group_list_timesbox" >
-                    <View className="group_list_lack" >
-                        <View className="group_list_lackredblack1" >还差</View>
-                        <View className="group_list_lackred" >{this.props.number - this.props.participation_number}人</View>
-                        <View className="group_list_lackredblack2" >拼成</View>
+                <View className="group_list_name0" >{this.props.real_name}</View>
+                <View className="group_list_timesbox0" >
+                    <View className="group_list_lack0" >
+                        <View className="group_list_lackredblack10" >还差</View>
+                        <View className="group_list_lackred0" >{this.props.number - this.props.participation_number}人</View>
+                        <View className="group_list_lackredblack20" >拼成</View>
                     </View>
-                    <View className="group_list_times" >
+                    <View className="group_list_times0" >
                         {this.state.time.date}
                     </View>
+                </View>
+                <View className="group_list_btnbox0" >
+                    <View className="group_list_btn0" onClick={(e) => {
+                        this.props.handleclick(this.props.itemid);
+                        e.stopPropagation();
+                    }}
+                    >立即参团</View>
                 </View>
             </View>
         );
