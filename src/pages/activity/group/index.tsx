@@ -59,7 +59,6 @@ export default class Group extends Component<Props>{
       ypoint: ""
     },
     data2: {
-      current_page: 1,
       data: [
         {
           avatar: "",
@@ -69,15 +68,10 @@ export default class Group extends Component<Props>{
           real_name: "",
         }
       ],
-      from: 1,
-      last_page: 1,
-      next_page_url: null,
-      per_page: 1,
-      prev_page_url: null,
-      to: 1,
-      total: 1,
+      page: 1,
+      pageRow: 2,
+      total: 0,
     },
-    newGroupList: [],
     imagePath: '',
     isPostage: true,
     is_login: false,
@@ -89,6 +83,7 @@ export default class Group extends Component<Props>{
   };
 
   componentWillMount = () => {
+    console.log(this.$router.params);
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
       this.setState({
@@ -115,8 +110,7 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let newGroupList = this.chunk(res.data.data, 2);
-              this.setState({ data2: res.data, newGroupList: newGroupList });
+              this.setState({ data2: res.data });
             });
 
           request({
@@ -161,8 +155,7 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let newGroupList = this.chunk(res.data.data, 2);
-              this.setState({ data2: res.data, newGroupList: newGroupList });
+              this.setState({ data2: res.data });
             });
 
           request({
@@ -262,29 +255,6 @@ export default class Group extends Component<Props>{
     })
   }
 
-
-  chunk = (arr, size) => {
-    var arr1 = new Array();
-    for (var i = 0; i < Math.ceil(arr.length / size); i++) {
-      arr1[i] = new Array();
-    }
-    var j = 0;
-    var x = 0;
-    for (var i = 0; i < arr.length; i++) {
-      if (!((i % size == 0) && (i != 0))) {
-        arr1[j][x] = arr[i];
-        x++;
-      } else {
-        j++;
-        x = 0;
-        arr1[j][x] = arr[i];
-        x++;
-      }
-    }
-    return arr1;
-  }
-
-
   /**
   * 回首页
   */
@@ -354,6 +324,7 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
+
     let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
     console.log(_tempid);
     // 改前必看：本页面与众不同的傻狗命名一览
@@ -552,7 +523,8 @@ export default class Group extends Component<Props>{
 
   changeListPages = (type) => {
     let thePage;
-    if (type === 'add' && this.state.data2.last_page > this.state.groupListPages) {
+    let allpages = Math.ceil(this.state.data2.total / this.state.data2.pageRow);
+    if (type === 'add' && allpages > this.state.groupListPages) {
       thePage = this.state.groupListPages + 1;
       this.setState({ groupListPages: thePage });
     } else if (type === 'cut' && this.state.groupListPages > 1) {
@@ -570,8 +542,7 @@ export default class Group extends Component<Props>{
       }
     })
       .then((res: any) => {
-        let newGroupList = this.chunk(res.data.data, 2);
-        this.setState({ data2: res.data, newGroupList: newGroupList });
+        this.setState({ data2: res.data });
       });
   }
 
@@ -580,50 +551,6 @@ export default class Group extends Component<Props>{
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
-
-        {/* {
-          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e) => { e.stopPropagation() }}>
-            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
-              <View className="d_appre_groupList_box_title">正在拼团</View>
-              <View className="d_appre_groupList_box_slideBox">
-                <View className="d_appre_groupList_box_slideBox_content" >
-
-                  {
-                    this.state.data2.data.map((item) => {
-                      return (
-                        <View className="group_list0" >
-                          <View className="group_list_img0" >
-                            <Image className="listImg0" src={item.avatar} />
-                          </View>
-                          <View className="group_list_name0" >{item.real_name}</View>
-                          <View className="group_list_timesbox0" >
-                            <View className="group_list_lack0" >
-                              <View className="group_list_lackredblack10" >还差</View>
-                              <View className="group_list_lackred0" >{item.number - item.participation_number}人</View>
-                              <View className="group_list_lackredblack20" >拼成</View>
-                            </View>
-                            <View className="group_list_times0" > 
-                            <TimeUp itemtime={this.state.data.activity_end_time}/>
-                            </View>
-                          </View>
-                          <View className="group_list_btnbox0" >
-                            <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)}>立即参团</View>
-                          </View>
-                        </View>
-                      )
-                    })
-                  }
-                </View>
-              </View>
-              {
-                this.state.data2.data && this.state.data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
-              }
-            </View>
-            <View className="group_list_closebtn" >
-              <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
-            </View>
-          </View> : null
-        } */}
 
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
@@ -719,7 +646,7 @@ export default class Group extends Component<Props>{
 
 
         {
-          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" onTouchStart={this.touthstart.bind(this)} onTouchEnd={this.touthend.bind(this)} >
+          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" onTouchMove={() => { return false; }} onTouchStart={this.touthstart.bind(this)} onTouchEnd={this.touthend.bind(this)} >
             <View className="group_num_titlebox" >
               <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
               {/* {

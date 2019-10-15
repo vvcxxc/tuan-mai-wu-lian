@@ -17,15 +17,21 @@ export default class TimeUp extends Component<Props>{
     };
 
     componentDidMount() {
-        this.setTime()
+        console.log('挂载');
+        this.setTime();
     }
     componentDidShow() {
-        this.setTime()
+        console.log('二次');
+        this.setTime();
     }
     componentWillReceiveProps() {
-        this.setTime()
+        console.log('更新');
+        this.setTime();
     }
-
+    componentWillUnmount() {
+        console.log('移除');
+        clearTimeout(timer);
+    }
     /**
        * 定时
        */
@@ -44,9 +50,7 @@ export default class TimeUp extends Component<Props>{
             }, 1000)
         }
     }
-    componentWillUnmount() {
-        clearTimeout(timer);
-    }
+  
 
     render() {
         return (
