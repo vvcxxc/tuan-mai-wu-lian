@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
+import { AtIcon, AtNoticebar } from 'taro-ui';
 import { View, Image, Swiper, SwiperItem, Button, Canvas, ScrollView } from "@tarojs/components";
 import request from '../../../services/request'
 import TimeUp from './TimeUp';
@@ -581,8 +581,8 @@ export default class Group extends Component<Props>{
 
 
         {
-          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }}>
-            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation() }}>
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e) => { e.stopPropagation() }}>
+            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
                 {/* <View className="d_appre_groupList_box_slideBox_content" > */}
@@ -759,14 +759,8 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
-                            <View className="group_list_times" ><AtCountdown
-                              isShowDay={true}
-                              format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                              day={this.state.differ_time[0]}
-                              hours={this.state.differ_time[1]}
-                              minutes={this.state.differ_time[2]}
-                              seconds={this.state.differ_time[3]}
-                            /></View>
+                            <View className="group_list_times" > <TimeUp itemtime={this.state.data.activity_end_time} />
+                            </View>
                           </View>
                         </View>
                         {
@@ -784,14 +778,8 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" ><AtCountdown
-                                isShowDay={true}
-                                format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                                day={this.state.differ_time[0]}
-                                hours={this.state.differ_time[1]}
-                                minutes={this.state.differ_time[2]}
-                                seconds={this.state.differ_time[3]}
-                              /></View>
+                              <View className="group_list_times" > <TimeUp itemtime={this.state.data.activity_end_time} />
+                              </View>
                             </View>
                           </View> : null
                         }
