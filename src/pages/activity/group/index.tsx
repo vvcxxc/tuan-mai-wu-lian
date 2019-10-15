@@ -717,7 +717,6 @@ export default class Group extends Component<Props>{
 
 
 
-
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>

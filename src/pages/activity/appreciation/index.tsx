@@ -325,7 +325,7 @@ export default class Appre extends Component<Props>{
             request({
               url: 'v1/youhui/getUserLastYouhuiId',
               method: "GET",
-              data: { order_sn: order_sn }
+              data: { channel_order_sn: order_sn }
             }).then((res: any) => {
               if (res.code == 200) {
                 clearInterval(interval);
