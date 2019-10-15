@@ -1,10 +1,8 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
+import { View, Image, Swiper, SwiperItem, Button, Canvas, ScrollView } from "@tarojs/components";
 import request from '../../../services/request'
-import ClockUp from './clockUp';
 import TimeUp from './TimeUp';
-import ClockUp2 from './clockUp2';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
@@ -14,6 +12,8 @@ interface Props {
   id: any;
 }
 
+
+let interval;
 export default class Group extends Component<Props>{
 
 
@@ -72,6 +72,7 @@ export default class Group extends Component<Props>{
       pageRow: 2,
       total: 0,
     },
+    newGroupList: [],
     imagePath: '',
     isPostage: true,
     is_login: false,
@@ -110,7 +111,8 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              this.setState({ data2: res.data });
+              let newGroupList = this.chunk(res.data.data, 2);
+              this.setState({ data2: res.data, newGroupList: newGroupList });
             });
 
           request({
@@ -155,7 +157,8 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              this.setState({ data2: res.data });
+              let newGroupList = this.chunk(res.data.data, 2);
+              this.setState({ data2: res.data, newGroupList: newGroupList });
             });
 
           request({
@@ -283,6 +286,28 @@ export default class Group extends Component<Props>{
     }
   }
 
+  chunk = (arr, size) => {
+    var arr1 = new Array();
+    for (var i = 0; i < Math.ceil(arr.length / size); i++) {
+      arr1[i] = new Array();
+    }
+    var j = 0;
+    var x = 0;
+    for (var i = 0; i < arr.length; i++) {
+      if (!((i % size == 0) && (i != 0))) {
+        arr1[j][x] = arr[i];
+        x++;
+      } else {
+        j++;
+        x = 0;
+        arr1[j][x] = arr[i];
+        x++;
+      }
+    }
+    return arr1;
+  }
+
+
   //去图文详情
   toImgList = () => {
     Taro.navigateTo({
@@ -324,9 +349,8 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
-
-    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
-    console.log(_tempid);
+    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
+    let _temptype = this.$router.params.type;
     // 改前必看：本页面与众不同的傻狗命名一览
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
     // 店ID:store_id==this.state.data.id;
@@ -370,6 +394,7 @@ export default class Group extends Component<Props>{
       method: "POST",
       data
     }).then((res: any) => {
+      let order_sn = res.channel_order_sn;//比增值少一层data
       Taro.hideLoading();
       // 发起支付
       Taro.requestPayment({
@@ -379,30 +404,45 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + _tempid,
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
-          })
-          // //查询用户最后一次购买的拼团活动id
-          // request({
-          //   url: 'v1/youhui/getUserLastYouhuiGroupId',
-          //   method: "GET"
-          // }).then((res: any) => {
-          //   console.log('支付id:', res.data.id)
-          //   //得到拼团活动id并跳转活动详情
-          //   Taro.navigateTo({
-          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
-          //     success: () => {
-          //       var page = Taro.getCurrentPages().pop();
-          //       if (page == undefined || page == null) return;
-          //       page.onLoad();
-          //     }
-          //   })
-          // })
+          if (_temptype == 5) {
+            //开团要得到开团活动id再跳转活动详情
+            Taro.showLoading({
+              title: 'loading',
+              mask: true
+            });
+            interval = setInterval(() => {
+              request({
+                url: 'api/wap/user/getUserYouhuiGroupId',
+                method: "GET",
+                data: { order_sn: order_sn }
+              }).then((res: any) => {
+                if (res.code == 200) {
+                  clearInterval(interval);
+                  Taro.hideLoading();
+                  Taro.navigateTo({
+                    url: '/pages/activity/pages/group/group?id=' + res.data.id,
+                    success: () => {
+                      var page = Taro.getCurrentPages().pop();
+                      if (page == undefined || page == null) return;
+                      page.onLoad();
+                    }
+                  })
+                }
+              })
+            }, 1000);
+          } else if (_temptype == 55) {
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + _tempid,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
+          } else {
+            console.log('类型出错');
+            return;
+          }
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -509,48 +549,88 @@ export default class Group extends Component<Props>{
     this.setState({ differ_time: differ_time });
   }
 
+  addGroupList = () => {
+    if ((this.state.data2.total / this.state.data2.pageRow) > this.state.groupListPages) {
+      let thePage = this.state.groupListPages + 1;
+      this.setState({ groupListPages: thePage }, () => {
+        request({
+          url: 'api/wap/user/getGroupbuyings',
+          method: "GET",
+          data: {
+            group_info_id: this.$router.params.id,
+            page: thePage
+          }
+        })
+          .then((res: any) => {
+            let newDate = this.state.data2.data.concat(res.data.data);
+            let newObj = this.state.data2;
+            newObj.data = newDate;
+            this.setState({ data2: newObj });
+          });
 
-  touthstart = (e) => {
-    this.setState({ touthstartY: e.changedTouches[0].pageY })
-  }
-  touthend = (e) => {
-    if (this.state.touthstartY > e.changedTouches[0].pageY) {
-      this.changeListPages('add')
-    } else if (this.state.touthstartY < e.changedTouches[0].pageY) {
-      this.changeListPages('cut')
-    }
-  }
-
-  changeListPages = (type) => {
-    let thePage;
-    let allpages = Math.ceil(this.state.data2.total / this.state.data2.pageRow);
-    if (type === 'add' && allpages > this.state.groupListPages) {
-      thePage = this.state.groupListPages + 1;
-      this.setState({ groupListPages: thePage });
-    } else if (type === 'cut' && this.state.groupListPages > 1) {
-      thePage = this.state.groupListPages + -1;
-      this.setState({ groupListPages: thePage });
+      });
     } else {
       return;
     }
-    request({
-      url: 'api/wap/user/getGroupbuyings',
-      method: "GET",
-      data: {
-        group_info_id: this.$router.params.id,
-        page: thePage
-      }
-    })
-      .then((res: any) => {
-        this.setState({ data2: res.data });
-      });
   }
-
 
   render() {
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
+
+
+        {
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }}>
+            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation() }}>
+              <View className="d_appre_groupList_box_title">正在拼团</View>
+              <View className="d_appre_groupList_box_slideBox">
+                {/* <View className="d_appre_groupList_box_slideBox_content" > */}
+                <ScrollView
+                  className='d_appre_groupList_box_slideBox_content'
+                  scrollY
+                  scrollWithAnimation
+                  onScrollToLower={this.addGroupList}
+                >
+                  {
+                    this.state.data2.data.map((item) => {
+                      return (
+                        <View className="group_list0" >
+                          <View className="group_list_img0" >
+                            <Image className="listImg0" src={item.avatar} />
+                          </View>
+                          <View className="group_list_name0" >{item.real_name}</View>
+                          <View className="group_list_timesbox0" >
+                            <View className="group_list_lack0" >
+                              <View className="group_list_lackredblack10" >还差</View>
+                              <View className="group_list_lackred0" >{item.number}人</View>
+                              <View className="group_list_lackredblack20" >拼成</View>
+                            </View>
+                            <View className="group_list_times0" >
+                              <TimeUp itemtime={this.state.data.activity_end_time} />
+                            </View>
+                          </View>
+                          <View className="group_list_btnbox0" >
+                            <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
+                          </View>
+                        </View>
+                      )
+                    })
+                  }
+
+                </ScrollView>
+                {/* </View> */}
+              </View>
+              <View className="group_list_toast" >上滑查看更多</View>
+              {/* {
+                this.state.data2.data && this.state.data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
+              } */}
+            </View>
+            <View className="group_list_closebtn" >
+              <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
+            </View>
+          </View> : null
+        }
 
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
@@ -643,49 +723,86 @@ export default class Group extends Component<Props>{
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/x2WBTiwQwdap5ktNYYTyrGeP7E4zD5Qk.png" />
         </View>
-
-
         {
-          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" onTouchMove={() => { return false; }} onTouchStart={this.touthstart.bind(this)} onTouchEnd={this.touthend.bind(this)} >
+          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" >
             <View className="group_num_titlebox" >
               <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
-              {/* {
+              {
                 this.state.data2.data && this.state.data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
-              } */}
+              }
             </View>
             <View className="group_listbox" >
-              {
-                this.state.data2.data && this.state.data2.data.length > 0 ? this.state.data2.data.map((item: any, index) => {
-                  return (
-                    <View className="group_list" >
-                      <View className="group_list_img" >
-                        <Image className="listImg" src={item.avatar} />
-                      </View>
-                      <View className="group_list_name" >{item.real_name}</View>
-                      <View className="group_list_btnbox" >
-                        <View className="group_list_btn" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
-                      </View>
-                      <View className="group_list_timesbox" >
-                        <View className="group_list_lack" >
-                          <View className="group_list_lackredblack1" >还差</View>
-                          <View className="group_list_lackred" >{item.number - item.participation_number}人</View>
-                          <View className="group_list_lackredblack2" >拼成</View>
+
+              <Swiper
+                className='test-h'
+                vertical
+                autoplay
+                circular={true}
+                interval={3000}
+              >
+
+                {
+                  this.state.newGroupList.map((item: any, index) => {
+                    return (
+                      <SwiperItem>
+                        <View className="group_list" >
+                          <View className="group_list_img" >
+                            <Image className="listImg" src={item[0].avatar} />
+                          </View>
+                          <View className="group_list_name" >{item[0].real_name}</View>
+                          <View className="group_list_btnbox" >
+                            <View className="group_list_btn" onClick={this.payment2.bind(this, item[0].id)} >立即参团</View>
+                          </View>
+                          <View className="group_list_timesbox" >
+                            <View className="group_list_lack" >
+                              <View className="group_list_lackredblack1" >还差</View>
+                              <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
+                              <View className="group_list_lackredblack2" >拼成</View>
+                            </View>
+                            <View className="group_list_times" ><AtCountdown
+                              isShowDay={true}
+                              format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+                              day={this.state.differ_time[0]}
+                              hours={this.state.differ_time[1]}
+                              minutes={this.state.differ_time[2]}
+                              seconds={this.state.differ_time[3]}
+                            /></View>
+                          </View>
                         </View>
-                        <View className="group_list_times" >
-                          <TimeUp itemtime={this.state.data.activity_end_time} />
-                        </View>
-                      </View>
-                    </View>
-                  )
-                }) : null
-              }
+                        {
+                          item[1] ? <View className="group_list" >
+                            <View className="group_list_img" >
+                              <Image className="listImg" src={item[1].avatar} />
+                            </View>
+                            <View className="group_list_name" >{item[1].real_name}</View>
+                            <View className="group_list_btnbox" >
+                              <View className="group_list_btn" onClick={this.payment2.bind(this, item[1].id)} >立即参团</View>
+                            </View>
+                            <View className="group_list_timesbox" >
+                              <View className="group_list_lack" >
+                                <View className="group_list_lackredblack1" >还差</View>
+                                <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
+                                <View className="group_list_lackredblack2" >拼成</View>
+                              </View>
+                              <View className="group_list_times" ><AtCountdown
+                                isShowDay={true}
+                                format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
+                                day={this.state.differ_time[0]}
+                                hours={this.state.differ_time[1]}
+                                minutes={this.state.differ_time[2]}
+                                seconds={this.state.differ_time[3]}
+                              /></View>
+                            </View>
+                          </View> : null
+                        }
+                      </SwiperItem>
+                    )
+                  })
+                }
+              </Swiper>
             </View>
           </View> : null
         }
-
-
-
-
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>

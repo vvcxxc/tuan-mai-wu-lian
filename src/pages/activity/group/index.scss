@@ -46,7 +46,8 @@
 
                 .d_appre_groupList_box_slideBox_content {
                     width: 100%;
-                    height: 100%;
+                    // height: 100%;
+                    height: 700px;
 
                     .group_list0 {
                         height: 145px;
@@ -544,6 +545,7 @@
             width: 100%;
             height: 260px;
             overflow: scroll;
+
             .group_list {
                 height: 130px;
                 width: 100%;

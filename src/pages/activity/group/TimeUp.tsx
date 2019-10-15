@@ -5,44 +5,42 @@ interface Props {
     itemtime: any
 }
 
-let timer;
 export default class TimeUp extends Component<Props>{
 
     state = {
         time: {
             date: '',
-            display: 1
+            display: 2
         },
         differ_time: []
     };
 
     componentDidMount() {
-        console.log('挂载');
         this.setTime();
     }
     componentDidShow() {
-        console.log('二次');
         this.setTime();
     }
-    componentWillReceiveProps() {
-        console.log('更新');
+    componentWillReceiveProps(props, nextprops) {
+        console.log(props);
+        console.log(nextprops);
         this.setTime();
     }
     componentWillUnmount() {
-        console.log('移除');
         clearTimeout(timer);
     }
     /**
        * 定时
        */
     setTime = () => {
+        let timer;
         if (this.state.time.display <= 0) {
             clearTimeout(timer)
             return
         } else {
             timer = setTimeout(() => {
-                clearTimeout(timer)
-                let time = getTime(new Date(this.props.itemtime).getTime() / 1000)
+                clearTimeout(timer);
+                let time = getTime(new Date(this.props.itemtime).getTime() / 1000);
                 this.setState({
                     time
                 })
@@ -50,7 +48,7 @@ export default class TimeUp extends Component<Props>{
             }, 1000)
         }
     }
-  
+
 
     render() {
         return (
