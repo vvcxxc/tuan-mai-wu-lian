@@ -83,7 +83,9 @@ export default class Group extends Component<Props>{
     is_login: false,
     isFromShare: false,
     groupListShow: false,
-    differ_time: []
+    differ_time: [],
+    touthstartY: 0,
+    groupListPages: 1
   };
 
   componentWillMount = () => {
@@ -109,6 +111,7 @@ export default class Group extends Component<Props>{
             method: "GET",
             data: {
               group_info_id: this.$router.params.id,
+              page: 1
             }
           })
             .then((res: any) => {
@@ -154,6 +157,7 @@ export default class Group extends Component<Props>{
             method: "GET",
             data: {
               group_info_id: this.$router.params.id,
+              page: 1
             }
           })
             .then((res: any) => {
@@ -513,6 +517,7 @@ export default class Group extends Component<Props>{
         }
       })
     })
+    e.stopPropagation();
   }
 
   tempTime = () => {
@@ -531,6 +536,43 @@ export default class Group extends Component<Props>{
     var seconds = Math.round(leave3 / 1000)
     var differ_time = [days, hours, minutes, seconds]
     this.setState({ differ_time: differ_time });
+  }
+
+
+  touthstart = (e) => {
+    this.setState({ touthstartY: e.changedTouches[0].pageY })
+  }
+  touthend = (e) => {
+    if (this.state.touthstartY > e.changedTouches[0].pageY) {
+      this.changeListPages('add')
+    } else if (this.state.touthstartY < e.changedTouches[0].pageY) {
+      this.changeListPages('cut')
+    }
+  }
+
+  changeListPages = (type) => {
+    let thePage;
+    if (type === 'add' && this.state.data2.last_page > this.state.groupListPages) {
+      thePage = this.state.groupListPages + 1;
+      this.setState({ groupListPages: thePage });
+    } else if (type === 'cut' && this.state.groupListPages > 1) {
+      thePage = this.state.groupListPages + -1;
+      this.setState({ groupListPages: thePage });
+    } else {
+      return;
+    }
+    request({
+      url: 'api/wap/user/getGroupbuyings',
+      method: "GET",
+      data: {
+        group_info_id: this.$router.params.id,
+        page: thePage
+      }
+    })
+      .then((res: any) => {
+        let newGroupList = this.chunk(res.data.data, 2);
+        this.setState({ data2: res.data, newGroupList: newGroupList });
+      });
   }
 
 
@@ -677,16 +719,16 @@ export default class Group extends Component<Props>{
 
 
         {
-          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" >
+          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" onTouchStart={this.touthstart.bind(this)} onTouchEnd={this.touthend.bind(this)} >
             <View className="group_num_titlebox" >
               <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
-              {
+              {/* {
                 this.state.data2.data && this.state.data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
-              }
+              } */}
             </View>
             <View className="group_listbox" >
               {
-                this.state.newGroupList.map((item: any, index) => {
+                this.state.data2.data && this.state.data2.data.length > 0 ? this.state.data2.data.map((item: any, index) => {
                   return (
                     <View className="group_list" >
                       <View className="group_list_img" >
@@ -708,7 +750,7 @@ export default class Group extends Component<Props>{
                       </View>
                     </View>
                   )
-                })
+                }) : null
               }
             </View>
           </View> : null
