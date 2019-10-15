@@ -539,7 +539,7 @@ export default class Group extends Component<Props>{
     return (
       <View className="d_appre" >
 
-        {
+        {/* {
           this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e) => { e.stopPropagation() }}>
             <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
@@ -549,8 +549,6 @@ export default class Group extends Component<Props>{
                   {
                     this.state.data2.data.map((item) => {
                       return (
-                        // <ClockUp2 key={item.id} itemtime={this.state.data.activity_end_time} avatar={item.avatar} itemid={item.id} number={item.number} participation_number={item.participation_number} real_name={item.real_name} handleclick={this.payment2.bind(this, item.id)} />
-
                         <View className="group_list0" >
                           <View className="group_list_img0" >
                             <Image className="listImg0" src={item.avatar} />
@@ -564,19 +562,6 @@ export default class Group extends Component<Props>{
                             </View>
                             <View className="group_list_times0" > 
                             <TimeUp itemtime={this.state.data.activity_end_time}/>
-                            {/* <AtCountdown
-                              // onTimeUp={(e) => { console.log(this) }}
-                              isShowDay={true}
-                              format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                              // day={0}
-                              // hours={0}
-                              // minutes={0}
-                              // seconds={3}
-                              day={this.state.differ_time[0]}
-                              hours={this.state.differ_time[1]}
-                              minutes={this.state.differ_time[2]}
-                              seconds={this.state.differ_time[3]}
-                            /> */}
                             </View>
                           </View>
                           <View className="group_list_btnbox0" >
@@ -596,7 +581,7 @@ export default class Group extends Component<Props>{
               <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
             </View>
           </View> : null
-        }
+        } */}
 
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
@@ -606,7 +591,6 @@ export default class Group extends Component<Props>{
         {
           this.state.data.images.length > 0 ? <Swiper
             onChange={(e) => {
-              // console.log(e.detail.current)
               this.setState({ imagesCurrent: e.detail.current })
             }}
             onClick={() => {
@@ -622,9 +606,7 @@ export default class Group extends Component<Props>{
               this.state.data.images ? this.state.data.images.map((item, index) => {
                 return (
                   <SwiperItem key={item} >
-                    <View className='demo-text'
-                    // onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                    >
+                    <View className='demo-text' >
                       <Image className="demo-text-Img" src={item} />
                     </View>
                   </SwiperItem>
@@ -703,90 +685,39 @@ export default class Group extends Component<Props>{
               }
             </View>
             <View className="group_listbox" >
-
-
-              <Swiper
-                className='test-h'
-                vertical
-                autoplay
-                circular
-                interval={3000}
-              >
-
-                {
-                  this.state.newGroupList.map((item: any, index) => {
-                    return (
-                      <SwiperItem>
-                        {/* <ClockUp key={item} itemtime={this.state.data.activity_end_time} avatar={item[0].avatar} itemid={item[0].id} number={item[0].number} participation_number={item[0].participation_number} real_name={item[0].real_name} handleclick={this.payment2.bind(this, item[0].id)} />
-                        {
-                          item[1] ? <ClockUp key={item} itemtime={this.state.data.activity_end_time} avatar={item[1].avatar} itemid={item[1].id} number={item[1].number} participation_number={item[1].participation_number} real_name={item[1].real_name} handleclick={this.payment2.bind(this, item[1].id)} />
-                            : null
-                        } */}
-                                               
-                        <View className="group_list" >
-                          <View className="group_list_img" >
-                            <Image className="listImg" src={item[0].avatar} />
-                          </View>
-                          <View className="group_list_name" >{item[0].real_name}</View>
-                          <View className="group_list_btnbox" >
-                            <View className="group_list_btn" onClick={this.payment2.bind(this, item[0].id)} >立即参团</View>
-                          </View>
-                          <View className="group_list_timesbox" >
-                            <View className="group_list_lack" >
-                              <View className="group_list_lackredblack1" >还差</View>
-                              <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
-                              <View className="group_list_lackredblack2" >拼成</View>
-                            </View>
-                            <View className="group_list_times" >
-                              {/* <AtCountdown
-                                isShowDay={true}
-                                format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                                day={this.state.differ_time[0]}
-                                hours={this.state.differ_time[1]}
-                                minutes={this.state.differ_time[2]}
-                                seconds={this.state.differ_time[3]}
-                              /> */}
-                               <TimeUp itemtime={this.state.data.activity_end_time}/>
-                            </View>
-                          </View>
+              {
+                this.state.newGroupList.map((item: any, index) => {
+                  return (
+                    <View className="group_list" >
+                      <View className="group_list_img" >
+                        <Image className="listImg" src={item.avatar} />
+                      </View>
+                      <View className="group_list_name" >{item.real_name}</View>
+                      <View className="group_list_btnbox" >
+                        <View className="group_list_btn" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
+                      </View>
+                      <View className="group_list_timesbox" >
+                        <View className="group_list_lack" >
+                          <View className="group_list_lackredblack1" >还差</View>
+                          <View className="group_list_lackred" >{item.number - item.participation_number}人</View>
+                          <View className="group_list_lackredblack2" >拼成</View>
                         </View>
-                        {
-                          item[1] ? <View className="group_list" >
-                            <View className="group_list_img" >
-                              <Image className="listImg" src={item[1].avatar} />
-                            </View>
-                            <View className="group_list_name" >{item[1].real_name}</View>
-                            <View className="group_list_btnbox" >
-                              <View className="group_list_btn" onClick={this.payment2.bind(this, item[1].id)} >立即参团</View>
-                            </View>
-                            <View className="group_list_timesbox" >
-                              <View className="group_list_lack" >
-                                <View className="group_list_lackredblack1" >还差</View>
-                                <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
-                                <View className="group_list_lackredblack2" >拼成</View>
-                              </View>
-                              <View className="group_list_times" >
-                                {/* <AtCountdown
-                                  isShowDay={true}
-                                  format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                                  day={this.state.differ_time[0]}
-                                  hours={this.state.differ_time[1]}
-                                  minutes={this.state.differ_time[2]}
-                                  seconds={this.state.differ_time[3]}
-                                /> */}
-                                 <TimeUp itemtime={this.state.data.activity_end_time}/>
-                              </View>
-                            </View>
-                          </View> : null
-                        }
-                      </SwiperItem>
-                    )
-                  })
-                }
-              </Swiper>
+                        <View className="group_list_times" >
+                          <TimeUp itemtime={this.state.data.activity_end_time} />
+                        </View>
+                      </View>
+                    </View>
+                  )
+                })
+              }
             </View>
           </View> : null
         }
+
+
+
+
+
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>

@@ -341,7 +341,7 @@ export default class Appre extends Component<Props>{
                 })
               }
             })
-          }, 500);
+          }, 1000);
 
         },
         fail(err) {
