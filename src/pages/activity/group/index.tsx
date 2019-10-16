@@ -81,6 +81,16 @@ export default class Group extends Component<Props>{
     groupListPages: 1
   };
 
+  componentWillUnmount() {
+    console.log('清除计时器');
+    // clearTimeout(timer);
+    var end = setTimeout(function () { }, 1);
+    var start = (end - 100) > 0 ? end - 100 : 0;
+    for (var i = start; i <= end; i++) {
+      clearTimeout(i);
+    }
+  }
+
   componentWillMount = () => {
     console.log(this.$router.params);
     let arrs = Taro.getCurrentPages()
@@ -89,7 +99,6 @@ export default class Group extends Component<Props>{
         isFromShare: true
       })
     }
-
     Taro.showLoading({
       title: 'loading',
     })
