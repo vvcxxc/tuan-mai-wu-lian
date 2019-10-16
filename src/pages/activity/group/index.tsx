@@ -100,18 +100,7 @@ export default class Group extends Component<Props>{
           yPoint: res.latitude,
           xPoint: res.longitude
         }, () => {
-          request({
-            url: 'api/wap/user/getGroupbuyings',
-            method: "GET",
-            data: {
-              group_info_id: this.$router.params.id,
-              page: 1
-            }
-          })
-            .then((res: any) => {
-              let newGroupList = this.chunk(res.data.data, 2);
-              this.setState({ data2: res.data, newGroupList: newGroupList });
-            });
+
 
           request({
             url: 'api/wap/user/getGroupYouhuiInfo',
@@ -133,6 +122,18 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
+                request({
+                  url: 'api/wap/user/getGroupbuyings',
+                  method: "GET",
+                  data: {
+                    group_info_id: this.$router.params.id,
+                    page: 1
+                  }
+                })
+                  .then((res: any) => {
+                    let newGroupList = this.chunk(res.data.data, 2);
+                    this.setState({ data2: res.data, newGroupList: newGroupList });
+                  });
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -145,18 +146,7 @@ export default class Group extends Component<Props>{
           yPoint: '',
           xPoint: ''
         }, () => {
-          request({
-            url: 'api/wap/user/getGroupbuyings',
-            method: "GET",
-            data: {
-              group_info_id: this.$router.params.id,
-              page: 1
-            }
-          })
-            .then((res: any) => {
-              let newGroupList = this.chunk(res.data.data, 2);
-              this.setState({ data2: res.data, newGroupList: newGroupList });
-            });
+
 
           request({
             url: 'api/wap/user/getGroupYouhuiInfo',
@@ -178,6 +168,19 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
+                request({
+                  url: 'api/wap/user/getGroupbuyings',
+                  method: "GET",
+                  data: {
+                    group_info_id: this.$router.params.id,
+                    page: 1
+                  }
+                })
+                  .then((res: any) => {
+                    let newGroupList = this.chunk(res.data.data, 2);
+                    this.setState({ data2: res.data, newGroupList: newGroupList });
+                  });
+
               });
               Taro.hideLoading()
             }).catch(err => {

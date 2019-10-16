@@ -24,6 +24,8 @@ export const getTime = time => {
   tmp = tmp.substr(0,10)
   let display = time - tmp;
   let date = ''
+  console.log(time,'结束时间')
+  console.log(display,'时间差')
   if(display > 0){
     let day = Math.floor((display / 3600) / 24);
     let hour = Math.floor((display / 3600) % 24);
