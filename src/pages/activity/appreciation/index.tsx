@@ -305,8 +305,9 @@ export default class Appre extends Component<Props>{
       method: "POST",
       data
     }).then((res: any) => {
-      let order_sn = res.data.order_id;
+      let order_sn = res.data.channel_order_sn;
       Taro.hideLoading();
+      
       // 发起支付
       Taro.requestPayment({
         timeStamp: res.data.timeStamp,
@@ -315,7 +316,6 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-
           Taro.showLoading({
             title: 'loading',
             mask: true
@@ -341,7 +341,7 @@ export default class Appre extends Component<Props>{
                 })
               }
             })
-          }, 500);
+          }, 1000);
 
         },
         fail(err) {

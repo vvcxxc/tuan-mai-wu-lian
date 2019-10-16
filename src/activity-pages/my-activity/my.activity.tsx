@@ -34,6 +34,7 @@ export default class MyActivity extends Component<MyActivityProp> {
 
   onShareAppMessage = e => {
     const { id, image, title } = e.target.dataset
+    console.log(id);
     console.log( e.target.dataset)
     const userInfo = Taro.getStorageSync('userInfo')
     return {
@@ -53,6 +54,7 @@ export default class MyActivity extends Component<MyActivityProp> {
     switch(action) {
       case ACTION_JUMP:
         const { type, id } = data
+        console.log(id);
         let _url = ""
         if (type === TYPE_APPRECIATION) {
           _url = "/pages/activity/pages/appreciation/appreciation"

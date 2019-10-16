@@ -1,10 +1,8 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon, AtNoticebar, AtCountdown } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
+import { AtIcon, AtNoticebar } from 'taro-ui';
+import { View, Image, Swiper, SwiperItem, Button, Canvas, ScrollView } from "@tarojs/components";
 import request from '../../../services/request'
-import ClockUp from './clockUp';
 import TimeUp from './TimeUp';
-import ClockUp2 from './clockUp2';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
@@ -14,6 +12,8 @@ interface Props {
   id: any;
 }
 
+
+let interval;
 export default class Group extends Component<Props>{
 
 
@@ -59,7 +59,6 @@ export default class Group extends Component<Props>{
       ypoint: ""
     },
     data2: {
-      current_page: 1,
       data: [
         {
           avatar: "",
@@ -69,13 +68,9 @@ export default class Group extends Component<Props>{
           real_name: "",
         }
       ],
-      from: 1,
-      last_page: 1,
-      next_page_url: null,
-      per_page: 1,
-      prev_page_url: null,
-      to: 1,
-      total: 1,
+      page: 1,
+      pageRow: 2,
+      total: 0,
     },
     newGroupList: [],
     imagePath: '',
@@ -83,10 +78,11 @@ export default class Group extends Component<Props>{
     is_login: false,
     isFromShare: false,
     groupListShow: false,
-    differ_time: []
+    groupListPages: 1
   };
 
   componentWillMount = () => {
+    console.log(this.$router.params);
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
       this.setState({
@@ -109,6 +105,7 @@ export default class Group extends Component<Props>{
             method: "GET",
             data: {
               group_info_id: this.$router.params.id,
+              page: 1
             }
           })
             .then((res: any) => {
@@ -136,7 +133,6 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
-                this.tempTime();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -154,6 +150,7 @@ export default class Group extends Component<Props>{
             method: "GET",
             data: {
               group_info_id: this.$router.params.id,
+              page: 1
             }
           })
             .then((res: any) => {
@@ -181,7 +178,6 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
-                this.tempTime();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -258,29 +254,6 @@ export default class Group extends Component<Props>{
     })
   }
 
-
-  chunk = (arr, size) => {
-    var arr1 = new Array();
-    for (var i = 0; i < Math.ceil(arr.length / size); i++) {
-      arr1[i] = new Array();
-    }
-    var j = 0;
-    var x = 0;
-    for (var i = 0; i < arr.length; i++) {
-      if (!((i % size == 0) && (i != 0))) {
-        arr1[j][x] = arr[i];
-        x++;
-      } else {
-        j++;
-        x = 0;
-        arr1[j][x] = arr[i];
-        x++;
-      }
-    }
-    return arr1;
-  }
-
-
   /**
   * 回首页
   */
@@ -308,6 +281,28 @@ export default class Group extends Component<Props>{
       imageUrl: imageUrl
     }
   }
+
+  chunk = (arr, size) => {
+    var arr1 = new Array();
+    for (var i = 0; i < Math.ceil(arr.length / size); i++) {
+      arr1[i] = new Array();
+    }
+    var j = 0;
+    var x = 0;
+    for (var i = 0; i < arr.length; i++) {
+      if (!((i % size == 0) && (i != 0))) {
+        arr1[j][x] = arr[i];
+        x++;
+      } else {
+        j++;
+        x = 0;
+        arr1[j][x] = arr[i];
+        x++;
+      }
+    }
+    return arr1;
+  }
+
 
   //去图文详情
   toImgList = () => {
@@ -350,8 +345,8 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
-    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id;
-    console.log(_tempid);
+    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
+    let _temptype = this.$router.params.type;
     // 改前必看：本页面与众不同的傻狗命名一览
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
     // 店ID:store_id==this.state.data.id;
@@ -395,6 +390,7 @@ export default class Group extends Component<Props>{
       method: "POST",
       data
     }).then((res: any) => {
+      let order_sn = res.channel_order_sn;//比增值少一层data
       Taro.hideLoading();
       // 发起支付
       Taro.requestPayment({
@@ -404,30 +400,45 @@ export default class Group extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + _tempid,
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
-          })
-          // //查询用户最后一次购买的拼团活动id
-          // request({
-          //   url: 'v1/youhui/getUserLastYouhuiGroupId',
-          //   method: "GET"
-          // }).then((res: any) => {
-          //   console.log('支付id:', res.data.id)
-          //   //得到拼团活动id并跳转活动详情
-          //   Taro.navigateTo({
-          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
-          //     success: () => {
-          //       var page = Taro.getCurrentPages().pop();
-          //       if (page == undefined || page == null) return;
-          //       page.onLoad();
-          //     }
-          //   })
-          // })
+          if (_temptype == 5) {
+            //开团要得到开团活动id再跳转活动详情
+            Taro.showLoading({
+              title: 'loading',
+              mask: true
+            });
+            interval = setInterval(() => {
+              request({
+                url: 'api/wap/user/getUserYouhuiGroupId',
+                method: "GET",
+                data: { order_sn: order_sn }
+              }).then((res: any) => {
+                if (res.code == 200) {
+                  clearInterval(interval);
+                  Taro.hideLoading();
+                  Taro.navigateTo({
+                    url: '/pages/activity/pages/group/group?id=' + res.data.id,
+                    success: () => {
+                      var page = Taro.getCurrentPages().pop();
+                      if (page == undefined || page == null) return;
+                      page.onLoad();
+                    }
+                  })
+                }
+              })
+            }, 1000);
+          } else if (_temptype == 55) {
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + _tempid,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
+          } else {
+            console.log('类型出错');
+            return;
+          }
         },
         fail(err) {
           // Taro.showToast({ title: '支付失败', icon: 'none' })
@@ -513,44 +524,55 @@ export default class Group extends Component<Props>{
         }
       })
     })
+    e.stopPropagation();
   }
 
-  tempTime = () => {
-    let temp_Time = new Date(this.state.data.end_time).getTime() - new Date().getTime();   //时间差的毫秒数        
-    //计算出相差天数  
-    var days = Math.floor(temp_Time / (24 * 3600 * 1000))
-    //计算出小时数  
-    var leave1 = temp_Time % (24 * 3600 * 1000)    //计算天数后剩余的毫秒数  
-    var hours = Math.floor(leave1 / (3600 * 1000))
-    console.log('小时', days, hours)
-    //计算相差分钟数  
-    var leave2 = leave1 % (3600 * 1000)        //计算小时数后剩余的毫秒数  
-    var minutes = Math.floor(leave2 / (60 * 1000))
-    //计算相差秒数  
-    var leave3 = leave2 % (60 * 1000)      //计算分钟数后剩余的毫秒数  
-    var seconds = Math.round(leave3 / 1000)
-    var differ_time = [days, hours, minutes, seconds]
-    this.setState({ differ_time: differ_time });
-  }
+  addGroupList = () => {
+    if ((this.state.data2.total / this.state.data2.pageRow) > this.state.groupListPages) {
+      let thePage = this.state.groupListPages + 1;
+      this.setState({ groupListPages: thePage }, () => {
+        request({
+          url: 'api/wap/user/getGroupbuyings',
+          method: "GET",
+          data: {
+            group_info_id: this.$router.params.id,
+            page: thePage
+          }
+        })
+          .then((res: any) => {
+            let newDate = this.state.data2.data.concat(res.data.data);
+            let newObj = this.state.data2;
+            newObj.data = newDate;
+            this.setState({ data2: newObj });
+          });
 
+      });
+    } else {
+      return;
+    }
+  }
 
   render() {
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
 
+
         {
           this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} onTouchMove={(e) => { e.stopPropagation() }}>
             <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
-                <View className="d_appre_groupList_box_slideBox_content" >
-
+                {/* <View className="d_appre_groupList_box_slideBox_content" > */}
+                <ScrollView
+                  className='d_appre_groupList_box_slideBox_content'
+                  scrollY
+                  scrollWithAnimation
+                  onScrollToLower={this.addGroupList}
+                >
                   {
                     this.state.data2.data.map((item) => {
                       return (
-                        // <ClockUp2 key={item.id} itemtime={this.state.data.activity_end_time} avatar={item.avatar} itemid={item.id} number={item.number} participation_number={item.participation_number} real_name={item.real_name} handleclick={this.payment2.bind(this, item.id)} />
-
                         <View className="group_list0" >
                           <View className="group_list_img0" >
                             <Image className="listImg0" src={item.avatar} />
@@ -559,38 +581,28 @@ export default class Group extends Component<Props>{
                           <View className="group_list_timesbox0" >
                             <View className="group_list_lack0" >
                               <View className="group_list_lackredblack10" >还差</View>
-                              <View className="group_list_lackred0" >{item.number - item.participation_number}人</View>
+                              <View className="group_list_lackred0" >{item.number}人</View>
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
-                            <View className="group_list_times0" > 
-                            <TimeUp itemtime={this.state.data.activity_end_time}/>
-                            {/* <AtCountdown
-                              // onTimeUp={(e) => { console.log(this) }}
-                              isShowDay={true}
-                              format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                              // day={0}
-                              // hours={0}
-                              // minutes={0}
-                              // seconds={3}
-                              day={this.state.differ_time[0]}
-                              hours={this.state.differ_time[1]}
-                              minutes={this.state.differ_time[2]}
-                              seconds={this.state.differ_time[3]}
-                            /> */}
+                            <View className="group_list_times0" >
+                              <TimeUp itemtime={this.state.data.activity_end_time} />
                             </View>
                           </View>
                           <View className="group_list_btnbox0" >
-                            <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)}>立即参团</View>
+                            <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
                           </View>
                         </View>
                       )
                     })
                   }
-                </View>
+
+                </ScrollView>
+                {/* </View> */}
               </View>
-              {
+              <View className="group_list_toast" >上滑查看更多</View>
+              {/* {
                 this.state.data2.data && this.state.data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
-              }
+              } */}
             </View>
             <View className="group_list_closebtn" >
               <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
@@ -606,7 +618,6 @@ export default class Group extends Component<Props>{
         {
           this.state.data.images.length > 0 ? <Swiper
             onChange={(e) => {
-              // console.log(e.detail.current)
               this.setState({ imagesCurrent: e.detail.current })
             }}
             onClick={() => {
@@ -622,9 +633,7 @@ export default class Group extends Component<Props>{
               this.state.data.images ? this.state.data.images.map((item, index) => {
                 return (
                   <SwiperItem key={item} >
-                    <View className='demo-text'
-                    // onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                    >
+                    <View className='demo-text' >
                       <Image className="demo-text-Img" src={item} />
                     </View>
                   </SwiperItem>
@@ -692,8 +701,6 @@ export default class Group extends Component<Props>{
         <View className="appre_process2" >
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/x2WBTiwQwdap5ktNYYTyrGeP7E4zD5Qk.png" />
         </View>
-
-
         {
           this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" >
             <View className="group_num_titlebox" >
@@ -704,12 +711,11 @@ export default class Group extends Component<Props>{
             </View>
             <View className="group_listbox" >
 
-
               <Swiper
                 className='test-h'
                 vertical
                 autoplay
-                circular
+                circular={true}
                 interval={3000}
               >
 
@@ -717,12 +723,6 @@ export default class Group extends Component<Props>{
                   this.state.newGroupList.map((item: any, index) => {
                     return (
                       <SwiperItem>
-                        {/* <ClockUp key={item} itemtime={this.state.data.activity_end_time} avatar={item[0].avatar} itemid={item[0].id} number={item[0].number} participation_number={item[0].participation_number} real_name={item[0].real_name} handleclick={this.payment2.bind(this, item[0].id)} />
-                        {
-                          item[1] ? <ClockUp key={item} itemtime={this.state.data.activity_end_time} avatar={item[1].avatar} itemid={item[1].id} number={item[1].number} participation_number={item[1].participation_number} real_name={item[1].real_name} handleclick={this.payment2.bind(this, item[1].id)} />
-                            : null
-                        } */}
-                                               
                         <View className="group_list" >
                           <View className="group_list_img" >
                             <Image className="listImg" src={item[0].avatar} />
@@ -737,16 +737,7 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
-                            <View className="group_list_times" >
-                              {/* <AtCountdown
-                                isShowDay={true}
-                                format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                                day={this.state.differ_time[0]}
-                                hours={this.state.differ_time[1]}
-                                minutes={this.state.differ_time[2]}
-                                seconds={this.state.differ_time[3]}
-                              /> */}
-                               <TimeUp itemtime={this.state.data.activity_end_time}/>
+                            <View className="group_list_times" > <TimeUp itemtime={this.state.data.activity_end_time} />
                             </View>
                           </View>
                         </View>
@@ -765,16 +756,7 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" >
-                                {/* <AtCountdown
-                                  isShowDay={true}
-                                  format={{ day: '天', hours: ':', minutes: ':', seconds: '' }}
-                                  day={this.state.differ_time[0]}
-                                  hours={this.state.differ_time[1]}
-                                  minutes={this.state.differ_time[2]}
-                                  seconds={this.state.differ_time[3]}
-                                /> */}
-                                 <TimeUp itemtime={this.state.data.activity_end_time}/>
+                              <View className="group_list_times" > <TimeUp itemtime={this.state.data.activity_end_time} />
                               </View>
                             </View>
                           </View> : null
