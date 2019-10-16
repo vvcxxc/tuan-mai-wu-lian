@@ -27,7 +27,13 @@ export default class TimeUp extends Component<Props>{
         this.setTime();
     }
     componentWillUnmount() {
-        clearTimeout(timer);
+        console.log('清除计时器');
+        // clearTimeout(timer);
+        var end = setTimeout(function () { }, 1);
+        var start = (end - 100) > 0 ? end - 100 : 0;
+        for (var i = start; i <= end; i++) {
+            clearTimeout(i);
+        }
     }
     /**
        * 定时
