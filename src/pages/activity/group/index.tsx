@@ -66,6 +66,7 @@ export default class Group extends Component<Props>{
           number: 0,
           participation_number: 0,
           real_name: "",
+          activity_end_time:''
         }
       ],
       page: 1,
@@ -84,7 +85,7 @@ export default class Group extends Component<Props>{
   componentWillUnmount() {
     console.log('清除计时器');
     // clearTimeout(timer);
-    var end = setTimeout(function () { }, 1);
+    var end = setTimeout(function () {}, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
     for (var i = start; i <= end; i++) {
       clearTimeout(i);
@@ -118,6 +119,7 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
+              console.log(res)
               let newGroupList = this.chunk(res.data.data, 2);
               this.setState({ data2: res.data, newGroupList: newGroupList });
             });
@@ -142,6 +144,7 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
+
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -187,6 +190,8 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
+
+
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -563,6 +568,8 @@ export default class Group extends Component<Props>{
 
   render() {
     const { images, description } = this.state.data;
+    console.log(this.state.data2);
+    const {data2} = this.state;
     return (
       <View className="d_appre" >
 
@@ -594,7 +601,7 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
                             <View className="group_list_times0" >
-                              <TimeUp itemtime={this.state.data.activity_end_time} />
+                              <TimeUp itemtime={item.activity_end_time} />
                             </View>
                           </View>
                           <View className="group_list_btnbox0" >
@@ -711,11 +718,11 @@ export default class Group extends Component<Props>{
           <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/x2WBTiwQwdap5ktNYYTyrGeP7E4zD5Qk.png" />
         </View>
         {
-          this.state.data2.data && this.state.data2.data.length > 0 ? <View className="group_num" >
+          data2.data && data2.data.length > 0 ? <View className="group_num" >
             <View className="group_num_titlebox" >
               <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
               {
-                this.state.data2.data && this.state.data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
+                data2.data &&data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
               }
             </View>
             <View className="group_listbox" >
@@ -746,7 +753,7 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
-                            <View className="group_list_times" > <TimeUp itemtime={this.state.data.activity_end_time} />
+                            <View className="group_list_times" > <TimeUp itemtime={item[0].activity_end_time} />
                             </View>
                           </View>
                         </View>
@@ -765,7 +772,7 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" > <TimeUp itemtime={this.state.data.activity_end_time} />
+                              <View className="group_list_times" > <TimeUp itemtime={item[1].activity_end_time}/>
                               </View>
                             </View>
                           </View> : null
