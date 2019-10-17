@@ -20,6 +20,7 @@ export const getCode = (): Promise<any> => {
  *  倒计时
  */
 export const getTime = time => {
+  console.log('倒计时');
   var tmp = Date.parse( new Date() ).toString();
   tmp = tmp.substr(0,10)
   let display = time - tmp;
