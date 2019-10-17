@@ -597,7 +597,7 @@ export default class Group extends Component<Props>{
                           <View className="group_list_timesbox0" >
                             <View className="group_list_lack0" >
                               <View className="group_list_lackredblack10" >还差</View>
-                              <View className="group_list_lackred0" >{item.number}人</View>
+                              <View className="group_list_lackred0" >{item.number - item.participation_number}人</View>
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
                             <View className="group_list_times0" >
