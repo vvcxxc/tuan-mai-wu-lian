@@ -130,11 +130,11 @@ export default class PaySuccess extends Component {
       withShareTicket: true
     })
   }
-  onShareAppMessage=(res)=> {
+  onShareAppMessage = (res) => {
     return {
-      title: this.state.store.sname+'送福利啦！'+this.state.coupon.return_money+'元兑换券下单立刻抵扣，快点抢！',
+      title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
       path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
-      imageUrl:this.state.coupon.image
+      imageUrl: this.state.coupon.image
     }
   }
 
@@ -245,22 +245,25 @@ export default class PaySuccess extends Component {
             <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '' : '#fff' }}>免预约</Text> */}
 
             {
-                   this.state.coupon.label.indexOf('可叠加') !== -1 ?
-                    <Text className="tag-text">可叠加</Text> : null
-                }
-                {
-                   this.state.coupon.label.indexOf('随时退') !== -1 ?
-                    <Text className="tag-text">随时退</Text> : null
-                }
-                {
-                   this.state.coupon.label.indexOf('免预约') !== -1 ?
-                    <Text className="tag-text"  >免预约</Text> : null
-                }
+              this.state.coupon.label.indexOf('可叠加') !== -1 ?
+                <Text className="tag-text">可叠加</Text> : null
+            }
+            {
+              this.state.coupon.label.indexOf('随时退') !== -1 ?
+                <Text className="tag-text">随时退</Text> : null
+            }
+            {
+              this.state.coupon.label.indexOf('免预约') !== -1 ?
+                <Text className="tag-text"  >免预约</Text> : null
+            }
 
 
           </View>
         </View>
-        <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
+
+
+
+        {/* <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
           <View className="set-meal__tit">
             <Text className="fwb">适用店铺</Text>
           </View>
@@ -277,11 +280,39 @@ export default class PaySuccess extends Component {
             <Image className="address-image" src={AddressImg} onClick={this.routePlanning.bind(this)} />
             <View className="distance" onClick={this.routePlanning.bind(this)}>{this.state.store.distance}</View>
             <View className="text flex-item" style={{ width: "80%" }} onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
-
             <Image className="mobile-image" src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
-
+          </View>
+        </View> */}
+        <View className="set_Meal_store">
+          <View className="setMeal_store_box" onClick={this.handleClick2.bind(this, this.state.store.id)}>
+            <View className="setMeal_store_title">适用店铺</View>
+            <View className="setMeal_store_storebox">
+              <View className="setMeal_store_Image">
+                <Image className="setMeal_store_img" src={this.state.store.shop_door_header_img} />
+              </View>
+              <View className="setMeal_store_msg">
+                <View className="setMeal_store_name">{this.state.store.sname}</View>
+                {/* <View className="setMeal_store_price">人均：￥222</View> */}
+              </View>
+              <View className="setMeal_store_icon">
+                <AtIcon value='chevron-right' size='20' color='#ccc'></AtIcon>
+              </View>
+            </View>
+            <View className="setMeal_store_addressbox">
+              <View className="setMeal_store_distance" onClick={this.routePlanning.bind(this)}>
+                <View className="setMeal_store_distance_Image" >
+                  <Image className="setMeal_store_distance_AddressImg" src={AddressImg} />
+                </View>
+                <View className="setMeal_store_distance_info" >{this.state.store.distance}</View>
+              </View>
+              <View className="setMeal_store_address" onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
+              <View className="setMeal_store_mobile" onClick={this.makePhoneCall.bind(this)}>
+                <Image className="setMeal_store_MobileImg" src={MobileImg} />
+              </View>
+            </View>
           </View>
         </View>
+
         <View className="remark mt20 pd30 bcff">
           <View className="set-meal__tit">
             <Text className="fwb">购买须知</Text>
@@ -312,7 +343,7 @@ export default class PaySuccess extends Component {
               </View>
               {
                 this.state.goods_album.map((item) => (
-                  <Image src={item.image_url} style={{ width: "100%",borderRadius: "8rpx" }} key={item.id} />
+                  <Image src={item.image_url} style={{ width: "100%", borderRadius: "8rpx" }} key={item.id} />
                 ))
               }
 
