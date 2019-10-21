@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { Image,View } from "@tarojs/components";
+import { Image, View } from "@tarojs/components";
 import { AtIcon, AtToast } from "taro-ui";
 
 import request from '../../services/request'
@@ -15,6 +15,7 @@ export default class ConfirmOrder extends Component {
   };
 
   state = {
+    tempNum: 0,
     amount: 1,
     pay_success: false,
     coupon: {
@@ -31,7 +32,7 @@ export default class ConfirmOrder extends Component {
     },
     pay_bull: false,
     pay_data: "支付成功",
-    is_login:false
+    is_login: false
   };
   componentWillMount() {
     Taro.showLoading({
@@ -40,10 +41,11 @@ export default class ConfirmOrder extends Component {
     request({ url: '/v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
         console.log(res.data);
-
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store
+        },()=>{
+          this.accMul();
         })
         Taro.hideLoading()
       });
@@ -54,17 +56,22 @@ export default class ConfirmOrder extends Component {
   }
   cutnum() {
     if (this.state.amount > 1) {
-      this.setState({ amount: Number(this.state.amount) - 1 })
+      this.setState({ amount: Number(this.state.amount) - 1 }, () => {
+        this.accMul();
+      })
     }
 
   }
   addnum() {
+    console.log(this.accMul())
     if (this.state.amount < 10) {
-      this.setState({ amount: Number(this.state.amount) + 1 })
+      this.setState({ amount: Number(this.state.amount) + 1 }, () => {
+        this.accMul();
+      })
     }
   }
   payMoney() {
-    if(!Taro.getStorageSync("unionid")){
+    if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
       })
@@ -124,6 +131,24 @@ export default class ConfirmOrder extends Component {
         })
       });
   }
+
+
+  accMul = () => {
+    let arg1 = this.state.coupon.pay_money;
+    let arg2 = this.state.amount;
+    var m = 0, s1 = arg1.toString(),
+      s2 = arg2.toString();
+    try {
+      m += s1.split(".")[1].length
+    } catch (e) { }
+    try {
+      m += s2.split(".")[1].length
+    } catch (e) { }
+    let tempNum = Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+    this.setState({ tempNum: tempNum })
+  }
+
+
   render() {
     return (
       <View className="confirm-order" >
@@ -136,7 +161,7 @@ export default class ConfirmOrder extends Component {
             <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
             <View>{this.state.coupon.pay_money}元</View>
           </View>
-           <View className="flex center">
+          <View className="flex center">
             <View className="item label">数量</View>
             <View className="flex center">
               {/* <AtIcon value="subtract-circle" color={this.state.amount > 1 ? "#FF6654" : "#999"} onClick={this.cutnum.bind(this)} /> */}
@@ -155,12 +180,12 @@ export default class ConfirmOrder extends Component {
           <View className="flex center">
             <View className="item label">金额</View>
             <View className="price">
-              ￥{this.state.coupon.pay_money * this.state.amount}
+              ￥{this.state.tempNum}
             </View>
           </View>
         </View>
         <View className="pay-btn-box">
-          <View className="pay-btn" onClick={this.payMoney.bind(this)}>￥ {this.state.coupon.pay_money * this.state.amount} 去支付</View>
+          <View className="pay-btn" onClick={this.payMoney.bind(this)}>￥ {this.state.tempNum}去支付</View>
         </View>
         {/* <View className="btn-wrap">
           <View className="submit-btn flex center"
@@ -170,7 +195,7 @@ export default class ConfirmOrder extends Component {
           </View>
         </View> */}
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
         }
       </View>
     );
