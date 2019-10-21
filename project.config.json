@@ -41,22 +41,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
-			"list": [
-				{
-					"id": -1,
-					"name": "邀请拼团（已过期）",
-					"pathName": "pages/activity/pages/group/group",
-					"query": "id=322",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/my-activity/my.activity",
-					"pathName": "activity-pages/my-activity/my.activity",
-					"scene": null
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }
