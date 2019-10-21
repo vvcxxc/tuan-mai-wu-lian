@@ -469,7 +469,7 @@ export default class Index extends Component<any> {
   telescopicBox = (index: number, e) => {
     this.setState({ telescopic: !this.state.telescopic }, () => {
       let data: any = this.state.storeList
-      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '4.9rem'
+      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '3.6rem'
       this.setState({ storeList: data })
     })
     e.stopPropagation();
@@ -591,7 +591,7 @@ export default class Index extends Component<any> {
           this.state.storeList.map((item2: any, index: any) => {
             return <View className="new_box">
               <View className="box" style={{ paddingBottom: item2.activity ? '' : '4px' }} onClick={this.handleClick.bind(this, item2.id)}>
-                <View className="box_title">
+              <View className="box_title" style={{ borderBottom: item2.activity_num ? '0.5px solid #eeeeee' : 'none',  paddingBottom:  item2.activity_num ? '12rpx' : 'none'}}>
                   <View className="title_l">
                     <Image className="Image" src={item2.preview} />
                   </View>
@@ -625,7 +625,7 @@ export default class Index extends Component<any> {
                     position: 'relative',
                     height:
                       !this.state.storeList[index].height ?
-                        item2.activity_num > 2 ? '4.9rem' : 'auto' : this.state.storeList[index].height,
+                        item2.activity_num > 2 ? '3.6rem' : 'auto' : this.state.storeList[index].height,
                     marginBottom: item2.activity_num >= 1 ? '-0.001rem' : '15px',
                     overflow: 'hidden',
                   }}

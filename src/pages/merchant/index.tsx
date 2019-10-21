@@ -263,7 +263,7 @@ export default class MerChantPage extends Component {
   telescopicBox = (index: number, e) => {
     this.setState({ telescopic: !this.state.telescopic }, () => {
       let data: any = this.state.stores
-      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '4.9rem'
+      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '3.6rem'
       this.setState({ stores: data })
     })
     e.stopPropagation();
@@ -288,7 +288,7 @@ export default class MerChantPage extends Component {
               this.state.stores.map((item2: any, index: any) => {
                 return <View className="new_box">
                   <View className="box" style={{ paddingBottom: item2.activity ? '' : '4px' }} onClick={this.handleClick.bind(this, item2.id)}>
-                    <View className="box_title">
+                  <View className="box_title" style={{ borderBottom: item2.activity_num ? '0.5px solid #eeeeee' : 'none',  paddingBottom:  item2.activity_num ? '12rpx' : 'none'}}>
                       <View className="title_l">
                         <Image className="Image" src={item2.preview} />
                       </View>
@@ -319,7 +319,7 @@ export default class MerChantPage extends Component {
                         position: 'relative',
                         height:
                           !this.state.stores[index].height ?
-                            item2.activity_num > 2 ? '4.9rem' : 'auto' : this.state.stores[index].height,
+                            item2.activity_num > 2 ? '3.6rem' : 'auto' : this.state.stores[index].height,
                         marginBottom: item2.activity_num >= 1 ? '-1px' : '15px',
                         overflow: 'hidden',
                       }}
