@@ -355,13 +355,13 @@ export default class PaySuccess extends Component<Props> {
               <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/ping.png" />
               <Text className="fwb" >拼团送豪礼</Text>
             </View>
-            <View className="hidden-box" id="hidden-box" style={{background:"#fff", width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
+            <View className="hidden-box" id="hidden-box" style={{ background: "#fff", width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
               {
                 this.state.activity_group.map((item: any) => (
                   <View className="group-purchase  _pintuan" key={item.name}>
-                    <View style={{ height: "5px",background:"#fff" }}></View>
+                    <View style={{ height: "5px", background: "#fff" }}></View>
                     <View className="hd">
-                      <View className="flex center tuan" style={{ paddingBottom: "10px"}}>
+                      <View className="flex center tuan" style={{ paddingBottom: "10px" }}>
                         <View className="item desc">{item.name}</View>
                         <View className="count">{item.participation_number}人团</View>
                       </View>
@@ -471,7 +471,7 @@ export default class PaySuccess extends Component<Props> {
                     </View> */}
                     {
                       item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
-                         {
+                        {
                           item.gift_id && item.gift_pic != "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} /> :
                             <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} />
                         }
