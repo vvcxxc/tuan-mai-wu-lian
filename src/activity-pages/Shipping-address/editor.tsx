@@ -26,6 +26,21 @@ export default class EditorAddress extends Component {
     };
 
 
+    componentWillMount() {
+        request({
+            url: 'v3/district',
+            method: "GET",
+            data: { model_type: 1 }
+        })
+            .then((res: any) => {
+                Taro.setStorage({ key: 'cityList', data: res.data })
+            })
+    }
+
+    componentWillUnmount(){
+        Taro.removeStorage({ key: 'cityList' })
+    }
+
     componentDidMount() {
         console.log(this.$router.params);
         if (this.$router.params.type == "editorItem") {

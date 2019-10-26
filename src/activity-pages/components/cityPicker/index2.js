@@ -40,13 +40,9 @@ class PagePicker extends Component {
         shenid = ''
         shiid = ''
         quid = ''
-        request({
-            url: 'v3/district',
-            method: "GET",
-            data: { model_type: 1 }
-        })
-            .then((res) => {
-                // 省
+
+        if (Taro.getStorage({ key: 'cityList' })) {
+            Taro.getStorage({ key: 'cityList' }).then((res) => {
                 res.data.map(item => {
                     shen.push(item.value);
                 })
@@ -65,6 +61,37 @@ class PagePicker extends Component {
                     console.log(tempselectorid)
                 })
             })
+
+        } else {
+            request({
+                url: 'v3/district',
+                method: "GET",
+                data: { model_type: 1 }
+            })
+                .then((res) => {
+                    res.data.map(item => {
+                        shen.push(item.value);
+                    })
+                    res.data[0].children.map(item => {
+                        shi.push(item.value);
+                    })
+                    res.data[0].children[0].children.map(item => {
+                        qu.push(item.value);
+                    })
+                    shenid = res.data[0].id;
+                    shiid = res.data[0].children[0].id;
+                    quid = res.data[0].children[0].children[0].id;
+                    let tempselectorid = [shenid, shiid, quid];
+                    let tempselector = [shen, shi, qu];
+                    this.setState({ dataList: res.data, selector: tempselector, selectorid: tempselectorid }, () => {
+                        console.log(tempselectorid)
+                    })
+                })
+        }
+
+
+
+
     }
     onTabChange = () => {
         let tempselectorid = this.state.selectorid;
@@ -99,7 +126,7 @@ class PagePicker extends Component {
             quid = this.state.dataList[index1].children[0].children[0].id;
             let tempselectorid = [shenid, shiid, quid];
             let tempselector = [shen, shi, qu];
-            this.setState({ selector: tempselector, selectorid: tempselectorid, shenindex: index1,havechange:true }, () => {
+            this.setState({ selector: tempselector, selectorid: tempselectorid, shenindex: index1, havechange: true }, () => {
                 // console.log(tempselectorid);
                 this.onTabChange();
             })
@@ -121,7 +148,7 @@ class PagePicker extends Component {
             quid = this.state.dataList[index1].children[index2].children[0].id;
             let tempselectorid = [shenid, shiid, quid];
             let tempselector = [shen, shi, qu];
-            this.setState({ selector: tempselector, selectorid: tempselectorid, shiindex: index2,havechange:true }, () => {
+            this.setState({ selector: tempselector, selectorid: tempselectorid, shiindex: index2, havechange: true }, () => {
                 // console.log(tempselectorid);
                 this.onTabChange();
             })
@@ -134,7 +161,7 @@ class PagePicker extends Component {
             shiid = this.state.selectorid[1];
             quid = this.state.dataList[index1].children[index2].children[index3].id;
             let tempselectorid = [shenid, shiid, quid];
-            this.setState({ selectorid: tempselectorid, quindex: index3,havechange:true }, () => {
+            this.setState({ selectorid: tempselectorid, quindex: index3, havechange: true }, () => {
                 // console.log(tempselectorid);
                 this.onTabChange();
             })
