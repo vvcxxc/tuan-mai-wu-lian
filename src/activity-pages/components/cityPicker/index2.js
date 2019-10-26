@@ -43,6 +43,7 @@ class PagePicker extends Component {
 
         if (Taro.getStorage({ key: 'cityList' })) {
             Taro.getStorage({ key: 'cityList' }).then((res) => {
+                console.log('yyy',res.data)
                 res.data.map(item => {
                     shen.push(item.value);
                 })
