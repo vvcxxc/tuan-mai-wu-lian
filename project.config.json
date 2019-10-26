@@ -41,22 +41,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
-			"list": [
-				{
-					"id": -1,
-					"name": "activity-pages/Shipping-address/editor",
-					"pathName": "activity-pages/Shipping-address/editor",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/Shipping-address/index",
-					"pathName": "activity-pages/Shipping-address/index",
-					"scene": null
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

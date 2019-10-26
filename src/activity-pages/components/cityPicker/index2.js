@@ -62,7 +62,7 @@ class PagePicker extends Component {
                 let tempselectorid = [shenid, shiid, quid];
                 let tempselector = [shen, shi, qu];
                 this.setState({ dataList: res.data, selector: tempselector, selectorid: tempselectorid }, () => {
-                    console.log(selectorid)
+                    console.log(tempselectorid)
                 })
             })
     }
