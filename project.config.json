@@ -41,8 +41,15 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "activity-pages/Shipping-address/index",
+					"pathName": "activity-pages/Shipping-address/index",
+					"scene": null
+				}
+			]
 		}
 	}
 }
