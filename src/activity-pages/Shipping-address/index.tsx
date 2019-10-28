@@ -32,7 +32,6 @@ export default class ShippingAddress extends Component<Props> {
       //   address: ""
       // }
     ],
-
   };
 
   componentWillUnmount(){
