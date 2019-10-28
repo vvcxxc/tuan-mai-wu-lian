@@ -40,10 +40,13 @@ class PagePicker extends Component {
         shenid = ''
         shiid = ''
         quid = ''
-
+        Taro.showLoading({
+            title: ""
+        });
         if (Taro.getStorage({ key: 'cityList' })) {
             Taro.getStorage({ key: 'cityList' }).then((res) => {
-                console.log('yyy',res.data)
+                Taro.hideLoading();
+                console.log('yyy', res.data)
                 res.data.map(item => {
                     shen.push(item.value);
                 })
@@ -68,6 +71,7 @@ class PagePicker extends Component {
                     data: { model_type: 1 }
                 })
                     .then((res) => {
+                        Taro.hideLoading();
                         res.data.map(item => {
                             shen.push(item.value);
                         })
@@ -85,6 +89,9 @@ class PagePicker extends Component {
                         this.setState({ dataList: res.data, selector: tempselector, selectorid: tempselectorid }, () => {
                             console.log(tempselectorid)
                         })
+                    }).catch((err) => {
+                        Taro.hideLoading();
+                        Taro.showToast({ title: '获取区域失败', icon: 'none' })
                     })
             })
         } else {
@@ -94,6 +101,7 @@ class PagePicker extends Component {
                 data: { model_type: 1 }
             })
                 .then((res) => {
+                    Taro.hideLoading();
                     res.data.map(item => {
                         shen.push(item.value);
                     })
@@ -111,6 +119,9 @@ class PagePicker extends Component {
                     this.setState({ dataList: res.data, selector: tempselector, selectorid: tempselectorid }, () => {
                         console.log(tempselectorid)
                     })
+                }).catch((err) => {
+                    Taro.hideLoading();
+                    Taro.showToast({ title: '获取区域失败', icon: 'none' })
                 })
         }
     }
