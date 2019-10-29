@@ -41,8 +41,23 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 1,
+			"list": [
+				{
+					"id": 0,
+					"name": "activity-pages/confirm-address/chooseAddress",
+					"pathName": "activity-pages/confirm-address/chooseAddress",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/confirm-address/index",
+					"pathName": "activity-pages/confirm-address/index",
+					"query": "",
+					"scene": null
+				}
+			]
 		}
 	}
 }

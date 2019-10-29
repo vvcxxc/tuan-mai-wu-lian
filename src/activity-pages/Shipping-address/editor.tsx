@@ -314,9 +314,9 @@ export default class EditorAddress extends Component {
                         this.$router.params.type == "editorItem" ? <View className="bottom_btn_box_z2">
                             <View className="bottom_btn_submit_z2" onClick={this.changeAddressItem.bind(this)}>保存</View>
                             <View className="bottom_btn_dele_z2" onClick={() => { this.setState({ z3show: true }) }}>删除地址</View>
-                        </View> : <View className="bottom_btn_box_z2">
-                                <View className="bottom_btn_submit_z2" onClick={this.handleSubmit.bind(this)}>添加新地址</View>
-                            </View>
+                        </View> : (this.$router.params.type == "addItem" ? <View className="bottom_btn_box_z2">
+                            <View className="bottom_btn_submit_z2" onClick={this.handleSubmit.bind(this)}>添加新地址</View>
+                        </View> : null)
                     }
                 </View>
                 {/* 第三层：第二层的遮罩,层级5 */}
