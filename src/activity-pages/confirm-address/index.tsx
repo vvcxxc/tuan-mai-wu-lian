@@ -5,6 +5,7 @@ import "./index.scss";
 import "taro-ui/dist/style/components/toast.scss";
 import request from '../../services/request'
 
+
 export default class confirmAddress extends Component {
     config = {
         navigationBarTitleText: "确认订单"
@@ -35,8 +36,19 @@ export default class confirmAddress extends Component {
             this.setState({ coinsChoice: true, giftChoice: false })
         }
     }
+    goToAddressList = () => {
+        Taro.navigateTo({
+            url: '/activity-pages/confirm-address/chooseAddress'
+        })
+    }
+    //没有地址，新增并使用
+    goToEditor = () => {
+        Taro.navigateTo({
+            url: '/activity-pages/Shipping-address/editor?type=useItem'
+        })
+    }
 
-
+    
     render() {
         return (
             <View className="confirm-address">
@@ -53,14 +65,14 @@ export default class confirmAddress extends Component {
                 }
 
 
-                <View className="no-address-box">
+                <View className="no-address-box" onClick={this.goToEditor.bind(this)}>
                     你的收货地址为空，点击添加收货地址
                     <View className="no-address-msgbox">
                         <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
                     </View>
                 </View>
 
-                <View className="address-msgbox">
+                <View className="address-msgbox" onClick={this.goToAddressList.bind(this)}>
                     <View className="address-msgbox-left">
                         <View className="address-name-msgbox">
                             <View className="address-name-msgbox-info">
@@ -90,7 +102,7 @@ export default class confirmAddress extends Component {
                             <View className="group_storename">杨大富的五金店</View>
                         </View>
                         <View className="group-msgbox-icon">
-                            <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
+                            {/* <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' /> */}
                         </View>
                     </View>
                     <View className="group-msgbox-content-BOX">
@@ -114,7 +126,7 @@ export default class confirmAddress extends Component {
                             <View className="appre_storename">杨大富的五金店</View>
                         </View>
                         <View className="appre-msgbox-icon">
-                            <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
+                            {/* <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' /> */}
                         </View>
                     </View>
                     <View className="appre-msgbox-content-BOX">
@@ -167,7 +179,7 @@ export default class confirmAddress extends Component {
                         </View>
                     </View>
 
-                    <View className="gift-msgbox-giftcoins-box">
+                    {/* <View className="gift-msgbox-giftcoins-box">
                         <View className="gift-msgbox-giftcoins-chooseimg-box1" onClick={this.clickCoins.bind(this)}>
                             {
                                 this.state.coinsChoice ? <Image className="gift-msgbox-giftcoins-chooseimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/jCzizjY4Fjna5HdneGSccWChTtA4DThf.png" />
@@ -178,13 +190,10 @@ export default class confirmAddress extends Component {
                         <View className="gift-msgbox-giftcoins-chooseimg-box2">
                             <View className="gift-msgbox-giftcoins-label">27礼品币</View>
                         </View>
-                    </View>
+                    </View> */}
                 </View>
                 <View className="yellow-info">拼团活动完成并使用后礼品即会送出</View>
                 {/* <View className="yellow-info">增值券使用后礼品即会送出</View> */}
-
-
-
 
                 <View className="paymoney_box">
                     <View className="paymoney_price">

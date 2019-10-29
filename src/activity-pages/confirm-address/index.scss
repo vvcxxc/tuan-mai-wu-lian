@@ -6,24 +6,26 @@
     padding-bottom: 120px;
     box-sizing: border-box;
 
-    .no-address-contentbox{
+    .no-address-contentbox {
         position: fixed;
         top: 0;
         left: 0;
-        background: rgba(0,0,0,.7);
+        background: rgba(0, 0, 0, .7);
         height: 100vh;
         width: 100%;
         z-index: 10;
-        .tips-box{
+
+        .tips-box {
             width: 646px;
             height: 320px;
             position: absolute;
             left: 50%;
-            top:50%;
+            top: 50%;
             margin-top: -161px;
             margin-left: -323px;
             background: #fff;
-            .tips-box-info{
+
+            .tips-box-info {
                 width: 100%;
                 height: 220px;
                 line-height: 220px;
@@ -32,7 +34,8 @@
                 border-bottom: 1px solid #f3f3f3;
                 box-sizing: border-box;
             }
-            .tips-box-bottomBox{
+
+            .tips-box-bottomBox {
                 width: 100%;
                 height: 100px;
                 box-sizing: border-box;
@@ -40,17 +43,19 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                .tips-box-bottomBox_cancle{
+
+                .tips-box-bottomBox_cancle {
                     flex: 50%;
                     height: 100px;
                     line-height: 100px;
                     text-align: center;
                     color: #ff6654;
                     font-size: 26px;
-                    border-right:1px solid #f3f3f3;
+                    border-right: 1px solid #f3f3f3;
                     box-sizing: border-box;
                 }
-                .tips-box-bottomBox_go{
+
+                .tips-box-bottomBox_go {
                     flex: 50%;
                     height: 100px;
                     line-height: 100px;
@@ -476,11 +481,11 @@
         height: auto;
         background: #fff;
         padding: 0 22px;
+        box-sizing: border-box;
 
         .gift-msgbox-giftinfo-box {
             width: 100%;
             height: auto;
-            border-bottom: 1px solid #eaeaea;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -588,6 +593,8 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            border-top: 1px solid #eaeaea;
+            box-sizing: border-box;
 
             .gift-msgbox-giftcoins-chooseimg-box1 {
                 height: 145px;
