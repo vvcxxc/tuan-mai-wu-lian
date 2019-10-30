@@ -901,7 +901,7 @@ export default class Group extends Component<Props>{
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '70px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+            <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
               <Image src={require('../../../assets/go_home.png')} className="go_home" />
             </View>
           ) : ''
