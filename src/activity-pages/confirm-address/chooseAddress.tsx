@@ -67,9 +67,7 @@ export default class ChooseAddress extends Component {
     chosoeCurrent = (index, _id, e) => {
         this.setState({ currentAddress: index, currentId: _id }, () => {
             Taro.showToast({ title: '选择地址成功', icon: 'none',mask:true });
-            setInterval(() => {
-                Taro.navigateBack();
-            }, 1500)
+          
         })
     }
 
