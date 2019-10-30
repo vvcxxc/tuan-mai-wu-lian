@@ -318,7 +318,9 @@ export default class EditorAddress extends Component {
                         </View> : (this.$router.params.type == "addItem" ? <View className="bottom_btn_box_z2">
                             <View className="bottom_btn_submit_z2" onClick={this.handleSubmit.bind(this)}>添加新地址</View>
                         </View> : <View className="bottom_btn_box_z2">
-                                <View className="bottom_btn_submit_z2">保存并使用 </View>
+                                <View className="bottom_btn_submit_z2" onClick={()=>{
+                                    console.log(this.$router)
+                                }}>保存并使用 </View>
                             </View>)
                     }
                 </View>

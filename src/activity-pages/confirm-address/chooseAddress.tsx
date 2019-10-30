@@ -36,7 +36,7 @@ export default class ChooseAddress extends Component {
                 this.setState({ myAddressList: res.data })
             })
     }
-
+   
     componentDidShow() {
         Taro.showLoading({
             title: ""
