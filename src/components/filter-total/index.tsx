@@ -219,20 +219,9 @@ export default class filterTotal extends Component<Props> {
         <View className="title">
           <View className={this.state.click1 % 2 === 0 || this.state.red1 ? 'line linRed' : " line linWat"}
             onClick={this.titleClick1(1)} >
-<<<<<<< HEAD
             {this.state.name1 ? this.state.name1 : '分类'}
             <AtIcon value={this.state.click1 % 2 === 0 ? 'chevron-up' : 'chevron-down'} size='12'
               color={this.state.click1 % 2 === 0 || this.state.red1 ? '#fe7b70' : '#666666'}></AtIcon>
-=======
-            {this.state.name1 ? this.state.name1 : '美食'}
-            <Image
-              className="title__select_img"
-              src={
-                this.state.click1 % 2 === 0 ? 'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/8sakGWQcrfbzFjGWSM7sdQMk3dJ6WkSX.png' : 'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/FExiierrHK3Dfc5HsMfNyRh4EapZTRWP.png'}
-            />
-            {/* <AtIcon value={this.state.click1 % 2 === 0 ? 'chevron-up' : 'chevron-down'} size='12'
-              color={this.state.click1 % 2 === 0 || this.state.red1 ? '#fe7b70' : '#666666'}></AtIcon> */}
->>>>>>> 2eb9662dc95e55cefe60a7777bda70b2f8302a48
           </View>
           <View className={this.state.click2 % 2 === 0 || this.state.red2 ? 'line linRed' : " line linWat"} onClick={this.titleClick2(2)}>
             {this.state.name2 ? this.state.name2 : '附近'}
