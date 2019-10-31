@@ -1,5 +1,5 @@
 import Taro, { Component, hideToast } from '@tarojs/taro';
-import { View, Image, Text,ScrollView} from '@tarojs/components';
+import { View, Image, Text, ScrollView } from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
 import './index.styl';
 import request from '../../services/request';
@@ -25,7 +25,7 @@ export default class MerChantPage extends Component {
     sort_id: null,
     telescopic: false,
     telescopicBox: 'auto',
-    banScroll:false  //是否禁止滚动
+    banScroll: false  //是否禁止滚动
   };
 
   constructor(props) {
@@ -33,7 +33,7 @@ export default class MerChantPage extends Component {
   }
   componentWillMount() {
     this.getPosition();// 经纬度
-    Taro.showLoading({ title: 'loading', mask: true })//显示loading 
+    Taro.showLoading({ title: 'loading', mask: true })//显示loading
   }
 
   componentDidMount() {
@@ -44,7 +44,7 @@ export default class MerChantPage extends Component {
     }
     // document.body.addEventListener('touchmove', function (e) {
     //   e.preventDefault();
-    // }, { passive: false }); 
+    // }, { passive: false });
   }
 
   // 搜索赋值
@@ -73,7 +73,7 @@ export default class MerChantPage extends Component {
     })
 
     Taro.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       fail: () => {
         console.log('323321')
         Taro.getStorage({ key: 'router' }).then((res: any) => {
@@ -143,14 +143,14 @@ export default class MerChantPage extends Component {
     }
     if (this.state.search) {
       define.keyword = this.state.search
-    }else {
+    } else {
       delete define['keyword']
     }
-    if(!id1 && !id2 && !id3){
-      if(define.deal_cate_id)  delete define['deal_cate_id']
-      if(define.distance_id) delete define['distance_id']
-      if(define.sort_id) delete define['sort_id']
-     }
+    if (!id1 && !id2 && !id3) {
+      if (define.deal_cate_id) delete define['deal_cate_id']
+      if (define.distance_id) delete define['distance_id']
+      if (define.sort_id) delete define['sort_id']
+    }
     define.pages = this.state.page
     this.setState({
       locationPosition: define
@@ -236,7 +236,7 @@ export default class MerChantPage extends Component {
 
 
   onClearSearch = () => {
-    this.setState({ search: '' },()=>{
+    this.setState({ search: '' }, () => {
       this.$router.params.value = null
       this.setState({ page: 1 }, () => {
         this.filterClick(0, this.state.deal_cate_id, this.state.distance_id, this.state.sort_id)
@@ -263,13 +263,13 @@ export default class MerChantPage extends Component {
   telescopicBox = (index: number, e) => {
     this.setState({ telescopic: !this.state.telescopic }, () => {
       let data: any = this.state.stores
-      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '4.9rem'
+      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '3.6rem'
       this.setState({ stores: data })
     })
     e.stopPropagation();
   }
 
-  
+
   render() {
     return (
       <View>
@@ -281,34 +281,34 @@ export default class MerChantPage extends Component {
             onChange={this.handlerSearch.bind(this)}
           />
         </View>
-        <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)}/>
+        <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)} />
         <View className="merchant-list" style="height:100vh;background-color:#fff;">
           <View style={{ minHeight: '100vh', height: 'auto', background: '#f4f4f4' }}>
             {
               this.state.stores.map((item2: any, index: any) => {
                 return <View className="new_box">
                   <View className="box" style={{ paddingBottom: item2.activity ? '' : '4px' }} onClick={this.handleClick.bind(this, item2.id)}>
-                    <View className="box_title">
+                  <View className="box_title" style={{ borderBottom: item2.activity_num ? '0.5px solid #eeeeee' : 'none',  paddingBottom:  item2.activity_num ? '12rpx' : 'none'}}>
                       <View className="title_l">
                         <Image className="Image" src={item2.preview} />
                       </View>
                       <View className="title_r">
                         <View className="view_name1 ellipsis-one"
-                            style={{ width: '15.2rem', display: 'block' }}>{item2.name}</View>
+                          style={{ width: '12.2rem', display: 'block' }}>{item2.name}</View>
                         <View className="view_name2">
-                          <View style={{color: '#999'}}>
+                          <View style={{ color: '#999' }}>
                             {
                               item2.deal_cate ? item2.deal_cate : null
                             }
                           </View>
-                          <View style={{color: '#999', paddingRight: '5rpx'}}>{item2.distance}</View>
+                          <View style={{ color: '#999', paddingRight: '5rpx' }}>{item2.distance}</View>
                         </View>
                         <View className='view'>
                           {
                             item2.label.map((item3: any, index1: any) => {
                               return <View key={''}
                                 className={this.labelColor(item3) === '#FFFFFF' ? 'span' : ''}
-                                style={{ border: this.labelColor(item3) == '#FFFFFF' ? '1px solid #ff6654' : 'none', backgroundColor: this.labelColor(item3)}}>{item3}</View>
+                                style={{ border: this.labelColor(item3) == '#FFFFFF' ? '1px solid #ff6654' : 'none', backgroundColor: this.labelColor(item3) }}>{item3}</View>
                             })
                           }
                         </View>
@@ -319,7 +319,7 @@ export default class MerChantPage extends Component {
                         position: 'relative',
                         height:
                           !this.state.stores[index].height ?
-                            item2.activity_num > 2 ? '4.9rem' : 'auto' : this.state.stores[index].height,
+                            item2.activity_num > 2 ? '3.6rem' : 'auto' : this.state.stores[index].height,
                         marginBottom: item2.activity_num >= 1 ? '-1px' : '15px',
                         overflow: 'hidden',
                       }}
@@ -335,9 +335,9 @@ export default class MerChantPage extends Component {
                         </View>
                         <Image src={
                           this.state.stores[index].height !== 'auto' ?
-                            "http://oss.tdianyi.com/front/wRftjWN2D3aZwiHQjfH64ba27FXRBFCR.png": "http://oss.tdianyi.com/front/NMKeBjaajWYJxRSmcjXYFEGxXFkGE7BA.png"
-                          }
-                            style={{marginRight: 0}}
+                            "http://oss.tdianyi.com/front/wRftjWN2D3aZwiHQjfH64ba27FXRBFCR.png" : "http://oss.tdianyi.com/front/NMKeBjaajWYJxRSmcjXYFEGxXFkGE7BA.png"
+                        }
+                          style={{ marginRight: 0 }}
                         />
                       </View>
 
@@ -356,13 +356,13 @@ export default class MerChantPage extends Component {
                           <View className=" ellipsis-one asd"
                             style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}
                           >
-                            <Text  style={{ fontSize: '13px', lineHeight: '1' }}>
+                            <Text style={{ fontSize: '13px', lineHeight: '1' }}>
                               {
                                 item2.activity ? (item2.activity.group ? item2.activity.group.activity_info : null)
                                   : null
                               }
                             </Text>
-                            <Text style={{ color: '#C71D0B',fontSize: '13px', lineHeight: '1' }}>
+                            <Text style={{ color: '#C71D0B', fontSize: '13px', lineHeight: '1' }}>
                               {
                                 item2.activity ? (item2.activity.group ? item2.activity.group.gift_info : null)
                                   : null
@@ -382,12 +382,12 @@ export default class MerChantPage extends Component {
                         />
                         <View className=" ellipsis-one asd"
                           style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
-                            <Text style={{ fontSize: '13px', lineHeight: '1' }}>
-                              {
+                          <Text style={{ fontSize: '13px', lineHeight: '1' }}>
+                            {
                               item2.activity ? (item2.activity.cash_coupon ? item2.activity.cash_coupon.activity_info : null)
                                 : null
                             }
-                            </Text>
+                          </Text>
 
                         </View>
                       </View>
@@ -402,12 +402,12 @@ export default class MerChantPage extends Component {
                         />
                         <View className=" ellipsis-one asd"
                           style={{ width: '12rem', display: 'block', height: '30rpx', overflow: 'hidden' }}>
-                            <Text style={{ fontSize: '13px', lineHeight: '1' }}>
-                              {
-                            item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
-                              : null
-                          }
-                            </Text>
+                          <Text style={{ fontSize: '13px', lineHeight: '1' }}>
+                            {
+                              item2.activity ? (item2.activity.exchange_coupon ? item2.activity.exchange_coupon.activity_info : null)
+                                : null
+                            }
+                          </Text>
 
                         </View>
                       </View>
@@ -428,7 +428,7 @@ export default class MerChantPage extends Component {
                                 : null
                             }
                           </Text>
-                          <Text style={{ color: '#C71D0B',fontSize: '13px', lineHeight: '1' }}>
+                          <Text style={{ color: '#C71D0B', fontSize: '13px', lineHeight: '1' }}>
                             {
                               item2.activity ? (item2.activity.zeng ? item2.activity.zeng.gift_info : null)
                                 : null

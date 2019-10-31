@@ -85,7 +85,7 @@ export const getLocation = (): Promise<Location> => {
         const flagLocation = authSetting["scope.userLocation"]
         if (flagLocation) {
           Taro.getLocation({
-            type: "wgs84",
+            type: "gcj02",
             success(res) {
               Taro.setStorageSync("location", res)
               return resolve(res)
@@ -99,7 +99,7 @@ export const getLocation = (): Promise<Location> => {
           return reject(errMsg)
         } else {
           Taro.getLocation({
-            type: "wgs84",
+            type: "gcj02",
             // @ts-ignore
             success(res) {
               Taro.setStorageSync("location", res)

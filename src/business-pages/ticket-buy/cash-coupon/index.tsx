@@ -47,7 +47,7 @@ export default class CashCoupon extends Component<Props> {
           src={require("./middle-bg.png")}
         /> */}
           <View className="item content" style={{ position: "relative" }}>
-            <View className="head flex">
+            <View className="head2 flex">
               <View className="label flex center" >
                 <Image src={quan} style={{ height: "100%", width: "80rpx" }} />
               </View>

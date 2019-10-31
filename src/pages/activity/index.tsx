@@ -111,7 +111,7 @@ export default class Activity extends Component {
 
     // 获取定位
     Taro.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: res => {
         this.setState({
           yPoint: res.latitude,
@@ -215,7 +215,8 @@ export default class Activity extends Component {
       } else if (res.data.length == 0) {
         Taro.showToast({
           title: '暂无更多数据',
-          icon: 'none'
+          icon: 'none',
+          duration:2000
         })
         this.setState({
           flag: false
@@ -247,7 +248,8 @@ export default class Activity extends Component {
       } else if (res.data.length == 0) {
         Taro.showToast({
           title: '暂无更多数据',
-          icon: 'none'
+          icon: 'none',
+          duration:2000
         })
         this.setState({
           flag: false
@@ -280,7 +282,8 @@ export default class Activity extends Component {
       } else if (res.data.length == 0) {
         Taro.showToast({
           title: '暂无更多数据',
-          icon: 'none'
+          icon: 'none',
+          duration:2000
         })
         this.setState({
           flag: false

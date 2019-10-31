@@ -38,9 +38,10 @@ export default class MyWelfare extends Component {
    * 用户动作: 领取|查看|提交|
    */
   handleAction = (action: string, data: any) => {
+    console.log(action)
     switch (action) {
       case ACTION_SUBMIT:
-        this.handleSubmitinfo()
+       this.handleSubmitinfo()
       case ACTION_CLOSE:
         this.setState({
           action: ""

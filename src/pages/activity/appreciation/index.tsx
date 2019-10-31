@@ -12,8 +12,8 @@ interface Props {
   id: any;
 }
 
+let interval;
 export default class Appre extends Component<Props>{
-
 
   state = {
     ruleMore: false,
@@ -21,7 +21,7 @@ export default class Appre extends Component<Props>{
     imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
-    imagesList: [],
+
     imagesCurrent: 0,
     data: {
       activity_begin_time: "",
@@ -74,7 +74,7 @@ export default class Appre extends Component<Props>{
       title: 'loading',
     })
     Taro.getLocation({
-      type: 'wgs84',
+      type: 'gcj02',
       success: res => {
         this.setState({
           yPoint: res.latitude,
@@ -91,13 +91,6 @@ export default class Appre extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let { image, images } = res.data;
-              let imgList;
-              if (image && images) {
-                imgList = new Array(image).concat(images);
-              } else {
-                imgList = [];
-              }
               if (res.data.gift_id) {
                 if (res.data.gift.mail_mode == 2) {
                   this.setState({ isPostage: true })
@@ -105,7 +98,7 @@ export default class Appre extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
+              this.setState({ data: res.data }, () => {
                 this.draw();
               });
               Taro.hideLoading()
@@ -130,8 +123,6 @@ export default class Appre extends Component<Props>{
             }
           })
             .then((res: any) => {
-              let { image, images } = res.data;
-              let imgList = new Array(image).concat(images);
               if (res.data.gift_id) {
                 if (res.data.gift.mail_mode == 2) {
                   this.setState({ isPostage: true })
@@ -139,7 +130,7 @@ export default class Appre extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data, imagesList: imgList }, () => {
+              this.setState({ data: res.data }, () => {
                 this.draw();
               });
               Taro.hideLoading()
@@ -221,7 +212,7 @@ export default class Appre extends Component<Props>{
   onShareAppMessage() {
     console.log(this.state.imagePath)
     const userInfo = Taro.getStorageSync("userInfo");
-    const { gift, return_money, preview,pay_money } = this.state.data;
+    const { gift, return_money, preview, pay_money } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
     let title, imageUrl;
     if (gift) {
@@ -279,9 +270,8 @@ export default class Appre extends Component<Props>{
     this.setState({ isPostage: !this.state.isPostage })
   }
 
-
   payment = () => {
-    if(!Taro.getStorageSync("unionid")){
+    if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
       })
@@ -315,7 +305,9 @@ export default class Appre extends Component<Props>{
       method: "POST",
       data
     }).then((res: any) => {
+      let order_sn = res.data.channel_order_sn;
       Taro.hideLoading();
+      
       // 发起支付
       Taro.requestPayment({
         timeStamp: res.data.timeStamp,
@@ -324,14 +316,32 @@ export default class Appre extends Component<Props>{
         signType: res.data.signType,
         paySign: res.data.paySign,
         success(res) {
-          Taro.navigateTo({
-            url: '/activity-pages/my-activity/my.activity',
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
-          })
+          Taro.showLoading({
+            title: 'loading',
+            mask: true
+          });
+          interval = setInterval( () => {
+            //查询用户最后一次购买的增值活动id
+            request({
+              url: 'v1/youhui/getUserLastYouhuiId',
+              method: "GET",
+              data: { order_sn: order_sn }
+            }).then((res: any) => {
+              if (res.code == 200) {
+                clearInterval(interval);
+                Taro.hideLoading();
+                //得到增值活动id并跳转活动详情
+                Taro.navigateTo({
+                  url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
+                  success: () => {
+                    var page = Taro.getCurrentPages().pop();
+                    if (page == undefined || page == null) return;
+                    page.onLoad();
+                  }
+                })
+              }
+            })
+          }, 1000);
 
         },
         fail(err) {
@@ -349,32 +359,32 @@ export default class Appre extends Component<Props>{
       url: '/pages/index/index'
     })
   }
+  componentWillUnmount() {
+    clearInterval(interval);
+  }
 
   render() {
     const { images, description } = this.state.data;
     return (
       <View className="d_appre" >
-
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
         </Button >
-
-
         <View className="appre_head_activityTitle">
           <View className="appre_head_activityTitle_title">{this.state.data.name}</View>
           <View className="appre_head_activityTitle_time">活动时间 : {this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
         </View>
 
         {
-          this.state.data.type == 0 ?
+          this.state.data.type == 0 && this.state.data.images.length > 0 ?
             <Swiper
               onChange={(e) => {
                 // console.log(e.detail.current)
                 this.setState({ imagesCurrent: e.detail.current })
               }}
               onClick={() => {
-                this.setState({ imgZoom: true, imgZoomSrc: this.state.imagesList[this.state.imagesCurrent] })
+                this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
               }}
               className='test-h'
               indicatorColor='#999'
@@ -383,7 +393,7 @@ export default class Appre extends Component<Props>{
               indicatorDots
               autoplay>
               {
-                this.state.imagesList ? this.state.imagesList.map((item, index) => {
+                this.state.data.images ? this.state.data.images.map((item, index) => {
                   return (
                     <SwiperItem key={item} >
                       <View className='demo-text'
@@ -549,7 +559,7 @@ export default class Appre extends Component<Props>{
             {
               this.state.isPostage ? <View className='paymoney_price_info'> {
                 this.state.data.gift.mail_mode == 1 ? null :
-                '+' + this.state.data.gift.postage}</View> : null
+                  '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
           {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
@@ -573,13 +583,13 @@ export default class Appre extends Component<Props>{
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
         }
 
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '20px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+            <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
               <Image src={require('../../../assets/go_home.png')} className="go_home" />
             </View>
           ) : ''
