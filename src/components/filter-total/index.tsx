@@ -13,7 +13,14 @@ export default class filterTotal extends Component<Props> {
 
   state = {
     titleClick: 0,//点击的索引
-    selectData1: [{ name: '', id: '', type: '', choose: false, icon: '' }],
+    // selectData1: [{ name: '', id: '', type: '', choose: false, icon: '' }],
+    selectData1: [
+      {
+        id: 0,
+        label: "全部",
+        name: "全部"
+      }
+    ],
     selectData2: [{ name: '', id: '', type: '', choose: false, icon: '' }],
     selectData3: [{ name: '', id: '', type: '', choose: false, icon: '' }],
     listClick: 333,
@@ -171,7 +178,11 @@ export default class filterTotal extends Component<Props> {
     })
       .then((res: any) => {
 
-        this.setState({ selectData1: res.data })
+        this.setState({ 
+          selectData1: this.state.selectData1.concat(res.data)
+        },() => {
+          console.log(this.state)
+        })
       })
   }
 
@@ -208,7 +219,7 @@ export default class filterTotal extends Component<Props> {
         <View className="title">
           <View className={this.state.click1 % 2 === 0 || this.state.red1 ? 'line linRed' : " line linWat"}
             onClick={this.titleClick1(1)} >
-            {this.state.name1 ? this.state.name1 : '美食'}
+            {this.state.name1 ? this.state.name1 : '分类'}
             <AtIcon value={this.state.click1 % 2 === 0 ? 'chevron-up' : 'chevron-down'} size='12'
               color={this.state.click1 % 2 === 0 || this.state.red1 ? '#fe7b70' : '#666666'}></AtIcon>
           </View>
