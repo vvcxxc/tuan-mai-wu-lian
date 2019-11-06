@@ -4,13 +4,12 @@ import { View, Text, Picker, Input } from '@tarojs/components'
 import request from '../../../services/request'
 import './index.scss'
 import dataCity from "./dataCity2"
-let shen = []
-let shi = []
-let qu = []
-let shenid = ''
-let shiid = ''
-let quid = ''
-
+let shen = [];
+let shi = [];
+let qu = [];
+let shenid = '';
+let shiid = '';
+let quid = '';
 
 class PagePicker extends Component {
     state = {
@@ -22,7 +21,6 @@ class PagePicker extends Component {
         selectorChecked: '',
         havechange: false
     }
-
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.firstMsg && nextProps.firstMsg != "" && this.state.havechange == false) {
