@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { AtIcon } from "taro-ui"
-import { View, Text, Picker } from '@tarojs/components'
+import { View, Text, Picker, Input } from '@tarojs/components'
 import request from '../../../services/request'
 import './index.scss'
 
@@ -35,12 +35,12 @@ class PagePicker extends Component {
 
 
     componentDidMount() {
-        shen = []
-        shi = []
-        qu = []
-        shenid = ''
-        shiid = ''
-        quid = ''
+        shen = [];
+        shi = [];
+        qu = [];
+        shenid = '';
+        shiid = '';
+        quid = '';
         Taro.showLoading({
             title: ""
         });
@@ -209,7 +209,7 @@ class PagePicker extends Component {
             <Picker mode='multiSelector' range={this.state.selector} onColumnChange={this.onColumnChange} value={[this.state.shenindex, this.state.shiindex, this.state.quindex]}>
                 <View className="editor-box">
                     <View className="editor-box_left">所在区域:</View>
-                    <Input className="editor-box_input" value={this.state.selectorChecked.toString()} disabled />
+                    <Input className="editor-box_input" value={this.state.selectorChecked.toString()} />
                     <View className="editor-box_right">
                         <AtIcon className="editor-box_icon" value='chevron-right' color='#f2f2f2' />
                     </View>
