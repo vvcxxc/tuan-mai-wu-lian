@@ -3,7 +3,6 @@ import { AtIcon, AtToast } from "taro-ui"
 import { View, Text, Image, ScrollView, Button, Input, Textarea } from "@tarojs/components";
 import "./index.scss";
 import "taro-ui/dist/style/components/toast.scss";
-import AddressItem from '../components/address-item/index'
 import request from '../../services/request'
 import Citypicker from "../components/cityPicker/index2"
 
