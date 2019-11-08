@@ -1,10 +1,10 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon, AtToast } from "taro-ui"
+import { AtIcon, AtToast, AtActionSheet, AtActionSheetItem  } from "taro-ui"
 import { View, Text, Image, ScrollView, Button, Input, Textarea } from "@tarojs/components";
 import "./index.scss";
 import "taro-ui/dist/style/components/toast.scss";
 import request from '../../services/request'
-import Citypicker from "../components/cityPicker/index2"
+import CitySelecter from "../components/citySelecter/index"
 
 export default class EditorAddress extends Component {
     config = {
@@ -21,20 +21,22 @@ export default class EditorAddress extends Component {
         z3show: false,
         toastShow: false,
         toastInfo: '',
-        tempCityInfo: ''
+        tempCityInfo: '',
+        actionsheetShow: false,
     };
 
 
-    componentWillMount() {
-        request({
-            url: 'v3/district',
-            method: "GET",
-            data: { model_type: 1 }
-        })
-            .then((res: any) => {
-                Taro.setStorage({ key: 'cityList', data: res.data })
-            })
-    }
+    // componentWillMount() {
+    //     request({
+    //         url: 'v3/district',
+    //         method: "GET",
+    //         data: { model_type: 1 }
+    //     })
+    //         .then((res: any) => {
+    //             console.log(JSON.stringify(res.data));
+    //             Taro.setStorage({ key: 'cityList', data: res.data })
+    //         })
+    // }
 
     // componentWillUnmount(){
     //     Taro.removeStorage({ key: 'cityList' })
@@ -77,9 +79,9 @@ export default class EditorAddress extends Component {
         this.setState({ phoneValue: e.detail.value })
     }
     // 所在区域
-    cityEnd = (cityItem) => {
-        console.log(cityItem)
-        this.setState({ cityValue: cityItem })
+    cityEnd = (query) => {
+        console.log(query)
+        this.setState({ cityValue: query.tempselectorid, tempCityInfo: query.selectorChecked, actionsheetShow: false })
     }
     //详细地址
     onHandelChangeAddress = (e) => {
@@ -275,14 +277,13 @@ export default class EditorAddress extends Component {
                             onInput={this.onHandelChangePhone.bind(this)}
                         />
                     </View>
-                    {/* <View className="editor-box">
+                    <View className="editor-box" onClick={(e) => { this.setState({ actionsheetShow: true }); e.stopPropagation(); }} >
                         <View className="editor-box_left">所在区域:</View>
-                        <Input className="editor-box_input"  disabled />
+                        <View className="editor-box_input0" >{this.state.tempCityInfo}</View>
                         <View className="editor-box_right">
                             <AtIcon className="editor-box_icon" value='chevron-right' color='#f2f2f2' />
                         </View>
-                    </View> */}
-                    <Citypicker getCity={this.cityEnd.bind(this)} firstMsg={this.state.tempCityInfo} ></Citypicker>
+                    </View>
                     <View className="editor-box2">
                         <View className="editor-box_left2">详细地址:</View>
                         <Textarea
@@ -333,6 +334,13 @@ export default class EditorAddress extends Component {
                         </View>
                     </View> : null
                 }
+
+                <AtActionSheet isOpened={this.state.actionsheetShow ? true : false} onCancel={(e) => { this.setState({ actionsheetShow: false }) }} onClose={(e) => { this.setState({ actionsheetShow: false }) }}>
+                    <View className="AtActionSheetBox">
+                        <CitySelecter getCity={this.cityEnd} onclose={() => { this.setState({ actionsheetShow: false }) }} />
+                    </View>
+                </AtActionSheet>
+
             </View>
         );
     }
