@@ -42,7 +42,15 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "activity-pages/confirm-address/index",
+					"pathName": "activity-pages/confirm-address/index",
+					"query": "",
+					"scene": null
+				}
+			]
 		}
 	}
 }

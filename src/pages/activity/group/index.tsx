@@ -66,7 +66,7 @@ export default class Group extends Component<Props>{
           number: 0,
           participation_number: 0,
           real_name: "",
-          activity_end_time:''
+          activity_end_time: ''
         }
       ],
       page: 1,
@@ -83,10 +83,9 @@ export default class Group extends Component<Props>{
   };
 
   componentWillUnmount() {
-    document.removeEventListener('touchmove', () => { });
     console.log('清除计时器');
     // clearTimeout(timer);
-    var end = setTimeout(function () {}, 1);
+    var end = setTimeout(function () { }, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
     for (var i = start; i <= end; i++) {
       clearTimeout(i);
@@ -145,7 +144,6 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
-                this.addListen();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -191,7 +189,6 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
-                this.addListen();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -268,16 +265,6 @@ export default class Group extends Component<Props>{
     })
   }
 
-  addListen = () => {
-    document.addEventListener('touchmove', function (event) { 　　 //监听滚动事件
-      // console.log(event.target.className)
-      if (event.target.className == 'd_appre_groupList') {
-        // console.log('diu', event.target.className)
-        event.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-      }
-
-    }, { passive: false });
-  }
 
   /**
   * 回首页
@@ -580,13 +567,13 @@ export default class Group extends Component<Props>{
   render() {
     const { images, description } = this.state.data;
     console.log(this.state.data2);
-    const {data2} = this.state;
+    const { data2 } = this.state;
     return (
       <View className="d_appre" >
 
         {
-          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} >
-            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} onTouchMove={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} >
+            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation();}}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
                 {/* <View className="d_appre_groupList_box_slideBox_content" > */}
@@ -732,7 +719,7 @@ export default class Group extends Component<Props>{
             <View className="group_num_titlebox" >
               <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
               {
-                data2.data &&data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
+                data2.data && data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
               }
             </View>
             <View className="group_listbox" >
@@ -782,7 +769,7 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" > <TimeUp itemtime={item[1].activity_end_time}/>
+                              <View className="group_list_times" > <TimeUp itemtime={item[1].activity_end_time} />
                               </View>
                             </View>
                           </View> : null
@@ -914,7 +901,7 @@ export default class Group extends Component<Props>{
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '70px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+            <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
               <Image src={require('../../../assets/go_home.png')} className="go_home" />
             </View>
           ) : ''

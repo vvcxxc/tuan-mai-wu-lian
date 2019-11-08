@@ -94,8 +94,11 @@ class App extends Component {
 					'group-booking/detail/index',
 					'my-activity/my.activity',
 					"my-welfare/pages/gift/welfare.gift",
-					'offline/order'
-
+					'offline/order',
+					'Shipping-address/index',
+					'Shipping-address/editor',
+					'confirm-address/index',
+					'confirm-address/chooseAddress'
 				]
 			}
 		],

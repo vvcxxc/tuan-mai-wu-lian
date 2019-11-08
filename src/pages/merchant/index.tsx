@@ -3,7 +3,7 @@ import { View, Image, Text, ScrollView } from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
 import './index.styl';
 import request from '../../services/request';
-
+import no_value_img from '../../assets/no_value.png'
 import FilterTotal from "src/components/filter-total";
 
 export default class MerChantPage extends Component {
@@ -25,7 +25,8 @@ export default class MerChantPage extends Component {
     sort_id: null,
     telescopic: false,
     telescopicBox: 'auto',
-    banScroll: false  //是否禁止滚动
+    banScroll: false,  //是否禁止滚动
+    no_value:false //新增 显示搜索无结果的背景图
   };
 
   constructor(props) {
@@ -110,6 +111,16 @@ export default class MerChantPage extends Component {
       },
     })
       .then((res: any) => {
+        if (res.data.store_info.data.length < 1) {
+          this.setState({ 
+            no_value:true
+           })
+        } else {
+          this.setState({ 
+            no_value:false
+           })
+
+        }
         this.setState({ stores: res.data.store_info.data })
         Taro.hideLoading()
       });
@@ -161,9 +172,16 @@ export default class MerChantPage extends Component {
     })
       .then((res: any) => {
         if (res.data.store_info.data.length < 1) {
-          this.setState({ show_bottom: true })
+          this.setState({ 
+            show_bottom: true,
+            no_value:true
+           })
         } else {
-          this.setState({ show_bottom: false })
+          this.setState({ 
+            show_bottom: false,
+            no_value:false
+           })
+
         }
         if (index === 1) {
           this.setState({ stores: [...this.state.stores, ...res.data.store_info.data], storeHeadImg: res.data.banner });
@@ -271,6 +289,7 @@ export default class MerChantPage extends Component {
 
 
   render() {
+    const { no_value } = this.state
     return (
       <View>
         <View style="position:relative; z-index:2;">
@@ -282,8 +301,22 @@ export default class MerChantPage extends Component {
           />
         </View>
         <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)} />
-        <View className="merchant-list" style="height:100vh;background-color:#fff;">
-          <View style={{ minHeight: '100vh', height: 'auto', background: '#f4f4f4' }}>
+        
+        {
+          no_value ? <View className="no_value">
+            <View>
+              <Image src={no_value_img} className="no_value_img" mode="widthFix"/>
+              <View className="no_value_foot">
+                暂无搜索内容
+          </View>
+            </View>
+          </View>:null
+        }
+        <View className="merchant-list" style={{
+          height: no_value ?'0vh': '100vh',
+          backgroundColor:'#fff'
+        }}>
+          <View style={{ minHeight: no_value ?'0vh': '100vh', height: 'auto', background: '#f4f4f4' }}>
             {
               this.state.stores.map((item2: any, index: any) => {
                 return <View className="new_box">
@@ -294,7 +327,7 @@ export default class MerChantPage extends Component {
                       </View>
                       <View className="title_r">
                         <View className="view_name1 ellipsis-one"
-                          style={{ width: '15.2rem', display: 'block' }}>{item2.name}</View>
+                          style={{ width: '12.2rem', display: 'block' }}>{item2.name}</View>
                         <View className="view_name2">
                           <View style={{ color: '#999' }}>
                             {

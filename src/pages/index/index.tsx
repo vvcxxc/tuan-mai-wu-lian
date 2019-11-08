@@ -597,7 +597,7 @@ export default class Index extends Component<any> {
                   </View>
                   <View className="title_r">
                     <View className="view_name1 ellipsis-one"
-                      style={{ width: '15.2rem', display: 'block' }}>{item2.name}</View>
+                      style={{ width: '12.2rem', display: 'block' }}>{item2.name}</View>
                     <View className="view_name2">
                       <Text>
                         {
