@@ -435,36 +435,45 @@
           font-size: 40px;
           line-height: 1;
         }
+      }
 
-        .appre_rule_list {
-          width: 100%;
-          min-height: 50px;
-          overflow: hidden;
+      .appre_rule_time_data {
+        float: left;
+        height: 40px;
+        font-size: 25px;
+        line-height: 1;
+        padding-top: 10px;
+        box-sizing: border-box;
+      }
+    }
 
-          // display: flex;
-          .appre_rule_list_key {
-            height: 40px;
-            width: 165px;
-            text-align: left;
-            color: #adadad;
-            float: left;
-            line-height: 30px;
-            padding-top: 10px;
-            box-sizing: border-box;
-            font-size: 25px;
-          }
+    .appre_rule_list {
+      width: 100%;
+      min-height: 50px;
+      overflow: hidden;
 
-          .appre_rule_list_data {
-            height: auto;
-            margin-left: 165px;
+      // display: flex;
+      .appre_rule_list_key {
+        height: 40px;
+        width: 165px;
+        text-align: left;
+        color: #adadad;
+        float: left;
+        line-height: 30px;
+        padding-top: 10px;
+        box-sizing: border-box;
+        font-size: 25px;
+      }
 
-            .appre_rule_list_msg {
-              font-size: 25px;
-              line-height: 30px;
-              padding-top: 10px;
-              box-sizing: border-box;
-            }
-          }
+      .appre_rule_list_data {
+        height: auto;
+        margin-left: 165px;
+
+        .appre_rule_list_msg {
+          font-size: 25px;
+          line-height: 30px;
+          padding-top: 10px;
+          box-sizing: border-box;
         }
       }
     }
@@ -581,7 +590,7 @@
               height: 40px;
             }
           }
-          
+
           .setMeal_store_distance_info {
             height: 40px;
             position: absolute;
@@ -589,7 +598,7 @@
             width: 85px;
             text-align: center;
             font-size: 18px;
-        }
+          }
         }
 
         .setMeal_store_address {

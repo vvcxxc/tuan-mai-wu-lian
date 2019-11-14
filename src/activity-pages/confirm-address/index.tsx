@@ -15,15 +15,135 @@ export default class confirmAddress extends Component {
         contentboxShow: false,
         giftChoice: true,
         coinsChoice: false,
-        activity_type: 2
+        data: {
+            address: {
+                city: "",
+                detail: "",
+                district: "",
+                mobile: "",
+                name: "",
+                is_default: 0,
+                province: ""
+            },
+            youhui: {
+                activity_id: 0,
+                gift_id: 0,
+                gift_name: "",
+                gift_pic: "",
+                gift_price: 0,
+                id: 0,
+                image_url: "",
+                init_money: 0,
+                name: "",
+                pay_money: 0,
+                postage: 0,
+                return_money: 0,
+                total_fee: 0,
+                youhuiHour: '',
+                participation_number: 0
+            }
+        }
     };
 
 
     componentDidShow() {
-        console.log('componentDidShow')
+        console.log(this.$router.params);
+        let data;
+        if (this.$router.params.address_id) {
+            data = { youhui_id: this.$router.params.id, address_id: this.$router.params.address_id }
+        } else {
+            data = { youhui_id: this.$router.params.id }
+        }
+        if (this.$router.params.activityType == '1') {
+            request({
+                url: '/api/wap/user/appreciation/appreciationOrderInfo',
+                method: "GET",
+                data: data
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    this.setState({ data: res.data })
+                } else {
+                    Taro.showToast({ title: '加载失败', icon: 'none' })
+                }
+
+            }).catch((err) => {
+                console.log(err);
+                Taro.showToast({ title: '加载失败', icon: 'none' })
+            })
+
+        } else {
+            request({
+                url: '/api/wap/user/groupOrderInfo',
+                method: "GET",
+                data: data
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    console.log(res)
+                    this.setState({ data: res.data })
+                } else {
+                    Taro.showToast({ title: '加载失败', icon: 'none' })
+                }
+
+            }).catch((err) => {
+                console.log(err);
+                Taro.showToast({ title: '加载失败', icon: 'none' })
+            })
+
+        }
     }
     componentDidMount() {
-        console.log('componentDidMount')
+        console.log(this.$router.params);
+        Taro.showLoading({
+            title: ""
+          });
+        let data;
+        if (this.$router.params.address_id) {
+            data = { youhui_id: this.$router.params.id, address_id: this.$router.params.address_id }
+        } else {
+            data = { youhui_id: this.$router.params.id }
+        }
+        if (this.$router.params.activityType == '1') {
+            request({
+                url: '/api/wap/user/appreciation/appreciationOrderInfo',
+                method: "GET",
+                data: data
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    Taro.hideLoading();
+                    this.setState({ data: res.data })
+                } else {
+                    Taro.hideLoading();
+                    Taro.showToast({ title: '加载失败', icon: 'none' })
+                }
+
+            }).catch((err) => {
+                Taro.hideLoading();
+                console.log(err);
+                Taro.showToast({ title: '加载失败', icon: 'none' })
+            })
+
+        } else {
+            request({
+                url: '/api/wap/user/groupOrderInfo',
+                method: "GET",
+                data: data
+            }).then((res: any) => {
+                if (res.code == 200) {
+                    Taro.hideLoading();
+                    console.log(res)
+                    this.setState({ data: res.data })
+                } else {
+                    Taro.hideLoading();
+                    Taro.showToast({ title: '加载失败', icon: 'none' })
+                }
+
+            }).catch((err) => {
+                Taro.hideLoading();
+                console.log(err);
+                Taro.showToast({ title: '加载失败', icon: 'none' })
+            })
+
+        }
     }
 
 
@@ -43,40 +163,57 @@ export default class confirmAddress extends Component {
         }
     }
     goToAddressList = () => {
-        Taro.navigateTo({
-            url: '/activity-pages/confirm-address/chooseAddress'
-        })
+        if (this.$router.params.activityType == '55') {
+            Taro.navigateTo({
+                url: '/activity-pages/confirm-address/chooseAddress?activityType=55&goodsId=' + this.$router.params.id + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName
+            })
+        } else {
+            Taro.navigateTo({
+                url: '/activity-pages/confirm-address/chooseAddress?activityType=' + this.$router.params.activityType + '&goodsId=' + this.$router.params.id + '&storeName=' + this.$router.params.storeName
+            })
+        }
     }
     //没有地址，新增并使用
     goToEditor = () => {
-        Taro.navigateTo({
-            url: '/activity-pages/Shipping-address/editor?type=useItem'
-        })
+        if (this.$router.params.activityType == '55') {
+            Taro.navigateTo({
+                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=55&goodsId=' + this.$router.params.id + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName
+            })
+        } else {
+            Taro.navigateTo({
+                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=' + this.$router.params.activityType + '&goodsId=' + this.$router.params.id + '&storeName=' + this.$router.params.storeName
+            })
+        }
     }
 
     payment = () => {
+        if ((!this.state.data.address || !this.state.data.address.detail) && this.state.data.youhui.gift_id) {
+            this.setState({ contentboxShow: true })
+            return;
+        }
         let data = {};
         let interval;
         let open_id = Taro.getStorageSync("openid");
         let unionid = Taro.getStorageSync("unionid");
-        if (this.$router.params.type == '1') {
+        if (this.$router.params.activityType == '1') {
             //1增值
-            if (this.state.giftChoice) {
+            if (this.state.giftChoice && this.state.data.youhui.gift_id) {
                 data = {
                     youhui_id: this.$router.params.id,
-                    activity_id: this.$router.params.activity_id,
-                    gift_id: this.$router.params.gift_id,
+                    activity_id: this.state.data.youhui.activity_id,
+                    gift_id: this.state.data.youhui.gift_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.type,
+                    type: 1,// 微信1 支付宝2
                     xcx: 1
                 }
             } else {
                 data = {
                     youhui_id: this.$router.params.id,
+                    activity_id: this.state.data.youhui.activity_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.type,
+                    type: 1,
                     xcx: 1
                 }
             }
@@ -128,25 +265,26 @@ export default class confirmAddress extends Component {
                     }
                 })
             })
-        } else if (this.$router.params.type == '5') {
+        } else if (this.$router.params.activityType == '5') {
             //5开团
-            if (this.state.giftChoice) {
+            if (this.state.giftChoice && this.state.data.youhui.gift_id) {
                 data = {
                     public_type_id: this.$router.params.id,
-                    activity_id: this.$router.params.activity_id,
-                    gift_id: this.$router.params.gift_id,
+                    activity_id: this.state.data.youhui.activity_id,
+                    gift_id: this.state.data.youhui.gift_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.type,
+                    type: this.$router.params.activityType,//5开团 55拼团
                     xcx: 1,
                     number: 1
                 }
             } else {
                 data = {
                     public_type_id: this.$router.params.id,
+                    activity_id: this.state.data.youhui.activity_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.type,
+                    type: this.$router.params.activityType,
                     xcx: 1,
                     number: 1
                 }
@@ -197,25 +335,26 @@ export default class confirmAddress extends Component {
                     }
                 })
             })
-        } else if (this.$router.params.type == '55') {
+        } else if (this.$router.params.activityType == '55') {
             //55参团
-            if (this.state.giftChoice) {
+            if (this.state.giftChoice && this.state.data.youhui.gift_id) {
                 data = {
-                    public_type_id: this.$router.params.publictypeid,
-                    activity_id: this.$router.params.activity_id,
-                    gift_id: this.$router.params.gift_id,
+                    public_type_id: this.$router.params.groupId,
+                    activity_id: this.state.data.youhui.activity_id,
+                    gift_id: this.state.data.youhui.gift_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.type,
+                    type: this.$router.params.activityType,
                     xcx: 1,
                     number: 1
                 }
             } else {
                 data = {
-                    public_type_id: this.$router.params.publictypeid,
+                    public_type_id: this.$router.params.groupId,
+                    activity_id: this.state.data.youhui.activity_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.type,
+                    type: this.$router.params.activityType,
                     xcx: 1,
                     number: 1
                 }
@@ -235,7 +374,7 @@ export default class confirmAddress extends Component {
                     paySign: res.data.paySign,
                     success(res) {
                         Taro.navigateTo({
-                            url: '/pages/activity/pages/group/group?id=' + this.$router.params.publictypeid,
+                            url: '/pages/activity/pages/group/group?id=' +  this.$router.params.groupId,
                             success: () => {
                                 var page = Taro.getCurrentPages().pop();
                                 if (page == undefined || page == null) return;
@@ -264,49 +403,56 @@ export default class confirmAddress extends Component {
                             <View className="tips-box-info">你还没有收货地址，快去新增一个吧</View>
                             <View className="tips-box-bottomBox">
                                 <View className="tips-box-bottomBox_cancle" onClick={() => { this.setState({ contentboxShow: false }) }}>取消</View>
-                                <View className="tips-box-bottomBox_go">去新增</View>
+                                <View className="tips-box-bottomBox_go" onClick={this.goToEditor.bind(this)} >去新增</View>
                             </View>
                         </View>
                     </View> : null
                 }
 
-
-                {/* <View className="no-address-box" onClick={this.goToEditor.bind(this)}>
-                    你的收货地址为空，点击添加收货地址
-                    <View className="no-address-msgbox">
-                        <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
-                    </View>
-                </View> */}
-
-                <View className="address-msgbox" onClick={this.goToAddressList.bind(this)}>
-                    <View className="address-msgbox-left">
-                        <View className="address-name-msgbox">
-                            <View className="address-name-msgbox-info">
-                                <View className="address-name-msgbox-key">收件人： </View>
-                                <View className="address-name-msgbox-value-box">
-                                    <View className="address-msgBox_userBox_name">杨大富</View>
-                                    <View className="address-msgBox_userBox_phone">13546987455</View>
-                                </View>
-                            </View>
-                            <View className="address-msgBox_userBox_choose">默认 </View>
-                        </View>
-
-                        <View className="address-addressInfo-msgbox">
-                            <View className="address-address-msgbox-key">收货地址：</View>
-                            <View className="address-address-item">广东省广州市海珠区广东省广州市海珠区广东省广州市海珠区</View>
-                        </View>
-                    </View>
-                    <View className="address-msgbox-icon">
-                        <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
-                    </View>
-                </View>
                 {
-                    this.state.activity_type == 1 ?
+                    !this.state.data.address || !this.state.data.address.name ?
+                        <View className="no-address-box" onClick={this.goToEditor.bind(this)}>
+                            你的收货地址为空，点击添加收货地址
+                    <View className="no-address-msgbox">
+                                <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
+                            </View>
+                        </View> : null
+                }
+                {
+                    this.state.data.address && this.state.data.address.name ? <View className="address-msgbox" onClick={this.goToAddressList.bind(this)}>
+                        <View className="address-msgbox-left">
+                            <View className="address-name-msgbox">
+                                <View className="address-name-msgbox-info">
+                                    <View className="address-name-msgbox-key">收件人： </View>
+                                    <View className="address-name-msgbox-value-box">
+                                        <View className="address-msgBox_userBox_name">{this.state.data.address.name}</View>
+                                        <View className="address-msgBox_userBox_phone">{this.state.data.address.mobile}</View>
+                                    </View>
+                                </View>
+                                {
+                                    this.state.data.address.is_default ? <View className="address-msgBox_userBox_choose">默认 </View> : null
+                                }
+
+                            </View>
+
+                            <View className="address-addressInfo-msgbox">
+                                <View className="address-address-msgbox-key">收货地址：</View>
+                                <View className="address-address-item">{this.state.data.address.province + this.state.data.address.city + this.state.data.address.district + this.state.data.address.detail}</View>
+                            </View>
+                        </View>
+                        <View className="address-msgbox-icon">
+                            <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' />
+                        </View>
+                    </View> : null
+                }
+
+                {
+                    this.$router.params.activityType == '55' || this.$router.params.activityType == '5' ?
                         <View className="group-msgbox">
                             <View className="group-msgbox-title-BOX">
                                 <View className="group-titlebox">
                                     <Image className="group-titlebox-storeicon" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/scSRkZHXxSj3z5jjaKWGzEPCX2cK524K.png" />
-                                    <View className="group_storename">杨大富的五金店</View>
+                                    <View className="group_storename">{this.$router.params.storeName}</View>
                                 </View>
                                 <View className="group-msgbox-icon">
                                     {/* <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' /> */}
@@ -314,13 +460,13 @@ export default class confirmAddress extends Component {
                             </View>
                             <View className="group-msgbox-content-BOX">
                                 <View className="group-msgbox-content-imgbox">
-                                    <Image className="group-msgbox-content-img" src="http://oss.tdianyi.com/front/B445jBjXwBdFyST6SEF4kPefkF34E2H6.png" mode="widthFix" />
+                                    <Image className="group-msgbox-content-img" src={this.state.data.youhui.image_url} mode="widthFix" />
                                 </View>
                                 <View className="group-msgbox-content-msgbox">
-                                    <View className="group-msgbox-content-name">活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动活动</View>
+                                    <View className="group-msgbox-content-name">{this.state.data.youhui.name}</View>
                                     <View className="group-msgbox-label-box">
-                                        <View className="group-msgbox-label">3人团</View>
-                                        <View className="group-msgbox-label">24小时</View>
+                                        <View className="group-msgbox-label">{this.state.data.youhui.participation_number}人团</View>
+                                        <View className="group-msgbox-label">{this.state.data.youhui.youhuiHour}小时</View>
                                     </View>
                                 </View>
                             </View>
@@ -330,7 +476,7 @@ export default class confirmAddress extends Component {
                             <View className="appre-msgbox-title-BOX">
                                 <View className="appre-titlebox">
                                     <Image className="appre-titlebox-storeicon" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/scSRkZHXxSj3z5jjaKWGzEPCX2cK524K.png" />
-                                    <View className="appre_storename">杨大富的五金店</View>
+                                    <View className="appre_storename">{this.$router.params.storeName}</View>
                                 </View>
                                 <View className="appre-msgbox-icon">
                                     {/* <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' /> */}
@@ -341,52 +487,53 @@ export default class confirmAddress extends Component {
                                     <View className="appre-msgbox-yellowBox_left">
                                         <View className="appre-msgbox-yellowBox_left_money">
                                             <View className="appre-msgbox-yellowBox_left_money_icon">￥</View>
-                                            <View className="appre-msgbox-yellowBox_left_money_num">100.00</View>
+                                            <View className="appre-msgbox-yellowBox_left_money_num">{this.state.data.youhui.pay_money}</View>
                                         </View>
-                                        <View className="appre-msgbox-yellowBox_left_info">最高可抵100.00元</View>
+                                        <View className="appre-msgbox-yellowBox_left_info">最高可抵{this.state.data.youhui.return_money}元</View>
                                     </View>
                                     <View className="appre-msgbox-yellowBox_middle">
-                                        <View className="appre-msgbox-yellowBox_appre_name">增值活动增值活动增值活动增值活动增值活动</View>
+                                        <View className="appre-msgbox-yellowBox_appre_name">{this.state.data.youhui.name}</View>
                                         <View className="appre-msgbox-yellowBox_appre_label_box">
-                                            <View className="appre-msgbox-yellowBox_appre_label">满100元可用</View>
-                                            <View className="appre-msgbox-yellowBox_appre_label">随时退</View>
+                                            <View className="appre-msgbox-yellowBox_appre_label">满{this.state.data.youhui.total_fee}元可用</View>
+                                            {
+                                                this.state.data.youhui.youhuiHour && this.state.data.youhui.youhuiHour != '' ? <View className="appre-msgbox-yellowBox_appre_label">{this.state.data.youhui.youhuiHour}</View> : null
+                                            }
                                         </View>
                                     </View>
                                 </View>
                             </View>
                         </View>
                 }
-                <View className="gift-msgbox">
-                    <View className="gift-msgbox-giftinfo-box">
-                        <View className="gift-msgbox-giftinfo-chooseimg-box" onClick={this.clickGift.bind(this)}>
-                            {
-                                this.state.giftChoice ? <Image className="gift-msgbox-giftinfo-chooseimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/jCzizjY4Fjna5HdneGSccWChTtA4DThf.png" />
-                                    : <Image className="gift-msgbox-giftinfo-chooseimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/tX8YdWMcGPYZMdJGdCjTtRPD3WsP7szh.png" />
 
-                            }
-                        </View>
-                        <View className="gift-msgbox-giftinfo-giftimg-box">
-                            <View className="gift-image-list" >
-                                <View className="gift-image-content">
-                                    <Image className="gift-img1" src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png" />
-                                    <Image className="gift-img2" src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png" />
-                                    <Image className="gift-img"
-                                        src="http://oss.tdianyi.com/front/B445jBjXwBdFyST6SEF4kPefkF34E2H6.png"
-                                    />
+                {
+                    this.state.data.youhui.gift_id ? <View className="gift-msgbox">
+                        <View className="gift-msgbox-giftinfo-box">
+                            <View className="gift-msgbox-giftinfo-chooseimg-box" onClick={this.clickGift.bind(this)}>
+                                {
+                                    this.state.giftChoice ? <Image className="gift-msgbox-giftinfo-chooseimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/jCzizjY4Fjna5HdneGSccWChTtA4DThf.png" />
+                                        : <Image className="gift-msgbox-giftinfo-chooseimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/tX8YdWMcGPYZMdJGdCjTtRPD3WsP7szh.png" />
+
+                                }
+                            </View>
+                            <View className="gift-msgbox-giftinfo-giftimg-box">
+                                <View className="gift-image-list" >
+                                    <View className="gift-image-content">
+                                        <Image className="gift-img1" src="http://oss.tdianyi.com/front/enfshdWzXJy8FsBYeMzPfHJW8fetDNzy.png" />
+                                        <Image className="gift-img2" src="http://oss.tdianyi.com/front/daNKrCsn2kK7Zr8ZzEJwdnQC5jPsaFkX.png" />
+                                        <Image className="gift-img" src={this.state.data.youhui.gift_pic} />
+                                    </View>
+                                </View>
+                            </View>
+                            <View className="gift-msgbox-giftinfo-giftmsg-box">
+                                <View className="gift-msgbox-giftinfo-title">赠送礼品</View>
+                                <View className="gift-msgbox-giftinfo-name">{this.state.data.youhui.gift_name}</View>
+                                <View className="gift-msgbox-label-box">
+                                    <View className="gift-msgbox-label">价值{this.state.data.youhui.gift_price}元</View>
+                                    <View className="gift-msgbox-label">运费{this.state.data.youhui.postage}元</View>
                                 </View>
                             </View>
                         </View>
-                        <View className="gift-msgbox-giftinfo-giftmsg-box">
-                            <View className="gift-msgbox-giftinfo-title">赠送礼品</View>
-                            <View className="gift-msgbox-giftinfo-name">耳机</View>
-                            <View className="gift-msgbox-label-box">
-                                <View className="gift-msgbox-label">价值3000元</View>
-                                <View className="gift-msgbox-label">运费8元</View>
-                            </View>
-                        </View>
-                    </View>
-
-                    {/* <View className="gift-msgbox-giftcoins-box">
+                        {/* <View className="gift-msgbox-giftcoins-box">
                         <View className="gift-msgbox-giftcoins-chooseimg-box1" onClick={this.clickCoins.bind(this)}>
                             {
                                 this.state.coinsChoice ? <Image className="gift-msgbox-giftcoins-chooseimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/jCzizjY4Fjna5HdneGSccWChTtA4DThf.png" />
@@ -398,10 +545,15 @@ export default class confirmAddress extends Component {
                             <View className="gift-msgbox-giftcoins-label">27礼品币</View>
                         </View>
                     </View> */}
-                </View>
+                    </View> : null
+                }
+
+
                 {
-                    this.state.activity_type == 1 ? <View className="yellow-info">拼团活动完成并使用后礼品即会送出</View>
-                        : <View className="yellow-info">增值券使用后礼品即会送出</View>
+                    this.state.giftChoice && this.state.data.youhui.gift_id && (this.$router.params.activityType == '55' || this.$router.params.activityType == '5') ? <View className="yellow-info">拼团活动完成并使用后礼品即会送出</View>
+                        : (
+                            this.state.giftChoice && this.state.data.youhui.gift_id && this.$router.params.activityType == '1' ? <View className="yellow-info">增值券使用后礼品即会送出</View> : null
+                        )
                 }
 
                 <View className="paymoney_box">
@@ -409,10 +561,10 @@ export default class confirmAddress extends Component {
                         <View className="paymoney_price_icon">￥</View>
                         <View className="paymoney_price_num">100</View>
                         {
-                            this.state.giftChoice ? <View className='paymoney_price_info'>+5</View> : null
+                            this.state.data.youhui.gift_id && this.state.giftChoice ? <View className='paymoney_price_info'>+{this.state.data.youhui.postage}</View> : null
                         }
                     </View>
-                    <View className="paymoney_buynow" >立即购买</View>
+                    <View className="paymoney_buynow" onClick={this.payment.bind(this)} >立即购买</View>
                 </View>
 
             </View>

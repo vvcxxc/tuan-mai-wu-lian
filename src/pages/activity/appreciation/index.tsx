@@ -307,7 +307,7 @@ export default class Appre extends Component<Props>{
     }).then((res: any) => {
       let order_sn = res.data.channel_order_sn;
       Taro.hideLoading();
-      
+
       // 发起支付
       Taro.requestPayment({
         timeStamp: res.data.timeStamp,
@@ -320,7 +320,7 @@ export default class Appre extends Component<Props>{
             title: 'loading',
             mask: true
           });
-          interval = setInterval( () => {
+          interval = setInterval(() => {
             //查询用户最后一次购买的增值活动id
             request({
               url: 'v1/youhui/getUserLastYouhuiId',
@@ -350,6 +350,13 @@ export default class Appre extends Component<Props>{
       })
     })
   }
+
+  goToaConfirm = (e) => {
+    Taro.navigateTo({
+      url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
+    })
+  }
+
 
   /**
    * 回首页
@@ -536,7 +543,7 @@ export default class Appre extends Component<Props>{
             </View>
           </View>
         </View>
-        {
+        {/* {
           (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
             <View className='choose_postage' onClick={this.chooseGift}>
 
@@ -550,24 +557,23 @@ export default class Appre extends Component<Props>{
                 <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
               </View>
             </View>) : null
-        }
+        } */}
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
-
             {
               this.state.isPostage ? <View className='paymoney_price_info'> {
                 this.state.data.gift.mail_mode == 1 ? null :
                   '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
-          {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
           {
             this.state.data.activity_time_status == 1 ? (
               <View className="paymoney_buynow_no">暂未开始</View>
             ) : this.state.data.activity_time_status == 2 ? (
-              <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
+              // <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
+              <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
             ) : this.state.data.activity_time_status == 3 ? (
               <View className="paymoney_buynow_no">已结束</View>
             ) : null

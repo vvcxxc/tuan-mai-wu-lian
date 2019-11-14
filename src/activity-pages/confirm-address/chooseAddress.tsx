@@ -20,10 +20,11 @@ export default class ChooseAddress extends Component {
     };
 
     componentWillUnmount() {
-        Taro.removeStorage({ key: 'cityList' })
+        // Taro.removeStorage({ key: 'cityList' })
     }
 
     componentDidMount() {
+        console.log(this.$router.params)
         Taro.showLoading({
             title: ""
         });
@@ -52,22 +53,44 @@ export default class ChooseAddress extends Component {
     }
     //有地址，编辑后使用
     editorAddress = (_id: any) => {
-        Taro.navigateTo({
-            url: '/activity-pages/Shipping-address/editor?type=useItemChange&editorId=' + _id
-        })
+        if (this.$router.params.activityType == '55') {
+            Taro.navigateTo({
+                url: '/activity-pages/Shipping-address/editor?type=useItemChange&activityType=55&editorId=' + _id + '&goodsId=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName
+            })
+        } else {
+            Taro.navigateTo({
+                url: '/activity-pages/Shipping-address/editor?type=useItemChange&activityType=' + this.$router.params.activityType + '&editorId=' + _id + '&goodsId=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName
+            })
+        }
     }
     //没有地址，新增并使用
     goToEditor = () => {
-        Taro.navigateTo({
-            url: '/activity-pages/Shipping-address/editor?type=useItem'
-        })
+        if (this.$router.params.activityType == '55') {
+            Taro.navigateTo({
+                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=55&goodsId=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName
+            })
+        } else {
+            Taro.navigateTo({
+                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=' + this.$router.params.activityType + '&goodsId=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName
+            })
+        }
     }
 
     //保存
     chosoeCurrent = (index, _id, e) => {
         this.setState({ currentAddress: index, currentId: _id }, () => {
             Taro.showToast({ title: '选择地址成功', icon: 'none', mask: true });
-
+            setTimeout(() => {
+                if (this.$router.params.activityType == '55') {
+                    Taro.navigateTo({
+                        url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName + '&address_id=' + _id
+                    })
+                } else {
+                    Taro.navigateTo({
+                        url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.activityType + '&id=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName + '&address_id=' + _id
+                    })
+                }
+            }, 1500);
         })
     }
 

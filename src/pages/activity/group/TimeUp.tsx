@@ -19,7 +19,7 @@ export default class TimeUp extends Component<Props>{
     this.setTime();
   }
   componentDidShow() {
-    // this.setTime();
+    this.setTime();
   }
   // componentWillReceiveProps(props, nextprops) {
   //   console.log(props);
