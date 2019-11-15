@@ -151,6 +151,9 @@ export default class confirmAddress extends Component {
         if (this.state.giftChoice == true) {
             this.setState({ giftChoice: false })
         } else {
+            if ((!this.state.data.address || !this.state.data.address.detail) && this.state.data.youhui.gift_id) {
+                Taro.showToast({ title: '请添加收货地址后再提交', icon: 'none' })
+            }
             this.setState({ giftChoice: true, coinsChoice: false })
         }
     }
