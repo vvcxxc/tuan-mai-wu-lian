@@ -100,7 +100,7 @@ export default class EditorAddress extends Component {
             })
             return;
         }
-        if (!phoneValue) {
+        if (!phoneValue||!(/^1[3456789]\d{9}$/.test(phoneValue))) {
             this.setState({ toastShow: true, toastInfo: '请输入正确的手机号码' }, () => {
                 setTimeout(() => { this.setState({ toastInfo: '', toastShow: false }) }, 1000)
             })
@@ -258,7 +258,7 @@ export default class EditorAddress extends Component {
             })
             return;
         }
-        if (!phoneValue) {
+        if (!phoneValue||!(/^1[3456789]\d{9}$/.test(phoneValue))) {
             this.setState({ toastShow: true, toastInfo: '请输入正确的手机号码' }, () => {
                 setTimeout(() => { this.setState({ toastInfo: '', toastShow: false }) }, 1000)
             })
