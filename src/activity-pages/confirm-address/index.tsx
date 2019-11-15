@@ -460,7 +460,7 @@ export default class confirmAddress extends Component {
                             </View>
                             <View className="group-msgbox-content-BOX">
                                 <View className="group-msgbox-content-imgbox">
-                                    <Image className="group-msgbox-content-img" src={this.state.data.youhui.image_url} mode="widthFix" />
+                                    <Image className="group-msgbox-content-img" src={this.state.data.youhui.image_url} />
                                 </View>
                                 <View className="group-msgbox-content-msgbox">
                                     <View className="group-msgbox-content-name">{this.state.data.youhui.name}</View>
@@ -559,7 +559,7 @@ export default class confirmAddress extends Component {
                 <View className="paymoney_box">
                     <View className="paymoney_price">
                         <View className="paymoney_price_icon">￥</View>
-                        <View className="paymoney_price_num">100</View>
+            <View className="paymoney_price_num">{this.state.data.youhui.pay_money}</View>
                         {
                             this.state.data.youhui.gift_id && this.state.giftChoice ? <View className='paymoney_price_info'>+{this.state.data.youhui.postage}</View> : null
                         }

@@ -279,13 +279,14 @@
 
             .group-msgbox-content-imgbox {
                 flex: 50%;
-                height: auto;
+                height: 240px;
                 border-radius: 8px;
                 overflow: hidden;
 
                 .group-msgbox-content-img {
                     width: 100%;
                     display: unset;
+                    height:100%;
                 }
             }
 
