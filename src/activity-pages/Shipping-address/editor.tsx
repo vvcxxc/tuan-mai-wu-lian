@@ -247,6 +247,10 @@ export default class EditorAddress extends Component {
     }
 
     saveAndUse = () => {
+        var pages = Taro.getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prevPage = pages[pages.length - 3];  //上两个页面
+
         const { nameValue, phoneValue, cityValue, TextareaValue, chooseMove } = this.state;
         if (!nameValue) {
             this.setState({ toastShow: true, toastInfo: '请输入收件人' }, () => {
@@ -310,12 +314,37 @@ export default class EditorAddress extends Component {
                         }
                         setTimeout(() => {
                             if (this.$router.params.activityType == '55') {
-                                Taro.navigateTo({
-                                    url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
+                                // Taro.navigateTo({
+                                //     url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
+                                // })
+                                prevPage.setData({
+                                    fromPage: 'editor',
+                                    parmsData: {
+                                        activityType: 55,
+                                        id: this.$router.params.goodsId,
+                                        groupId: this.$router.params.groupId,
+                                        storeName: this.$router.params.storeName,
+                                        address_id: adderssId
+                                    }
+                                })
+                                Taro.navigateBack({
+                                    delta: 3
                                 })
                             } else {
                                 Taro.navigateTo({
                                     url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.activityType + '&id=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
+                                })
+                                prevPage.setData({
+                                    fromPage: 'editor',
+                                    parmsData: {
+                                        activityType: this.$router.params.activityType,
+                                        id: this.$router.params.goodsId,
+                                        storeName: this.$router.params.storeName,
+                                        address_id: adderssId
+                                    }
+                                })
+                                Taro.navigateBack({
+                                    delta: 3
                                 })
                             }
                         }, 1500)

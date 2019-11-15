@@ -12,6 +12,10 @@ export default class confirmAddress extends Component {
     };
 
     state = {
+        activityType: "",
+        address_id: "",
+        id: "",
+        storeName: "",
         contentboxShow: false,
         giftChoice: true,
         coinsChoice: false,
@@ -45,107 +49,129 @@ export default class confirmAddress extends Component {
         }
     };
 
-
     componentDidShow() {
-        console.log(this.$router.params);
-        let data;
-        if (this.$router.params.address_id) {
-            data = { youhui_id: this.$router.params.id, address_id: this.$router.params.address_id }
-        } else {
-            data = { youhui_id: this.$router.params.id }
-        }
-        if (this.$router.params.activityType == '1') {
-            request({
-                url: '/api/wap/user/appreciation/appreciationOrderInfo',
-                method: "GET",
-                data: data
-            }).then((res: any) => {
-                if (res.code == 200) {
-                    this.setState({ data: res.data })
-                } else {
-                    Taro.showToast({ title: '加载失败', icon: 'none' })
-                }
-
-            }).catch((err) => {
-                console.log(err);
-                Taro.showToast({ title: '加载失败', icon: 'none' })
+        let pages = Taro.getCurrentPages();
+        let currPage = pages[pages.length - 1];
+        console.log('diu', currPage.data);
+        if (currPage.data.fromPage == "editor") {
+            this.setState({
+                activityType: currPage.data.parmsData.activityType,
+                address_id: currPage.data.parmsData.address_id,
+                id: currPage.data.parmsData.id,
+                storeName: currPage.data.parmsData.storeName,
+                groupId: currPage.data.parmsData.activityType == '55' ? currPage.data.parmsData.storeName : undefined,
             })
+            let data;
+            if (currPage.data.parmsData.address_id) {
+                data = { youhui_id: currPage.data.parmsData.id, address_id: currPage.data.parmsData.address_id }
+            } else {
+                data = { youhui_id: currPage.data.parmsData.id, }
+            }
 
-        } else {
-            request({
-                url: '/api/wap/user/groupOrderInfo',
-                method: "GET",
-                data: data
-            }).then((res: any) => {
-                if (res.code == 200) {
-                    console.log(res)
-                    this.setState({ data: res.data })
-                } else {
+            if (currPage.data.parmsData.activityType == '1') {
+                request({
+                    url: '/api/wap/user/appreciation/appreciationOrderInfo',
+                    method: "GET",
+                    data: data
+                }).then((res: any) => {
+                    if (res.code == 200) {
+                        this.setState({ data: res.data })
+                    } else {
+                        Taro.showToast({ title: '加载失败', icon: 'none' })
+                    }
+
+                }).catch((err) => {
+                    console.log(err);
                     Taro.showToast({ title: '加载失败', icon: 'none' })
-                }
+                })
 
-            }).catch((err) => {
-                console.log(err);
-                Taro.showToast({ title: '加载失败', icon: 'none' })
-            })
+            } else {
+                request({
+                    url: '/api/wap/user/groupOrderInfo',
+                    method: "GET",
+                    data: data
+                }).then((res: any) => {
+                    if (res.code == 200) {
+                        console.log(res)
+                        this.setState({ data: res.data })
+                    } else {
+                        Taro.showToast({ title: '加载失败', icon: 'none' })
+                    }
 
+                }).catch((err) => {
+                    console.log(err);
+                    Taro.showToast({ title: '加载失败', icon: 'none' })
+                })
+            }
         }
     }
+
+
     componentDidMount() {
-        console.log(this.$router.params);
-        Taro.showLoading({
-            title: ""
-          });
-        let data;
-        if (this.$router.params.address_id) {
-            data = { youhui_id: this.$router.params.id, address_id: this.$router.params.address_id }
-        } else {
-            data = { youhui_id: this.$router.params.id }
-        }
-        if (this.$router.params.activityType == '1') {
-            request({
-                url: '/api/wap/user/appreciation/appreciationOrderInfo',
-                method: "GET",
-                data: data
-            }).then((res: any) => {
-                if (res.code == 200) {
-                    Taro.hideLoading();
-                    this.setState({ data: res.data })
-                } else {
-                    Taro.hideLoading();
-                    Taro.showToast({ title: '加载失败', icon: 'none' })
-                }
-
-            }).catch((err) => {
-                Taro.hideLoading();
-                console.log(err);
-                Taro.showToast({ title: '加载失败', icon: 'none' })
+        let pages = Taro.getCurrentPages();
+        let currPage = pages[pages.length - 1];
+        if (currPage.data.fromPage != "editor") {
+            console.log(this.state);
+            this.setState({
+                activityType: this.$router.params.activityType,
+                address_id: this.$router.params.address_id,
+                id: this.$router.params.id,
+                storeName: this.$router.params.storeName,
+                groupId: this.$router.params.activityType == '55' ? this.$router.params.storeName : undefined,
             })
+            Taro.showLoading({
+                title: ""
+            });
+            let data;
+            if (this.state.address_id) {
+                data = { youhui_id:  this.$router.params.id, address_id:  this.$router.params.address_id }
+            } else {
+                data = { youhui_id:  this.$router.params.id}
+            }
+            if (this.$router.params.activityType == '1') {
+                request({
+                    url: '/api/wap/user/appreciation/appreciationOrderInfo',
+                    method: "GET",
+                    data: data
+                }).then((res: any) => {
+                    if (res.code == 200) {
+                        Taro.hideLoading();
+                        this.setState({ data: res.data })
+                    } else {
+                        Taro.hideLoading();
+                        Taro.showToast({ title: '加载失败', icon: 'none' })
+                    }
 
-        } else {
-            request({
-                url: '/api/wap/user/groupOrderInfo',
-                method: "GET",
-                data: data
-            }).then((res: any) => {
-                if (res.code == 200) {
+                }).catch((err) => {
                     Taro.hideLoading();
-                    console.log(res)
-                    this.setState({ data: res.data })
-                } else {
-                    Taro.hideLoading();
+                    console.log(err);
                     Taro.showToast({ title: '加载失败', icon: 'none' })
-                }
+                })
 
-            }).catch((err) => {
-                Taro.hideLoading();
-                console.log(err);
-                Taro.showToast({ title: '加载失败', icon: 'none' })
-            })
+            } else {
+                request({
+                    url: '/api/wap/user/groupOrderInfo',
+                    method: "GET",
+                    data: data
+                }).then((res: any) => {
+                    if (res.code == 200) {
+                        Taro.hideLoading();
+                        console.log(res)
+                        this.setState({ data: res.data })
+                    } else {
+                        Taro.hideLoading();
+                        Taro.showToast({ title: '加载失败', icon: 'none' })
+                    }
 
+                }).catch((err) => {
+                    Taro.hideLoading();
+                    console.log(err);
+                    Taro.showToast({ title: '加载失败', icon: 'none' })
+                })
+
+            }
         }
     }
-
 
     clickGift = (e) => {
         if (this.state.giftChoice == true) {
@@ -166,25 +192,25 @@ export default class confirmAddress extends Component {
         }
     }
     goToAddressList = () => {
-        if (this.$router.params.activityType == '55') {
+        if (this.state.activityType == '55') {
             Taro.navigateTo({
-                url: '/activity-pages/confirm-address/chooseAddress?activityType=55&goodsId=' + this.$router.params.id + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName
+                url: '/activity-pages/confirm-address/chooseAddress?activityType=55&goodsId=' + this.state.id + '&groupId=' + this.state.groupId + '&storeName=' + this.state.storeName
             })
         } else {
             Taro.navigateTo({
-                url: '/activity-pages/confirm-address/chooseAddress?activityType=' + this.$router.params.activityType + '&goodsId=' + this.$router.params.id + '&storeName=' + this.$router.params.storeName
+                url: '/activity-pages/confirm-address/chooseAddress?activityType=' + this.state.activityType + '&goodsId=' + this.state.id + '&storeName=' + this.state.storeName
             })
         }
     }
     //没有地址，新增并使用
     goToEditor = () => {
-        if (this.$router.params.activityType == '55') {
+        if (this.state.activityType == '55') {
             Taro.navigateTo({
-                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=55&goodsId=' + this.$router.params.id + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName
+                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=55&goodsId=' + this.state.id + '&groupId=' + this.state.groupId + '&storeName=' + this.state.storeName
             })
         } else {
             Taro.navigateTo({
-                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=' + this.$router.params.activityType + '&goodsId=' + this.$router.params.id + '&storeName=' + this.$router.params.storeName
+                url: '/activity-pages/Shipping-address/editor?type=useItem&activityType=' + this.state.activityType + '&goodsId=' + this.state.id + '&storeName=' + this.state.storeName
             })
         }
     }
@@ -198,11 +224,11 @@ export default class confirmAddress extends Component {
         let interval;
         let open_id = Taro.getStorageSync("openid");
         let unionid = Taro.getStorageSync("unionid");
-        if (this.$router.params.activityType == '1') {
+        if (this.state.activityType == '1') {
             //1增值
             if (this.state.giftChoice && this.state.data.youhui.gift_id) {
                 data = {
-                    youhui_id: this.$router.params.id,
+                    youhui_id: this.state.id,
                     activity_id: this.state.data.youhui.activity_id,
                     gift_id: this.state.data.youhui.gift_id,
                     open_id: open_id,
@@ -212,7 +238,7 @@ export default class confirmAddress extends Component {
                 }
             } else {
                 data = {
-                    youhui_id: this.$router.params.id,
+                    youhui_id: this.state.id,
                     activity_id: this.state.data.youhui.activity_id,
                     open_id: open_id,
                     unionid: unionid,
@@ -268,26 +294,26 @@ export default class confirmAddress extends Component {
                     }
                 })
             })
-        } else if (this.$router.params.activityType == '5') {
+        } else if (this.state.activityType == '5') {
             //5开团
             if (this.state.giftChoice && this.state.data.youhui.gift_id) {
                 data = {
-                    public_type_id: this.$router.params.id,
+                    public_type_id: this.state.id,
                     activity_id: this.state.data.youhui.activity_id,
                     gift_id: this.state.data.youhui.gift_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.activityType,//5开团 55拼团
+                    type: this.state.activityType,//5开团 55拼团
                     xcx: 1,
                     number: 1
                 }
             } else {
                 data = {
-                    public_type_id: this.$router.params.id,
+                    public_type_id: this.state.id,
                     activity_id: this.state.data.youhui.activity_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.activityType,
+                    type: this.state.activityType,
                     xcx: 1,
                     number: 1
                 }
@@ -338,26 +364,26 @@ export default class confirmAddress extends Component {
                     }
                 })
             })
-        } else if (this.$router.params.activityType == '55') {
+        } else if (this.state.activityType == '55') {
             //55参团
             if (this.state.giftChoice && this.state.data.youhui.gift_id) {
                 data = {
-                    public_type_id: this.$router.params.groupId,
+                    public_type_id: this.state.groupId,
                     activity_id: this.state.data.youhui.activity_id,
                     gift_id: this.state.data.youhui.gift_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.activityType,
+                    type: this.state.activityType,
                     xcx: 1,
                     number: 1
                 }
             } else {
                 data = {
-                    public_type_id: this.$router.params.groupId,
+                    public_type_id: this.state.groupId,
                     activity_id: this.state.data.youhui.activity_id,
                     open_id: open_id,
                     unionid: unionid,
-                    type: this.$router.params.activityType,
+                    type: this.state.activityType,
                     xcx: 1,
                     number: 1
                 }
@@ -377,7 +403,7 @@ export default class confirmAddress extends Component {
                     paySign: res.data.paySign,
                     success(res) {
                         Taro.navigateTo({
-                            url: '/pages/activity/pages/group/group?id=' +  this.$router.params.groupId,
+                            url: '/pages/activity/pages/group/group?id=' + this.state.groupId,
                             success: () => {
                                 var page = Taro.getCurrentPages().pop();
                                 if (page == undefined || page == null) return;
@@ -450,12 +476,12 @@ export default class confirmAddress extends Component {
                 }
 
                 {
-                    this.$router.params.activityType == '55' || this.$router.params.activityType == '5' ?
+                    this.state.activityType == '55' || this.state.activityType == '5' ?
                         <View className="group-msgbox">
                             <View className="group-msgbox-title-BOX">
                                 <View className="group-titlebox">
                                     <Image className="group-titlebox-storeicon" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/scSRkZHXxSj3z5jjaKWGzEPCX2cK524K.png" />
-                                    <View className="group_storename">{this.$router.params.storeName}</View>
+                                    <View className="group_storename">{this.state.storeName}</View>
                                 </View>
                                 <View className="group-msgbox-icon">
                                     {/* <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' /> */}
@@ -479,7 +505,7 @@ export default class confirmAddress extends Component {
                             <View className="appre-msgbox-title-BOX">
                                 <View className="appre-titlebox">
                                     <Image className="appre-titlebox-storeicon" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/scSRkZHXxSj3z5jjaKWGzEPCX2cK524K.png" />
-                                    <View className="appre_storename">{this.$router.params.storeName}</View>
+                                    <View className="appre_storename">{this.state.storeName}</View>
                                 </View>
                                 <View className="appre-msgbox-icon">
                                     {/* <AtIcon className="msg_icon" value='chevron-right' color='#b5b5b5' size='30' /> */}
@@ -553,16 +579,16 @@ export default class confirmAddress extends Component {
 
 
                 {
-                    this.state.giftChoice && this.state.data.youhui.gift_id && (this.$router.params.activityType == '55' || this.$router.params.activityType == '5') ? <View className="yellow-info">拼团活动完成并使用后礼品即会送出</View>
+                    this.state.giftChoice && this.state.data.youhui.gift_id && (this.state.activityType == '55' || this.state.activityType == '5') ? <View className="yellow-info">拼团活动完成并使用后礼品即会送出</View>
                         : (
-                            this.state.giftChoice && this.state.data.youhui.gift_id && this.$router.params.activityType == '1' ? <View className="yellow-info">增值券使用后礼品即会送出</View> : null
+                            this.state.giftChoice && this.state.data.youhui.gift_id && this.state.activityType == '1' ? <View className="yellow-info">增值券使用后礼品即会送出</View> : null
                         )
                 }
 
                 <View className="paymoney_box">
                     <View className="paymoney_price">
                         <View className="paymoney_price_icon">￥</View>
-            <View className="paymoney_price_num">{this.state.data.youhui.pay_money}</View>
+                        <View className="paymoney_price_num">{this.state.data.youhui.pay_money}</View>
                         {
                             this.state.data.youhui.gift_id && this.state.giftChoice ? <View className='paymoney_price_info'>+{this.state.data.youhui.postage}</View> : null
                         }
