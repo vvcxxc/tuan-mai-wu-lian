@@ -16,6 +16,7 @@ export default class confirmAddress extends Component {
         address_id: "",
         id: "",
         storeName: "",
+        groupId:'',
         contentboxShow: false,
         giftChoice: true,
         coinsChoice: false,
@@ -124,9 +125,9 @@ export default class confirmAddress extends Component {
             });
             let data;
             if (this.state.address_id) {
-                data = { youhui_id:  this.$router.params.id, address_id:  this.$router.params.address_id }
+                data = { youhui_id: this.$router.params.id, address_id: this.$router.params.address_id }
             } else {
-                data = { youhui_id:  this.$router.params.id}
+                data = { youhui_id: this.$router.params.id }
             }
             if (this.$router.params.activityType == '1') {
                 request({
@@ -216,7 +217,7 @@ export default class confirmAddress extends Component {
     }
 
     payment = () => {
-        if ((!this.state.data.address || !this.state.data.address.detail) && this.state.data.youhui.gift_id) {
+        if ((!this.state.data.address || !this.state.data.address.detail) && this.state.data.youhui.gift_id && this.state.giftChoice) {
             this.setState({ contentboxShow: true })
             return;
         }
