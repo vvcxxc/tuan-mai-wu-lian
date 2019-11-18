@@ -708,6 +708,22 @@
                 font-size: 25px;
             }
 
+            .setMeal_store_box {
+                width: 100%;
+                height: 100%;
+                background: #fff;
+                padding: 23px 40px 28px 30px;
+                box-sizing: border-box;
+
+                .setMeal_store_title {
+                    height: 60px;
+                    text-align: left;
+                    font-weight: bold;
+                    font-size: 40px;
+                    line-height: 1;
+                }
+            }
+
             .appre_rule_time_data {
                 float: left;
                 height: 40px;
