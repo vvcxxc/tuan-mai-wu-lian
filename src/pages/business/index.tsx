@@ -36,8 +36,8 @@ export default class PaySuccess extends Component<Props> {
       collect: "0",
       distance: "",
       tel: "",
-      xpoint: 0,
-      ypoint: 0
+      xpoint: '',
+      ypoint: ''
 
     },
     recommend: [//本店其它的推荐
@@ -144,8 +144,8 @@ export default class PaySuccess extends Component<Props> {
       type: 'gcj02',
       success: res => {
         this.setState({
-          yPoint: res.latitude,
-          xPoint: res.longitude
+          yPoint: res.latitude||'',
+          xPoint: res.longitude||''
         }, () => {
           request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
             .then((res: any) => {
