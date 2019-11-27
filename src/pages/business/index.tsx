@@ -159,8 +159,9 @@ export default class PaySuccess extends Component<Props> {
                 exchangeCouponList: res.data.store.exchangeCouponList,
                 keepCollect_bull: res.data.store.Info.collect ? true : false
               })
-              Taro.hideLoading()
+              Taro.hideLoading();
             }).catch(err => {
+              Taro.hideLoading();
               console.log(err);
             })
         })
@@ -185,6 +186,7 @@ export default class PaySuccess extends Component<Props> {
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
+              Taro.hideLoading();
             })
         })
       }
