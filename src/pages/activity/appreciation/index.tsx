@@ -352,9 +352,13 @@ export default class Appre extends Component<Props>{
   }
 
   goToaConfirm = (e) => {
-    Taro.navigateTo({
-      url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
-    })
+    if (this.state.data.gift_id) {
+      Taro.navigateTo({
+        url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
+      })
+    } else {
+      this.payment()
+    }
   }
 
 
