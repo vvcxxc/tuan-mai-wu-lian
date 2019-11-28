@@ -68,7 +68,8 @@ export default class Group extends Component<Props>{
           participation_number: 0,
           real_name: "",
           activity_end_time: '',
-          end_at: ''
+          end_at: '',
+          is_team: false
         }
       ],
       page: 1,
@@ -739,7 +740,10 @@ export default class Group extends Component<Props>{
                             </View>
                           </View>
                           <View className="group_list_btnbox0" >
-                            <View className="group_list_btn0" onClick={this.goToaConfirmAddGroup.bind(this, item.id)} >立即参团</View>
+                            {
+                              item.is_team ? <View className="group_list_btn0" style={{ background: '#666666' }} >已经参团</View> :
+                                <View className="group_list_btn0" onClick={this.goToaConfirmAddGroup.bind(this, item.id)} >立即参团</View>
+                            }
                           </View>
                         </View>
                       )
@@ -877,7 +881,10 @@ export default class Group extends Component<Props>{
                           </View>
                           <View className="group_list_name" >{item[0].real_name}</View>
                           <View className="group_list_btnbox" >
-                            <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[0].id)} >立即参团</View>
+                            {
+                              item[0].is_team ? <View className="group_list_btn" style={{ background: '#666666' }} >已经参团</View> :
+                                <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[0].id)} >立即参团</View>
+                            }
                           </View>
                           <View className="group_list_timesbox" >
                             <View className="group_list_lack" >
@@ -900,7 +907,10 @@ export default class Group extends Component<Props>{
                             </View>
                             <View className="group_list_name" >{item[1].real_name}</View>
                             <View className="group_list_btnbox" >
-                              <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[1].id)} >立即参团</View>
+                              {
+                                item[1].is_team ? <View className="group_list_btn" style={{ background: '#666666' }} >已经参团</View> :
+                                  <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[1].id)} >立即参团</View>
+                              }
                             </View>
                             <View className="group_list_timesbox" >
                               <View className="group_list_lack" >
