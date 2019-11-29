@@ -14,8 +14,8 @@ export default class PaySuccess extends Component {
   };
 
   state = {
-    yPoint: 0,
-    xPoint: 0,
+    yPoint: '',
+    xPoint: '',
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,
@@ -27,7 +27,7 @@ export default class PaySuccess extends Component {
       description: "",
       end_time: "",
       icon: "h",
-      id: 1311,
+      id: 0,
       image: "",
       image_type: 1,
       list_brief: "",
@@ -54,7 +54,7 @@ export default class PaySuccess extends Component {
     },
     goods_album: [
       {
-        id: 700,
+        id: 0,
         image_url: ""
       }
     ],
@@ -62,7 +62,7 @@ export default class PaySuccess extends Component {
       begin_time: "",
       brief: "",
       end_time: "",
-      id: 1283,
+      id: 0,
       list_brief: "",
       open_time: "",
       pay_money: "",
@@ -121,8 +121,39 @@ export default class PaySuccess extends Component {
               })
             }, 2000)
           });
-
       })
+    }).catch(err => {
+      Taro.showLoading({
+        title: 'loading',
+      })
+      request({
+        url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: '', ypoint: '' }
+      })
+        .then((res: any) => {
+          console.log(res);
+          if (res.code != 200) {
+            Taro.hideLoading()
+            Taro.showToast({ title: '信息错误', icon: 'none' })
+            setTimeout(() => {
+              Taro.navigateBack({
+              })
+            }, 2000)
+          }
+          this.setState({
+            coupon: res.data.info.coupon,
+            store: res.data.info.store,
+            goods_album: res.data.info.goods_album,
+            recommend: res.data.recommend.data
+          })
+          Taro.hideLoading()
+        }).catch(function (error) {
+          Taro.hideLoading()
+          Taro.showToast({ title: '数据请求失败', icon: 'none' })
+          setTimeout(() => {
+            Taro.navigateBack({
+            })
+          }, 2000)
+        });
     })
   }
 
@@ -234,15 +265,15 @@ export default class PaySuccess extends Component {
                 <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') == -1 ? '' : '#fff' }}>随时退</Text>
                 <Text className="tag-text" style={{ marginRight: "0", backgroundColor: this.state.coupon.label.indexOf('免预约') == -1 ? '' : '#fff' }}>免预约</Text> */}
                 {
-                   this.state.coupon.label.indexOf('可叠加') !== -1 ?
+                  this.state.coupon.label.indexOf('可叠加') !== -1 ?
                     <Text className="tag-text">可叠加</Text> : null
                 }
                 {
-                   this.state.coupon.label.indexOf('随时退') !== -1 ?
+                  this.state.coupon.label.indexOf('随时退') !== -1 ?
                     <Text className="tag-text">随时退</Text> : null
                 }
                 {
-                   this.state.coupon.label.indexOf('免预约') !== -1 ?
+                  this.state.coupon.label.indexOf('免预约') !== -1 ?
                     <Text className="tag-text"  >免预约</Text> : null
                 }
               </View>

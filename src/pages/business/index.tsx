@@ -23,8 +23,8 @@ export default class PaySuccess extends Component<Props> {
     // test1: false,
     // test2: false,
 
-    yPoint: 0,
-    xPoint: 0,
+    yPoint: '',
+    xPoint: '',
     business_list: {//自家店铺
       id: "",
       name: '',
@@ -36,8 +36,8 @@ export default class PaySuccess extends Component<Props> {
       collect: "0",
       distance: "",
       tel: "",
-      xpoint: 0,
-      ypoint: 0
+      xpoint: '',
+      ypoint: ''
 
     },
     recommend: [//本店其它的推荐
@@ -144,8 +144,8 @@ export default class PaySuccess extends Component<Props> {
       type: 'gcj02',
       success: res => {
         this.setState({
-          yPoint: res.latitude,
-          xPoint: res.longitude
+          yPoint: res.latitude || '',
+          xPoint: res.longitude || ''
         }, () => {
           request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
             .then((res: any) => {
@@ -159,34 +159,31 @@ export default class PaySuccess extends Component<Props> {
                 exchangeCouponList: res.data.store.exchangeCouponList,
                 keepCollect_bull: res.data.store.Info.collect ? true : false
               })
-              Taro.hideLoading()
+              Taro.hideLoading();
             }).catch(err => {
+              Taro.hideLoading();
               console.log(err);
             })
         })
       },
       fail: () => {
-        this.setState({
-          yPoint: '',
-          xPoint: ''
-        }, () => {
-          request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
-            .then((res: any) => {
-              console.log(res);
-              that.setState({
-                business_list: res.data.store.Info,
-                recommend: res.data.recommend,
-                activity_group: res.data.store.activity_group,
-                activity_appre: res.data.store.activity_appreciation,
-                cashCouponList: res.data.store.cashCouponList,
-                exchangeCouponList: res.data.store.exchangeCouponList,
-                keepCollect_bull: res.data.store.Info.collect ? true : false
-              })
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
+        request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: '', ypoint: ''} })
+          .then((res: any) => {
+            console.log(res);
+            that.setState({
+              business_list: res.data.store.Info,
+              recommend: res.data.recommend,
+              activity_group: res.data.store.activity_group,
+              activity_appre: res.data.store.activity_appreciation,
+              cashCouponList: res.data.store.cashCouponList,
+              exchangeCouponList: res.data.store.exchangeCouponList,
+              keepCollect_bull: res.data.store.Info.collect ? true : false
             })
-        })
+            Taro.hideLoading()
+          }).catch(err => {
+            console.log(err);
+            Taro.hideLoading();
+          })
       }
     })
   }
