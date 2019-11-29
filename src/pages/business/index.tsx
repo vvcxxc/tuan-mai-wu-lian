@@ -147,9 +147,9 @@ export default class PaySuccess extends Component<Props> {
           yPoint: res.latitude,
           xPoint: res.longitude
         }, () => {
+          console.log(412312)
           request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
             .then((res: any) => {
-              console.log(res);
               that.setState({
                 business_list: res.data.store.Info,
                 recommend: res.data.recommend,
