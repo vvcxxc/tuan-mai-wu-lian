@@ -136,10 +136,6 @@ export default class PaySuccess extends Component<Props> {
     } else {
       console.log('isFromShare', this.state.isFromShare)
     }
-    Taro.showLoading({
-      title: 'loading',
-    })
-    let that = this;
     Taro.getLocation({
       type: 'gcj02',
       success: res => {
@@ -147,50 +143,43 @@ export default class PaySuccess extends Component<Props> {
           yPoint: res.latitude || '',
           xPoint: res.longitude || ''
         }, () => {
-          request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
-            .then((res: any) => {
-              console.log(res);
-              that.setState({
-                business_list: res.data.store.Info,
-                recommend: res.data.recommend,
-                activity_group: res.data.store.activity_group,
-                activity_appre: res.data.store.activity_appreciation,
-                cashCouponList: res.data.store.cashCouponList,
-                exchangeCouponList: res.data.store.exchangeCouponList,
-                keepCollect_bull: res.data.store.Info.collect ? true : false
-              })
-              Taro.hideLoading();
-            }).catch(err => {
-              Taro.hideLoading();
-              console.log(err);
-            })
+          this.requestData();
         })
       },
       fail: () => {
-        request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: '', ypoint: ''} })
-          .then((res: any) => {
-            console.log(res);
-            that.setState({
-              business_list: res.data.store.Info,
-              recommend: res.data.recommend,
-              activity_group: res.data.store.activity_group,
-              activity_appre: res.data.store.activity_appreciation,
-              cashCouponList: res.data.store.cashCouponList,
-              exchangeCouponList: res.data.store.exchangeCouponList,
-              keepCollect_bull: res.data.store.Info.collect ? true : false
-            })
-            Taro.hideLoading()
-          }).catch(err => {
-            console.log(err);
-            Taro.hideLoading();
-          })
+        this.setState({
+          yPoint: '',
+          xPoint: ''
+        }, () => {
+          this.requestData();
+        })
       }
     })
   }
-  // componentWillMount() {
 
-  // }
+  requestData = () => {
+    Taro.showLoading({
+      title: 'loading',
+    })
+    request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
+      .then((res: any) => {
+        console.log(res);
+        this.setState({
+          business_list: res.data.store.Info,
+          recommend: res.data.recommend,
+          activity_group: res.data.store.activity_group,
+          activity_appre: res.data.store.activity_appreciation,
+          cashCouponList: res.data.store.cashCouponList,
+          exchangeCouponList: res.data.store.exchangeCouponList,
+          keepCollect_bull: res.data.store.Info.collect ? true : false
+        })
+        Taro.hideLoading();
+      }).catch(err => {
+        Taro.hideLoading();
+        console.log(err);
+      })
 
+  }
 
   componentDidMount() {
     Taro.showShareMenu({
@@ -206,14 +195,14 @@ export default class PaySuccess extends Component<Props> {
   }
 
   //去拼团活动
-  gotoGroup(_id, gift_id, activity_id) {
+  gotoGroup = (_id, gift_id, activity_id) => {
     Taro.navigateTo({
       url: '/pages/activity/group/index?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
       // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   // 去增值活动
-  gotoAppreciation(_id, gift_id, activity_id) {
+  gotoAppreciation = (_id, gift_id, activity_id) => {
 
     Taro.navigateTo({
       url: '/pages/activity/appreciation/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
