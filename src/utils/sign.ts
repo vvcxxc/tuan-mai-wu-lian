@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
 import { FETCH_OK } from "./constants";
 import { getCode } from "./getInfo";
-
+import dayjs from 'dayjs'
 /**
  * 小程序登录
  */
@@ -73,11 +73,18 @@ export const miniProgramSign = (params: Params): Promise<SignResponse> => {
 export const toMiniProgramSign = (basicApi: string): void => {
   const pages = Taro.getCurrentPages();
   const currentUrl = pages[0]["route"];
-  let is_login = Taro.getStorageSync('is_login');
-  if(is_login){
-    return
+  // 设置时间来避免多次触发跳转
+  let date = dayjs().unix() // 当前时间
+  let time = Taro.getStorageSync('time') // 之前的时间
+  if(time){
+    if (date - time < 5){
+      // 避免多次触发
+      return
+    }else {
+      Taro.setStorageSync('time',date)
+    }
   }else{
-    Taro.setStorageSync('is_login',1)
+    Taro.setStorageSync('time',date)
   }
   const id = Taro.getStorageSync("authid") || "";
   Taro.navigateTo({
