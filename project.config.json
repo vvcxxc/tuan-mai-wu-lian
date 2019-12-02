@@ -40,6 +40,10 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 17,
 			"list": [
@@ -79,10 +83,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 5,
 					"name": "pages/business/index",
 					"pathName": "pages/business/index",
-					"query": "",
+					"query": "995",
 					"scene": null
 				},
 				{
@@ -166,6 +170,7 @@
 					"id": -1,
 					"name": "pages/business/index",
 					"pathName": "pages/business/index",
+					"query": "",
 					"scene": null
 				}
 			]
