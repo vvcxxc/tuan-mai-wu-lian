@@ -204,113 +204,6 @@ export default class Group extends Component<Props>{
     })
     Taro.showShareMenu();
   }
-  componentWillMount = () => {
-    console.log(this.$router.params);
-    let arrs = Taro.getCurrentPages()
-    if (arrs.length <= 1) {
-      this.setState({
-        isFromShare: true
-      })
-    }
-    Taro.showLoading({
-      title: 'loading',
-    })
-    Taro.getLocation({
-      type: 'gcj02',
-      success: res => {
-        this.setState({
-          yPoint: res.latitude,
-          xPoint: res.longitude
-        }, () => {
-          request({
-            url: 'api/wap/user/getGroupbuyings',
-            method: "GET",
-            data: {
-              group_info_id: this.$router.params.id,
-              page: 1
-            }
-          })
-            .then((res: any) => {
-              console.log(res)
-              let newGroupList = this.chunk(res.data.data, 2);
-              this.setState({ data2: res.data, newGroupList: newGroupList });
-            });
-
-          request({
-            url: 'api/wap/user/getGroupYouhuiInfo',
-            method: "GET",
-            data: {
-              group_info_id: this.$router.params.id,
-              is_xcx: 1,
-              xpoint: this.state.xPoint,
-              ypoint: this.state.yPoint
-            }
-          })
-            .then((res: any) => {
-              if (res.data.gift_id) {
-                if (res.data.gift.mail_mode == 2) {
-                  this.setState({ isPostage: true })
-                }
-              } else {
-                this.setState({ isPostage: false })
-              }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-              });
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
-            })
-        })
-      },
-      fail: () => {
-        this.setState({
-          yPoint: '',
-          xPoint: ''
-        }, () => {
-          request({
-            url: 'api/wap/user/getGroupbuyings',
-            method: "GET",
-            data: {
-              group_info_id: this.$router.params.id,
-              page: 1
-            }
-          })
-            .then((res: any) => {
-              let newGroupList = this.chunk(res.data.data, 2);
-              this.setState({ data2: res.data, newGroupList: newGroupList });
-            });
-
-          request({
-            url: 'api/wap/user/getGroupYouhuiInfo',
-            method: "GET",
-            data: {
-              group_info_id: this.$router.params.id,
-              is_xcx: 1,
-              xpoint: this.state.xPoint,
-              ypoint: this.state.yPoint
-            }
-          })
-            .then((res: any) => {
-              if (res.data.gift_id) {
-                if (res.data.gift.mail_mode == 2) {
-                  this.setState({ isPostage: true })
-                }
-              } else {
-                this.setState({ isPostage: false })
-              }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-              });
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
-            })
-        })
-      }
-    })
-    Taro.showShareMenu();
-  };
 
   draw = () => {
     let that = this;
@@ -899,10 +792,10 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
                             <View className="group_list_times" >
-                              剩余{
+                              {/* 剩余{
                                 ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
-                              } 小时
-                               {/* <TimeUp itemtime={item[0].end_at} /> */}
+                              } 小时 */}
+                               <TimeUp itemtime={item[0].end_at} />
                             </View>
                           </View>
                         </View>
@@ -914,7 +807,7 @@ export default class Group extends Component<Props>{
                             <View className="group_list_name" >{item[1].real_name}</View>
                             <View className="group_list_btnbox" >
                               {
-                                item[1].is_team ? <View className="group_list_btn" style={{ background: '#999999' }} >您已参团</View> :
+                                item[1]&&item[1].is_team ? <View className="group_list_btn" style={{ background: '#999999' }} >您已参团</View> :
                                   <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[1].id)} >立即参团</View>
                               }
                             </View>
@@ -925,10 +818,10 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
                               <View className="group_list_times" >
-                                剩余{
+                                {/* 剩余{
                                   ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
-                                } 小时
-                              {/* <TimeUp itemtime={item[1].end_at} /> */}
+                                } 小时 */}
+                              <TimeUp itemtime={item[1].end_at} />
                               </View>
                             </View>
                           </View> : null

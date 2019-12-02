@@ -16,7 +16,7 @@ export default class TimeUp extends Component<Props>{
   };
 
   componentDidMount() {
-    this.setTime();
+    this.setTime();//必须
   }
   componentDidShow() {
     this.setTime();
@@ -26,14 +26,14 @@ export default class TimeUp extends Component<Props>{
   //   console.log(nextprops);
   //   this.setTime();
   // }
-  componentWillUnmount() {
-    // clearTimeout(timer);
-    // var end = setTimeout(function () { }, 1);
-    // var start = (end - 100) > 0 ? end - 100 : 0;
-    // for (var i = start; i <= end; i++) {
-    //     clearTimeout(i);
-    // }
-  }
+  //componentWillUnmount() {
+  //    clearTimeout(timer);
+  //    var end = setTimeout(function () { }, 1);
+  //    var start = (end - 100) > 0 ? end - 100 : 0;
+  //    for (var i = start; i <= end; i++) {
+  //    clearTimeout(i);
+  // }
+  //}
   /**
      * 定时
      */
