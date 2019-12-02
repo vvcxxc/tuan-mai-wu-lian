@@ -463,7 +463,7 @@ export default class PaySuccess extends Component<Props> {
                         }
                         <View className="img" style={{ width: "100%" }}   >
                           <View className="box_left">
-                            <View className="box_left_return">最高价值</View>
+                            <View className="box_left_return">最高价值</View>npm
                             <View className="box_left_price">￥ <View className="_price">{item.return_money}</View></View>
                           </View>
                           <View className="box_center">

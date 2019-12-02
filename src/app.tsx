@@ -160,6 +160,31 @@ class App extends Component {
 		define: '22'
 	}
 	componentDidShow() {
+    // console.log('授权来啦')
+    // let token = Taro.getStorageSync("token");
+    // if(token){
+    //   return
+    // }
+    // Taro.login({
+    //   success: res => {
+    //     console.log(res.code)
+    //     request({
+    //       url: 'wechat/jscode2sessionGetOpenId',
+    //       method: 'GET',
+    //       data: {js_code: res.code},
+    //     }).then(res => {
+    //       if(res.token){
+    //         let token = res.token
+    //         Taro.setStorageSync("token", `Bearer ${token}`)
+    //         Taro.setStorageSync("openid", res.openid)
+    //         Taro.setStorageSync("unionid", res.unionid)
+    //       }else{
+    //         this.setState({is_login: true})
+    //       }
+
+    //     })
+    //   }
+    // })
 	}
 	componentDidHide() { }
 	componentDidCatchError() { }
