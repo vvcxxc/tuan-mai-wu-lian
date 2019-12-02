@@ -119,6 +119,7 @@ export default class Orderdetail extends Component {
 
 
   render() {
+    const descriptions=this.state.defaultData.description ;
     return (
       <View className='index' >
         <View className='a_head'>
@@ -149,7 +150,7 @@ export default class Orderdetail extends Component {
                {this.state.defaultData.description.length ? <View>
                 <View className='a_four' >使用规则：</View>
                 {
-                  this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={i} className='a_item' > · {item} </View>) : null
+                  this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={item} className='a_item' > · {item} </View>) : null
                 }
                 </View> : null}
                 {/* <View className='a_last'  onClick={handerShowMore}  > { isMore ? '收起更多' : '查看更多' } </View>  */}
@@ -268,8 +269,8 @@ export default class Orderdetail extends Component {
                 <View className='a_billingInfo_1'>使用规则</View>:
                 <View style={{marginLeft: '9px'}}>
                   {
-                    this.state.defaultData.description.length ? (this.state.defaultData.description.map((item, index) => (
-                      <View key={index} style={{height: '32px'}}>{index + 1}. {item}</View>
+                    descriptions.length ? (descriptions.map((item, index) => (
+                      <View key={item} style={{height: '32px'}}>{index + 1}. {item}</View>
                     ))) : null
                   }
                 </View>
