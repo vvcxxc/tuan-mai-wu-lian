@@ -728,7 +728,7 @@ export default class Group extends Component<Props>{
                   onScrollToLower={this.addGroupList}
                 >
                   {
-                    this.state.data2.data.map((item) => {
+                    data2.data.map((item) => {
                       return (
                         <View className="group_list0" >
                           <View className="group_list_img0" >
@@ -761,7 +761,7 @@ export default class Group extends Component<Props>{
               </View>
               <View className="group_list_toast" >上滑查看更多</View>
               {/* {
-                this.state.data2.data && this.state.data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
+               data2.data && data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
               } */}
             </View>
             <View className="group_list_closebtn" >
@@ -864,7 +864,7 @@ export default class Group extends Component<Props>{
         {
           data2.data && data2.data.length > 0 ? <View className="group_num" >
             <View className="group_num_titlebox" >
-              <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
+              <View className="group_num_title" >{data2.total}人正在拼</View>
               <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>
             </View>
             <View className="group_listbox" >
