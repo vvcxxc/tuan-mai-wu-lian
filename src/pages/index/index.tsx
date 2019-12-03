@@ -1,9 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Image, Text, Button } from '@tarojs/components';
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction, AtIcon } from "taro-ui"
+import { AtModal, AtModalContent, AtModalAction, AtIcon } from "taro-ui"
 import './index.styl';
 import request from '../../services/request';
-import questTwo from '../../services/requesTwo'
 import { connect } from '@tarojs/redux'
 import { getUserInfo } from "@/utils/getInfo"
 @connect(
@@ -63,37 +62,66 @@ export default class Index extends Component<any> {
     need_jump: null,
     telescopic: false,
     telescopicBox: 'auto',
-    is_login: false
+    is_login: false,
+    is_location: false,
+    city_data: {
+      city_name: '',
+      city_id: ''
+    }, // 用来判断定位信息
+    is_one: false // 判断第一次进入
   };
 
   constructor(props) {
     super(props);
   }
-
-
-
-
-
-  componentDidMount() {
-    let id = this.$router.params.id;
-    if (id) {
-      sessionStorage.setItem('payStore', id)
-    }
-    // this.requestLocation();
-    // this.recognizer();
-    // this.showGift()
-    // this.getPayStore();//获取中奖门店信息
+  componentDidMount(){
+    this.setState({is_one: true})
   }
+
+
   componentDidShow(){
     this.SilentAuthorization()
     this.requestLocation();
     this.recognizer();
-    // this.showGift()
     this.showGift()
     let token = Taro.getStorageSync("token");
     if(token){
       this.setState({is_login: false})
     }
+  }
+
+  // 获取当前坐标及城市名
+  getHereName = (city_name:string) => {
+    Taro.getLocation({
+      success: res => {
+        request({
+          url: 'v3/city_name',
+          data: {
+            xpoint: res.longitude,
+            ypoint: res.latitude
+          }
+        }).then((res1: any) => {
+          if(city_name != res1.data.city){
+            this.setState({
+              city_data: {city_name: res1.data.city, city_id: res1.data.city_id },
+              is_location: true,
+              is_one: false
+            })
+          }
+        })
+      }
+    })
+  }
+
+  // 切换城市
+  changeCity = () => {
+    let res = Taro.getStorageSync('router')
+    res.city_name = this.state.city_data.city_name
+    res.city_id = this.state.city_data.city_id
+    Taro.setStorageSync('router',res)
+    this.setState({is_location: false},()=>{
+      this.recognizer()
+    })
   }
 
   //静默授权
@@ -104,7 +132,6 @@ export default class Index extends Component<any> {
     }
     Taro.login({
       success: res => {
-        console.log(res.code)
         request({
           url: 'wechat/jscode2sessionGetOpenId',
           method: 'GET',
@@ -127,35 +154,30 @@ export default class Index extends Component<any> {
 
   // 识别器
   recognizer = () => {
-    console.log(41232)
     this.requestTab(); //经营列表
-    // Taro.getStorage({ key: 'city_name' }).then((res4: any) => {
-    //     this.setState({cityName:res4.data.city_name})
-    // })
-    // Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-    // this.getLocationxy()// 获取定位和 城市id 城市名字
     Taro.getStorage({ key: 'router' }).then((res: any) => {
       if (Object.keys(res.data).length < 1) {
-        console.log(1)
         this.requestTab(); //经营列表
         this.getLocationxy()// 获取定位和 城市id 城市名字
         return
       }
       this.requestTab();
+      if(this.state.is_one){
+        if(res.data.city_name){
+          this.getHereName(res.data.city_name)
+        }
+      }
       if (res.data.city_id || res.data.city_name) {
-        console.log(2)
         Taro.getLocation(
           {
             type: 'gcj02',
             success: (res2) => {
-              console.log(res2)
               let data: any = this.state.meta
               data.xpoint = res2.longitude
               data.ypoint = res2.latitude
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
               data.pages = 1
-              this.getCity({xpoint: res2.longitude,ypoint: res2.latitude})
               this.setState({ meta: data }, () => {
                 this.requestHomeList(data)
               })
@@ -175,29 +197,15 @@ export default class Index extends Component<any> {
       }
 
       if (res.data.xpoint && res.data.ypoint) {
-        console.log(3)
-        Taro.getLocation({
-          type: 'gcj02',
-          success: (res2) => {
-            let data: any = this.state.meta
-            data.xpoint = res2.longitude
-            data.ypoint = res2.latitude
-            this.getCity(data)
-            data.pages = 1
-            this.setState({ meta: data })
-          },
-          fail: () => {
-            let data: any = this.state.meta
-            data.xpoint = res.data.xpoint
-            data.ypoint = res.data.ypoint
-            data.pages = 1
-            this.setState({ meta: data })
-          }
-        })
 
+        let data: any = this.state.meta
+        data.xpoint = res.data.xpoint
+        data.ypoint = res.data.ypoint
+        this.getCity(data)
+        data.pages = 1
+        this.setState({ meta: data })
       }
     }).catch((res: any) => {
-      console.log(4)
 
       this.getLocationxy()// 获取定位和 城市id 城市名字
     })
@@ -274,6 +282,7 @@ export default class Index extends Component<any> {
     })
   }
 
+
   // 获取所有城市列表
   requestLocation = () => {
     request({ url: 'v3/district', data: { model_type: '2' } })
@@ -335,7 +344,6 @@ export default class Index extends Component<any> {
 
   // 跳转 搜索商家列表页面
   handleSearch = () => {
-    console.log(this.state.meta, 'meta')
     Taro.navigateTo({ url: './search/index' });
   }
   // 跳转 搜素城市页面
@@ -391,14 +399,12 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
-        console.log(res, 'res')
         this.setState({ indexImg: res.data.pic })
         this.setState({ indexImgId: res.data.id })
         this.setState({ adLogId: res.data.adLogId })
         this.setState({ need_jump: res.data.need_jump })
       }).catch(err => {
         console.log(err)
-        // this.setState({is_login: true})
       })
   }
 
@@ -422,7 +428,6 @@ export default class Index extends Component<any> {
 
   // 点击广告
   advertOnclick = () => {
-    console.log(this.state.need_jump)
     if (!this.state.need_jump) return
     request({
       url: 'v3/ads/onclick',
@@ -432,7 +437,6 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
-        console.log(res)
         let define: any = {
           [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
           [2]: '/business-pages/ticket-buy/index?id=' + res.data.coupon_id,//现金券
@@ -444,7 +448,6 @@ export default class Index extends Component<any> {
           url: define[res.data.popularize_type]
         })
       }).catch(err => {
-        // this.setState({is_login: true})
       })
   }
 
@@ -470,7 +473,6 @@ export default class Index extends Component<any> {
    * 监听授权登录按钮点击事件
    */
   handleGetUserInfo = (e): void => {
-    console.log('走着啦')
     const { errMsg, userInfo, encryptedData, iv } = e.detail
     if (errMsg === "getUserInfo:ok") {
       Taro.setStorageSync("userInfo", userInfo)
@@ -517,7 +519,6 @@ export default class Index extends Component<any> {
     this.requestLocation();
     this.recognizer();
     this.showGift()
-    // Taro.switchTab({url: '/pages/index/index'})
 
   }
 
@@ -750,6 +751,16 @@ export default class Index extends Component<any> {
             <View className='confirm_text'>登录后可访问更精彩的内容</View>
           </AtModalContent>
           <AtModalAction> <Button onClick={()=>{this.setState({is_login: false})}}>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>微信登录</Button> </AtModalAction>
+        </AtModal>
+        <AtModal isOpened={this.state.is_location}>
+          <AtModalContent className='locationModal'>
+      <View className='modal_text'>定位您在<Image src={require('@/assets/address.png')}/>{this.state.city_data.city_name}</View>
+            <View className='modal_text'>是否切换到该城市进行查看</View>
+          </AtModalContent>
+          <AtModalAction>
+            <Button onClick={()=> this.setState({is_location: false})}>取消</Button>
+            <Button onClick={this.changeCity} style={{color: '#FE7263'}}>切换</Button>
+          </AtModalAction>
         </AtModal>
       </View>
     );
