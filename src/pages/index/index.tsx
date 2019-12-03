@@ -155,6 +155,7 @@ export default class Index extends Component<any> {
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
               data.pages = 1
+              this.getCity({xpoint: res2.longitude,ypoint: res2.latitude})
               this.setState({ meta: data }, () => {
                 this.requestHomeList(data)
               })
@@ -189,7 +190,6 @@ export default class Index extends Component<any> {
             let data: any = this.state.meta
             data.xpoint = res.data.xpoint
             data.ypoint = res.data.ypoint
-            this.getCity(data)
             data.pages = 1
             this.setState({ meta: data })
           }
