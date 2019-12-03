@@ -127,6 +127,7 @@ export default class Index extends Component<any> {
 
   // 识别器
   recognizer = () => {
+    console.log(41232)
     this.requestTab(); //经营列表
     // Taro.getStorage({ key: 'city_name' }).then((res4: any) => {
     //     this.setState({cityName:res4.data.city_name})
@@ -135,33 +136,30 @@ export default class Index extends Component<any> {
     // this.getLocationxy()// 获取定位和 城市id 城市名字
     Taro.getStorage({ key: 'router' }).then((res: any) => {
       if (Object.keys(res.data).length < 1) {
+        console.log(1)
         this.requestTab(); //经营列表
         this.getLocationxy()// 获取定位和 城市id 城市名字
         return
       }
       this.requestTab();
       if (res.data.city_id || res.data.city_name) {
+        console.log(2)
         Taro.getLocation(
           {
             type: 'gcj02',
             success: (res2) => {
+              console.log(res2)
               let data: any = this.state.meta
               data.xpoint = res2.longitude
               data.ypoint = res2.latitude
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
               data.pages = 1
-              // this.setState({ cityName: res.data.city_name },()=>{
-              //   Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-              // })
               this.setState({ meta: data }, () => {
                 this.requestHomeList(data)
               })
             },
             fail: () => {
-              // this.setState({ cityName: res.data.city_name },()=>{
-              //   Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-              // })
               let data: any = this.state.meta
               data.pages = 1
               data.city_id = res.data.city_id
@@ -177,13 +175,26 @@ export default class Index extends Component<any> {
 
       if (res.data.xpoint && res.data.ypoint) {
         console.log(3)
+        Taro.getLocation({
+          type: 'gcj02',
+          success: (res2) => {
+            let data: any = this.state.meta
+            data.xpoint = res2.longitude
+            data.ypoint = res2.latitude
+            this.getCity(data)
+            data.pages = 1
+            this.setState({ meta: data })
+          },
+          fail: () => {
+            let data: any = this.state.meta
+            data.xpoint = res.data.xpoint
+            data.ypoint = res.data.ypoint
+            this.getCity(data)
+            data.pages = 1
+            this.setState({ meta: data })
+          }
+        })
 
-        let data: any = this.state.meta
-        data.xpoint = res.data.xpoint
-        data.ypoint = res.data.ypoint
-        this.getCity(data)
-        data.pages = 1
-        this.setState({ meta: data })
       }
     }).catch((res: any) => {
       console.log(4)
@@ -198,16 +209,9 @@ export default class Index extends Component<any> {
         type: 'gcj02',
         success: (res) => {
           this.setState({ meta: { xpoint: res.longitude, ypoint: res.latitude } }, () => {
-            // if (res.longitude.length < 1 && res.latitude.length < 1) {
-            //   let data: any = this.state.meta
-            //   data.city_id = 1924
-            //   this.setState({ meta: data })
-            //   return
-            // }
             this.getCity()
           })
         }, fail: () => {
-          console.log(222)
           this.setState({ meta: { xpoint: '', ypoint: '', city_id: 1942, pages: 1 } }, () => {
             Taro.setStorage({
               key: 'router',
@@ -230,17 +234,7 @@ export default class Index extends Component<any> {
       data: datas
     })
       .then((res: any) => {
-
-        // let data: any = this.state.meta
-        // data.city_name = res.data.city
-        // this.setState({ meta: data })
-        this.setState({ cityName: res.data.city }, () => {
-          // Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-          console.log('出发')
-          // let data:any = this.state.meta
-          // data.city_name = res.data.city
-          // this.setState({meta:data})
-        }) //城市名字
+        this.setState({ cityName: res.data.city }) //城市名字
         this.setState({ // 保存了城市id 和经纬度
           meta: {
             city_id: res.data.city_id,
@@ -274,7 +268,6 @@ export default class Index extends Component<any> {
       .catch(() => {
         this.showLoading()
       })
-    console.log('33', this.state.meta)
     Taro.setStorage({
       key: 'router',
       data: this.state.meta
@@ -390,7 +383,6 @@ export default class Index extends Component<any> {
   }
 
   showImage = () => {
-    console.log(213)
     request({
       url: 'v3/ads',
       data: {
