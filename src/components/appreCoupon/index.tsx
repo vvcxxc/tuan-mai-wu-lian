@@ -5,17 +5,24 @@ import "./index.styl";
 interface Props {
   data: any;
 }
-interface DataType {
-  money: string;
-  limit_money: string
-}
 export default class AppreCoupon extends Component<Props> {
+  static defaultProps: Props = {
+    data: {
+      money:"",
+      limit_money: '',
+      gift_image: ''
+    }
+  }
+
   state = {
     item: {
       gift_pic: '1',
       return_money: '2',
       pay_money: '11'
-    }
+    },
+    money: '',
+    limit_money: '',
+    gift_image: ''
   }
   render() {
     const { money, limit_money, gift_image, youhui_type } = this.props.data

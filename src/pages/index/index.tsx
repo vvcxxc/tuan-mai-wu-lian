@@ -74,9 +74,6 @@ export default class Index extends Component<any> {
   constructor(props) {
     super(props);
   }
-  componentDidMount(){
-    this.setState({is_one: true})
-  }
 
 
   componentDidShow(){
@@ -120,6 +117,7 @@ export default class Index extends Component<any> {
     res.city_id = this.state.city_data.city_id
     Taro.setStorageSync('router',res)
     this.setState({is_location: false},()=>{
+      Taro.removeStorageSync('is_one')
       this.recognizer()
     })
   }
@@ -162,7 +160,8 @@ export default class Index extends Component<any> {
         return
       }
       this.requestTab();
-      if(this.state.is_one){
+      let is_one = Taro.getStorageSync('is_one')
+      if(is_one){
         if(res.data.city_name){
           this.getHereName(res.data.city_name)
         }
