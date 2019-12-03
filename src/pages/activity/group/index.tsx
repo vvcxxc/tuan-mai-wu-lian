@@ -410,60 +410,66 @@ export default class Group extends Component<Props>{
       method: "POST",
       data
     }).then((res: any) => {
-      let order_sn = res.channel_order_sn;//比增值少一层data
       Taro.hideLoading();
-      // 发起支付
-      Taro.requestPayment({
-        timeStamp: res.data.timeStamp,
-        nonceStr: res.data.nonceStr,
-        package: res.data.package,
-        signType: res.data.signType,
-        paySign: res.data.paySign,
-        success(res) {
-          if (_temptype == 5) {
-            //开团要得到开团活动id再跳转活动详情
-            Taro.showLoading({
-              title: 'loading',
-              mask: true
-            });
-            interval = setInterval(() => {
-              request({
-                url: 'api/wap/user/getUserYouhuiGroupId',
-                method: "GET",
-                data: { order_sn: order_sn }
-              }).then((res: any) => {
-                if (res.code == 200) {
-                  clearInterval(interval);
-                  Taro.hideLoading();
-                  Taro.navigateTo({
-                    url: '/pages/activity/pages/group/group?id=' + res.data.id,
-                    success: () => {
-                      var page = Taro.getCurrentPages().pop();
-                      if (page == undefined || page == null) return;
-                      page.onLoad();
-                    }
-                  })
+      if (res.code == 200) {
+
+        let order_sn = res.channel_order_sn;//比增值少一层data
+
+        // 发起支付
+        Taro.requestPayment({
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: res.data.signType,
+          paySign: res.data.paySign,
+          success(res) {
+            if (_temptype == 5) {
+              //开团要得到开团活动id再跳转活动详情
+              Taro.showLoading({
+                title: 'loading',
+                mask: true
+              });
+              interval = setInterval(() => {
+                request({
+                  url: 'api/wap/user/getUserYouhuiGroupId',
+                  method: "GET",
+                  data: { order_sn: order_sn }
+                }).then((res: any) => {
+                  if (res.code == 200) {
+                    clearInterval(interval);
+                    Taro.hideLoading();
+                    Taro.navigateTo({
+                      url: '/pages/activity/pages/group/group?id=' + res.data.id,
+                      success: () => {
+                        var page = Taro.getCurrentPages().pop();
+                        if (page == undefined || page == null) return;
+                        page.onLoad();
+                      }
+                    })
+                  }
+                })
+              }, 1000);
+            } else if (_temptype == 55) {
+              Taro.navigateTo({
+                url: '/pages/activity/pages/group/group?id=' + _tempid,
+                success: () => {
+                  var page = Taro.getCurrentPages().pop();
+                  if (page == undefined || page == null) return;
+                  page.onLoad();
                 }
               })
-            }, 1000);
-          } else if (_temptype == 55) {
-            Taro.navigateTo({
-              url: '/pages/activity/pages/group/group?id=' + _tempid,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
-          } else {
-            console.log('类型出错');
-            return;
+            } else {
+              console.log('类型出错');
+              return;
+            }
+          },
+          fail(err) {
+            // Taro.showToast({ title: '支付失败', icon: 'none' })
           }
-        },
-        fail(err) {
-          // Taro.showToast({ title: '支付失败', icon: 'none' })
-        }
-      })
+        })
+      } else {
+        Taro.showToast({ title: res.message, icon: 'none' })
+      }
     })
   }
 
@@ -506,43 +512,32 @@ export default class Group extends Component<Props>{
       data
     }).then((res: any) => {
       Taro.hideLoading();
-      // 发起支付
-      Taro.requestPayment({
-        timeStamp: res.data.timeStamp,
-        nonceStr: res.data.nonceStr,
-        package: res.data.package,
-        signType: res.data.signType,
-        paySign: res.data.paySign,
-        success(res) {
-          Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + _groupid,
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
-          })
-          // //查询用户最后一次购买的参团活动id
-          // request({
-          //   url: 'v1/youhui/getUserLastParticipateId',
-          //   method: "GET"
-          // }).then((res: any) => {
-          //   console.log('支付id:', res.data.id)
-          //   //得到拼团活动id并跳转活动详情
-          //   Taro.navigateTo({
-          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
-          //     success: () => {
-          //       var page = Taro.getCurrentPages().pop();
-          //       if (page == undefined || page == null) return;
-          //       page.onLoad();
-          //     }
-          //   })
-          // })
-        },
-        fail(err) {
-          // Taro.showToast({ title: '支付失败', icon: 'none' })
-        }
-      })
+
+      if (res.code == 200) {
+        // 发起支付
+        Taro.requestPayment({
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: res.data.signType,
+          paySign: res.data.paySign,
+          success(res) {
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + _groupid,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
+          },
+          fail(err) {
+            // Taro.showToast({ title: '支付失败', icon: 'none' })
+          }
+        })
+      } else {
+        Taro.showToast({ title: res.message, icon: 'none' })
+      }
     })
   }
 
@@ -795,7 +790,7 @@ export default class Group extends Component<Props>{
                               {/* 剩余{
                                 ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
                               } 小时 */}
-                               <TimeUp itemtime={item[0].end_at} />
+                              <TimeUp itemtime={item[0].end_at} />
                             </View>
                           </View>
                         </View>
@@ -807,7 +802,7 @@ export default class Group extends Component<Props>{
                             <View className="group_list_name" >{item[1].real_name}</View>
                             <View className="group_list_btnbox" >
                               {
-                                item[1]&&item[1].is_team ? <View className="group_list_btn" style={{ background: '#999999' }} >您已参团</View> :
+                                item[1] && item[1].is_team ? <View className="group_list_btn" style={{ background: '#999999' }} >您已参团</View> :
                                   <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[1].id)} >立即参团</View>
                               }
                             </View>
@@ -821,7 +816,7 @@ export default class Group extends Component<Props>{
                                 {/* 剩余{
                                   ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
                                 } 小时 */}
-                              <TimeUp itemtime={item[1].end_at} />
+                                <TimeUp itemtime={item[1].end_at} />
                               </View>
                             </View>
                           </View> : null

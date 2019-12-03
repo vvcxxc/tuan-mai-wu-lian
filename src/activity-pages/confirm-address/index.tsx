@@ -16,7 +16,7 @@ export default class confirmAddress extends Component {
         address_id: "",
         id: "",
         storeName: "",
-        groupId:'',
+        groupId: '',
         contentboxShow: false,
         giftChoice: true,
         coinsChoice: false,
@@ -47,7 +47,7 @@ export default class confirmAddress extends Component {
                 youhuiHour: '',
                 participation_number: 0
             },
-            team_set_end_time:''
+            team_set_end_time: ''
         }
     };
 
@@ -253,48 +253,51 @@ export default class confirmAddress extends Component {
                 method: "POST",
                 data
             }).then((res: any) => {
-                let order_sn = res.data.channel_order_sn;
                 Taro.hideLoading();
-
-                // 发起支付
-                Taro.requestPayment({
-                    timeStamp: res.data.timeStamp,
-                    nonceStr: res.data.nonceStr,
-                    package: res.data.package,
-                    signType: res.data.signType,
-                    paySign: res.data.paySign,
-                    success(res) {
-                        Taro.showLoading({
-                            title: 'loading',
-                            mask: true
-                        });
-                        interval = setInterval(() => {
-                            //查询用户最后一次购买的增值活动id
-                            request({
-                                url: 'v1/youhui/getUserLastYouhuiId',
-                                method: "GET",
-                                data: { order_sn: order_sn }
-                            }).then((res: any) => {
-                                if (res.code == 200) {
-                                    clearInterval(interval);
-                                    Taro.hideLoading();
-                                    //得到增值活动id并跳转活动详情
-                                    Taro.navigateTo({
-                                        url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
-                                        success: () => {
-                                            var page = Taro.getCurrentPages().pop();
-                                            if (page == undefined || page == null) return;
-                                            page.onLoad();
-                                        }
-                                    })
-                                }
-                            })
-                        }, 1000);
-                    },
-                    fail(err) {
-                        Taro.showToast({ title: '支付失败', icon: 'none' })
-                    }
-                })
+                if (res.code == 200) {
+                    let order_sn = res.data.channel_order_sn;
+                    // 发起支付
+                    Taro.requestPayment({
+                        timeStamp: res.data.timeStamp,
+                        nonceStr: res.data.nonceStr,
+                        package: res.data.package,
+                        signType: res.data.signType,
+                        paySign: res.data.paySign,
+                        success(res) {
+                            Taro.showLoading({
+                                title: 'loading',
+                                mask: true
+                            });
+                            interval = setInterval(() => {
+                                //查询用户最后一次购买的增值活动id
+                                request({
+                                    url: 'v1/youhui/getUserLastYouhuiId',
+                                    method: "GET",
+                                    data: { order_sn: order_sn }
+                                }).then((res: any) => {
+                                    if (res.code == 200) {
+                                        clearInterval(interval);
+                                        Taro.hideLoading();
+                                        //得到增值活动id并跳转活动详情
+                                        Taro.navigateTo({
+                                            url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
+                                            success: () => {
+                                                var page = Taro.getCurrentPages().pop();
+                                                if (page == undefined || page == null) return;
+                                                page.onLoad();
+                                            }
+                                        })
+                                    }
+                                })
+                            }, 1000);
+                        },
+                        fail(err) {
+                            Taro.showToast({ title: '支付失败', icon: 'none' })
+                        }
+                    })
+                } else {
+                    Taro.showToast({ title: res.message, icon: 'none' })
+                }
             })
         } else if (this.state.activityType == '5') {
             //5开团
@@ -325,46 +328,50 @@ export default class confirmAddress extends Component {
                 method: "POST",
                 data
             }).then((res: any) => {
-                let order_sn = res.channel_order_sn;//比增值少一层data
                 Taro.hideLoading();
-                // 发起支付
-                Taro.requestPayment({
-                    timeStamp: res.data.timeStamp,
-                    nonceStr: res.data.nonceStr,
-                    package: res.data.package,
-                    signType: res.data.signType,
-                    paySign: res.data.paySign,
-                    success(res) {
-                        //开团要得到开团活动id再跳转活动详情
-                        Taro.showLoading({
-                            title: 'loading',
-                            mask: true
-                        });
-                        interval = setInterval(() => {
-                            request({
-                                url: 'api/wap/user/getUserYouhuiGroupId',
-                                method: "GET",
-                                data: { order_sn: order_sn }
-                            }).then((res: any) => {
-                                if (res.code == 200) {
-                                    clearInterval(interval);
-                                    Taro.hideLoading();
-                                    Taro.navigateTo({
-                                        url: '/pages/activity/pages/group/group?id=' + res.data.id,
-                                        success: () => {
-                                            var page = Taro.getCurrentPages().pop();
-                                            if (page == undefined || page == null) return;
-                                            page.onLoad();
-                                        }
-                                    })
-                                }
-                            })
-                        }, 1000);
-                    },
-                    fail(err) {
-                        // Taro.showToast({ title: '支付失败', icon: 'none' })
-                    }
-                })
+                if (res.code == 200) {
+                    let order_sn = res.channel_order_sn;//比增值少一层data
+                    // 发起支付
+                    Taro.requestPayment({
+                        timeStamp: res.data.timeStamp,
+                        nonceStr: res.data.nonceStr,
+                        package: res.data.package,
+                        signType: res.data.signType,
+                        paySign: res.data.paySign,
+                        success(res) {
+                            //开团要得到开团活动id再跳转活动详情
+                            Taro.showLoading({
+                                title: 'loading',
+                                mask: true
+                            });
+                            interval = setInterval(() => {
+                                request({
+                                    url: 'api/wap/user/getUserYouhuiGroupId',
+                                    method: "GET",
+                                    data: { order_sn: order_sn }
+                                }).then((res: any) => {
+                                    if (res.code == 200) {
+                                        clearInterval(interval);
+                                        Taro.hideLoading();
+                                        Taro.navigateTo({
+                                            url: '/pages/activity/pages/group/group?id=' + res.data.id,
+                                            success: () => {
+                                                var page = Taro.getCurrentPages().pop();
+                                                if (page == undefined || page == null) return;
+                                                page.onLoad();
+                                            }
+                                        })
+                                    }
+                                })
+                            }, 1000);
+                        },
+                        fail(err) {
+                            // Taro.showToast({ title: '支付失败', icon: 'none' })
+                        }
+                    })
+                } else {
+                    Taro.showToast({ title: res.message, icon: 'none' })
+                }
             })
         } else if (this.state.activityType == '55') {
             //55参团
@@ -396,27 +403,31 @@ export default class confirmAddress extends Component {
                 data
             }).then((res: any) => {
                 Taro.hideLoading();
-                // 发起支付
-                Taro.requestPayment({
-                    timeStamp: res.data.timeStamp,
-                    nonceStr: res.data.nonceStr,
-                    package: res.data.package,
-                    signType: res.data.signType,
-                    paySign: res.data.paySign,
-                    success(res) {
-                        Taro.navigateTo({
-                            url: '/pages/activity/pages/group/group?id=' + this.state.groupId,
-                            success: () => {
-                                var page = Taro.getCurrentPages().pop();
-                                if (page == undefined || page == null) return;
-                                page.onLoad();
-                            }
-                        })
-                    },
-                    fail(err) {
-                        // Taro.showToast({ title: '支付失败', icon: 'none' })
-                    }
-                })
+                if (res.code == 200) {
+                    // 发起支付
+                    Taro.requestPayment({
+                        timeStamp: res.data.timeStamp,
+                        nonceStr: res.data.nonceStr,
+                        package: res.data.package,
+                        signType: res.data.signType,
+                        paySign: res.data.paySign,
+                        success(res) {
+                            Taro.navigateTo({
+                                url: '/pages/activity/pages/group/group?id=' + this.state.groupId,
+                                success: () => {
+                                    var page = Taro.getCurrentPages().pop();
+                                    if (page == undefined || page == null) return;
+                                    page.onLoad();
+                                }
+                            })
+                        },
+                        fail(err) {
+                            // Taro.showToast({ title: '支付失败', icon: 'none' })
+                        }
+                    })
+                } else {
+                    Taro.showToast({ title: res.message, icon: 'none' })
+                }
             })
         } else {
             console.log('不知道啥子类型')
