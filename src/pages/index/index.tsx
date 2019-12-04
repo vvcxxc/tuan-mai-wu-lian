@@ -521,6 +521,12 @@ export default class Index extends Component<any> {
 
   }
 
+  // 取消切换城市
+  noChangeCity = () => {
+    this.setState({is_location: false})
+    Taro.removeStorageSync('is_one')
+  }
+
   render() {
     return (
       <View className="index">
@@ -757,7 +763,7 @@ export default class Index extends Component<any> {
             <View className='modal_text'>是否切换到该城市进行查看</View>
           </AtModalContent>
           <AtModalAction>
-            <Button onClick={()=> this.setState({is_location: false})}>取消</Button>
+            <Button onClick={this.noChangeCity}>取消</Button>
             <Button onClick={this.changeCity} style={{color: '#FE7263'}}>切换</Button>
           </AtModalAction>
         </AtModal>
