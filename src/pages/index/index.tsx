@@ -347,7 +347,7 @@ export default class Index extends Component<any> {
   }
   // 跳转 搜素城市页面
   showSelectCity = () => {
-
+    Taro.removeStorageSync('is_one')
     Taro.navigateTo({ url: '/business-pages/select-city/index' });
   }
 
