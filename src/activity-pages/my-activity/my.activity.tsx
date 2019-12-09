@@ -6,6 +6,7 @@ import { TYPE_APPRECIATION, TYPE_GROUP, ACTION_JUMP } from "@/utils/constants"
 import ActivityAppreciation from "./components/order.component"
 import ActivityGroup from "./types/activity.group"
 import Tab from "@/activity-pages/components/tab/tab"
+import TuxedoInformation from "./components/tuxedo_information"
 import "./style.styl"
 
 interface MyActivityProp {
@@ -96,22 +97,16 @@ export default class MyActivity extends Component<MyActivityProp> {
           <ScrollView scrollY className="container-wrapper">
             <View className="container">
               {
-                list.map((item, index) => {
-                  return current === 0
-                    ? <View className="activity-appreciation">
-                        <ActivityAppreciation
-                          key={item}
-                          data={item}
-                          onAction={this.handleAction}
-                        />
-                      </View>
-                    : <ActivityGroup
-                        key={item}
-                        data={item}
-                        onAction={this.handleAction}
-                      />
-                })
-              }
+                !current ? list.map((item, index) => {
+                  return <View className="activity-appreciation">
+                    <ActivityAppreciation
+                      key={item}
+                      data={item}
+                      onAction={this.handleAction}
+                    />
+                  </View>
+                }) : <TuxedoInformation />
+            }
             </View>
           </ScrollView>
         </View>
