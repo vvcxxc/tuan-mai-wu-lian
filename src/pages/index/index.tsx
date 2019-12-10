@@ -1,9 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro';
 import { View, Image, Text, Button } from '@tarojs/components';
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction, AtIcon } from "taro-ui"
+import { AtModal, AtModalContent, AtModalAction, AtIcon } from "taro-ui"
 import './index.styl';
 import request from '../../services/request';
-import questTwo from '../../services/requesTwo'
 import { connect } from '@tarojs/redux'
 import { getUserInfo } from "@/utils/getInfo"
 @connect(
@@ -63,7 +62,13 @@ export default class Index extends Component<any> {
     need_jump: null,
     telescopic: false,
     telescopicBox: 'auto',
-    is_login: false
+    is_login: false,
+    is_location: false,
+    city_data: {
+      city_name: '',
+      city_id: ''
+    }, // 用来判断定位信息
+    is_one: false // 判断第一次进入
   };
 
   constructor(props) {
@@ -71,29 +76,50 @@ export default class Index extends Component<any> {
   }
 
 
-
-
-
-  componentDidMount() {
-    let id = this.$router.params.id;
-    if (id) {
-      sessionStorage.setItem('payStore', id)
-    }
-    // this.requestLocation();
-    // this.recognizer();
-    // this.showGift()
-    // this.getPayStore();//获取中奖门店信息
-  }
   componentDidShow(){
     this.SilentAuthorization()
     this.requestLocation();
     this.recognizer();
-    // this.showGift()
     this.showGift()
     let token = Taro.getStorageSync("token");
     if(token){
       this.setState({is_login: false})
     }
+  }
+
+  // 获取当前坐标及城市名
+  getHereName = (city_name:string) => {
+    Taro.getLocation({
+      success: res => {
+        request({
+          url: 'v3/city_name',
+          data: {
+            xpoint: res.longitude,
+            ypoint: res.latitude
+          }
+        }).then((res1: any) => {
+          if(city_name != res1.data.city){
+            this.setState({
+              city_data: {city_name: res1.data.city, city_id: res1.data.city_id },
+              is_location: true,
+              is_one: false
+            })
+          }
+        })
+      }
+    })
+  }
+
+  // 切换城市
+  changeCity = () => {
+    let res = Taro.getStorageSync('router')
+    res.city_name = this.state.city_data.city_name
+    res.city_id = this.state.city_data.city_id
+    Taro.setStorageSync('router',res)
+    this.setState({is_location: false},()=>{
+      Taro.removeStorageSync('is_one')
+      this.recognizer()
+    })
   }
 
   //静默授权
@@ -104,7 +130,6 @@ export default class Index extends Component<any> {
     }
     Taro.login({
       success: res => {
-        console.log(res.code)
         request({
           url: 'wechat/jscode2sessionGetOpenId',
           method: 'GET',
@@ -128,11 +153,6 @@ export default class Index extends Component<any> {
   // 识别器
   recognizer = () => {
     this.requestTab(); //经营列表
-    // Taro.getStorage({ key: 'city_name' }).then((res4: any) => {
-    //     this.setState({cityName:res4.data.city_name})
-    // })
-    // Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-    // this.getLocationxy()// 获取定位和 城市id 城市名字
     Taro.getStorage({ key: 'router' }).then((res: any) => {
       if (Object.keys(res.data).length < 1) {
         this.requestTab(); //经营列表
@@ -140,6 +160,12 @@ export default class Index extends Component<any> {
         return
       }
       this.requestTab();
+      let is_one = Taro.getStorageSync('is_one')
+      if(is_one){
+        if(res.data.city_name){
+          this.getHereName(res.data.city_name)
+        }
+      }
       if (res.data.city_id || res.data.city_name) {
         Taro.getLocation(
           {
@@ -151,17 +177,11 @@ export default class Index extends Component<any> {
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
               data.pages = 1
-              // this.setState({ cityName: res.data.city_name },()=>{
-              //   Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-              // })
               this.setState({ meta: data }, () => {
                 this.requestHomeList(data)
               })
             },
             fail: () => {
-              // this.setState({ cityName: res.data.city_name },()=>{
-              //   Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-              // })
               let data: any = this.state.meta
               data.pages = 1
               data.city_id = res.data.city_id
@@ -176,7 +196,6 @@ export default class Index extends Component<any> {
       }
 
       if (res.data.xpoint && res.data.ypoint) {
-        console.log(3)
 
         let data: any = this.state.meta
         data.xpoint = res.data.xpoint
@@ -186,7 +205,6 @@ export default class Index extends Component<any> {
         this.setState({ meta: data })
       }
     }).catch((res: any) => {
-      console.log(4)
 
       this.getLocationxy()// 获取定位和 城市id 城市名字
     })
@@ -198,16 +216,9 @@ export default class Index extends Component<any> {
         type: 'gcj02',
         success: (res) => {
           this.setState({ meta: { xpoint: res.longitude, ypoint: res.latitude } }, () => {
-            // if (res.longitude.length < 1 && res.latitude.length < 1) {
-            //   let data: any = this.state.meta
-            //   data.city_id = 1924
-            //   this.setState({ meta: data })
-            //   return
-            // }
             this.getCity()
           })
         }, fail: () => {
-          console.log(222)
           this.setState({ meta: { xpoint: '', ypoint: '', city_id: 1942, pages: 1 } }, () => {
             Taro.setStorage({
               key: 'router',
@@ -230,17 +241,7 @@ export default class Index extends Component<any> {
       data: datas
     })
       .then((res: any) => {
-
-        // let data: any = this.state.meta
-        // data.city_name = res.data.city
-        // this.setState({ meta: data })
-        this.setState({ cityName: res.data.city }, () => {
-          // Taro.setStorage({ key: 'city_name', data: { city_name:  res.data.city_name } })//本地存储城市名字
-          console.log('出发')
-          // let data:any = this.state.meta
-          // data.city_name = res.data.city
-          // this.setState({meta:data})
-        }) //城市名字
+        this.setState({ cityName: res.data.city }) //城市名字
         this.setState({ // 保存了城市id 和经纬度
           meta: {
             city_id: res.data.city_id,
@@ -274,12 +275,12 @@ export default class Index extends Component<any> {
       .catch(() => {
         this.showLoading()
       })
-    console.log('33', this.state.meta)
     Taro.setStorage({
       key: 'router',
       data: this.state.meta
     })
   }
+
 
   // 获取所有城市列表
   requestLocation = () => {
@@ -342,12 +343,11 @@ export default class Index extends Component<any> {
 
   // 跳转 搜索商家列表页面
   handleSearch = () => {
-    console.log(this.state.meta, 'meta')
     Taro.navigateTo({ url: './search/index' });
   }
   // 跳转 搜素城市页面
   showSelectCity = () => {
-
+    Taro.removeStorageSync('is_one')
     Taro.navigateTo({ url: '/business-pages/select-city/index' });
   }
 
@@ -390,7 +390,6 @@ export default class Index extends Component<any> {
   }
 
   showImage = () => {
-    console.log(213)
     request({
       url: 'v3/ads',
       data: {
@@ -399,14 +398,12 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
-        console.log(res, 'res')
         this.setState({ indexImg: res.data.pic })
         this.setState({ indexImgId: res.data.id })
         this.setState({ adLogId: res.data.adLogId })
         this.setState({ need_jump: res.data.need_jump })
       }).catch(err => {
         console.log(err)
-        // this.setState({is_login: true})
       })
   }
 
@@ -430,7 +427,6 @@ export default class Index extends Component<any> {
 
   // 点击广告
   advertOnclick = () => {
-    console.log(this.state.need_jump)
     if (!this.state.need_jump) return
     request({
       url: 'v3/ads/onclick',
@@ -440,7 +436,6 @@ export default class Index extends Component<any> {
       }
     })
       .then((res: any) => {
-        console.log(res)
         let define: any = {
           [1]: '/pages/business/index?id=' + res.data.store_id,//店铺
           [2]: '/business-pages/ticket-buy/index?id=' + res.data.coupon_id,//现金券
@@ -452,7 +447,6 @@ export default class Index extends Component<any> {
           url: define[res.data.popularize_type]
         })
       }).catch(err => {
-        // this.setState({is_login: true})
       })
   }
 
@@ -469,7 +463,7 @@ export default class Index extends Component<any> {
   telescopicBox = (index: number, e) => {
     this.setState({ telescopic: !this.state.telescopic }, () => {
       let data: any = this.state.storeList
-      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '4.9rem'
+      this.state.telescopic ? data[index].height = 'auto' : data[index].height = '3.6rem'
       this.setState({ storeList: data })
     })
     e.stopPropagation();
@@ -478,7 +472,6 @@ export default class Index extends Component<any> {
    * 监听授权登录按钮点击事件
    */
   handleGetUserInfo = (e): void => {
-    console.log('走着啦')
     const { errMsg, userInfo, encryptedData, iv } = e.detail
     if (errMsg === "getUserInfo:ok") {
       Taro.setStorageSync("userInfo", userInfo)
@@ -525,8 +518,13 @@ export default class Index extends Component<any> {
     this.requestLocation();
     this.recognizer();
     this.showGift()
-    // Taro.switchTab({url: '/pages/index/index'})
 
+  }
+
+  // 取消切换城市
+  noChangeCity = () => {
+    this.setState({is_location: false})
+    Taro.removeStorageSync('is_one')
   }
 
   render() {
@@ -591,13 +589,13 @@ export default class Index extends Component<any> {
           this.state.storeList.map((item2: any, index: any) => {
             return <View className="new_box">
               <View className="box" style={{ paddingBottom: item2.activity ? '' : '4px' }} onClick={this.handleClick.bind(this, item2.id)}>
-                <View className="box_title">
+              <View className="box_title" style={{ borderBottom: item2.activity_num ? '0.5px solid #eeeeee' : 'none',  paddingBottom:  item2.activity_num ? '12rpx' : 'none'}}>
                   <View className="title_l">
                     <Image className="Image" src={item2.preview} />
                   </View>
                   <View className="title_r">
                     <View className="view_name1 ellipsis-one"
-                      style={{ width: '15.2rem', display: 'block' }}>{item2.name}</View>
+                      style={{ width: '12.2rem', display: 'block' }}>{item2.name}</View>
                     <View className="view_name2">
                       <Text>
                         {
@@ -625,7 +623,7 @@ export default class Index extends Component<any> {
                     position: 'relative',
                     height:
                       !this.state.storeList[index].height ?
-                        item2.activity_num > 2 ? '4.9rem' : 'auto' : this.state.storeList[index].height,
+                        item2.activity_num > 2 ? '3.6rem' : 'auto' : this.state.storeList[index].height,
                     marginBottom: item2.activity_num >= 1 ? '-0.001rem' : '15px',
                     overflow: 'hidden',
                   }}
@@ -758,6 +756,16 @@ export default class Index extends Component<any> {
             <View className='confirm_text'>登录后可访问更精彩的内容</View>
           </AtModalContent>
           <AtModalAction> <Button onClick={()=>{this.setState({is_login: false})}}>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>微信登录</Button> </AtModalAction>
+        </AtModal>
+        <AtModal isOpened={this.state.is_location}>
+          <AtModalContent className='locationModal'>
+      <View className='modal_text'>定位您在<Image src={require('@/assets/address.png')}/>{this.state.city_data.city_name}</View>
+            <View className='modal_text'>是否切换到该城市进行查看</View>
+          </AtModalContent>
+          <AtModalAction>
+            <Button onClick={this.noChangeCity}>取消</Button>
+            <Button onClick={this.changeCity} style={{color: '#FE7263'}}>切换</Button>
+          </AtModalAction>
         </AtModal>
       </View>
     );

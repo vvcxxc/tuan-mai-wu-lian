@@ -11,6 +11,7 @@ import "../src/styles/weui.scss"
 import './app.styl';
 import 'taro-ui/dist/style/index.scss';
 import request from './services/request';
+import dayjs from 'dayjs'
 
 
 
@@ -157,8 +158,15 @@ class App extends Component {
 		define: '22'
 	}
 	componentDidShow() {
-	}
-	componentDidHide() { }
+    console.log('打开小程序')
+    let date = dayjs().unix()
+    console.log(date)
+    Taro.setStorageSync('is_one',date)
+  }
+  componentDidHide() {
+    Taro.removeStorageSync('is_one')
+    console.log('隐藏')
+   }
 	componentDidCatchError() { }
 
 	// 在 App 类中的 render() 函数没有实际作用
