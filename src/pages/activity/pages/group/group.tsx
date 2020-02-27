@@ -212,12 +212,16 @@ export default class Group extends Component {
    */
   async fetchQrcode(): Promise<void> {
     const { youhui_log_id } = this.state.basicinfo
-    const { data } = await getQrcode({ youhui_log_id })
-    this.setState({
-      isQrcode: true,
-      base64: data
-    })
-    this.fetchListenQrcode()
+    const { data, code } = await getQrcode({ youhui_log_id })
+    if(code == 0){
+      Taro.showToast({title: '卡券已核销使用'})
+    }else{
+      this.setState({
+        isQrcode: true,
+        base64: data
+      })
+      this.fetchListenQrcode()
+    }
   }
 
   /**
