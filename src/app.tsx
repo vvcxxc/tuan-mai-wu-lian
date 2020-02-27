@@ -12,7 +12,7 @@ import './app.styl';
 import 'taro-ui/dist/style/index.scss';
 import request from './services/request';
 import dayjs from 'dayjs'
-
+import { quietLogin } from '@/utils/sign'
 
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -162,6 +162,8 @@ class App extends Component {
     let date = dayjs().unix()
     console.log(date)
     Taro.setStorageSync('is_one',date)
+
+    quietLogin()
   }
   componentDidHide() {
     Taro.removeStorageSync('is_one')

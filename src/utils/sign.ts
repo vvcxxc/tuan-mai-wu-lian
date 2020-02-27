@@ -2,6 +2,7 @@ import Taro from "@tarojs/taro";
 import { FETCH_OK } from "./constants";
 import { getCode } from "./getInfo";
 import dayjs from 'dayjs'
+import request from '../services/request'
 /**
  * 小程序登录
  */
@@ -76,18 +77,45 @@ export const toMiniProgramSign = (basicApi: string): void => {
   // 设置时间来避免多次触发跳转
   let date = dayjs().unix() // 当前时间
   let time = Taro.getStorageSync('time') // 之前的时间
-  if(time){
-    if (date - time < 5){
+  if (time) {
+    if (date - time < 5) {
       // 避免多次触发
       return
-    }else {
-      Taro.setStorageSync('time',date)
+    } else {
+      Taro.setStorageSync('time', date)
     }
-  }else{
-    Taro.setStorageSync('time',date)
+  } else {
+    Taro.setStorageSync('time', date)
   }
   const id = Taro.getStorageSync("authid") || "";
   Taro.navigateTo({
     url: `/pages/auth/auth?basicApi=${basicApi}&currentUrl=/${currentUrl}&id=${id}`
   });
+}
+
+/**
+ *  小程序静默登录
+ * */
+export const quietLogin = () => {
+  Taro.login({
+    success: res => {
+      console.log(res,111)
+      request({
+        method: 'POST',
+        url: 'v1/user/auth/auth_xcx',
+        data: {
+          code: res.code
+        }
+      }).then((res1: any) => {
+        console.log(res1)
+        if(res1.status_code == 200){
+          Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
+        }
+      })
+    },
+    fail: err => {
+      console.log(err,222)
+    }
+  })
+
 }

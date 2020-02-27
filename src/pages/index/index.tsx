@@ -77,7 +77,7 @@ export default class Index extends Component<any> {
 
 
   componentDidShow(){
-    this.SilentAuthorization()
+    // this.SilentAuthorization()
     this.requestLocation();
     this.recognizer();
     this.showGift()
@@ -123,32 +123,32 @@ export default class Index extends Component<any> {
   }
 
   //静默授权
-  SilentAuthorization = () => {
-    let token = Taro.getStorageSync("token");
-    if(token){
-      return
-    }
-    Taro.login({
-      success: res => {
-        request({
-          url: 'wechat/jscode2sessionGetOpenId',
-          method: 'GET',
-          data: {js_code: res.code},
-        }).then(res => {
-          if(res.token){
-            let token = res.token
-            Taro.setStorageSync("token", `Bearer ${token}`)
-            Taro.setStorageSync("openid", res.openid)
-            Taro.setStorageSync("unionid", res.unionid)
-            this.showGift()
-          }else{
-            this.setState({is_login: true})
-          }
+  // SilentAuthorization = () => {
+  //   let token = Taro.getStorageSync("token");
+  //   if(token){
+  //     return
+  //   }
+  //   Taro.login({
+  //     success: res => {
+  //       request({
+  //         url: 'wechat/jscode2sessionGetOpenId',
+  //         method: 'GET',
+  //         data: {js_code: res.code},
+  //       }).then(res => {
+  //         if(res.token){
+  //           let token = res.token
+  //           Taro.setStorageSync("token", `Bearer ${token}`)
+  //           Taro.setStorageSync("openid", res.openid)
+  //           Taro.setStorageSync("unionid", res.unionid)
+  //           this.showGift()
+  //         }else{
+  //           this.setState({is_login: true})
+  //         }
 
-        })
-      }
-    })
-  }
+  //       })
+  //     }
+  //   })
+  // }
 
   // 识别器
   recognizer = () => {
@@ -471,55 +471,55 @@ export default class Index extends Component<any> {
   /**
    * 监听授权登录按钮点击事件
    */
-  handleGetUserInfo = (e): void => {
-    const { errMsg, userInfo, encryptedData, iv } = e.detail
-    if (errMsg === "getUserInfo:ok") {
-      Taro.setStorageSync("userInfo", userInfo)
-      // Taro.setStorageSync("encryptedData", encryptedData)
-      // Taro.setStorageSync("iv", iv)
-      this.handleSign()
-    }
-  }
+  // handleGetUserInfo = (e): void => {
+  //   const { errMsg, userInfo, encryptedData, iv } = e.detail
+  //   if (errMsg === "getUserInfo:ok") {
+  //     Taro.setStorageSync("userInfo", userInfo)
+  //     // Taro.setStorageSync("encryptedData", encryptedData)
+  //     // Taro.setStorageSync("iv", iv)
+  //     this.handleSign()
+  //   }
+  // }
   /**
    * 登录处理
    */
-  handleSign = async (): Promise<void> => {
-    const { miniProgramSign } = require("@/utils/sign")
-    // const { currentUrl, tabbar, id } = this.state
-    // if (!currentUrl) return
-    const userInfo = Taro.getStorageSync("userInfo")
-    let encryptedData = Taro.getStorageSync("encryptedData")
-    let iv = Taro.getStorageSync("iv")
-    await Taro.login()
-    // if (!encryptedData || !iv) {
-      const {
-        errMsg,
-        encryptedData: _encryptedData,
-        iv: _iv
-      } = await getUserInfo()
-      if (errMsg === "getUserInfo:ok") {
-        // Taro.setStorageSync("encryptedData", _encryptedData)
-        // Taro.setStorageSync("iv", _iv)
-        encryptedData = _encryptedData
-        iv = _iv
-      }
-    // }
-    await miniProgramSign({
-      basicApi: process.env.BASIC_API,
-      userInfo,
-      encryptedData,
-      iv
-    }).catch(err => {
-      console.log(err)
-      throw Error("--- 登录出错(, auth) ---")
-    })
-    Taro.removeStorageSync('is_login')
-    this.setState({is_login: false})
-    this.requestLocation();
-    this.recognizer();
-    this.showGift()
+  // handleSign = async (): Promise<void> => {
+  //   const { miniProgramSign } = require("@/utils/sign")
+  //   // const { currentUrl, tabbar, id } = this.state
+  //   // if (!currentUrl) return
+  //   const userInfo = Taro.getStorageSync("userInfo")
+  //   let encryptedData = Taro.getStorageSync("encryptedData")
+  //   let iv = Taro.getStorageSync("iv")
+  //   await Taro.login()
+  //   // if (!encryptedData || !iv) {
+  //     const {
+  //       errMsg,
+  //       encryptedData: _encryptedData,
+  //       iv: _iv
+  //     } = await getUserInfo()
+  //     if (errMsg === "getUserInfo:ok") {
+  //       // Taro.setStorageSync("encryptedData", _encryptedData)
+  //       // Taro.setStorageSync("iv", _iv)
+  //       encryptedData = _encryptedData
+  //       iv = _iv
+  //     }
+  //   // }
+  //   await miniProgramSign({
+  //     basicApi: process.env.BASIC_API,
+  //     userInfo,
+  //     encryptedData,
+  //     iv
+  //   }).catch(err => {
+  //     console.log(err)
+  //     throw Error("--- 登录出错(, auth) ---")
+  //   })
+  //   Taro.removeStorageSync('is_login')
+  //   this.setState({is_login: false})
+  //   this.requestLocation();
+  //   this.recognizer();
+  //   this.showGift()
 
-  }
+  // }
 
   // 取消切换城市
   noChangeCity = () => {
@@ -750,12 +750,12 @@ export default class Index extends Component<any> {
             </View>
           })
         }
-        <AtModal isOpened={this.state.is_login} className='confirm_box'>
+        {/* <AtModal isOpened={this.state.is_login} className='confirm_box'>
           <AtModalContent>
             <Image src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TQnWAHEBkpBtEiAW6wmfJDyGS6Kfzydj.png' className='confirm_logo'/>
             <View className='confirm_text'>登录后可访问更精彩的内容</View>
           </AtModalContent>
-          <AtModalAction> <Button onClick={()=>{this.setState({is_login: false})}}>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}>微信登录</Button> </AtModalAction>
+          <AtModalAction> <Button onClick={()=>{this.setState({is_login: false})}}>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfohandleGetUserInfo}>微信登录</Button> </AtModalAction>
         </AtModal>
         <AtModal isOpened={this.state.is_location}>
           <AtModalContent className='locationModal'>
@@ -766,7 +766,7 @@ export default class Index extends Component<any> {
             <Button onClick={this.noChangeCity}>取消</Button>
             <Button onClick={this.changeCity} style={{color: '#FE7263'}}>切换</Button>
           </AtModalAction>
-        </AtModal>
+        </AtModal> */}
       </View>
     );
   }
