@@ -104,17 +104,20 @@ export const quietLogin = () => {
         method: 'POST',
         url: 'v1/user/auth/auth_xcx',
         data: {
-          code: res.code
+          // code: res.code
+          code: "061Y7ABb2qI3OK0oYDxb2orKBb2Y7ABr"
         }
       }).then((res1: any) => {
         console.log(res1)
         if(res1.status_code == 200){
           Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
+          Taro.setStorageSync('openid', res1.data.user.xcx_openid)
+          Taro.setStorageSync('user',res1.data.user)
         }
       })
     },
     fail: err => {
-      console.log(err,222)
+      console.log(err)
     }
   })
 

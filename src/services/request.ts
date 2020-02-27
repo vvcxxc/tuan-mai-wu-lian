@@ -85,6 +85,9 @@ export default function request(options: Options) {
             })
             break
         }
+      },
+      fail: err => {
+        console.log(err)
       }
     });
   });
