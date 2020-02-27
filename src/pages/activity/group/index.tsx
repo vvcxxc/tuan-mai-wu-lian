@@ -302,7 +302,7 @@ export default class Group extends Component<Props>{
     }
     return {
       title: title,
-      path: '/pages/activity/group/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
+      path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id,
       imageUrl: imageUrl
     }
   }
