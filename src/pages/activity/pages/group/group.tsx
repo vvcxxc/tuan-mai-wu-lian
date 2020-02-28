@@ -35,6 +35,7 @@ interface State {
   isShowStartGroup: boolean;
   time: any;
   isFromShare: boolean;
+  groupDesc: string
 }
 export default class Group extends Component {
   config = {
@@ -54,7 +55,8 @@ export default class Group extends Component {
       date: '',
       display: 2
     },
-    isFromShare: false
+    isFromShare: false,
+    groupDesc: ''
   }
   async componentDidShow() {
     let arrs = Taro.getCurrentPages()
@@ -76,6 +78,7 @@ export default class Group extends Component {
     await this.fetchBasicinfo(id)
     this.fetchCoupon(location)
     this.setTime()
+
   }
 
   onShareAppMessage() {
@@ -267,6 +270,9 @@ export default class Group extends Component {
     this.handleCalculate(data)
     this.setState({
       basicinfo: data
+    },()=>{
+      let res = this.groupDesc()
+      this.setState({groupDesc: res})
     })
   }
   toMoreGroup = () => {
@@ -284,6 +290,44 @@ export default class Group extends Component {
     })
   }
 
+  groupDesc = () => {
+    if (this.state.time.display > 0) {
+      // 活动未结束
+      if (this.state.isFinish) {
+        // 活动完成
+        return "拼团已经完成, 感谢您的参与!"
+      } else {
+        // 活动未完成
+        if (this.state.basicinfo.is_group_participation) {
+          // 参与
+          const surplus = this.state.basicinfo.number
+            ? this.state.basicinfo.number - this.state.basicinfo.participation_number
+            : 0
+          return `还差${surplus}人成团`
+        } else {
+          // 未参与
+          const surplus = this.state.basicinfo.number
+            ? this.state.basicinfo.number - this.state.basicinfo.participation_number
+            : 0
+          return `仅剩${surplus}个名额`
+        }
+      }
+    } else {
+      // 活动结束
+      if (this.state.isFinish) {
+        // 活动完成
+        return "拼团已经完成, 感谢您的参与!"
+      } else {
+        // 活动未完成
+        if (this.state.basicinfo.is_group_participation) {
+          return '拼团失败，金额已返还至账户'
+        } else {
+          return '本拼团已结束，可前往查看更多拼团活动'
+        }
+      }
+    }
+  }
+
   render() {
     const {
       basicinfo,
@@ -294,15 +338,16 @@ export default class Group extends Component {
       isJoin,
       isQrcode,
       base64,
-      isShowStartGroup
+      isShowStartGroup,
+      groupDesc
     } = this.state
-    console.log(this.state.basicinfo.is_group_participation)
-    const surplus = basicinfo.number
-      ? basicinfo.number - basicinfo.participation_number
-      : 0
-    const groupDesc = this.state.time.display > 0 ? isFinish
-      ? "拼团已经完成, 感谢您的参与!"
-      : `还差${surplus}人成团` : this.state.basicinfo.is_group_participation ? '拼团失败，金额已返还至账户' : '活动已结束，更多活动正在进行中'
+    // console.log(this.state.basicinfo.is_group_participation)
+    // const surplus = basicinfo.number
+    //   ? basicinfo.number - basicinfo.participation_number
+    //   : 0
+    // const groupDesc = this.state.time.display > 0 ? isFinish
+    //   ? "拼团已经完成, 感谢您的参与!"
+    //   : `还差${surplus}人成团` : this.state.basicinfo.is_group_participation ? '拼团失败，金额已返还至账户' : '活动已结束，更多活动正在进行中'
     return (
       <Block>
         <View className="group" style="background-image: url(http://tmwl-resources.tdianyi.com/miniProgram/MiMaQuan/img_group.png)">
@@ -332,8 +377,10 @@ export default class Group extends Component {
                 </View>
               </View>
               <View className="time">
+              {!isFinish ? <View className="time">
                 <Text className="text">距离结束时间还剩:</Text>
                 <Text>{this.state.time.date}</Text>
+              </View> : null}
               </View>
               <ScrollView
                 scrollX

@@ -46,6 +46,7 @@ export default function request(options: Options) {
     Taro.request({
       ...options,
       success (res){
+        // console.log(res,3333)
         const { statusCode, data } = res;
         switch (statusCode) {
           case SERVER_ERROR:
@@ -86,9 +87,6 @@ export default function request(options: Options) {
             break
         }
       },
-      fail: err => {
-        console.log(err)
-      }
     });
   });
 

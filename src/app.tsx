@@ -12,7 +12,7 @@ import './app.styl';
 import 'taro-ui/dist/style/index.scss';
 import request from './services/request';
 import dayjs from 'dayjs'
-import { quietLogin } from '@/utils/sign'
+import { quietLogin } from './utils/sign'
 
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -43,7 +43,7 @@ class App extends Component {
 	config: Config = {
 		pages: [
 			'pages/index/index',
-			'pages/auth/auth',
+			'pages/auth/index',
 			'pages/index/search/index',
 			'pages/my/index',
 			'pages/order/index',
@@ -158,7 +158,6 @@ class App extends Component {
 		define: '22'
 	}
 	componentDidShow() {
-    console.log('打开小程序')
     let date = dayjs().unix()
     console.log(date)
     Taro.setStorageSync('is_one',date)
@@ -167,7 +166,6 @@ class App extends Component {
   }
   componentDidHide() {
     Taro.removeStorageSync('is_one')
-    console.log('隐藏')
    }
 	componentDidCatchError() { }
 

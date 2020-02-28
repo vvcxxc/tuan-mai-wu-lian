@@ -117,7 +117,7 @@ export default class Activity extends Component {
           yPoint: res.latitude,
           xPoint: res.longitude
         }, () => {
-          this.getAllData()
+          this.getAllData();
         })
       }
     })
@@ -223,6 +223,10 @@ export default class Activity extends Component {
         })
       }
       Taro.hideLoading()
+
+      setTimeout(() => {
+        console.log(this.state.dataList)
+      },1000)
     })
   }
 
@@ -257,6 +261,10 @@ export default class Activity extends Component {
       }
 
       Taro.hideLoading()
+
+      setTimeout(() => {
+        console.log(this.state.dataList)
+      },1000)
     })
   }
 
@@ -290,6 +298,10 @@ export default class Activity extends Component {
         })
       }
       Taro.hideLoading()
+
+      setTimeout(() => {
+        console.log(this.state.dataList)
+      },1000)
     })
   }
 
@@ -631,7 +643,7 @@ export default class Activity extends Component {
                   return (
                     <View className="store_item" onClick={this.handleNavigator.bind(this, item)}>
                       <View className="store_img">
-                        <Image background-size="cover" src={item.image} />
+                        <Image background-size="cover" src={item.image} className="image_show" />
                       </View>
                       <View className="store_info">
                         <View className="store_desc">

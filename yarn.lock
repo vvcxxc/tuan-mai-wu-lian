@@ -266,12 +266,12 @@
   dependencies:
     csso "^3.5.0"
 
-"@tarojs/plugin-less@^1.3.18":
-  version "1.3.18"
-  resolved "https://registry.npm.taobao.org/@tarojs/plugin-less/download/@tarojs/plugin-less-1.3.18.tgz#2ded1e786a29ba15783c6480fccceafeedc0a663"
-  integrity sha1-Le0eeGopuhV4PGSA/Mzq/u3ApmM=
+"@tarojs/plugin-less@^1.3.19":
+  version "1.3.37"
+  resolved "https://registry.npm.taobao.org/@tarojs/plugin-less/download/@tarojs/plugin-less-1.3.37.tgz#8aaaa2be74a1b452f6ef66992d4b3a524ab5c3b5"
+  integrity sha1-iqqivnShtFL272aZLUs6Ukq1w7U=
   dependencies:
-    less "^3.0.4"
+    less "^3.10.3"
 
 "@tarojs/plugin-sass@1.3.2":
   version "1.3.2"
@@ -3281,6 +3281,11 @@ dayjs@^1.7.7:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.2.tgz#8668e50c1e048e1b1638ebe6c3552187a34ffa64"
   integrity sha512-iHNxe5kIbxmPgzJFjks9TFMokOu3TQcUUSagb/Ff7GZNi7ulYF0qaAZ61trZEFOONgrp4jvKVpBJ86qy4UsSoA==
+
+dayjs@^1.8.17:
+  version "1.8.21"
+  resolved "https://registry.npm.taobao.org/dayjs/download/dayjs-1.8.21.tgz?cache=0&sync_timestamp=1582697508556&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdayjs%2Fdownload%2Fdayjs-1.8.21.tgz#98299185b72b9b679f31c7ed987b63923c961552"
+  integrity sha1-mCmRhbcrm2efMcftmHtjkjyWFVI=
 
 debug@*, debug@^4.0.1, debug@^4.1.0:
   version "4.1.1"
@@ -6441,12 +6446,13 @@ less@3.0.4:
     request "^2.83.0"
     source-map "~0.6.0"
 
-less@^3.0.4:
-  version "3.10.3"
-  resolved "https://registry.npm.taobao.org/less/download/less-3.10.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.10.3.tgz#417a0975d5eeecc52cff4bcfa3c09d35781e6792"
-  integrity sha1-QXoJddXu7MUs/0vPo8CdNXgeZ5I=
+less@^3.10.3:
+  version "3.11.1"
+  resolved "https://registry.npm.taobao.org/less/download/less-3.11.1.tgz?cache=0&sync_timestamp=1581400805472&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fless%2Fdownload%2Fless-3.11.1.tgz#c6bf08e39e02404fe6b307a3dfffafdc55bd36e2"
+  integrity sha1-xr8I454CQE/mswej3/+v3FW9NuI=
   dependencies:
     clone "^2.1.2"
+    tslib "^1.10.0"
   optionalDependencies:
     errno "^0.1.1"
     graceful-fs "^4.1.2"
@@ -10657,6 +10663,11 @@ trough@^1.0.0:
   integrity sha512-m6s2OdQe5wgpFMC+pAJ+q9djG82O2jcHPOI6RNg1yy9rCYR+WD6Nbpl32fDpfC56nirdRy+opFa/Vk7HYhqaew==
   dependencies:
     glob "^7.1.2"
+
+tslib@^1.10.0:
+  version "1.11.0"
+  resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.11.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.11.0.tgz#f1f3528301621a53220d58373ae510ff747a66bc"
+  integrity sha1-8fNSgwFiGlMiDVg3OuUQ/3R6Zrw=
 
 tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.9.3"
