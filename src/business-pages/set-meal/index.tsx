@@ -23,16 +23,16 @@ export default class PaySuccess extends Component {
       begin_time: "",
       brief: "",
       //真正的收藏
-      collect: "0",
+      collect: "",
       description: [],
       end_time: "",
-      icon: "h",
-      id: 1311,
+      icon: "",
+      id: 0,
       image: "",
       image_type: 1,
       list_brief: "",
       own: "",
-      label: ['1'],
+      label: [''],
       pay_money: "",
       return_money: "",
       yname: "",
@@ -41,7 +41,7 @@ export default class PaySuccess extends Component {
     },
     store: {
       brief: "",
-      id: 717,
+      id: 0,
       open_time: "",
       route: "",
       saddress: "",
@@ -54,7 +54,7 @@ export default class PaySuccess extends Component {
     },
     goods_album: [
       {
-        id: 700,
+        id: 0,
         image_url: ""
       }
     ],
@@ -62,7 +62,7 @@ export default class PaySuccess extends Component {
       begin_time: "",
       brief: "",
       end_time: "",
-      id: 1283,
+      id: 0,
       image: "",
       list_brief: "",
       open_time: "",
@@ -70,7 +70,7 @@ export default class PaySuccess extends Component {
       return_money: "",
       sname: "",
       yname: "",
-      youhui_type: '0',
+      youhui_type: '',
       expire_day: '',
     }],
 
@@ -86,6 +86,7 @@ export default class PaySuccess extends Component {
     }
     Taro.showLoading({
       title: 'loading',
+      mask:true
     })
     // console.log(this.$router.params)
     Taro.getLocation({ type: 'gcj02' }).then(res => {
