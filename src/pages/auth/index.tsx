@@ -11,7 +11,6 @@ export default class Auth extends Component {
 
   }
   getPhoneNumber = (e) => {
-    console.log(e)
     let {encryptedData, iv} = e.detail
     request({
       url: 'v1/user/auth/get_phone_number',
@@ -27,6 +26,16 @@ export default class Auth extends Component {
   handleGetUserInfo = (e) => {
     console.log(e.detail.userInfo)
     let {avatarUrl, nickName} = e.detail.userInfo
+    request({
+      method: 'PUT',
+      url: 'v1/user/user/upload_user_info',
+      data: {
+        head: avatarUrl,
+        name: nickName
+      }
+    }).then(res => {
+      console.log(res)
+    })
   }
 
   render (){
