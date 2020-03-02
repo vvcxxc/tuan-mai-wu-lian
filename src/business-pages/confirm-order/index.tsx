@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { Image,View } from "@tarojs/components";
+import { Image, View } from "@tarojs/components";
 import { AtIcon, AtToast } from "taro-ui";
 
 import request from '../../services/request'
@@ -31,7 +31,7 @@ export default class ConfirmOrder extends Component {
     },
     pay_bull: false,
     pay_data: "支付成功",
-    is_login:false
+    is_login: false
   };
   componentWillMount() {
     Taro.showLoading({
@@ -64,7 +64,7 @@ export default class ConfirmOrder extends Component {
     }
   }
   payMoney() {
-    if(!Taro.getStorageSync("unionid")){
+    if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
       })
@@ -97,6 +97,7 @@ export default class ConfirmOrder extends Component {
           signType: res.data.signType,
           paySign: res.data.paySign,
           success(res) {
+            Taro.showToast({ title: '支付成功', icon: 'none' })
             Taro.switchTab({
               url: '/pages/order/index',
               success: () => {
@@ -105,21 +106,9 @@ export default class ConfirmOrder extends Component {
                 page.onLoad();
               }
             })
-            console.log('支付成功')
-            this.setState({
-              pay_bull: "支付成功",
-              pay_data: true
-            });
-
-
           },
           fail(err) {
-            () => {
-              this.setState({
-                pay_bull: "支付失败",
-                pay_data: true
-              })
-            }
+            Taro.showToast({ title: '支付失败', icon: 'none' })
           },
         })
       });
@@ -136,7 +125,7 @@ export default class ConfirmOrder extends Component {
             <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
             <View>{this.state.coupon.pay_money}元</View>
           </View>
-           <View className="flex center">
+          <View className="flex center">
             <View className="item label">数量</View>
             <View className="flex center">
               {/* <AtIcon value="subtract-circle" color={this.state.amount > 1 ? "#FF6654" : "#999"} onClick={this.cutnum.bind(this)} /> */}
@@ -170,7 +159,7 @@ export default class ConfirmOrder extends Component {
           </View>
         </View> */}
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={()=>{this.setState({is_login: false})}}/> : null
+          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
         }
       </View>
     );
