@@ -172,6 +172,12 @@
 					"pathName": "pages/auth/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": 18,
+					"name": "pages/auth/index",
+					"pathName": "pages/auth/index",
+					"scene": null
 				}
 			]
 		}

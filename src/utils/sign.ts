@@ -100,12 +100,13 @@ export const quietLogin = () => {
   Taro.login({
     success: res => {
       request({
-        method: 'POST',
+        method: 'PUT',
         url: 'v1/user/auth/auth_xcx',
         data: {
           code: res.code
         }
       }).then((res1: any) => {
+        console.log(res1)
         if(res1.status_code == 200){
           Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
           Taro.setStorageSync('openid', res1.data.user.xcx_openid)
