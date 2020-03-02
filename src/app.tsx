@@ -159,10 +159,17 @@ class App extends Component {
 	}
 	componentDidShow() {
     let date = dayjs().unix()
-    console.log(date)
     Taro.setStorageSync('is_one',date)
-
-    quietLogin()
+    let token = Taro.getStorageSync('token');
+    let token_expires_in = Taro.getStorageSync('expires_in');
+    if(token){
+      if(token_expires_in && token_expires_in < date){
+        // token过期
+      quietLogin()
+      }
+    }else{
+      quietLogin()
+    }
   }
   componentDidHide() {
     Taro.removeStorageSync('is_one')

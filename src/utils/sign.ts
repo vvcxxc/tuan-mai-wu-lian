@@ -2,7 +2,8 @@ import Taro from "@tarojs/taro";
 import { FETCH_OK } from "./constants";
 import { getCode } from "./getInfo";
 import dayjs from 'dayjs'
-import request from '../services/request'
+import userRequest from '../services/userRequest'
+
 /**
  * 小程序登录
  */
@@ -99,18 +100,21 @@ export const toMiniProgramSign = (basicApi: string): void => {
 export const quietLogin = () => {
   Taro.login({
     success: res => {
-      request({
-        method: 'PUT',
+      userRequest({
+        method: 'POST',
         url: 'v1/user/auth/auth_xcx',
         data: {
           code: res.code
         }
       }).then((res1: any) => {
-        console.log(res1)
         if(res1.status_code == 200){
           Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
           Taro.setStorageSync('openid', res1.data.user.xcx_openid)
           Taro.setStorageSync('user',res1.data.user)
+          Taro.setStorageSync('token_expires_in',res1.data.expires_in)
+          if(res1.data.user.mobile){
+            Taro.setStorageSync('mobile_status','binded')
+          }
         }
       })
     },
