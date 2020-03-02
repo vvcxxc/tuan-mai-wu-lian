@@ -145,7 +145,7 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
-                this.addListen();
+                // this.addListen();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -191,7 +191,7 @@ export default class Group extends Component<Props>{
               }
               this.setState({ data: res.data }, () => {
                 this.draw();
-                this.addListen();
+                // this.addListen();
               });
               Taro.hideLoading()
             }).catch(err => {
@@ -268,16 +268,16 @@ export default class Group extends Component<Props>{
     })
   }
 
-  addListen = () => {
-    document.addEventListener('touchmove', function (event) { 　　 //监听滚动事件
-      // console.log(event.target.className)
-      if (event.target.className == 'd_appre_groupList') {
-        // console.log('diu', event.target.className)
-        event.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-      }
+  // addListen = () => {
+  //   document.addEventListener('touchmove', function (event) { 　　 //监听滚动事件
+  //     // console.log(event.target.className)
+  //     if (event.target.className == 'd_appre_groupList') {
+  //       // console.log('diu', event.target.className)
+  //       event.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+  //     }
 
-    }, { passive: false });
-  }
+  //   }, { passive: false });
+  // }
 
   /**
   * 回首页
