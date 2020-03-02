@@ -4,7 +4,7 @@ import { View, Text, Image, ScrollView, Button, Input, Textarea } from "@tarojs/
 import "./index.scss";
 import "taro-ui/dist/style/components/toast.scss";
 import request from '../../services/request'
-import CitySelecter from "../components/citySelecter/index"
+import CitySelecter from "../components/citySelecter/index2.js"
 
 export default class EditorAddress extends Component {
     config = {
@@ -80,8 +80,8 @@ export default class EditorAddress extends Component {
     }
     // 所在区域
     cityEnd = (query) => {
-        console.log(query)
-        this.setState({ cityValue: query.tempselectorid, tempCityInfo: query.selectorChecked, actionsheetShow: false })
+        this.setState({ cityValue: query })
+        // this.setState({ cityValue: query.tempselectorid, tempCityInfo: query.selectorChecked, actionsheetShow: false })
     }
     //详细地址
     onHandelChangeAddress = (e) => {
@@ -100,7 +100,7 @@ export default class EditorAddress extends Component {
             })
             return;
         }
-        if (!phoneValue||!(/^1[3456789]\d{9}$/.test(phoneValue))) {
+        if (!phoneValue || !(/^1[3456789]\d{9}$/.test(phoneValue))) {
             this.setState({ toastShow: true, toastInfo: '请输入正确的手机号码' }, () => {
                 setTimeout(() => { this.setState({ toastInfo: '', toastShow: false }) }, 1000)
             })
@@ -258,7 +258,7 @@ export default class EditorAddress extends Component {
             })
             return;
         }
-        if (!phoneValue||!(/^1[3456789]\d{9}$/.test(phoneValue))) {
+        if (!phoneValue || !(/^1[3456789]\d{9}$/.test(phoneValue))) {
             this.setState({ toastShow: true, toastInfo: '请输入正确的手机号码' }, () => {
                 setTimeout(() => { this.setState({ toastInfo: '', toastShow: false }) }, 1000)
             })
@@ -390,13 +390,15 @@ export default class EditorAddress extends Component {
                             onInput={this.onHandelChangePhone.bind(this)}
                         />
                     </View>
-                    <View className="editor-box" onClick={(e) => { this.setState({ actionsheetShow: true }); e.stopPropagation(); }} >
+                    {/* <View className="editor-box" onClick={(e) => { this.setState({ actionsheetShow: true }); e.stopPropagation(); }} >
                         <View className="editor-box_left">所在区域:</View>
                         <View className="editor-box_input0" >{this.state.tempCityInfo}</View>
                         <View className="editor-box_right">
                             <AtIcon className="editor-box_icon" value='chevron-right' color='#f2f2f2' />
                         </View>
-                    </View>
+                    </View> */}
+                    <CitySelecter getCity={this.cityEnd} border={true} tempCityInfo={this.state.tempCityInfo} />
+
                     <View className="editor-box2">
                         <View className="editor-box_left2">详细地址:</View>
                         <Textarea
@@ -448,11 +450,11 @@ export default class EditorAddress extends Component {
                     </View> : null
                 }
 
-                <AtActionSheet isOpened={this.state.actionsheetShow ? true : false} onCancel={(e) => { this.setState({ actionsheetShow: false }) }} onClose={(e) => { this.setState({ actionsheetShow: false }) }}>
+                {/* <AtActionSheet isOpened={this.state.actionsheetShow ? true : false} onCancel={(e) => { this.setState({ actionsheetShow: false }) }} onClose={(e) => { this.setState({ actionsheetShow: false }) }}>
                     <View className="AtActionSheetBox">
                         <CitySelecter getCity={this.cityEnd} onclose={() => { this.setState({ actionsheetShow: false }) }} />
                     </View>
-                </AtActionSheet>
+                </AtActionSheet> */}
 
             </View>
         );
