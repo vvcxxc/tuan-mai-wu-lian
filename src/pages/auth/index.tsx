@@ -8,35 +8,61 @@ export default class Auth extends Component {
 
   };
   getPhoneNumber = (e) => {
-    let {encryptedData, iv} = e.detail
-    userRequest({
-      url: 'v1/user/auth/xcx_quick_login',
-      method: 'PUT',
-      data: {
-        encryptedData,
-        iv
-      }
-    }).then((res: any) => {
-      console.log(res)
-      if(res.status_code == 200){
-        if(res.data.status == 'bind_success'){
-          console.log(5234)
+    let {encryptedData, iv,errMsg} = e.detail
+    console.log(errMsg)
+    if(errMsg == 'getPhoneNumber:ok'){
+      userRequest({
+        url: 'v1/user/auth/xcx_quick_login',
+        method: 'PUT',
+        data: {
+          encryptedData,
+          iv
         }
+      }).then((res: any) => {
+        if(res.status_code == 200){
+          if(res.data.status == 'bind_success'){
+            console.log(5234)
+          }
+        }
+      })
+    }else{
+      let res = Taro.getCurrentPages()
+      if(res.length == 1){
+        Taro.switchTab({url: '/pages/index/index'})
+      }else{
+        Taro.navigateBack()
       }
-    })
+    }
+
   }
   handleGetUserInfo = (e) => {
-    let {avatarUrl, nickName} = e.detail.userInfo
-    userRequest({
-      method: 'POST',
-      url: 'v1/user/user/user_info',
-      data: {
-        head: avatarUrl,
-        name: nickName
+    let {errMsg} = e.detail
+    if(errMsg == 'getUserInfo:ok'){
+      let {avatarUrl, nickName} = e.detail.userInfo
+      userRequest({
+        method: 'GET',
+        url: 'v1/user/user/user_info',
+        data: {
+          head: avatarUrl,
+          name: nickName
+        }
+      }).then(res => {
+        console.log(res)
+      })
+    }else {
+      let res = Taro.getCurrentPages()
+      if(res.length == 1){
+        Taro.switchTab({url: '/pages/index/index'})
+      }else{
+        Taro.navigateBack()
       }
-    }).then(res => {
-      console.log(res)
-    })
+    }
+
+  }
+
+  // 跳到手机登录
+  goToPhoneLogin = () => {
+    Taro.navigateTo({url: '/pages/auth/login_page/index'})
   }
 
   render (){
@@ -45,14 +71,14 @@ export default class Auth extends Component {
         <View className='logoBox'>
           <Image className='authLogo' src={require('../../assets/login.png')}/>
         </View>
-        {/* <View className='buttonBox'>
-          <Button className='button' open-type='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber}><Image className='wxLogo' src={require('../../assets/wexin.png')}/>微信用户一键登录</Button>
-          <View className='small'>手机号码登录/注册</View>
-        </View> */}
         <View className='buttonBox'>
+          <Button className='button' open-type='getPhoneNumber' onGetPhoneNumber={this.getPhoneNumber}><Image className='wxLogo' src={require('../../assets/wexin.png')}/>微信用户一键登录</Button>
+          <View className='small' onClick={this.goToPhoneLogin}>手机号码登录/注册</View>
+        </View>
+        {/* <View className='buttonBox'>
           <Button className='button' openType="getUserInfo" onGetUserInfo={this.handleGetUserInfo}><Image className='wxLogo' src={require('../../assets/wexin.png')}/>一键设置昵称与头像</Button>
           <View className='small'>设置完毕后即可使用</View>
-        </View>
+        </View> */}
       </View>
     )
   }

@@ -44,6 +44,7 @@ class App extends Component {
 		pages: [
 			'pages/index/index',
 			'pages/auth/index',
+			'pages/auth/login_page/index',
 			'pages/index/search/index',
 			'pages/my/index',
 			'pages/order/index',
