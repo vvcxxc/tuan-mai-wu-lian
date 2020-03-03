@@ -14,8 +14,8 @@ export default class PaySuccess extends Component {
   };
 
   state = {
-    yPoint: 0,
-    xPoint: 0,
+    yPoint: '',
+    xPoint: '',
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,
@@ -26,7 +26,7 @@ export default class PaySuccess extends Component {
       collect: "0",
       description: "",
       end_time: "",
-      icon: "",
+      icon: "h",
       id: 0,
       image: "",
       image_type: 1,
@@ -122,8 +122,39 @@ export default class PaySuccess extends Component {
               })
             }, 2000)
           });
-
       })
+    }).catch(err => {
+      Taro.showLoading({
+        title: 'loading',
+      })
+      request({
+        url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: '', ypoint: '' }
+      })
+        .then((res: any) => {
+          console.log(res);
+          if (res.code != 200) {
+            Taro.hideLoading()
+            Taro.showToast({ title: '信息错误', icon: 'none' })
+            setTimeout(() => {
+              Taro.navigateBack({
+              })
+            }, 2000)
+          }
+          this.setState({
+            coupon: res.data.info.coupon,
+            store: res.data.info.store,
+            goods_album: res.data.info.goods_album,
+            recommend: res.data.recommend.data
+          })
+          Taro.hideLoading()
+        }).catch(function (error) {
+          Taro.hideLoading()
+          Taro.showToast({ title: '数据请求失败', icon: 'none' })
+          setTimeout(() => {
+            Taro.navigateBack({
+            })
+          }, 2000)
+        });
     })
   }
 
@@ -189,17 +220,6 @@ export default class PaySuccess extends Component {
     //     // }
     //   })
   }
-  routePlanning = (e) => {
-    Taro.openLocation({
-      latitude: Number(this.state.store.ypoint),
-      longitude: Number(this.state.store.xpoint),
-      scale: 18,
-      name: this.state.store.sname,
-      address: this.state.store.saddress,
-    })
-    e.stopPropagation();
-  }
-
   /**
    * 回首页
    */
@@ -235,22 +255,52 @@ export default class PaySuccess extends Component {
                 <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') == -1 ? '' : '#fff' }}>随时退</Text>
                 <Text className="tag-text" style={{ marginRight: "0", backgroundColor: this.state.coupon.label.indexOf('免预约') == -1 ? '' : '#fff' }}>免预约</Text> */}
                 {
-                   this.state.coupon.label.indexOf('可叠加') !== -1 ?
+                  this.state.coupon.label.indexOf('可叠加') !== -1 ?
                     <Text className="tag-text">可叠加</Text> : null
                 }
                 {
-                   this.state.coupon.label.indexOf('随时退') !== -1 ?
+                  this.state.coupon.label.indexOf('随时退') !== -1 ?
                     <Text className="tag-text">随时退</Text> : null
                 }
                 {
-                   this.state.coupon.label.indexOf('免预约') !== -1 ?
+                  this.state.coupon.label.indexOf('免预约') !== -1 ?
                     <Text className="tag-text"  >免预约</Text> : null
                 }
               </View>
             </View>
           </View>
         </View>
-        <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
+
+        <View className="set_Meal_store">
+          <View className="setMeal_store_box" onClick={this.handleClick2.bind(this, this.state.store.id)}>
+            <View className="setMeal_store_title">适用店铺</View>
+            <View className="setMeal_store_storebox">
+              <View className="setMeal_store_Image">
+                <Image className="setMeal_store_img" src={this.state.store.shop_door_header_img} />
+              </View>
+              <View className="setMeal_store_msg">
+                <View className="setMeal_store_name">{this.state.store.sname}</View>
+                {/* <View className="setMeal_store_price">人均：￥222</View> */}
+              </View>
+              <View className="setMeal_store_icon">
+                <AtIcon value='chevron-right' size='20' color='#ccc'></AtIcon>
+              </View>
+            </View>
+            <View className="setMeal_store_addressbox">
+              <View className="setMeal_store_distance" onClick={this.routePlanning.bind(this)}>
+                <View className="setMeal_store_distance_Image" >
+                  <Image className="setMeal_store_distance_AddressImg" src={AddressImg} />
+                </View>
+                <View className="setMeal_store_distance_info" >{this.state.store.distance}</View>
+              </View>
+              <View className="setMeal_store_address" onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
+              <View className="setMeal_store_mobile" onClick={this.makePhoneCall.bind(this)}>
+                <Image className="setMeal_store_MobileImg" src={MobileImg} />
+              </View>
+            </View>
+          </View>
+        </View>
+        {/* <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
           <View className="set-meal__tit">
             <Text className="fwb" >适用店铺</Text>
           </View>
@@ -258,7 +308,6 @@ export default class PaySuccess extends Component {
             <Image className="image" src={this.state.store.shop_door_header_img} />
             <View className="item">
               <View className="tit" style={{ fontWeight: "bold", fontSize: "16px" }}>{this.state.store.sname}</View>
-              {/* <View className="money">人均：￥222.00</View> */}
             </View>
             <AtIcon value="chevron-right" color="#999" size="24px" />
           </View>
@@ -268,7 +317,7 @@ export default class PaySuccess extends Component {
             <View className="text flex-item" onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
             <Image className="mobile-image" src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
-        </View>
+        </View> */}
         {/* <View className="remark mt20 pd30 bcff">
           <View className="set-meal__tit">
             <Text className="fwb">购买须知</Text>

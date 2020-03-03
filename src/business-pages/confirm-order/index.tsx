@@ -15,6 +15,7 @@ export default class ConfirmOrder extends Component {
   };
 
   state = {
+    tempNum: 0,
     amount: 1,
     pay_success: false,
     coupon: {
@@ -40,10 +41,11 @@ export default class ConfirmOrder extends Component {
     request({ url: '/v3/discount_coupons/' + this.$router.params.id })
       .then((res: any) => {
         console.log(res.data);
-
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store
+        }, () => {
+          this.accMul();
         })
         Taro.hideLoading()
       });
@@ -54,13 +56,18 @@ export default class ConfirmOrder extends Component {
   }
   cutnum() {
     if (this.state.amount > 1) {
-      this.setState({ amount: Number(this.state.amount) - 1 })
+      this.setState({ amount: Number(this.state.amount) - 1 }, () => {
+        this.accMul();
+      })
     }
 
   }
   addnum() {
+    console.log(this.accMul())
     if (this.state.amount < 10) {
-      this.setState({ amount: Number(this.state.amount) + 1 })
+      this.setState({ amount: Number(this.state.amount) + 1 }, () => {
+        this.accMul();
+      })
     }
   }
   payMoney() {
@@ -113,13 +120,31 @@ export default class ConfirmOrder extends Component {
         })
       });
   }
+
+
+  accMul = () => {
+    let arg1 = this.state.coupon.pay_money;
+    let arg2 = this.state.amount;
+    var m = 0, s1 = arg1.toString(),
+      s2 = arg2.toString();
+    try {
+      m += s1.split(".")[1].length
+    } catch (e) { }
+    try {
+      m += s2.split(".")[1].length
+    } catch (e) { }
+    let tempNum = Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+    this.setState({ tempNum: tempNum })
+  }
+
+
   render() {
     return (
       <View className="confirm-order" >
-        {
+        {/* {
 
           this.state.pay_bull ? <AtToast isOpened text={this.state.pay_data} duration={2000} ></AtToast> : ""
-        }
+        } */}
         <View className="content">
           <View className="flex center">
             <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
@@ -144,12 +169,12 @@ export default class ConfirmOrder extends Component {
           <View className="flex center">
             <View className="item label">金额</View>
             <View className="price">
-              ￥{this.state.coupon.pay_money * this.state.amount}
+              ￥{this.state.tempNum}
             </View>
           </View>
         </View>
         <View className="pay-btn-box">
-          <View className="pay-btn" onClick={this.payMoney.bind(this)}>￥ {this.state.coupon.pay_money * this.state.amount} 去支付</View>
+          <View className="pay-btn" onClick={this.payMoney.bind(this)}>￥ {this.state.tempNum}去支付</View>
         </View>
         {/* <View className="btn-wrap">
           <View className="submit-btn flex center"

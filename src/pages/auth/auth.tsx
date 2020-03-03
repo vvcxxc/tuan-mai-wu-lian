@@ -75,7 +75,6 @@ export default class Auth extends Component {
       console.log(err)
       throw Error("--- 登录出错(, auth) ---")
     })
-    Taro.removeStorageSync('is_login')
     const method = tabbar.includes(currentUrl)
       ? "switchTab"
       : "navigateBack"

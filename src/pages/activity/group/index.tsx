@@ -52,6 +52,7 @@ export default class Group extends Component<Props>{
       route: "",
       succeed_participate_number: 0,
       supplier_id: 0,
+      team_set_end_time: '',
       tel: "",
       xpoint: '',
       youhui_id: 0,//活动id
@@ -66,7 +67,9 @@ export default class Group extends Component<Props>{
           number: 0,
           participation_number: 0,
           real_name: "",
-          activity_end_time:''
+          activity_end_time: '',
+          end_at: '',
+          is_team: false
         }
       ],
       page: 1,
@@ -82,19 +85,20 @@ export default class Group extends Component<Props>{
     groupListPages: 1
   };
 
-  componentWillUnmount() {
-    document.removeEventListener('touchmove', () => { });
+
+  clearTimeOut = () => {
     console.log('清除计时器');
     // clearTimeout(timer);
-    var end = setTimeout(function () {}, 1);
+    var end = setTimeout(function () { }, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
     for (var i = start; i <= end; i++) {
       clearTimeout(i);
     }
   }
-
-  componentWillMount = () => {
-    console.log(this.$router.params);
+  componentWillUnmount() {
+    this.clearTimeOut();
+  }
+  componentDidShow = () => {
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
       this.setState({
@@ -201,7 +205,7 @@ export default class Group extends Component<Props>{
       }
     })
     Taro.showShareMenu();
-  };
+  }
 
   draw = () => {
     let that = this;
@@ -268,21 +272,12 @@ export default class Group extends Component<Props>{
     })
   }
 
-  // addListen = () => {
-  //   document.addEventListener('touchmove', function (event) { 　　 //监听滚动事件
-  //     // console.log(event.target.className)
-  //     if (event.target.className == 'd_appre_groupList') {
-  //       // console.log('diu', event.target.className)
-  //       event.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-  //     }
-
-  //   }, { passive: false });
-  // }
 
   /**
   * 回首页
   */
   handleGoHome = () => {
+    this.clearTimeOut();
     Taro.switchTab({
       url: '/pages/index/index'
     })
@@ -331,12 +326,14 @@ export default class Group extends Component<Props>{
 
   //去图文详情
   toImgList = () => {
+    this.clearTimeOut();
     Taro.navigateTo({
       url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
     })
   }
   //去商店
   handleClick2 = (e) => {
+    this.clearTimeOut();
     Taro.navigateTo({
       // url: '/detail-pages/business/index?id=' + _id
       url: '/pages/business/index?id=' + this.state.data.id
@@ -472,8 +469,7 @@ export default class Group extends Component<Props>{
     })
   }
 
-
-  payment2 = (_groupid, e) => {
+  payment2 = (_groupid) => {
     if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
@@ -511,45 +507,33 @@ export default class Group extends Component<Props>{
       data
     }).then((res: any) => {
       Taro.hideLoading();
-      // 发起支付
-      Taro.requestPayment({
-        timeStamp: res.data.timeStamp,
-        nonceStr: res.data.nonceStr,
-        package: res.data.package,
-        signType: res.data.signType,
-        paySign: res.data.paySign,
-        success(res) {
-          Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + _groupid,
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
-          })
-          // //查询用户最后一次购买的参团活动id
-          // request({
-          //   url: 'v1/youhui/getUserLastParticipateId',
-          //   method: "GET"
-          // }).then((res: any) => {
-          //   console.log('支付id:', res.data.id)
-          //   //得到拼团活动id并跳转活动详情
-          //   Taro.navigateTo({
-          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
-          //     success: () => {
-          //       var page = Taro.getCurrentPages().pop();
-          //       if (page == undefined || page == null) return;
-          //       page.onLoad();
-          //     }
-          //   })
-          // })
-        },
-        fail(err) {
-          // Taro.showToast({ title: '支付失败', icon: 'none' })
-        }
-      })
+
+      if (res.code == 200) {
+        // 发起支付
+        Taro.requestPayment({
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: res.data.signType,
+          paySign: res.data.paySign,
+          success(res) {
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + _groupid,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
+          },
+          fail(err) {
+            // Taro.showToast({ title: '支付失败', icon: 'none' })
+          }
+        })
+      } else {
+        Taro.showToast({ title: res.message, icon: 'none' })
+      }
     })
-    e.stopPropagation();
   }
 
   addGroupList = () => {
@@ -577,16 +561,46 @@ export default class Group extends Component<Props>{
     }
   }
 
+  goToaConfirm = (e) => {
+    if (this.state.data.gift_id) {
+      this.clearTimeOut();
+      if (this.$router.params.type == '5') {
+        //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
+        Taro.navigateTo({
+          url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + this.state.data.name
+        })
+      } else if (this.$router.params.type == '55') {
+        //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
+        Taro.navigateTo({
+          url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.state.data.youhui_id + '&groupId=' + this.$router.params.id + '&storeName=' + this.state.data.name
+        })
+      }
+    } else {
+      this.payment();
+    }
+  }
+  goToaConfirmAddGroup = (_id, e) => {
+    if (this.state.data.gift_id) {
+      this.clearTimeOut();
+      //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
+      Taro.navigateTo({
+        url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
+      })
+    } else {
+      this.payment2(_id);
+    }
+  }
+
   render() {
     const { images, description } = this.state.data;
-    console.log(this.state.data2);
-    const {data2} = this.state;
+    // console.log(this.state.data2);
+    const { data2 } = this.state;
     return (
       <View className="d_appre" >
 
         {
-          this.state.groupListShow ? <View className="d_appre_groupList" onClick={() => { this.setState({ groupListShow: false }) }} >
-            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }}>
+          this.state.groupListShow ? <View className="d_appre_groupList" onClick={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} onTouchMove={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} >
+            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation(); }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
                 {/* <View className="d_appre_groupList_box_slideBox_content" > */}
@@ -597,7 +611,7 @@ export default class Group extends Component<Props>{
                   onScrollToLower={this.addGroupList}
                 >
                   {
-                    this.state.data2.data.map((item) => {
+                    data2.data.map((item) => {
                       return (
                         <View className="group_list0" >
                           <View className="group_list_img0" >
@@ -611,11 +625,14 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack20" >拼成</View>
                             </View>
                             <View className="group_list_times0" >
-                              <TimeUp itemtime={item.activity_end_time} />
+                              <TimeUp itemtime={item.end_at} />
                             </View>
                           </View>
                           <View className="group_list_btnbox0" >
-                            <View className="group_list_btn0" onClick={this.payment2.bind(this, item.id)} >立即参团</View>
+                            {
+                              item.is_team ? <View className="group_list_btn0" style={{ background: '#999999' }} >您已参团</View> :
+                                <View className="group_list_btn0" onClick={this.goToaConfirmAddGroup.bind(this, item.id)} >立即参团</View>
+                            }
                           </View>
                         </View>
                       )
@@ -627,7 +644,7 @@ export default class Group extends Component<Props>{
               </View>
               <View className="group_list_toast" >上滑查看更多</View>
               {/* {
-                this.state.data2.data && this.state.data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
+               data2.data && data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
               } */}
             </View>
             <View className="group_list_closebtn" >
@@ -678,7 +695,7 @@ export default class Group extends Component<Props>{
           <View className="group_head_bottom" style={{ borderBottom: "none" }}>
             {this.state.data.gift ? <View className="group_head_bottom_gift">送价值{this.state.data.gift.price}{this.state.data.gift.title}</View> : null}
             <View className="group_head_bottom_list">{this.state.data.number}人团</View>
-            {/* <View className="group_head_bottom_list">24小时</View> */}
+            <View className="group_head_bottom_list">{this.state.data.team_set_end_time}小时</View>
           </View>
 
           {/* <View className="group_msg" >
@@ -730,10 +747,8 @@ export default class Group extends Component<Props>{
         {
           data2.data && data2.data.length > 0 ? <View className="group_num" >
             <View className="group_num_titlebox" >
-              <View className="group_num_title" >{this.state.data2.total}人正在拼</View>
-              {
-                data2.data &&data2.data.length > 2 ? <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View> : null
-              }
+              <View className="group_num_title" >{data2.total}人正在拼</View>
+              <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>
             </View>
             <View className="group_listbox" >
 
@@ -755,7 +770,10 @@ export default class Group extends Component<Props>{
                           </View>
                           <View className="group_list_name" >{item[0].real_name}</View>
                           <View className="group_list_btnbox" >
-                            <View className="group_list_btn" onClick={this.payment2.bind(this, item[0].id)} >立即参团</View>
+                            {
+                              item[0].is_team ? <View className="group_list_btn" style={{ background: '#999999' }} >您已参团</View> :
+                                <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[0].id)} >立即参团</View>
+                            }
                           </View>
                           <View className="group_list_timesbox" >
                             <View className="group_list_lack" >
@@ -763,7 +781,11 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackred" >{item[0].number - item[0].participation_number}人</View>
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
-                            <View className="group_list_times" > <TimeUp itemtime={item[0].activity_end_time} />
+                            <View className="group_list_times" >
+                              {/* 剩余{
+                                ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
+                              } 小时 */}
+                              <TimeUp itemtime={item[0].end_at} />
                             </View>
                           </View>
                         </View>
@@ -774,7 +796,10 @@ export default class Group extends Component<Props>{
                             </View>
                             <View className="group_list_name" >{item[1].real_name}</View>
                             <View className="group_list_btnbox" >
-                              <View className="group_list_btn" onClick={this.payment2.bind(this, item[1].id)} >立即参团</View>
+                              {
+                                item[1] && item[1].is_team ? <View className="group_list_btn" style={{ background: '#999999' }} >您已参团</View> :
+                                  <View className="group_list_btn" onClick={this.goToaConfirmAddGroup.bind(this, item[1].id)} >立即参团</View>
+                              }
                             </View>
                             <View className="group_list_timesbox" >
                               <View className="group_list_lack" >
@@ -782,7 +807,11 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackred" >{item[1].number - item[1].participation_number}人</View>
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
-                              <View className="group_list_times" > <TimeUp itemtime={item[1].activity_end_time}/>
+                              <View className="group_list_times" >
+                                {/* 剩余{
+                                  ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
+                                } 小时 */}
+                                <TimeUp itemtime={item[1].end_at} />
                               </View>
                             </View>
                           </View> : null
@@ -804,10 +833,10 @@ export default class Group extends Component<Props>{
             <View className="appre_rule_time_key" >拼团人数:</View>
             <View className="appre_rule_time_data" >{this.state.data.number}人团</View>
           </View>
-          {/* <View className="appre_rule_time" >
+          <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >时间限制:</View>
-            <View className="appre_rule_time_data" >24小时内</View>
-          </View> */}
+            <View className="appre_rule_time_data" >{this.state.data.team_set_end_time}小时内</View>
+          </View>
           {
             (description) ?
               <View className="appre_rule_list" style={{ height: description.length <= 4 ? "auto" : (this.state.ruleMore ? "auto" : "5.4rem") }}>
@@ -864,7 +893,7 @@ export default class Group extends Component<Props>{
             </View>
           </View>
         </View>
-        {
+        {/* {
           (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
             <View className='choose_postage' onClick={this.chooseGift}>
 
@@ -878,7 +907,7 @@ export default class Group extends Component<Props>{
                 <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
               </View>
             </View>) : null
-        }
+        } */}
 
         <View className="paymoney_box">
           <View className="paymoney_price">
@@ -893,7 +922,7 @@ export default class Group extends Component<Props>{
           </View>
 
           {
-            this.$router.params.type == "55" ? <View className="paymoney_buynow" onClick={this.payment.bind(this)}>参加拼团</View> : <View className="paymoney_buynow" onClick={this.payment.bind(this)}>发起拼团</View>
+            this.$router.params.type == "55" ? <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>参加拼团</View> : <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>发起拼团</View>
           }
 
         </View>
@@ -914,7 +943,7 @@ export default class Group extends Component<Props>{
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '70px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+            <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
               <Image src={require('../../../assets/go_home.png')} className="go_home" />
             </View>
           ) : ''

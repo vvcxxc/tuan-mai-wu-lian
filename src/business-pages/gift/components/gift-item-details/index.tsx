@@ -26,9 +26,9 @@ class GiftItemDetails extends PureComponent<Props> {
   onCloseDetails () {
   }
   render() {
-    let details
+    let detail;
     if (this.state.details.type === 1) {
-        details = <View className="content logistics">
+        detail = <View className="content logistics">
         <View className="flex logistics-top blg">
             <Image className="gift-image" src="http://www.w3school.com.cn/i/eg_tulip.jpg" />
             <View className="bd fs24">
@@ -55,7 +55,7 @@ class GiftItemDetails extends PureComponent<Props> {
       </View>
     }
     else if(this.state.details.type === 2) {
-        details = <View className="claim-goods content">
+        detail = <View className="claim-goods content">
                     <View className={this.state.details.status ? 'blg useless' : 'blg'}>
                         <View className="fs48">取货码</View>
                         <View className="imge-view">
@@ -86,7 +86,7 @@ class GiftItemDetails extends PureComponent<Props> {
                 </View>
     }
      else {
-        details = <View className="past-due content ">
+        detail = <View className="past-due content ">
                     <View className="claim-goods">
                     <View className="flex">
                         <Image className="gift-image" src="http://www.w3school.com.cn/i/eg_tulip.jpg" />
@@ -104,7 +104,7 @@ class GiftItemDetails extends PureComponent<Props> {
 
     return (
       <View className="gift-item-details flex">
-          {details}
+          {detail}
           <Image className="close-img" src="" onClick={this.onCloseDetails.bind(this)}
             />
       </View>

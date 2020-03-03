@@ -40,104 +40,17 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 18,
 			"list": [
 				{
-					"id": 0,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "id=2497",
-					"scene": null
-				},
-				{
 					"id": -1,
-					"name": "detail-pages/orderdetail/index",
-					"pathName": "detail-pages/orderdetail/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "正式环境分享",
-					"pathName": "pages/index/index",
-					"query": "id=2497",
-					"scene": null
-				},
-				{
-					"id": 3,
-					"name": "pages/activity/pages/group/group",
-					"pathName": "pages/activity/pages/group/group",
-					"query": "id=265",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/group/index",
-					"pathName": "pages/activity/group/index",
-					"query": "id=3797&&type=5&&gift_id=0&&activity_id=1709",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/set-meal/index",
-					"pathName": "business-pages/set-meal/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/ticket-buy/index",
-					"pathName": "business-pages/ticket-buy/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/pages/group/group",
-					"pathName": "pages/activity/pages/group/group",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/group/index",
-					"pathName": "pages/activity/group/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/my-activity/my.activity",
-					"pathName": "activity-pages/my-activity/my.activity",
+					"name": "activity-pages/confirm-address/index",
+					"pathName": "activity-pages/confirm-address/index",
 					"query": "",
 					"scene": null
 				},
@@ -150,15 +63,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
+					"name": "pages/order/index",
+					"pathName": "pages/order/index",
 					"query": "",
 					"scene": null
 				},

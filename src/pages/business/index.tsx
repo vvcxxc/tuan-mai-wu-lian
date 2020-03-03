@@ -23,8 +23,8 @@ export default class PaySuccess extends Component<Props> {
     // test1: false,
     // test2: false,
 
-    yPoint: 0,
-    xPoint: 0,
+    yPoint: '',
+    xPoint: '',
     business_list: {//自家店铺
       id: "",
       name: '',
@@ -36,8 +36,8 @@ export default class PaySuccess extends Component<Props> {
       collect: "0",
       distance: "",
       tel: "",
-      xpoint: 0,
-      ypoint: 0
+      xpoint: '',
+      ypoint: ''
 
     },
     recommend: [//本店其它的推荐
@@ -80,7 +80,7 @@ export default class PaySuccess extends Component<Props> {
         gift_pic: "",
         youhui_id: '',
         gift_desc: '',
-        images:[]
+        images: []
       }
     ],
     cashCouponList: [
@@ -130,39 +130,20 @@ export default class PaySuccess extends Component<Props> {
     if (arrs.length <= 1) {
       this.setState({
         isFromShare: true
-      },() => {
-        console.log('isFromShare',this.state.isFromShare)
+      }, () => {
+        console.log('isFromShare', this.state.isFromShare)
       })
     } else {
-      console.log('isFromShare',this.state.isFromShare)
+      console.log('isFromShare', this.state.isFromShare)
     }
-    Taro.showLoading({
-      title: 'loading',
-    })
-    let that = this;
     Taro.getLocation({
       type: 'gcj02',
       success: res => {
         this.setState({
-          yPoint: res.latitude,
-          xPoint: res.longitude
+          yPoint: res.latitude || '',
+          xPoint: res.longitude || ''
         }, () => {
-          request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
-            .then((res: any) => {
-              console.log(res);
-              that.setState({
-                business_list: res.data.store.Info,
-                recommend: res.data.recommend,
-                activity_group: res.data.store.activity_group,
-                activity_appre: res.data.store.activity_appreciation,
-                cashCouponList: res.data.store.cashCouponList,
-                exchangeCouponList: res.data.store.exchangeCouponList,
-                keepCollect_bull: res.data.store.Info.collect ? true : false
-              })
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
-            })
+          this.requestData();
         })
       },
       fail: () => {
@@ -170,30 +151,35 @@ export default class PaySuccess extends Component<Props> {
           yPoint: '',
           xPoint: ''
         }, () => {
-          request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
-            .then((res: any) => {
-              console.log(res);
-              that.setState({
-                business_list: res.data.store.Info,
-                recommend: res.data.recommend,
-                activity_group: res.data.store.activity_group,
-                activity_appre: res.data.store.activity_appreciation,
-                cashCouponList: res.data.store.cashCouponList,
-                exchangeCouponList: res.data.store.exchangeCouponList,
-                keepCollect_bull: res.data.store.Info.collect ? true : false
-              })
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
-            })
+          this.requestData();
         })
       }
     })
   }
-  // componentWillMount() {
 
-  // }
+  requestData = () => {
+    Taro.showLoading({
+      title: 'loading',
+    })
+    request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
+      .then((res: any) => {
+        console.log(res);
+        this.setState({
+          business_list: res.data.store.Info,
+          recommend: res.data.recommend,
+          activity_group: res.data.store.activity_group,
+          activity_appre: res.data.store.activity_appreciation,
+          cashCouponList: res.data.store.cashCouponList,
+          exchangeCouponList: res.data.store.exchangeCouponList,
+          keepCollect_bull: res.data.store.Info.collect ? true : false
+        })
+        Taro.hideLoading();
+      }).catch(err => {
+        Taro.hideLoading();
+        console.log(err);
+      })
 
+  }
 
   componentDidMount() {
     Taro.showShareMenu({
@@ -209,14 +195,14 @@ export default class PaySuccess extends Component<Props> {
   }
 
   //去拼团活动
-  gotoGroup(_id, gift_id, activity_id) {
+  gotoGroup = (_id, gift_id, activity_id) => {
     Taro.navigateTo({
       url: '/pages/activity/group/index?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
       // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   // 去增值活动
-  gotoAppreciation(_id, gift_id, activity_id) {
+  gotoAppreciation = (_id, gift_id, activity_id) => {
 
     Taro.navigateTo({
       url: '/pages/activity/appreciation/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
@@ -347,22 +333,21 @@ export default class PaySuccess extends Component<Props> {
           </View>
         </View>
 
-        <View style={{ height: "5px", background: '#F6F6F6' }}></View>
         {/* 拼团活动 */}
         {
-          this.state.activity_group.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
+          this.state.activity_group.length == 0 ? <View></View> : <View>
             <View className="merchant-details__tit" style={{ paddingTop: "10px" }} >
               {/* <View className="mark" style={{ backgroundColor: "#D97B0B" }}>礼</View> */}
               <Image className=" iconImg" src="https://tmwl-supplier.oss-cn-shenzhen.aliyuncs.com/static/ping.png" />
               <Text className="fwb" >拼团送豪礼</Text>
             </View>
-            <View className="hidden-box" id="hidden-box" style={{ width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
+            <View className="hidden-box" id="hidden-box" style={{ background: "#fff", width: "100%", overflow: "hidden", height: this.state.activity_group_bull ? "auto" : "12.56rem" }}>
               {
                 this.state.activity_group.map((item: any) => (
-                  <View className="group-purchase bcfff _pintuan" key={item.name}>
-                    <View style={{ height: "5px" }}></View>
+                  <View className="group-purchase  _pintuan" key={item.name}>
+                    <View style={{ height: "5px", background: "#fff" }}></View>
                     <View className="hd">
-                      <View className="flex center tuan" style={{ paddingBottom: "10px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+                      <View className="flex center tuan" style={{ paddingBottom: "10px" }}>
                         <View className="item desc">{item.name}</View>
                         <View className="count">{item.participation_number}人团</View>
                       </View>
@@ -371,9 +356,9 @@ export default class PaySuccess extends Component<Props> {
                       item.gift_pic == "" || item.gift_pic == null ?
                         <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>
                           <View className="image" style={{ position: "relative", overflow: "hidden" }}>
-                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex",justifyContent:"flex-end" }}>
+                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex", justifyContent: "flex-end" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.participation_money}</View>
-                              <View style={{ textDecoration: "line-through",  fontSize: "14px", color: "rgba(225,225,225,.5)",lineHeight: 1 ,display:"flex",flexDirection:"column",justifyContent:"flex-end",alignItems:"flex-end" }}>￥{item.pay_money}</View>
+                              <View style={{ textDecoration: "line-through", fontSize: "14px", color: "rgba(225,225,225,.5)", lineHeight: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end" }}>￥{item.pay_money}</View>
                             </View>
                             <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                           </View>
@@ -381,9 +366,9 @@ export default class PaySuccess extends Component<Props> {
                         </View> :
                         <View className="image-list" style={{ paddingTop: "5px", boxSizing: "border-box" }} onClick={this.gotoGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                           <View className="image" style={{ position: "relative", overflow: "hidden" }}>
-                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex",justifyContent:"flex-end" }}>
+                            <View style={{ position: "absolute", left: "0", bottom: "0", background: "rgba(0,0,0,.7)", zIndex: 3, padding: "5px 10px 5px 5px", borderTopRightRadius: "8px", textAlign: "center", display: "flex", justifyContent: "flex-end" }}>
                               <View style={{ fontSize: "20px", color: "#fff", lineHeight: 1 }}>￥{item.participation_money}</View>
-                              <View style={{ textDecoration: "line-through",  fontSize: "14px", color: "rgba(225,225,225,.5)",lineHeight: 1 ,display:"flex",flexDirection:"column",justifyContent:"flex-end",alignItems:"flex-end" }}>￥{item.pay_money}</View>
+                              <View style={{ textDecoration: "line-through", fontSize: "14px", color: "rgba(225,225,225,.5)", lineHeight: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-end" }}>￥{item.pay_money}</View>
                             </View>
                             <Image src={item.image_url} style={{ width: "100%", height: "100%" }} />
                           </View>
@@ -427,7 +412,6 @@ export default class PaySuccess extends Component<Props> {
             }
           </View>
         }
-        {/* <View style={{ height: "10px", background: '#ffffff' }}></View> */}
         {/* 增值活动 */}
         {
           this.state.activity_appre.length == 0 ? <View></View> : <View style={{ background: "#fff" }}>
@@ -474,12 +458,12 @@ export default class PaySuccess extends Component<Props> {
                     {
                       item.youhui_type == 1 ? (<View className="image-list" style={{ position: "relative", marginBottom: "5px" }} onClick={this.gotoAppreciation.bind(this, item.youhui_id, item.gift_id, item.activity_id)} >
                         {
-                          item.gift_pic == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
-                            <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
+                          item.gift_id && item.gift_pic != "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} /> :
+                            <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} />
                         }
                         <View className="img" style={{ width: "100%" }}   >
                           <View className="box_left">
-                            <View className="box_left_return">最高价值</View>
+                            <View className="box_left_return">最高价值</View>npm
                             <View className="box_left_price">￥ <View className="_price">{item.return_money}</View></View>
                           </View>
                           <View className="box_center">
@@ -619,7 +603,7 @@ export default class PaySuccess extends Component<Props> {
                 <View className="ft-more flex center"
                   style={{ textAlign: "center", width: "100%", background: "#fff", paddingBottom: "0", marginTop: "0" }}
                   onClick={() => { this.setState({ exchangeCouponList_bull: !this.state.exchangeCouponList_bull }) }} >
-                  < View className="more-box" style={{ borderTop: "1px solid rgba(0,0,0,0.07)", color: "#999", fontSize: "12px" }}>
+                  < View className="more-box" style={{ color: "#999", fontSize: "12px" }}>
 
                     {this.state.exchangeCouponList_bull ? "收回" : "查看更多"}
                     {
@@ -652,15 +636,21 @@ export default class PaySuccess extends Component<Props> {
                           <View className="tags">
                             {
                               item.label.indexOf('免费礼品') !== -1 ?
-                                <Text className="tag-text">免费礼品</Text> : null
+                                <View className="tag-text">
+                                  <Image className="tag-textImg" src="http://oss.tdianyi.com/front/GcMRM4HjnkyGnkws5FAJT4hRwiMRFDRd.png" />
+                                </View> : null
                             }
                             {
                               item.label.indexOf('优秀商家') !== -1 ?
-                                <Text className="tag-text">优秀商家</Text> : null
+                                <View className="tag-text">
+                                  <Image className="tag-textImg" src="http://oss.tdianyi.com/front/pssNMjtQWPMsmdFj4JiX6MWYReFc4GGT.png" />
+                                </View> : null
                             }
                             {
                               item.label.indexOf('现金券') !== -1 ?
-                                <Text className="tag-text">现金券</Text> : null
+                                <View className="tag-text">
+                                  <Image className="tag-textImg" src="http://oss.tdianyi.com/front/Yi2sdtYnQ4axMaN6BMbbGCDW5iwK37wE.png" />
+                                </View> : null
                             }
                             {/* <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('免费礼品') !== -1 ? '#fde8e5' : '#fff' }}>免费礼品</Text>
                             <Text className="tag-text" style={{ backgroundColor: item.label.indexOf('优秀商家') !== -1 ? '#fde8e5' : '#fff' }}>优秀商家</Text>
