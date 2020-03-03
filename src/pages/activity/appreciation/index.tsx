@@ -62,7 +62,7 @@ export default class Appre extends Component<Props>{
     isFromShare: false
   };
 
-  componentDidMount = () => {
+  componentDidShow = () => {
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
       this.setState({
@@ -307,7 +307,7 @@ export default class Appre extends Component<Props>{
     }).then((res: any) => {
       let order_sn = res.data.channel_order_sn;
       Taro.hideLoading();
-      
+
       // 发起支付
       Taro.requestPayment({
         timeStamp: res.data.timeStamp,

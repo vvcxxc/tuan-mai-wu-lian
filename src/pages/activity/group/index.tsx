@@ -83,8 +83,8 @@ export default class Group extends Component<Props>{
   };
 
   componentWillUnmount() {
-    document.removeEventListener('touchmove', () => { });
-    console.log('清除计时器');
+    // document.removeEventListener('touchmove', () => { });
+    // console.log('清除计时器');
     // clearTimeout(timer);
     var end = setTimeout(function () {}, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
@@ -93,7 +93,7 @@ export default class Group extends Component<Props>{
     }
   }
 
-  componentWillMount = () => {
+  componentDidShow = () => {
     console.log(this.$router.params);
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
