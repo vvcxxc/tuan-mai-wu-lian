@@ -6,7 +6,7 @@ import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 import AddressImg from '../../assets/address.png'
 import "taro-ui/dist/style/components/toast.scss";
-
+import WebViewUser from '../../components/webview'
 
 
 interface Props {
@@ -687,6 +687,7 @@ export default class PaySuccess extends Component<Props> {
 
 
 
+<WebViewUser></WebViewUser>
       </View>
     );
   }

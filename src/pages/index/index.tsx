@@ -5,6 +5,7 @@ import './index.styl';
 import request from '../../services/request';
 import { connect } from '@tarojs/redux'
 import { getUserInfo } from "@/utils/getInfo"
+
 @connect(
   state => ({
     serchName: state.search.get('serchName'),
