@@ -44,7 +44,7 @@ export default class ConfirmOrder extends Component {
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store
-        },()=>{
+        }, () => {
           this.accMul();
         })
         Taro.hideLoading()
@@ -104,6 +104,7 @@ export default class ConfirmOrder extends Component {
           signType: res.data.signType,
           paySign: res.data.paySign,
           success(res) {
+            Taro.showToast({ title: '支付成功', icon: 'none' })
             Taro.switchTab({
               url: '/pages/order/index',
               success: () => {
@@ -112,21 +113,9 @@ export default class ConfirmOrder extends Component {
                 page.onLoad();
               }
             })
-            console.log('支付成功')
-            this.setState({
-              pay_bull: "支付成功",
-              pay_data: true
-            });
-
-
           },
           fail(err) {
-            () => {
-              this.setState({
-                pay_bull: "支付失败",
-                pay_data: true
-              })
-            }
+            Taro.showToast({ title: '支付失败', icon: 'none' })
           },
         })
       });
@@ -152,10 +141,10 @@ export default class ConfirmOrder extends Component {
   render() {
     return (
       <View className="confirm-order" >
-        {
+        {/* {
 
           this.state.pay_bull ? <AtToast isOpened text={this.state.pay_data} duration={2000} ></AtToast> : ""
-        }
+        } */}
         <View className="content">
           <View className="flex center">
             <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
