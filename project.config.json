@@ -40,6 +40,10 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 18,
 			"list": [
@@ -173,6 +177,13 @@
 					"id": -1,
 					"name": "pages/activity/index",
 					"pathName": "pages/activity/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "线上拼团活动",
+					"pathName": "activity-pages/my-activity/my.activity",
 					"scene": null
 				}
 			]
