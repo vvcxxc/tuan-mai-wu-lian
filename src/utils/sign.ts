@@ -98,8 +98,10 @@ export const toMiniProgramSign = (basicApi: string): void => {
  *  小程序静默登录
  * */
 export const quietLogin = () => {
+  console.log('quietLogin111')
   Taro.login({
     success: res => {
+      console.log('quietLoginRes', res)
       userRequest({
         method: 'POST',
         url: 'v1/user/auth/auth_xcx',
@@ -107,13 +109,13 @@ export const quietLogin = () => {
           code: res.code
         }
       }).then((res1: any) => {
-        if(res1.status_code == 200){
+        if (res1.status_code == 200) {
           Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
           Taro.setStorageSync('openid', res1.data.user.xcx_openid)
-          Taro.setStorageSync('user',res1.data.user)
-          Taro.setStorageSync('token_expires_in',res1.data.expires_in)
-          if(res1.data.user.mobile){
-            Taro.setStorageSync('mobile_status','binded')
+          Taro.setStorageSync('user', res1.data.user)
+          Taro.setStorageSync('token_expires_in', res1.data.expires_in)
+          if (res1.data.user.mobile) {
+            Taro.setStorageSync('mobile_status', 'binded')
           }
         }
       })

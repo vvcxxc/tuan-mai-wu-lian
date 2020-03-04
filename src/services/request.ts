@@ -13,8 +13,7 @@ interface Options extends RequestParams {
   host?: string;
 }
 
-// const host = process.env.BASIC_API;
-const host='http://test.usercenter.tdianyi.com/';
+const host = process.env.BASIC_API;
 
 export default function request(options: Options) {
   const pages = Taro.getCurrentPages();
@@ -47,7 +46,6 @@ export default function request(options: Options) {
     Taro.request({
       ...options,
       success (res){
-        // console.log(res,3333)
         const { statusCode, data } = res;
         switch (statusCode) {
           case SERVER_ERROR:
@@ -88,6 +86,44 @@ export default function request(options: Options) {
             break
         }
       },
+      fail(err) {
+        const { status, data } = err;
+        switch (status) {
+          case SERVER_ERROR:
+            Taro.showToast({
+              title: 'server error :d',
+              icon: 'none'
+            })
+            break
+          case FETCH_BAD:
+            Taro.showToast({
+              title: data.message || "bad request",
+              icon: "none"
+            })
+            break
+          case NOT_SIGN:
+            let is_index = pages[pages.length - 1].route.includes('pages/index/index')
+            if(is_index){
+              console.log('在首页')
+            }else{
+              toMiniProgramSign(BASIC_API)
+            }
+            console.log('login')
+            return reject(new Error('--- no sign ---'))
+          case NOT_FIND:
+              Taro.showToast({
+                title: "not find",
+                icon: "none"
+              })
+              break
+          default:
+            Taro.showToast({
+              title: "unknow error",
+              icon: "none"
+            })
+            break
+        }
+      }
     });
   });
 
