@@ -7,7 +7,7 @@ import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 import AddressImg from '../../assets/address.png'
 import starImg from '../../assets/starcollect.png'
-
+import LoginAlert from '@/components/loginAlert';
 export default class PaySuccess extends Component {
   config = {
     navigationBarTitleText: "特惠商品"
@@ -19,6 +19,7 @@ export default class PaySuccess extends Component {
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,
+    is_alert: false, //登录弹窗
     coupon: {
       begin_time: "",
       brief: "",
@@ -140,10 +141,15 @@ export default class PaySuccess extends Component {
   }
 
   handleClick = (id, e) => {
-    console.log(id)
-    Taro.navigateTo({
-      url: '../../business-pages/confirm-order/index?id=' + id
-    })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      Taro.navigateTo({
+        url: '../../business-pages/confirm-order/index?id=' + id
+      })
+    }else{
+      this.setState({ is_alert: true })
+    }
+
   };
   handleClick2 = (_id, e) => {
     Taro.navigateTo({
@@ -196,6 +202,16 @@ export default class PaySuccess extends Component {
     Taro.switchTab({
       url: '/pages/index/index'
     })
+  }
+   // 登录弹窗
+   loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
+
+      this.setState({ is_alert: false })
+    }
   }
   render() {
     return (
@@ -341,6 +357,11 @@ export default class PaySuccess extends Component {
             <View><Button onClick={this.handleClick.bind(this, this.state.coupon.id)} className="btn-buy">立即抢购</Button></View>
           </View>
         </View>
+
+
+        {
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
+        }
 
         {/* 去首页 */}
         {

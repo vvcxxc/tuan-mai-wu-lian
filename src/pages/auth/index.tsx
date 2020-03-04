@@ -20,7 +20,6 @@ export default class Auth extends Component {
 
   getPhoneNumber = (e) => {
     let { encryptedData, iv, errMsg } = e.detail
-    console.log(errMsg)
     if (errMsg == 'getPhoneNumber:ok') {
       userRequest({
         url: 'v1/user/auth/xcx_quick_login',
@@ -51,7 +50,6 @@ export default class Auth extends Component {
         Taro.navigateBack()
       }
     }
-
   }
   handleGetUserInfo = (e) => {
     let { errMsg } = e.detail
