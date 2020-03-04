@@ -60,6 +60,64 @@
 					"pathName": "activity-pages/personal/personalInformation/index",
 					"query": "",
 					"scene": null
+<<<<<<< HEAD
+=======
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/pages/appreciation/appreciation",
+					"pathName": "pages/activity/pages/appreciation/appreciation",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/group/index",
+					"pathName": "pages/activity/group/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/my-activity/my.activity",
+					"pathName": "activity-pages/my-activity/my.activity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/index",
+					"pathName": "pages/activity/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/appreciation/index",
+					"pathName": "pages/activity/appreciation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/business/index",
+					"pathName": "pages/business/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 17,
+					"name": "授权页",
+					"pathName": "pages/auth/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 18,
+					"name": "pages/auth/index",
+					"pathName": "pages/auth/index",
+					"scene": null
+>>>>>>> shouquan
 				}
 			]
 		}

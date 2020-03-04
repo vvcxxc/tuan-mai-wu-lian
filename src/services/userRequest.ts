@@ -7,16 +7,15 @@ import {
   NOT_SIGN
 } from "@/utils/constants";
 import { toMiniProgramSign } from "@/utils/sign";
-const BASIC_API = process.env.BASIC_API;
+// const USER_API = process.env.USER_API;
 interface Options extends RequestParams {
   /**替换的主机域名 */
   host?: string;
 }
 
-// const host = process.env.BASIC_API;
-const host='http://test.usercenter.tdianyi.com/';
+const host = process.env.USER_API;
 
-export default function request(options: Options) {
+export default function userRequest(options: Options) {
   const pages = Taro.getCurrentPages();
 
   // console.log(pages[pages.length - 1].route.indexOf("confirm-order"));
