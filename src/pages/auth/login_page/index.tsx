@@ -32,7 +32,6 @@ export default class LoginPage extends Component<any>{
 
   // 定时器
   getValidationNumber = () => {
-    console.log(32123)
     let { phoneNumber } = this.state
     if (phoneNumber) {
       userRequest({
@@ -82,8 +81,22 @@ export default class LoginPage extends Component<any>{
           phone: phoneNumber,
           verify_code: validationNumber
         }
-      }).then(res => {
+      }).then((res: any) => {
         console.log(res)
+        let {status_code} = res
+        if(status_code == 200){
+          Taro.showToast({
+            title: '登录成功'
+          })
+          Taro.setStorageSync('phone_status',res.data.status)
+          let page = Taro.getCurrentPages()
+          if(page.length > 1 ){
+            Taro.navigateBack({
+              delta: 2
+            })
+          }
+
+        }
       })
     }
   }

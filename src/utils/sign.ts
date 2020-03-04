@@ -113,7 +113,7 @@ export const quietLogin = () => {
           Taro.setStorageSync('user',res1.data.user)
           Taro.setStorageSync('token_expires_in',res1.data.expires_in)
           if(res1.data.user.mobile){
-            Taro.setStorageSync('mobile_status','binded')
+            Taro.setStorageSync('phone_status','binded')
           }
         }
       })

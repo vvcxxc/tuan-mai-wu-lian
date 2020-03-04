@@ -48,34 +48,6 @@
 			"current": -1,
 			"list": [
 				{
-					"id": 0,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "id=2497",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "detail-pages/orderdetail/index",
-					"pathName": "detail-pages/orderdetail/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "正式环境分享",
-					"pathName": "pages/index/index",
-					"query": "id=2497",
-					"scene": null
-				},
-				{
-					"id": 3,
-					"name": "pages/activity/pages/group/group",
-					"pathName": "pages/activity/pages/group/group",
-					"query": "id=265",
-					"scene": null
-				},
-				{
 					"id": -1,
 					"name": "pages/activity/group/index",
 					"pathName": "pages/activity/group/index",
@@ -177,6 +149,14 @@
 					"id": 18,
 					"name": "pages/auth/index",
 					"pathName": "pages/auth/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/index",
+					"pathName": "pages/my/index",
+					"query": "",
 					"scene": null
 				}
 			]

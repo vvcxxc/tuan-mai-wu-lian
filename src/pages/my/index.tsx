@@ -19,7 +19,8 @@ interface State {
   user_img: string;
   data: string,
   list: Object[],
-  userData: Object
+  userData: Object,
+  type: string
 }
 
 export default class NewPage extends Component<Props>{
@@ -33,6 +34,7 @@ export default class NewPage extends Component<Props>{
     userInfo: {},
     userData: {},
     user_img: '',
+    type: '', // user: 未设置用户信息，phone: 未绑定手机号，为空不展示
     data: '',
     list: [
       {
@@ -87,6 +89,16 @@ export default class NewPage extends Component<Props>{
       // })
 
     })
+
+    let phone_status = Taro.getStorageSync('phone_status')
+    let user = Taro.getStorageSync('user')
+    if(phone_status == 'binded' || phone_status == 'bind_success'){
+      if(!user.avatar){
+        this.setState({type: 'user'})
+      }
+    }else {
+      this.setState({type: 'phone'})
+    }
   }
 
   /**
@@ -119,19 +131,51 @@ export default class NewPage extends Component<Props>{
     }
 
   }
+  setPersonal = (type: string) => {
+    if(type == 'user'){
+      Taro.navigateTo({
+        url: '/pages/auth/index?type=userInfo',
+      })
+    }else{
+      Taro.navigateTo({
+        url: '/pages/auth/index',
+      })
+    }
+
+  }
   render() {
+    const {type} = this.state
+    console.log(type)
     return (
       <View className='newPage'>
-        <View className='newPage_head'>
-          <View className="img_box">
-            <Image src={this.state.userData.head_img} />
-          </View>
-          <View className='userName'>{this.state.userData.user_name}</View>
-          {/* <View className='giftMoney'>
-            <Text className='white'>礼品币</Text>
-            <Text className='yellow'>27</Text>
-          </View> */}
+      <View className='newPage_head'>
+        <View className="img_box">
+          <Image src={this.state.userData.head_img} />
         </View>
+
+        {
+          type == 'phone' ? (
+            <View>
+                <View className='phone_text'>登录手机号，同步全渠道订单与优惠券</View>
+        <View className='setPersonalInfoBox' onClick={this.setPersonal.bind(this,'phone')} >
+          <View className='setPersonalInfo' >登录</View>
+        </View>
+            </View>
+          ) : type == 'user' ? (
+            <View>
+               <View className='userName'>{this.state.userData.user_name}</View>
+        <View className='setPersonalInfoBox' onClick={this.setPersonal.bind(this,'user')} >
+          <View className='setPersonalInfo' >一键设置头像</View>
+        </View>
+            </View>
+          ) : null
+        }
+
+        {/* <View className='giftMoney'>
+          <Text className='white'>礼品币</Text>
+          <Text className='yellow'>27</Text>
+        </View> */}
+      </View>
 
         <View className="newPage_content">
           <View className="content">
