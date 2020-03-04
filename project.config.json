@@ -60,8 +60,6 @@
 					"pathName": "activity-pages/personal/personalInformation/index",
 					"query": "",
 					"scene": null
-<<<<<<< HEAD
-=======
 				},
 				{
 					"id": -1,
@@ -117,7 +115,6 @@
 					"name": "pages/auth/index",
 					"pathName": "pages/auth/index",
 					"scene": null
->>>>>>> shouquan
 				}
 			]
 		}
