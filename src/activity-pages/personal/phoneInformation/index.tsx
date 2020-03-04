@@ -1,11 +1,10 @@
 import Taro, { Component, Config } from "@tarojs/taro"
 // import { View } from "@tarojs/components";
 import { Block, View, Image, Text, Navigator, Input } from "@tarojs/components"
-import request from '@/services/request'
 import "./index.less"
 import { url } from "inspector"
 import { AtIcon } from 'taro-ui'
-import request from '../../../services/request'
+import userRequest from '@/services/userRequest'
 
 export default class PhoneInformation extends Component {
 
@@ -22,7 +21,7 @@ export default class PhoneInformation extends Component {
     }
     componentDidMount() {
         Taro.showLoading();
-        request({
+        userRequest({
             url: 'v1/user/user/user_info',
             method: "GET",
         })

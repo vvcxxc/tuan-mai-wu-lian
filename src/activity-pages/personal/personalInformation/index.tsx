@@ -2,7 +2,7 @@ import Taro, { Component, Config } from "@tarojs/taro"
 // import { View } from "@tarojs/components";
 import { AtIcon, AtToast, AtActionSheet, AtActionSheetItem } from "taro-ui"
 import { Block, View, Image, Text, Navigator, Picker, Input } from "@tarojs/components"
-import request from '@/services/request'
+import userRequest from '@/services/userRequest'
 import "./index.less"
 import { url } from "inspector"
 import CitySelecter from "../../components/citySelecter/index"
@@ -26,7 +26,7 @@ export default class PersonalInformation extends Component {
     }
     componentDidMount() {
         Taro.showLoading();
-        request({
+        userRequest({
             url: 'v1/user/user/user_info',
             method: "GET",
         })
