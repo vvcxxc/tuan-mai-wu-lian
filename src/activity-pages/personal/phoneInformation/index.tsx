@@ -16,7 +16,8 @@ export default class PhoneInformation extends Component {
         tipsShow: false,
         wait: 60,
         is_ok: true,
-        phone: ''
+        phone: '',
+        _code: ''
 
     }
     componentDidMount() {
@@ -27,10 +28,10 @@ export default class PhoneInformation extends Component {
         })
             .then((res: any) => {
                 Taro.hideLoading();
-                let { code, data, message } = res;
-                if (code == 200) {
+                let { status_code, data, message } = res;
+                if (status_code == 200) {
                     this.setState({
-                        phone: data.phone,
+                        phone: data.phone
                     })
                 } else {
                     Taro.showToast({ title: message, icon: 'none' })
@@ -41,13 +42,22 @@ export default class PhoneInformation extends Component {
                 Taro.showToast({ title: '加载失败', icon: 'none' })
             })
     }
-
+    handleCode = (e) => {
+        this.setState({ _code: e.detail.value })
+    }
     cancleBtn = () => {
         this.setState({ tipsShow: false })
     }
     sumbit = () => {
         //测试
-        this.setState({ tipsShow: true, tipsType: !this.state.tipsType })
+        if (this.state.phone && this.state._code) {
+            this.setState({ tipsShow: true, tipsType: !this.state.tipsType })
+        } else if (this.state.phone && !this.state._code) {
+            Taro.showToast({ title: '请输入验证码', icon: 'none' })
+        } else {
+            Taro.showToast({ title: '当前无绑定手机号', icon: 'none' })
+        }
+
     }
     changeNumber = () => {
         Taro.navigateTo({
@@ -76,23 +86,23 @@ export default class PhoneInformation extends Component {
             let timer = setInterval(() => {
                 resend()
             }, 1000);
-            request({
+            userRequest({
                 url: 'v1/user/auth/verifyCode',
                 method: "POST",
                 data: { phone }
             })
                 .then((res: any) => {
                     if (res.code == 200) {
-                        Taro.showToast({ title: res.message, duration: 1500 })
+                        Taro.showToast({ title: res.message, duration: 1500, icon: 'none' })
                     } else {
                         _this.setState({ is_ok: true });
 
                         clearInterval(timer);
-                        Taro.showToast({ title: res.message, duration: 1500 })
+                        Taro.showToast({ title: res.message, duration: 1500, icon: 'none' })
                     }
                 })
         } else {
-            Taro.showToast({ title: '记录手机号有误', duration: 1500 })
+            Taro.showToast({ title: '当前无绑定手机号', duration: 1500, icon: 'none' })
         }
     }
     render() {
@@ -102,11 +112,10 @@ export default class PhoneInformation extends Component {
                     <View className='imageBox'>
                         <Image className='phoneImg' src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/7f2mdFaRxyYHsDeGGRXcrpCFP5fHTfEJ.png" />
                     </View>
-                    <View className='msgBox'> 您当前绑定的手机号码：15888888888</View>
+                    <View className='msgBox'> 您当前绑定的手机号码:{this.state.phone}</View>
                     <View className='infoBox'> 为了您的账户安全，请输入验证码</View>
                     <View className='inputBox'>
-                        <Input className='phoneInformationInput' type="text" maxLength={6} />
-                        <View className='phoneInformationBtn'> 获取验证码</View>
+                        <Input className='phoneInformationInput' type="text" maxLength={6} onInput={this.handleCode.bind(this)} />
                         {
                             this.state.is_ok ? (
                                 <View className='phoneInformationBtn' onClick={this.getCode.bind(this)}> 获取验证码</View>

@@ -32,11 +32,12 @@ export default class PersonalInformation extends Component {
         })
             .then((res: any) => {
                 Taro.hideLoading();
-                let { code, data, message } = res;
-                if (code == 200) {
+                let { status_code, data, message } = res;
+                if (status_code == 200) {
                     this.setState({
                         avatar: data.avatar,
-                        name: data.user_name
+                        name: data.user_name,
+
 
                         // ?????
                     })
@@ -117,7 +118,7 @@ export default class PersonalInformation extends Component {
                     <View className='informationItem' onClick={() => { this.setState({ maskShow: true }) }}>
                         <View className='itemLeft'>昵称</View>
                         <View className='itemRight'>
-                            <View className='itemWords'>小小熊</View>
+                            <View className='itemWords'>{this.state.name}</View>
                             <View className='itemIcon'></View>
                         </View>
                     </View>
