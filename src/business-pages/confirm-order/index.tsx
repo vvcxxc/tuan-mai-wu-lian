@@ -30,8 +30,6 @@ export default class ConfirmOrder extends Component {
       id: "",
       sname: ""
     },
-    pay_bull: false,
-    pay_data: "支付成功",
     is_login: false
   };
   componentWillMount() {
@@ -141,10 +139,6 @@ export default class ConfirmOrder extends Component {
   render() {
     return (
       <View className="confirm-order" >
-        {/* {
-
-          this.state.pay_bull ? <AtToast isOpened text={this.state.pay_data} duration={2000} ></AtToast> : ""
-        } */}
         <View className="content">
           <View className="flex center">
             <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
