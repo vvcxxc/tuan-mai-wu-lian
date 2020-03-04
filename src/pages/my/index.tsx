@@ -119,13 +119,18 @@ export default class NewPage extends Component<Props>{
         url: data
       })
     }
-
+  }
+  //临时跳转测试
+  setPersonal = () => {
+    Taro.navigateTo({
+      url: '/activity-pages/personal/index'
+    })
   }
   render() {
     return (
       <View className='newPage'>
         <View className='newPage_head'>
-          <View className="img_box">
+          <View className="img_box" onClick={this.setPersonal}>
             <Image src={this.state.userData.head_img} />
           </View>
           <View className='userName'>{this.state.userData.user_name}</View>
