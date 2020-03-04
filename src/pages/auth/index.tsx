@@ -31,8 +31,15 @@ export default class Auth extends Component {
         }
       }).then((res: any) => {
         if (res.status_code == 200) {
-          if (res.data.status == 'bind_success') {
-            console.log(5234)
+          if (res.data.status == 'bind_success' || res.data.status == 'binded') {
+            Taro.setStorageSync('phone_status', res.data.status)
+            Taro.showToast({
+              title: '登录成功'
+            })
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 1500)
+            // }
           }
         }
       })
@@ -51,14 +58,21 @@ export default class Auth extends Component {
     if (errMsg == 'getUserInfo:ok') {
       let { avatarUrl, nickName } = e.detail.userInfo
       userRequest({
-        method: 'GET',
-        url: 'v1/user/user/user_info',
+        method: 'PUT',
+        url: 'v1/user/user/upload_user_info',
         data: {
           head: avatarUrl,
           name: nickName
         }
-      }).then(res => {
-        console.log(res)
+      }).then((res: any) => {
+        if (res.status_code == 200) {
+          Taro.showToast({
+            title: '设置成功'
+          })
+          setTimeout(() => {
+            Taro.navigateBack()
+          }, 1500)
+        }
       })
     } else {
       let res = Taro.getCurrentPages()
