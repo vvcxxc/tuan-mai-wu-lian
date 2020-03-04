@@ -19,6 +19,7 @@ export default class PersonalInformation extends Component {
         selectorNum: 0,
         selectorChecked: '男',
         dateSel: '',
+        address: '',
         maskShow: false,
         name: '',
         sumbitName: '',
@@ -37,16 +38,15 @@ export default class PersonalInformation extends Component {
                     this.setState({
                         avatar: data.avatar,
                         name: data.user_name,
-
-
-                        // ?????
+                        dateSel: data.byear ? data.byear + '-' + data.bmonth + '-' + data.bday : '无',
+                        selectorChecked: data.sex == 1 ? '男' : (data.sex == 2 ? '女' : '无'),
+                        address: data.address
                     })
                 } else {
                     Taro.showToast({ title: message, icon: 'none' })
                 }
             }).catch(err => {
                 Taro.hideLoading();
-                console.log('666')
                 Taro.showToast({ title: '加载失败', icon: 'none' })
             })
     }
@@ -57,7 +57,6 @@ export default class PersonalInformation extends Component {
         }, () => { this.sumbitInfo() })
     }
     onDateChange = (e: any) => {
-        console.log(e.detail.value)
         this.setState({
             dateSel: e.detail.value
         }, () => { this.sumbitInfo() })
@@ -73,7 +72,7 @@ export default class PersonalInformation extends Component {
     }
     sumbitInfo = () => {
         Taro.showLoading();
-        request({
+        userRequest({
             url: 'v1/user/user/upload_user_detail',
             method: "GET",
             data: {
@@ -83,7 +82,8 @@ export default class PersonalInformation extends Component {
                 sex: this.state.selectorChecked == '男' ? 1 : 2,
                 province_id: this.state.cityIndex[0],
                 city_id: this.state.cityIndex[1],
-                district_id: this.state.cityIndex[2],
+                // district_id: this.state.cityIndex[2],
+                address_detail: this.state.cityIndex[2],//后端有误
             }
         })
             .then((res: any) => {
@@ -105,7 +105,6 @@ export default class PersonalInformation extends Component {
             <View className='personalInformation'>
                 <View className='informationTitle'>基本信息</View>
                 <View className='informationBox'>
-
                     <View className='informationItem'>
                         <View className='itemLeft'>头像</View>
                         <View className='itemRight'>
@@ -131,8 +130,6 @@ export default class PersonalInformation extends Component {
                             </View>
                         </View>
                     </Picker>
-
-
                     <Picker mode='date' onChange={this.onDateChange.bind(this)} value={this.state.dateSel}
                         end={new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()}
                     >
@@ -144,8 +141,7 @@ export default class PersonalInformation extends Component {
                             </View>
                         </View>
                     </Picker>
-                    <Citypicker Division=" - " getCity={this.getCityArea} sumbit={true}></Citypicker>
-
+                    <Citypicker Division=" - " getCity={this.getCityArea} sumbit={true} tempCityInfo={this.state.address}></Citypicker>
                 </View>
 
 

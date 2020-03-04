@@ -165,6 +165,13 @@
 					"pathName": "activity-pages/personal/phoneInformation/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/personal/personalInformation/index",
+					"pathName": "activity-pages/personal/personalInformation/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}
