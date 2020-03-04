@@ -1,13 +1,15 @@
 import Taro, { Component } from "@tarojs/taro"
-import request from '../../../../services/request'
-import "./index.styl"
-// import { spawn } from "child_process"
-import TimeUp from '../../../../pages/activity/group/TimeUp'
 import wx from 'weixin-js-sdk';
-// import QRCode from 'qrcode'
+
 import { AtCurtain, AtButton } from 'taro-ui'
 import { Block, View, Image, Text, Button } from "@tarojs/components"
-import Qrcode from "./Qrcode"
+import SpellGroupHead from './spellGroupHead';    //显示头像组件
+import Qrcode from "./Qrcode"                     //使用二维码
+import TimeUp from '../../../../pages/activity/group/TimeUp'
+// import request from '../../../../services/request'
+import{ getGroupList} from '../../service'
+import "./index.styl"     
+
 export default class TuxedoInformation extends Component<any> {
 
   state = {
@@ -19,37 +21,14 @@ export default class TuxedoInformation extends Component<any> {
 
   componentDidMount() {
     this.clearTimeOut()
-
-    request({
-      url: 'api/wap/user/getMeGroupList',
-      method: "GET"
+    getGroupList().then(({code,data}) => {
+      if (code == 200) {
+        this.setState({ listData: data })
+      }
     })
-      .then((res: any) => {
-        if (res.code === 200) {
-          let meta: any = []
-          res.data.map((item: any) => {
-            // .filter(item =>item.number- item.participation_number < 5)
-            let head_list = item.head_list
-            let length = item.number - item.participation_number
-
-            for (let index = 0; index < length; index++) {
-              head_list.push('http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/S24YwKYiSj3x5bSEQeps6bW2MwmcKkhR.png')
-            }
-            if(head_list.length>5){
-              head_list.length =5
-            }
-            item['head_list_img'] = head_list
-
-            meta.push(item)
-            
-          })
-          this.setState({ listData: meta })
-        }
-      })
-
   }
 
-  clearTimeOut = () => {
+  clearTimeOut = () => {//这个函数是？
     var end = setTimeout(function () { }, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
     for (var i = start; i <= end; i++) {
@@ -120,7 +99,7 @@ export default class TuxedoInformation extends Component<any> {
                   </View>
                   <View className="residue_time">
                     {
-                      item.end_at == '' && item.number !== item.participation_number || item.number !== item.participation_number && new Date(item.end_at).getTime()
+                      item.end_at == '' && item.number !== item.participation_number || item.number !== item.participation_number && new Date(item.end_at.replace(/-/g, "/")).getTime()
                         <= new Date().getTime() ? <View className="failure">拼团失败</View> : null
                     }
                     {
@@ -129,14 +108,15 @@ export default class TuxedoInformation extends Component<any> {
 
                     {
                       item.number !==
-                        item.participation_number && new Date(item.end_at).getTime()
-                        > new Date().getTime() ? <View>剩余时间</View> : null
+                        item.participation_number && new Date(item.end_at.replace(/-/g, "/")).getTime()
+                        > new Date().getTime() ? <View className="margin_r">剩余时间</View> : null
                     }
                     {
                       item.number !==
-                        item.participation_number && new Date(item.end_at).getTime()
+                        item.participation_number && new Date(item.end_at.replace(/-/g, "/")).getTime()
                         > new Date().getTime() ? <TimeUp itemtime={item.end_at} /> : null
                     }
+
                   </View>
                   <View className="group">
                     <View className="group_left">
@@ -154,43 +134,37 @@ export default class TuxedoInformation extends Component<any> {
               </View>
               <View className="foot">
                 <View className="left">
-                  {
-                    item.head_list_img.length>0 && item.head_list_img.map((item2: any, index2: number) => {
-                     return <View className={index2 == 0 ? '' : 'tuxedo_people'} style={{ zIndex: 1+index2 }}>
-                       <View className={!index2 ? 'user_head' :'no_user_head'}>
-                          <Image src={item2} />
-                        </View>
-                        {index2 == 0 ? <Text>团长</Text> : null}
-                      </View>
-                    })
-                  }
+                  <SpellGroupHead
+                    data={item.head_list}
+                    peopleNeed={item.number}//需要的总人数参团
+                    hasJoined={item.participation_number}//已有的参与人数
+                  />
                 </View>
                 <View className="right">
                   {
                     item.number !==
-                      item.participation_number && new Date(item.end_at).getTime()
+                      item.participation_number && new Date(item.end_at.replace(/-/g, "/")).getTime()
                       > new Date().getTime() ? <View className="invite" onClick={this.routerShare.bind(this, item.id)}>邀好友参团</View> : null
                   }
-
                   {
-                    item.number ==
+                    item.qr_code != '' && item.number ==
                       item.participation_number &&
-                      new Date(item.youhui_end_time).getTime()
+                      new Date(item.youhui_end_time.replace(/-/g, "/")).getTime()
                       > new Date().getTime() ? <View className="userCoupon" onClick={this.userCard.bind(this, item.qr_code)}>使用卡券</View> : null
                   }
                   {
-                    item.end_at == '' || item.number == item.participation_number
+                    item.qr_code == '' && item.number == item.participation_number ? <View className="userCoupon" onClick={this.userCard.bind(this, item.qr_code)}>已使用</View> : item.end_at == '' || item.number == item.participation_number
                       && new Date(item.youhui_end_time).getTime()
-                      <= new Date().getTime() ? <View className="invalid" onClick={this.userCard.bind(this, item.qr_code)}>卡券已过期</View> : null
+                      <= new Date().getTime() ? <View className="invalid">卡券已过期</View> : null
                   }
 
                   {
-                    new Date(item.active_end_time).getTime() < new Date().getTime() ? <View className="invalid">活动已过期</View> : null
+                    new Date(item.active_end_time.replace(/-/g, "/")).getTime() < new Date().getTime() ? <View className="invalid">活动已过期</View> : null
 
                   }
                   {
 
-                    item.number > item.participation_number && new Date(item.active_end_time).getTime() > new Date().getTime() && new Date(item.end_at).getTime() < new Date().getTime() ? <View className="userCoupon"
+                    item.number > item.participation_number && new Date(item.active_end_time.replace(/-/g, "/")).getTime() > new Date().getTime() && new Date(item.end_at.replace(/-/g, "/")).getTime() < new Date().getTime() ? <View className="userCoupon"
                       onClick={this.againGroup.bind(this, item.youhui_id, item.gift_id, item.activity_id)}>再次拼团</View> : null
                   }
 

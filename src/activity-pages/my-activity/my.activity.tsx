@@ -106,7 +106,7 @@ export default class MyActivity extends Component<MyActivityProp> {
                     />
                   </View>
                 }) : <TuxedoInformation />
-            }
+              }
             </View>
           </ScrollView>
         </View>
