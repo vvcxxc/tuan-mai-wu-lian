@@ -48,6 +48,44 @@
 			"current": -1,
 			"list": [
 				{
+<<<<<<< HEAD
+=======
+					"id": -1,
+					"name": "pages/activity/group/index",
+					"pathName": "pages/activity/group/index",
+					"query": "id=3797&&type=5&&gift_id=0&&activity_id=1709",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/business/index",
+					"pathName": "pages/business/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/pages/appreciation/appreciation",
+					"pathName": "pages/activity/pages/appreciation/appreciation",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/appreciation/index",
+					"pathName": "pages/activity/appreciation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/set-meal/index",
+					"pathName": "business-pages/set-meal/index",
+					"query": "",
+					"scene": null
+				},
+				{
+>>>>>>> shouquan
 					"id": -1,
 					"name": "activity-pages/personal/index",
 					"pathName": "activity-pages/personal/index",
@@ -114,6 +152,14 @@
 					"id": 18,
 					"name": "pages/auth/index",
 					"pathName": "pages/auth/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/index",
+					"pathName": "pages/my/index",
+					"query": "",
 					"scene": null
 				}
 			]
