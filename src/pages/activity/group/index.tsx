@@ -7,7 +7,7 @@ import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
-import AlertLogin from '@/components/alertLogin'
+import LoginAlert from '@/components/loginAlert';
 interface Props {
   id: any;
 }
@@ -24,6 +24,7 @@ export default class Group extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesCurrent: 0,
+    is_alert: false, //登录弹窗
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -76,14 +77,13 @@ export default class Group extends Component<Props>{
     newGroupList: [],
     imagePath: '',
     isPostage: true,
-    is_login: false,
     isFromShare: false,
     groupListShow: false,
     groupListPages: 1
   };
 
   componentWillUnmount() {
-    document.removeEventListener('touchmove', () => { });
+    // document.removeEventListener('touchmove', () => { });
     console.log('清除计时器');
     // clearTimeout(timer);
     var end = setTimeout(function () {}, 1);
@@ -370,7 +370,9 @@ export default class Group extends Component<Props>{
   }
 
   payment = () => {
-    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
     let _temptype = this.$router.params.type;
     // 改前必看：本页面与众不同的傻狗命名一览
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
@@ -379,12 +381,7 @@ export default class Group extends Component<Props>{
 
     //一般进来：id，type == 5 ，gift_id，activity_id，
     //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
+
     Taro.showLoading({
       title: 'loading',
     });
@@ -470,86 +467,90 @@ export default class Group extends Component<Props>{
         }
       })
     })
+    }else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
 
   payment2 = (_groupid, e) => {
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {};
-    if (this.state.isPostage) {
-      data = {
-        public_type_id: _groupid,
-        activity_id: this.$router.params.activity_id,
-        gift_id: this.$router.params.gift_id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: 55,
-        xcx: 1,
-        number: 1
-      }
-    } else {
-      data = {
-        public_type_id: _groupid,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: 55,
-        xcx: 1,
-        number: 1
-      }
-    }
-    request({
-      url: 'payCentre/toWxPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      Taro.hideLoading();
-      // 发起支付
-      Taro.requestPayment({
-        timeStamp: res.data.timeStamp,
-        nonceStr: res.data.nonceStr,
-        package: res.data.package,
-        signType: res.data.signType,
-        paySign: res.data.paySign,
-        success(res) {
-          Taro.navigateTo({
-            url: '/pages/activity/pages/group/group?id=' + _groupid,
-            success: () => {
-              var page = Taro.getCurrentPages().pop();
-              if (page == undefined || page == null) return;
-              page.onLoad();
-            }
-          })
-          // //查询用户最后一次购买的参团活动id
-          // request({
-          //   url: 'v1/youhui/getUserLastParticipateId',
-          //   method: "GET"
-          // }).then((res: any) => {
-          //   console.log('支付id:', res.data.id)
-          //   //得到拼团活动id并跳转活动详情
-          //   Taro.navigateTo({
-          //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
-          //     success: () => {
-          //       var page = Taro.getCurrentPages().pop();
-          //       if (page == undefined || page == null) return;
-          //       page.onLoad();
-          //     }
-          //   })
-          // })
-        },
-        fail(err) {
-          // Taro.showToast({ title: '支付失败', icon: 'none' })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      Taro.showLoading({
+        title: 'loading',
+      });
+      let data = {};
+      if (this.state.isPostage) {
+        data = {
+          public_type_id: _groupid,
+          activity_id: this.$router.params.activity_id,
+          gift_id: this.$router.params.gift_id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: 55,
+          xcx: 1,
+          number: 1
         }
+      } else {
+        data = {
+          public_type_id: _groupid,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: 55,
+          xcx: 1,
+          number: 1
+        }
+      }
+      request({
+        url: 'payCentre/toWxPay',
+        method: "POST",
+        data
+      }).then((res: any) => {
+        Taro.hideLoading();
+        // 发起支付
+        Taro.requestPayment({
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: res.data.signType,
+          paySign: res.data.paySign,
+          success(res) {
+            Taro.navigateTo({
+              url: '/pages/activity/pages/group/group?id=' + _groupid,
+              success: () => {
+                var page = Taro.getCurrentPages().pop();
+                if (page == undefined || page == null) return;
+                page.onLoad();
+              }
+            })
+            // //查询用户最后一次购买的参团活动id
+            // request({
+            //   url: 'v1/youhui/getUserLastParticipateId',
+            //   method: "GET"
+            // }).then((res: any) => {
+            //   console.log('支付id:', res.data.id)
+            //   //得到拼团活动id并跳转活动详情
+            //   Taro.navigateTo({
+            //     url: '/pages/activity/pages/group/group?id=' + res.data.id,
+            //     success: () => {
+            //       var page = Taro.getCurrentPages().pop();
+            //       if (page == undefined || page == null) return;
+            //       page.onLoad();
+            //     }
+            //   })
+            // })
+          },
+          fail(err) {
+            // Taro.showToast({ title: '支付失败', icon: 'none' })
+          }
+        })
       })
-    })
-    e.stopPropagation();
+      e.stopPropagation();
+    }else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
   addGroupList = () => {
@@ -574,6 +575,17 @@ export default class Group extends Component<Props>{
       });
     } else {
       return;
+    }
+  }
+
+  // 登录弹窗
+  loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
+
+      this.setState({ is_alert: false })
     }
   }
 
@@ -907,8 +919,10 @@ export default class Group extends Component<Props>{
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
+
+
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
 
         {/* 去首页 */}

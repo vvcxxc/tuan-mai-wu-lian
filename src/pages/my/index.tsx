@@ -157,7 +157,6 @@ export default class NewPage extends Component<Props>{
     } else {
       // 重新请求当前数据
 
-
       this.setState({ is_alert: false })
     }
   }
