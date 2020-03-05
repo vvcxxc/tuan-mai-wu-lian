@@ -86,6 +86,14 @@
 					"id": -1,
 					"name": "线上拼团活动",
 					"pathName": "activity-pages/my-activity/my.activity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/pages/group/group",
+					"pathName": "pages/activity/pages/group/group",
+					"query": "id=508",
 					"scene": null
 				}
 			]

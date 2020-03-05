@@ -21,6 +21,7 @@ import { GROUP_AREADY, UNUSED, USED } from "../../data"
 import { ACTION_JUMP, ACTION_USE, ACTION_VIEW, ACTION_CLOSE } from "@/utils/constants"
 import Coupon from "@/components/coupon/coupon"
 import Qrcode from "@/components/qrcode/qrcode"
+import dayjs from 'dayjs'
 let timer = null;
 let timer2 = null
 interface State {
@@ -76,7 +77,7 @@ export default class Group extends Component {
       console.log(err)
     })
     await this.fetchBasicinfo(id)
-    this.fetchCoupon(location)
+    await this.fetchCoupon(location)
     this.setTime()
 
   }
@@ -191,13 +192,14 @@ export default class Group extends Component {
    * 定时
    */
   setTime = () => {
+    let times = dayjs(this.state.basicinfo.end_at).unix()
     if (this.state.time.display <= 0) {
       clearTimeout(timer2)
       return
     } else {
       timer2 = setTimeout(() => {
-        clearTimeout(timer2)
-        let time = getTime(this.state.basicinfo.activity_end_time)
+        clearTimeout(timer)
+        let time = getTime(times)
         this.setState({
           time
         })
