@@ -111,16 +111,15 @@ export default class Group extends Component {
           youhui_id: id,
           id: publictypeid,
           gift_id,
-          activity_id,
+          activity_id
         } = this.state.basicinfo
         let dataId = 0
         if (data && data.id) {
           dataId = data.id
         }
-        console.log('test', this.state.basicinfo)
         Taro.navigateTo({
           // url: `/pages/activity/pages/detail/detail?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`,
-          url: `/pages/activity/group/index?id=${this.state.basicinfo.youhui_id}&type=${type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${this.state.basicinfo.id}`
+          url: `/pages/activity/group/index?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`
         })
         break
       }

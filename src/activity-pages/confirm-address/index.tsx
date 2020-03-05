@@ -221,6 +221,7 @@ export default class confirmAddress extends Component {
             this.setState({ contentboxShow: true })
             return;
         }
+        let that = this;
         let data = {};
         let interval;
         let open_id = Taro.getStorageSync("openid");
@@ -412,7 +413,7 @@ export default class confirmAddress extends Component {
                         paySign: res.data.paySign,
                         success(res) {
                             Taro.navigateTo({
-                                url: '/pages/activity/pages/group/group?id=' + this.state.groupId,
+                                url: '/pages/activity/pages/group/group?id=' + that.state.groupId,
                                 success: () => {
                                     var page = Taro.getCurrentPages().pop();
                                     if (page == undefined || page == null) return;
