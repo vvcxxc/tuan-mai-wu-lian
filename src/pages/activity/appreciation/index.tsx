@@ -14,14 +14,12 @@ interface Props {
 
 let interval;
 export default class Appre extends Component<Props>{
-
   state = {
     ruleMore: false,
     imgZoom: false,
     imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
-
     imagesCurrent: 0,
     data: {
       activity_begin_time: "",
@@ -57,22 +55,15 @@ export default class Appre extends Component<Props>{
     imagePath: '',
     isPostage: true,
     is_login: false,
-
-
     isFromShare: false
   };
 
   componentDidShow = () => {
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
-      this.setState({
-        isFromShare: true
-      })
+      this.setState({ isFromShare: true })
     }
-    console.log(this.$router.params);
-    Taro.showLoading({
-      title: 'loading',
-    })
+    Taro.showLoading({ title: 'loading', mask: true })
     Taro.getLocation({
       type: 'gcj02',
       success: res => {
@@ -84,7 +75,6 @@ export default class Appre extends Component<Props>{
             url: 'api/wap/user/appreciation/getYouhuiAppreciationInfo',
             method: "GET",
             data: {
-              // youhui_id: 3713,
               youhui_id: this.$router.params.id,
               xpoint: this.state.xPoint,
               ypoint: this.state.yPoint
@@ -108,15 +98,11 @@ export default class Appre extends Component<Props>{
         })
       },
       fail: () => {
-        this.setState({
-          yPoint: '',
-          xPoint: ''
-        }, () => {
+        this.setState({ yPoint: '', xPoint: '' }, () => {
           request({
             url: 'api/wap/user/appreciation/getYouhuiAppreciationInfo',
             method: "GET",
             data: {
-              // youhui_id: 3713,
               youhui_id: this.$router.params.id,
               xpoint: this.state.xPoint,
               ypoint: this.state.yPoint
@@ -149,15 +135,10 @@ export default class Appre extends Component<Props>{
     var ctx = Taro.createCanvasContext('canvas01', this)
     var addressStr = "地址：" + that.state.data.address;
     var telStr = "电话：" + that.state.data.tel;
-    // ctx.setFillStyle("rgba(0,0,0,.2)");
-    // ctx.fillRect(0, 0, 460, 360);
-    console.log("apprepreview", that.state.data.preview);
     Taro.downloadFile({
       url: that.state.data.preview,
       success: function (res) {
-        console.log("downloadFile", res.tempFilePath);
         ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
-        // ctx.stroke();
         ctx.setFillStyle("rgba(0,0,0,.5)");
         ctx.fillRect(0, 200, 460, 360);
         ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
@@ -180,20 +161,13 @@ export default class Appre extends Component<Props>{
           }
         }
         ctx.fillText(telStr, 20, initHeight + 40);
-        //调用draw()开始绘制
-        console.log("draw");
-
         ctx.draw()
-
         setTimeout(function () {
           Taro.canvasToTempFilePath({
             canvasId: 'canvas01',
             success: function (res) {
-              console.log("drawres", res.tempFilePath);
               var tempFilePath = res.tempFilePath;
-              that.setState({
-                imagePath: tempFilePath,
-              });
+              that.setState({ imagePath: tempFilePath });
             },
             fail: function (res) {
               console.log(res);
@@ -210,7 +184,6 @@ export default class Appre extends Component<Props>{
   }
 
   onShareAppMessage() {
-    console.log(this.state.imagePath)
     const userInfo = Taro.getStorageSync("userInfo");
     const { gift, return_money, preview, pay_money } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
@@ -393,13 +366,8 @@ export default class Appre extends Component<Props>{
         {
           this.state.data.type == 0 && this.state.data.images.length > 0 ?
             <Swiper
-              onChange={(e) => {
-                // console.log(e.detail.current)
-                this.setState({ imagesCurrent: e.detail.current })
-              }}
-              onClick={() => {
-                this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
-              }}
+              onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
+              onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] }) }}
               className='test-h'
               indicatorColor='#999'
               indicatorActiveColor='#333'
@@ -410,9 +378,7 @@ export default class Appre extends Component<Props>{
                 this.state.data.images ? this.state.data.images.map((item, index) => {
                   return (
                     <SwiperItem key={item} >
-                      <View className='demo-text'
-                      //  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                      >
+                      <View className='demo-text'>
                         <Image className="demo-text-Img" src={item} />
                       </View>
                     </SwiperItem>
@@ -550,21 +516,7 @@ export default class Appre extends Component<Props>{
             </View>
           </View>
         </View>
-        {/* {
-          (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
-            <View className='choose_postage' onClick={this.chooseGift}>
 
-              <View>
-                {
-                  this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
-                }
-              </View>
-              （邮费 {this.state.data.gift.postage}元）
-          <View className='lbmsg' >
-                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
-              </View>
-            </View>) : null
-        } */}
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
@@ -579,7 +531,6 @@ export default class Appre extends Component<Props>{
             this.state.data.activity_time_status == 1 ? (
               <View className="paymoney_buynow_no">暂未开始</View>
             ) : this.state.data.activity_time_status == 2 ? (
-              // <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
               <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
             ) : this.state.data.activity_time_status == 3 ? (
               <View className="paymoney_buynow_no">已结束</View>

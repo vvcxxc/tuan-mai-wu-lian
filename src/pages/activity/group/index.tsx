@@ -77,7 +77,6 @@ export default class Group extends Component<Props>{
       total: 0,
     },
     newGroupList: [],
-    imagePath: '',
     isPostage: true,
     is_login: false,
     isFromShare: false,
@@ -87,8 +86,6 @@ export default class Group extends Component<Props>{
 
 
   clearTimeOut = () => {
-    console.log('清除计时器');
-    // clearTimeout(timer);
     var end = setTimeout(function () { }, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
     for (var i = start; i <= end; i++) {
@@ -124,7 +121,6 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              console.log(res)
               let newGroupList = this.chunk(res.data.data, 2);
               this.setState({ data2: res.data, newGroupList: newGroupList });
             });
@@ -147,10 +143,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-                // this.addListen();
-              });
+              this.setState({ data: res.data });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -193,10 +186,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-                // this.addListen();
-              });
+              this.setState({ data: res.data });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -207,80 +197,11 @@ export default class Group extends Component<Props>{
     Taro.showShareMenu();
   }
 
-  draw = () => {
-    let that = this;
-    var ctx = Taro.createCanvasContext('canvas01', this)
-    var addressStr = "地址：" + that.state.data.address;
-    var telStr = "电话：" + that.state.data.tel;
-    // ctx.setFillStyle("rgba(0,0,0,.2)");
-    // ctx.fillRect(0, 0, 460, 360);
-    console.log("apprepreview", that.state.data.preview);
-    Taro.downloadFile({
-      url: that.state.data.preview,
-      success: function (res) {
-        console.log("downloadFile", res.tempFilePath);
-        ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
-        // ctx.stroke();
-        ctx.setFillStyle("rgba(0,0,0,.5)");
-        ctx.fillRect(0, 200, 460, 360);
-        ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
-        ctx.setFontSize(26);//设置字体大小，默认10s
-        ctx.lineWidth = 1;
-        var lineWidth = 0;
-        var canvasWidth = 420; //计算canvas的宽度
-        var initHeight = 240; //绘制字体距离canvas顶部初始的高度
-        var lastSubStrIndex = 0; //每次开始截取的字符串的索引
-        for (let i = 0; i < addressStr.length; i++) {
-          lineWidth += ctx.measureText(addressStr[i]).width;
-          if (lineWidth > canvasWidth) {
-            ctx.fillText(addressStr.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
-            initHeight += 35; //为字体的高度
-            lineWidth = 0;
-            lastSubStrIndex = i;
-          }
-          if (i == addressStr.length - 1) { //绘制剩余部分
-            ctx.fillText(addressStr.substring(lastSubStrIndex, i + 1), 20, initHeight);
-          }
-        }
-        ctx.fillText(telStr, 20, initHeight + 40);
-        //调用draw()开始绘制
-        console.log("draw");
-
-        ctx.draw()
-
-        setTimeout(function () {
-          Taro.canvasToTempFilePath({
-            canvasId: 'canvas01',
-            success: function (res) {
-              console.log("drawres", res.tempFilePath);
-              var tempFilePath = res.tempFilePath;
-              that.setState({
-                imagePath: tempFilePath,
-              });
-            },
-            fail: function (res) {
-              console.log(res);
-            }
-          });
-        }, 200);
-      },
-      fail: function (res) {
-        that.setState({
-          imagePath: that.state.data.preview
-        });
-      }
-    })
-  }
-
-
   /**
   * 回首页
   */
   handleGoHome = () => {
-    this.clearTimeOut();
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
+    this.clearTimeOut(); Taro.switchTab({ url: '/pages/index/index' })
   }
 
   onShareAppMessage() {
@@ -290,10 +211,10 @@ export default class Group extends Component<Props>{
     let title, imageUrl;
     if (gift) {
       title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
-      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
+      imageUrl = preview;
     } else {
       title = `${name}正在发起${youhui_name}拼团活动，速来！`;
-      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
+      imageUrl = preview;
     }
     return {
       title: title,
@@ -327,26 +248,18 @@ export default class Group extends Component<Props>{
   //去图文详情
   toImgList = () => {
     this.clearTimeOut();
-    Taro.navigateTo({
-      url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
-    })
+    Taro.navigateTo({ url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id })
   }
   //去商店
   handleClick2 = (e) => {
     this.clearTimeOut();
-    Taro.navigateTo({
-      // url: '/detail-pages/business/index?id=' + _id
-      url: '/pages/business/index?id=' + this.state.data.id
-    })
+    Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.data.id })
   };
   //打电话
   makePhoneCall = (e) => {
     Taro.makePhoneCall({
       phoneNumber: this.state.data.tel
     })
-      .then((res: any) => {
-        console.log(res)
-      });
     e.stopPropagation();
   }
   //地图
@@ -361,11 +274,6 @@ export default class Group extends Component<Props>{
     e.stopPropagation();
   }
 
-  // 是否选择礼品
-  chooseGift = () => {
-    this.setState({ isPostage: !this.state.isPostage })
-  }
-
   payment = () => {
     let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
     let _temptype = this.$router.params.type;
@@ -373,9 +281,7 @@ export default class Group extends Component<Props>{
     // 活动ID：this.$router.params.id===this.state.data.youhui_id;
     // 店ID:store_id==this.state.data.id;
     // 店名==this.state.data.name
-
-    //一般进来：id，type == 5 ，gift_id，activity_id，
-    //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
+    //一般进来：id，type == 5 ，gift_id，activity_id，//参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
     if (!Taro.getStorageSync("unionid")) {
       this.setState({
         is_login: true
@@ -394,7 +300,6 @@ export default class Group extends Component<Props>{
       xcx: 1,
       number: 1
     }
-
     request({
       url: 'payCentre/toWxPay',
       method: "POST",
@@ -452,7 +357,7 @@ export default class Group extends Component<Props>{
             }
           },
           fail(err) {
-            // Taro.showToast({ title: '支付失败', icon: 'none' })
+            Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
       }
@@ -484,7 +389,6 @@ export default class Group extends Component<Props>{
       data
     }).then((res: any) => {
       Taro.hideLoading();
-
       if (res.code == 200) {
         // 发起支付
         Taro.requestPayment({
@@ -504,7 +408,7 @@ export default class Group extends Component<Props>{
             })
           },
           fail(err) {
-            // Taro.showToast({ title: '支付失败', icon: 'none' })
+            Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
       } else {
@@ -560,27 +464,22 @@ export default class Group extends Component<Props>{
     if (this.state.data.gift_id) {
       this.clearTimeOut();
       //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
-      Taro.navigateTo({
-        url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
-      })
+      Taro.navigateTo({ url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name })
     } else {
       this.payment2(_id);
     }
   }
 
   render() {
-    const { images, description } = this.state.data;
-    // console.log(this.state.data2);
+    const { description } = this.state.data;
     const { data2 } = this.state;
     return (
       <View className="d_appre" >
-
         {
           this.state.groupListShow ? <View className="d_appre_groupList" onClick={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} onTouchMove={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} >
-            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation(); }}>
+            <View className="d_appre_groupList_box">
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
-                {/* <View className="d_appre_groupList_box_slideBox_content" > */}
                 <ScrollView
                   className='d_appre_groupList_box_slideBox_content'
                   scrollY
@@ -615,21 +514,15 @@ export default class Group extends Component<Props>{
                       )
                     })
                   }
-
                 </ScrollView>
-                {/* </View> */}
               </View>
               <View className="group_list_toast" >上滑查看更多</View>
-              {/* {
-               data2.data && data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
-              } */}
             </View>
             <View className="group_list_closebtn" >
               <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
             </View>
           </View> : null
         }
-
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
@@ -637,12 +530,8 @@ export default class Group extends Component<Props>{
 
         {
           this.state.data.images.length > 0 ? <Swiper
-            onChange={(e) => {
-              this.setState({ imagesCurrent: e.detail.current })
-            }}
-            onClick={() => {
-              this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
-            }}
+            onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
+            onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] }) }}
             className='test-h'
             indicatorColor='#999'
             indicatorActiveColor='#333'
@@ -662,7 +551,6 @@ export default class Group extends Component<Props>{
             }
           </Swiper> : null
         }
-
         <View className="coupon_box_title">
           <View className="group_coupon_title" >{this.state.data.youhui_name}</View>
           <View className="group_rule_time" >
@@ -674,7 +562,6 @@ export default class Group extends Component<Props>{
             <View className="group_head_bottom_list">{this.state.data.number}人团</View>
             <View className="group_head_bottom_list">{this.state.data.team_set_end_time}小时</View>
           </View>
-
           {/* <View className="group_msg" >
             <View className="group_msg_titlebox" >商品详情</View>
             <View className="group_msgBox" >
@@ -696,7 +583,6 @@ export default class Group extends Component<Props>{
             </View>
           </View> */}
         </View>
-
         {
           this.state.data.gift_id ?
             <View className="appre_gift" >
@@ -728,7 +614,6 @@ export default class Group extends Component<Props>{
               <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>
             </View>
             <View className="group_listbox" >
-
               <Swiper
                 className='test-h'
                 vertical
@@ -736,7 +621,6 @@ export default class Group extends Component<Props>{
                 circular={true}
                 interval={3000}
               >
-
                 {
                   this.state.newGroupList.map((item: any, index) => {
                     return (
@@ -759,9 +643,6 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
                             <View className="group_list_times" >
-                              {/* 剩余{
-                                ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
-                              } 小时 */}
                               <TimeUp itemtime={item[0].end_at} />
                             </View>
                           </View>
@@ -785,9 +666,6 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
                               <View className="group_list_times" >
-                                {/* 剩余{
-                                  ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
-                                } 小时 */}
                                 <TimeUp itemtime={item[1].end_at} />
                               </View>
                             </View>
@@ -804,7 +682,6 @@ export default class Group extends Component<Props>{
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>
-            {/* <View className="appre_rule_Imagelist" >?</View> */}
           </View>
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >拼团人数:</View>
@@ -870,22 +747,6 @@ export default class Group extends Component<Props>{
             </View>
           </View>
         </View>
-        {/* {
-          (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
-            <View className='choose_postage' onClick={this.chooseGift}>
-
-              <View>
-                {
-                  this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
-                }
-              </View>
-              （邮费 {this.state.data.gift.postage}元）
-          <View className='lbmsg' >
-                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
-              </View>
-            </View>) : null
-        } */}
-
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
@@ -897,19 +758,15 @@ export default class Group extends Component<Props>{
                   '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
-
           {
             this.$router.params.type == "55" ? <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>参加拼团</View> : <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>发起拼团</View>
           }
-
         </View>
-
         <Zoom
           src={this.state.imgZoomSrc}
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>

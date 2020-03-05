@@ -12,10 +12,10 @@ export default class PhoneInformation extends Component {
         navigationBarTitleText: "换绑手机号码"
     }
     state = {
-        tipsType: 1,//1验证码错误 2手机号一样 3确定更改
+        tipsInfo: '',//提示内容
         tipsShow: false,//提示是否显示
         wait: 60,//发送等待时间
-        is_ok: true,//是否已发送
+        is_ok: true,//是否可以发送
         phone: '',//旧手机号
         _code: '',//输入验证码
         changeStep: false,//第二层输入新手机页面
@@ -23,8 +23,9 @@ export default class PhoneInformation extends Component {
         new_code: '',//新验证码,
         changeSuccess: false//修改成功
     }
+    //changeSuccess==false&&changeStep==false第一层初始=>验证旧手机=>changeSuccess==false&&changeStep==true第二层=>验证新手机=>changeSuccess==true&&changeStep==false第一层成功
     componentDidMount() {
-        Taro.showLoading();
+        Taro.showLoading({ title: 'loading', mask: true });
         userRequest({
             url: 'v1/user/user/user_info',
             method: "GET",
@@ -41,7 +42,6 @@ export default class PhoneInformation extends Component {
                 }
             }).catch(err => {
                 Taro.hideLoading();
-                console.log('666')
                 Taro.showToast({ title: '加载失败', icon: 'none' })
             })
     }
@@ -55,11 +55,10 @@ export default class PhoneInformation extends Component {
     }
     //验证旧手机
     checkOldPhone = () => {
-        // if (true) {
         if (this.state.phone && this.state._code) {
-            Taro.showLoading();
+            Taro.showLoading({ title: 'loading', mask: true });
             userRequest({
-                url: '    ',
+                url: 'v1/user/user/check_phone',
                 method: "GET",
             })
                 .then((res: any) => {
@@ -67,9 +66,9 @@ export default class PhoneInformation extends Component {
                     let { status_code, data, message } = res;
                     if (status_code == 200) {
                         Taro.showToast({ title: message, icon: 'none' })
-                        this.setState({ changeStep: true })
+                        this.setState({ is_ok: true, changeStep: true })
                     } else {
-                        this.setState({ tipsShow: true, tipsType: 1 })
+                        this.setState({ tipsShow: true, tipsInfo: message, })
                     }
                 }).catch(err => {
                     Taro.hideLoading();
@@ -84,10 +83,10 @@ export default class PhoneInformation extends Component {
     //换新手机
     changeNewPhone = () => {
         if (this.state.newPhone && this.state.new_code) {
-            Taro.showLoading();
+            Taro.showLoading({ title: 'loading', mask: true });
             userRequest({
-                url: '    ',
-                method: "GET",
+                url: 'v1/user/user/change_phone',
+                method: "PUT",
                 data: {
                     phone: this.state.newPhone,
                     verifyCode: this.state.new_code
@@ -95,12 +94,16 @@ export default class PhoneInformation extends Component {
             })
                 .then((res: any) => {
                     Taro.hideLoading();
-                    let { status_code, data, message } = res;
+                    let { status_code, message } = res;
                     if (status_code == 200) {
                         Taro.showToast({ title: message, icon: 'none' })
-                        this.setState({ changeStep: false, changeSuccess: true })
-                    } else {
-                        this.setState({ tipsShow: true, tipsType: 1 })
+                        this.setState({ is_ok: true, changeStep: false, changeSuccess: true })
+                    } else if (status_code == 400) {
+                        Taro.showToast({ title: '请求出错', icon: 'none' })
+                    }
+                    else {
+                        //  201等等
+                        this.setState({ tipsShow: true, tipsInfo: message, is_ok: true, changeStep: false })
                     }
                 }).catch(err => {
                     Taro.hideLoading();
@@ -113,9 +116,8 @@ export default class PhoneInformation extends Component {
     /**
          * 获取验证码
          */
-    getCode = () => {
-        // const { phone } = this.state;
-        let phone = '17766665555';
+    getCode = (type: number, e) => {
+        let phone = type == 1 ? this.state.phone : this.state.newPhone;
         let wait = 60;
         if (phone) {
             let _this = this;
@@ -143,13 +145,12 @@ export default class PhoneInformation extends Component {
                         Taro.showToast({ title: res.message, duration: 1500, icon: 'none' })
                     } else {
                         _this.setState({ is_ok: true });
-
                         clearInterval(timer);
                         Taro.showToast({ title: res.message, duration: 1500, icon: 'none' })
                     }
                 })
         } else {
-            Taro.showToast({ title: '当前无绑定手机号', duration: 1500, icon: 'none' })
+            Taro.showToast({ title: '手机号有误', duration: 1500, icon: 'none' })
         }
     }
     goToMy = () => {
@@ -172,7 +173,7 @@ export default class PhoneInformation extends Component {
                                 <Input className='phoneInformationInput' type="text" maxLength={6} onInput={this.handleCode.bind(this, '_code')} />
                                 {
                                     this.state.is_ok ? (
-                                        <View className='phoneInformationBtn' onClick={this.getCode.bind(this)}> 获取验证码</View>
+                                        <View className='phoneInformationBtn' onClick={this.getCode.bind(this, 1)}> 获取验证码</View>
                                     ) : (
                                             <View className='phoneInformationBtn' > {this.state.wait}s后重新获取</View>
                                         )
@@ -195,12 +196,18 @@ export default class PhoneInformation extends Component {
                         <View className='changePhoneNumberBox'>
                             <View className='PhoneNumberItem'>
                                 <View className='itemLeftPhone'>+86</View>
-                                <Input className='itemLeftInputPhone' type="text" placeholder="请输入手机号码" onInput={this.handleCode.bind(this, 'newPhone')} />
+                                <Input className='itemLeftInputPhone' type="text" placeholder="请输入手机号码" maxLength={11} onInput={this.handleCode.bind(this, 'newPhone')} />
                             </View>
                             <View className='PhoneNumberItem'>
                                 <View className='itemLeftCode'>验证码</View>
                                 <Input className='itemLeftInputCode' type="text" placeholder="请输入验证码" maxLength={6} onInput={this.handleCode.bind(this, 'new_code')} />
-                                <View className='getCodeBtn'>获取验证码</View>
+                                {
+                                    this.state.is_ok ? (
+                                        <View className='getCodeBtn' onClick={this.getCode.bind(this, 2)}>获取验证码</View>
+                                    ) : (
+                                            <View className='getCodeBtn' >{this.state.wait}s后重新获取</View>
+                                        )
+                                }
                             </View>
                         </View>
                         <View className='submitBtn' onClick={this.changeNewPhone.bind(this)}>提交</View>
@@ -209,37 +216,16 @@ export default class PhoneInformation extends Component {
 
 
                 {
-                    this.state.tipsShow ? <View className='phoneMask'>
-                        {
-                            this.state.tipsType == 1 ?
-                                <View className='maskContentBox'>
-                                    <View className='maskTitle'>温馨提示</View>
-                                    <View className='maskInfo'>验证码不正确，请重试</View>
-                                    <View className='maskBtnBox'>
-                                        <View className='maskSumbitBtn' onClick={this.cancleBtn.bind(this)}>确认</View>
-                                    </View>
+                    this.state.tipsShow ?
+                        <View className='phoneMask'>
+                            <View className='maskContentBox'>
+                                <View className='maskTitle'>温馨提示</View>
+                                <View className='maskInfo'>{this.state.tipsInfo}</View>
+                                <View className='maskBtnBox'>
+                                    <View className='maskSumbitBtn' onClick={this.cancleBtn.bind(this)}>确认</View>
                                 </View>
-                                : (
-                                    this.state.tipsType == 2 ?
-                                        <View className='maskContentBox'>
-                                            <View className='maskTitle'>温馨提示</View>
-                                            <View className='maskInfo'>您当前已经绑定该手机号码</View>
-                                            <View className='maskBtnBox'>
-                                                <View className='maskSumbitBtn' onClick={this.cancleBtn.bind(this)}>确认</View>
-                                            </View>
-                                        </View>
-                                        :
-                                        <View className='maskContentBox'>
-                                            <View className='maskTitle'>温馨提示</View>
-                                            <View className='maskInfo'>该手机号码已绑定其他账号，请更换手机号码再尝试。</View>
-                                            <View className='maskBtnBox'>
-                                                <View className='maskSumbitBtn' onClick={this.cancleBtn.bind(this)}>确认</View>
-                                            </View>
-                                        </View>
-                                )
-
-                        }
-                    </View> : null
+                            </View>
+                        </View> : null
                 }
 
             </View >
