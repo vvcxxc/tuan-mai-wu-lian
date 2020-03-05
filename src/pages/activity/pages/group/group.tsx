@@ -218,9 +218,9 @@ export default class Group extends Component {
   async fetchQrcode(): Promise<void> {
     const { youhui_log_id } = this.state.basicinfo
     const { data, code } = await getQrcode({ youhui_log_id })
-    if(code == 0){
-      Taro.showToast({title: '卡券已核销使用'})
-    }else{
+    if (code == 0) {
+      Taro.showToast({ title: '卡券已核销使用' })
+    } else {
       this.setState({
         isQrcode: true,
         base64: data
@@ -272,9 +272,9 @@ export default class Group extends Component {
     this.handleCalculate(data)
     this.setState({
       basicinfo: data
-    },()=>{
+    }, () => {
       let res = this.groupDesc()
-      this.setState({groupDesc: res})
+      this.setState({ groupDesc: res })
     })
   }
   toMoreGroup = () => {
@@ -379,10 +379,10 @@ export default class Group extends Component {
                 </View>
               </View>
               <View className="time">
-              {!isFinish ? <View className="time">
-                <Text className="text">距离结束时间还剩:</Text>
-                <Text>{this.state.time.date}</Text>
-              </View> : null}
+                {!isFinish ? <View className="time">
+                  <Text className="text">距离结束时间还剩:</Text>
+                  <Text>{this.state.time.date}</Text>
+                </View> : null}
               </View>
               <ScrollView
                 scrollX

@@ -60,7 +60,7 @@ export default class confirmAddress extends Component {
                 address_id: currPage.data.parmsData.address_id,
                 id: currPage.data.parmsData.id,
                 storeName: currPage.data.parmsData.storeName,
-                groupId: currPage.data.parmsData.activityType == '55' ? currPage.data.parmsData.storeName : undefined,
+                groupId: currPage.data.parmsData.activityType == '55' ? currPage.data.parmsData.groupId : undefined,
             })
             let data;
             if (currPage.data.parmsData.address_id) {
@@ -118,7 +118,7 @@ export default class confirmAddress extends Component {
                 address_id: this.$router.params.address_id,
                 id: this.$router.params.id,
                 storeName: this.$router.params.storeName,
-                groupId: this.$router.params.activityType == '55' ? this.$router.params.storeName : undefined,
+                groupId: this.$router.params.activityType == '55' ? this.$router.params.groupId : undefined,
             })
             Taro.showLoading({
                 title: ""
@@ -221,6 +221,7 @@ export default class confirmAddress extends Component {
             this.setState({ contentboxShow: true })
             return;
         }
+        let that = this;
         let data = {};
         let interval;
         let open_id = Taro.getStorageSync("openid");
@@ -412,7 +413,7 @@ export default class confirmAddress extends Component {
                         paySign: res.data.paySign,
                         success(res) {
                             Taro.navigateTo({
-                                url: '/pages/activity/pages/group/group?id=' + this.state.groupId,
+                                url: '/pages/activity/pages/group/group?id=' + that.state.groupId,
                                 success: () => {
                                     var page = Taro.getCurrentPages().pop();
                                     if (page == undefined || page == null) return;
