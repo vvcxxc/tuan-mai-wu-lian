@@ -548,6 +548,7 @@ export default class Group extends Component<Props>{
         })
       } else if (this.$router.params.type == '55') {
         //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
+        console.log(this.$router.params.id, this.$router.params.publictypeid)
         Taro.navigateTo({
           url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + this.state.data.name
         })
@@ -560,6 +561,7 @@ export default class Group extends Component<Props>{
     if (this.state.data.gift_id) {
       this.clearTimeOut();
       //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
+      console.log(this.$router.params.id, _id)
       Taro.navigateTo({
         url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
       })
