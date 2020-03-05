@@ -8,7 +8,6 @@ import addimg from '../../assets/add.png';
 import addimg2 from '../../assets/add2.png';
 import cutimg from '../../assets/cut.png';
 import cutimg2 from '../../assets/cut2.png';
-import AlertLogin from '@/components/alertLogin'
 export default class ConfirmOrder extends Component {
   config = {
     navigationBarTitleText: "确认订单"
@@ -31,7 +30,6 @@ export default class ConfirmOrder extends Component {
     },
     pay_bull: false,
     pay_data: "支付成功",
-    is_login: false
   };
   componentWillMount() {
     Taro.showLoading({
@@ -64,12 +62,6 @@ export default class ConfirmOrder extends Component {
     }
   }
   payMoney() {
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
     Taro.showLoading({
       title: 'loading',
     })
@@ -158,9 +150,7 @@ export default class ConfirmOrder extends Component {
             ￥ {this.state.coupon.pay_money * this.state.amount} 去支付
           </View>
         </View> */}
-        {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
-        }
+
       </View>
     );
   }

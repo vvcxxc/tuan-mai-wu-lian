@@ -88,7 +88,7 @@ export default class LoginPage extends Component<any>{
           Taro.showToast({
             title: '登录成功',
             duration: 2000,
-          })
+          },)
 
           setTimeout(() => {
             let page = Taro.getCurrentPages()

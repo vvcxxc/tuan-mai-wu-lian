@@ -156,14 +156,36 @@ export default class NewPage extends Component<Props>{
       this.setState({ is_alert: false })
     } else {
       // 重新请求当前数据
+      this.handleGetUserinfo()
+    request({
+      url: 'v3/user/home_index'
+    }).then((res: any) => {
 
+      this.setState({
+        userData: {
+          head_img: res.data.avatar,
+          user_name: res.data.user_name
+        }
+      })
+      let myData: any = this.state.list
+      myData[0].prompt = res.data.order_msg
+      myData[1].prompt = res.data.gift_msg
+      myData[2].prompt = res.data.activity_msg
+      this.setState({
+        list: myData
+      })
+      // console.log(res,'res')
+      // this.setState({
+      //   user_img: res.data.avatar
+      // })
+
+    })
       this.setState({ is_alert: false })
     }
   }
 
   render() {
     const { type } = this.state
-    console.log(type)
     return (
       <View className='newPage'>
         <View className='newPage_head'>

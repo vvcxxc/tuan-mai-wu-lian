@@ -7,7 +7,6 @@ import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
-import AlertLogin from '@/components/alertLogin'
 import LoginAlert from '@/components/loginAlert';
 interface Props {
   id: any;

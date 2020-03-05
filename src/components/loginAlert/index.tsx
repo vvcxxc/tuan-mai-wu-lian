@@ -2,13 +2,24 @@ import Taro, { Component } from "@tarojs/taro"
 import { Block, View, ScrollView, Image, Text, Button} from "@tarojs/components"
 import './index.styl'
 import userRequest from '../../services/userRequest';
+const router_data = ['pages/index/index','pages/order/index','pages/my/index','pages/activity/index','pages/merchant/index']
 interface Props {
   onChange: any
 }
 export default function LoginAlert(props: Props) {
   // const { list } = params
-  console.log(props)
   const closeAlert = () => {
+    // let pages = Taro.getCurrentPages()
+    // console.log(pages)
+    // if(pages.length){
+    //   let route = pages[pages.length - 1].route
+    //   if(router_data.indexOf(route) > -1){
+    //     Taro.switchTab({url: '/' + route})
+    //   }else {
+    //     console.log(32341)
+    //   }
+    // }
+
     props.onChange('close')
   }
   // const goTo = () => {
@@ -17,7 +28,6 @@ export default function LoginAlert(props: Props) {
   // }
   const getPhoneNumber = (e) => {
     let { encryptedData, iv, errMsg } = e.detail
-    console.log(errMsg)
     if (errMsg == 'getPhoneNumber:ok') {
       userRequest({
         url: 'v1/user/auth/xcx_quick_login',
