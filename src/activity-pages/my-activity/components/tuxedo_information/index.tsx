@@ -7,8 +7,8 @@ import SpellGroupHead from './spellGroupHead';    //显示头像组件
 import Qrcode from "./Qrcode"                     //使用二维码
 import TimeUp from '../../../../pages/activity/group/TimeUp'
 // import request from '../../../../services/request'
-import{ getGroupList} from '../../service'
-import "./index.styl"     
+import { getGroupList } from '../../service'
+import "./index.styl"
 
 export default class TuxedoInformation extends Component<any> {
 
@@ -21,7 +21,7 @@ export default class TuxedoInformation extends Component<any> {
 
   componentDidMount() {
     this.clearTimeOut()
-    getGroupList().then(({code,data}) => {
+    getGroupList().then(({ code, data }) => {
       if (code == 200) {
         this.setState({ listData: data })
       }
@@ -125,7 +125,7 @@ export default class TuxedoInformation extends Component<any> {
                     <View className="group_right">
                       <View className="original_price">原价：￥{item.pay_money}</View>
                       <View className="group_price">
-                        <Text>拼团价：</Text>
+                        <Text className="group_price_title">拼团价：</Text>
                         <Text>￥{item.participation_money}</Text>
                       </View>
                     </View>

@@ -580,7 +580,6 @@ export default class Group extends Component<Props>{
             <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation(); }}>
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
-                {/* <View className="d_appre_groupList_box_slideBox_content" > */}
                 <ScrollView
                   className='d_appre_groupList_box_slideBox_content'
                   scrollY
@@ -617,12 +616,8 @@ export default class Group extends Component<Props>{
                   }
 
                 </ScrollView>
-                {/* </View> */}
               </View>
               <View className="group_list_toast" >上滑查看更多</View>
-              {/* {
-               data2.data && data2.data.length > 5 ? <View className="group_list_toast" >上滑查看更多</View> : null
-              } */}
             </View>
             <View className="group_list_closebtn" >
               <AtIcon value='close-circle' size="30px" color='#fff'></AtIcon>
@@ -662,7 +657,6 @@ export default class Group extends Component<Props>{
             }
           </Swiper> : null
         }
-
         <View className="coupon_box_title">
           <View className="group_coupon_title" >{this.state.data.youhui_name}</View>
           <View className="group_rule_time" >
@@ -674,7 +668,6 @@ export default class Group extends Component<Props>{
             <View className="group_head_bottom_list">{this.state.data.number}人团</View>
             <View className="group_head_bottom_list">{this.state.data.team_set_end_time}小时</View>
           </View>
-
           {/* <View className="group_msg" >
             <View className="group_msg_titlebox" >商品详情</View>
             <View className="group_msgBox" >
@@ -696,7 +689,6 @@ export default class Group extends Component<Props>{
             </View>
           </View> */}
         </View>
-
         {
           this.state.data.gift_id ?
             <View className="appre_gift" >
@@ -728,7 +720,6 @@ export default class Group extends Component<Props>{
               <View className="group_num_now" onClick={() => this.setState({ groupListShow: true })}>查看更多</View>
             </View>
             <View className="group_listbox" >
-
               <Swiper
                 className='test-h'
                 vertical
@@ -736,7 +727,6 @@ export default class Group extends Component<Props>{
                 circular={true}
                 interval={3000}
               >
-
                 {
                   this.state.newGroupList.map((item: any, index) => {
                     return (
@@ -759,9 +749,6 @@ export default class Group extends Component<Props>{
                               <View className="group_list_lackredblack2" >拼成</View>
                             </View>
                             <View className="group_list_times" >
-                              {/* 剩余{
-                                ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
-                              } 小时 */}
                               <TimeUp itemtime={item[0].end_at} />
                             </View>
                           </View>
@@ -785,9 +772,6 @@ export default class Group extends Component<Props>{
                                 <View className="group_list_lackredblack2" >拼成</View>
                               </View>
                               <View className="group_list_times" >
-                                {/* 剩余{
-                                  ((new Date(item[0].end_at).getTime() - new Date().getTime()) / (3600 * 1000)).toFixed(1)
-                                } 小时 */}
                                 <TimeUp itemtime={item[1].end_at} />
                               </View>
                             </View>
@@ -804,7 +788,6 @@ export default class Group extends Component<Props>{
         <View className="appre_rule" >
           <View className="appre_rule_titlebox" >
             <View className="appre_rule_title" >使用规则</View>
-            {/* <View className="appre_rule_Imagelist" >?</View> */}
           </View>
           <View className="appre_rule_time" >
             <View className="appre_rule_time_key" >拼团人数:</View>
@@ -815,23 +798,22 @@ export default class Group extends Component<Props>{
             <View className="appre_rule_time_data" >{this.state.data.team_set_end_time}小时内</View>
           </View>
           {
-            (description) ?
+            description.length > 0 ?
               <View className="appre_rule_list" style={{ height: description.length <= 4 ? "auto" : (this.state.ruleMore ? "auto" : "5.4rem") }}>
                 <View className="appre_rule_list_key" >详情描述:</View>
                 <View className="appre_rule_list_data" >
                   {
-                    (description) ? description.map((item) => {
+                    description.map((item) => {
                       return (
                         <View className="appre_rule_list_msg" >. {item}</View>
                       )
-                    }) : null
+                    })
                   }
                 </View>
-
               </View> : null
           }
           {
-            (description && description.length > 4) ?
+            description && description.length > 4 ?
               <View className="appre_rule_list_more" onClick={() => { this.setState({ ruleMore: !this.state.ruleMore }) }}>
                 {this.state.ruleMore ? "收回" : "查看更多"}
                 {
@@ -870,22 +852,6 @@ export default class Group extends Component<Props>{
             </View>
           </View>
         </View>
-        {/* {
-          (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
-            <View className='choose_postage' onClick={this.chooseGift}>
-
-              <View>
-                {
-                  this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
-                }
-              </View>
-              （邮费 {this.state.data.gift.postage}元）
-          <View className='lbmsg' >
-                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
-              </View>
-            </View>) : null
-        } */}
-
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
@@ -897,26 +863,21 @@ export default class Group extends Component<Props>{
                   '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
-
           {
             this.$router.params.type == "55" ? <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>参加拼团</View> : <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>发起拼团</View>
           }
-
         </View>
-
         <Zoom
           src={this.state.imgZoomSrc}
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
         />
-
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
         {
           this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
         }
-
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
