@@ -60,18 +60,23 @@ export default class PhoneInformation extends Component {
             userRequest({
                 url: 'v1/user/user/check_phone',
                 method: "GET",
+                data: {
+                    phone: this.state.phone,
+                    verify_code: this.state._code
+                }
             })
                 .then((res: any) => {
                     Taro.hideLoading();
                     let { status_code, data, message } = res;
                     if (status_code == 200) {
-                        Taro.showToast({ title: message, icon: 'none' })
+                        Taro.showToast({ title: '验证成功', icon: 'none' })
                         this.setState({ is_ok: true, changeStep: true })
                     } else {
-                        this.setState({ tipsShow: true, tipsInfo: message, })
+                        this.setState({ is_ok: true, tipsShow: true, tipsInfo: message, })
                     }
                 }).catch(err => {
                     Taro.hideLoading();
+                    this.setState({ is_ok: true })
                     Taro.showToast({ title: '请求失败', icon: 'none' })
                 })
         } else if (this.state.phone && !this.state._code) {
@@ -89,14 +94,14 @@ export default class PhoneInformation extends Component {
                 method: "PUT",
                 data: {
                     phone: this.state.newPhone,
-                    verifyCode: this.state.new_code
+                    verify_code: this.state.new_code
                 }
             })
                 .then((res: any) => {
                     Taro.hideLoading();
                     let { status_code, message } = res;
                     if (status_code == 200) {
-                        Taro.showToast({ title: message, icon: 'none' })
+                        Taro.showToast({ title: '更改成功', icon: 'none' })
                         this.setState({ is_ok: true, changeStep: false, changeSuccess: true })
                     } else if (status_code == 400) {
                         Taro.showToast({ title: '请求出错', icon: 'none' })
@@ -127,10 +132,11 @@ export default class PhoneInformation extends Component {
                     clearInterval(timer)
                 } else {
                     wait--;
-                    _this.setState({ is_ok: false, wait });
+                    _this.setState({ wait });
                     clearInterval();
                 }
             }
+            this.setState({ is_ok: false });
             resend();
             let timer = setInterval(() => {
                 resend()
@@ -170,7 +176,7 @@ export default class PhoneInformation extends Component {
                             <View className='msgBox'> 您当前绑定的手机号码:{this.state.phone}</View>
                             <View className='infoBox'> 为了您的账户安全，请输入验证码</View>
                             <View className='inputBox'>
-                                <Input className='phoneInformationInput' type="text" maxLength={6} onInput={this.handleCode.bind(this, '_code')} />
+                                <Input className='phoneInformationInput' type="text" onInput={this.handleCode.bind(this, '_code')} />
                                 {
                                     this.state.is_ok ? (
                                         <View className='phoneInformationBtn' onClick={this.getCode.bind(this, 1)}> 获取验证码</View>
@@ -200,7 +206,7 @@ export default class PhoneInformation extends Component {
                             </View>
                             <View className='PhoneNumberItem'>
                                 <View className='itemLeftCode'>验证码</View>
-                                <Input className='itemLeftInputCode' type="text" placeholder="请输入验证码" maxLength={6} onInput={this.handleCode.bind(this, 'new_code')} />
+                                <Input className='itemLeftInputCode' type="text" placeholder="请输入验证码" onInput={this.handleCode.bind(this, 'new_code')} />
                                 {
                                     this.state.is_ok ? (
                                         <View className='getCodeBtn' onClick={this.getCode.bind(this, 2)}>获取验证码</View>
