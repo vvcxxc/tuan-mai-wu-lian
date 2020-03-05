@@ -539,6 +539,12 @@ export default class Group extends Component<Props>{
   }
 
   goToaConfirm = (e) => {
+    console.log('参加拼团')
+    console.log(this.state.data)
+    console.log(this.$router.params.type)
+    console.log(this.$router.params.id)
+    console.log(this.$router.params.publictypeid)
+    console.log(this.state.data.name)
     if (this.state.data.gift_id) {
       this.clearTimeOut();
       if (this.$router.params.type == '5') {
