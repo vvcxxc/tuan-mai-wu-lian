@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Image, Text, Button } from '@tarojs/components';
 import './index.styl';
 import userRequest from '../../services/userRequest';
-
+import { quietLogin } from '../../utils/sign'
 export default class Auth extends Component {
   state = {
     type: 1, //1手机号，0用户信息
@@ -40,6 +40,9 @@ export default class Auth extends Component {
             }, 1500)
             // }
           }
+        }else {
+          quietLogin()
+          Taro.showToast({title: '授权失败，请重新尝试',icon: 'none'})
         }
       })
     } else {
@@ -70,6 +73,9 @@ export default class Auth extends Component {
           setTimeout(() => {
             Taro.navigateBack()
           }, 1500)
+        }else {
+          quietLogin()
+          Taro.showToast({title: '授权失败，请重新尝试',icon: 'none'})
         }
       })
     } else {
