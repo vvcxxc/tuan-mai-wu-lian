@@ -54,7 +54,6 @@ export default class confirmAddress extends Component {
     componentDidShow() {
         let pages = Taro.getCurrentPages();
         let currPage = pages[pages.length - 1];
-        console.log('diu', currPage.data);
         if (currPage.data.fromPage == "editor") {
             this.setState({
                 activityType: currPage.data.parmsData.activityType,
