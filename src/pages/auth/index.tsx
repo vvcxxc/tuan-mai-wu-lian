@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro';
 import { View, Image, Text, Button } from '@tarojs/components';
 import './index.styl';
 import userRequest from '../../services/userRequest';
-
+import { quietLogin } from '../../utils/sign'
 export default class Auth extends Component {
   state = {
     type: 1, //1手机号，0用户信息
@@ -20,7 +20,6 @@ export default class Auth extends Component {
 
   getPhoneNumber = (e) => {
     let { encryptedData, iv, errMsg } = e.detail
-    console.log(errMsg)
     if (errMsg == 'getPhoneNumber:ok') {
       userRequest({
         url: 'v1/user/auth/xcx_quick_login',
@@ -31,9 +30,19 @@ export default class Auth extends Component {
         }
       }).then((res: any) => {
         if (res.status_code == 200) {
-          if (res.data.status == 'bind_success') {
-            console.log(5234)
+          if (res.data.status == 'bind_success' || res.data.status == 'binded') {
+            Taro.setStorageSync('phone_status', res.data.status)
+            Taro.showToast({
+              title: '登录成功'
+            })
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 1500)
+            // }
           }
+        }else {
+          quietLogin()
+          Taro.showToast({title: '授权失败，请重新尝试',icon: 'none'})
         }
       })
     } else {
@@ -44,21 +53,30 @@ export default class Auth extends Component {
         Taro.navigateBack()
       }
     }
-
   }
   handleGetUserInfo = (e) => {
     let { errMsg } = e.detail
     if (errMsg == 'getUserInfo:ok') {
       let { avatarUrl, nickName } = e.detail.userInfo
       userRequest({
-        method: 'GET',
-        url: 'v1/user/user/user_info',
+        method: 'PUT',
+        url: 'v1/user/user/upload_user_info',
         data: {
           head: avatarUrl,
           name: nickName
         }
-      }).then(res => {
-        console.log(res)
+      }).then((res: any) => {
+        if (res.status_code == 200) {
+          Taro.showToast({
+            title: '设置成功'
+          })
+          setTimeout(() => {
+            Taro.navigateBack()
+          }, 1500)
+        }else {
+          quietLogin()
+          Taro.showToast({title: '授权失败，请重新尝试',icon: 'none'})
+        }
       })
     } else {
       let res = Taro.getCurrentPages()

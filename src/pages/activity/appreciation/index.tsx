@@ -7,7 +7,7 @@ import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
-import AlertLogin from '@/components/alertLogin'
+import LoginAlert from '@/components/loginAlert';
 interface Props {
   id: any;
 }
@@ -20,6 +20,7 @@ export default class Appre extends Component<Props>{
     imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
+    is_alert: false, // 登录弹窗
     imagesCurrent: 0,
     data: {
       activity_begin_time: "",
@@ -54,7 +55,6 @@ export default class Appre extends Component<Props>{
     },
     imagePath: '',
     isPostage: true,
-    is_login: false,
     isFromShare: false
   };
 
@@ -244,43 +244,39 @@ export default class Appre extends Component<Props>{
   }
 
   payment = () => {
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {};
-    if (this.state.isPostage) {
-      data = {
-        youhui_id: this.$router.params.id,
-        activity_id: this.$router.params.activity_id,
-        gift_id: this.$router.params.gift_id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: "1",
-        xcx: 1
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      Taro.showLoading({
+        title: 'loading',
+      });
+      let data = {};
+      if (this.state.isPostage) {
+        data = {
+          youhui_id: this.$router.params.id,
+          activity_id: this.$router.params.activity_id,
+          gift_id: this.$router.params.gift_id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: "1",
+          xcx: 1
+        }
+      } else {
+        data = {
+          youhui_id: this.$router.params.id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: "1",
+          xcx: 1
+        }
       }
-    } else {
-      data = {
-        youhui_id: this.$router.params.id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: "1",
-        xcx: 1
-      }
-    }
-    request({
-      url: 'v1/youhui/wxXcxuWechatPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      Taro.hideLoading();
-      if (res.code == 200) {
+      request({
+        url: 'v1/youhui/wxXcxuWechatPay',
+        method: "POST",
+        data
+      }).then((res: any) => {
         let order_sn = res.data.channel_order_sn;
+        Taro.hideLoading();
+
         // 发起支付
         Taro.requestPayment({
           timeStamp: res.data.timeStamp,
@@ -321,10 +317,11 @@ export default class Appre extends Component<Props>{
             Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
-      } else {
-        Taro.showToast({ title: res.message, icon: 'none' })
-      }
-    })
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
   goToaConfirm = (e) => {
@@ -346,6 +343,18 @@ export default class Appre extends Component<Props>{
       url: '/pages/index/index'
     })
   }
+
+  // 登录弹窗
+  loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
+
+      this.setState({ is_alert: false })
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(interval);
   }
@@ -547,7 +556,7 @@ export default class Appre extends Component<Props>{
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
 
         {/* 去首页 */}

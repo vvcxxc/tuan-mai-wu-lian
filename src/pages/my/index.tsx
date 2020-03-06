@@ -4,7 +4,7 @@ import { Block, View, Image, Text, Navigator } from "@tarojs/components"
 import request from '@/services/request'
 import "./index.styl"
 import { url } from "inspector"
-
+import LoginAlert from '@/components/loginAlert';
 type Props = any
 
 interface Cell {
@@ -20,7 +20,8 @@ interface State {
   data: string,
   list: Object[],
   userData: Object,
-  type: string
+  type: string,
+  is_alert: boolean
 }
 
 export default class NewPage extends Component<Props>{
@@ -36,6 +37,7 @@ export default class NewPage extends Component<Props>{
     user_img: '',
     type: '', // user: 未设置用户信息，phone: 未绑定手机号，为空不展示
     data: '',
+    is_alert: false, //登录弹窗
     list: [
       {
         des: '我的订单',
@@ -123,13 +125,17 @@ export default class NewPage extends Component<Props>{
 
   // 跳转路径
   jumpData = (data: string) => {
-    console.log(data.indexOf('order'))
-    if (data.indexOf('order') > 0) {
-      Taro.switchTab({ url: data })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      if (data.indexOf('order') > 0) {
+        Taro.switchTab({ url: data })
+      } else {
+        Taro.navigateTo({
+          url: data
+        })
+      }
     } else {
-      Taro.navigateTo({
-        url: data
-      })
+      this.setState({ is_alert: true })
     }
   }
   //临时跳转测试
@@ -150,9 +156,43 @@ export default class NewPage extends Component<Props>{
     }
 
   }
+
+  // 登录弹窗
+  loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
+      this.handleGetUserinfo()
+    request({
+      url: 'v3/user/home_index'
+    }).then((res: any) => {
+
+      this.setState({
+        userData: {
+          head_img: res.data.avatar,
+          user_name: res.data.user_name
+        }
+      })
+      let myData: any = this.state.list
+      myData[0].prompt = res.data.order_msg
+      myData[1].prompt = res.data.gift_msg
+      myData[2].prompt = res.data.activity_msg
+      this.setState({
+        list: myData
+      })
+      // console.log(res,'res')
+      // this.setState({
+      //   user_img: res.data.avatar
+      // })
+
+    })
+      this.setState({ is_alert: false })
+    }
+  }
+
   render() {
     const { type } = this.state
-    console.log(type)
     return (
       <View className='newPage'>
         <View className='newPage_head'>
@@ -204,6 +244,10 @@ export default class NewPage extends Component<Props>{
             }
           </View>
         </View>
+        {
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
+        }
+
 
         {/* <View className="newPage_foot">
           客服电话：10101010 <Text className='left'>（服务时间：9：00~20：00）</Text>
