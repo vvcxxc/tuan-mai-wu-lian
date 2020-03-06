@@ -126,7 +126,7 @@ export default class TuxedoInformation extends Component<any> {
                       <View className="original_price">原价：￥{item.pay_money}</View>
                       <View className="group_price">
                         <Text className="group_price_title">拼团价：</Text>
-                        <Text>￥{item.participation_money}</Text>
+                        <Text className="group_price_content">￥{item.participation_money}</Text>
                       </View>
                     </View>
                   </View>

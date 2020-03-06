@@ -88,6 +88,12 @@
 					"pathName": "pages/activity/pages/group/group",
 					"query": "id=526",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "拼团",
+					"pathName": "activity-pages/my-activity/my.activity",
+					"scene": null
 				}
 			]
 		}
