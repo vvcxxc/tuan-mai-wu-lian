@@ -102,6 +102,12 @@
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2812",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/Shipping-address/editor",
+					"pathName": "activity-pages/Shipping-address/editor",
+					"scene": null
 				}
 			]
 		}

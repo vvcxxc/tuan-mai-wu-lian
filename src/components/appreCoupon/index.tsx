@@ -32,7 +32,7 @@ export default class AppreCoupon extends Component<Props> {
             <View>
               <View className="image-list" style={{ position: "relative", marginBottom: "5px" }}>
                 {
-                  gift_image == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
+                  this.props.data.gift_image == "" ? <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/bMGJKGX2JcKWbs8JEypeiB7CAbd4wAz4.png"} /> :
                     <Image className="backg-image" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/andhNY3XKEWrW8nYBK5pyAptaJWeJz68.png"} />
                 }
                 <View className="img" style={{ width: "100%" }}   >
