@@ -247,6 +247,7 @@ export default class EditorAddress extends Component {
     }
 
     saveAndUse = () => {
+        let that =this;
         var pages = Taro.getCurrentPages();
         var currPage = pages[pages.length - 1];   //当前页面
         var prevPage = pages[pages.length - 3];  //上两个页面
@@ -313,38 +314,57 @@ export default class EditorAddress extends Component {
                             adderssId = res.data.data.id;
                         }
                         setTimeout(() => {
-                            if (this.$router.params.activityType == '55') {
-                                // Taro.navigateTo({
-                                //     url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
-                                // })
-                                prevPage.setData({
-                                    fromPage: 'editor',
-                                    parmsData: {
-                                        activityType: 55,
-                                        id: this.$router.params.goodsId,
-                                        groupId: this.$router.params.groupId,
-                                        storeName: this.$router.params.storeName,
-                                        address_id: adderssId
+                            // if (this.$router.params.activityType == '55') {
+                            //     // Taro.navigateTo({
+                            //     //     url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
+                            //     // })
+                            //     prevPage.setData({
+                            //         fromPage: 'editor',
+                            //         parmsData: {
+                            //             activityType: 55,
+                            //             id: this.$router.params.goodsId,
+                            //             groupId: this.$router.params.groupId,
+                            //             storeName: this.$router.params.storeName,
+                            //             address_id: adderssId
+                            //         }
+                            //     })
+                            //     Taro.navigateBack({
+                            //         delta: 2
+                            //     })
+                            // } else {
+                            //     Taro.navigateTo({
+                            //         url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.activityType + '&id=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
+                            //     })
+                            //     prevPage.setData({
+                            //         fromPage: 'editor',
+                            //         parmsData: {
+                            //             activityType: this.$router.params.activityType,
+                            //             id: this.$router.params.goodsId,
+                            //             storeName: this.$router.params.storeName,
+                            //             address_id: adderssId
+                            //         }
+                            //     })
+                            //     Taro.navigateBack({
+                            //         delta: 2
+                            //     })
+                            // }
+                            if (that.$router.params.activityType == '55') {
+                                Taro.navigateTo({
+                                    url: '/activity-pages/confirm-address/index?activityType=55&id=' + that.$router.params.goodsId + '&groupId=' + that.$router.params.groupId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
+                                    success:  (e) =>{
+                                        let page = Taro.getCurrentPages().pop();
+                                        if (page == undefined || page == null) return;
+                                        page.onShow();
                                     }
-                                })
-                                Taro.navigateBack({
-                                    delta: 3
                                 })
                             } else {
                                 Taro.navigateTo({
-                                    url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.activityType + '&id=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
-                                })
-                                prevPage.setData({
-                                    fromPage: 'editor',
-                                    parmsData: {
-                                        activityType: this.$router.params.activityType,
-                                        id: this.$router.params.goodsId,
-                                        storeName: this.$router.params.storeName,
-                                        address_id: adderssId
+                                    url: '/activity-pages/confirm-address/index?activityType=' + that.$router.params.activityType + '&id=' + that.$router.params.goodsId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
+                                    success:  (e)=> {
+                                        let page = Taro.getCurrentPages().pop();
+                                        if (page == undefined || page == null) return;
+                                        page.onShow();
                                     }
-                                })
-                                Taro.navigateBack({
-                                    delta: 3
                                 })
                             }
                         }, 1500)
