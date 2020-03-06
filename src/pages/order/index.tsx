@@ -55,12 +55,14 @@ export default class Order extends Component {
 
   componentDidShow() {
     let phone_status = Taro.getStorageSync('phone_status')
+    console.log(phone_status)
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       this.setState({
         lengthbull1: true,
         lengthbull2: true,
         lengthbull3: true,
-        lengthbull4: true
+        lengthbull4: true,
+        no_login: false
       }, () => {
         this.getData1()
       })
@@ -281,6 +283,7 @@ export default class Order extends Component {
 
   render() {
     const {no_login} = this.state
+    console.log(no_login)
     const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }, { title: '已退款' }]
     return (
       <View className="order flex column"  >
