@@ -77,7 +77,7 @@ export default class PersonalInformation extends Component {
             dateSel: e.detail.value,
             byear: Number(e.detail.value.split("-")[0]),
             bmonth: Number(e.detail.value.split("-")[1]),
-            bday: Number(e.detail.value.split("-")[2)]
+            bday: Number(e.detail.value.split("-")[2])
         }, () => { this.sumbitInfo() })
     }
     getCityArea = (query) => {
@@ -181,7 +181,11 @@ export default class PersonalInformation extends Component {
                             </View>
                         </View>
                     </Picker>
-                    <Citypicker Division=" - " getCity={this.getCityArea} sumbit={true} tempCityInfo={this.state.address}></Citypicker>
+                    {
+                        this.state.address ? <Citypicker Division=" - " getCity={this.getCityArea} tempCityInfo={this.state.address}></Citypicker>
+                            :
+                            <Citypicker Division=" - " getCity={this.getCityArea}  ></Citypicker>
+                    }
                 </View>
 
 
