@@ -368,23 +368,34 @@ export default class Group extends Component<Props>{
   }
 
 
-  payment2 = (_groupid, e) => {
+  payment2 = (_groupid) => {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       Taro.showLoading({
         title: 'loading',
       });
-      let data = {
-        public_type_id: _groupid,
-        activity_id: this.$router.params.activity_id,
-        gift_id: this.$router.params.gift_id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: 55,
-        xcx: 1,
-        number: 1
+      let data = {};
+      if (this.state.isPostage) {
+        data = {
+          public_type_id: _groupid,
+          activity_id: this.$router.params.activity_id,
+          gift_id: this.$router.params.gift_id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: 55,
+          xcx: 1,
+          number: 1
+        }
+      } else {
+        data = {
+          public_type_id: _groupid,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: 55,
+          xcx: 1,
+          number: 1
+        }
       }
-
       request({
         url: 'payCentre/toWxPay',
         method: "POST",
@@ -412,10 +423,11 @@ export default class Group extends Component<Props>{
             Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
-      } else {
-        Taro.showToast({ title: res.message, icon: 'none' })
-      }
-    })
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
   addGroupList = () => {
@@ -476,10 +488,10 @@ export default class Group extends Component<Props>{
       this.setState({ is_alert: false })
     } else {
       // 重新请求当前数据
+
       this.setState({ is_alert: false })
     }
   }
-
   render() {
     const { description } = this.state.data;
     const { data2 } = this.state;
