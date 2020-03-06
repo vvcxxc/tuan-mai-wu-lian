@@ -51,7 +51,7 @@ export default class PersonalInformation extends Component {
                         selectorChecked: data.sex == 1 ? '男' : (data.sex == 2 ? '女' : '无'),
                         cityIndex: [data.province_id, data.city_id, data.district_id],
                         quName: data.address_detail,
-                        address: data.address
+                        address: data.province + '-' + data.city + '-' + data.address_detail,
                     })
                 } else {
                     Taro.showToast({ title: message, icon: 'none' })
