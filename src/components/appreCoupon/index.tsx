@@ -26,6 +26,7 @@ export default class AppreCoupon extends Component<Props> {
   }
   render() {
     const { money, limit_money, gift_image, youhui_type } = this.props.data
+    console.log(this.props.data,'222')
     return (
       <View>
             <View>
@@ -39,17 +40,17 @@ export default class AppreCoupon extends Component<Props> {
                     <View className='max_text'>最高可抵</View>
                     <View>
                       <Text style={{ fontSize: '14px', color: '#EE3131', fontWeight: 600 }}>￥</Text>
-                      <Text style={{ fontSize: '22px', color: '#EE3131', lineHeight: 1 }}>{money}</Text>
+                      <Text style={{ fontSize: '22px', color: '#EE3131', lineHeight: 1 }}>{this.props.data.money}</Text>
                     </View>
                   </View>
                   <View className="box_center">
                     <View className='box_center_main'>
                       <View className='coupon_label'>全场通用</View>
-                      <View className='coupon_tips'>满{limit_money}元可用</View>
+                      <View className='coupon_tips'>满{this.props.data.limit_money}元可用</View>
                     </View>
                   </View>
                   <View className="box_right" style={{ overflow: "hidden" }}>
-                    <Image className="image" src={gift_image} style={{ width: "100%", height: "100%" }} />
+                    <Image className="image" src={this.props.data.gift_image} style={{ width: "100%", height: "100%" }} />
                   </View>
                 </View>
               </View>

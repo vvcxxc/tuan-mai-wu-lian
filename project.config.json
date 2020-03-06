@@ -93,6 +93,14 @@
 					"id": -1,
 					"name": "拼团",
 					"pathName": "activity-pages/my-activity/my.activity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/pages/appreciation/appreciation",
+					"pathName": "pages/activity/pages/appreciation/appreciation",
+					"query": "id=2812",
 					"scene": null
 				}
 			]
