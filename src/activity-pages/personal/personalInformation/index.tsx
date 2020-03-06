@@ -62,24 +62,34 @@ export default class PersonalInformation extends Component {
             })
     }
     onSexChange = e => {
+        console.log(this.state.selectorNum)
         this.setState({
             selectorNum: e.detail.value,
-            selectorChecked: this.state.selector[e.detail.value]
-        }, () => { this.sumbitInfo() })
+            selectorChecked: this.state.selector[e.detail.value],
+            sex: e.detail.value == 0 ? 1 : 2
+        }, () => {
+            console.log(this.state.selectorNum)
+            this.sumbitInfo()
+        })
     }
     onDateChange = (e: any) => {
         this.setState({
-            dateSel: e.detail.value
+            dateSel: e.detail.value,
+            byear: Number(e.detail.value.split("-")[0]),
+            bmonth: Number(e.detail.value.split("-")[1]),
+            bday: Number(e.detail.value.split("-")[2)]
         }, () => { this.sumbitInfo() })
     }
-    getCityArea(query) {
-        this.setState({ cityIndex: query.tempselectorid, }, () => { this.sumbitInfo() })
+    getCityArea = (query) => {
+        console.log(query);
+        console.log('query');
+        this.setState({ cityIndex: query.tempselectorid, quName: query.quName, address: query.selectorChecked }, () => { console.log('query2'); this.sumbitInfo() })
     }
     changeName = (e: any) => {
         this.setState({ name: e.detail.value })
     }
     sumbitName = (e: any) => {
-        this.setState({ sumbitName: this.state.name }, () => { this.sumbitInfo() })
+        this.setState({ sumbitName: this.state.name, maskShow: false }, () => { this.changeNameInfo() })
     }
     sumbitInfo = () => {
         Taro.showLoading();
@@ -93,7 +103,7 @@ export default class PersonalInformation extends Component {
                 sex: this.state.sex,
                 province_id: this.state.cityIndex[0],
                 city_id: this.state.cityIndex[1],
-                address_detail: this.state.quName || '无',
+                address_detail: this.state.quName,
             }
         })
             .then((res: any) => {
@@ -107,7 +117,28 @@ export default class PersonalInformation extends Component {
                 Taro.hideLoading();
                 Taro.showToast({ title: '修改失败', icon: 'none' })
             })
-
+    }
+    changeNameInfo = () => {
+        Taro.showLoading();
+        userRequest({
+            url: 'v1/user/user/upload_user_info',
+            method: "PUT",
+            data: {
+                head: this.state.avatar,
+                name: this.state.name
+            }
+        })
+            .then((res: any) => {
+                Taro.hideLoading();
+                if (res.status_code == 200) {
+                    Taro.showToast({ title: '修改成功', icon: 'none' })
+                } else {
+                    Taro.showToast({ title: '修改失败', icon: 'none' })
+                }
+            }).catch(err => {
+                Taro.hideLoading();
+                Taro.showToast({ title: '修改失败', icon: 'none' })
+            })
     }
     render() {
         return (
