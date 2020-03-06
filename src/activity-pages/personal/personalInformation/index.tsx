@@ -52,7 +52,7 @@ export default class PersonalInformation extends Component {
                         cityIndex: [data.province_id, data.city_id, data.district_id],
                         quName: data.address_detail,
                         address: data.address
-                    }, () => { console.log(this.state) })
+                    })
                 } else {
                     Taro.showToast({ title: message, icon: 'none' })
                 }
@@ -77,14 +77,11 @@ export default class PersonalInformation extends Component {
     }
     changeName = (e: any) => {
         this.setState({ name: e.detail.value })
-        console.log('changeName')
     }
     sumbitName = (e: any) => {
         this.setState({ sumbitName: this.state.name }, () => { this.sumbitInfo() })
-        console.log('sumbitName')
     }
     sumbitInfo = () => {
-        console.log('sumbitInfo')
         Taro.showLoading();
         userRequest({
             url: 'v1/user/user/upload_user_detail',
@@ -96,12 +93,11 @@ export default class PersonalInformation extends Component {
                 sex: this.state.sex,
                 province_id: this.state.cityIndex[0],
                 city_id: this.state.cityIndex[1],
-                address_detail: this.state.quName,
+                address_detail: this.state.quName || '无',
             }
         })
             .then((res: any) => {
                 Taro.hideLoading();
-                console.log(res)
                 if (res.status_code == 200) {
                     Taro.showToast({ title: '修改成功', icon: 'none' })
                 } else {
