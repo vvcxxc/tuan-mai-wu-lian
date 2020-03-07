@@ -3,9 +3,12 @@ import { View, Image, Text, Button } from '@tarojs/components';
 import './index.styl';
 import userRequest from '../../services/userRequest';
 import { quietLogin } from '../../utils/sign'
+import MergePrompt from '@/components/merge_prompt'
 export default class Auth extends Component {
   state = {
     type: 1, //1手机号，0用户信息
+    is_show: false,
+    phone: ''
   };
 
   componentDidMount() {
@@ -30,19 +33,23 @@ export default class Auth extends Component {
         }
       }).then((res: any) => {
         if (res.status_code == 200) {
+          console.log(res)
           if (res.data.status == 'bind_success' || res.data.status == 'binded') {
             Taro.setStorageSync('phone_status', res.data.status)
             Taro.showToast({
               title: '登录成功'
             })
+            this.setState({ phone: res.data.mobile })
             setTimeout(() => {
               Taro.navigateBack()
             }, 1500)
             // }
+          } else if (res.data.status == 'need_merge') {
+            this.setState({ is_show: true, phone: res.data.mobile })
           }
-        }else {
+        } else {
           quietLogin()
-          Taro.showToast({title: '授权失败，请重新尝试',icon: 'none'})
+          Taro.showToast({ title: '授权失败，请重新尝试', icon: 'none' })
         }
       })
     } else {
@@ -73,9 +80,9 @@ export default class Auth extends Component {
           setTimeout(() => {
             Taro.navigateBack()
           }, 1500)
-        }else {
+        } else {
           quietLogin()
-          Taro.showToast({title: '授权失败，请重新尝试',icon: 'none'})
+          Taro.showToast({ title: '授权失败，请重新尝试', icon: 'none' })
         }
       })
     } else {
@@ -92,6 +99,17 @@ export default class Auth extends Component {
   // 跳到手机登录
   goToPhoneLogin = () => {
     Taro.navigateTo({ url: '/pages/auth/login_page/index' })
+  }
+
+  sureMerge = () => {
+    userRequest({
+      url: 'v1/user/user/merge_user',
+      method: "PUT",
+      data: {
+        mobile: this.state.phone,
+        type: 'xcx'
+      }
+    })
   }
 
   render() {
@@ -114,6 +132,8 @@ export default class Auth extends Component {
               </View>
             )
         }
+        {this.state.is_show ? <MergePrompt cancel={() => this.setState({ is_show: false })}
+          confirm={() => this.sureMerge()} /> : null}
       </View>
     )
   }

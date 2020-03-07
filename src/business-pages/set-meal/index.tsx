@@ -7,8 +7,7 @@ import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 import AddressImg from '../../assets/address.png'
 import starImg from '../../assets/starcollect.png'
-import LoginAlert from '@/components/loginAlert';
-export default class PaySuccess extends Component {
+import LoginAlert from '@/components/loginAlert';export default class PaySuccess extends Component {
   config = {
     navigationBarTitleText: "特惠商品"
   };
@@ -19,7 +18,6 @@ export default class PaySuccess extends Component {
     keepCollect_data: "",
     //表面收藏
     keepCollect_bull: false,
-    is_alert: false, //登录弹窗
     coupon: {
       begin_time: "",
       brief: "",
@@ -124,47 +122,9 @@ export default class PaySuccess extends Component {
             }, 2000)
           });
       })
-    })
-
-  }
-  componentDidMount() {
-    Taro.showShareMenu({
-      withShareTicket: true
-    })
-  }
-  onShareAppMessage=(res)=> {
-    return {
-      title: this.state.store.sname+'送福利啦！'+this.state.coupon.return_money+'元兑换券下单立刻抵扣，快点抢！',
-      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
-      imageUrl:this.state.coupon.image
-    }
-  }
-
-  handleClick = (id, e) => {
-    let phone_status = Taro.getStorageSync('phone_status')
-    if (phone_status == 'binded' || phone_status == 'bind_success') {
-      Taro.navigateTo({
-        url: '../../business-pages/confirm-order/index?id=' + id
-      })
-    }else{
-      this.setState({ is_alert: true })
-    }
-
-  };
-  handleClick2 = (_id, e) => {
-    Taro.navigateTo({
-      // url: '/detail-pages/business/index?id=' + _id
-      url: '/pages/business/index?id=' + _id
-    })
-  };
-  //打电话
-  makePhoneCall = (e) => {
-    console.log(this.state.store.tel)
-    Taro.makePhoneCall({
-      phoneNumber: this.state.store.tel
-    })
-      .then((res: any) => {
-        console.log(res)
+    }).catch(err => {
+      Taro.showLoading({
+        title: 'loading',
       })
       request({
         url: 'v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: '', ypoint: '' }
@@ -210,10 +170,15 @@ onShareAppMessage = (res) => {
 }
 
 handleClick = (id, e) => {
-  console.log(id)
-  Taro.navigateTo({
-    url: '../../business-pages/confirm-order/index?id=' + id
-  })
+  let phone_status = Taro.getStorageSync('phone_status')
+  if (phone_status == 'binded' || phone_status == 'bind_success') {
+    Taro.navigateTo({
+      url: '../../business-pages/confirm-order/index?id=' + id
+    })
+  }else {
+    this.setState({is_alert: false})
+  }
+
 };
 handleClick2 = (_id, e) => {
   Taro.navigateTo({
@@ -230,24 +195,50 @@ makePhoneCall = (e) => {
     .then((res: any) => {
       console.log(res)
     })
-  }
-   // 登录弹窗
-   loginChange = (type: string) => {
-    if (type == 'close') {
-      this.setState({ is_alert: false })
-    } else {
-      // 重新请求当前数据
+  e.stopPropagation();
+}
+//地图
+routePlanning = (e) => {
+  Taro.openLocation({
+    latitude: Number(this.state.store.ypoint),
+    longitude: Number(this.state.store.xpoint),
+    scale: 18,
+    name: this.state.store.sname,
+    address: this.state.store.saddress,
+  })
+  e.stopPropagation();
+}
+//收藏
+keepCollect(e) {
+  //假接口，还没好
+  // let _id = this.state.coupon.id;
+  // request({ url: 'v3/coupons/collection', method: "PUT", data: { coupon_id: _id } })
+  //   .then((res: any) => {
+  //     console.log(res)
+  //     // if (res) {
+  //     //   this.setState({
+  //     //     keepCollect_data: res.data,
+  //     //     keepCollect_bull: !this.state.keepCollect_bull
+  //     //   })
+  //     // }
+  //   })
+}
 
-      this.setState({ is_alert: false })
-    }
-  }
-  render() {
-    return (
-      <View className="set-meal">
-        {
-          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
-        }
-        {/* <Swiper
+/**
+ * 回首页
+ */
+handleGoHome = () => {
+  Taro.switchTab({
+    url: '/pages/index/index'
+  })
+}
+render() {
+  return (
+    <View className="set-meal">
+      {
+        this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
+      }
+      {/* <Swiper
           className="swiper"
           indicatorColor="#999"
           indicatorActiveColor="#333"
@@ -398,19 +389,6 @@ makePhoneCall = (e) => {
         <View className="set-meal__tit">
           <Text className="fwb">更多本店宝贝</Text>
         </View>
-        <View className="occupied">
-          <View className="layer-ft-buy flex">
-            <View className="money">￥<Text className="count">{this.state.coupon.pay_money}</Text></View>
-            <View><Button onClick={this.handleClick.bind(this, this.state.coupon.id)} className="btn-buy">立即抢购</Button></View>
-          </View>
-        </View>
-
-
-        {
-          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
-        }
-
-        {/* 去首页 */}
         {
           this.state.recommend.map((item) => (
             <View key={item.id} >

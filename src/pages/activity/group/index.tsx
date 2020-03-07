@@ -370,91 +370,91 @@ export default class Group extends Component<Props>{
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
-    let _temptype = this.$router.params.type;
-    // 改前必看：本页面与众不同的傻狗命名一览
-    // 活动ID：this.$router.params.id===this.state.data.youhui_id;
-    // 店ID:store_id==this.state.data.id;
-    // 店名==this.state.data.name
+      let _temptype = this.$router.params.type;
+      // 改前必看：本页面与众不同的傻狗命名一览
+      // 活动ID：this.$router.params.id===this.state.data.youhui_id;
+      // 店ID:store_id==this.state.data.id;
+      // 店名==this.state.data.name
 
-    //一般进来：id，type == 5 ，gift_id，activity_id，
-    //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
+      //一般进来：id，type == 5 ，gift_id，activity_id，
+      //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
 
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {
-      public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
-      activity_id: this.$router.params.activity_id,
-      open_id: Taro.getStorageSync("openid"),
-      unionid: Taro.getStorageSync("unionid"),
-      type: this.$router.params.type,
-      xcx: 1,
-      number: 1
-    }
+      Taro.showLoading({
+        title: 'loading',
+      });
+      let data = {
+        public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+        activity_id: this.$router.params.activity_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: this.$router.params.type,
+        xcx: 1,
+        number: 1
+      }
 
-    request({
-      url: 'payCentre/toWxPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      if (res.code == 200) {
-        let order_sn = res.channel_order_sn;//比增值少一层data
-        Taro.hideLoading();
-        // 发起支付
-        Taro.requestPayment({
-          timeStamp: res.data.timeStamp,
-          nonceStr: res.data.nonceStr,
-          package: res.data.package,
-          signType: res.data.signType,
-          paySign: res.data.paySign,
-          success(res) {
-            if (_temptype == 5) {
-              //开团要得到开团活动id再跳转活动详情
-              Taro.showLoading({
-                title: 'loading',
-                mask: true
-              });
-              interval = setInterval(() => {
-                request({
-                  url: 'api/wap/user/getUserYouhuiGroupId',
-                  method: "GET",
-                  data: { order_sn: order_sn }
-                }).then((res: any) => {
-                  if (res.code == 200) {
-                    clearInterval(interval);
-                    Taro.hideLoading();
-                    Taro.navigateTo({
-                      url: '/pages/activity/pages/group/group?id=' + res.data.id,
-                      success: () => {
-                        var page = Taro.getCurrentPages().pop();
-                        if (page == undefined || page == null) return;
-                        page.onLoad();
-                      }
-                    })
+      request({
+        url: 'payCentre/toWxPay',
+        method: "POST",
+        data
+      }).then((res: any) => {
+        if (res.code == 200) {
+          let order_sn = res.channel_order_sn;//比增值少一层data
+          Taro.hideLoading();
+          // 发起支付
+          Taro.requestPayment({
+            timeStamp: res.data.timeStamp,
+            nonceStr: res.data.nonceStr,
+            package: res.data.package,
+            signType: res.data.signType,
+            paySign: res.data.paySign,
+            success(res) {
+              if (_temptype == 5) {
+                //开团要得到开团活动id再跳转活动详情
+                Taro.showLoading({
+                  title: 'loading',
+                  mask: true
+                });
+                interval = setInterval(() => {
+                  request({
+                    url: 'api/wap/user/getUserYouhuiGroupId',
+                    method: "GET",
+                    data: { order_sn: order_sn }
+                  }).then((res: any) => {
+                    if (res.code == 200) {
+                      clearInterval(interval);
+                      Taro.hideLoading();
+                      Taro.navigateTo({
+                        url: '/pages/activity/pages/group/group?id=' + res.data.id,
+                        success: () => {
+                          var page = Taro.getCurrentPages().pop();
+                          if (page == undefined || page == null) return;
+                          page.onLoad();
+                        }
+                      })
+                    }
+                  })
+                }, 1000);
+              } else if (_temptype == 55) {
+                Taro.navigateTo({
+                  url: '/pages/activity/pages/group/group?id=' + _tempid,
+                  success: () => {
+                    var page = Taro.getCurrentPages().pop();
+                    if (page == undefined || page == null) return;
+                    page.onLoad();
                   }
                 })
-              }, 1000);
-            } else if (_temptype == 55) {
-              Taro.navigateTo({
-                url: '/pages/activity/pages/group/group?id=' + _tempid,
-                success: () => {
-                  var page = Taro.getCurrentPages().pop();
-                  if (page == undefined || page == null) return;
-                  page.onLoad();
-                }
-              })
-            } else {
-              console.log('类型出错');
-              return;
+              } else {
+                console.log('类型出错');
+                return;
+              }
+            },
+            fail(err) {
+              // Taro.showToast({ title: '支付失败', icon: 'none' })
             }
-          },
-          fail(err) {
-            // Taro.showToast({ title: '支付失败', icon: 'none' })
-          }
-        })
-      }
-    })
-    }else {
+          })
+        }
+      })
+    } else {
       this.setState({ is_alert: true })
     }
 
@@ -462,65 +462,62 @@ export default class Group extends Component<Props>{
 
 
   payment2 = (_groupid, e) => {
-    let phone_status = Taro.getStorageSync('phone_status')
-    if (phone_status == 'binded' || phone_status == 'bind_success') {
-      Taro.showLoading({
-        title: 'loading',
-      });
-      let data = {};
-      if (this.state.isPostage) {
-        data = {
-          public_type_id: _groupid,
-          activity_id: this.$router.params.activity_id,
-          gift_id: this.$router.params.gift_id,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: 55,
-          xcx: 1,
-          number: 1
-        }
-      } else {
-        data = {
-          public_type_id: _groupid,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: 55,
-          xcx: 1,
-          number: 1
-        }
+
+    Taro.showLoading({
+      title: 'loading',
+    });
+    let data = {};
+    if (this.state.isPostage) {
+      data = {
+        public_type_id: _groupid,
+        activity_id: this.$router.params.activity_id,
+        gift_id: this.$router.params.gift_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: 55,
+        xcx: 1,
+        number: 1
       }
-      request({
-        url: 'payCentre/toWxPay',
-        method: "POST",
-        data
-      }).then((res: any) => {
-        Taro.hideLoading();
-        // 发起支付
-        Taro.requestPayment({
-          timeStamp: res.data.timeStamp,
-          nonceStr: res.data.nonceStr,
-          package: res.data.package,
-          signType: res.data.signType,
-          paySign: res.data.paySign,
-          success(res) {
-            Taro.navigateTo({
-              url: '/pages/activity/pages/group/group?id=' + _groupid,
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
-          },
-          fail(err) {
-            // Taro.showToast({ title: '支付失败', icon: 'none' })
-          }
-        })
-      })
-      e.stopPropagation();
-    }else {
-      this.setState({ is_alert: true })
+    } else {
+      data = {
+        public_type_id: _groupid,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: 55,
+        xcx: 1,
+        number: 1
+      }
     }
+    request({
+      url: 'payCentre/toWxPay',
+      method: "POST",
+      data
+    }).then((res: any) => {
+      Taro.hideLoading();
+      // 发起支付
+      Taro.requestPayment({
+        timeStamp: res.data.timeStamp,
+        nonceStr: res.data.nonceStr,
+        package: res.data.package,
+        signType: res.data.signType,
+        paySign: res.data.paySign,
+        success(res) {
+          Taro.navigateTo({
+            url: '/pages/activity/pages/group/group?id=' + _groupid,
+            success: () => {
+              var page = Taro.getCurrentPages().pop();
+              if (page == undefined || page == null) return;
+              page.onLoad();
+            }
+          })
+        },
+        fail(err) {
+          // Taro.showToast({ title: '支付失败', icon: 'none' })
+        }
+      })
+    })
+    e.stopPropagation();
+
 
   }
 
@@ -560,33 +557,43 @@ export default class Group extends Component<Props>{
     }
   }
   goToaConfirm = (e) => {
-    if (this.state.data.gift_id) {
-      this.clearTimeOut();
-      if (this.$router.params.type == '5') {
-        //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
-        Taro.navigateTo({
-          url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + this.state.data.name
-        })
-      } else if (this.$router.params.type == '55') {
-        //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
-        Taro.navigateTo({
-          url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + this.state.data.name
-        })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      if (this.state.data.gift_id) {
+        this.clearTimeOut();
+        if (this.$router.params.type == '5') {
+          //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
+          Taro.navigateTo({
+            url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + this.state.data.name
+          })
+        } else if (this.$router.params.type == '55') {
+          //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
+          Taro.navigateTo({
+            url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + this.state.data.name
+          })
+        }
+      } else {
+        this.payment();
       }
     } else {
-      this.payment();
+      this.setState({ is_alert: true })
     }
   }
   goToaConfirmAddGroup = (_id, e) => {
-    if (this.state.data.gift_id) {
-      this.clearTimeOut();
-      //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
-      console.log(this.$router.params.id, _id)
-      Taro.navigateTo({
-        url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
-      })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      if (this.state.data.gift_id) {
+        this.clearTimeOut();
+        //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
+        console.log(this.$router.params.id, _id)
+        Taro.navigateTo({
+          url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
+        })
+      } else {
+        this.payment2(_id);
+      }
     } else {
-      this.payment2(_id);
+      this.setState({ is_alert: true })
     }
   }
 

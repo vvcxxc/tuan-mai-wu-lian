@@ -343,12 +343,19 @@ export default class Appre extends Component<Props>{
   }
 
   goToaConfirm = (e) => {
-    if (this.state.data.gift_id) {
-      Taro.navigateTo({
-        url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
-      })
+    console.log(324)
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      if (this.state.data.gift_id) {
+        Taro.navigateTo({
+          url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
+        })
+      } else {
+        this.payment()
+      }
     } else {
-      this.payment()
+      console.log(412)
+      this.setState({ is_alert: true })
     }
   }
 

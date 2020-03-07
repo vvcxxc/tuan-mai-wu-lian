@@ -107,6 +107,13 @@
 					"id": -1,
 					"name": "activity-pages/Shipping-address/editor",
 					"pathName": "activity-pages/Shipping-address/editor",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/auth/index",
+					"pathName": "pages/auth/index",
 					"scene": null
 				}
 			]
