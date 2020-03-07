@@ -222,7 +222,7 @@ export default class PaySuccess extends Component<Props> {
   }
   //去附近店铺
   handleClick3 = (_id, e) => {
-    Taro.redirectTo({
+    Taro.navigateTo({
       url: './index?id=' + _id
     })
   }
