@@ -231,7 +231,6 @@ export default class Appre extends Component<Props>{
 
   //去图文详情
   toImgList = () => {
-
     Taro.navigateTo({
       url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
     })
@@ -263,11 +262,6 @@ export default class Appre extends Component<Props>{
       address: this.state.data.address,
     });
     e.stopPropagation();
-  }
-
-  // 是否选择礼品
-  chooseGift = () => {
-    this.setState({ isPostage: !this.state.isPostage })
   }
 
   payment = () => {
@@ -550,21 +544,7 @@ export default class Appre extends Component<Props>{
             </View>
           </View>
         </View>
-        {/* {
-          (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
-            <View className='choose_postage' onClick={this.chooseGift}>
 
-              <View>
-                {
-                  this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
-                }
-              </View>
-              （邮费 {this.state.data.gift.postage}元）
-          <View className='lbmsg' >
-                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
-              </View>
-            </View>) : null
-        } */}
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
