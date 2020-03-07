@@ -49,32 +49,15 @@
 			"list": [
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "pages/activity/group/index",
-					"pathName": "pages/activity/group/index",
-					"query": "id=3797&&type=5&&gift_id=0&&activity_id=1709",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
-=======
 					"name": "activity-pages/confirm-address/index",
 					"pathName": "activity-pages/confirm-address/index",
->>>>>>> map
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-=======
 					"name": "pages/activity/index",
 					"pathName": "pages/activity/index",
->>>>>>> map
 					"query": "",
 					"scene": null
 				},
@@ -115,61 +98,15 @@
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/appreciation/index",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 17,
-					"name": "授权页",
-					"pathName": "pages/auth/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 18,
-					"name": "pages/auth/index",
-					"pathName": "pages/auth/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/index",
-					"pathName": "pages/my/index",
-					"query": "",
-=======
 					"name": "pages/activity/pages/appreciation/appreciation",
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2812",
->>>>>>> map
 					"scene": null
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "pages/order/index",
-					"pathName": "pages/order/index",
-=======
 					"name": "activity-pages/Shipping-address/editor",
 					"pathName": "activity-pages/Shipping-address/editor",
->>>>>>> map
 					"scene": null
 				}
 			]
