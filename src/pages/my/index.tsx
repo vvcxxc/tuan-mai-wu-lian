@@ -164,37 +164,42 @@ export default class NewPage extends Component<Props>{
     } else {
       // 重新请求当前数据
       this.handleGetUserinfo()
-    request({
-      url: 'v3/user/home_index'
-    }).then((res: any) => {
+      request({
+        url: 'v3/user/home_index'
+      }).then((res: any) => {
 
-      this.setState({
-        userData: {
-          head_img: res.data.avatar,
-          user_name: res.data.user_name
-        }
-      })
-      let myData: any = this.state.list
-      myData[0].prompt = res.data.order_msg
-      myData[1].prompt = res.data.gift_msg
-      myData[2].prompt = res.data.activity_msg
-      this.setState({
-        list: myData
-      })
-      // console.log(res,'res')
-      // this.setState({
-      //   user_img: res.data.avatar
-      // })
+        this.setState({
+          userData: {
+            head_img: res.data.avatar,
+            user_name: res.data.user_name
+          }
+        })
+        let myData: any = this.state.list
+        myData[0].prompt = res.data.order_msg
+        myData[1].prompt = res.data.gift_msg
+        myData[2].prompt = res.data.activity_msg
+        this.setState({
+          list: myData
+        })
+        // console.log(res,'res')
+        // this.setState({
+        //   user_img: res.data.avatar
+        // })
 
-    })
+      })
       this.setState({ is_alert: false })
     }
   }
-
+  setPersonalInfo = () => {
+    Taro.navigateTo({
+      url: '/activity-pages/personal/index'
+    })
+  }
   render() {
     const { type } = this.state
     return (
       <View className='newPage'>
+        <Image className='settleIcon' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/nAP8aBrDk2yGzG7AdaTrPDWey8fDB2KP.png' onClick={this.setPersonalInfo.bind(this)} />
         <View className='newPage_head'>
           <View className="img_box">
             <Image src={this.state.userData.head_img} onClick={this.gotoPersonal} />
