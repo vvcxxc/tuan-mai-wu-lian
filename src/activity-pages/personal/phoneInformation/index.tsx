@@ -149,7 +149,7 @@ export default class PhoneInformation extends Component {
                     }
                 })
                 .catch(err => {
-                    _this.setState({ tipsShow: true, tipsInfo: '请求失败', is_ok: true })
+                    _this.setState({ is_ok: true, tipsShow: true, tipsInfo: '请求失败' })
                 })
         } else {
             type == 2 && this.setState({ tipsShow: true, tipsInfo: '请输入手机号' })
