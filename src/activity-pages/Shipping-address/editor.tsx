@@ -80,7 +80,7 @@ export default class EditorAddress extends Component {
     }
     // 所在区域
     cityEnd = (query) => {
-      console.log(query)
+        console.log(query)
         this.setState({ cityValue: query.tempselectorid })
         // this.setState({ cityValue: query.tempselectorid, tempCityInfo: query.selectorChecked, actionsheetShow: false })
     }
@@ -248,11 +248,8 @@ export default class EditorAddress extends Component {
     }
 
     saveAndUse = () => {
-        let that =this;
+        let that = this;
         var pages = Taro.getCurrentPages();
-        var currPage = pages[pages.length - 1];   //当前页面
-        var prevPage = pages[pages.length - 3];  //上两个页面
-
         const { nameValue, phoneValue, cityValue, TextareaValue, chooseMove } = this.state;
         if (!nameValue) {
             this.setState({ toastShow: true, toastInfo: '请输入收件人' }, () => {
@@ -308,66 +305,70 @@ export default class EditorAddress extends Component {
                     Taro.hideLoading();
                     if (res.code == 200) {
                         Taro.showToast({ title: '收货地址添加成功', icon: 'none' })
-                        let adderssId;
+                        let adderssId, delta, prevPage;
+                        if (pages[pages.length - 2].route.indexOf('confirm-address/chooseAddress') > 0) {
+                            delta = 2;
+                            prevPage = pages[pages.length - 3];
+                            //activity-pages/confirm-address/chooseAddress
+                        }
+                        else if (pages[pages.length - 2].route.indexOf('confirm-address/index') > 0) {
+                            delta = 1;
+                            prevPage = pages[pages.length - 2];
+                            //activity-pages/confirm-address/index
+                        }
                         if (this.$router.params.type == 'useItemChange') {
                             adderssId = this.$router.params.editorId;
                         } else {
                             adderssId = res.data.data.id;
                         }
                         setTimeout(() => {
-                            // if (this.$router.params.activityType == '55') {
-                            //     // Taro.navigateTo({
-                            //     //     url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.goodsId + '&groupId=' + this.$router.params.groupId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
-                            //     // })
-                            //     prevPage.setData({
-                            //         fromPage: 'editor',
-                            //         parmsData: {
-                            //             activityType: 55,
-                            //             id: this.$router.params.goodsId,
-                            //             groupId: this.$router.params.groupId,
-                            //             storeName: this.$router.params.storeName,
-                            //             address_id: adderssId
+                            if (this.$router.params.activityType == '55') {
+                                prevPage.setData({
+                                    fromPage: 'editor',
+                                    parmsData: {
+                                        activityType: 55,
+                                        id: this.$router.params.goodsId,
+                                        groupId: this.$router.params.groupId,
+                                        storeName: this.$router.params.storeName,
+                                        address_id: adderssId
+                                    }
+                                })
+                                Taro.navigateBack({
+                                    delta: delta
+                                })
+                            } else {
+                                prevPage.setData({
+                                    fromPage: 'editor',
+                                    parmsData: {
+                                        activityType: this.$router.params.activityType,
+                                        id: this.$router.params.goodsId,
+                                        storeName: this.$router.params.storeName,
+                                        address_id: adderssId
+                                    }
+                                })
+                                Taro.navigateBack({
+                                    delta: delta
+                                })
+                            }
+                            // if (that.$router.params.activityType == '55') {
+                            //     Taro.navigateTo({
+                            //         url: '/activity-pages/confirm-address/index?activityType=55&id=' + that.$router.params.goodsId + '&groupId=' + that.$router.params.groupId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
+                            //         success: (e) => {
+                            //             let page = Taro.getCurrentPages().pop();
+                            //             if (page == undefined || page == null) return;
+                            //             page.onShow();
                             //         }
-                            //     })
-                            //     Taro.navigateBack({
-                            //         delta: 2
                             //     })
                             // } else {
                             //     Taro.navigateTo({
-                            //         url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.activityType + '&id=' + this.$router.params.goodsId + '&storeName=' + this.$router.params.storeName + '&address_id=' + adderssId
-                            //     })
-                            //     prevPage.setData({
-                            //         fromPage: 'editor',
-                            //         parmsData: {
-                            //             activityType: this.$router.params.activityType,
-                            //             id: this.$router.params.goodsId,
-                            //             storeName: this.$router.params.storeName,
-                            //             address_id: adderssId
+                            //         url: '/activity-pages/confirm-address/index?activityType=' + that.$router.params.activityType + '&id=' + that.$router.params.goodsId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
+                            //         success: (e) => {
+                            //             let page = Taro.getCurrentPages().pop();
+                            //             if (page == undefined || page == null) return;
+                            //             page.onShow();
                             //         }
                             //     })
-                            //     Taro.navigateBack({
-                            //         delta: 2
-                            //     })
                             // }
-                            if (that.$router.params.activityType == '55') {
-                                Taro.navigateTo({
-                                    url: '/activity-pages/confirm-address/index?activityType=55&id=' + that.$router.params.goodsId + '&groupId=' + that.$router.params.groupId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
-                                    success:  (e) =>{
-                                        let page = Taro.getCurrentPages().pop();
-                                        if (page == undefined || page == null) return;
-                                        page.onShow();
-                                    }
-                                })
-                            } else {
-                                Taro.navigateTo({
-                                    url: '/activity-pages/confirm-address/index?activityType=' + that.$router.params.activityType + '&id=' + that.$router.params.goodsId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
-                                    success:  (e)=> {
-                                        let page = Taro.getCurrentPages().pop();
-                                        if (page == undefined || page == null) return;
-                                        page.onShow();
-                                    }
-                                })
-                            }
                         }, 1500)
                     } else {
                         Taro.showToast({ title: res.message, icon: 'none' })

@@ -54,7 +54,9 @@ export default class confirmAddress extends Component {
     componentDidShow() {
         let pages = Taro.getCurrentPages();
         let currPage = pages[pages.length - 1];
+        console.log('currPage',currPage)
         if (currPage.data.fromPage == "editor") {
+            console.log('editor')
             this.setState({
                 activityType: currPage.data.parmsData.activityType,
                 address_id: currPage.data.parmsData.address_id,
@@ -68,7 +70,7 @@ export default class confirmAddress extends Component {
             } else {
                 data = { youhui_id: currPage.data.parmsData.id, }
             }
-
+            console.log('233')
             if (currPage.data.parmsData.activityType == '1') {
                 request({
                     url: '/api/wap/user/appreciation/appreciationOrderInfo',
@@ -87,6 +89,8 @@ export default class confirmAddress extends Component {
                 })
 
             } else {
+                console.log('or')
+
                 request({
                     url: '/api/wap/user/groupOrderInfo',
                     method: "GET",

@@ -11,9 +11,6 @@ interface TabProp {
 }
 
 export default class AddressItem extends Component<TabProp> {
-    state: {
-
-    }
 
     onhandleClick = () => {
         //返回要更改的地址的id
