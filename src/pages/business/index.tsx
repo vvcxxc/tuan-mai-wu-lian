@@ -203,7 +203,6 @@ export default class PaySuccess extends Component<Props> {
   }
   // 去增值活动
   gotoAppreciation = (_id, gift_id, activity_id) => {
-
     Taro.navigateTo({
       url: '/pages/activity/appreciation/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
       // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
@@ -223,17 +222,9 @@ export default class PaySuccess extends Component<Props> {
   }
   //去附近店铺
   handleClick3 = (_id, e) => {
-    // console.log(_id);
     Taro.navigateTo({
       url: './index?id=' + _id
     })
-  }
-  //去给钱
-  handleClick4 = (id, e) => {
-    Taro.navigateTo({
-      url: '../../business-pages/confirm-order/index?id=' + id
-    })
-    e.stopPropagation();
   }
 
   //打电话

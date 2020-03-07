@@ -59,7 +59,7 @@ export default class Appre extends Component<Props>{
     isFromShare: false
   };
 
-  componentDidMount = () => {
+  componentDidShow = () => {
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
       this.setState({
@@ -228,7 +228,6 @@ export default class Appre extends Component<Props>{
 
   //去图文详情
   toImgList = () => {
-
     Taro.navigateTo({
       url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
     })
@@ -262,11 +261,6 @@ export default class Appre extends Component<Props>{
     e.stopPropagation();
   }
 
-  // 是否选择礼品
-  chooseGift = () => {
-    this.setState({ isPostage: !this.state.isPostage })
-  }
-
   payment = () => {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
@@ -293,14 +287,15 @@ export default class Appre extends Component<Props>{
           xcx: 1
         }
       }
-      request({
-        url: 'v1/youhui/wxXcxuWechatPay',
-        method: "POST",
-        data
-      }).then((res: any) => {
+    }
+    request({
+      url: 'v1/youhui/wxXcxuWechatPay',
+      method: "POST",
+      data
+    }).then((res: any) => {
+      Taro.hideLoading();
+      if (res.code == 200) {
         let order_sn = res.data.channel_order_sn;
-        Taro.hideLoading();
-
         // 发起支付
         Taro.requestPayment({
           timeStamp: res.data.timeStamp,
@@ -341,12 +336,22 @@ export default class Appre extends Component<Props>{
             Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
-      })
-    }else {
-      this.setState({ is_alert: true })
-    }
-
+      } else {
+        Taro.showToast({ title: res.message, icon: 'none' })
+      }
+    })
   }
+
+  goToaConfirm = (e) => {
+    if (this.state.data.gift_id) {
+      Taro.navigateTo({
+        url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
+      })
+    } else {
+      this.payment()
+    }
+  }
+
 
   /**
    * 回首页
@@ -545,38 +550,23 @@ export default class Appre extends Component<Props>{
             </View>
           </View>
         </View>
-        {
-          (this.state.data.gift && this.state.data.gift.mail_mode == 2) ? (
-            <View className='choose_postage' onClick={this.chooseGift}>
 
-              <View>
-                {
-                  this.state.isPostage ? <Image src={require('@/assets/choose.png')} className='choose' /> : <Image src={require('@/assets/nochoose.png')} className='choose' />
-                }
-              </View>
-              （邮费 {this.state.data.gift.postage}元）
-          <View className='lbmsg' >
-                <AtNoticebar marquee> {this.state.data.gift.title}</AtNoticebar>
-              </View>
-            </View>) : null
-        }
         <View className="paymoney_box">
           <View className="paymoney_price">
             <View className="paymoney_price_icon">￥</View>
             <View className="paymoney_price_num">{this.state.data.pay_money}</View>
-
             {
               this.state.isPostage ? <View className='paymoney_price_info'> {
                 this.state.data.gift.mail_mode == 1 ? null :
                   '+' + this.state.data.gift.postage}</View> : null
             }
           </View>
-          {/* <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View> */}
           {
             this.state.data.activity_time_status == 1 ? (
               <View className="paymoney_buynow_no">暂未开始</View>
             ) : this.state.data.activity_time_status == 2 ? (
-              <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
+              // <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
+              <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
             ) : this.state.data.activity_time_status == 3 ? (
               <View className="paymoney_buynow_no">已结束</View>
             ) : null
@@ -598,7 +588,7 @@ export default class Appre extends Component<Props>{
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '20px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+            <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
               <Image src={require('../../../assets/go_home.png')} className="go_home" />
             </View>
           ) : ''

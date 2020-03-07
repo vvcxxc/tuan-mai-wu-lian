@@ -9,9 +9,16 @@ interface Props {
   onChange: (number) => any;
 }
 export default class Tabs extends Component<Props> {
+
+
   constructor(props) {
     super(props);
     this.state.current = props.defaultCurrent || 0;
+  }
+  static defaultProps: Props = {
+    list: [],
+    defaultCurrent: -1,
+    onChange(){}
   }
 
   state = {

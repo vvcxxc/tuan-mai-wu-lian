@@ -6,9 +6,9 @@ import './style.scss'
 import request from '../../services/request'
 import CashCoupon1 from "@/pages/order/cash-coupon1/index";
 import CashCoupon2 from "@/pages/order/cash-coupon2/index";
+import CashCoupon3 from "@/pages/order/cash-coupon3/index";
 import { getLocation } from '@/utils/getInfo';
 
-import { AtIcon } from "taro-ui"
 
 export default class Orderdetail extends Component {
   config = {
@@ -119,14 +119,21 @@ export default class Orderdetail extends Component {
 
 
   render() {
+    const descriptions=this.state.defaultData.description ;
     return (
       <View className='index' >
         <View className='a_head'>
         <View className='a_head_content' onClick={(e)=>{e.stopPropagation()}}></View>
-          {
-            this.state.defaultData.coupons_type == 1 ?
-              <CashCoupon2 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} _total_fee={this.state.defaultData.total_fee} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} expiration={this.state.defaultData.expiration} /> :
+        {
+            this.state.defaultData.source == 4 ? <CashCoupon3 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} init_money={this.state.defaultData.init_money} money={this.state.defaultData.money} expire_day={this.state.defaultData.expire_day} appreciation_money={(this.state.defaultData.appreciation_money*100 + this.state.defaultData.init_money*100)/100} total_fee={this.state.defaultData.total_fee} type={this.state.defaultData.coupons_type}/> :
+            this.state.defaultData.coupons_type == 1 && this.state.defaultData.source != 4
+              ?
+              <CashCoupon2 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} _total_fee={this.state.defaultData.total_fee} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} expiration={this.state.defaultData.expiration} />
+              :
+              this.state.defaultData.coupons_type == 0 && this.state.defaultData.source != 4 ?
               <CashCoupon1 bg_img_type={this.state.defaultData.status == 2 ? 1 : 0} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} _image={this.state.defaultData.image} clickcode={null} />
+              :
+              null
           }
         </View>
         { /* 购买须知  */}
@@ -143,7 +150,7 @@ export default class Orderdetail extends Component {
                {this.state.defaultData.description.length ? <View>
                 <View className='a_four' >使用规则：</View>
                 {
-                  this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={i} className='a_item' > · {item} </View>) : null
+                  this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={item} className='a_item' > · {item} </View>) : null
                 }
                 </View> : null}
                 {/* <View className='a_last'  onClick={handerShowMore}  > { isMore ? '收起更多' : '查看更多' } </View>  */}
@@ -262,8 +269,8 @@ export default class Orderdetail extends Component {
                 <View className='a_billingInfo_1'>使用规则</View>:
                 <View style={{marginLeft: '9px'}}>
                   {
-                    this.state.defaultData.description.length ? (this.state.defaultData.description.map((item, index) => (
-                      <View key={index} style={{height: '32px'}}>{index + 1}. {item}</View>
+                    descriptions.length ? (descriptions.map((item, index) => (
+                      <View key={item} style={{height: '32px'}}>{index + 1}. {item}</View>
                     ))) : null
                   }
                 </View>

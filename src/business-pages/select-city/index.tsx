@@ -86,7 +86,7 @@ export default class SelectCity extends Component {
     })
     setTimeout(() => {
       this.setState({ showIndicator: false })
-      Taro.reLaunch({ url: '../../pages/index/index?router' })
+      Taro.switchTab({ url: '../../pages/index/index?router' })
     }, 1000);
     // if (index == 1) {
     //   Taro.reLaunch({ url: '../../pages/index/index?router' })
@@ -114,19 +114,19 @@ export default class SelectCity extends Component {
   searchData = (name, id) => {
     console.log(name,id)
     Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
-    Taro.reLaunch({ url: '../../pages/index/index?router' })
+    Taro.switchTab({ url: '../../pages/index/index?router' })
   }
 
   // 全国列表数据  点击
   onClick = (item, event) => {
     Taro.setStorage({ key: 'router', data: { city_id: item.id, city_name: item.name } })
-    Taro.reLaunch({ url: '../../pages/index/index?router' })
+    Taro.switchTab({ url: '../../pages/index/index?router' })
   }
 
   // 搜索列表点击
   lineOnClick = (id, name) => {
     Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
-    Taro.reLaunch({ url: '../../pages/index/index?router' })
+    Taro.switchTab({ url: '../../pages/index/index?router' })
   }
   // 回车键 模糊搜索
   handleSearch = () => {

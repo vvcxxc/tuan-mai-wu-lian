@@ -67,7 +67,7 @@ export default class CashCoupon extends Component<Props> {
             </View>
           </View>
           <View className="item content" style={{ position: "relative" }}>
-            <View className="head flex">
+            <View className="heads flex">
               {
                 this.props.bg_img_type == 1 ?
                   <View className="label flex center" >

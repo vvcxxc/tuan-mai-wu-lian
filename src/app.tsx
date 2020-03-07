@@ -10,7 +10,6 @@ import Index from './pages/index';
 import "../src/styles/weui.scss"
 import './app.styl';
 import 'taro-ui/dist/style/index.scss';
-import request from './services/request';
 import dayjs from 'dayjs'
 import { quietLogin } from './utils/sign'
 
@@ -96,8 +95,11 @@ class App extends Component {
 					'group-booking/detail/index',
 					'my-activity/my.activity',
 					"my-welfare/pages/gift/welfare.gift",
-					'offline/order'
-
+					'offline/order',
+					'Shipping-address/index',
+					'Shipping-address/editor',
+					'confirm-address/index',
+					'confirm-address/chooseAddress'
 				]
 			}
 		],
@@ -158,7 +160,8 @@ class App extends Component {
 	defineApp: {
 		define: '22'
 	}
-	componentDidShow() {
+  componentDidShow() {
+    console.log('打开小程序')
     let date = dayjs().unix()
     Taro.setStorageSync('is_one',date)
     let token = Taro.getStorageSync('token');
@@ -172,7 +175,10 @@ class App extends Component {
       quietLogin()
     }
   }
-  componentDidHide() {
+  componentDidMount() {
+
+  }
+	componentDidHide() {
     Taro.removeStorageSync('is_one')
    }
 	componentDidCatchError() { }

@@ -21,6 +21,7 @@ import { GROUP_AREADY, UNUSED, USED } from "../../data"
 import { ACTION_JUMP, ACTION_USE, ACTION_VIEW, ACTION_CLOSE } from "@/utils/constants"
 import Coupon from "@/components/coupon/coupon"
 import Qrcode from "@/components/qrcode/qrcode"
+import dayjs from 'dayjs'
 let timer = null;
 let timer2 = null
 interface State {
@@ -76,7 +77,7 @@ export default class Group extends Component {
       console.log(err)
     })
     await this.fetchBasicinfo(id)
-    this.fetchCoupon(location)
+    await this.fetchCoupon(location)
     this.setTime()
 
   }
@@ -191,13 +192,14 @@ export default class Group extends Component {
    * 定时
    */
   setTime = () => {
+    let times = dayjs(this.state.basicinfo.end_at).unix()
     if (this.state.time.display <= 0) {
       clearTimeout(timer2)
       return
     } else {
       timer2 = setTimeout(() => {
-        clearTimeout(timer2)
-        let time = getTime(this.state.basicinfo.activity_end_time)
+        clearTimeout(timer)
+        let time = getTime(times)
         this.setState({
           time
         })
@@ -216,9 +218,9 @@ export default class Group extends Component {
   async fetchQrcode(): Promise<void> {
     const { youhui_log_id } = this.state.basicinfo
     const { data, code } = await getQrcode({ youhui_log_id })
-    if(code == 0){
-      Taro.showToast({title: '卡券已核销使用'})
-    }else{
+    if (code == 0) {
+      Taro.showToast({ title: '卡券已核销使用' })
+    } else {
       this.setState({
         isQrcode: true,
         base64: data
@@ -270,9 +272,9 @@ export default class Group extends Component {
     this.handleCalculate(data)
     this.setState({
       basicinfo: data
-    },()=>{
+    }, () => {
       let res = this.groupDesc()
-      this.setState({groupDesc: res})
+      this.setState({ groupDesc: res })
     })
   }
   toMoreGroup = () => {
@@ -377,10 +379,10 @@ export default class Group extends Component {
                 </View>
               </View>
               <View className="time">
-              {!isFinish ? <View className="time">
-                <Text className="text">距离结束时间还剩:</Text>
-                <Text>{this.state.time.date}</Text>
-              </View> : null}
+                {!isFinish ? <View className="time">
+                  <Text className="text">距离结束时间还剩:</Text>
+                  <Text>{this.state.time.date}</Text>
+                </View> : null}
               </View>
               <ScrollView
                 scrollX

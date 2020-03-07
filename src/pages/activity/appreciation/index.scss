@@ -37,16 +37,18 @@
 
   .appre_head_activityTitle {
     width: 100%;
-    height: 125px;
+    min-height: 125px;
+    height: auto;
     box-sizing: border-box;
     padding: 24px 24px 0 24px;
     background: #fff;
 
     .appre_head_activityTitle_title {
-      height: 60px;
+      min-height: 60px;
+      height: auto;
       font-size: 45px;
       font-weight: bold;
-      line-height: 1;
+      line-height: 1.2;
     }
 
     .appre_head_activityTitle_time {
@@ -149,18 +151,6 @@
             color: #fff;
             display: inline-block;
             border-radius: 8px;
-
-            .appre_gift_title {
-              height: 100%;
-              vertical-align: bottom;
-              font-weight: bold;
-              font-size: 40px;
-              float: left;
-              text-align: left;
-              color: #000;
-              line-height: 1;
-            }
-
           }
         }
 
@@ -258,14 +248,15 @@
       height: 40px;
       width: 100%;
 
-      .appre_rule_title {
-        height: 60px;
-        text-align: left;
+      .appre_gift_title {
+        height: 100%;
+        vertical-align: bottom;
         font-weight: bold;
         font-size: 40px;
-        font-weight: bold;
-        columns: #000;
         line-height: 1;
+        float: left;
+        text-align: left;
+        color: #000;
       }
 
       .appre_gift_Imagelist {
@@ -312,7 +303,7 @@
       .appre_gift_giftlistImg {
         width: 100%;
         border-radius: 8px;
-        // height:auto ;
+        height: auto;
       }
     }
 
@@ -421,50 +412,43 @@
         font-size: 25px;
       }
 
-      .setMeal_store_box {
-        width: 100%;
-        height: 100%;
-        background: #fff;
-        padding: 23px 40px 28px 30px;
+      .appre_rule_time_data {
+        float: left;
+        height: 40px;
+        font-size: 25px;
+        line-height: 1;
+        padding-top: 10px;
         box-sizing: border-box;
+      }
+    }
 
-        .setMeal_store_title {
-          height: 60px;
-          text-align: left;
-          font-weight: bold;
-          font-size: 40px;
-          line-height: 1;
-        }
+    .appre_rule_list {
+      width: 100%;
+      min-height: 50px;
+      overflow: hidden;
 
-        .appre_rule_list {
-          width: 100%;
-          min-height: 50px;
-          overflow: hidden;
+      // display: flex;
+      .appre_rule_list_key {
+        height: 40px;
+        width: 165px;
+        text-align: left;
+        color: #adadad;
+        float: left;
+        line-height: 30px;
+        padding-top: 10px;
+        box-sizing: border-box;
+        font-size: 25px;
+      }
 
-          // display: flex;
-          .appre_rule_list_key {
-            height: 40px;
-            width: 165px;
-            text-align: left;
-            color: #adadad;
-            float: left;
-            line-height: 30px;
-            padding-top: 10px;
-            box-sizing: border-box;
-            font-size: 25px;
-          }
+      .appre_rule_list_data {
+        height: auto;
+        margin-left: 165px;
 
-          .appre_rule_list_data {
-            height: auto;
-            margin-left: 165px;
-
-            .appre_rule_list_msg {
-              font-size: 25px;
-              line-height: 30px;
-              padding-top: 10px;
-              box-sizing: border-box;
-            }
-          }
+        .appre_rule_list_msg {
+          font-size: 25px;
+          line-height: 30px;
+          padding-top: 10px;
+          box-sizing: border-box;
         }
       }
     }
@@ -581,7 +565,7 @@
               height: 40px;
             }
           }
-          
+
           .setMeal_store_distance_info {
             height: 40px;
             position: absolute;
@@ -589,7 +573,7 @@
             width: 85px;
             text-align: center;
             font-size: 18px;
-        }
+          }
         }
 
         .setMeal_store_address {
@@ -618,7 +602,7 @@
     }
   }
 
-  .choose_postage {
+  .choosePostage {
     height: 55px;
     background: #fff;
     position: fixed;
@@ -727,17 +711,18 @@
       height: 75px;
       line-height: 75px;
       float: right;
-      border-radius: 37.5px;
-      background: #9e9e9e;
+      border-radius: 37px;
+      background-color: #9e9e9e;
       color: #fff;
       text-align: center;
       font-size: 30px;
     }
   }
 
-}
 
-.go_home {
-  width: 120px;
-  height: 120px;
+
+  .go_home {
+    width: 120px;
+    height: 120px;
+  }
 }
