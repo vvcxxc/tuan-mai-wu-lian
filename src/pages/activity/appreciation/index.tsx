@@ -5,7 +5,6 @@ import request from '../../../services/request'
 import share from '../../../assets/share.png';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
-import Zoom from '../../../components/zoom/index';
 import './index.scss';
 import LoginAlert from '@/components/loginAlert';
 interface Props {
@@ -16,8 +15,6 @@ let interval;
 export default class Appre extends Component<Props>{
   state = {
     ruleMore: false,
-    imgZoom: false,
-    imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
     is_alert: false, // 登录弹窗
@@ -377,7 +374,6 @@ export default class Appre extends Component<Props>{
           this.state.data.type == 0 && this.state.data.images.length > 0 ?
             <Swiper
               onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
-              onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] }) }}
               className='test-h'
               indicatorColor='#999'
               indicatorActiveColor='#333'
@@ -440,7 +436,6 @@ export default class Appre extends Component<Props>{
               <View className="appre_gift_giftlist" >
                 <Image className="appre_gift_giftlistImg"
                   mode="widthFix"
-                  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.gift_pic }) }}
                   src={this.state.data.gift_pic} />
               </View>
             </View> : null
@@ -548,11 +543,6 @@ export default class Appre extends Component<Props>{
           }
         </View>
 
-        <Zoom
-          src={this.state.imgZoomSrc}
-          showBool={this.state.imgZoom}
-          onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
-        />
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
