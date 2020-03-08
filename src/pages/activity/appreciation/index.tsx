@@ -262,29 +262,31 @@ export default class Appre extends Component<Props>{
   }
 
   payment = () => {
-      Taro.showLoading({
-        title: 'loading',
-      });
-      let data = {};
-      if (this.state.isPostage) {
-        data = {
-          youhui_id: this.$router.params.id,
-          activity_id: this.$router.params.activity_id,
-          gift_id: this.$router.params.gift_id,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: "1",
-          xcx: 1
-        }
-      } else {
-        data = {
-          youhui_id: this.$router.params.id,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: "1",
-          xcx: 1
-        }
+    Taro.showLoading({
+      title: 'loading',
+    });
+    let data = {};
+    console.log(512312)
+    if (this.state.isPostage) {
+      data = {
+        youhui_id: this.$router.params.id,
+        activity_id: this.$router.params.activity_id,
+        gift_id: this.$router.params.gift_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: "1",
+        xcx: 1
       }
+    } else {
+      data = {
+        youhui_id: this.$router.params.id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: "1",
+        xcx: 1
+      }
+    }
+    console.log(data)
     request({
       url: 'v1/youhui/wxXcxuWechatPay',
       method: "POST",

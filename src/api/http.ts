@@ -7,7 +7,8 @@ import {
   NOT_SIGN
 } from "@/utils/constants";
 import { toMiniProgramSign } from "@/utils/sign";
-
+import dayjs from 'dayjs'
+import { ShareSign, routerLogin } from '../utils/sign'
 const BASIC_API = process.env.BASIC_API;
 interface Params {
   url: string;
@@ -16,6 +17,7 @@ interface Params {
   options?: any;
 }
 const http = (params: Params): Promise<any> => {
+  ShareSign()
   const {
     url,
     method = "get",
@@ -56,7 +58,7 @@ const http = (params: Params): Promise<any> => {
             })
             break
           case NOT_SIGN:
-            toMiniProgramSign(BASIC_API)
+            routerLogin()
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
             Taro.showToast({
@@ -75,8 +77,6 @@ const http = (params: Params): Promise<any> => {
       async fail(err) {
         let aa = err.json()
         let a = await Promise.resolve(aa)
-        // a.then(function (result) { console.log(result,123123) })
-        console.log(a, 123123)
         const { code, message } = a;
         switch (code) {
           case SERVER_ERROR:
@@ -92,20 +92,14 @@ const http = (params: Params): Promise<any> => {
             })
             break
           case NOT_SIGN:
-            let is_index = pages[pages.length - 1].route.includes('pages/index/index')
-            if(is_index){
-              console.log('在首页')
-            }else{
-              toMiniProgramSign(BASIC_API)
-            }
-            console.log('login')
+            routerLogin()
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
-              Taro.showToast({
-                title: "not find",
-                icon: "none"
-              })
-              break
+            Taro.showToast({
+              title: "not find",
+              icon: "none"
+            })
+            break
           default:
             Taro.showToast({
               title: "unknow error",
