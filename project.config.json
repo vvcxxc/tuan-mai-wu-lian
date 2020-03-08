@@ -70,41 +70,8 @@
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 5,
-					"name": "pages/activity/pages/group/group",
-					"pathName": "pages/activity/pages/group/group",
-					"query": "id=526",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "拼团",
-					"pathName": "activity-pages/my-activity/my.activity",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "id=2812",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/Shipping-address/editor",
-					"pathName": "activity-pages/Shipping-address/editor",
-=======
 					"name": "activity-pages/personal/phoneInformation/index",
 					"pathName": "activity-pages/personal/phoneInformation/index",
->>>>>>> mapPersonal
 					"scene": null
 				}
 			]
