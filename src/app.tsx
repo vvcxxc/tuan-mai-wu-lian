@@ -99,7 +99,10 @@ class App extends Component {
 					'Shipping-address/index',
 					'Shipping-address/editor',
 					'confirm-address/index',
-					'confirm-address/chooseAddress'
+					'confirm-address/chooseAddress',
+					'personal/index',
+					'personal/personalInformation/index',
+					'personal/phoneInformation/index',
 				]
 			}
 		],

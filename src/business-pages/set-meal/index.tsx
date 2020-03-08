@@ -85,7 +85,7 @@ import LoginAlert from '@/components/loginAlert';export default class PaySuccess
     }
     Taro.showLoading({
       title: 'loading',
-      mask:true
+      mask: true
     })
     // console.log(this.$router.params)
     Taro.getLocation({ type: 'gcj02' }).then(res => {
@@ -155,19 +155,19 @@ import LoginAlert from '@/components/loginAlert';export default class PaySuccess
           }, 2000)
         });
     })
-}
-componentDidMount() {
-  Taro.showShareMenu({
-    withShareTicket: true
-  })
-}
-onShareAppMessage = (res) => {
-  return {
-    title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
-    path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
-    imageUrl: this.state.coupon.image
   }
-}
+  componentDidMount() {
+    Taro.showShareMenu({
+      withShareTicket: true
+    })
+  }
+  onShareAppMessage = (res) => {
+    return {
+      title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
+      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
+      imageUrl: this.state.coupon.image
+    }
+  }
 
 handleClick = (id, e) => {
   console.log(3123123)
@@ -268,12 +268,12 @@ render() {
             <View className="demo-text-3"><Image className="image" src="http://www.w3school.com.cn/i/eg_tulip.jpg" /></View>
           </SwiperItem>
         </Swiper> */}
-      <View className="demo-text-3"><Image style={{ width: "100%" }} src={this.state.coupon.image} /></View>
+        <View className="demo-text-3"><Image style={{ width: "100%" }} src={this.state.coupon.image} /></View>
 
-      <View className="info bcff">
-        {/* <Image className="image" src={starImg} onClick={this.keepCollect.bind(this)} /> */}
+        <View className="info bcff">
+          {/* <Image className="image" src={starImg} onClick={this.keepCollect.bind(this)} /> */}
 
-        {/* {
+          {/* {
             this.state.coupon.collect == "1" ? <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" />
               :
               (
@@ -283,35 +283,35 @@ render() {
                   <AtIcon className="image" value="star" color="#999" size="24px" onClick={this.keepCollect.bind(this)} />
               )
           } */}
-        <View className="tit">{this.state.coupon.yname} </View>
+          <View className="tit">{this.state.coupon.yname} </View>
 
-        <View className="desc" style={{ height: "auto" }}></View>
+          <View className="desc" style={{ height: "auto" }}></View>
 
-        <View className="tags">
-          {/* <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '' : '#fff' }}>可叠加</Text>
+          <View className="tags">
+            {/* <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('可叠加') !== -1 ? '' : '#fff' }}>可叠加</Text>
             <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('随时退') !== -1 ? '' : '#fff' }}>随时退</Text>
             <Text className="tag-text" style={{ backgroundColor: this.state.coupon.label.indexOf('免预约') !== -1 ? '' : '#fff' }}>免预约</Text> */}
 
-          {
-            this.state.coupon.label.indexOf('可叠加') !== -1 ?
-              <Text className="tag-text">可叠加</Text> : null
-          }
-          {
-            this.state.coupon.label.indexOf('随时退') !== -1 ?
-              <Text className="tag-text">随时退</Text> : null
-          }
-          {
-            this.state.coupon.label.indexOf('免预约') !== -1 ?
-              <Text className="tag-text"  >免预约</Text> : null
-          }
+            {
+              this.state.coupon.label.indexOf('可叠加') !== -1 ?
+                <Text className="tag-text">可叠加</Text> : null
+            }
+            {
+              this.state.coupon.label.indexOf('随时退') !== -1 ?
+                <Text className="tag-text">随时退</Text> : null
+            }
+            {
+              this.state.coupon.label.indexOf('免预约') !== -1 ?
+                <Text className="tag-text"  >免预约</Text> : null
+            }
 
 
+          </View>
         </View>
-      </View>
 
 
 
-      {/* <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
+        {/* <View className="shop mt20 pd30 bcff" onClick={this.handleClick2.bind(this, this.state.store.id)}>
           <View className="set-meal__tit">
             <Text className="fwb">适用店铺</Text>
           </View>
@@ -331,108 +331,98 @@ render() {
             <Image className="mobile-image" src={MobileImg} onClick={this.makePhoneCall.bind(this)} />
           </View>
         </View> */}
-      <View className="set_Meal_store">
-        <View className="setMeal_store_box" onClick={this.handleClick2.bind(this, this.state.store.id)}>
-          <View className="setMeal_store_title">适用店铺</View>
-          <View className="setMeal_store_storebox">
-            <View className="setMeal_store_Image">
-              <Image className="setMeal_store_img" src={this.state.store.shop_door_header_img} />
-            </View>
-            <View className="setMeal_store_msg">
-              <View className="setMeal_store_name">{this.state.store.sname}</View>
-              {/* <View className="setMeal_store_price">人均：￥222</View> */}
-            </View>
-            <View className="setMeal_store_icon">
-              <AtIcon value='chevron-right' size='20' color='#ccc'></AtIcon>
-            </View>
-          </View>
-          <View className="setMeal_store_addressbox">
-            <View className="setMeal_store_distance" onClick={this.routePlanning.bind(this)}>
-              <View className="setMeal_store_distance_Image" >
-                <Image className="setMeal_store_distance_AddressImg" src={AddressImg} />
+        <View className="set_Meal_store">
+          <View className="setMeal_store_box" onClick={this.handleClick2.bind(this, this.state.store.id)}>
+            <View className="setMeal_store_title">适用店铺</View>
+            <View className="setMeal_store_storebox">
+              <View className="setMeal_store_Image">
+                <Image className="setMeal_store_img" src={this.state.store.shop_door_header_img} />
               </View>
-              <View className="setMeal_store_distance_info" >{this.state.store.distance}</View>
+              <View className="setMeal_store_msg">
+                <View className="setMeal_store_name">{this.state.store.sname}</View>
+                {/* <View className="setMeal_store_price">人均：￥222</View> */}
+              </View>
+              <View className="setMeal_store_icon">
+                <AtIcon value='chevron-right' size='20' color='#ccc'></AtIcon>
+              </View>
             </View>
-            <View className="setMeal_store_address" onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
-            <View className="setMeal_store_mobile" onClick={this.makePhoneCall.bind(this)}>
-              <Image className="setMeal_store_MobileImg" src={MobileImg} />
+            <View className="setMeal_store_addressbox">
+              <View className="setMeal_store_distance" onClick={this.routePlanning.bind(this)}>
+                <View className="setMeal_store_distance_Image" >
+                  <Image className="setMeal_store_distance_AddressImg" src={AddressImg} />
+                </View>
+                <View className="setMeal_store_distance_info" >{this.state.store.distance}</View>
+              </View>
+              <View className="setMeal_store_address" onClick={this.routePlanning.bind(this)}>{this.state.store.saddress}</View>
+              <View className="setMeal_store_mobile" onClick={this.makePhoneCall.bind(this)}>
+                <Image className="setMeal_store_MobileImg" src={MobileImg} />
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View className="remark mt20 pd30 bcff">
-        <View className="set-meal__tit">
-          <Text className="fwb">购买须知</Text>
+        <View className="remark mt20 pd30 bcff">
+          <View className="set-meal__tit">
+            <Text className="fwb">购买须知</Text>
+          </View>
+          <View>
+            <View className="label">有效期：</View>
+            <View className="label-value">购买后{this.state.coupon.expire_day}天有效</View>
+            <View className="label">使用规则：</View>
+
+            <View className="label-value">
+              <ul>
+                {
+                  this.state.coupon.description.map((item) => (
+                    <li className="label-value"><View >. {item}</View ></li>
+                  ))
+                }
+              </ul>
+            </View>
+          </View>
+          {/* <View className="ft-more flex center">查看更多<AtIcon value="chevron-right" color="#999" size="16px" /></View> */}
         </View>
-        <View>
-          <View className="label">有效期：</View>
-          <View className="label-value">购买后{this.state.coupon.expire_day}天有效</View>
-          <View className="label">使用规则：</View>
 
-          <View className="label-value">
-            <ul>
+        {
+          this.state.goods_album.length != 0 ?
+            <View className="examine-more mt20 pd30 bcff">
+              <View className="set-meal__tit">
+                <Text className="fwb">图文详情</Text>
+              </View>
               {
-                this.state.coupon.description.map((item) => (
-                  <li className="label-value"><View >. {item}</View ></li>
+                this.state.goods_album.map((item) => (
+                  <Image src={item.image_url} style={{ width: "100%", borderRadius: "8rpx" }} key={item.id} />
                 ))
               }
-            </ul>
-          </View>
-        </View>
-        {/* <View className="ft-more flex center">查看更多<AtIcon value="chevron-right" color="#999" size="16px" /></View> */}
-      </View>
 
-      {
-        this.state.goods_album.length != 0 ?
-          <View className="examine-more mt20 pd30 bcff">
-            <View className="set-meal__tit">
-              <Text className="fwb">图文详情</Text>
-            </View>
-            {
-              this.state.goods_album.map((item) => (
-                <Image src={item.image_url} style={{ width: "100%", borderRadius: "8rpx" }} key={item.id} />
-              ))
-            }
-
-          </View> : ""
-      }
-      <View className="examine-more mt20 pd30 bcff">
-        <View className="set-meal__tit">
-          <Text className="fwb">更多本店宝贝</Text>
-        </View>
-        {
-          this.state.recommend.map((item) => (
-            <View key={item.id} >
-              <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} yname={item.yname} sname={item.sname} _image={item.image} expire_day={item.expire_day} />
-            </View>
-          ))
+            </View> : ""
         }
+        <View className="examine-more mt20 pd30 bcff">
+          <View className="set-meal__tit">
+            <Text className="fwb">更多本店宝贝</Text>
+          </View>
+          {
+            this.state.recommend.map((item) => (
+              <View key={item.id} >
+                <CashCoupon _id={item.id} return_money={item.return_money} pay_money={item.pay_money} youhui_type={item.youhui_type} timer={item.begin_time + "-" + item.end_time} list_brief={item.list_brief} yname={item.yname} sname={item.sname} _image={item.image} expire_day={item.expire_day} />
+              </View>
+            ))
+          }
 
-        {/* <CashCoupon _id={"1"} return_money={"11"} pay_money={"22"} youhui_type={"1"} timer={"1111"} list_brief={"5555555"} sname={"222"} /> */}
-
-
-      </View>
-      <View className="occupied">
-        <View className="layer-ft-buy flex">
-          <View className="money">￥<Text className="count">{this.state.coupon.pay_money}</Text></View>
-          <View><Button onClick={this.handleClick.bind(this, this.state.coupon.id)} className="btn-buy">立即抢购</Button></View>
-        </View>
-      </View>
-
-      {
+          {/* <CashCoupon _id={"1"} return_money={"11"} pay_money={"22"} youhui_type={"1"} timer={"1111"} list_brief={"5555555"} sname={"222"} /> */}
+          {
           this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
 
-      {/* 去首页 */}
-      {
-        this.state.isFromShare ? (
-          <View style={{ position: 'fixed', bottom: '50px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
-            <Image src={require('../../assets/go_home.png')} className="go_home" />
-          </View>
-        ) : ''
-      }
-    </View>
-  );
-}
+        </View>
+        {
+          this.state.isFromShare ? (
+            <View style={{ position: 'fixed', bottom: '50px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go_home.png')} className="go_home" />
+            </View>
+          ) : ''
+        }
+      </View>
+    );
+  }
 }

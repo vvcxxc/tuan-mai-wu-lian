@@ -49,6 +49,7 @@
 			"list": [
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "activity-pages/confirm-address/index",
 					"pathName": "activity-pages/confirm-address/index",
 					"query": "",
@@ -58,6 +59,10 @@
 					"id": -1,
 					"name": "pages/activity/index",
 					"pathName": "pages/activity/index",
+=======
+					"name": "activity-pages/personal/personalInformation/index",
+					"pathName": "activity-pages/personal/personalInformation/index",
+>>>>>>> 01c3047f2b8058b09338720456f5994905632cd4
 					"query": "",
 					"scene": null
 				},
@@ -70,13 +75,14 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
+					"name": "activity-pages/personal/phoneInformation/index",
+					"pathName": "activity-pages/personal/phoneInformation/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "pages/activity/index",
 					"pathName": "pages/activity/index",
 					"query": "",
@@ -98,6 +104,7 @@
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "pages/activity/pages/appreciation/appreciation",
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2812",
@@ -122,13 +129,27 @@
 					"name": "pages/activity/pages/appreciation/appreciation",
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2815&__key_=15836343749373",
+=======
+					"name": "pages/activity/pages/appreciation/appreciation",
+					"pathName": "pages/activity/pages/appreciation/appreciation",
+					"query": "id=2812",
+>>>>>>> 01c3047f2b8058b09338720456f5994905632cd4
 					"scene": null
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "pages/business/index",
 					"pathName": "pages/business/index",
 					"query": "id=1315&__key_=15836367623511",
+=======
+					"name": "activity-pages/Shipping-address/editor",
+					"pathName": "activity-pages/Shipping-address/editor",
+=======
+					"name": "activity-pages/personal/phoneInformation/index",
+					"pathName": "activity-pages/personal/phoneInformation/index",
+>>>>>>> mapPersonal
+>>>>>>> 01c3047f2b8058b09338720456f5994905632cd4
 					"scene": null
 				}
 			]

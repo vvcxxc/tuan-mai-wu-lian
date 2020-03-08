@@ -80,7 +80,6 @@ export default class EditorAddress extends Component {
     }
     // 所在区域
     cityEnd = (query) => {
-        console.log(query)
         this.setState({ cityValue: query.tempselectorid })
         // this.setState({ cityValue: query.tempselectorid, tempCityInfo: query.selectorChecked, actionsheetShow: false })
     }
