@@ -33,7 +33,7 @@ export default class Auth extends Component {
         }
       }).then((res: any) => {
         if (res.status_code == 200) {
-          console.log(res)
+
           if (res.data.status == 'bind_success' || res.data.status == 'binded') {
             Taro.setStorageSync('phone_status', res.data.status)
             Taro.showToast({
@@ -46,6 +46,20 @@ export default class Auth extends Component {
             // }
           } else if (res.data.status == 'need_merge') {
             this.setState({ is_show: true, phone: res.data.mobile })
+          } else if (res.data.status == 'merge_success') {
+            Taro.setStorageSync('phone_status', 'bind_success')
+            Taro.setStorageSync('token', 'Bearer ' + res.data.token)
+            Taro.showToast({
+              title: '登录成功'
+            })
+            this.setState({ phone: res.data.mobile })
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 1500)
+          } else if (res.data.status == 'merge_fail') {
+            Taro.showToast({
+              title: '登录失败'
+            })
           }
         } else {
           quietLogin()

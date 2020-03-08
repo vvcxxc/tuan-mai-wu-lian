@@ -47,7 +47,13 @@
 		"miniprogram": {
 			"current": -1,
 			"list": [
-
+				{
+					"id": -1,
+					"name": "pages/business/index",
+					"pathName": "pages/business/index",
+					"query": "id=1315&__key_=15836484788341",
+					"scene": null
+				}
 			]
 		}
 	}
