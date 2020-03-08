@@ -93,20 +93,17 @@ export default class NewPage extends Component<Props>{
       // this.setState({
       //   user_img: res.data.avatar
       // })
-
-    })
-
-    let phone_status = Taro.getStorageSync('phone_status')
-    let user = Taro.getStorageSync('user')
-    if (phone_status == 'binded' || phone_status == 'bind_success') {
-      if (!user.avatar) {
-        this.setState({ type: 'user' })
+      let phone_status = Taro.getStorageSync('phone_status')
+      if (phone_status == 'binded' || phone_status == 'bind_success') {
+        if (res.data.emptyAvatar == 'N') {
+          this.setState({ type: 'user' })
+        }
+        this.setState({ is_show: true })
+      } else {
+        this.setState({ type: 'phone' })
+        this.setState({ is_show: false })
       }
-      this.setState({ is_show: true })
-    } else {
-      this.setState({ type: 'phone' })
-      this.setState({ is_show: false })
-    }
+    })
   }
 
   /**
@@ -185,19 +182,19 @@ export default class NewPage extends Component<Props>{
         this.setState({
           list: myData
         })
-      })
-      let phone_status = Taro.getStorageSync('phone_status')
-      let user = Taro.getStorageSync('user')
-      if (phone_status == 'binded' || phone_status == 'bind_success') {
-        if (!user.avatar) {
-          this.setState({ type: 'user' })
+        let phone_status = Taro.getStorageSync('phone_status')
+        if (phone_status == 'binded' || phone_status == 'bind_success') {
+          if (res.data.emptyAvatar == 'N') {
+            this.setState({ type: 'user' })
+          }
+          this.setState({ is_show: true })
+        } else {
+          this.setState({ type: 'phone' })
+          this.setState({ is_show: false })
         }
-        this.setState({ is_show: true })
-      } else {
-        this.setState({ type: 'phone' })
-        this.setState({ is_show: false })
-      }
-      this.setState({ is_alert: false })
+        this.setState({ is_alert: false })
+      })
+
     }
   }
   setPersonalInfo = () => {

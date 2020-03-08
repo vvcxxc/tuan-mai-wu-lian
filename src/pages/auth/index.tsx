@@ -120,8 +120,22 @@ export default class Auth extends Component {
       url: 'v1/user/user/merge_user',
       method: "PUT",
       data: {
-        mobile: this.state.phone,
+        mobile: this.state.phoneNumber,
         type: 'xcx'
+      }
+    }).then(res => {
+      if(res.status_code == 200){
+        Taro.setStorageSync('phone_status', 'bind_success')
+        Taro.setStorageSync('token','Bearer ' + res.data.token)
+        Taro.showToast({title: '同步成功'})
+        setTimeout(() => {
+          let page = Taro.getCurrentPages()
+          if (page.length > 1) {
+            Taro.navigateBack({
+              delta: 2
+            })
+          }
+        }, 2000)
       }
     })
   }
