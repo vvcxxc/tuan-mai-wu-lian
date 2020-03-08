@@ -11,7 +11,7 @@ import "../src/styles/weui.scss"
 import './app.styl';
 import 'taro-ui/dist/style/index.scss';
 import dayjs from 'dayjs'
-
+import { quietLogin } from './utils/sign'
 
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -42,7 +42,8 @@ class App extends Component {
 	config: Config = {
 		pages: [
 			'pages/index/index',
-			'pages/auth/auth',
+			'pages/auth/index',
+			'pages/auth/login_page/index',
 			'pages/index/search/index',
 			'pages/my/index',
 			'pages/order/index',
@@ -98,7 +99,10 @@ class App extends Component {
 					'Shipping-address/index',
 					'Shipping-address/editor',
 					'confirm-address/index',
-					'confirm-address/chooseAddress'
+					'confirm-address/chooseAddress',
+					'personal/index',
+					'personal/personalInformation/index',
+					'personal/phoneInformation/index',
 				]
 			}
 		],
@@ -159,18 +163,25 @@ class App extends Component {
 	defineApp: {
 		define: '22'
 	}
-  componentDidShow() {
-    console.log('打开小程序')
+	componentDidShow() {
     let date = dayjs().unix()
-    console.log(date)
     Taro.setStorageSync('is_one',date)
+    let token = Taro.getStorageSync('token');
+    let token_expires_in = Taro.getStorageSync('expires_in');
+    if(token){
+      if(token_expires_in && token_expires_in < date){
+        // token过期
+      quietLogin()
+      }
+    }else{
+      quietLogin()
+    }
   }
   componentDidMount() {
 
   }
 	componentDidHide() {
     Taro.removeStorageSync('is_one')
-    console.log('隐藏')
    }
 	componentDidCatchError() { }
 

@@ -7,7 +7,7 @@ import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
-import AlertLogin from '@/components/alertLogin'
+import LoginAlert from '@/components/loginAlert';
 interface Props {
   id: any;
 }
@@ -24,6 +24,7 @@ export default class Group extends Component<Props>{
     xPoint: 0,
     yPoint: 0,
     imagesCurrent: 0,
+    is_alert: false, //登录弹窗
     data: {
       activity_begin_time: "",
       activity_end_time: "",
@@ -77,9 +78,7 @@ export default class Group extends Component<Props>{
       total: 0,
     },
     newGroupList: [],
-    imagePath: '',
     isPostage: true,
-    is_login: false,
     isFromShare: false,
     groupListShow: false,
     groupListPages: 1
@@ -87,8 +86,6 @@ export default class Group extends Component<Props>{
 
 
   clearTimeOut = () => {
-    console.log('清除计时器');
-    // clearTimeout(timer);
     var end = setTimeout(function () { }, 1);
     var start = (end - 100) > 0 ? end - 100 : 0;
     for (var i = start; i <= end; i++) {
@@ -124,7 +121,6 @@ export default class Group extends Component<Props>{
             }
           })
             .then((res: any) => {
-              console.log(res)
               let newGroupList = this.chunk(res.data.data, 2);
               this.setState({ data2: res.data, newGroupList: newGroupList });
             });
@@ -147,10 +143,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-                // this.addListen();
-              });
+              this.setState({ data: res.data });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -193,10 +186,7 @@ export default class Group extends Component<Props>{
               } else {
                 this.setState({ isPostage: false })
               }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-                // this.addListen();
-              });
+              this.setState({ data: res.data });
               Taro.hideLoading()
             }).catch(err => {
               console.log(err);
@@ -207,80 +197,11 @@ export default class Group extends Component<Props>{
     Taro.showShareMenu();
   }
 
-  draw = () => {
-    let that = this;
-    var ctx = Taro.createCanvasContext('canvas01', this)
-    var addressStr = "地址：" + that.state.data.address;
-    var telStr = "电话：" + that.state.data.tel;
-    // ctx.setFillStyle("rgba(0,0,0,.2)");
-    // ctx.fillRect(0, 0, 460, 360);
-    console.log("apprepreview", that.state.data.preview);
-    Taro.downloadFile({
-      url: that.state.data.preview,
-      success: function (res) {
-        console.log("downloadFile", res.tempFilePath);
-        ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
-        // ctx.stroke();
-        ctx.setFillStyle("rgba(0,0,0,.5)");
-        ctx.fillRect(0, 200, 460, 360);
-        ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
-        ctx.setFontSize(26);//设置字体大小，默认10s
-        ctx.lineWidth = 1;
-        var lineWidth = 0;
-        var canvasWidth = 420; //计算canvas的宽度
-        var initHeight = 240; //绘制字体距离canvas顶部初始的高度
-        var lastSubStrIndex = 0; //每次开始截取的字符串的索引
-        for (let i = 0; i < addressStr.length; i++) {
-          lineWidth += ctx.measureText(addressStr[i]).width;
-          if (lineWidth > canvasWidth) {
-            ctx.fillText(addressStr.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
-            initHeight += 35; //为字体的高度
-            lineWidth = 0;
-            lastSubStrIndex = i;
-          }
-          if (i == addressStr.length - 1) { //绘制剩余部分
-            ctx.fillText(addressStr.substring(lastSubStrIndex, i + 1), 20, initHeight);
-          }
-        }
-        ctx.fillText(telStr, 20, initHeight + 40);
-        //调用draw()开始绘制
-        console.log("draw");
-
-        ctx.draw()
-
-        setTimeout(function () {
-          Taro.canvasToTempFilePath({
-            canvasId: 'canvas01',
-            success: function (res) {
-              console.log("drawres", res.tempFilePath);
-              var tempFilePath = res.tempFilePath;
-              that.setState({
-                imagePath: tempFilePath,
-              });
-            },
-            fail: function (res) {
-              console.log(res);
-            }
-          });
-        }, 200);
-      },
-      fail: function (res) {
-        that.setState({
-          imagePath: that.state.data.preview
-        });
-      }
-    })
-  }
-
-
   /**
   * 回首页
   */
   handleGoHome = () => {
-    this.clearTimeOut();
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
+    this.clearTimeOut(); Taro.switchTab({ url: '/pages/index/index' })
   }
 
   onShareAppMessage() {
@@ -290,10 +211,10 @@ export default class Group extends Component<Props>{
     let title, imageUrl;
     if (gift) {
       title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
-      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
+      imageUrl = preview;
     } else {
       title = `${name}正在发起${youhui_name}拼团活动，速来！`;
-      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
+      imageUrl = preview;
     }
     return {
       title: title,
@@ -327,26 +248,18 @@ export default class Group extends Component<Props>{
   //去图文详情
   toImgList = () => {
     this.clearTimeOut();
-    Taro.navigateTo({
-      url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
-    })
+    Taro.navigateTo({ url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id })
   }
   //去商店
   handleClick2 = (e) => {
     this.clearTimeOut();
-    Taro.navigateTo({
-      // url: '/detail-pages/business/index?id=' + _id
-      url: '/pages/business/index?id=' + this.state.data.id
-    })
+    Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.data.id })
   };
   //打电话
   makePhoneCall = (e) => {
     Taro.makePhoneCall({
       phoneNumber: this.state.data.tel
     })
-      .then((res: any) => {
-        console.log(res)
-      });
     e.stopPropagation();
   }
   //地图
@@ -361,131 +274,134 @@ export default class Group extends Component<Props>{
     e.stopPropagation();
   }
 
-  // 是否选择礼品
-  chooseGift = () => {
-    this.setState({ isPostage: !this.state.isPostage })
-  }
-
   payment = () => {
-    let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
-    let _temptype = this.$router.params.type;
-    // 改前必看：本页面与众不同的傻狗命名一览
-    // 活动ID：this.$router.params.id===this.state.data.youhui_id;
-    // 店ID:store_id==this.state.data.id;
-    // 店名==this.state.data.name
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
+      let _temptype = this.$router.params.type;
+      // 改前必看：本页面与众不同的傻狗命名一览
+      // 活动ID：this.$router.params.id===this.state.data.youhui_id;
+      // 店ID:store_id==this.state.data.id;
+      // 店名==this.state.data.name
 
-    //一般进来：id，type == 5 ，gift_id，activity_id，
-    //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {
-      public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
-      activity_id: this.$router.params.activity_id,
-      open_id: Taro.getStorageSync("openid"),
-      unionid: Taro.getStorageSync("unionid"),
-      type: this.$router.params.type,
-      xcx: 1,
-      number: 1
-    }
+      //一般进来：id，type == 5 ，gift_id，activity_id，
+      //参团进来：id，type == 55 ，gift_id，activity_id，publictypeid
 
-    request({
-      url: 'payCentre/toWxPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      if (res.code == 200) {
-        let order_sn = res.channel_order_sn;//比增值少一层data
-        Taro.hideLoading();
-        // 发起支付
-        Taro.requestPayment({
-          timeStamp: res.data.timeStamp,
-          nonceStr: res.data.nonceStr,
-          package: res.data.package,
-          signType: res.data.signType,
-          paySign: res.data.paySign,
-          success(res) {
-            if (_temptype == 5) {
-              //开团要得到开团活动id再跳转活动详情
-              Taro.showLoading({
-                title: 'loading',
-                mask: true
-              });
-              interval = setInterval(() => {
-                request({
-                  url: 'api/wap/user/getUserYouhuiGroupId',
-                  method: "GET",
-                  data: { order_sn: order_sn }
-                }).then((res: any) => {
-                  if (res.code == 200) {
-                    clearInterval(interval);
-                    Taro.hideLoading();
-                    Taro.navigateTo({
-                      url: '/pages/activity/pages/group/group?id=' + res.data.id,
-                      success: () => {
-                        var page = Taro.getCurrentPages().pop();
-                        if (page == undefined || page == null) return;
-                        page.onLoad();
-                      }
-                    })
+      Taro.showLoading({
+        title: 'loading',
+      });
+      let data = {
+        public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+        activity_id: this.$router.params.activity_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: this.$router.params.type,
+        xcx: 1,
+        number: 1
+      }
+      request({
+        url: 'payCentre/toWxPay',
+        method: "POST",
+        data
+      }).then((res: any) => {
+        if (res.code == 200) {
+          let order_sn = res.channel_order_sn;//比增值少一层data
+          Taro.hideLoading();
+          // 发起支付
+          Taro.requestPayment({
+            timeStamp: res.data.timeStamp,
+            nonceStr: res.data.nonceStr,
+            package: res.data.package,
+            signType: res.data.signType,
+            paySign: res.data.paySign,
+            success(res) {
+              if (_temptype == 5) {
+                //开团要得到开团活动id再跳转活动详情
+                Taro.showLoading({
+                  title: 'loading',
+                  mask: true
+                });
+                interval = setInterval(() => {
+                  request({
+                    url: 'api/wap/user/getUserYouhuiGroupId',
+                    method: "GET",
+                    data: { order_sn: order_sn }
+                  }).then((res: any) => {
+                    if (res.code == 200) {
+                      clearInterval(interval);
+                      Taro.hideLoading();
+                      Taro.navigateTo({
+                        url: '/pages/activity/pages/group/group?id=' + res.data.id,
+                        success: () => {
+                          var page = Taro.getCurrentPages().pop();
+                          if (page == undefined || page == null) return;
+                          page.onLoad();
+                        }
+                      })
+                    }
+                  })
+                }, 1000);
+              } else if (_temptype == 55) {
+                Taro.navigateTo({
+                  url: '/pages/activity/pages/group/group?id=' + _tempid,
+                  success: () => {
+                    var page = Taro.getCurrentPages().pop();
+                    if (page == undefined || page == null) return;
+                    page.onLoad();
                   }
                 })
-              }, 1000);
-            } else if (_temptype == 55) {
-              Taro.navigateTo({
-                url: '/pages/activity/pages/group/group?id=' + _tempid,
-                success: () => {
-                  var page = Taro.getCurrentPages().pop();
-                  if (page == undefined || page == null) return;
-                  page.onLoad();
-                }
-              })
-            } else {
-              console.log('类型出错');
-              return;
+              } else {
+                console.log('类型出错');
+                return;
+              }
+            },
+            fail(err) {
+              Taro.showToast({ title: '支付失败', icon: 'none' })
             }
-          },
-          fail(err) {
-            // Taro.showToast({ title: '支付失败', icon: 'none' })
-          }
-        })
-      }
-    })
+          })
+        }
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
-  payment2 = (_groupid) => {
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {
-      public_type_id: _groupid,
-      activity_id: this.$router.params.activity_id,
-      open_id: Taro.getStorageSync("openid"),
-      unionid: Taro.getStorageSync("unionid"),
-      type: 55,
-      xcx: 1,
-      number: 1
-    }
-    request({
-      url: 'payCentre/toWxPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      Taro.hideLoading();
 
-      if (res.code == 200) {
+  payment2 = (_groupid) => {
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      Taro.showLoading({
+        title: 'loading',
+      });
+      let data = {};
+      if (this.state.isPostage) {
+        data = {
+          public_type_id: _groupid,
+          activity_id: this.$router.params.activity_id,
+          gift_id: this.$router.params.gift_id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: 55,
+          xcx: 1,
+          number: 1
+        }
+      } else {
+        data = {
+          public_type_id: _groupid,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: 55,
+          xcx: 1,
+          number: 1
+        }
+      }
+      request({
+        url: 'payCentre/toWxPay',
+        method: "POST",
+        data
+      }).then((res: any) => {
+        Taro.hideLoading();
         // 发起支付
         Taro.requestPayment({
           timeStamp: res.data.timeStamp,
@@ -504,13 +420,14 @@ export default class Group extends Component<Props>{
             })
           },
           fail(err) {
-            // Taro.showToast({ title: '支付失败', icon: 'none' })
+            Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
-      } else {
-        Taro.showToast({ title: res.message, icon: 'none' })
-      }
-    })
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
   addGroupList = () => {
@@ -560,25 +477,29 @@ export default class Group extends Component<Props>{
     if (this.state.data.gift_id) {
       this.clearTimeOut();
       //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
-      console.log(this.$router.params.id, _id)
-      Taro.navigateTo({
-        url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
-      })
+      Taro.navigateTo({ url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name })
     } else {
       this.payment2(_id);
     }
   }
+  // 登录弹窗
+  loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
 
+      this.setState({ is_alert: false })
+    }
+  }
   render() {
-    const { images, description } = this.state.data;
-    // console.log(this.state.data2);
+    const { description } = this.state.data;
     const { data2 } = this.state;
     return (
       <View className="d_appre" >
-
         {
           this.state.groupListShow ? <View className="d_appre_groupList" onClick={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} onTouchMove={(e) => { this.setState({ groupListShow: false }); e.stopPropagation(); }} >
-            <View className="d_appre_groupList_box" onClick={(e) => { e.stopPropagation() }} onTouchMove={(e) => { e.stopPropagation(); }}>
+            <View className="d_appre_groupList_box">
               <View className="d_appre_groupList_box_title">正在拼团</View>
               <View className="d_appre_groupList_box_slideBox">
                 <ScrollView
@@ -615,7 +536,6 @@ export default class Group extends Component<Props>{
                       )
                     })
                   }
-
                 </ScrollView>
               </View>
               <View className="group_list_toast" >上滑查看更多</View>
@@ -625,7 +545,6 @@ export default class Group extends Component<Props>{
             </View>
           </View> : null
         }
-
         <Button className="group_head_bottom_share" open-type="share" >
           <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
           分享
@@ -633,12 +552,8 @@ export default class Group extends Component<Props>{
 
         {
           this.state.data.images.length > 0 ? <Swiper
-            onChange={(e) => {
-              this.setState({ imagesCurrent: e.detail.current })
-            }}
-            onClick={() => {
-              this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
-            }}
+            onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
+            onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] }) }}
             className='test-h'
             indicatorColor='#999'
             indicatorActiveColor='#333'
@@ -876,8 +791,10 @@ export default class Group extends Component<Props>{
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
+
+
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
         {/* 去首页 */}
         {

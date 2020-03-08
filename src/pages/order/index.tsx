@@ -22,6 +22,7 @@ export default class Order extends Component {
     _codeinfo: "",
     _codeimg: "",
     _codeshow: false,
+    no_login: false, // 判断是否登录
     current: 0,//taro组件用的
     coupon: [],//taro组件用的
     coupon1: [
@@ -53,55 +54,64 @@ export default class Order extends Component {
   };
 
   componentDidShow() {
-    this.setState({
-      lengthbull1: true,
-      lengthbull2: true,
-      lengthbull3: true,
-      lengthbull4: true
-    },()=>{
-      this.getData1()
-    })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      this.setState({
+        lengthbull1: true,
+        lengthbull2: true,
+        lengthbull3: true,
+        lengthbull4: true
+      }, () => {
+        this.getData1()
+      })
+    } else {
+      this.setState({ no_login: true })
+    }
+
   }
 
 
   onPullDownRefresh = () => { // 自带 下拉事件
-    if (this.state.current == 0) {
-      this.setState({
-        page1: 1,
-        lengthbull1: true,
-        coupon1: []
-      }, () => {
-        this.getData1();
-      })
-    } else if (this.state.current == 1) {
-      this.setState({
-        page2: 1,
-        lengthbull2: true,
-        coupon2: []
-      }, () => {
-        this.getData2();
-      })
+    if (!this.state.no_login) {
+      if (this.state.current == 0) {
+        this.setState({
+          page1: 1,
+          lengthbull1: true,
+          coupon1: []
+        }, () => {
+          this.getData1();
+        })
+      } else if (this.state.current == 1) {
+        this.setState({
+          page2: 1,
+          lengthbull2: true,
+          coupon2: []
+        }, () => {
+          this.getData2();
+        })
 
-    } else if (this.state.current == 2) {
-      this.setState({
-        page3: 1,
-        lengthbull3: true,
-        coupon3: []
-      }, () => {
-        this.getData3();
-      })
-    } else if (this.state.current == 3) {
-      this.setState({
-        page4: 1,
-        lengthbull4: true,
-        coupon4: []
-      }, () => {
-        this.getData4();
-      })
+      } else if (this.state.current == 2) {
+        this.setState({
+          page3: 1,
+          lengthbull3: true,
+          coupon3: []
+        }, () => {
+          this.getData3();
+        })
+      } else if (this.state.current == 3) {
+        this.setState({
+          page4: 1,
+          lengthbull4: true,
+          coupon4: []
+        }, () => {
+          this.getData4();
+        })
+      }
+      setTimeout(() => {
+        Taro.stopPullDownRefresh();
+      }, 1000);
     }
-    setTimeout(() => {
-      Taro.stopPullDownRefresh();
-    }, 1000);
+
   }
   // 触底事件
   onReachBottom = () => {
@@ -228,14 +238,16 @@ export default class Order extends Component {
     this.setState({
       current: value
     }, () => {
-      if (value == 0 && this.state.coupon1.length == 0) {
-        this.getData1();
-      } else if (value == 1 && this.state.coupon2.length == 0) {
-        this.getData2();
-      } else if (value == 2 && this.state.coupon3.length == 0) {
-        this.getData3();
-      } else if (value == 3 && this.state.coupon4.length == 0) {
-        this.getData4()
+      if(!this.state.no_login){
+        if (value == 0 && this.state.coupon1.length == 0) {
+          this.getData1();
+        } else if (value == 1 && this.state.coupon2.length == 0) {
+          this.getData2();
+        } else if (value == 2 && this.state.coupon3.length == 0) {
+          this.getData3();
+        } else if (value == 3 && this.state.coupon4.length == 0) {
+          this.getData4()
+        }
       }
     })
 
@@ -268,12 +280,13 @@ export default class Order extends Component {
   }
 
   render() {
+    const {no_login} = this.state
     const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }, { title: '已退款' }]
     return (
       <View className="order flex column"  >
 
         {this.state._codeshow ?
-          <View className="code_show" onClick={() => { this.setState({ _codeshow: false,_codeimg:'',_codeinfo:'' }) }}>
+          <View className="code_show" onClick={() => { this.setState({ _codeshow: false, _codeimg: '', _codeinfo: '' }) }}>
             <View className="code_background"> </View>
             <View className="codeBox" >
               <View className="codeBox_info">商家扫码/输码验证即可消费</View>
@@ -288,6 +301,17 @@ export default class Order extends Component {
 
         <View>
           {
+            no_login ?
+            <View className="msgBox msgBox-no-sign">
+              <View className="imgBox">
+                  <Image className="logo" src={require('@/assets/no-sign.png')} />
+                </View>
+                <View className="_msg">登录后才可以查看订单信息哦！</View>
+                <View className="toHome-no-sign "
+                  onClick={() => {
+                   Taro.navigateTo({url: '/pages/auth/index'})
+                  }}>去登录</View>
+            </View> :
             (this.state.current == 0 && this.state.coupon1.length == 0) ?
               <View className="msgBox">
                 <View className="imgBox">

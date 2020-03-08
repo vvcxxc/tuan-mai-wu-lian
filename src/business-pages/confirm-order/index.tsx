@@ -8,7 +8,6 @@ import addimg from '../../assets/add.png';
 import addimg2 from '../../assets/add2.png';
 import cutimg from '../../assets/cut.png';
 import cutimg2 from '../../assets/cut2.png';
-import AlertLogin from '@/components/alertLogin'
 export default class ConfirmOrder extends Component {
   config = {
     navigationBarTitleText: "确认订单"
@@ -30,8 +29,6 @@ export default class ConfirmOrder extends Component {
       id: "",
       sname: ""
     },
-    pay_bull: false,
-    pay_data: "支付成功",
     is_login: false
   };
   componentWillMount() {
@@ -71,12 +68,6 @@ export default class ConfirmOrder extends Component {
     }
   }
   payMoney() {
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
     Taro.showLoading({
       title: 'loading',
     })
@@ -141,10 +132,6 @@ export default class ConfirmOrder extends Component {
   render() {
     return (
       <View className="confirm-order" >
-        {/* {
-
-          this.state.pay_bull ? <AtToast isOpened text={this.state.pay_data} duration={2000} ></AtToast> : ""
-        } */}
         <View className="content">
           <View className="flex center">
             <View className="item label">{this.state.store.sname}{this.state.coupon.yname}</View>
@@ -183,9 +170,7 @@ export default class ConfirmOrder extends Component {
             ￥ {this.state.coupon.pay_money * this.state.amount} 去支付
           </View>
         </View> */}
-        {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
-        }
+
       </View>
     );
   }

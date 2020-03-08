@@ -7,21 +7,20 @@ import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
 import Zoom from '../../../components/zoom/index';
 import './index.scss';
-import AlertLogin from '@/components/alertLogin'
+import LoginAlert from '@/components/loginAlert';
 interface Props {
   id: any;
 }
 
 let interval;
 export default class Appre extends Component<Props>{
-
   state = {
     ruleMore: false,
     imgZoom: false,
     imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
-
+    is_alert: false, // 登录弹窗
     imagesCurrent: 0,
     data: {
       activity_begin_time: "",
@@ -56,23 +55,15 @@ export default class Appre extends Component<Props>{
     },
     imagePath: '',
     isPostage: true,
-    is_login: false,
-
-
     isFromShare: false
   };
 
   componentDidShow = () => {
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) {
-      this.setState({
-        isFromShare: true
-      })
+      this.setState({ isFromShare: true })
     }
-    console.log(this.$router.params);
-    Taro.showLoading({
-      title: 'loading',
-    })
+    Taro.showLoading({ title: 'loading', mask: true })
     Taro.getLocation({
       type: 'gcj02',
       success: res => {
@@ -84,7 +75,6 @@ export default class Appre extends Component<Props>{
             url: 'api/wap/user/appreciation/getYouhuiAppreciationInfo',
             method: "GET",
             data: {
-              // youhui_id: 3713,
               youhui_id: this.$router.params.id,
               xpoint: this.state.xPoint,
               ypoint: this.state.yPoint
@@ -108,15 +98,11 @@ export default class Appre extends Component<Props>{
         })
       },
       fail: () => {
-        this.setState({
-          yPoint: '',
-          xPoint: ''
-        }, () => {
+        this.setState({ yPoint: '', xPoint: '' }, () => {
           request({
             url: 'api/wap/user/appreciation/getYouhuiAppreciationInfo',
             method: "GET",
             data: {
-              // youhui_id: 3713,
               youhui_id: this.$router.params.id,
               xpoint: this.state.xPoint,
               ypoint: this.state.yPoint
@@ -149,15 +135,10 @@ export default class Appre extends Component<Props>{
     var ctx = Taro.createCanvasContext('canvas01', this)
     var addressStr = "地址：" + that.state.data.address;
     var telStr = "电话：" + that.state.data.tel;
-    // ctx.setFillStyle("rgba(0,0,0,.2)");
-    // ctx.fillRect(0, 0, 460, 360);
-    console.log("apprepreview", that.state.data.preview);
     Taro.downloadFile({
       url: that.state.data.preview,
       success: function (res) {
-        console.log("downloadFile", res.tempFilePath);
         ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
-        // ctx.stroke();
         ctx.setFillStyle("rgba(0,0,0,.5)");
         ctx.fillRect(0, 200, 460, 360);
         ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
@@ -180,20 +161,13 @@ export default class Appre extends Component<Props>{
           }
         }
         ctx.fillText(telStr, 20, initHeight + 40);
-        //调用draw()开始绘制
-        console.log("draw");
-
         ctx.draw()
-
         setTimeout(function () {
           Taro.canvasToTempFilePath({
             canvasId: 'canvas01',
             success: function (res) {
-              console.log("drawres", res.tempFilePath);
               var tempFilePath = res.tempFilePath;
-              that.setState({
-                imagePath: tempFilePath,
-              });
+              that.setState({ imagePath: tempFilePath });
             },
             fail: function (res) {
               console.log(res);
@@ -210,7 +184,6 @@ export default class Appre extends Component<Props>{
   }
 
   onShareAppMessage() {
-    console.log(this.state.imagePath)
     const userInfo = Taro.getStorageSync("userInfo");
     const { gift, return_money, preview, pay_money } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
@@ -265,43 +238,39 @@ export default class Appre extends Component<Props>{
   }
 
   payment = () => {
-    if (!Taro.getStorageSync("unionid")) {
-      this.setState({
-        is_login: true
-      })
-      return
-    }
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {};
-    if (this.state.isPostage) {
-      data = {
-        youhui_id: this.$router.params.id,
-        activity_id: this.$router.params.activity_id,
-        gift_id: this.$router.params.gift_id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: "1",
-        xcx: 1
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      Taro.showLoading({
+        title: 'loading',
+      });
+      let data = {};
+      if (this.state.isPostage) {
+        data = {
+          youhui_id: this.$router.params.id,
+          activity_id: this.$router.params.activity_id,
+          gift_id: this.$router.params.gift_id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: "1",
+          xcx: 1
+        }
+      } else {
+        data = {
+          youhui_id: this.$router.params.id,
+          open_id: Taro.getStorageSync("openid"),
+          unionid: Taro.getStorageSync("unionid"),
+          type: "1",
+          xcx: 1
+        }
       }
-    } else {
-      data = {
-        youhui_id: this.$router.params.id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: "1",
-        xcx: 1
-      }
-    }
-    request({
-      url: 'v1/youhui/wxXcxuWechatPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      Taro.hideLoading();
-      if (res.code == 200) {
+      request({
+        url: 'v1/youhui/wxXcxuWechatPay',
+        method: "POST",
+        data
+      }).then((res: any) => {
         let order_sn = res.data.channel_order_sn;
+        Taro.hideLoading();
+
         // 发起支付
         Taro.requestPayment({
           timeStamp: res.data.timeStamp,
@@ -342,10 +311,11 @@ export default class Appre extends Component<Props>{
             Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
-      } else {
-        Taro.showToast({ title: res.message, icon: 'none' })
-      }
-    })
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
+
   }
 
   goToaConfirm = (e) => {
@@ -367,6 +337,18 @@ export default class Appre extends Component<Props>{
       url: '/pages/index/index'
     })
   }
+
+  // 登录弹窗
+  loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
+
+      this.setState({ is_alert: false })
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(interval);
   }
@@ -387,13 +369,8 @@ export default class Appre extends Component<Props>{
         {
           this.state.data.type == 0 && this.state.data.images.length > 0 ?
             <Swiper
-              onChange={(e) => {
-                // console.log(e.detail.current)
-                this.setState({ imagesCurrent: e.detail.current })
-              }}
-              onClick={() => {
-                this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] })
-              }}
+              onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
+              onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] }) }}
               className='test-h'
               indicatorColor='#999'
               indicatorActiveColor='#333'
@@ -404,9 +381,7 @@ export default class Appre extends Component<Props>{
                 this.state.data.images ? this.state.data.images.map((item, index) => {
                   return (
                     <SwiperItem key={item} >
-                      <View className='demo-text'
-                      //  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: item }) }}
-                      >
+                      <View className='demo-text'>
                         <Image className="demo-text-Img" src={item} />
                       </View>
                     </SwiperItem>
@@ -559,7 +534,6 @@ export default class Appre extends Component<Props>{
             this.state.data.activity_time_status == 1 ? (
               <View className="paymoney_buynow_no">暂未开始</View>
             ) : this.state.data.activity_time_status == 2 ? (
-              // <View className="paymoney_buynow" onClick={this.payment.bind(this)}>立即购买</View>
               <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
             ) : this.state.data.activity_time_status == 3 ? (
               <View className="paymoney_buynow_no">已结束</View>
@@ -576,7 +550,7 @@ export default class Appre extends Component<Props>{
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
         {
-          this.state.is_login ? <AlertLogin is_login={this.state.is_login} onClose={() => { this.setState({ is_login: false }) }} /> : null
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
 
         {/* 去首页 */}

@@ -49,15 +49,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "activity-pages/confirm-address/index",
-					"pathName": "activity-pages/confirm-address/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
+					"name": "activity-pages/personal/personalInformation/index",
+					"pathName": "activity-pages/personal/personalInformation/index",
 					"query": "",
 					"scene": null
 				},
@@ -70,13 +63,14 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
+					"name": "activity-pages/personal/phoneInformation/index",
+					"pathName": "activity-pages/personal/phoneInformation/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
 					"name": "pages/activity/index",
 					"pathName": "pages/activity/index",
 					"query": "",
@@ -107,6 +101,10 @@
 					"id": -1,
 					"name": "activity-pages/Shipping-address/editor",
 					"pathName": "activity-pages/Shipping-address/editor",
+=======
+					"name": "activity-pages/personal/phoneInformation/index",
+					"pathName": "activity-pages/personal/phoneInformation/index",
+>>>>>>> mapPersonal
 					"scene": null
 				}
 			]
