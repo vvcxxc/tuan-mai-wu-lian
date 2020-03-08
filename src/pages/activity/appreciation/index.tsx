@@ -262,8 +262,6 @@ export default class Appre extends Component<Props>{
   }
 
   payment = () => {
-    let phone_status = Taro.getStorageSync('phone_status')
-    if (phone_status == 'binded' || phone_status == 'bind_success') {
       Taro.showLoading({
         title: 'loading',
       });
@@ -287,7 +285,6 @@ export default class Appre extends Component<Props>{
           xcx: 1
         }
       }
-    }
     request({
       url: 'v1/youhui/wxXcxuWechatPay',
       method: "POST",
@@ -346,6 +343,7 @@ export default class Appre extends Component<Props>{
     console.log(324)
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
+      console.log(this.state.data)
       if (this.state.data.gift_id) {
         Taro.navigateTo({
           url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name

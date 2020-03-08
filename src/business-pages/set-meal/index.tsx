@@ -170,13 +170,14 @@ onShareAppMessage = (res) => {
 }
 
 handleClick = (id, e) => {
+  console.log(3123123)
   let phone_status = Taro.getStorageSync('phone_status')
   if (phone_status == 'binded' || phone_status == 'bind_success') {
     Taro.navigateTo({
       url: '../../business-pages/confirm-order/index?id=' + id
     })
   }else {
-    this.setState({is_alert: false})
+    this.setState({is_alert: true})
   }
 
 };
@@ -231,6 +232,17 @@ handleGoHome = () => {
   Taro.switchTab({
     url: '/pages/index/index'
   })
+}
+
+ // 登录弹窗
+ loginChange = (type: string) => {
+  if (type == 'close') {
+    this.setState({ is_alert: false })
+  } else {
+    // 重新请求当前数据
+
+    this.setState({ is_alert: false })
+  }
 }
 render() {
   return (
@@ -407,6 +419,10 @@ render() {
           <View><Button onClick={this.handleClick.bind(this, this.state.coupon.id)} className="btn-buy">立即抢购</Button></View>
         </View>
       </View>
+
+      {
+          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
+        }
 
       {/* 去首页 */}
       {
