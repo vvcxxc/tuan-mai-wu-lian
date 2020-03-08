@@ -52,9 +52,10 @@ export default class confirmAddress extends Component {
     };
 
     componentDidShow() {
+        this.setState({ contentboxShow: false })
         let pages = Taro.getCurrentPages();
         let currPage = pages[pages.length - 1];
-        console.log('currPage',currPage)
+        console.log('currPage', currPage)
         if (currPage.data.fromPage == "editor") {
             console.log('editor')
             this.setState({
@@ -113,6 +114,7 @@ export default class confirmAddress extends Component {
 
 
     componentDidMount() {
+        this.setState({ contentboxShow: false })
         let pages = Taro.getCurrentPages();
         let currPage = pages[pages.length - 1];
         if (currPage.data.fromPage != "editor") {
@@ -511,7 +513,9 @@ export default class confirmAddress extends Component {
                                 <View className="group-msgbox-content-msgbox">
                                     <View className="group-msgbox-content-name">{this.state.data.youhui.name}</View>
                                     <View className="group-msgbox-label-box">
-                                        <View className="group-msgbox-label">{this.state.data.youhui.participation_number}人团</View>
+                                        {
+                                            this.state.data.youhui.participation_number ? <View className="group-msgbox-label">{this.state.data.youhui.participation_number}人团</View> : null
+                                        }
                                         <View className="group-msgbox-label">{this.state.data.team_set_end_time}小时</View>
                                     </View>
                                 </View>
@@ -575,7 +579,9 @@ export default class confirmAddress extends Component {
                                 <View className="gift-msgbox-giftinfo-name">{this.state.data.youhui.gift_name}</View>
                                 <View className="gift-msgbox-label-box">
                                     <View className="gift-msgbox-label">价值{this.state.data.youhui.gift_price}元</View>
-                                    <View className="gift-msgbox-label">运费{this.state.data.youhui.postage}元</View>
+                                    {
+                                        this.state.data.youhui.postage ? <View className="gift-msgbox-label">运费{this.state.data.youhui.postage}元</View> : null
+                                    }
                                 </View>
                             </View>
                         </View>
@@ -607,7 +613,7 @@ export default class confirmAddress extends Component {
                         <View className="paymoney_price_icon">￥</View>
                         <View className="paymoney_price_num">{this.state.data.youhui.pay_money}</View>
                         {
-                            this.state.data.youhui.gift_id && this.state.giftChoice ? <View className='paymoney_price_info'>+{this.state.data.youhui.postage}</View> : null
+                            this.state.data.youhui.gift_id && this.state.giftChoice && this.state.data.youhui.postage ? <View className='paymoney_price_info'>+{this.state.data.youhui.postage}</View> : null
                         }
                     </View>
                     <View className="paymoney_buynow" onClick={this.payment.bind(this)} >立即购买</View>
