@@ -65,6 +65,13 @@
 					"id": -1,
 					"name": "activity-pages/personal/phoneInformation/index",
 					"pathName": "activity-pages/personal/phoneInformation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/personal/phoneInformation/index",
+					"pathName": "activity-pages/personal/phoneInformation/index",
 					"scene": null
 				}
 			]
