@@ -5,7 +5,6 @@ import request from '../../../services/request'
 import TimeUp from './TimeUp';
 import AddressImg from '../../../assets/address.png';
 import MobileImg from '../../../assets/dianhua.png';
-import Zoom from '../../../components/zoom/index';
 import './index.scss';
 import LoginAlert from '@/components/loginAlert';
 interface Props {
@@ -19,8 +18,6 @@ export default class Group extends Component<Props>{
 
   state = {
     ruleMore: false,
-    imgZoom: false,
-    imgZoomSrc: '',
     xPoint: 0,
     yPoint: 0,
     imagesCurrent: 0,
@@ -554,7 +551,6 @@ export default class Group extends Component<Props>{
         {
           this.state.data.images.length > 0 ? <Swiper
             onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
-            onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.imagesCurrent] }) }}
             className='test-h'
             indicatorColor='#999'
             indicatorActiveColor='#333'
@@ -622,7 +618,6 @@ export default class Group extends Component<Props>{
               <View className="appre_gift_giftlist" >
                 <Image className="appre_gift_giftlistImg"
                   mode="widthFix"
-                  onClick={() => { this.setState({ imgZoom: true, imgZoomSrc: this.state.data.gift.cover_image }) }}
                   src={this.state.data.gift.cover_image} />
               </View>
             </View> : null
@@ -784,11 +779,7 @@ export default class Group extends Component<Props>{
             this.$router.params.type == "55" ? <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>参加拼团</View> : <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>发起拼团</View>
           }
         </View>
-        <Zoom
-          src={this.state.imgZoomSrc}
-          showBool={this.state.imgZoom}
-          onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
-        />
+
         <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
           <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
         </View>
