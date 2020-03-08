@@ -52,6 +52,7 @@ export default class confirmAddress extends Component {
     };
 
     componentDidShow() {
+        this.setState({ contentboxShow: false })
         let pages = Taro.getCurrentPages();
         let currPage = pages[pages.length - 1];
         console.log('currPage', currPage)
@@ -113,6 +114,7 @@ export default class confirmAddress extends Component {
 
 
     componentDidMount() {
+        this.setState({ contentboxShow: false })
         let pages = Taro.getCurrentPages();
         let currPage = pages[pages.length - 1];
         if (currPage.data.fromPage != "editor") {
