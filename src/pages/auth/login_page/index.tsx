@@ -3,6 +3,7 @@ import { Block, View, Text } from "@tarojs/components"
 import { AtInput, AtButton } from 'taro-ui'
 import "./index.styl"
 import userRequest from '../../../services/userRequest';
+import MergePrompt from '@/components/merge_prompt'
 export default class LoginPage extends Component<any>{
 
   config: Config = {
@@ -14,7 +15,7 @@ export default class LoginPage extends Component<any>{
     value: '',
     phoneNumber: '',//手机号码
     validationNumber: '',//验证码
-
+    is_show: false,
 
     time: 60,
     showTime: false
@@ -84,23 +85,53 @@ export default class LoginPage extends Component<any>{
       }).then((res: any) => {
         let { status_code } = res
         if (status_code == 200) {
-          Taro.setStorageSync('phone_status', res.data.status)
-          Taro.showToast({
-            title: '登录成功',
-            duration: 2000,
-          },)
+          if(res.data.status == 'bind_success' || res.data.status == 'binded'){
+            Taro.setStorageSync('phone_status', res.data.status)
+            Taro.showToast({
+              title: '登录成功',
+              duration: 2000,
+            },)
 
-          setTimeout(() => {
-            let page = Taro.getCurrentPages()
-            if (page.length > 1) {
-              Taro.navigateBack({
-                delta: 2
-              })
-            }
-          }, 2000)
+            setTimeout(() => {
+              let page = Taro.getCurrentPages()
+              if (page.length > 1) {
+                Taro.navigateBack({
+                  delta: 2
+                })
+              }
+            }, 2000)
+          }else if (res.data.status == 'need_merge') {
+            this.setState({ is_show: true, phone: res.data.mobile })
+          } else if (res.data.status == 'merge_success') {
+            Taro.setStorageSync('phone_status', 'bind_success')
+            Taro.setStorageSync('token', 'Bearer ' + res.data.token)
+            Taro.showToast({
+              title: '登录成功'
+            })
+            this.setState({ phone: res.data.mobile })
+            setTimeout(() => {
+              Taro.navigateBack()
+            }, 1500)
+          } else if (res.data.status == 'merge_fail') {
+            Taro.showToast({
+              title: '登录失败'
+            })
+          }
+
         }
       })
     }
+  }
+
+  sureMerge = () => {
+    userRequest({
+      url: 'v1/user/user/merge_user',
+      method: "PUT",
+      data: {
+        mobile: this.state.phoneNumber,
+        type: 'xcx'
+      }
+    })
   }
 
   render() {
@@ -136,6 +167,8 @@ export default class LoginPage extends Component<any>{
             登录
             </Text>
         </AtButton>
+        {this.state.is_show ? <MergePrompt cancel={() => this.setState({ is_show: false })}
+          confirm={() => this.sureMerge()} /> : null}
       </View>
     )
   }

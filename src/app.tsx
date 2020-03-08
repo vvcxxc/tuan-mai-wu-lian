@@ -163,7 +163,8 @@ class App extends Component {
 	defineApp: {
 		define: '22'
 	}
-	componentDidShow() {
+  componentDidShow() {
+    console.log('打开小程序')
     let date = dayjs().unix()
     Taro.setStorageSync('is_one',date)
     let token = Taro.getStorageSync('token');

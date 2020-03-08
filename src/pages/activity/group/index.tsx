@@ -374,28 +374,16 @@ export default class Group extends Component<Props>{
       Taro.showLoading({
         title: 'loading',
       });
-      let data = {};
-      if (this.state.isPostage) {
-        data = {
-          public_type_id: _groupid,
-          activity_id: this.$router.params.activity_id,
-          gift_id: this.$router.params.gift_id,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: 55,
-          xcx: 1,
-          number: 1
-        }
-      } else {
-        data = {
-          public_type_id: _groupid,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: 55,
-          xcx: 1,
-          number: 1
-        }
+      let data = {
+        public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+        activity_id: this.$router.params.activity_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: this.$router.params.type,
+        xcx: 1,
+        number: 1
       }
+
       request({
         url: 'payCentre/toWxPay',
         method: "POST",
@@ -456,30 +444,43 @@ export default class Group extends Component<Props>{
   }
 
   goToaConfirm = (e) => {
-    if (this.state.data.gift_id) {
-      this.clearTimeOut();
-      if (this.$router.params.type == '5') {
-        //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
-        Taro.navigateTo({
-          url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + this.state.data.name
-        })
-      } else if (this.$router.params.type == '55') {
-        //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
-        Taro.navigateTo({
-          url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + this.state.data.name
-        })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      if (this.state.data.gift_id) {
+        this.clearTimeOut();
+        if (this.$router.params.type == '5') {
+          //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
+          Taro.navigateTo({
+            url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + this.state.data.name
+          })
+        } else if (this.$router.params.type == '55') {
+          //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
+          Taro.navigateTo({
+            url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + this.state.data.name
+          })
+        }
+      } else {
+        this.payment();
       }
     } else {
-      this.payment();
+      this.setState({ is_alert: true })
     }
   }
   goToaConfirmAddGroup = (_id, e) => {
-    if (this.state.data.gift_id) {
-      this.clearTimeOut();
-      //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
-      Taro.navigateTo({ url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name })
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      if (this.state.data.gift_id) {
+        this.clearTimeOut();
+        //轮播列表参团,路由params带过来的id为活动id, 接口传过来的id为团id
+        console.log(this.$router.params.id, _id)
+        Taro.navigateTo({
+          url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + this.state.data.name
+        })
+      } else {
+        this.payment2(_id);
+      }
     } else {
-      this.payment2(_id);
+      this.setState({ is_alert: true })
     }
   }
   // 登录弹窗

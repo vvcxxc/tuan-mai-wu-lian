@@ -6,16 +6,18 @@ import {
   NOT_FIND,
   NOT_SIGN
 } from "@/utils/constants";
-import { toMiniProgramSign } from "@/utils/sign";
+import { quietLogin,routerLogin, ShareSign } from '../utils/sign'
 const BASIC_API = process.env.BASIC_API;
 interface Options extends RequestParams {
   /**替换的主机域名 */
   host?: string;
 }
-
+import dayjs from 'dayjs'
 const host = process.env.BASIC_API;
 
-export default function request(options: Options) {
+export default async function request(options: Options) {
+  const token = Taro.getStorageSync("token");
+  ShareSign()
   const pages = Taro.getCurrentPages();
 
   // console.log(pages[pages.length - 1].route.indexOf("confirm-order"));
@@ -33,7 +35,7 @@ export default function request(options: Options) {
       return new Promise((resolve, reject) => { })
     }
   }
-  const token = Taro.getStorageSync("token");
+
   options.header = { ...options.header, Authorization: token };
   return new Promise((resolve, reject) => {
     /**拼接接口地址 */
@@ -45,7 +47,8 @@ export default function request(options: Options) {
     // options.fail = (res) => reject(res);
     Taro.request({
       ...options,
-      success (res){
+      success(res) {
+        // console.log(res,3333)
         const { statusCode, data } = res;
         switch (statusCode) {
           case SERVER_ERROR:
@@ -63,21 +66,14 @@ export default function request(options: Options) {
             })
             break
           case NOT_SIGN:
-            // console.log(pages[pages.length - 1].route.includes('pages/index/index'))
-            let is_index = pages[pages.length - 1].route.includes('pages/index/index')
-            if(is_index){
-              console.log('在首页')
-            }else{
-              toMiniProgramSign(BASIC_API)
-            }
-            console.log('login')
+            routerLogin()
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
-              Taro.showToast({
-                title: "not find",
-                icon: "none"
-              })
-              break
+            Taro.showToast({
+              title: "not find",
+              icon: "none"
+            })
+            break
           default:
             Taro.showToast({
               title: "unknow error",
@@ -86,9 +82,13 @@ export default function request(options: Options) {
             break
         }
       },
-      fail(err) {
-        const { status, data } = err;
-        switch (status) {
+      async fail(err) {
+        let aa = err.json()
+        let a = await Promise.resolve(aa)
+        // a.then(function (result) { console.log(result,123123) })
+        console.log(a, 123123)
+        const { code, message } = a;
+        switch (code) {
           case SERVER_ERROR:
             Taro.showToast({
               title: 'server error :d',
@@ -97,25 +97,19 @@ export default function request(options: Options) {
             break
           case FETCH_BAD:
             Taro.showToast({
-              title: data.message || "bad request",
+              title: message,
               icon: "none"
             })
             break
           case NOT_SIGN:
-            let is_index = pages[pages.length - 1].route.includes('pages/index/index')
-            if(is_index){
-              console.log('在首页')
-            }else{
-              toMiniProgramSign(BASIC_API)
-            }
-            console.log('login')
+            routerLogin()
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
-              Taro.showToast({
-                title: "not find",
-                icon: "none"
-              })
-              break
+            Taro.showToast({
+              title: "not find",
+              icon: "none"
+            })
+            break
           default:
             Taro.showToast({
               title: "unknow error",

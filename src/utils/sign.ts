@@ -97,32 +97,116 @@ export const toMiniProgramSign = (basicApi: string): void => {
 /**
  *  小程序静默登录
  * */
-export const quietLogin = () => {
-  console.log('quietLogin111')
-  Taro.login({
-    success: res => {
-      console.log('quietLoginRes', res)
-      userRequest({
-        method: 'POST',
-        url: 'v1/user/auth/auth_xcx',
-        data: {
-          code: res.code
-        }
-      }).then((res1: any) => {
-        if (res1.status_code == 200) {
-          Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
-          Taro.setStorageSync('openid', res1.data.user.xcx_openid)
-          Taro.setStorageSync('user',res1.data.user)
-          Taro.setStorageSync('token_expires_in',res1.data.expires_in)
-          if(res1.data.user.mobile){
-            Taro.setStorageSync('phone_status','binded')
-          }
-        }
-      })
-    },
-    fail: err => {
-      console.log(err)
-    }
-  })
+export const quietLogin = async () => {
 
+  // Taro.login({
+  //   success: res => {
+  //     userRequest({
+  //       method: 'POST',
+  //       url: 'v1/user/auth/auth_xcx',
+  //       data: {
+  //         code: res.code
+  //       }
+  //     }).then((res1: any) => {
+  //       if(res1.status_code == 200){
+  //         Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
+  //         Taro.setStorageSync('openid', res1.data.user.xcx_openid)
+  //         Taro.setStorageSync('user',res1.data.user)
+  //         Taro.setStorageSync('token_expires_in',res1.data.expires_in)
+  //         if(res1.data.user.mobile){
+  //           Taro.setStorageSync('phone_status','binded')
+  //         }
+  //       }
+  //     })
+  //   },
+  //   fail: err => {
+  //     console.log(err)
+  //   }
+  // })
+  let res = await Taro.login()
+  let res1 = await userRequest({ method: 'POST', url: 'v1/user/auth/auth_xcx', data: { code: res.code } })
+  if (res1.status_code == 200) {
+    Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
+    Taro.setStorageSync('openid', res1.data.user.xcx_openid)
+    Taro.setStorageSync('user', res1.data.user)
+    Taro.setStorageSync('token_expires_in', res1.data.expires_in)
+    if (res1.data.user.mobile) {
+      Taro.setStorageSync('phone_status', 'binded')
+    }
+  }
+}
+
+/**
+ * 小程序分享页面的登录和浏览小程序是登录过期等
+ */
+export const ShareSign = () => {
+
+  const token = Taro.getStorageSync("token");
+  let date = dayjs().unix()
+  let token_expires_in = Taro.getStorageSync('expires_in');
+  if (token) {
+    if (token_expires_in && token_expires_in < date) {
+      // token过期
+      routerLogin()
+      quietLogin()
+      let pages = Taro.getCurrentPages()
+      if (pages.length == 1) {
+        console.log('这里')
+        let route = pages[0].route
+        if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
+          Taro.showToast({ title: '授权成功，请重新进入', icon: 'none', duration: 1500 })
+          setTimeout(() => {
+            Taro.navigateBack({
+              delta: 1
+            })
+          }, 1500)
+        }
+      }
+
+    }
+  } else {
+    routerLogin()
+    quietLogin()
+    let pages = Taro.getCurrentPages()
+    if (pages.length == 1) {
+      console.log('这里2')
+      let route = pages[0].route
+      if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
+        Taro.showToast({ title: '授权成功，请重新进入', icon: 'none', duration: 1500 })
+        setTimeout(() => {
+          Taro.navigateBack({
+            delta: 1
+          })
+        }, 1500)
+      }
+    }
+  }
+}
+
+export const routerLogin = () => {
+  console.log(234)
+  let pages = Taro.getCurrentPages()
+  if (pages.length == 1) {
+    let route = pages[0].route
+    if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
+      Taro.navigateTo({
+        url: '/pages/auth/index'
+      })
+    }
+  } else {
+    let route = pages[pages.length - 1].route
+    if (route != 'pages/auth/index') {
+      Taro.navigateTo({
+        url: '/pages/auth/index'
+      })
+    }
+  }
+  // if(! Taro.getStorageSync('to_login')){
+  //   Taro.navigateTo({
+  //     url: '/pages/auth/index'
+  //   })
+  // }
+
+  // Taro.setStorageSync('to_login',1)
+  return
 }

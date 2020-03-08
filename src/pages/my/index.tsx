@@ -21,7 +21,8 @@ interface State {
   list: Object[],
   userData: Object,
   type: string,
-  is_alert: boolean
+  is_alert: boolean,
+  is_show: boolean
 }
 
 export default class NewPage extends Component<Props>{
@@ -38,6 +39,7 @@ export default class NewPage extends Component<Props>{
     type: '', // user: 未设置用户信息，phone: 未绑定手机号，为空不展示
     data: '',
     is_alert: false, //登录弹窗
+    is_show: false,
     list: [
       {
         des: '我的订单',
@@ -100,8 +102,10 @@ export default class NewPage extends Component<Props>{
       if (!user.avatar) {
         this.setState({ type: 'user' })
       }
+      this.setState({ is_show: true })
     } else {
       this.setState({ type: 'phone' })
+      this.setState({ is_show: false })
     }
   }
 
@@ -181,12 +185,18 @@ export default class NewPage extends Component<Props>{
         this.setState({
           list: myData
         })
-        // console.log(res,'res')
-        // this.setState({
-        //   user_img: res.data.avatar
-        // })
-
       })
+      let phone_status = Taro.getStorageSync('phone_status')
+      let user = Taro.getStorageSync('user')
+      if (phone_status == 'binded' || phone_status == 'bind_success') {
+        if (!user.avatar) {
+          this.setState({ type: 'user' })
+        }
+        this.setState({ is_show: true })
+      } else {
+        this.setState({ type: 'phone' })
+        this.setState({ is_show: false })
+      }
       this.setState({ is_alert: false })
     }
   }
@@ -199,11 +209,14 @@ export default class NewPage extends Component<Props>{
     const { type } = this.state
     return (
       <View className='newPage'>
-        <Image className='settleIcon' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/nAP8aBrDk2yGzG7AdaTrPDWey8fDB2KP.png' onClick={this.setPersonalInfo.bind(this)} />
+        {
+          this.state.is_show ? <Image className='settleIcon' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/nAP8aBrDk2yGzG7AdaTrPDWey8fDB2KP.png' onClick={this.setPersonalInfo.bind(this)} /> : null
+        }
         <View className='newPage_head'>
           <View className="img_box">
             <Image src={this.state.userData.head_img} onClick={this.gotoPersonal} />
           </View>
+
 
           {
             type == 'phone' ? (

@@ -238,39 +238,39 @@ export default class Appre extends Component<Props>{
   }
 
   payment = () => {
-    let phone_status = Taro.getStorageSync('phone_status')
-    if (phone_status == 'binded' || phone_status == 'bind_success') {
-      Taro.showLoading({
-        title: 'loading',
-      });
-      let data = {};
-      if (this.state.isPostage) {
-        data = {
-          youhui_id: this.$router.params.id,
-          activity_id: this.$router.params.activity_id,
-          gift_id: this.$router.params.gift_id,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: "1",
-          xcx: 1
-        }
-      } else {
-        data = {
-          youhui_id: this.$router.params.id,
-          open_id: Taro.getStorageSync("openid"),
-          unionid: Taro.getStorageSync("unionid"),
-          type: "1",
-          xcx: 1
-        }
+    Taro.showLoading({
+      title: 'loading',
+    });
+    let data = {};
+    console.log(512312)
+    if (this.state.isPostage) {
+      data = {
+        youhui_id: this.$router.params.id,
+        activity_id: this.$router.params.activity_id,
+        gift_id: this.$router.params.gift_id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: "1",
+        xcx: 1
       }
-      request({
-        url: 'v1/youhui/wxXcxuWechatPay',
-        method: "POST",
-        data
-      }).then((res: any) => {
+    } else {
+      data = {
+        youhui_id: this.$router.params.id,
+        open_id: Taro.getStorageSync("openid"),
+        unionid: Taro.getStorageSync("unionid"),
+        type: "1",
+        xcx: 1
+      }
+    }
+    console.log(data)
+    request({
+      url: 'v1/youhui/wxXcxuWechatPay',
+      method: "POST",
+      data
+    }).then((res: any) => {
+      Taro.hideLoading();
+      if (res.code == 200) {
         let order_sn = res.data.channel_order_sn;
-        Taro.hideLoading();
-
         // 发起支付
         Taro.requestPayment({
           timeStamp: res.data.timeStamp,
@@ -311,20 +311,27 @@ export default class Appre extends Component<Props>{
             Taro.showToast({ title: '支付失败', icon: 'none' })
           }
         })
-      })
-    } else {
-      this.setState({ is_alert: true })
-    }
-
+      } else {
+        Taro.showToast({ title: res.message, icon: 'none' })
+      }
+    })
   }
 
   goToaConfirm = (e) => {
-    if (this.state.data.gift_id) {
-      Taro.navigateTo({
-        url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
-      })
+    console.log(324)
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      console.log(this.state.data)
+      if (this.state.data.gift_id) {
+        Taro.navigateTo({
+          url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
+        })
+      } else {
+        this.payment()
+      }
     } else {
-      this.payment()
+      console.log(412)
+      this.setState({ is_alert: true })
     }
   }
 
