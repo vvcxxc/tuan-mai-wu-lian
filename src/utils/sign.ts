@@ -70,7 +70,7 @@ export const miniProgramSign = (params: Params): Promise<SignResponse> => {
 }
 
 /**
- * 跳转至登陆页面
+ * 跳转至登录页面
  */
 export const toMiniProgramSign = (basicApi: string): void => {
   const pages = Taro.getCurrentPages();
