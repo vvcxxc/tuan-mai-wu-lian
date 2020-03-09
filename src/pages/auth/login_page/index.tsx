@@ -81,6 +81,7 @@ export default class LoginPage extends Component<any>{
         data: {
           phone: phoneNumber,
           verify_code: validationNumber
+          from: 'xcx'
         }
       }).then((res: any) => {
         let { status_code } = res

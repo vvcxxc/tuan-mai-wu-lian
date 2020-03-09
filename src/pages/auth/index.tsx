@@ -32,6 +32,7 @@ export default class Auth extends Component {
           iv
         }
       }).then((res: any) => {
+        console.log(res)
         if (res.status_code == 200) {
 
           if (res.data.status == 'bind_success' || res.data.status == 'binded') {

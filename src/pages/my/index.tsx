@@ -95,7 +95,7 @@ export default class NewPage extends Component<Props>{
       // })
       let phone_status = Taro.getStorageSync('phone_status')
       if (phone_status == 'binded' || phone_status == 'bind_success') {
-        if (res.data.emptyAvatar == 'N') {
+        if (res.data.emptyAvatar == 'Y') {
           this.setState({ type: 'user' })
         }
         this.setState({ is_show: true })
@@ -184,7 +184,7 @@ export default class NewPage extends Component<Props>{
         })
         let phone_status = Taro.getStorageSync('phone_status')
         if (phone_status == 'binded' || phone_status == 'bind_success') {
-          if (res.data.emptyAvatar == 'N') {
+          if (res.data.emptyAvatar == 'Y') {
             this.setState({ type: 'user' })
           }
           this.setState({ is_show: true })
