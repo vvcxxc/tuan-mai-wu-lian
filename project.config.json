@@ -46,41 +46,7 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": [
-				{
-					"id": -1,
-<<<<<<< HEAD
-					"name": "activity-pages/personal/personalInformation/index",
-					"pathName": "activity-pages/personal/personalInformation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/order/index",
-					"pathName": "pages/order/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/personal/phoneInformation/index",
-					"pathName": "activity-pages/personal/phoneInformation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/personal/phoneInformation/index",
-					"pathName": "activity-pages/personal/phoneInformation/index",
-=======
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
-					"query": "id=1315&__key_=15836484788341",
->>>>>>> dd4151e645c8c6a84ac1655e1e3aef0de10f61b4
-					"scene": null
-				}
-			]
+			"list": []
 		}
 	}
 }
