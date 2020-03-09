@@ -7,7 +7,8 @@ import request from '../../services/request'
 import MobileImg from '../../assets/dianhua.png'
 import AddressImg from '../../assets/address.png'
 import starImg from '../../assets/starcollect.png'
-import LoginAlert from '@/components/loginAlert';export default class PaySuccess extends Component {
+import LoginAlert from '@/components/loginAlert';
+export default class PaySuccess extends Component {
   config = {
     navigationBarTitleText: "特惠商品"
   };
@@ -73,7 +74,8 @@ import LoginAlert from '@/components/loginAlert';export default class PaySuccess
       expire_day: '',
     }],
 
-    isFromShare: false
+    isFromShare: false,
+    is_alert: false
   };
 
   componentWillMount() {
@@ -169,88 +171,88 @@ import LoginAlert from '@/components/loginAlert';export default class PaySuccess
     }
   }
 
-handleClick = (id, e) => {
-  console.log(3123123)
-  let phone_status = Taro.getStorageSync('phone_status')
-  if (phone_status == 'binded' || phone_status == 'bind_success') {
+  handleClick = (id, e) => {
+    console.log(3123123)
+    let phone_status = Taro.getStorageSync('phone_status')
+    if (phone_status == 'binded' || phone_status == 'bind_success') {
+      Taro.navigateTo({
+        url: '../../business-pages/confirm-order/index?id=' + id
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
+
+  };
+  handleClick2 = (_id, e) => {
     Taro.navigateTo({
-      url: '../../business-pages/confirm-order/index?id=' + id
+      // url: '/detail-pages/business/index?id=' + _id
+      url: '/pages/business/index?id=' + _id
     })
-  }else {
-    this.setState({is_alert: true})
+  };
+  //打电话
+  makePhoneCall = (e) => {
+    console.log(this.state.store.tel)
+    Taro.makePhoneCall({
+      phoneNumber: this.state.store.tel
+    })
+      .then((res: any) => {
+        console.log(res)
+      })
+    e.stopPropagation();
+  }
+  //地图
+  routePlanning = (e) => {
+    Taro.openLocation({
+      latitude: Number(this.state.store.ypoint),
+      longitude: Number(this.state.store.xpoint),
+      scale: 18,
+      name: this.state.store.sname,
+      address: this.state.store.saddress,
+    })
+    e.stopPropagation();
+  }
+  //收藏
+  keepCollect(e) {
+    //假接口，还没好
+    // let _id = this.state.coupon.id;
+    // request({ url: 'v3/coupons/collection', method: "PUT", data: { coupon_id: _id } })
+    //   .then((res: any) => {
+    //     console.log(res)
+    //     // if (res) {
+    //     //   this.setState({
+    //     //     keepCollect_data: res.data,
+    //     //     keepCollect_bull: !this.state.keepCollect_bull
+    //     //   })
+    //     // }
+    //   })
   }
 
-};
-handleClick2 = (_id, e) => {
-  Taro.navigateTo({
-    // url: '/detail-pages/business/index?id=' + _id
-    url: '/pages/business/index?id=' + _id
-  })
-};
-//打电话
-makePhoneCall = (e) => {
-  console.log(this.state.store.tel)
-  Taro.makePhoneCall({
-    phoneNumber: this.state.store.tel
-  })
-    .then((res: any) => {
-      console.log(res)
+  /**
+   * 回首页
+   */
+  handleGoHome = () => {
+    Taro.switchTab({
+      url: '/pages/index/index'
     })
-  e.stopPropagation();
-}
-//地图
-routePlanning = (e) => {
-  Taro.openLocation({
-    latitude: Number(this.state.store.ypoint),
-    longitude: Number(this.state.store.xpoint),
-    scale: 18,
-    name: this.state.store.sname,
-    address: this.state.store.saddress,
-  })
-  e.stopPropagation();
-}
-//收藏
-keepCollect(e) {
-  //假接口，还没好
-  // let _id = this.state.coupon.id;
-  // request({ url: 'v3/coupons/collection', method: "PUT", data: { coupon_id: _id } })
-  //   .then((res: any) => {
-  //     console.log(res)
-  //     // if (res) {
-  //     //   this.setState({
-  //     //     keepCollect_data: res.data,
-  //     //     keepCollect_bull: !this.state.keepCollect_bull
-  //     //   })
-  //     // }
-  //   })
-}
-
-/**
- * 回首页
- */
-handleGoHome = () => {
-  Taro.switchTab({
-    url: '/pages/index/index'
-  })
-}
-
- // 登录弹窗
- loginChange = (type: string) => {
-  if (type == 'close') {
-    this.setState({ is_alert: false })
-  } else {
-    // 重新请求当前数据
-
-    this.setState({ is_alert: false })
   }
-}
-render() {
-  return (
-    <View className="set-meal">
-      {
-        this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
-      }
-      {/* <Swiper
+
+  // 登录弹窗
+  loginChange = (type: string) => {
+    if (type == 'close') {
+      this.setState({ is_alert: false })
+    } else {
+      // 重新请求当前数据
+
+      this.setState({ is_alert: false })
+    }
+  }
+  render() {
+    return (
+      <View className="set-meal">
+        {
+          this.state.keepCollect_bull ? <AtToast isOpened text={this.state.keepCollect_data} duration={2000} ></AtToast> : ""
+        }
+        {/* <Swiper
           className="swiper"
           indicatorColor="#999"
           indicatorActiveColor="#333"
@@ -410,11 +412,22 @@ render() {
           }
 
           {/* <CashCoupon _id={"1"} return_money={"11"} pay_money={"22"} youhui_type={"1"} timer={"1111"} list_brief={"5555555"} sname={"222"} /> */}
-          {
+
+
+        </View>
+        <View className="occupied">
+          <View className="layer-ft-buy flex">
+            <View className="money">￥<Text className="count">{this.state.coupon.pay_money}</Text></View>
+            <View><Button onClick={this.handleClick.bind(this, this.state.coupon.id)} className="btn-buy">立即抢购</Button></View>
+          </View>
+        </View>
+
+
+        {
           this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
 
-        </View>
+        {/* 去首页 */}
         {
           this.state.isFromShare ? (
             <View style={{ position: 'fixed', bottom: '50px', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
