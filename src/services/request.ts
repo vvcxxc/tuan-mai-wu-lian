@@ -12,7 +12,6 @@ interface Options extends RequestParams {
   /**替换的主机域名 */
   host?: string;
 }
-import dayjs from 'dayjs'
 const host = process.env.BASIC_API;
 
 export default async function request(options: Options) {
