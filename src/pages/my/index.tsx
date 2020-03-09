@@ -71,6 +71,7 @@ export default class NewPage extends Component<Props>{
 
 
   componentDidShow() {
+    console.log(23423)
     this.handleGetUserinfo()
     request({
       url: 'v3/user/home_index'
@@ -89,15 +90,15 @@ export default class NewPage extends Component<Props>{
       this.setState({
         list: myData
       })
-      // console.log(res,'res')
-      // this.setState({
-      //   user_img: res.data.avatar
-      // })
       let phone_status = Taro.getStorageSync('phone_status')
+      console.log(phone_status)
       if (phone_status == 'binded' || phone_status == 'bind_success') {
         if (res.data.emptyAvatar == 'Y') {
           this.setState({ type: 'user' })
+        }else {
+          this.setState({ type: '' })
         }
+        console.log(phone_status,1231222)
         this.setState({ is_show: true })
       } else {
         this.setState({ type: 'phone' })
@@ -186,6 +187,8 @@ export default class NewPage extends Component<Props>{
         if (phone_status == 'binded' || phone_status == 'bind_success') {
           if (res.data.emptyAvatar == 'Y') {
             this.setState({ type: 'user' })
+          }else {
+            this.setState({ type: '' })
           }
           this.setState({ is_show: true })
         } else {
@@ -211,8 +214,9 @@ export default class NewPage extends Component<Props>{
         }
         <View className='newPage_head'>
           <View className="img_box">
-            <Image src={this.state.userData.head_img} onClick={this.gotoPersonal} />
+            <Image src={this.state.userData.head_img} />
           </View>
+          <View className='userName'>{this.state.userData.user_name}</View>
 
 
           {

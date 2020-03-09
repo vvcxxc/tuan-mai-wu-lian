@@ -4,6 +4,7 @@ import { AtInput, AtButton } from 'taro-ui'
 import "./index.styl"
 import userRequest from '../../../services/userRequest';
 import MergePrompt from '@/components/merge_prompt'
+import { quietLogin } from '../../../utils/sign'
 export default class LoginPage extends Component<any>{
 
   config: Config = {
@@ -22,7 +23,7 @@ export default class LoginPage extends Component<any>{
   }
 
   componentDidMount() {
-
+    quietLogin()
   }
 
   handleChange = (type, value) => {
@@ -46,6 +47,7 @@ export default class LoginPage extends Component<any>{
         let { status_code, message } = res
         if (status_code == 200) {
           Taro.showToast({
+            icon: 'none',
             title: message
           })
           this.performTimer()
@@ -111,7 +113,12 @@ export default class LoginPage extends Component<any>{
             })
             this.setState({ phone: res.data.mobile })
             setTimeout(() => {
-              Taro.navigateBack()
+              let page = Taro.getCurrentPages()
+              if (page.length > 1) {
+                Taro.navigateBack({
+                  delta: 2
+                })
+              }
             }, 1500)
           } else if (res.data.status == 'merge_fail') {
             Taro.showToast({
