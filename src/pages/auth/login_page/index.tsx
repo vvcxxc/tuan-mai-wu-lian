@@ -17,7 +17,6 @@ export default class LoginPage extends Component<any>{
     phoneNumber: '',//手机号码
     validationNumber: '',//验证码
     is_show: false,
-
     time: 60,
     showTime: false
   }
