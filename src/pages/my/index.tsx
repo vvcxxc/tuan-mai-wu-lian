@@ -232,7 +232,7 @@ export default class NewPage extends Component<Props>{
             ) : type == 'user' ? (
               <View>
                 <View className='setPersonalInfoBox' onClick={this.setPersonal.bind(this, 'user')} >
-                  <View className='setPersonalInfo' >一键设置头像/昵称</View>
+                  <View className='setPersonalInfo userInfo' >一键设置头像/昵称</View>
                 </View>
               </View>
             ) : null
