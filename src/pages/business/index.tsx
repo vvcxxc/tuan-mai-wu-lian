@@ -163,7 +163,7 @@ export default class PaySuccess extends Component<Props> {
     })
     request({ url: 'v3/stores/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint } })
       .then((res: any) => {
-        console.log(res);
+        console.log(res,523123);
         this.setState({
           business_list: res.data.store.Info,
           recommend: res.data.recommend,
@@ -176,7 +176,7 @@ export default class PaySuccess extends Component<Props> {
         Taro.hideLoading();
       }).catch(err => {
         Taro.hideLoading();
-        console.log(err);
+        console.log(err,41232);
       })
 
   }

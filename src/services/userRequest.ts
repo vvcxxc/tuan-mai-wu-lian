@@ -6,7 +6,7 @@ import {
   NOT_FIND,
   NOT_SIGN
 } from "@/utils/constants";
-import { toMiniProgramSign } from "@/utils/sign";
+import { quietLogin } from '../utils/sign'
 // const USER_API = process.env.USER_API;
 interface Options extends RequestParams {
   /**替换的主机域名 */
@@ -37,15 +37,15 @@ export default function userRequest(options: Options) {
   options.header = { ...options.header, Authorization: token };
   return new Promise((resolve, reject) => {
     /**拼接接口地址 */
-    options.url = options.host
-      ? options.host + options.url
-      : host + options.url;
+    options.url = options.url.includes('http')
+    ? options.url
+    : host + options.url
     /**统一请求 */
     // options.success = (res) => resolve(res.data.data);
     // options.fail = (res) => reject(res);
     Taro.request({
       ...options,
-      success(res) {
+      async success(res) {
         // console.log(res,3333)
         const { statusCode, data } = res;
         switch (statusCode) {
@@ -65,10 +65,11 @@ export default function userRequest(options: Options) {
             return reject(res)
             break
           case NOT_SIGN:
-            // console.log(pages[pages.length - 1].route.includes('pages/index/index'))
-
-            console.log('login')
-            return reject(new Error('--- no sign ---'))
+             // 重新触发登录，重新请求接口
+             await quietLogin()
+             res = await userRequest(options)
+             return resolve(res)
+             break
           case NOT_FIND:
             Taro.showToast({
               title: "not find",

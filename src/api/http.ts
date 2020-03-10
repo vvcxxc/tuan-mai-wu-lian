@@ -6,9 +6,7 @@ import {
   NOT_FIND,
   NOT_SIGN
 } from "@/utils/constants";
-import { toMiniProgramSign } from "@/utils/sign";
-import dayjs from 'dayjs'
-import { ShareSign, routerLogin } from '../utils/sign'
+import { quietLogin } from '../utils/sign'
 const BASIC_API = process.env.BASIC_API;
 interface Params {
   url: string;
@@ -17,7 +15,6 @@ interface Params {
   options?: any;
 }
 const http = (params: Params): Promise<any> => {
-  ShareSign()
   const {
     url,
     method = "get",
@@ -39,7 +36,7 @@ const http = (params: Params): Promise<any> => {
     }, options);
     Taro.request({
       ...mergeConfig,
-      success(res) {
+      async success(res) {
         Taro.hideLoading()
         const { statusCode, data } = res;
         switch (statusCode) {
@@ -58,8 +55,11 @@ const http = (params: Params): Promise<any> => {
             })
             break
           case NOT_SIGN:
-            routerLogin()
-            return reject(new Error('--- no sign ---'))
+             // 重新触发登录，重新请求接口
+            await quietLogin()
+            res = await http(options)
+            return resolve(res)
+            break
           case NOT_FIND:
             Taro.showToast({
               title: "not find",
@@ -92,7 +92,6 @@ const http = (params: Params): Promise<any> => {
             })
             break
           case NOT_SIGN:
-            routerLogin()
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
             Taro.showToast({
