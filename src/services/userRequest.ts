@@ -58,10 +58,10 @@ export default function userRequest(options: Options) {
           case FETCH_OK:
             return resolve(res.data)
           case FETCH_BAD:
-            Taro.showToast({
-              title: data.message || "bad request",
-              icon: "none"
-            })
+            // Taro.showToast({
+            //   title: data.message || "bad request",
+            //   icon: "none"
+            // })
             return reject(res)
             break
           case NOT_SIGN:
@@ -77,10 +77,11 @@ export default function userRequest(options: Options) {
             return reject(res)
             break
           default:
-            Taro.showToast({
-              title: "unknow error",
-              icon: "none"
-            })
+            // Taro.showToast({
+            //   title: "unknow error",
+            //   icon: "none"
+            // })
+            return resolve(res)
             break
         }
       },
