@@ -216,8 +216,10 @@ export default class NewPage extends Component<Props>{
           <View className="img_box">
             <Image src={this.state.userData.head_img} />
           </View>
-          <View className='userName'>{this.state.userData.user_name}</View>
 
+          {
+            type != 'phone' ? <View className='userName'>{this.state.userData.user_name}</View> : null
+          }
 
           {
             type == 'phone' ? (
@@ -229,9 +231,8 @@ export default class NewPage extends Component<Props>{
               </View>
             ) : type == 'user' ? (
               <View>
-                <View className='userName'>{this.state.userData.user_name}</View>
                 <View className='setPersonalInfoBox' onClick={this.setPersonal.bind(this, 'user')} >
-                  <View className='setPersonalInfo' >一键设置头像</View>
+                  <View className='setPersonalInfo userInfo' >一键设置头像/昵称</View>
                 </View>
               </View>
             ) : null
