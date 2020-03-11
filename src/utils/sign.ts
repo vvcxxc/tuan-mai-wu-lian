@@ -125,7 +125,6 @@ export const quietLogin = async () => {
   // })
   let res = await Taro.login()
   let res1 = await userRequest({ method: 'POST', url: 'v1/user/auth/auth_xcx', data: { code: res.code } })
-  console.log(122223)
   if (res1.status_code == 200) {
     Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
     Taro.setStorageSync('openid', res1.data.user.xcx_openid)
