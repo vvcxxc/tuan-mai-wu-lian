@@ -6,20 +6,18 @@ import {
   NOT_FIND,
   NOT_SIGN
 } from "@/utils/constants";
-import { quietLogin,routerLogin, ShareSign } from '../utils/sign'
+import { quietLogin } from '../utils/sign'
 const BASIC_API = process.env.BASIC_API;
 interface Options extends RequestParams {
   /**替换的主机域名 */
   host?: string;
 }
-import dayjs from 'dayjs'
 const host = process.env.BASIC_API;
 
 export default async function request(options: Options) {
   const token = Taro.getStorageSync("token");
-  ShareSign()
+  // ShareSign()
   const pages = Taro.getCurrentPages();
-
   // console.log(pages[pages.length - 1].route.indexOf("confirm-order"));
   if (pages[pages.length - 1].route.indexOf("confirm-order") == -1) {
     if (pages.length == 9) {
@@ -39,16 +37,18 @@ export default async function request(options: Options) {
   options.header = { ...options.header, Authorization: token };
   return new Promise((resolve, reject) => {
     /**拼接接口地址 */
-    options.url = options.host
-      ? options.host + options.url
-      : host + options.url;
+    // options.url = options.host
+    //   ? options.host + options.url
+    //   : host + options.url;
+    options.url = options.url.includes('http')
+      ? options.url
+      : host + options.url
     /**统一请求 */
     // options.success = (res) => resolve(res.data.data);
     // options.fail = (res) => reject(res);
     Taro.request({
       ...options,
-      success(res) {
-        // console.log(res,3333)
+      async success(res) {
         const { statusCode, data } = res;
         switch (statusCode) {
           case SERVER_ERROR:
@@ -66,8 +66,12 @@ export default async function request(options: Options) {
             })
             break
           case NOT_SIGN:
-            routerLogin()
-            return reject(new Error('--- no sign ---'))
+            // 重新触发登录，重新请求接口
+            await quietLogin()
+            console.log(523423455)
+            res = await request(options)
+            return resolve(res)
+            break
           case NOT_FIND:
             Taro.showToast({
               title: "not find",
@@ -85,8 +89,6 @@ export default async function request(options: Options) {
       async fail(err) {
         let aa = err.json()
         let a = await Promise.resolve(aa)
-        // a.then(function (result) { console.log(result,123123) })
-        console.log(a, 123123)
         const { code, message } = a;
         switch (code) {
           case SERVER_ERROR:
@@ -102,7 +104,10 @@ export default async function request(options: Options) {
             })
             break
           case NOT_SIGN:
-            routerLogin()
+            // routerLogin()
+
+            quietLogin()
+            await request(options)
             return reject(new Error('--- no sign ---'))
           case NOT_FIND:
             Taro.showToast({

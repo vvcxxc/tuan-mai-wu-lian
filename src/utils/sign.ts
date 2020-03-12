@@ -125,7 +125,6 @@ export const quietLogin = async () => {
   // })
   let res = await Taro.login()
   let res1 = await userRequest({ method: 'POST', url: 'v1/user/auth/auth_xcx', data: { code: res.code } })
-  console.log(res1,'000')
   if (res1.status_code == 200) {
     Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
     Taro.setStorageSync('openid', res1.data.user.xcx_openid)
@@ -189,7 +188,7 @@ export const routerLogin = () => {
   let pages = Taro.getCurrentPages()
   if (pages.length == 1) {
     let route = pages[0].route
-    if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
+    if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index') {
       Taro.navigateTo({
         url: '/pages/auth/index'
       })

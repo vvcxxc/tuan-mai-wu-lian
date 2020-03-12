@@ -43,18 +43,18 @@ export default class NewPage extends Component<Props>{
     list: [
       {
         des: '我的订单',
-        prompt: '有快到期的券',
+        prompt: '',
         img: 'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/XWWfhzTJEXwsB6DKczbKBNRpbDASRDsW.png',
         path: "/pages/order/index",
       }
       , {
         des: '我的礼品',
-        prompt: '有正在配送的礼品',
+        prompt: '',
         img: 'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/BjNjHfJ2FstMaB4PjNbCChCS6D2FDJb5.png',
         path: "/activity-pages/my-welfare/pages/gift/welfare.gift"
       }, {
         des: '我参与的活动',
-        prompt: '有正在进行的拼团活动',
+        prompt: '',
         img: 'http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/r55CxTJ4AAkmZFHRESeFs2GAFDCJnW5Z.png',
         path: "/activity-pages/my-activity/my.activity",
       }
@@ -102,6 +102,12 @@ export default class NewPage extends Component<Props>{
       } else {
         this.setState({ type: 'phone' })
         this.setState({ is_show: false })
+        this.setState({
+          userData: {
+            head_img: 'http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png',
+            user_name: ''
+          }
+        })
       }
     })
   }
