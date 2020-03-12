@@ -15,7 +15,7 @@ interface Params {
   options?: any;
 }
 const http = (params: Params): Promise<any> => {
-  const {
+  let {
     url,
     method = "get",
     data,
@@ -26,7 +26,7 @@ const http = (params: Params): Promise<any> => {
   });
   return new Promise((resolve, reject) => {
     const mergeConfig = Object.assign({}, {
-      url: `${BASIC_API}${url}`,
+      url: url.includes('http') ? url : `${BASIC_API}${url}`,
       header: {
         Accept: "application/json",
         Authorization: Taro.getStorageSync("token") || "",
@@ -57,7 +57,7 @@ const http = (params: Params): Promise<any> => {
           case NOT_SIGN:
              // 重新触发登录，重新请求接口
             await quietLogin()
-            res = await http(options)
+            res = await http(params)
             return resolve(res)
             break
           case NOT_FIND:
