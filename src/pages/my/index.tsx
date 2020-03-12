@@ -71,7 +71,6 @@ export default class NewPage extends Component<Props>{
 
 
   componentDidShow() {
-    console.log(23423)
     this.handleGetUserinfo()
     request({
       url: 'v3/user/home_index'
