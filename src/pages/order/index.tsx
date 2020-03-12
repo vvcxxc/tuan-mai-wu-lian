@@ -54,18 +54,26 @@ export default class Order extends Component {
   };
 
   componentDidShow() {
+    let that = this;
     let phone_status = Taro.getStorageSync('phone_status')
     console.log(phone_status)
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       this.setState({
+        current: 0,
+        page1: 1,
+        page2: 1,
+        page3: 1,
+        page4: 1,
+        coupon: [],
+        coupon1: [],
+        coupon2: [],
+        coupon3: [],
+        coupon4: [],
         lengthbull1: true,
         lengthbull2: true,
         lengthbull3: true,
         lengthbull4: true,
-        no_login: false
-      }, () => {
-        this.getData1()
-      })
+      }, () => { that.getData1() })
     } else {
       this.setState({ no_login: true })
     }
