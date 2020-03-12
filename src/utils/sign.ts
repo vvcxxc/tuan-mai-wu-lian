@@ -130,8 +130,10 @@ export const quietLogin = async () => {
     Taro.setStorageSync('openid', res1.data.user.xcx_openid)
     Taro.setStorageSync('user', res1.data.user)
     Taro.setStorageSync('token_expires_in', res1.data.expires_in)
-    if (res1.data.user.group_id != 0) {
+    if (res1.data.user.phone) {
       Taro.setStorageSync('phone_status', 'binded')
+    }else {
+      Taro.setStorageSync('phone_status', 'need_login')
     }
   }
 }
