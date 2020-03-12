@@ -103,6 +103,12 @@ export default class NewPage extends Component<Props>{
       } else {
         this.setState({ type: 'phone' })
         this.setState({ is_show: false })
+        this.setState({
+          userData: {
+            head_img: 'http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png',
+            user_name: ''
+          }
+        })
       }
     })
   }

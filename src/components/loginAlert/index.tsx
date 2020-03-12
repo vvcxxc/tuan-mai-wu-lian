@@ -2,12 +2,14 @@ import Taro, { Component } from "@tarojs/taro"
 import { Block, View, ScrollView, Image, Text, Button} from "@tarojs/components"
 import './index.styl'
 import userRequest from '../../services/userRequest';
+import MergePrompt from '@/components/merge_prompt'
 const router_data = ['pages/index/index','pages/order/index','pages/my/index','pages/activity/index','pages/merchant/index']
 interface Props {
   onChange: any
 }
 export default function LoginAlert(props: Props) {
-  // const { list } = params
+  let phone = ''
+  let is_show = false
   const closeAlert = () => {
     // let pages = Taro.getCurrentPages()
     // console.log(pages)
@@ -44,6 +46,16 @@ export default function LoginAlert(props: Props) {
               title: '登录成功'
             })
             props.onChange('login')
+          }else if(res.data.status == 'merge_success') {
+            Taro.setStorageSync('phone_status', 'bind_success')
+            Taro.setStorageSync('token','Bearer ' + res.data.token)
+            Taro.showToast({
+              title: '登录成功'
+            })
+            props.onChange('login')
+          }else if (res.data.status == 'need_merge') {
+            is_show = true
+            phone = res.data.mobile
           }
         }
       })
@@ -51,7 +63,23 @@ export default function LoginAlert(props: Props) {
       props.onChange('close')
     }
   }
-
+  const sureMerge = () => {
+    userRequest({
+      url: 'v1/user/user/merge_user',
+      method: "PUT",
+      data: {
+        mobile: this.state.phoneNumber,
+        type: 'xcx'
+      }
+    }).then(res => {
+      if(res.status_code == 200){
+        Taro.setStorageSync('phone_status', 'bind_success')
+        Taro.setStorageSync('token','Bearer ' + res.data.token)
+        Taro.showToast({title: '同步成功'})
+        props.onChange('close')
+      }
+    })
+  }
   return (
     <Block>
       <View className="landing_bounced">
@@ -67,7 +95,10 @@ export default function LoginAlert(props: Props) {
             <Button className='alert-button-login' open-type='getPhoneNumber' onGetPhoneNumber={getPhoneNumber}>立即登录</Button>
           </View>
         </View>
+        {is_show ? <MergePrompt cancel={() => is_show = false}
+          confirm={() => sureMerge()} /> : null}
       </View>
+
     </Block>
   )
 }
