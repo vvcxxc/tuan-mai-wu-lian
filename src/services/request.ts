@@ -87,10 +87,10 @@ export default async function request(options: Options) {
         }
       },
       async fail(err) {
-        let aa = err.json()
-        let a = await Promise.resolve(aa)
-        const { code, message } = a;
-        switch (code) {
+        // let aa = err.json()
+        // let a = await Promise.resolve(aa)
+        // const { code, message } = a;
+        switch (err.statusCode) {
           case SERVER_ERROR:
             Taro.showToast({
               title: 'server error :d',
@@ -99,7 +99,7 @@ export default async function request(options: Options) {
             break
           case FETCH_BAD:
             Taro.showToast({
-              title: message,
+              title: "bad request",
               icon: "none"
             })
             break

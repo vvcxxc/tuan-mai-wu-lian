@@ -38,8 +38,8 @@ export default function userRequest(options: Options) {
   return new Promise((resolve, reject) => {
     /**拼接接口地址 */
     options.url = options.url.includes('http')
-    ? options.url
-    : host + options.url
+      ? options.url
+      : host + options.url
     /**统一请求 */
     // options.success = (res) => resolve(res.data.data);
     // options.fail = (res) => reject(res);
@@ -65,11 +65,11 @@ export default function userRequest(options: Options) {
             return reject(res)
             break
           case NOT_SIGN:
-             // 重新触发登录，重新请求接口
-             await quietLogin()
-             res = await userRequest(options)
-             return resolve(res)
-             break
+            // 重新触发登录，重新请求接口
+            await quietLogin()
+            res = await userRequest(options)
+            return resolve(res)
+            break
           case NOT_FIND:
             Taro.showToast({
               title: "not find",
@@ -87,10 +87,34 @@ export default function userRequest(options: Options) {
         }
       },
       async fail(err) {
-        let aa = err.json()
-        let a = await Promise.resolve(aa)
-        // const { code, message } = a;
-        console.log(a)
+        switch (err.statusCode) {
+          case SERVER_ERROR:
+            Taro.showToast({
+              title: 'server error :d',
+              icon: 'none'
+            })
+            break
+          case FETCH_BAD:
+            Taro.showToast({
+              title: "bad request",
+              icon: "none"
+            })
+            break
+          case NOT_SIGN:
+            return reject(new Error('--- no sign ---'))
+          case NOT_FIND:
+            Taro.showToast({
+              title: "not find",
+              icon: "none"
+            })
+            break
+          default:
+            Taro.showToast({
+              title: "unknow error",
+              icon: "none"
+            })
+            break
+        }
       }
     });
   });
