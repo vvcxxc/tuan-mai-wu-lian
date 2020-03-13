@@ -75,37 +75,37 @@ const http = (params: Params): Promise<any> => {
         }
       },
       async fail(err) {
-        let aa = err.json()
-        let a = await Promise.resolve(aa)
-        const { code, message } = a;
-        switch (code) {
-          case SERVER_ERROR:
-            Taro.showToast({
-              title: 'server error :d',
-              icon: 'none'
-            })
-            break
-          case FETCH_BAD:
-            Taro.showToast({
-              title: message,
-              icon: "none"
-            })
-            break
-          case NOT_SIGN:
-            return reject(new Error('--- no sign ---'))
-          case NOT_FIND:
-            Taro.showToast({
-              title: "not find",
-              icon: "none"
-            })
-            break
-          default:
-            Taro.showToast({
-              title: "unknow error",
-              icon: "none"
-            })
-            break
-        }
+        // let aa = err.json()
+        // let a = await Promise.resolve(aa)
+        // const { code, message } = a;
+        // switch (code) {
+        //   case SERVER_ERROR:
+        //     Taro.showToast({
+        //       title: 'server error :d',
+        //       icon: 'none'
+        //     })
+        //     break
+        //   case FETCH_BAD:
+        //     Taro.showToast({
+        //       title: message,
+        //       icon: "none"
+        //     })
+        //     break
+        //   case NOT_SIGN:
+        //     return reject(new Error('--- no sign ---'))
+        //   case NOT_FIND:
+        //     Taro.showToast({
+        //       title: "not find",
+        //       icon: "none"
+        //     })
+        //     break
+        //   default:
+        //     Taro.showToast({
+        //       title: "unknow error",
+        //       icon: "none"
+        //     })
+        //     break
+        // }
       }
     })
   })
