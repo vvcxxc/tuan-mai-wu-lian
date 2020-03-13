@@ -158,9 +158,9 @@ export default class PhoneInformation extends Component {
         }
     }
     goToMy = () => {
-        // Taro.switchTab({
-        //     url: '/pages/my/index'
-        // })
+        Taro.switchTab({
+            url: '/pages/my/index'
+        })
         // Taro.navigateBack({
         //     delta:2
         // })
