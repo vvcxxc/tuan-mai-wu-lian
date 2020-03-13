@@ -23,7 +23,9 @@ import { quietLogin } from './utils/sign'
 // Set Dva
 const dva = dvaCore.createApp({
 	defienSear: {},
-	initialState: {},
+	initialState: {
+		name:'313'
+	},
 	models: models,
 	onAction: createLogger(),
 	onError(e, dispatch) {
