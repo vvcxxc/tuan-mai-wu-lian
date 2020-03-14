@@ -55,6 +55,13 @@
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2830&__key_=15838221258875",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "现金券",
+					"pathName": "business-pages/ticket-buy/index",
+					"query": "id=5644&__key_=15841709200652",
+					"scene": null
 				}
 			]
 		}
