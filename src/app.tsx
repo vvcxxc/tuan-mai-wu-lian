@@ -24,7 +24,7 @@ import { quietLogin } from './utils/sign'
 const dva = dvaCore.createApp({
 	defienSear: {},
 	initialState: {
-		name:'313'
+		name: '313'
 	},
 	models: models,
 	onAction: createLogger(),
@@ -75,17 +75,10 @@ class App extends Component {
 				root: 'business-pages',
 
 				pages: [
-					// 'auth/anth',
 					'confirm-order/index',
-					'stars/index',
-					'gift/index',
 					'select-city/index',
-					// 'pay-success/index',
-					'merchant/index',
 					'set-meal/index',
-					'ticket-buy/index',
-					'daily-recommend/index',
-					'search/index'
+					'ticket-buy/index'
 				]
 			},
 			{
@@ -157,7 +150,7 @@ class App extends Component {
 					text: '我的',
 					iconPath: './assets/tabbar/5.png',
 					selectedIconPath: './assets/tabbar/10.png'
-        },
+				},
 			]
 		}
 	};
@@ -165,27 +158,27 @@ class App extends Component {
 	defineApp: {
 		define: '22'
 	}
-  componentDidShow() {
-    console.log('打开小程序')
-    let date = dayjs().unix()
-    Taro.setStorageSync('is_one',date)
-    let token = Taro.getStorageSync('token');
-    let token_expires_in = Taro.getStorageSync('expires_in');
-    if(token){
-      if(token_expires_in && token_expires_in < date){
-        // token过期
-      quietLogin()
-      }
-    }else{
-      quietLogin()
-    }
-  }
-  componentDidMount() {
+	componentDidShow() {
+		console.log('打开小程序')
+		let date = dayjs().unix()
+		Taro.setStorageSync('is_one', date)
+		let token = Taro.getStorageSync('token');
+		let token_expires_in = Taro.getStorageSync('expires_in');
+		if (token) {
+			if (token_expires_in && token_expires_in < date) {
+				// token过期
+				quietLogin()
+			}
+		} else {
+			quietLogin()
+		}
+	}
+	componentDidMount() {
 
-  }
+	}
 	componentDidHide() {
-    Taro.removeStorageSync('is_one')
-   }
+		Taro.removeStorageSync('is_one')
+	}
 	componentDidCatchError() { }
 
 	// 在 App 类中的 render() 函数没有实际作用
