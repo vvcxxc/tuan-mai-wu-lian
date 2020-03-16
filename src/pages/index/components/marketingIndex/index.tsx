@@ -4,8 +4,13 @@ import './index.styl';
 import { connect } from '@tarojs/redux'
 
 export default class MarketingIndex extends Component {
+  config: Config = {
+    navigationBarTitleText: '小熊敬礼',
+    enablePullDownRefresh: true,
+    // navigationBarBackgroundColor: '#FF4444'
+  };
   componentDidMount(){
-
+    Taro.setBackgroundColor({backgroundColor: '#ff4444'})
   }
   state = {
 
