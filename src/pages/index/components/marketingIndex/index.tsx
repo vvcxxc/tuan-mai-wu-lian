@@ -67,6 +67,9 @@ export default class MarketingIndex extends Component {
     switch(is_share) {
       case 1:
         // 增值
+        Taro.navigateTo({
+          url: '/pages/activity/appreciation/index?id=' + item.youhui_id + '&type=1&gift_id=' + item.gift_id + '&activity_id=' + item.activity_id
+        })
         break
       case 4:
         // 现金券兑换券
@@ -84,7 +87,10 @@ export default class MarketingIndex extends Component {
         break
       case 5:
         // 拼团
-
+        Taro.navigateTo({
+          url: '/pages/activity/group/index?id=' + item.youhui_id + '&type=5&gift_id=' + item.gift_id + '&activity_id=' + item.activity_id
+        })
+        break
     }
   }
 
