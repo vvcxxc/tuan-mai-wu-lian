@@ -372,7 +372,7 @@ export default class Group extends Component<Props>{
         title: 'loading',
       });
       let data = {
-        public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
+        public_type_id: _groupid,
         activity_id: this.$router.params.activity_id,
         open_id: Taro.getStorageSync("openid"),
         unionid: Taro.getStorageSync("unionid"),
