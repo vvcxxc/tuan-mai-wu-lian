@@ -19,14 +19,17 @@ export default class MarketingIndex extends Component {
     brandRecommendList: [], // 品牌连锁推荐
     list: [],
     id: 6, // tab的id
+    city_name: '新会区',
+    banner: []
 
   }
   componentDidMount() {
     getChannelInfo().then((res: any) => {
       if(res.code == 200){
         this.setState({
-          hotRecommendList: res.data.whdtj.youhui,
-          brandRecommendList: res.data.pplstj.youhui
+          hotRecommendList: res.data.channels.whdtj.youhui,
+          brandRecommendList: res.data.channels.pplstj.youhui,
+          banner: res.data.banner
         })
       }
     })
@@ -62,7 +65,6 @@ export default class MarketingIndex extends Component {
 
 
   handleAction (item: any){
-    console.log(item)
     const { is_share } = item
     switch(is_share) {
       case 1:
@@ -95,6 +97,7 @@ export default class MarketingIndex extends Component {
   }
 
   render() {
+    const {banner} = this.state
     return (
       <View className='marketing-page'>
         <Image className='head-bj' src={require('@/assets/index/head-bj.png')} />
@@ -105,7 +108,7 @@ export default class MarketingIndex extends Component {
             <View className="city" onClick={this.showSelectCity}>
               <View className='ellipsis-one flex' style='width:70%; padding-right:14px; color:#fff; display: inline-block'>
                 {/* {this.state.cityName || '1广州市'} */}
-                {this.state.meta.city_name || '广州市'}
+                {this.state.city_name || '广州市'}
               </View>
               <Image className='down-icon' src={require('@/assets/index/down.png')} />
             </View>
@@ -126,19 +129,26 @@ export default class MarketingIndex extends Component {
               circular
               onChange={e => this.setState({ bannerTag: e.detail.current + 1 })}
               autoplay>
-              <SwiperItem>
-                <View className='demo-text-1'>1</View>
-              </SwiperItem>
-              <SwiperItem>
+                {
+                  banner.map(res => {
+                    return (
+                      <SwiperItem>
+                        <View className='banner-img'><Image src={res}/>></View>
+                      </SwiperItem>
+                    )
+                  })
+                }
+
+              {/* <SwiperItem>
                 <View className='demo-text-2'>2</View>
               </SwiperItem>
               <SwiperItem>
                 <View className='demo-text-3'>3</View>
-              </SwiperItem>
+              </SwiperItem> */}
             </Swiper>
             <View className='indicator'>
               <Text>{this.state.bannerTag}</Text>
-              <Text>3</Text>
+            <Text>{this.state.banner.length}</Text>
             </View>
           </View>
 
