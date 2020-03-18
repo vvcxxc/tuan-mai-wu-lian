@@ -76,7 +76,7 @@ export default class Index extends Component<any> {
     super(props);
   }
 
-  componentDidShow() {
+  componentDidMount() {
     // this.SilentAuthorization()
     this.requestLocation();
     this.recognizer();

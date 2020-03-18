@@ -39,6 +39,8 @@ export default class Index extends Component<any> {
   config: Config = {
     navigationBarTitleText: '小熊敬礼',
     enablePullDownRefresh: true,
+    navigationBarBackgroundColor: '#ff4444',
+    navigationBarTextStyle: 'white'
   };
 
   state = {
@@ -53,9 +55,9 @@ export default class Index extends Component<any> {
 
   componentDidShow(){
     let router = Taro.getStorageSync('router')
-
     if(router.city_name){
       if(router.city_name == '新会区'){
+
         this.setState({is_marketing: true})
       }else{
         this.setState({is_marketing: false})
