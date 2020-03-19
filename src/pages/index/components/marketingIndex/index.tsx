@@ -35,7 +35,6 @@ export default class MarketingIndex extends Component<any> {
       }
     })
     getTabList({channel_id: 6, page: 1}).then(res => {
-      console.log(res)
       if(res.code == 200){
         this.setState({list: res.data.data})
       }
@@ -50,7 +49,6 @@ export default class MarketingIndex extends Component<any> {
     if(this.props.changeBottom != nextProps.changeBottom){
       this.setState({page: this.state.page + 1},()=> {
         getTabList({channel_id: this.state.id, page: this.state.page}).then(res => {
-          console.log(res)
           if(res.code == 200){
             this.setState({list: [...this.state.list,...res.data.data]})
           }

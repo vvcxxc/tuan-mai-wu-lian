@@ -64,7 +64,7 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 2,
 					"name": "activity-pages/activity-list/index",
 					"pathName": "activity-pages/activity-list/index",
 					"query": "id=1",

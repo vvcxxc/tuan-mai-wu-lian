@@ -17,7 +17,8 @@ export default class ActivityList extends Component {
 
   state = {
     list: [],
-    page: 1
+    page: 1,
+    is_more: true
   };
 
   componentDidShow() {
@@ -68,6 +69,50 @@ export default class ActivityList extends Component {
     })
 
   }
+  onReachBottom() {
+    if(!this.state.is_more){ // 下一页没数据
+      return
+    }
+    let id = this.$router.params.id
+    this.setState({ page: this.state.page + 1 }, () => {
+      Taro.getLocation({
+        type: 'gcj02',
+        success: res => {
+          let data = {
+            xpoint: res.longitude,
+            ypoint: res.latitude,
+            channel_id: id,
+            page: this.state.page,
+            from: 'detail'
+          }
+          getList(data).then(res => {
+            if(res.data.data.length){
+              this.getNewList([...this.state.list, ...res.data.data])
+            }else{
+              this.setState({is_more: false})
+            }
+          })
+        },
+        fail: err => {
+          let data = {
+            xpoint: '',
+            ypoint: '',
+            channel_id: id,
+            page: this.state.page,
+            from: 'detail'
+          }
+          getList(data).then(res => {
+            if(res.data.data.length){
+              this.getNewList([...this.state.list, ...res.data.data])
+            }else{
+              this.setState({is_more: false})
+            }
+          })
+        }
+      })
+    })
+
+  }
 
   // 变历数组
   getNewList(arr) {
@@ -112,7 +157,7 @@ export default class ActivityList extends Component {
         </View>
         <View className="activity-content">
           {
-            list.map(item => {
+            list.length ? list.map(item => {
               return (
                 <View className="activity-item-padding">
                   <View className="store-info">
@@ -136,7 +181,14 @@ export default class ActivityList extends Component {
                   />
                 </View>
               )
-            })
+            }) : (
+                <View className='list-no-data'>
+                  <View className='no-data-box'>
+                    <Image className='no-data-img' src={require('@/assets/index/no-data.png')} />
+                    <View>暂时没有活动，看看其他吧</View>
+                  </View>
+                </View>
+              )
           }
 
 
