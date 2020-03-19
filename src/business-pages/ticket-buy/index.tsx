@@ -11,6 +11,7 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 // import TimeUp from '@/components/TimeUp';
 // import LandingBounced from '@/components/landing_bounced'//登录弹框
 // import Cookie from 'js-cookie';
+import request from '../../services/request'
 
 
 // import ShareBox from '@/components/share-box';
@@ -24,38 +25,167 @@ export default class AppreActivity extends Component {
     bannerImgIndex: 0,
     img: ["http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png", "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png"],
     dataList: [
-      {
-        img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
-        type: "现金券",
-        cash: "800元现金券",
-        desc: "购买后3天内有效",
-        new_money: "￥99.99",
-        old_money: "￥199.99"
-      },
-      {
-        img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
-        type: "现金券",
-        cash: "800元现金券",
-        desc: "购买后3天内有效",
-        new_money: "￥99.99",
-        old_money: "￥199.99"
-      },
-      {
-        img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
-        type: "现金券",
-        cash: "800元现金券",
-        desc: "购买后3天内有效",
-        new_money: "￥99.99",
-        old_money: "￥199.99"
-      }
+      // {
+      //   img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
+      //   type: "现金券",
+      //   cash: "800元现金券",
+      //   desc: "购买后3天内有效",
+      //   new_money: "￥99.99",
+      //   old_money: "￥199.99"
+      // },
     ],
     showAll: false,
+
+    yPoint: '',
+    xPoint: '',
+    isFromShare: false,
+    coupon: {
+      begin_time: "",
+      brief: "",
+      //真正的收藏
+      collect: "0",
+      description: "",
+      end_time: "",
+      icon: "h",
+      id: 0,
+      image: "",
+      image_type: 1,
+      list_brief: "",
+      own: "",
+      label: [''],
+      pay_money: "",
+      return_money: "",
+      yname: "",
+      youhui_type: 0,
+      expire_day: ''
+    },
+    store: {
+      brief: "",
+      id: 0,
+      open_time: "",
+      route: "",
+      saddress: "",
+      sname: "",
+      tel: "",
+      distance: "",
+      shop_door_header_img: "",
+      xpoint: 0,
+      ypoint: 0
+    },
+    goods_album: [
+      {
+        id: 0,
+        image_url: ""
+      }
+    ],
+    recommend: [{
+      begin_time: "",
+      brief: "",
+      end_time: "",
+      id: 0,
+      list_brief: "",
+      open_time: "",
+      pay_money: "",
+      return_money: "",
+      sname: "",
+      yname: "",
+      youhui_type: 0,
+      expire_day: '',
+      total_fee: '',
+      image: '',
+    }],
   }
 
   /**
      * 回首页
      */
   handleGoHome = () => { Taro.navigateTo({ url: '/' }) }
+
+
+  componentWillMount() {
+    let arrs = Taro.getCurrentPages()
+    if (arrs.length <= 1) {
+      this.setState({
+        isFromShare: true
+      })
+    }
+    Taro.showLoading({
+      title: 'loading',
+      mask: true
+    })
+    // console.log(this.$router.params)
+    Taro.getLocation({ type: 'gcj02' }).then(res => {
+      this.setState({
+        yPoint: res.latitude,
+        xPoint: res.longitude
+      }, () => {
+        request({
+          url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: this.state.xPoint, ypoint: this.state.yPoint }
+        })
+          .then((res: any) => {
+            console.log(res);
+            if (res.code != 200) {
+              Taro.hideLoading()
+              Taro.showToast({ title: '信息错误', icon: 'none' })
+              setTimeout(() => {
+                Taro.navigateBack({
+                })
+              }, 2000)
+            }
+            this.setState({
+              coupon: res.data.info.coupon,
+              store: res.data.info.store,
+              goods_album: res.data.info.goods_album,
+              recommend: res.data.recommend.data
+            })
+            Taro.hideLoading()
+          }).catch(function (error) {
+            Taro.hideLoading()
+            Taro.showToast({ title: '数据请求失败', icon: 'none' })
+            setTimeout(() => {
+              Taro.navigateBack({
+              })
+            }, 2000)
+          });
+      })
+    }).catch(err => {
+      Taro.showLoading({
+        title: 'loading',
+      })
+      request({
+        url: '/v3/discount_coupons/' + this.$router.params.id, method: "GET", data: { xpoint: '', ypoint: '' }
+      })
+        .then((res: any) => {
+          console.log(res);
+          if (res.code != 200) {
+            Taro.hideLoading()
+            Taro.showToast({ title: '信息错误', icon: 'none' })
+            setTimeout(() => {
+              Taro.navigateBack({
+              })
+            }, 2000)
+          }
+          this.setState({
+            coupon: res.data.info.coupon,
+            store: res.data.info.store,
+            goods_album: res.data.info.goods_album,
+            recommend: res.data.recommend.data
+          })
+          Taro.hideLoading()
+        }).catch(function (error) {
+          Taro.hideLoading()
+          Taro.showToast({ title: '数据请求失败', icon: 'none' })
+          setTimeout(() => {
+            Taro.navigateBack({
+            })
+          }, 2000)
+        });
+    })
+
+    setTimeout(() => {
+      console.log(this.state)
+    }, 2000)
+  }
 
 
   render() {
@@ -93,8 +223,8 @@ export default class AppreActivity extends Component {
 
         <View className="appre-info-content">
           <View className="appre-info-title">
-            <View className="appre-info-title-label">增值券</View>
-            <View className="appre-info-title-text">ipi</View>
+            <View className="appre-info-title-label">{this.state.coupon.youhui_type == 0 ? "兑换券" : "现金券"}</View>
+            <View className="appre-info-title-text">{this.state.store.sname}</View>
           </View>
           <View className="appre-info-price">
             <View className="appre-price-info">
@@ -164,30 +294,32 @@ export default class AppreActivity extends Component {
         </View>
 
         {
-          this.state.dataList.length > 0 ?
+          this.state.recommend.length > 0 ?
             (<View className="more_goods">
               <View className="title-box">
                 <View className='title-left'></View>
                 <View className="title">更多本店宝贝</View>
               </View>
               {
-                this.state.dataList.length > 0 && !this.state.showAll ? <View className="good_info">
+                this.state.recommend.length > 0 && !this.state.showAll ? <View className="good_info">
                   <View className="good_msg">
-                    <Image className="good_img" src={this.state.dataList[0].img} />
+                    <Image className="good_img" src={this.state.recommend[0].image} />
 
                     <View className="good_detail">
                       <View className="good_detail_info">
                         <View className="good_title">
-                          <View className="good_type">{this.state.dataList[0].type}</View>
-                          <View className="good_cash">{this.state.dataList[0].cash}</View>
+                          <View className="good_type">
+                            <View className="text">{this.state.recommend[0].youhui_type == 0 ? "兑换券" : "现金券"}</View>
+                          </View>
+                          <View className="good_cash">{this.state.recommend[0].sname}</View>
                         </View>
                         <View className="good_desc">
-                          <View className="good_desc_info">{this.state.dataList[0].desc}</View>
+                          <View className="good_desc_info">购买后{this.state.recommend[0].total_fee}天内有效</View>
                         </View>
                       </View>
                       <View className="good_money">
-                        <View className="good_new_money">{this.state.dataList[0].new_money}</View>
-                        <View className="good_old_money">{this.state.dataList[0].old_money}</View>
+                        {/* <View className="good_new_money">{this.state.recommend[0].new_money}</View> */}
+                        {/* <View className="good_old_money">{this.state.recommend[0].old_money}</View> */}
                       </View>
                     </View>
                   </View>
@@ -198,23 +330,25 @@ export default class AppreActivity extends Component {
                 </View> : null
               }
               {
-                this.state.dataList.length > 1 && !this.state.showAll ? <View className="good_info">
+                this.state.recommend.length > 1 && !this.state.showAll ? <View className="good_info">
                   <View className="good_msg">
-                    <Image className="good_img" src={this.state.dataList[1].img} />
+                    <Image className="good_img" src={this.state.recommend[1].image} />
 
                     <View className="good_detail">
                       <View className="good_detail_info">
                         <View className="good_title">
-                          <View className="good_type">{this.state.dataList[1].type}</View>
-                          <View className="good_cash">{this.state.dataList[1].cash}</View>
+                          <View className="good_type">
+                            <View className="text">{this.state.recommend[1].youhui_type == 0 ? "兑换券" : "现金券"}</View>
+                          </View>
+                          <View className="good_cash">{this.state.recommend[0].sname}</View>
                         </View>
                         <View className="good_desc">
-                          <View className="good_desc_info">{this.state.dataList[1].desc}</View>
+                          <View className="good_desc_info">购买后{this.state.recommend[0].total_fee}天内有效</View>
                         </View>
                       </View>
                       <View className="good_money">
-                        <View className="good_new_money">{this.state.dataList[1].new_money}</View>
-                        <View className="good_old_money">{this.state.dataList[1].old_money}</View>
+                        {/* <View className="good_new_money">{this.state.recommend[1].new_money}</View> */}
+                        {/* <View className="good_old_money">{this.state.recommend[1].old_money}</View> */}
                       </View>
                     </View>
                   </View>
@@ -224,24 +358,26 @@ export default class AppreActivity extends Component {
                 </View> : null
               }
               {
-                this.state.showAll && this.state.dataList.map((item) => (
+                this.state.showAll && this.state.recommend.map((item) => (
                   <View className="good_info">
                     <View className="good_msg">
-                      <Image className="good_img" src={item.img} />
+                      <Image className="good_img" src={item.image} />
 
                       <View className="good_detail">
                         <View className="good_detail_info">
                           <View className="good_title">
-                            <View className="good_type">{item.type}</View>
-                            <View className="good_cash">{item.cash}</View>
+                            <View className="good_type">
+                              <View className="text">{item.youhui_type == 0 ? "兑换券" : "现金券"}</View>
+                            </View>
+                            <View className="good_cash">{item.sname}</View>
                           </View>
                           <View className="good_desc">
-                            <View className="good_desc_info">{item.desc}</View>
+                            <View className="good_desc_info">购买后{item.total_fee}天内有效</View>
                           </View>
                         </View>
                         <View className="good_money">
-                          <View className="good_new_money">{item.new_money}</View>
-                          <View className="good_old_money">{item.old_money}</View>
+                          {/* <View className="good_new_money">{item.new_money}</View> */}
+                          {/* <View className="good_old_money">{item.old_money}</View> */}
                         </View>
                       </View>
                     </View>
@@ -254,7 +390,7 @@ export default class AppreActivity extends Component {
               }
 
               {
-                this.state.dataList.length <= 2 ? "" : (
+                this.state.recommend.length <= 2 ? "" : (
                   <View className="load_more" onClick={() => this.setState({ showAll: !this.state.showAll })}>
                     {
                       !this.state.showAll ? (

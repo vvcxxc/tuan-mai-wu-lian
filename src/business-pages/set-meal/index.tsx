@@ -178,7 +178,9 @@ export default class AppreActivity extends Component {
                     <View className="good_detail">
                       <View className="good_detail_info">
                         <View className="good_title">
-                          <View className="good_type">{this.state.dataList[0].type}</View>
+                          <View className="good_type">
+                            <View className="text">{this.state.dataList[0].type}</View>
+                          </View>
                           <View className="good_cash">{this.state.dataList[0].cash}</View>
                         </View>
                         <View className="good_desc">
@@ -205,7 +207,9 @@ export default class AppreActivity extends Component {
                     <View className="good_detail">
                       <View className="good_detail_info">
                         <View className="good_title">
-                          <View className="good_type">{this.state.dataList[1].type}</View>
+                          <View className="good_type">
+                            <View className="text">{this.state.dataList[1].type}</View>
+                          </View>
                           <View className="good_cash">{this.state.dataList[1].cash}</View>
                         </View>
                         <View className="good_desc">
@@ -232,7 +236,9 @@ export default class AppreActivity extends Component {
                       <View className="good_detail">
                         <View className="good_detail_info">
                           <View className="good_title">
-                            <View className="good_type">{item.type}</View>
+                            <View className="good_type">
+                              <View className="text">{item.type}</View>
+                            </View>
                             <View className="good_cash">{item.cash}</View>
                           </View>
                           <View className="good_desc">
