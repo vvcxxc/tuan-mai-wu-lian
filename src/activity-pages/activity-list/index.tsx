@@ -22,7 +22,7 @@ export default class ActivityList extends Component {
 
   componentDidShow() {
     let id = this.$router.params.id
-    switch(id){
+    switch (id) {
       case 1:
         Taro.setNavigationBarTitle({ title: '网红店推荐活动列表' })
         break
@@ -111,7 +111,7 @@ export default class ActivityList extends Component {
           <Image className="activity-banner-img" src="http://oss.tdianyi.com/front/2tp2Gi5MjC47hd7mGBCjEGdsBiWt5Wec.png" />
         </View>
         <View className="activity-content">
-          {
+          {/* {
             list.map(item => {
               return (
                 <View className="activity-item-padding">
@@ -129,22 +129,31 @@ export default class ActivityList extends Component {
                 </View>
               )
             })
-          }
-          {/*
+          } */}
 
-                    <View className="activity-item-padding">
-                        <ActivityItem
-                            imgIconType={'appre'}
-                            img={'http://oss.tdianyi.com/front/t4nspcwf3Dbb722DKrGHBaahDcXbJeMj.png'}
-                            longName={'2人拼团抢汽车美容一二三四五六'}
-                            brief={'有效期：7天有效'}
-                            oldPrice={'19.99'}
-                            newPrice={'49.99'}
-                            btnText={'抢购'}
-                            unBtnText={'已参与99'}
-                            handleClick={() => { }}
-                        />
-                    </View> */}
+
+          <View className="activity-item-padding">
+
+            <View className="store-info">
+              <View className="store-name-info">
+                <Image className="item-shop-icon" src="http://oss.tdianyi.com/front/JhGtnn46tJksAaNCCMXaWWCGmsEKJZds.png" />
+                <View className="item-store-name">多美蛋糕店</View>
+                <Image className="item-go-icon" src="http://oss.tdianyi.com/front/fpsw5CyhYJQTDEABZhs4iFDdC48ZGidn.png" />
+              </View>
+              <View className="store-distance">3000m</View>
+            </View>
+            <ActivityItem
+              imgIconType={'appre'}
+              img={'http://oss.tdianyi.com/front/t4nspcwf3Dbb722DKrGHBaahDcXbJeMj.png'}
+              longName={'2人拼团抢汽车美容一二三四五六'}
+              brief={'有效期：7天有效'}
+              oldPrice={'19.99'}
+              newPrice={'49.99'}
+              btnText={'抢购'}
+              unBtnText={'已参与99'}
+              handleClick={() => { }}
+            />
+          </View>
         </View>
       </View>
     );
