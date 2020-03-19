@@ -35,6 +35,11 @@ export default class RecommendBox extends Component<Props> {
     this.props.onAction(item)
   }
 
+  goTo() {
+    let id = this.props.type == 1 ? 1 : 5
+    Taro.navigateTo({url: '/activity-pages/activity-list/index?id=' + id})
+  }
+
   render() {
     const { result } = this.state
     return (
@@ -56,7 +61,7 @@ export default class RecommendBox extends Component<Props> {
             }
 
           {/* </View> */}
-          <View className='look-more'>查看更多</View>
+          <View className='look-more' onClick={this.goTo}>查看更多</View>
         </View>
         <View>
           <Swiper
