@@ -1,4 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
+import { AtIcon } from 'taro-ui';
 // import { AtIcon, AtToast, AtTabs, AtTabsPane } from "taro-ui";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.styl";
@@ -21,7 +22,34 @@ export default class AppreActivity extends Component {
 
   state = {
     bannerImgIndex: 0,
-    img: ["http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png", "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png"]
+    img: ["http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png", "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png"],
+    dataList: [
+      {
+        img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
+        type: "现金券",
+        cash: "800元现金券",
+        desc: "购买后3天内有效",
+        new_money: "￥99.99",
+        old_money: "￥199.99"
+      },
+      {
+        img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
+        type: "现金券",
+        cash: "800元现金券",
+        desc: "购买后3天内有效",
+        new_money: "￥99.99",
+        old_money: "￥199.99"
+      },
+      {
+        img: "http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png",
+        type: "现金券",
+        cash: "800元现金券",
+        desc: "购买后3天内有效",
+        new_money: "￥99.99",
+        old_money: "￥199.99"
+      }
+    ],
+    showAll: false,
   }
 
   /**
@@ -83,10 +111,10 @@ export default class AppreActivity extends Component {
         <View className="appre-store-info">
           <ApplyToTheStore
             isTitle={true}
-            img={''}
-            name={''}
-            phone={''}
-            address={''}
+            img="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png"
+            name={'许某人'}
+            phone={'18814342424'}
+            address={'啊大苏打撒大'}
             location={{ xpoint: 111, ypoint: 222 }}
           />
         </View>
@@ -121,14 +149,6 @@ export default class AppreActivity extends Component {
 
           </View>
 
-          {/* <View className="appre-more" >
-                        <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
-                        <View className="appre-more-text" >查看更多</View>
-                    </View> */}
-          {/* <View className="appre-more" >
-                        <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/EhJAKdDjiD2N4D4MjJ2wWsdkHDf6bMkw.png"} />
-                        <View className="appre-more-text" >收起</View>
-                    </View> */}
         </View>
         <View className="appre-buy-box" >
           <View className="appre-buy-price-box" >
@@ -143,9 +163,111 @@ export default class AppreActivity extends Component {
           </View>
         </View>
 
-        <View>
-          
-        </View>
+        {
+          this.state.dataList.length > 0 ?
+            (<View className="more_goods">
+              <View className="title-box">
+                <View className='title-left'></View>
+                <View className="title">更多本店宝贝</View>
+              </View>
+              {
+                this.state.dataList.length > 0 && !this.state.showAll ? <View className="good_info">
+                  <View className="good_msg">
+                    <Image className="good_img" src={this.state.dataList[0].img} />
+
+                    <View className="good_detail">
+                      <View className="good_detail_info">
+                        <View className="good_title">
+                          <View className="good_type">{this.state.dataList[0].type}</View>
+                          <View className="good_cash">{this.state.dataList[0].cash}</View>
+                        </View>
+                        <View className="good_desc">
+                          <View className="good_desc_info">{this.state.dataList[0].desc}</View>
+                        </View>
+                      </View>
+                      <View className="good_money">
+                        <View className="good_new_money">{this.state.dataList[0].new_money}</View>
+                        <View className="good_old_money">{this.state.dataList[0].old_money}</View>
+                      </View>
+                    </View>
+                  </View>
+
+                  <View className="good_btn">
+                    <View className="text">抢购</View>
+                  </View>
+                </View> : null
+              }
+              {
+                this.state.dataList.length > 1 && !this.state.showAll ? <View className="good_info">
+                  <View className="good_msg">
+                    <Image className="good_img" src={this.state.dataList[1].img} />
+
+                    <View className="good_detail">
+                      <View className="good_detail_info">
+                        <View className="good_title">
+                          <View className="good_type">{this.state.dataList[1].type}</View>
+                          <View className="good_cash">{this.state.dataList[1].cash}</View>
+                        </View>
+                        <View className="good_desc">
+                          <View className="good_desc_info">{this.state.dataList[1].desc}</View>
+                        </View>
+                      </View>
+                      <View className="good_money">
+                        <View className="good_new_money">{this.state.dataList[1].new_money}</View>
+                        <View className="good_old_money">{this.state.dataList[1].old_money}</View>
+                      </View>
+                    </View>
+                  </View>
+                  <View className="good_btn">
+                    <View className="text">抢购</View>
+                  </View>
+                </View> : null
+              }
+              {
+                this.state.showAll && this.state.dataList.map((item) => (
+                  <View className="good_info">
+                    <View className="good_msg">
+                      <Image className="good_img" src={item.img} />
+
+                      <View className="good_detail">
+                        <View className="good_detail_info">
+                          <View className="good_title">
+                            <View className="good_type">{item.type}</View>
+                            <View className="good_cash">{item.cash}</View>
+                          </View>
+                          <View className="good_desc">
+                            <View className="good_desc_info">{item.desc}</View>
+                          </View>
+                        </View>
+                        <View className="good_money">
+                          <View className="good_new_money">{item.new_money}</View>
+                          <View className="good_old_money">{item.old_money}</View>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View className="good_btn">
+                      <View className="text">抢购</View>
+                    </View>
+                  </View>
+                ))
+              }
+
+              {
+                this.state.dataList.length <= 2 ? "" : (
+                  <View className="load_more" onClick={() => this.setState({ showAll: !this.state.showAll })}>
+                    {
+                      !this.state.showAll ? (
+                        <View><AtIcon value='chevron-down' size="18" color='#999'></AtIcon>点击查看更多</View>
+                      ) : <View><AtIcon value='chevron-up' size="18" color='#999'></AtIcon>收起</View>
+                    }
+                  </View>
+                )
+              }
+            </View>) : ""
+        }
+
+
 
         {/* {
           this.state.isFromShare ? (

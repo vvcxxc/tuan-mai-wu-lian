@@ -522,6 +522,7 @@
         border-radius: 15px;
         background: #fff;
         overflow: hidden;
+        margin-bottom: 15px;
 
         .appre-title-box {
             height: 95px;
@@ -694,7 +695,111 @@
         }
     }
 
+    .more_goods {
+        background: #fff;
+        padding: 0 30px;
+        .title-box {
+            height: 95px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            background: #fff;
+            box-sizing: border-box;
 
+            .title-left {
+                width: 8px;
+                height: 25px;
+                background: #FF4444;
+                border-radius: 4px;
+                margin-right: 11px;
+            }
+
+            .title {
+                font-size: 36px;
+                font-weight: bold;
+            }
+        }
+        .good_info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            .good_msg {
+                display: flex;
+                .good_img {
+                    width:160px;
+                    height: 160px;
+                    border: 1px solid #ccc;
+                }
+                .good_detail {
+                    margin-left: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .good_detail_info {
+                        .good_title {
+                            display: flex;
+                            margin-bottom: 10px;
+                            .good_type {
+                                background: #FF4444;
+                                color: #fff;
+                                border-radius: 8px;
+                                padding: 5px 8px;
+                                font-size: 20px;
+                                margin-right:10px;
+                            }
+                            .good_cash {
+                                color: #000;
+                                font-size: 26px;
+                                font-weight: bold;
+                            }
+                        }
+                        .good_desc {
+                            display: flex;
+                            .good_desc_info {
+                                color: #333;
+                                font-size: 24px;
+                            }
+                        }
+                    }
+                    
+                    .good_money {
+                        display:flex;
+                        align-items: center;
+                        .good_new_money {
+                            font-size: 32px;
+                            color: #FF4444;
+                            font-weight: bold;
+                        }
+                        .good_old_money {
+                            font-size: 20px;
+                            color: #999999;
+                        
+                        }
+                    }
+                }
+            }
+            .good_btn {
+                .text {
+                    border-radius: 40px;
+                    padding: 10px 30px;
+                    color: #fff;
+                    font-size: 26px;
+                    background: linear-gradient(#FF4444, #FF6744);
+                }
+            }
+        }
+        .load_more {
+            color: #999;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    }
 
 
 

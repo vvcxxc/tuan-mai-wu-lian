@@ -47,13 +47,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": -1,
 					"name": "pages/activity/pages/appreciation/appreciation",
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2830&__key_=15838221258875",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/ticket-buy/index",
+					"pathName": "business-pages/ticket-buy/index",
+					"query": "",
 					"scene": null
 				},
 				{
