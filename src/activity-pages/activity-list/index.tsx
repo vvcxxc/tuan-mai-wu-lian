@@ -45,7 +45,7 @@ export default class ActivityList extends Component {
         let data = {
           xpoint: res.longitude,
           ypoint: res.latitude,
-          id,
+          channel_id: id,
           page: 1,
           from: 'detail'
         }
@@ -57,7 +57,7 @@ export default class ActivityList extends Component {
         let data = {
           xpoint: '',
           ypoint: '',
-          id,
+          channel_id: id,
           page: 1,
           from: 'detail'
         }
@@ -111,14 +111,22 @@ export default class ActivityList extends Component {
           <Image className="activity-banner-img" src="http://oss.tdianyi.com/front/2tp2Gi5MjC47hd7mGBCjEGdsBiWt5Wec.png" />
         </View>
         <View className="activity-content">
-          {/* {
+          {
             list.map(item => {
               return (
                 <View className="activity-item-padding">
+                  <View className="store-info">
+                    <View className="store-name-info">
+                      <Image className="item-shop-icon" src="http://oss.tdianyi.com/front/JhGtnn46tJksAaNCCMXaWWCGmsEKJZds.png" />
+                      <View className="item-store-name">多美蛋糕店</View>
+                      <Image className="item-go-icon" src="http://oss.tdianyi.com/front/fpsw5CyhYJQTDEABZhs4iFDdC48ZGidn.png" />
+                    </View>
+                    <View className="store-distance">3000m</View>
+                  </View>
                   <ActivityItem
                     imgIconType={item.activity_type}
                     img={'http://oss.tdianyi.com/' + item.icon}
-                    label={'2人团'}
+                    label={''}
                     name={item.name}
                     brief={'有效期：7天有效'}
                     oldPrice={item.is_share == 5 ? item.participation_money : item.pay_money}
@@ -129,10 +137,10 @@ export default class ActivityList extends Component {
                 </View>
               )
             })
-          } */}
+          }
 
 
-          <View className="activity-item-padding">
+          {/* <View className="activity-item-padding">
 
             <View className="store-info">
               <View className="store-name-info">
@@ -153,7 +161,7 @@ export default class ActivityList extends Component {
               unBtnText={'已参与99'}
               handleClick={() => { }}
             />
-          </View>
+          </View> */}
         </View>
       </View>
     );
