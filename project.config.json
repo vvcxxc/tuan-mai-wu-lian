@@ -58,15 +58,16 @@
 				},
 				{
 					"id": -1,
-					"name": "business-pages/ticket-buy/index",
+					"name": "现金券",
 					"pathName": "business-pages/ticket-buy/index",
-					"query": "",
+					"query": "id=5644&__key_=15841709200652",
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "business-pages/ticket-buy/index",
-					"pathName": "business-pages/ticket-buy/index",
+					"id": 2,
+					"name": "activity-pages/activity-list/index",
+					"pathName": "activity-pages/activity-list/index",
+					"query": "id=1",
 					"scene": null
 				}
 			]
