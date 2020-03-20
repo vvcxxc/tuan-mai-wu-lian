@@ -116,14 +116,11 @@ export default class ActivityList extends Component {
 
   // 变历数组
   getNewList(arr) {
-    console.log(arr)
     let list = []
-    console.log(list)
     arr.map(res => {
       let { is_share } = res
       if (is_share == 1) {
         // 增值
-        console.log(111)
         res.activity_type = 'appre'
       } else if (is_share == 4) {
         // 现金券兑换券
@@ -146,6 +143,38 @@ export default class ActivityList extends Component {
     this.setState({ list })
   }
 
+  handleAction (item: any){
+    const { is_share } = item
+    switch(is_share) {
+      case 1:
+        // 增值
+        Taro.navigateTo({
+          url: '/pages/activity/appreciation/index?id=' + item.youhui_id + '&type=1&gift_id=' + item.gift_id + '&activity_id=' + item.activity_id
+        })
+        break
+      case 4:
+        // 现金券兑换券
+        if(item.youhui_type){
+          // 现金券
+          Taro.navigateTo({
+            url: '/business-pages/ticket-buy/index?id=' + item.youhui_id
+          })
+        }else{
+          // 兑换券
+          Taro.navigateTo({
+            url: '/business-pages/set-meal/index?id=' + item.youhui_id
+          })
+        }
+        break
+      case 5:
+        // 拼团
+        Taro.navigateTo({
+          url: '/pages/activity/group/index?id=' + item.youhui_id + '&type=5&gift_id=' + item.gift_id + '&activity_id=' + item.activity_id
+        })
+        break
+    }
+  }
+
 
   render() {
     const { list } = this.state
@@ -163,10 +192,10 @@ export default class ActivityList extends Component {
                   <View className="store-info">
                     <View className="store-name-info">
                       <Image className="item-shop-icon" src="http://oss.tdianyi.com/front/JhGtnn46tJksAaNCCMXaWWCGmsEKJZds.png" />
-                      <View className="item-store-name">多美蛋糕店</View>
+              <View className="item-store-name">{item.store.name}</View>
                       <Image className="item-go-icon" src="http://oss.tdianyi.com/front/fpsw5CyhYJQTDEABZhs4iFDdC48ZGidn.png" />
                     </View>
-                    <View className="store-distance">3000m</View>
+                    <View className="store-distance">{item.store.distance}</View>
                   </View>
                   <ActivityItem
                     imgIconType={item.activity_type}
@@ -176,8 +205,9 @@ export default class ActivityList extends Component {
                     brief={'有效期：7天有效'}
                     oldPrice={item.is_share == 5 ? item.participation_money : item.pay_money}
                     newPrice={item.is_share == 5 ? item.pay_money : item.return_money}
-                    btnText={'拼团'}
-                    handleClick={() => { }}
+                    btnText={item.is_share == 5 ? '拼团' : '抢购'}
+                    handleClick={this.handleAction}
+                    item={item}
                   />
                 </View>
               )

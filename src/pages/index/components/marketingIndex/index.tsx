@@ -126,7 +126,7 @@ export default class MarketingIndex extends Component<any> {
           {/* 搜索 */}
           <View className='search-box'>
             <View className="city" onClick={this.showSelectCity}>
-              <View className='ellipsis-one flex' style='width:70%; padding-right:14px; color:#fff; display: inline-block'>
+              <View className='ellipsis-one flex' style='width:70%; padding-right:14rpx; color:#fff; display: inline-block'>
                 {/* {this.state.cityName || '1广州市'} */}
                 {this.state.city_name || '广州市'}
               </View>

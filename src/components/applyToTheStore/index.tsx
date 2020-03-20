@@ -44,7 +44,7 @@ export default class ApplyToTheStore extends Component<Props> {
   }
 
   //地图
-  routePlanning = () => {
+  routePlanning = (e) => {
     Taro.openLocation({
       latitude: Number(this.props.location.ypoint),
       longitude: Number(this.props.location.xpoint),
