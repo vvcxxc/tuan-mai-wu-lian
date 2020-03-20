@@ -55,6 +55,19 @@
 					"pathName": "pages/activity/pages/appreciation/appreciation",
 					"query": "id=2830&__key_=15838221258875",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "拼图活动页面",
+					"pathName": "pages/activity/group/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "活动页面",
+					"pathName": "pages/activity/index",
+					"scene": null
 				}
 			]
 		}
