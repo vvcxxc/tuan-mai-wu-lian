@@ -29,7 +29,7 @@ export default class ActivityItem extends Component<Props> {
   render() {
 
     return (
-      <View className="activity-item">
+      <View className="activity-item" onClick={this.handleClick}>
         <View className="item-img-box">
           <Image className="item-img" src={this.props.img} />
           {
@@ -64,7 +64,7 @@ export default class ActivityItem extends Component<Props> {
             <View className="old-price">￥{this.props.newPrice}</View>
           </View>
         </View>
-        <View className="item-btn-box" onClick={this.handleClick}>
+        <View className="item-btn-box">
           <View className="item-group-btn">{this.props.btnText}</View>
           {
             this.props.unBtnText ? <View className="item-group-number">{this.props.unBtnText}</View> : null

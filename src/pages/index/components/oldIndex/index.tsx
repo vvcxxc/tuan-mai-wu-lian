@@ -79,17 +79,17 @@ export default class Index extends Component<any> {
   componentDidMount() {
     // this.SilentAuthorization()
     this.requestLocation();
-    this.recognizer();
-    this.showGift()
-    let token = Taro.getStorageSync("token");
-    if (token) {
-      this.setState({ is_login: false })
-    }
+      this.recognizer();
+      this.showGift()
+      let token = Taro.getStorageSync("token");
+      if (token) {
+        this.setState({ is_login: false })
+      }
   }
 
   componentWillReceiveProps(nextProps) {
     // 下拉刷新
-    if(this.props.changePull != nextProps.changePull){
+    if (this.props.changePull != nextProps.changePull) {
       this.showGift()
       let data = this.state.meta
       data.pages = 1
@@ -97,13 +97,23 @@ export default class Index extends Component<any> {
       this.requestHomeList(this.state.meta)
     }
     // 触底加载更多
-    if(this.props.changeBottom != nextProps.changeBottom){
+    if (this.props.changeBottom != nextProps.changeBottom) {
       this.setState({ page: this.state.page + 1 }, () => {
         this.requestHomeList({ ...this.state.meta })
       })
       let data: any = this.state.meta
       data.pages = data.pages + 1
       this.setState({ meta: data })
+    }
+    // componentDidShow
+    if(this.props.changeShow != nextProps.changeShow){
+      this.requestLocation();
+      this.recognizer();
+      this.showGift()
+      let token = Taro.getStorageSync("token");
+      if (token) {
+        this.setState({ is_login: false })
+      }
     }
   }
 

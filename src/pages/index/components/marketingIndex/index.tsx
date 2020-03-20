@@ -45,6 +45,23 @@ export default class MarketingIndex extends Component<any> {
     if(this.props.changePull != nextProps.changePull){
 
     }
+    // componentDidShow
+    if(this.props.changeShow != nextProps.changeShow){
+      getChannelInfo().then((res: any) => {
+        if(res.code == 200){
+          this.setState({
+            hotRecommendList: res.data.channels.whdtj.youhui,
+            brandRecommendList: res.data.channels.pplstj.youhui,
+            banner: res.data.banner
+          })
+        }
+      })
+      getTabList({channel_id: 6, page: 1}).then(res => {
+        if(res.code == 200){
+          this.setState({list: res.data.data})
+        }
+      })
+    }
     // 触底加载更多
     if(this.props.changeBottom != nextProps.changeBottom){
       this.setState({page: this.state.page + 1},()=> {
@@ -114,10 +131,6 @@ export default class MarketingIndex extends Component<any> {
    // 跳转
    goTo = (router) => {
     Taro.navigateTo({url: router})
-  }
-  // 跳转 搜索商家列表页面
-  handleSearch = () => {
-    Taro.navigateTo({ url: './search/index' });
   }
 
   render() {

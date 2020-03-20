@@ -47,6 +47,7 @@ export default class Index extends Component<any> {
     is_marketing: false,
     changePull: 0,
     changeBottom: 0,
+    changeShow: 0
   };
 
   constructor(props) {
@@ -83,6 +84,10 @@ export default class Index extends Component<any> {
         }
       })
     }
+
+    const {changeShow} = this.state
+    this.setState({changeShow: changeShow+1})
+    console.log(523423333)
   }
 
   // 下拉刷新
@@ -101,10 +106,10 @@ export default class Index extends Component<any> {
 
 
   render() {
-    const {changeBottom, changePull} = this.state
+    const {changeBottom, changePull, changeShow} = this.state
     return (
       <View className="index">
-        { this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull}/> : <OldIndex changeBottom={changeBottom} changePull={changePull}/> }
+        { this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull} changeShow={changeShow}/> : <OldIndex changeShow={changeShow} changeBottom={changeBottom} changePull={changePull}/> }
       </View>
     );
   }
