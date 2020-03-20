@@ -1,7 +1,7 @@
 import request from '@/services/request';
 
 /**
-*  增值活动信息
+*  活动信息
 */
 export const discountCoupons = (id: number | string, data: object) =>
     request({
