@@ -2,7 +2,9 @@ import Taro, { Component, Config } from "@tarojs/taro"
 import { View } from "@tarojs/components"
 import '../index.styl'
 interface Props {
-  data?: any
+  show:boolean,
+  list: any,
+  onClose: () => void
 }
 
 export default class CouponsPoster extends Component<Props>{
@@ -157,6 +159,7 @@ export default class CouponsPoster extends Component<Props>{
     wx.saveImageToPhotosAlbum({
       filePath: this.state.image,
     });
+    e.stopPropagation()
   }
 
   onImgOK(e: any) {
@@ -169,16 +172,17 @@ export default class CouponsPoster extends Component<Props>{
     console.log(e,'报错')
   }
   render() {
+    const { show } = this.props
     return (
-      <View className="poster">
+      show?<View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
           widthPixels="250"
           palette={this.state.data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />
-        <View className="save-img" onClick={this.getmeta}>保存图片到相册</View>
-      </View >
+        <View className="save-img" onClick={this.getmeta.bind(this)}>保存图片到相册</View>
+      </View >:null
     )
   }
 }

@@ -8,6 +8,8 @@ import "./index.styl";
 // import { getLocation } from "@/utils/getInfo";
 // import ActivityItem from '@/components/activity-item';
 import ApplyToTheStore from '@/components/applyToTheStore';
+import ShareBox from "@/components/share-box"; //分享组件
+import CouponsPoster from '@/components/poster/coupons'//海报
 // import TimeUp from '@/components/TimeUp';
 // import LandingBounced from '@/components/landing_bounced'//登录弹框
 // import Cookie from 'js-cookie';
@@ -50,6 +52,15 @@ export default class AppreActivity extends Component {
       }
     ],
     showAll: false,
+    showShare: false, //显示分享
+    showPoster: false, //显示海报
+    posterList: {}
+  }
+  
+  componentDidMount() {
+    Taro.showShareMenu({
+      withShareTicket: true
+    })
   }
 
   /**
@@ -57,11 +68,59 @@ export default class AppreActivity extends Component {
      */
   handleGoHome = () => { Taro.navigateTo({ url: '/' }) }
 
+  copyText=()=>{
+    let code = '一则和'
+    wx.setClipboardData({
+      data: code,
+      success: function (res) {
+        Taro.showToast({ title: '复制成功，请前往微信发送给好友。', icon: 'none' })
+      },
+      fail: function (res) {
+        Taro.showToast({ title: '复制失败，请刷新页面重试', icon: 'none' })
+      }
+    })
+  }
+
+  onShareAppMessage = () => {
+    
+    console.log('触发')
+    
+    return {
+      title: '听说你找了很久，' + 'this.state.business_list.name' + '优惠力度超大，推荐给你看看！',
+      path: '/pages/business/index?id=' + 'this.$router.params.id',
+      imageUrl: 'this.state.business_list.preview',
+      success: function (shareTickets) {
+       
+        Taro.showToast({ title: '转发', icon: 'none' })
+      },
+      fail: function (res) {
+        Taro.showToast({ title: '转发失败', icon: 'none' })
+      }
+    }
+   
+  }
+
 
   render() {
 
     return (
       <View className="appre-activity-detail">
+        <ShareBox
+          show={this.state.showShare}
+          onClose={() => this.setState({ showShare: false })}
+          sendText={this.copyText}
+          sendLink={this.onShareAppMessage}
+          createPoster={() => {
+            this.setState({ showPoster: true })
+          }}
+        />
+        <CouponsPoster
+          show={this.state.showPoster}
+          list={this.state.posterList}
+          onClose={() => {
+            this.setState({ showPoster: false, showShare: false })
+          }}
+        />
         <Swiper
           onChange={(e) => {
             this.setState({ bannerImgIndex: e.detail.current })
@@ -156,8 +215,7 @@ export default class AppreActivity extends Component {
             <View className="appre-buy-price-num" >99</View>
           </View>
           <View className="appre-buy-btn-box" >
-            <View className="appre-buy-btn-left" >分享活动</View>
-
+            <View className="appre-buy-btn-left" onClick={() => this.setState({ showShare: true })}>分享活动</View>
             <View className="appre-buy-btn-right" >立即购买</View>
 
           </View>

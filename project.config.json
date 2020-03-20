@@ -67,6 +67,27 @@
 					"id": -1,
 					"name": "活动页面",
 					"pathName": "pages/activity/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "增值活动 ",
+					"pathName": "pages/activity/appreciation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "现金券",
+					"pathName": "business-pages/ticket-buy/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "商品券",
+					"pathName": "business-pages/set-meal/index",
 					"scene": null
 				}
 			]

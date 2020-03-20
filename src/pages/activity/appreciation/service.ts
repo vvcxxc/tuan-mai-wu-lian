@@ -42,3 +42,13 @@ export const getUserLastYouhuiId = (data: object) =>
         method: "GET",
         data
     })
+
+/**
+*  增值海报
+*/
+export const geValueAddedPoster = (data?: object) =>
+    request({
+        url: 'v3/get_appreciation_poster',
+        method: "GET",
+        data
+    })

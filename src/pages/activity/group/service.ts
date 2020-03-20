@@ -64,12 +64,3 @@ export const getGroupPoster = (data: object) =>
         data
     })
 
-/**
-*  拼图海报
-*/
-export const geValueAddedPoster = (data?: object) =>
-    request({
-        url: 'v1/get_appreciation_poster',
-        method: "GET",
-        data
-    })

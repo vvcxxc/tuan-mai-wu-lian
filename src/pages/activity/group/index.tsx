@@ -15,7 +15,7 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 import TimeUp from '@/components/TimeUp';
 import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
-import SpellGroup from "@/components/poster/spell-group";//分享组件
+import SpellGroup from "@/components/poster/spell-group";//海报组件
 
 export default class GroupActivity extends Component {
     config = {
@@ -81,39 +81,22 @@ export default class GroupActivity extends Component {
         newGroupList: [],
         showShare: false, //显示分享
         showPoster: false, //显示海报
-        posterList:{}
+        posterList: {}
     };
 
     componentDidMount() {
-        let youhui_id = this.$router.params.activity_id ? this.$router.params.activity_id : 5734
-        getGroupPoster({ youhui_id})
-            .then(({data,code})=> {
-   
-                this.setState({ posterList: data})
+        // 海报数据
+        let youhui_id = this.$router.params.activity_id
+        getGroupPoster({ youhui_id })
+            .then(({ data, code }) => {
+                this.setState({ posterList: data })
             })
-        
-        // name	券名	是[string]
-        // 2	image	图片	是[string]
-        // 3	pay_money	原价	是[string]
-        // 4	participation_money	拼团价(购买劵价格)	是[string]
-        // 5	number	多少人的团	是[string]
-        // 6	link	跳转链接	是[string]
-        // 7	gift_pic	礼品图片	是[string]
-        // 8	gift_price	礼品价格	是[string]
-        // 9	store >> name	店铺名	是[string]
-        // 10	store >> address	店铺地址
     }
 
     /**
          * 获取位置信息
          */
     componentDidShow() {
-        // let youhui_id = this.$router.params.activity_id ? this.$router.params.activity_id : 2205
-        // getGroupPoster({ youhui_id })
-        //     .then((res) => {
-        //         console.log(res, 'ql')
-        //     })
-        
         let arrs = Taro.getCurrentPages()
         if (arrs.length <= 1) { this.setState({ isFromShare: true }) }
         Taro.showLoading({ title: 'loading' })
@@ -400,7 +383,7 @@ export default class GroupActivity extends Component {
 
     // 分享活动
     shareActive = () => {
-        this.setState({ showShare:true})
+        this.setState({ showShare: true })
     }
 
 
@@ -415,7 +398,6 @@ export default class GroupActivity extends Component {
                     sendText={() => { }}
                     sendLink={() => { }}
                     createPoster={() => {
-                        console.log('划拨啊')
                         this.setState({ showPoster: true })
                     }}
                 />
@@ -424,7 +406,7 @@ export default class GroupActivity extends Component {
                     show={this.state.showPoster}
                     list={this.state.posterList}
                     onClose={() => {
-                        this.setState({ showPoster: false, showShare:false })
+                        this.setState({ showPoster: false, showShare: false })
                     }}
                 />
 

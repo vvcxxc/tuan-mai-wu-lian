@@ -1,9 +1,17 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.less";
-import { getYouhuiAppreciationInfo, getShareSign, wxXcxuWechatPay, getUserLastYouhuiId } from "./service";
+import {
+    getYouhuiAppreciationInfo,
+    getShareSign,
+    wxXcxuWechatPay,
+    getUserLastYouhuiId,
+    geValueAddedPoster
+} from "./service";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import LoginAlert from '@/components/loginAlert';
+import ShareBox from "@/components/share-box";//分享组件
+import ValueAdded from "@/components/poster/value-added";//海报组件
 
 export default class AppreActivity extends Component {
     config = {
@@ -53,8 +61,20 @@ export default class AppreActivity extends Component {
             xpoint: "",
             ypoint: "",
             dp_count: 0
-        }
+        },
+        showShare: false, //显示分享
+        showPoster: false, //显示海报
+        posterList: {}
     };
+
+    componentDidMount() {
+        // 海报数据
+        let youhui_id = 5777
+        geValueAddedPoster({ youhui_id })
+            .then(({ data, code }) => {
+                this.setState({ posterList: data })
+            })
+    }
 
     /**
    * 判断从分享链接进入
@@ -213,6 +233,24 @@ export default class AppreActivity extends Component {
         const { images, description } = this.state.data;
         return (
             <View className="appre-activity-detail">
+                {/* 分享组件 */}
+                <ShareBox
+                    show={this.state.showShare}
+                    onClose={() => this.setState({ showShare: false })}
+                    sendText={() => { }}
+                    sendLink={() => { }}
+                    createPoster={() => {
+                        this.setState({ showPoster: true })
+                    }}
+                />
+                <ValueAdded
+                    type={1}
+                    show={this.state.showPoster}
+                    list={this.state.posterList}
+                    onClose={() => {
+                        this.setState({ showPoster: false, showShare: false })
+                    }}
+                />
                 <Swiper
                     onChange={(e) => {
                         this.setState({ bannerImgIndex: e.detail.current })
@@ -360,7 +398,9 @@ export default class AppreActivity extends Component {
                         <View className="appre-buy-price-num" >{this.state.data.pay_money}</View>
                     </View>
                     <View className="appre-buy-btn-box" >
-                        <View className="appre-buy-btn-left" >分享活动</View>
+                        <View className="appre-buy-btn-left" onClick={() => {
+                            this.setState({ showShare:true})
+                        }}>分享活动</View>
                         {
                             this.state.data.activity_time_status == 1 ? (
                                 <View className="appre-buy-btn-right" >暂未开始</View>

@@ -2,7 +2,7 @@ import Taro, { Component, Config } from "@tarojs/taro"
 import { View } from "@tarojs/components"
 import '../index.styl'
 interface Props {
-  data?: any,
+  list?: any,
   show?: Boolean,
   onClose:()=>void
 }
@@ -232,13 +232,11 @@ export default class HaveGiftPoster extends Component<Props>{
     image: '',
   }
 
-  componentDidMount() {
-    console.log(this.props.show,'sfsd')
-  }
   getmeta = (e) => {
     wx.saveImageToPhotosAlbum({
       filePath: this.state.image,
     });
+    e.stopPropagation()
   }
 
   onImgOK(e: any) {
@@ -253,16 +251,15 @@ export default class HaveGiftPoster extends Component<Props>{
   render() {
     const { show } = this.props
     return (
-      show ? <View className="poster" onClick={() => {
-        this.props.onClose()
-      }}>
+      show ? <View className="poster" onClick={() => this.props.onClose()}
+      >
         <painter
           widthPixels="250"
           palette={this.state.data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />
-        <View className="save-img" onClick={this.getmeta}>保存图片到相册</View>
+        <View className="save-img" onClick={this.getmeta.bind(this)}>保存图片到相册</View>
       </View >:null
     )
   }

@@ -5,22 +5,25 @@ import Other from '@/components/poster/value-added/other'//其他版本(同拼�
 import '../index.styl'
 interface Params {
   type: any,
-  list?: Array<Object>
+  show:boolean,
+  list?: any,
+  onClose:()=>void
 }
 
 const ValueAdded = (params: Params) => {
-  const { type, list } = params
+  const { type, list, show } = params
+  console.log(list,'list')
   const showType = ['HaveGift', 'NoGift', 'Other'][params.type]
   return (
-    <View>
+    show?<View>
       {
         {
-          'HaveGift': <HaveGift />,
-          'NoGift': <NoGift />,
-          'Other': <Other />
+          'HaveGift': <HaveGift list={list} onClose={() => params.onClose()}/>,
+          'NoGift': <NoGift list={list} onClose={() => params.onClose()}/>,
+          'Other': <Other list={list} onClose={() => params.onClose()}/>
         }[showType]
       }
-    </View >
+    </View >:null
   )
 }
 

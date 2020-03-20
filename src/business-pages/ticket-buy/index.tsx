@@ -11,6 +11,8 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 // import TimeUp from '@/components/TimeUp';
 // import LandingBounced from '@/components/landing_bounced'//登录弹框
 // import Cookie from 'js-cookie';
+import ShareBox from "@/components/share-box"; //分享组件
+import VouchersPoster from '@/components/poster/vouchers'//海报
 import request from '../../services/request'
 
 
@@ -94,6 +96,9 @@ export default class AppreActivity extends Component {
       total_fee: '',
       image: '',
     }],
+    showShare: false, //显示分享
+    showPoster: false, //显示海报
+    posterList: {}
   }
 
   /**
@@ -192,6 +197,23 @@ export default class AppreActivity extends Component {
 
     return (
       <View className="appre-activity-detail">
+        {/* 分享组件 */}
+        <ShareBox
+          show={this.state.showShare}
+          onClose={() => this.setState({ showShare: false })}
+          sendText={() => { }}
+          sendLink={() => { }}
+          createPoster={() => {
+            this.setState({ showPoster: true })
+          }}
+        />
+        <VouchersPoster
+          show={this.state.showPoster}
+          list={this.state.posterList}
+          onClose={() => {
+            this.setState({ showPoster: false, showShare: false })
+          }}
+        />
         <Swiper
           onChange={(e) => {
             this.setState({ bannerImgIndex: e.detail.current })
@@ -286,7 +308,7 @@ export default class AppreActivity extends Component {
             <View className="appre-buy-price-num" >99</View>
           </View>
           <View className="appre-buy-btn-box" >
-            <View className="appre-buy-btn-left" >分享活动</View>
+            <View className="appre-buy-btn-left" onClick={() => this.setState({ showShare:true})}>分享活动</View>
 
             <View className="appre-buy-btn-right" >立即购买</View>
 

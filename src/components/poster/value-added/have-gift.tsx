@@ -2,7 +2,8 @@ import Taro, { Component, Config } from "@tarojs/taro"
 import { View } from "@tarojs/components"
 import '../index.styl'
 interface Props {
-  data?:any
+  list?: any,
+  onClose: () => void
 }
 
 export default class HaveGiftPoster extends Component<Props>{
@@ -304,6 +305,7 @@ export default class HaveGiftPoster extends Component<Props>{
     wx.saveImageToPhotosAlbum({
       filePath: this.state.image,
     });
+    e.stopPropagation()
   }
 
   onImgOK(e: any) {
@@ -317,21 +319,15 @@ export default class HaveGiftPoster extends Component<Props>{
   }
   render() {
     return (
-      <View className="poster">
+      <View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
           widthPixels="250"
           palette={this.state.data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />
-        <View className="save-img" onClick={this.getmeta}>保存图片到相册</View>
+        <View className="save-img" onClick={this.getmeta.bind(this)}>保存图片到相册</View>
       </View >
-        // <painter
-        //   widthPixels="250"
-        //   palette={this.state.data}
-        //   onImgOK={this.onImgOK}
-        //   onImgErr={this.onImgErr}
-        // /> 
     )
   }
 }
