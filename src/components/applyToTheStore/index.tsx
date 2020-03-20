@@ -7,7 +7,7 @@ interface Location {
 }
 
 interface Props {
-  id?: string
+  id?: string|number;
   isTitle?: boolean; // 是否展示店铺名
   img: string; // 店铺图片
   name: string; // 店铺名称
