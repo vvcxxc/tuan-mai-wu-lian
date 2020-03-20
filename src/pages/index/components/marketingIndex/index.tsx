@@ -115,6 +115,10 @@ export default class MarketingIndex extends Component<any> {
    goTo = (router) => {
     Taro.navigateTo({url: router})
   }
+  // 跳转 搜索商家列表页面
+  handleSearch = () => {
+    Taro.navigateTo({ url: './search/index' });
+  }
 
   render() {
     const {banner} = this.state
@@ -134,7 +138,7 @@ export default class MarketingIndex extends Component<any> {
             </View>
             <View className='search'>
               <Image className='search-icon' src={require('@/assets/index/search.png')} />
-              <View className='search-text'>
+              <View className='search-text' onClick={this.handleSearch}>
                 请输入商家名称
               </View>
             </View>
