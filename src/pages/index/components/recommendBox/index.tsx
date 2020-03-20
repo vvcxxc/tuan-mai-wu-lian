@@ -13,7 +13,7 @@ export default class RecommendBox extends Component<Props> {
     type: 1
   }
   state = {
-    list: [1, 2, 3, 4, 5, 6, 7],
+    list: [],
     result: [[]]
   }
   componentDidMount() {

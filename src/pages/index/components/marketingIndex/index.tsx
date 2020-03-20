@@ -111,6 +111,10 @@ export default class MarketingIndex extends Component<any> {
         break
     }
   }
+   // 跳转
+   goTo = (router) => {
+    Taro.navigateTo({url: router})
+  }
 
   render() {
     const {banner} = this.state
@@ -216,7 +220,7 @@ export default class MarketingIndex extends Component<any> {
           {/* 图片 */}
           <View className='image-box'>
             {data.map(res => {
-              return <Image className='img-item' src={res.url} />
+              return <Image className='img-item' src={res.url} onClick={this.goTo.bind(this,res.router)} />
             })}
           </View>
 
