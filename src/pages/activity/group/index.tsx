@@ -654,6 +654,17 @@ export default class GroupActivity extends Component {
                     </View> : null
                 }
 
+                {
+                    this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
+                }
+                {/* 去首页 */}
+                {
+                    this.state.isFromShare ? (
+                        <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
+                        </View>
+                    ) : ''
+                }
 
                 <View className="group-rules">
                     <View className="group-title-box">

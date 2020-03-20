@@ -5,7 +5,7 @@ import { AtCurtain, AtButton } from 'taro-ui'
 import { Block, View, Image, Text, Button } from "@tarojs/components"
 import SpellGroupHead from './spellGroupHead';    //显示头像组件
 import Qrcode from "./Qrcode"                     //使用二维码
-import TimeUp from '../../../../pages/activity/group/TimeUp'
+import TimeUp from '@/components/TimeUp'
 // import request from '../../../../services/request'
 import { getGroupList } from '../../service'
 import "./index.styl"
