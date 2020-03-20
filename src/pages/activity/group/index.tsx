@@ -273,7 +273,11 @@ export default class GroupActivity extends Component {
                         Taro.showToast({ title: '支付失败', icon: 'none' })
                     }
                 })
+            } else {
+                Taro.showToast({ title: res.message, icon: 'none' })
             }
+        }).catch(err => {
+            Taro.showToast({ title: '调起支付失败', icon: 'none' })
         })
     }
 
@@ -311,7 +315,11 @@ export default class GroupActivity extends Component {
                         Taro.showToast({ title: '支付失败', icon: 'none' })
                     }
                 })
+            } else {
+                Taro.showToast({ title: res.message, icon: 'none' })
             }
+        }).catch(err => {
+            Taro.showToast({ title: '调起支付失败', icon: 'none' })
         })
     }
 
@@ -322,7 +330,7 @@ export default class GroupActivity extends Component {
     */
     getLastGroupId = (order_sn) => {
         let that = this;
-        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id' });
+        Taro.showLoading({ title: '支付成功，正在查询用户团活动id' });
         let timer = setTimeout(() => {
             clearTimeout(timer);
             getUserYouhuiGroupId({ order_sn: order_sn })
@@ -432,12 +440,12 @@ export default class GroupActivity extends Component {
                     <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
                 </View>
-                <View className="collect-box">
+                {/* <View className="collect-box">
                     <Image className="collect-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
                 </View>
                 <View className="share-box">
                     <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
-                </View>
+                </View> */}
 
                 <View className="group-info-content">
                     <View className="group-info-title">
@@ -504,8 +512,8 @@ export default class GroupActivity extends Component {
                                                     </View>
                                                     <View className="group-list-btnbox" >
                                                         {
-                                                            item[0].is_team ? <View className="group-list-btn" style={{ background: '#999999' }}  >您已参团</View> :
-                                                                <View className="group-list-btn" onClick={this.goToaConfirmAddGroup.bind(this, item[0].id)} >立即参团</View>
+                                                            item[0].is_team ? <View className="group-list-btn" style={{ background: '#999999' }}  >已参团</View> :
+                                                                <View className="group-list-btn" onClick={this.goToaConfirmAddGroup.bind(this, item[0].id)} >参团</View>
                                                         }
                                                     </View>
                                                 </View>
@@ -607,12 +615,14 @@ export default class GroupActivity extends Component {
 
                 <View className="group-store-info">
                     <ApplyToTheStore
+                        id={this.state.data.id}
                         isTitle={true}
                         img={this.state.data.preview}
                         name={this.state.data.name}
                         phone={this.state.data.tel}
                         address={this.state.data.address}
                         location={{ xpoint: this.state.data.xpoint, ypoint: this.state.data.ypoint }}
+                        meter={this.state.data.distances}
                     />
                 </View>
 
@@ -635,19 +645,6 @@ export default class GroupActivity extends Component {
                         <Image className="group-gift-img" src={this.state.data.gift.cover_image} mode={'widthFix'} />
                     </View> : null
                 }
-
-                {
-                    this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
-                }
-                {/* 去首页 */}
-                {
-                    this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
-                        </View>
-                    ) : ''
-                }
-
                 <View className="group-rules">
                     <View className="group-title-box">
                         <View className='group-title-left'></View>
@@ -720,11 +717,10 @@ export default class GroupActivity extends Component {
                 {
                     this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
                 }
-                {/* 去首页 */}
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
+                        <View style={{ position: 'fixed', bottom: '50%', right: '0px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go-home/go_home.png')} style={{ width: '80px', height: '80px' }} />
                         </View>
                     ) : ''
                 }

@@ -97,7 +97,8 @@ class App extends Component {
 					'confirm-address/chooseAddress',
 					'personal/index',
 					'personal/personalInformation/index',
-					'personal/phoneInformation/index',
+          'personal/phoneInformation/index',
+          'activity-list/index'
 				]
 			}
 		],

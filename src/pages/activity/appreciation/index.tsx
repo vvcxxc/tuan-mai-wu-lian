@@ -170,7 +170,7 @@ export default class AppreActivity extends Component {
             }
         }).catch(err => {
             Taro.hideLoading();
-            Taro.showToast({ title: "支付失败", icon: "none" });
+            Taro.showToast({ title: "调起支付失败", icon: "none" });
         })
     }
 
@@ -273,12 +273,12 @@ export default class AppreActivity extends Component {
                     <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
                 </View>
-                <View className="collect-box">
+                {/* <View className="collect-box">
                     <Image className="collect-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
                 </View>
                 <View className="share-box">
                     <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
-                </View>
+                </View> */}
 
                 <View className="appre-info-content">
                     <View className="appre-info-title">
@@ -298,12 +298,14 @@ export default class AppreActivity extends Component {
 
                 <View className="appre-store-info">
                     <ApplyToTheStore
+                        id={this.state.data.store_id}
                         isTitle={true}
                         img={this.state.data.preview}
                         name={this.state.data.location_name}
                         phone={this.state.data.tel}
                         address={this.state.data.address}
                         location={{ xpoint: 111, ypoint: 222 }}
+                        meter={this.state.data.distances}
                     />
                 </View>
 
@@ -348,7 +350,7 @@ export default class AppreActivity extends Component {
                         this.state.data.type != 0 ?
                             <View className="appre-rules-item" >
                                 <View className="rules-key"> 使用门槛：</View>
-                                <View className="rules-words">{this.state.data.total_fee}</View>
+                                <View className="rules-words">满{this.state.data.total_fee}可用</View>
                             </View> : null
                     }
                     <View className="appre-rules-item" >
