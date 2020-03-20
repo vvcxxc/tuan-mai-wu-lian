@@ -1,564 +1,390 @@
 import Taro, { Component } from "@tarojs/taro";
-import { AtIcon, AtNoticebar } from 'taro-ui';
-import { View, Image, Swiper, SwiperItem, Button, Canvas } from "@tarojs/components";
-import request from '../../../services/request'
-import share from '../../../assets/share.png';
-import AddressImg from '../../../assets/address.png';
-import MobileImg from '../../../assets/dianhua.png';
-import './index.scss';
+import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
+import "./index.less";
+import { getYouhuiAppreciationInfo, getShareSign, wxXcxuWechatPay, getUserLastYouhuiId } from "./service";
+import ApplyToTheStore from '@/components/applyToTheStore';
 import LoginAlert from '@/components/loginAlert';
-interface Props {
-  id: any;
-}
 
-let interval;
-export default class Appre extends Component<Props>{
-  state = {
-    ruleMore: false,
-    xPoint: 0,
-    yPoint: 0,
-    is_alert: false, // 登录弹窗
-    imagesCurrent: 0,
-    data: {
-      activity_begin_time: "",
-      activity_end_time: "",
-      activity_time_status: 0,
-      address: "",
-      begin_time: "",
-      description: [],
-      distances: "",
-      end_time: "",
-      gift: { title: "", price: "", postage: "", mail_mode: 2 },
-      gift_id: 0,
-      gift_pic: '',
-      id: 0,
-      image: "",
-      images: [],
-      init_money: "",
-      is_show_button: 0,
-      location_name: "",
-      name: "",
-      pay_money: "",
-      preview: "",
-      return_money: "",
-      supplier_id: 0,
-      store_id: 0,
-      tel: "",
-      total_fee: 0,
-      type: 0,
-      validity: 0,
-      xpoint: "",
-      ypoint: "",
-    },
-    imagePath: '',
-    isPostage: true,
-    isFromShare: false
-  };
+export default class AppreActivity extends Component {
+    config = {
+        navigationBarTitleText: "增值活动",
+        enablePullDownRefresh: false
+    };
 
-  componentDidShow = () => {
-    let arrs = Taro.getCurrentPages()
-    if (arrs.length <= 1) {
-      this.setState({ isFromShare: true })
-    }
-    Taro.showLoading({ title: 'loading', mask: true })
-    Taro.getLocation({
-      type: 'gcj02',
-      success: res => {
-        this.setState({
-          yPoint: res.latitude,
-          xPoint: res.longitude
-        }, () => {
-          request({
-            url: 'api/wap/user/appreciation/getYouhuiAppreciationInfo',
-            method: "GET",
-            data: {
-              youhui_id: this.$router.params.id,
-              xpoint: this.state.xPoint,
-              ypoint: this.state.yPoint
-            }
-          })
-            .then((res: any) => {
-              if (res.data.gift_id) {
-                if (res.data.gift.mail_mode == 2) {
-                  this.setState({ isPostage: true })
-                }
-              } else {
-                this.setState({ isPostage: false })
-              }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-              });
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
-            })
-        })
-      },
-      fail: () => {
-        this.setState({ yPoint: '', xPoint: '' }, () => {
-          request({
-            url: 'api/wap/user/appreciation/getYouhuiAppreciationInfo',
-            method: "GET",
-            data: {
-              youhui_id: this.$router.params.id,
-              xpoint: this.state.xPoint,
-              ypoint: this.state.yPoint
-            }
-          })
-            .then((res: any) => {
-              if (res.data.gift_id) {
-                if (res.data.gift.mail_mode == 2) {
-                  this.setState({ isPostage: true })
-                }
-              } else {
-                this.setState({ isPostage: false })
-              }
-              this.setState({ data: res.data }, () => {
-                this.draw();
-              });
-              Taro.hideLoading()
-            }).catch(err => {
-              console.log(err);
-            })
-        })
-      }
-    })
-    Taro.showShareMenu();
 
-  };
-
-  draw = () => {
-    let that = this;
-    var ctx = Taro.createCanvasContext('canvas01', this)
-    var addressStr = "地址：" + that.state.data.address;
-    var telStr = "电话：" + that.state.data.tel;
-    Taro.downloadFile({
-      url: that.state.data.preview,
-      success: function (res) {
-        ctx.drawImage(res.tempFilePath, 0, 0, 460, 360);
-        ctx.setFillStyle("rgba(0,0,0,.5)");
-        ctx.fillRect(0, 200, 460, 360);
-        ctx.setFillStyle("rgba(255,255,255,.9)");//文字颜色：默认黑色
-        ctx.setFontSize(26);//设置字体大小，默认10s
-        ctx.lineWidth = 1;
-        var lineWidth = 0;
-        var canvasWidth = 420; //计算canvas的宽度
-        var initHeight = 240; //绘制字体距离canvas顶部初始的高度
-        var lastSubStrIndex = 0; //每次开始截取的字符串的索引
-        for (let i = 0; i < addressStr.length; i++) {
-          lineWidth += ctx.measureText(addressStr[i]).width;
-          if (lineWidth > canvasWidth) {
-            ctx.fillText(addressStr.substring(lastSubStrIndex, i), 20, initHeight); //绘制截取部分
-            initHeight += 35; //为字体的高度
-            lineWidth = 0;
-            lastSubStrIndex = i;
-          }
-          if (i == addressStr.length - 1) { //绘制剩余部分
-            ctx.fillText(addressStr.substring(lastSubStrIndex, i + 1), 20, initHeight);
-          }
+    state = {
+        //图片轮播下标
+        bannerImgIndex: 0,
+        //是否从分享链接进入
+        isFromShare: false,
+        // 登录弹窗
+        is_alert: false,
+        //查看更多
+        showMoreRules: false,
+        data: {
+            activity_begin_time: "",
+            activity_end_time: "",
+            activity_time_status: 0,
+            address: "",
+            begin_time: "",
+            imagesCurrent: 0,
+            description: [],
+            distances: "",
+            end_time: "",
+            gift: { title: "", price: "", postage: "", mail_mode: 0 },
+            gift_id: 0,
+            gift_pic: '',
+            id: 0,
+            image: "",
+            images: [],
+            init_money: "",
+            is_show_button: 0,
+            location_name: "",
+            name: "",
+            pay_money: "",
+            preview: "",
+            return_money: "",
+            store_id: 0,
+            supplier_id: 0,
+            tel: "",
+            total_fee: 0,
+            type: 0,
+            validity: 0,
+            xpoint: "",
+            ypoint: "",
+            dp_count: 0
         }
-        ctx.fillText(telStr, 20, initHeight + 40);
-        ctx.draw()
-        setTimeout(function () {
-          Taro.canvasToTempFilePath({
-            canvasId: 'canvas01',
-            success: function (res) {
-              var tempFilePath = res.tempFilePath;
-              that.setState({ imagePath: tempFilePath });
-            },
-            fail: function (res) {
-              console.log(res);
-            }
-          });
-        }, 200);
-      },
-      fail: function (res) {
-        that.setState({
-          imagePath: that.state.data.preview
-        });
-      }
-    })
-  }
+    };
 
-  onShareAppMessage() {
-    const userInfo = Taro.getStorageSync("userInfo");
-    const { gift, return_money, preview, pay_money } = this.state.data;
-    const { id, activity_id, gift_id, type } = this.$router.params;
-    let title, imageUrl;
-    if (gift) {
-      title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
-      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
-    } else {
-      title = `送你一次免费增值机会！${pay_money}元可增值至${return_money}元，速领！`;
-      imageUrl = this.state.imagePath ? this.state.imagePath : preview;
-    }
-    return {
-      title: title,
-      path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
-      imageUrl: imageUrl
-    }
-  }
-
-  //去图文详情
-  toImgList = () => {
-    Taro.navigateTo({
-      url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
-    })
-  }
-  //去商店
-  handleClick2 = (e) => {
-    Taro.navigateTo({
-      // url: '/detail-pages/business/index?id=' + _id
-      url: '/pages/business/index?id=' + this.state.data.store_id
-    })
-  };
-  //打电话
-  makePhoneCall = (e) => {
-    Taro.makePhoneCall({
-      phoneNumber: this.state.data.tel
-    })
-      .then((res: any) => {
-        console.log(res)
-      });
-    e.stopPropagation();
-  }
-  //地图
-  routePlanning = (e) => {
-    Taro.openLocation({
-      latitude: Number(this.state.data.ypoint),
-      longitude: Number(this.state.data.xpoint),
-      scale: 18,
-      name: this.state.data.location_name,
-      address: this.state.data.address,
-    });
-    e.stopPropagation();
-  }
-
-  payment = () => {
-    Taro.showLoading({
-      title: 'loading',
-    });
-    let data = {};
-    console.log(512312)
-    if (this.state.isPostage) {
-      data = {
-        youhui_id: this.$router.params.id,
-        activity_id: this.$router.params.activity_id,
-        gift_id: this.$router.params.gift_id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: "1",
-        xcx: 1
-      }
-    } else {
-      data = {
-        youhui_id: this.$router.params.id,
-        open_id: Taro.getStorageSync("openid"),
-        unionid: Taro.getStorageSync("unionid"),
-        type: "1",
-        xcx: 1
-      }
-    }
-    console.log(data)
-    request({
-      url: 'v1/youhui/wxXcxuWechatPay',
-      method: "POST",
-      data
-    }).then((res: any) => {
-      Taro.hideLoading();
-      if (res.code == 200) {
-        let order_sn = res.data.channel_order_sn;
-        // 发起支付
-        Taro.requestPayment({
-          timeStamp: res.data.timeStamp,
-          nonceStr: res.data.nonceStr,
-          package: res.data.package,
-          signType: res.data.signType,
-          paySign: res.data.paySign,
-          success(res) {
-            Taro.showLoading({
-              title: 'loading',
-              mask: true
-            });
-            interval = setInterval(() => {
-              //查询用户最后一次购买的增值活动id
-              request({
-                url: 'v1/youhui/getUserLastYouhuiId',
-                method: "GET",
-                data: { order_sn: order_sn }
-              }).then((res: any) => {
-                if (res.code == 200) {
-                  clearInterval(interval);
-                  Taro.hideLoading();
-                  //得到增值活动id并跳转活动详情
-                  Taro.navigateTo({
-                    url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
-                    success: () => {
-                      var page = Taro.getCurrentPages().pop();
-                      if (page == undefined || page == null) return;
-                      page.onLoad();
-                    }
-                  })
-                }
-              })
-            }, 1000);
-
-          },
-          fail(err) {
-            Taro.showToast({ title: '支付失败', icon: 'none' })
-          }
-        })
-      } else {
-        Taro.showToast({ title: res.message, icon: 'none' })
-      }
-    })
-  }
-
-  goToaConfirm = (e) => {
-    console.log(324)
-    let phone_status = Taro.getStorageSync('phone_status')
-    if (phone_status == 'binded' || phone_status == 'bind_success') {
-      console.log(this.state.data)
-      if (this.state.data.gift_id) {
-        Taro.navigateTo({
-          url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + this.state.data.location_name
-        })
-      } else {
-        this.payment()
-      }
-    } else {
-      console.log(412)
-      this.setState({ is_alert: true })
-    }
-  }
-
-
-  /**
-   * 回首页
+    /**
+   * 判断从分享链接进入
+   * 获取定位
    */
-  handleGoHome = () => {
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
-  }
-
-  // 登录弹窗
-  loginChange = (type: string) => {
-    if (type == 'close') {
-      this.setState({ is_alert: false })
-    } else {
-      // 重新请求当前数据
-
-      this.setState({ is_alert: false })
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(interval);
-  }
-
-  render() {
-    const { images, description } = this.state.data;
-    return (
-      <View className="d_appre" >
-        <Button className="group_head_bottom_share" open-type="share" >
-          <Image className="shareimg" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TTbP3DjHQZPhRCxkcY7aSBAaSxKKS3Wi.png" />
-          分享
-        </Button >
-        <View className="appre_head_activityTitle">
-          <View className="appre_head_activityTitle_title">{this.state.data.name}</View>
-          <View className="appre_head_activityTitle_time">活动时间 : {this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
-        </View>
-
-        {
-          this.state.data.type == 0 && this.state.data.images.length > 0 ?
-            <Swiper
-              onChange={(e) => { this.setState({ imagesCurrent: e.detail.current }) }}
-              className='test-h'
-              indicatorColor='#999'
-              indicatorActiveColor='#333'
-              circular
-              indicatorDots
-              autoplay>
-              {
-                this.state.data.images ? this.state.data.images.map((item, index) => {
-                  return (
-                    <SwiperItem key={item} >
-                      <View className='demo-text'>
-                        <Image className="demo-text-Img" src={item} />
-                      </View>
-                    </SwiperItem>
-                  )
-                }) : null
-              }
-            </Swiper> : null
-        }
-        <View className="appre_hd" >
-          <View className="appre_head">
-            <View className="appre_head_ticket">
-              <View className="appre_head_circle1"></View>
-              <View className="appre_head_circle2"></View>
-              <View className="appre_head_left">
-                <View className="appre_head_left_pricebox">
-                  <View className="appre_head_left_pricebox_msg">最高可抵扣</View>
-                  <View className="appre_head_left_pricebox_price">￥{this.state.data.return_money}</View>
-                </View>
-                <View className="appre_head_left_pricebox_info">满{this.state.data.total_fee}可用</View>
-              </View>
-              <View className="appre_head_right">
-                <View className="appre_head_right_total">起始值为{this.state.data.init_money}元</View>
-                <View className="appre_head_right_days">领取后{this.state.data.validity}日内有效</View>
-              </View>
-            </View>
-            <View style={{ height: "24px" }}></View>
-            {/* <View className="appre_head_bottom">
-              <View className="appre_head_bottom_gift">送价值3000元耳机</View>
-              <View className="appre_head_bottom_list">随时用</View>
-              <View className="appre_head_bottom_share">
-                <Image className="appre_head_bottom_shareimg" src={share} />
-                分享</View>
-            </View> */}
-          </View>
-        </View>
-        {
-          this.state.data.gift_id ?
-            <View className="appre_gift" >
-              <View className="appre_gift_titlebox" >
-                <View className="appre_gift_title" >赠送礼品</View>
-                <View className="appre_gift_Imagelist" onClick={this.toImgList.bind(this)}>图文详情</View>
-              </View>
-              <View className="appre_gift_giftinfo" >{this.state.data.gift.title}</View>
-              <View className="appre_gift_giftmsgbox" >
-                <View className="appre_gift_giftmsg" >{
-                  this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
-                }</View>
-              </View>
-              <View className="appre_gift_giftlist" >
-                <Image className="appre_gift_giftlistImg"
-                  mode="widthFix"
-                  src={this.state.data.gift_pic} />
-              </View>
-            </View> : null
-        }
-        <View className="appre_process2" >
-          <Image className="appre_process2_Image" src="http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/XzPRtr5xGGiEiP8xHiS8tYEwCwyQWib8.png" />
-        </View>
-
-        <View className="appre_rule" >
-          <View className="appre_rule_title" >温馨提示</View>
-          {
-            this.state.data.type != 0 ?
-              <View className="appre_rule_time" >
-                <View className="appre_rule_time_key" >使用范围:</View>
-                <View className="appre_rule_time_data" >全场通用</View>
-              </View> : null
-          }
-          <View className="appre_rule_time" >
-            <View className="appre_rule_time_key" >使用门槛:</View>
-            <View className="appre_rule_time_data" >满{this.state.data.total_fee}元可用</View>
-          </View>
-          <View className="appre_rule_time" >
-            <View className="appre_rule_time_key" >活动时间:</View>
-            <View className="appre_rule_time_data" >{this.state.data.activity_begin_time}-{this.state.data.activity_end_time}</View>
-          </View>
-          <View className="appre_rule_time" >
-            <View className="appre_rule_time_key" >券有效期:</View>
-            <View className="appre_rule_time_data" >领取后{this.state.data.validity}日内有效</View>
-          </View>
-          {
-            (this.state.data.type == 0 && description) ?
-              <View className="appre_rule_list" style={{ height: description.length <= 4 ? "auto" : (this.state.ruleMore ? "auto" : "5.4rem") }}>
-                <View className="appre_rule_list_key" >使用规则:</View>
-                <View className="appre_rule_list_data" >
-                  {
-                    (this.state.data.type == 0 && description) ? description.map((item) => {
-                      return (
-                        <View className="appre_rule_list_msg" >. {item}</View>
-                      )
-                    }) : null
-                  }
-                </View>
-
-              </View> : null
-          }
-          {
-            (this.state.data.type == 0 && description && description.length > 4) ?
-              <View className="appre_rule_list_more" onClick={() => { this.setState({ ruleMore: !this.state.ruleMore }) }}>
-                {this.state.ruleMore ? "收回" : "查看更多"}
-                {
-                  this.state.ruleMore ?
-                    <AtIcon value="chevron-up" color="#999" size="16px" /> : <AtIcon value="chevron-down" color="#999" size="16px" />
-                }
-              </View> : null
-          }
-        </View>
-        <View className="setMeal_store">
-          <View className="setMeal_store_box" onClick={this.handleClick2.bind(this)}>
-            <View className="setMeal_store_title">适用店铺</View>
-            <View className="setMeal_store_storebox">
-              <View className="setMeal_store_Image">
-                <Image className="setMeal_store_img" src={this.state.data.preview} />
-              </View>
-              <View className="setMeal_store_msg">
-                <View className="setMeal_store_name">{this.state.data.location_name}</View>
-                {/* <View className="setMeal_store_price">人均：￥222</View> */}
-              </View>
-              <View className="setMeal_store_icon">
-                <AtIcon value='chevron-right' size='20' color='#ccc'></AtIcon>
-              </View>
-            </View>
-            <View className="setMeal_store_addressbox">
-              <View className="setMeal_store_distance" onClick={this.routePlanning.bind(this)}>
-                <View className="setMeal_store_distance_Image" >
-                  <Image className="setMeal_store_distance_AddressImg" src={AddressImg} />
-                </View>
-                <View className="setMeal_store_distance_info" >{this.state.data.distances}</View>
-              </View>
-              <View className="setMeal_store_address" onClick={this.routePlanning.bind(this)}>{this.state.data.address}</View>
-              <View className="setMeal_store_mobile" onClick={this.makePhoneCall.bind(this)}>
-                <Image className="setMeal_store_MobileImg" src={MobileImg} />
-              </View>
-            </View>
-          </View>
-        </View>
-
-        <View className="paymoney_box">
-          <View className="paymoney_price">
-            <View className="paymoney_price_icon">￥</View>
-            <View className="paymoney_price_num">{this.state.data.pay_money}</View>
-            {
-              this.state.isPostage ? <View className='paymoney_price_info'> {
-                this.state.data.gift.mail_mode == 1 ? null :
-                  '+' + this.state.data.gift.postage}</View> : null
+    componentDidShow() {
+        let arrs = Taro.getCurrentPages()
+        if (arrs.length <= 1) { this.setState({ isFromShare: true }) }
+        Taro.showLoading({ title: 'loading' })
+        Taro.getLocation({
+            type: 'gcj02',
+            success: res => {
+                this.getAppreInfo({ youhui_id: this.$router.params.id, yPoint: res.latitude || '', xPoint: res.longitude || '' })
+            },
+            fail: () => {
+                this.getAppreInfo({ youhui_id: this.$router.params.id, yPoint: '', xPoint: '' })
             }
-          </View>
-          {
-            this.state.data.activity_time_status == 1 ? (
-              <View className="paymoney_buynow_no">暂未开始</View>
-            ) : this.state.data.activity_time_status == 2 ? (
-              <View className="paymoney_buynow" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
-            ) : this.state.data.activity_time_status == 3 ? (
-              <View className="paymoney_buynow_no">已结束</View>
-            ) : null
-          }
-        </View>
+        })
+    }
+    /**
+       * 获取增值活动信息
+       * @param {object} data 增值id,坐标
+       */
+    getAppreInfo = (data: object) => {
+        getYouhuiAppreciationInfo(data)
+            .then((res: any) => {
+                Taro.hideLoading();
+                if (res.code == 200) {
+                    let isPostage = false;
+                    if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
+                    this.setState({ data: res.data, isPostage });
+                } else {
+                    Taro.showToast({ title: '请求失败', icon: 'none' });
+                }
+            }).catch(err => {
+                Taro.hideLoading();
+                Taro.showToast({ title: '请求失败', icon: 'none' });
+            })
+    }
 
-        <View style={{ position: "fixed", top: "-1000px", zIndex: -1, opacity: 0 }}>
-          <Canvas style='width: 460px; height: 360px;' canvasId='canvas01' />
-        </View>
-        {
-          this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
+    /**
+       * 判断活动是否有礼品，有礼品跳页面，没礼品调起支付
+       * 判断是否登录
+       */
+    goToaConfirm = () => {
+        let phone_status = Taro.getStorageSync('phone_status')
+        if (phone_status == 'binded' || phone_status == 'bind_success') {
+            if (this.state.data.gift_id) {
+                Taro.navigateTo({
+                    url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.location_name)
+                })
+            } else {
+                this.payment()
+            }
+        } else {
+            this.setState({ is_alert: true })
         }
+    }
 
-        {/* 去首页 */}
-        {
-          this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../../assets/go_home.png')} className="go_home" />
+    /**
+    * 支付,不带礼品
+    */
+    payment = () => {
+        let that = this;
+        Taro.showLoading({ title: 'loading' })
+        let datas = {
+            youhui_id: this.$router.params.id,
+            activity_id: this.$router.params.activity_id,
+            open_id: Taro.getStorageSync("openid"),
+            unionid: Taro.getStorageSync("unionid"),
+            type: "1",
+            xcx: 1
+        }
+        wxXcxuWechatPay(datas).then((res: any) => {
+            Taro.hideLoading();
+            if (res.code == 200) {
+                let order_sn = res.data.channel_order_sn;
+                Taro.requestPayment({
+                    timeStamp: res.data.timeStamp,
+                    nonceStr: res.data.nonceStr,
+                    package: res.data.package,
+                    signType: res.data.signType,
+                    paySign: res.data.paySign,
+                    success(res) {
+                        that.getLastYouhuiId(order_sn)
+                    },
+                    fail(err) {
+                        Taro.showToast({ title: '支付失败', icon: 'none' })
+                    }
+                })
+            } else {
+                Taro.showToast({ title: res.message, icon: 'none' })
+            }
+        }).catch(err => {
+            Taro.hideLoading();
+            Taro.showToast({ title: "支付失败", icon: "none" });
+        })
+    }
+
+    /**
+     * 查询用户最后一次购买的增值活动id
+     * @param {string} order_sn 订单号
+     */
+    getLastYouhuiId = (order_sn) => {
+        let that = this;
+        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id' });
+        let timer = setTimeout(() => {
+            clearTimeout(timer);
+            getUserLastYouhuiId({ order_sn: order_sn })
+                .then((res: any) => {
+                    if (res.code == 200) {
+                        Taro.hideLoading();
+                        //得到增值活动id并跳转活动详情
+                        Taro.navigateTo({
+                            url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
+                            success: (e) => {
+                                let page = Taro.getCurrentPages().pop();
+                                if (page == undefined || page == null) return;
+                                page.onShow();
+                            }
+                        })
+                    } else {
+                        that.getLastYouhuiId(order_sn)
+                    }
+                }).catch((err) => {
+                    that.getLastYouhuiId(order_sn)
+                })
+        }, 500);
+    }
+
+    /**
+     * 去图文详情
+     */
+    toImgList = () => {
+        Taro.navigateTo({
+            url: '/detail-pages/gift/gift?gift_id=' + this.$router.params.gift_id + '&activity_id=' + this.$router.params.activity_id
+        })
+    }
+
+    /**
+       * 回首页
+       */
+    handleGoHome = () => { Taro.navigateTo({ url: '/' }) }
+
+    // 登录弹窗
+    loginChange = (type: string) => {
+        if (type == 'close') {
+            this.setState({ is_alert: false })
+        } else {
+            // 重新请求当前数据
+            this.setState({ is_alert: false })
+        }
+    }
+
+    render() {
+        const { images, description } = this.state.data;
+        return (
+            <View className="appre-activity-detail">
+                <Swiper
+                    onChange={(e) => {
+                        this.setState({ bannerImgIndex: e.detail.current })
+                    }}
+                    className='appre-banner'
+                    circular
+                    autoplay
+                >
+                    {
+                        this.state.data.images.length ? this.state.data.images.map((item, index) => {
+                            return (
+                                <SwiperItem className="appre-banner-swiperItem" key={item}>
+                                    <Image className="appre-banner-img" src={item} />
+                                </SwiperItem>
+                            )
+                        }) : null
+                    }
+                </Swiper>
+                <View className="banner-number-box">
+                    <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
+                    <View className="banner-number">{this.state.data.images.length}</View>
+                </View>
+                <View className="collect-box">
+                    <Image className="collect-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
+                </View>
+                <View className="share-box">
+                    <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
+                </View>
+
+                <View className="appre-info-content">
+                    <View className="appre-info-title">
+                        <View className="appre-info-title-label">增值券</View>
+                        <View className="appre-info-title-text">{this.state.data.name}</View>
+                    </View>
+                    <View className="appre-info-price">
+                        <View className="appre-price-info">
+                            <View className="appre-price-info-text">优惠价￥</View>
+                            <View className="appre-price-info-new">{this.state.data.pay_money}</View>
+                        </View>
+                        <View className="appre-price-discounts">最高抵用￥{this.state.data.return_money}</View>
+                    </View>
+
+                </View>
+                <Image className="appre-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
+
+                <View className="appre-store-info">
+                    <ApplyToTheStore
+                        isTitle={true}
+                        img={this.state.data.preview}
+                        name={this.state.data.location_name}
+                        phone={this.state.data.tel}
+                        address={this.state.data.address}
+                        location={{ xpoint: 111, ypoint: 222 }}
+                    />
+                </View>
+
+                {
+                    this.state.data.gift_id ?
+                        <View className="appre-gift">
+                            <View className="appre-title-box">
+                                <View className='appre-title-left-box'>
+                                    <View className='appre-title-left'></View>
+                                    <View className='appre-title'>赠送礼品</View>
+                                </View>
+                                <View className='appre-title-right' onClick={this.toImgList.bind(this)}>
+                                    <View className='appre-title-right-info' >查看详情</View>
+                                    <Image className="appre-title-right-icon" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
+                                </View>
+                            </View>
+                            <View className='appre-gift-brief'>{this.state.data.gift.title}</View>
+                            <View className='appre-gift-label-box'>
+                                <View className='appre-gift-label'>{
+                                    this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
+                                }</View>
+                            </View>
+                            <Image className="appre-gift-img" src={this.state.data.gift_pic} mode={'widthFix'} />
+                        </View> : null
+                }
+
+
+
+                <View className="appre-rules">
+                    <View className="appre-title-box">
+                        <View className='appre-title-left'></View>
+                        <View className='appre-title'>使用说明</View>
+                    </View>
+                    {
+                        this.state.data.type != 0 ?
+                            <View className="appre-rules-item" >
+                                <View className="rules-key">使用方式：</View>
+                                <View className="rules-words">扫码支付时抵用</View>
+                            </View> : null
+                    }
+                    {
+                        this.state.data.type != 0 ?
+                            <View className="appre-rules-item" >
+                                <View className="rules-key"> 使用门槛：</View>
+                                <View className="rules-words">{this.state.data.total_fee}</View>
+                            </View> : null
+                    }
+                    <View className="appre-rules-item" >
+                        <View className="rules-key">有效期：</View>
+                        <View className="rules-words">成团后{this.state.data.validity}日内可用</View>
+                    </View>
+
+
+                    {
+                        this.state.data.type == 0 && description.length && !this.state.showMoreRules ? <View>
+                            <View className="appre-rules-list-title" >使用规则：</View>                            {
+                                description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
+                            }
+                            {
+                                description.length > 1 ? <View className="appre-rules-list-text" >-{description[1]}</View> : null
+                            }
+                            {
+                                description.length > 2 ? <View className="appre-rules-list-text" >-{description[2]}</View> : null
+                            }
+                            {
+                                description.length > 3 ? <View className="appre-rules-list-text" >-{description[3]}</View> : null
+                            }
+                        </View> : null
+                    }
+                    {
+                        this.state.data.type == 0 && description.length && description.length > 4 && this.state.showMoreRules ? <View>
+                            <View className="appre-rules-list-title" >使用规则：</View>
+                            {
+                                description.map((item) => {
+                                    return (
+                                        <View className="appre-rules-list-text" >-{item}</View>
+                                    )
+                                })
+                            }
+                        </View> : null
+                    }
+                    {
+                        description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+                            <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
+                            <View className="appre-more-text" >查看更多</View>
+                        </View> : null
+                    }
+                </View>
+                <View className="appre-buy-box" >
+                    <View className="appre-buy-price-box" >
+                        <View className="appre-buy-price-icon" >￥</View>
+                        <View className="appre-buy-price-num" >{this.state.data.pay_money}</View>
+                    </View>
+                    <View className="appre-buy-btn-box" >
+                        <View className="appre-buy-btn-left" >分享活动</View>
+                        {
+                            this.state.data.activity_time_status == 1 ? (
+                                <View className="appre-buy-btn-right" >暂未开始</View>
+                            ) : this.state.data.activity_time_status == 2 ? (
+                                <View className="appre-buy-btn-right" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
+                            ) : this.state.data.activity_time_status == 3 ? (
+                                <View className="appre-buy-btn-right">已结束</View>
+                            ) : null
+                        }
+                    </View>
+                </View>
+                {
+                    this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
+                }
+
+                {/* 去首页 */}
+                {
+                    this.state.isFromShare ? (
+                        <View style={{ position: 'fixed', bottom: '50%', right: '20px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
+                        </View>
+                    ) : ''
+                }
             </View>
-          ) : ''
-        }
-      </View>
-    );
-  }
+        );
+    }
 }
