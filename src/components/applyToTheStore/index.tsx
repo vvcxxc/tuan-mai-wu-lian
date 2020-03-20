@@ -13,6 +13,7 @@ interface Props {
   phone: string; // 店铺电话
   address: string; // 店铺地址
   location: Location;
+  meter: string; // 距离
 }
 export default class ApplyToTheStore extends Component<Props> {
   ApplyToTheStore.defaultProps = {
@@ -25,6 +26,7 @@ export default class ApplyToTheStore extends Component<Props> {
       xpoint: null,
       ypoint: null
     },
+    meter: '0m'
   }
   state = {
   }
@@ -76,7 +78,7 @@ export default class ApplyToTheStore extends Component<Props> {
                     <View className='store-address'>{this.props.address}</View>
                     <View className='meter-box'>
                       <Image className='address-icon' src={require('@/assets/store/address.png')} />
-                        300m
+                        {this.props.meter}
                         <Image className='right-arrow' src={require('@/assets/store/right-arrow.png')} />
                     </View>
                   </View>
@@ -98,7 +100,7 @@ export default class ApplyToTheStore extends Component<Props> {
                       <View className='store-address'>{this.props.address}</View>
                       <View className='meter-box'>
                         <Image className='address-icon' src={require('@/assets/store/address.png')} />
-                        300m
+                        {this.props.meter}
                         <Image className='right-arrow' src={require('@/assets/store/right-arrow.png')} />
                       </View>
                     </View>

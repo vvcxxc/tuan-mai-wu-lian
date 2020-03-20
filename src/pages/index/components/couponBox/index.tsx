@@ -3,10 +3,15 @@ import './index.styl';
 import { View, Image, Text } from '@tarojs/components';
 import { accSubtr } from '@/utils/common'
 interface Props {
-  item: object
+  item: any;
   onAction: any;
 }
 export default class CouponBox extends Component<Props> {
+  CouponBox.defaultProps = {
+    item: {
+      is_share: 0
+    }
+  }
   state = {
 
   }

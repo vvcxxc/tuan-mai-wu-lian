@@ -84,11 +84,11 @@ export default class RecommendBox extends Component<Props> {
                               {item.name}
                             </View>
                             <View className='coupon-label ellipsis-one'>
-                              已优惠￥{ item.is_share == 5 ? accSubtr(item.pay_money,item.participation_money) : accSubtr(item.return_money, item.pay_money)}
+                              已优惠￥{item.is_share ? item.is_share == 5 ? accSubtr(item.pay_money,item.participation_money) : accSubtr(item.return_money, item.pay_money) : null}
                             </View>
                             <View className='coupon-money ellipsis-one'>
-                              <View className='new-money'>￥{item.is_share == 5 ? item.participation_money : item.pay_money}</View>
-                              <View className='old-money'>￥{item.is_share == 5 ? item.pay_money : item.return_money}</View>
+                              <View className='new-money'>￥{item.is_share ? item.is_share == 5 ? item.participation_money : item.pay_money : null}</View>
+                              <View className='old-money'>￥{item.is_share ? item.is_share == 5 ? item.pay_money : item.return_money : null}</View>
                             </View>
                           </View>
                         )
