@@ -198,6 +198,7 @@ export default class AppreActivity extends Component {
 
         <View className="appre-store-info">
           <ApplyToTheStore
+            id={this.state.store.id}
             isTitle={true}
             img={this.state.store.shop_door_header_img}
             name={this.state.store.sname}

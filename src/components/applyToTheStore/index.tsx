@@ -7,6 +7,7 @@ interface Location {
 }
 
 interface Props {
+  id?: string
   isTitle?: boolean; // 是否展示店铺名
   img: string; // 店铺图片
   name: string; // 店铺名称
@@ -17,6 +18,7 @@ interface Props {
 }
 export default class ApplyToTheStore extends Component<Props> {
   ApplyToTheStore.defaultProps = {
+    id: 0,
     isTitle: false, // 是否展示店铺名
     img: '', // 店铺图片
     name: '', // 店铺名称
@@ -78,8 +80,8 @@ export default class ApplyToTheStore extends Component<Props> {
                     <View className='store-address'>{this.props.address}</View>
                     <View className='meter-box'>
                       <Image className='address-icon' src={require('@/assets/store/address.png')} />
-                        {this.props.meter}
-                        <Image className='right-arrow' src={require('@/assets/store/right-arrow.png')} />
+                      {this.props.meter}
+                      <Image className='right-arrow' src={require('@/assets/store/right-arrow.png')} />
                     </View>
                   </View>
                 </View>
