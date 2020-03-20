@@ -47,35 +47,8 @@
 			"list": []
 		},
 		"miniprogram": {
-<<<<<<< HEAD
-			"current": 2,
-			"list": [
-				{
-					"id": -1,
-					"name": "pages/activity/pages/appreciation/appreciation",
-					"pathName": "pages/activity/pages/appreciation/appreciation",
-					"query": "id=2830&__key_=15838221258875",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "现金券",
-					"pathName": "business-pages/ticket-buy/index",
-					"query": "id=5644&__key_=15841709200652",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "activity-pages/activity-list/index",
-					"pathName": "activity-pages/activity-list/index",
-					"query": "id=1",
-					"scene": null
-				}
-			]
-=======
 			"current": -1,
 			"list": []
->>>>>>> vcNewStore
 		}
 	}
 }
