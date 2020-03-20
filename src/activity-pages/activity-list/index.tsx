@@ -21,7 +21,7 @@ export default class ActivityList extends Component {
     is_more: true
   };
 
-  componentDidShow() {
+  componentDidMount() {
     let id = this.$router.params.id
     switch (id) {
       case 1:
