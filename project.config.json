@@ -47,6 +47,7 @@
 			"list": []
 		},
 		"miniprogram": {
+<<<<<<< HEAD
 			"current": 2,
 			"list": [
 				{
@@ -71,6 +72,10 @@
 					"scene": null
 				}
 			]
+=======
+			"current": -1,
+			"list": []
+>>>>>>> vcNewStore
 		}
 	}
 }

@@ -251,7 +251,11 @@ export default class GroupActivity extends Component {
                         Taro.showToast({ title: '支付失败', icon: 'none' })
                     }
                 })
+            } else {
+                Taro.showToast({ title: res.message, icon: 'none' })
             }
+        }).catch(err => {
+            Taro.showToast({ title: '调起支付失败', icon: 'none' })
         })
     }
 
@@ -289,7 +293,11 @@ export default class GroupActivity extends Component {
                         Taro.showToast({ title: '支付失败', icon: 'none' })
                     }
                 })
+            } else {
+                Taro.showToast({ title: res.message, icon: 'none' })
             }
+        }).catch(err => {
+            Taro.showToast({ title: '调起支付失败', icon: 'none' })
         })
     }
 
@@ -300,7 +308,7 @@ export default class GroupActivity extends Component {
     */
     getLastGroupId = (order_sn) => {
         let that = this;
-        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id' });
+        Taro.showLoading({ title: '支付成功，正在查询用户团活动id' });
         let timer = setTimeout(() => {
             clearTimeout(timer);
             getUserYouhuiGroupId({ order_sn: order_sn })
@@ -588,19 +596,6 @@ export default class GroupActivity extends Component {
                         <Image className="group-gift-img" src={this.state.data.gift.cover_image} mode={'widthFix'} />
                     </View> : null
                 }
-
-                {
-                    this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
-                }
-                {/* 去首页 */}
-                {
-                    this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
-                        </View>
-                    ) : ''
-                }
-
                 <View className="group-rules">
                     <View className="group-title-box">
                         <View className='group-title-left'></View>
@@ -673,11 +668,10 @@ export default class GroupActivity extends Component {
                 {
                     this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
                 }
-                {/* 去首页 */}
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '20px' }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
+                        <View style={{ position: 'fixed', bottom: '50%', right: '0px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go-home/go_home.png')} style={{ width: '80px', height: '80px' }} />
                         </View>
                     ) : ''
                 }
