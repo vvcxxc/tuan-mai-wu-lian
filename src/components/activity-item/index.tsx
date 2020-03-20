@@ -8,7 +8,7 @@ import { Swiper, SwiperItem } from '@tarojs/components'
 interface Props {
     imgIconType: string;//图片左下角标识类型 group拼团 appre增值 goods商品券 cash现金券
     img: string;//图片
-    label?: string;//短红色标签 
+    label?: string;//短红色标签
     longLabel?: string;//长红色标签 ，与红标签选其一
     name?: string;//短名字
     longName?: string;//长名字,与名字选其一
