@@ -72,7 +72,9 @@ export default class Index extends Component<any> {
             ypoint: res.latitude
           }
           getCityName(data).then((res: any) => {
+            console.log(res,'index')
             router.city_name = res.data.city
+            router.city_id = res.data.city_id
             if(res.data.city == '新会区'){
               this.setState({is_marketing: true})
             }else{
