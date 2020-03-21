@@ -48,6 +48,7 @@ class App extends Component {
       'pages/auth/login_page/index',
       'pages/index/search/index',
       'pages/my/index',
+      'pages/my/invitation-list/index',
       'pages/order/index',
       'pages/merchant/index',
       'pages/activity/index',
@@ -167,12 +168,12 @@ class App extends Component {
     if (token) {
       if (token_expires_in && token_expires_in < date) {
         // token过期
-          quietLogin()
+        quietLogin()
       }
     } else {
-        quietLogin()
+      quietLogin()
     }
-    if(this.$router.params.query.invitation_user_id){
+    if (this.$router.params.query.invitation_user_id) {
       quietLogin(this.$router.params.query.invitation_user_id)
     }
   }
