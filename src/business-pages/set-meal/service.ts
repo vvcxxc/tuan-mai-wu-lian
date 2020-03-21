@@ -10,3 +10,14 @@ export const discountCoupons = (id: number | string, data: object) =>
         data
     })
 
+/**
+*  海报
+*/
+export const shopPoster = (data) =>
+    request({
+        url: 'v3/get_goods_poster',
+        method: "GET",
+        data
+    })
+
+
