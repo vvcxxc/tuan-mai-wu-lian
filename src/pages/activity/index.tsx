@@ -127,8 +127,9 @@ export default class Activity extends Component {
 
     // 获取广告
     let data: any = Taro.getStorageSync('router')
+    console.log(data,'router')
     this.setState({
-      city: data.city_id
+      cityId: data.city_id
     }, () => {
       this.getAdvertising()
     })

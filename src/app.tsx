@@ -173,6 +173,7 @@ class App extends Component {
     } else {
       quietLogin()
     }
+    console.log(this.$router.params.query,'query')
     if (this.$router.params.query.invitation_user_id) {
       quietLogin(this.$router.params.query.invitation_user_id)
     }

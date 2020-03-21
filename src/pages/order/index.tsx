@@ -73,6 +73,7 @@ export default class Order extends Component {
         lengthbull2: true,
         lengthbull3: true,
         lengthbull4: true,
+        no_login: false
       }, () => {
         if (order_type && order_type == '已完成') { that.setState({ current: 1 }, () => { that.getData2() }) }
         else if (order_type && order_type == '已过期') { that.setState({ current: 2 }, () => { that.getData3() }) }

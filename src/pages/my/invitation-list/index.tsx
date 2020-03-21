@@ -15,11 +15,11 @@ export default class AppreActivity extends Component {
         total: 0,
         last_page: 0,
         list: [
-           
+
         ]
     };
 
-    /** 
+    /**
     *第一次请求,替代
     */
     componentDidShow() {
@@ -35,7 +35,7 @@ export default class AppreActivity extends Component {
     }
 
 
-    /** 
+    /**
     *加载更多，衔接
     */
     onReachBottom() {
@@ -63,7 +63,7 @@ export default class AppreActivity extends Component {
                 </View>
                 <View className='invitation-title-left-box'>
                     <View className='invitation-title-left'></View>
-                    <View className='invitation-title'>赠送礼品</View>
+                    <View className='invitation-title'>邀请列表</View>
                 </View>
                 <View className='item-content'>
                     {
