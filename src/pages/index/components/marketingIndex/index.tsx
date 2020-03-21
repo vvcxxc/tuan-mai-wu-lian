@@ -44,6 +44,23 @@ export default class MarketingIndex extends Component<any> {
     // 下拉刷新
     if(this.props.changePull != nextProps.changePull){
 
+      getChannelInfo().then((res: any) => {
+        Taro.stopPullDownRefresh()
+        if(res.code == 200){
+          this.setState({
+            hotRecommendList: res.data.channels.whdtj.youhui,
+            brandRecommendList: res.data.channels.pplstj.youhui,
+            banner: res.data.banner
+          })
+        }
+      })
+      getTabList({channel_id: 6, page: 1}).then(res => {
+        Taro.stopPullDownRefresh()
+        if(res.code == 200){
+          this.setState({list: res.data.data})
+          this.setState({page: 1})
+        }
+      })
     }
     // componentDidShow
     if(this.props.changeShow != nextProps.changeShow){
