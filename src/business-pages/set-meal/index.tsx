@@ -191,19 +191,13 @@ export default class AppreActivity extends Component {
     })
   }
 
+
   onShareAppMessage = () => {
     return {
-      title: '听说你找了很久，' + 'this.state.business_list.name' + '优惠力度超大，推荐给你看看！',
-      path: '/pages/business/index?id=' + 'this.$router.params.id',
-      imageUrl: 'this.state.business_list.preview',
-      success: function (shareTickets) {
-        Taro.showToast({ title: '转发', icon: 'none' })
-      },
-      fail: function (res) {
-        Taro.showToast({ title: '转发失败', icon: 'none' })
-      }
+      title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
+      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
+      imageUrl: this.state.coupon.image
     }
-
   }
 
   render() {

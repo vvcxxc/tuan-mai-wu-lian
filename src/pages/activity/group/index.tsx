@@ -394,6 +394,26 @@ export default class GroupActivity extends Component {
         this.setState({ showShare: true })
     }
 
+    onShareAppMessage = () => {
+        const userInfo = Taro.getStorageSync("userInfo");
+        const { name, youhui_name, gift, pay_money, participation_money, preview } = this.state.data;
+        const { id, activity_id, gift_id, type } = this.$router.params;
+        let title, imageUrl;
+        if (gift) {
+            title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
+            imageUrl = this.state.data.preview;
+        } else {
+            title = `${name}正在发起${youhui_name}拼团活动，速来！`;
+            imageUrl = this.state.data.preview;
+        }
+        return {
+            title: title,
+            path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id,
+            imageUrl: imageUrl
+        }
+
+    }
+
 
     render() {
         const { description } = this.state.data;
@@ -404,7 +424,7 @@ export default class GroupActivity extends Component {
                     show={this.state.showShare}
                     onClose={() => this.setState({ showShare: false })}
                     sendText={() => { }}
-                    sendLink={() => { }}
+                    sendLink={this.onShareAppMessage}
                     createPoster={() => {
                         this.setState({ showPoster: true })
                     }}

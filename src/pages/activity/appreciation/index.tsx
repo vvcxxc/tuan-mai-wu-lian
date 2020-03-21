@@ -230,6 +230,25 @@ export default class AppreActivity extends Component {
         }
     }
 
+    onShareAppMessage() {
+        const userInfo = Taro.getStorageSync("userInfo");
+        const { gift_id, gift,return_money, preview, pay_money } = this.state.data;
+        const { id, activity_id,  type } = this.$router.params;
+        let title, imageUrl;
+        if (gift_id) {
+            title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
+            imageUrl = this.state.data.preview;
+        } else {
+            title = `送你一次免费增值机会！${pay_money}元可增值至${return_money}元，速领！`;
+            imageUrl = this.state.data.preview;
+        }
+        return {
+            title: title,
+            path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
+            imageUrl: imageUrl
+        }
+    }
+
     render() {
         const { images, description } = this.state.data;
         return (
@@ -239,7 +258,7 @@ export default class AppreActivity extends Component {
                     show={this.state.showShare}
                     onClose={() => this.setState({ showShare: false })}
                     sendText={() => { }}
-                    sendLink={() => { }}
+                    sendLink={this.onShareAppMessage}
                     createPoster={() => {
                         this.setState({ showPoster: true })
                     }}

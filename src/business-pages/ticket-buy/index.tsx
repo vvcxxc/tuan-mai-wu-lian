@@ -183,6 +183,15 @@ export default class TicketBuy extends Component {
     }
   }
 
+  onShareAppMessage = () => {
+    return {
+      title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
+      path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id,
+      imageUrl: this.state.store.shop_door_header_img
+    }
+  }
+
+
   render() {
 
     return (
@@ -192,7 +201,7 @@ export default class TicketBuy extends Component {
           show={this.state.showShare}
           onClose={() => this.setState({ showShare: false })}
           sendText={() => { }}
-          sendLink={() => { }}
+          sendLink={this.onShareAppMessage}
           createPoster={() => {
             this.setState({ showPoster: true })
           }}
