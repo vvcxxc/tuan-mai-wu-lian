@@ -89,9 +89,7 @@ export default class AppreActivity extends Component {
   }
 
   componentDidMount() {
-    let youhui_id = 4865
-      // this.$router.params.id
-    console.log(youhui_id,'eerer')
+    let youhui_id = this.$router.params.id
     shopPoster({ youhui_id, type: 'wx' })
       .then(({ data, code }) => {
         this.setState({ posterList: data })
