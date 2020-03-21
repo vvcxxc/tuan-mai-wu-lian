@@ -48,7 +48,14 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/my/invitation-list/index",
+					"pathName": "pages/my/invitation-list/index",
+					"scene": null
+				}
+			]
 		}
 	}
 }

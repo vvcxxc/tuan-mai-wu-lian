@@ -32,6 +32,14 @@ export default class Tab extends Component<TabProp> {
   state: State = {
     checked: ""
   }
+
+  componentDidMount() {
+    let activity_type = Taro.getStorageSync('activity_type');
+    if (activity_type && activity_type == '拼团') {
+      this.setState({ checked: 1 })
+    }
+  }
+
   handleToggle = e => {
     const { index } = e.currentTarget.dataset
     this.setState({

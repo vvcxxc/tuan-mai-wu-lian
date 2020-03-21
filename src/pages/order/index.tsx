@@ -4,7 +4,6 @@ import { AtTabs, AtTabsPane, AtIcon } from 'taro-ui'
 import "taro-ui/dist/style/components/tabs.scss";
 import CashCoupon1 from "./cash-coupon1/index";
 import CashCoupon2 from "./cash-coupon2/index";
-
 import "./index.styl";
 import request from "../../services/request";
 
@@ -56,7 +55,8 @@ export default class Order extends Component {
   componentDidShow() {
     let that = this;
     let phone_status = Taro.getStorageSync('phone_status')
-    console.log(phone_status)
+    let order_type = Taro.getStorageSync('order_type');
+    Taro.setStorageSync('order_type', '');
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       this.setState({
         current: 0,
@@ -73,7 +73,13 @@ export default class Order extends Component {
         lengthbull2: true,
         lengthbull3: true,
         lengthbull4: true,
-      }, () => { that.getData1() })
+      }, () => {
+        if (order_type && order_type == '已完成') { that.setState({ current: 1 }, () => { that.getData2() }) }
+        else if (order_type && order_type == '已过期') { that.setState({ current: 2 }, () => { that.getData3() }) }
+        else if (order_type && order_type == '已退款') { that.setState({ current: 3 }, () => { that.getData4() }) }
+        else { that.setState({ current: 0 }, () => { that.getData1() }) }
+        return
+      })
     } else {
       this.setState({ no_login: true })
     }
@@ -248,7 +254,7 @@ export default class Order extends Component {
     this.setState({
       current: value
     }, () => {
-      if(!this.state.no_login){
+      if (!this.state.no_login) {
         if (value == 0 && this.state.coupon1.length == 0) {
           this.getData1();
         } else if (value == 1 && this.state.coupon2.length == 0) {
@@ -290,7 +296,7 @@ export default class Order extends Component {
   }
 
   render() {
-    const {no_login} = this.state
+    const { no_login } = this.state
     console.log(no_login)
     const tabList = [{ title: '未使用' }, { title: '已使用' }, { title: '已过期' }, { title: '已退款' }]
     return (
@@ -313,46 +319,46 @@ export default class Order extends Component {
         <View>
           {
             no_login ?
-            <View className="msgBox msgBox-no-sign">
-              <View className="imgBox">
+              <View className="msgBox msgBox-no-sign">
+                <View className="imgBox">
                   <Image className="logo" src={require('@/assets/no-sign.png')} />
                 </View>
                 <View className="_msg">登录后才可以查看订单信息哦！</View>
                 <View className="toHome-no-sign "
                   onClick={() => {
-                   Taro.navigateTo({url: '/pages/auth/index'})
+                    Taro.navigateTo({ url: '/pages/auth/index' })
                   }}>去登录</View>
-            </View> :
-            (this.state.current == 0 && this.state.coupon1.length == 0) ?
-              <View className="msgBox">
-                <View className="imgBox">
-                  <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/sXMSERHX2BaZa23cDXwfQ8JymfZSaGip.png"} />
-                </View>
-                <View className="_msg">没有可使用的订单，快去逛逛吧！</View>
-                <View className="toHome"
-                  onClick={() => {
-                    Taro.switchTab({
-                      url: '../../pages/index/index'
-                    })
-                  }}>去首页</View>
-              </View> : ((this.state.current == 1 && this.state.coupon2.length == 0) ? <View className="msgBox">
-                <View className="imgBox">
-                  <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TXNJyF2kydtBeKkitG4xpcRYhAHiiseK.png"} />
-                </View>
-                <View className="_msg">您还没有使用过的订单哦</View>
-              </View> : ((this.state.current == 2 && this.state.coupon3.length == 0) ?
+              </View> :
+              (this.state.current == 0 && this.state.coupon1.length == 0) ?
                 <View className="msgBox">
                   <View className="imgBox">
-                    <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/eNxGKWKYEHdGKGNh8jGGD24E8a6Tfy4r.png"} />
+                    <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/sXMSERHX2BaZa23cDXwfQ8JymfZSaGip.png"} />
                   </View>
-                  <View className="_msg">您还没有已过期的订单哦</View>
-                </View> : ((this.state.current == 3 && this.state.coupon4.length == 0) ? <View className="msgBox">
+                  <View className="_msg">没有可使用的订单，快去逛逛吧！</View>
+                  <View className="toHome"
+                    onClick={() => {
+                      Taro.switchTab({
+                        url: '../../pages/index/index'
+                      })
+                    }}>去首页</View>
+                </View> : ((this.state.current == 1 && this.state.coupon2.length == 0) ? <View className="msgBox">
                   <View className="imgBox">
-                    <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/h4jNAQHbyK8Xx6zra3fBEHwBtAepmhCz.png"} />
+                    <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TXNJyF2kydtBeKkitG4xpcRYhAHiiseK.png"} />
                   </View>
-                  <View className="_msg">您还没有已退款的订单哦</View>
-                </View> : "")
-                ))
+                  <View className="_msg">您还没有使用过的订单哦</View>
+                </View> : ((this.state.current == 2 && this.state.coupon3.length == 0) ?
+                  <View className="msgBox">
+                    <View className="imgBox">
+                      <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/eNxGKWKYEHdGKGNh8jGGD24E8a6Tfy4r.png"} />
+                    </View>
+                    <View className="_msg">您还没有已过期的订单哦</View>
+                  </View> : ((this.state.current == 3 && this.state.coupon4.length == 0) ? <View className="msgBox">
+                    <View className="imgBox">
+                      <Image className="logo" src={"http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/h4jNAQHbyK8Xx6zra3fBEHwBtAepmhCz.png"} />
+                    </View>
+                    <View className="_msg">您还没有已退款的订单哦</View>
+                  </View> : "")
+                  ))
           }
         </View>
 

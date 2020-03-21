@@ -48,6 +48,7 @@ class App extends Component {
 			'pages/auth/login_page/index',
 			'pages/index/search/index',
 			'pages/my/index',
+			'pages/my/invitation-list/index',
 			'pages/order/index',
 			'pages/merchant/index',
 			'pages/activity/index',
@@ -97,8 +98,8 @@ class App extends Component {
 					'confirm-address/chooseAddress',
 					'personal/index',
 					'personal/personalInformation/index',
-          'personal/phoneInformation/index',
-          'activity-list/index'
+					'personal/phoneInformation/index',
+					'activity-list/index'
 				]
 			}
 		],
