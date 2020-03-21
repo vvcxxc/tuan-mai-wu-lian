@@ -97,34 +97,11 @@ export const toMiniProgramSign = (basicApi: string): void => {
 /**
  *  小程序静默登录
  * */
-export const quietLogin = async () => {
+export const quietLogin = async (id?) => {
 
-  // Taro.login({
-  //   success: res => {
-  //     userRequest({
-  //       method: 'POST',
-  //       url: 'v1/user/auth/auth_xcx',
-  //       data: {
-  //         code: res.code
-  //       }
-  //     }).then((res1: any) => {
-  //       if(res1.status_code == 200){
-  //         Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
-  //         Taro.setStorageSync('openid', res1.data.user.xcx_openid)
-  //         Taro.setStorageSync('user',res1.data.user)
-  //         Taro.setStorageSync('token_expires_in',res1.data.expires_in)
-  //         if(res1.data.user.mobile){
-  //           Taro.setStorageSync('phone_status','binded')
-  //         }
-  //       }
-  //     })
-  //   },
-  //   fail: err => {
-  //     console.log(err)
-  //   }
-  // })
+  console.log(id)
   let res = await Taro.login()
-  let res1 = await userRequest({ method: 'POST', url: 'v1/user/auth/auth_xcx', data: { code: res.code } })
+  let res1 = await userRequest({ method: 'POST', url: 'v1/user/auth/auth_xcx', data: { code: res.code, invitation_user_id: id ? id : undefined} })
   if (res1.status_code == 200) {
     Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
     Taro.setStorageSync('openid', res1.data.user.xcx_openid)

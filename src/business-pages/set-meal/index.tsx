@@ -7,7 +7,6 @@ import { discountCoupons } from "./service";
 import { getLocation } from "@/utils/getInfo";
 import Cookie from 'js-cookie'
 import LoginAlert from '@/components/loginAlert';
-
 // import ShareBox from '@/components/share-box';
 export default class AppreActivity extends Component {
   config = {
