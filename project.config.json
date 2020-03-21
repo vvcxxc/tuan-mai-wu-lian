@@ -48,15 +48,7 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": [
-				{
-					"id": -1,
-					"name": "business-pages/set-meal/index",
-					"pathName": "business-pages/set-meal/index",
-					"query": "id=5779&invitation_user_id=222",
-					"scene": null
-				}
-			]
+			"list": []
 		}
 	}
 }
