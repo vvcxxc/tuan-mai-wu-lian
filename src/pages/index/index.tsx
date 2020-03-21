@@ -55,7 +55,7 @@ export default class Index extends Component<any> {
   }
 
   componentDidShow(){
-    let router = Taro.getStorageSync('router')
+    let router = Taro.getStorageSync('router') || {}
     if(router.city_name){
       if(router.city_name == '新会区'){
 
@@ -64,6 +64,7 @@ export default class Index extends Component<any> {
         this.setState({is_marketing: false})
       }
     }else {
+      console.log(423433)
       Taro.getLocation({
         type: 'gcj02',
         success: res =>{
@@ -72,11 +73,12 @@ export default class Index extends Component<any> {
             ypoint: res.latitude
           }
           getCityName(data).then((res: any) => {
-            console.log(res,'index')
+            console.log(res.data.district == '新会区','index')
             router.city_name = res.data.city
             router.city_id = res.data.city_id
-            if(res.data.city == '新会区'){
+            if(res.data.district == '新会区'){
               this.setState({is_marketing: true})
+              router.city_name = res.data.district
             }else{
               this.setState({is_marketing: false})
             }
