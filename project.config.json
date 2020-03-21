@@ -51,8 +51,9 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/my/invitation-list/index",
-					"pathName": "pages/my/invitation-list/index",
+					"name": "business-pages/set-meal/index",
+					"pathName": "business-pages/set-meal/index",
+					"query": "id=5779&invitation_user_id=222",
 					"scene": null
 				}
 			]

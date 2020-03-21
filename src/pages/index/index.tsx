@@ -47,6 +47,7 @@ export default class Index extends Component<any> {
     is_marketing: false,
     changePull: 0,
     changeBottom: 0,
+    changeShow: 0
   };
 
   constructor(props) {
@@ -54,7 +55,7 @@ export default class Index extends Component<any> {
   }
 
   componentDidShow(){
-    let router = Taro.getStorageSync('router')
+    let router = Taro.getStorageSync('router') || {}
     if(router.city_name){
       if(router.city_name == '新会区'){
 
@@ -63,6 +64,7 @@ export default class Index extends Component<any> {
         this.setState({is_marketing: false})
       }
     }else {
+      console.log(423433)
       Taro.getLocation({
         type: 'gcj02',
         success: res =>{
@@ -71,9 +73,12 @@ export default class Index extends Component<any> {
             ypoint: res.latitude
           }
           getCityName(data).then((res: any) => {
+            console.log(res.data.district == '新会区','index')
             router.city_name = res.data.city
-            if(res.data.city == '新会区'){
+            router.city_id = res.data.city_id
+            if(res.data.district == '新会区'){
               this.setState({is_marketing: true})
+              router.city_name = res.data.district
             }else{
               this.setState({is_marketing: false})
             }
@@ -83,6 +88,10 @@ export default class Index extends Component<any> {
         }
       })
     }
+
+    const {changeShow} = this.state
+    this.setState({changeShow: changeShow+1})
+    console.log(523423333)
   }
 
   // 下拉刷新
@@ -101,10 +110,10 @@ export default class Index extends Component<any> {
 
 
   render() {
-    const {changeBottom, changePull} = this.state
+    const {changeBottom, changePull, changeShow} = this.state
     return (
       <View className="index">
-        { this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull}/> : <OldIndex changeBottom={changeBottom} changePull={changePull}/> }
+        { this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull} changeShow={changeShow}/> : <OldIndex changeShow={changeShow} changeBottom={changeBottom} changePull={changePull}/> }
       </View>
     );
   }

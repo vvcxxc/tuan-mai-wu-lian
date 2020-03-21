@@ -6,7 +6,6 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 import { discountCoupons } from "./service";
 import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
-
 // import ShareBox from '@/components/share-box';
 export default class AppreActivity extends Component {
   config = {

@@ -45,6 +45,24 @@ export default class MarketingIndex extends Component<any> {
     if(this.props.changePull != nextProps.changePull){
 
     }
+    // componentDidShow
+    if(this.props.changeShow != nextProps.changeShow){
+      getChannelInfo().then((res: any) => {
+        if(res.code == 200){
+          this.setState({
+            hotRecommendList: res.data.channels.whdtj.youhui,
+            brandRecommendList: res.data.channels.pplstj.youhui,
+            banner: res.data.banner
+          })
+        }
+      })
+      getTabList({channel_id: 6, page: 1}).then(res => {
+        if(res.code == 200){
+          this.setState({list: res.data.data})
+          this.setState({page: 1})
+        }
+      })
+    }
     // 触底加载更多
     if(this.props.changeBottom != nextProps.changeBottom){
       this.setState({page: this.state.page + 1},()=> {
@@ -126,7 +144,7 @@ export default class MarketingIndex extends Component<any> {
           {/* 搜索 */}
           <View className='search-box'>
             <View className="city" onClick={this.showSelectCity}>
-              <View className='ellipsis-one flex' style='width:70%; padding-right:14px; color:#fff; display: inline-block'>
+              <View className='ellipsis-one flex' style='width:70%; padding-right:14rpx; color:#fff; display: inline-block'>
                 {/* {this.state.cityName || '1广州市'} */}
                 {this.state.city_name || '广州市'}
               </View>
@@ -134,7 +152,7 @@ export default class MarketingIndex extends Component<any> {
             </View>
             <View className='search'>
               <Image className='search-icon' src={require('@/assets/index/search.png')} />
-              <View className='search-text'>
+              <View className='search-text' onClick={this.handleSearch}>
                 请输入商家名称
               </View>
             </View>

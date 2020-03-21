@@ -6,7 +6,6 @@ import { getGroupYouhuiInfo, getGroupbuyings, getShareSign, toWxPay, getUserYouh
 import ApplyToTheStore from '@/components/applyToTheStore';
 import TimeUp from '@/components/TimeUp';
 import LoginAlert from '@/components/loginAlert';
-
 export default class GroupActivity extends Component {
     config = {
         navigationBarTitleText: "拼团活动",
