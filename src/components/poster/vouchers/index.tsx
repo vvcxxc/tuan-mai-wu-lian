@@ -14,7 +14,30 @@ export default class HaveGiftPoster extends Component<Props>{
     }
   }
   state = {
-    data: {
+    
+    image: '',
+  }
+
+  getmeta = (e) => {
+    wx.saveImageToPhotosAlbum({
+      filePath: this.state.image,
+    });
+    e.stopPropagation()
+  }
+
+  onImgOK(e: any) {
+    this.setState({
+      image: e.detail.path
+    })
+  }
+
+  onImgErr = (e) => {
+    console.log(e, 'onImgErr')
+  }
+  render() {
+    const { show, list } = this.props
+    console.log(list,'meeme')
+    let data = {
       background: '#fff',
       width: '544rpx',
       height: '854rpx',
@@ -81,7 +104,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '1000.00',
+          text: '' + list.return_money,
           css: {
             left: '105rpx',
             top: '345rpx',
@@ -101,7 +124,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '满2000元可用',
+          text: '满' + list.total_fee + '元可用',
           css: {
             left: '255rpx',
             top: '385rpx',
@@ -124,7 +147,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '使用时间：领券后30天有效',
+          text: '使用时间：领券后' + list.expire_day + '天有效',
           css: {
             left: '90rpx',
             top: '490rpx',
@@ -146,7 +169,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '99',
+          text: '' + list.pay_money,
           css: {
             left: '100rpx',
             bottom: '162rpx',
@@ -170,7 +193,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '100元代金券',
+          text: ' ' + list.name,
           css: {
             bottom: '85rpx',
             left: '40rpx',
@@ -182,7 +205,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '适用店铺：麻辣烫小人的店麻辣烫小人的店898989堆的蓝鳍八角了解了可是解开了简历库简历库进口量j',
+          text: '适用店铺：' + list.store.name,
           css: {
             bottom: '45rpx',
             left: '40rpx',
@@ -194,7 +217,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '店铺地址：广东省广州市海珠区琶洲会展店8898989989809809809898098',
+          text: '店铺地址：' + list.store.address,
           css: {
             bottom: '30rpx',
             left: '40rpx',
@@ -206,7 +229,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'qrcode',
-          content: 'https://github.com/Kujiale-Mobile/Painter',
+          content: list.link,
           css: {
             bottom: '67rpx',
             right: '45rpx',
@@ -228,34 +251,13 @@ export default class HaveGiftPoster extends Component<Props>{
         },
 
       ]
-    },
-    image: '',
-  }
-
-  getmeta = (e) => {
-    wx.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
-    e.stopPropagation()
-  }
-
-  onImgOK(e: any) {
-    this.setState({
-      image: e.detail.path
-    })
-  }
-
-  onImgErr = (e) => {
-    console.log(e, 'onImgErr')
-  }
-  render() {
-    const { show } = this.props
+    }
     return (
       show ? <View className="poster" onClick={() => this.props.onClose()}
       >
         <painter
           widthPixels="250"
-          palette={this.state.data}
+          palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />

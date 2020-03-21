@@ -13,14 +13,35 @@ export default class HaveGiftPoster extends Component<Props>{
     }
   }
   state = {
-    data: {
+    
+    image: '',
+  }
+  getmeta = (e) => {
+    wx.saveImageToPhotosAlbum({
+      filePath: this.state.image,
+    });
+    e.stopPropagation()
+  }
+
+  onImgOK(e: any) {
+    this.setState({
+      image: e.detail.path
+    })
+  }
+
+  onImgErr = (e) => {
+    console.log(e, 'onImgErr')
+  }
+  render() {
+    const { list } = this.props
+    let data= {
       background: '#fff',
       width: '700rpx',
       height: '1166rpx',
       views: [
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/YxDizX5ihR4NBwFN7KbtjRehX6kai2tb.png',
+          url: 'http://oss.tdianyi.com/front/5QkwdPibGbd4BEN4GyPTBR6ySdw8p2FK.png',
           css: {
             top: '0rpx',
             left: '0rpx',
@@ -42,17 +63,18 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/nN7DYYrkniHdYsseYF4iYBTGxzHsxyyc.png?x-oss-process=image/crop,x_175,y_0,w_450,h_450",
+          url: list.image,
           css: {
             top: '143rpx',
             left: '20rpx',
             height: '700rpx',
-            width: '660rpx'
+            width: '660rpx',
+            mode: 'scaleToFill'
           }
         },
         {
           type: 'text',
-          text: '拼团价',
+          text: '活动价',
           css: {
             left: '57rpx',
             bottom: '262rpx',
@@ -71,8 +93,9 @@ export default class HaveGiftPoster extends Component<Props>{
           }
         },
         {
+          id: 'participation_money',
           type: 'text',
-          text: '99',
+          text: '' + list.pay_money,
           css: {
             left: '134rpx',
             bottom: '262rpx',
@@ -82,18 +105,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '¥199',
-          css: {
-            left: '190rpx',
-            bottom: '262rpx',
-            color: '#B3B3B3',
-            fontSize: '25rpx',
-            textDecoration: 'line-through'
-          }
-        },
-        {
-          type: 'text',
-          text: ' 90人团 ',
+          text: '最高可抵用' + list.return_money + '元 ',
           css: {
             bottom: '214rpx',
             left: '57rpx',
@@ -106,7 +118,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '网红抖音同款会跳舞的钢铁侠 摇摆玩具机器人电玩男孩儿童一大堆的蓝鳍八角了解了可是解开了简历库简历库进口量j',
+          text: '' + list.name,
           css: {
             bottom: '135rpx',
             left: '57rpx',
@@ -117,7 +129,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '适用店铺：麻辣烫小人的店麻辣烫小人的店898989堆的蓝鳍八角了解了可是解开了简历库简历库进口量j',
+          text: '适用店铺：' + list.store.name,
           css: {
             bottom: '85rpx',
             left: '57rpx',
@@ -129,7 +141,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '店铺地址：广东省广州市海珠区琶洲会展店8898989989809809809898098',
+          text: '店铺地址：' + list.store.address,
           css: {
             bottom: '60rpx',
             left: '57rpx',
@@ -141,11 +153,10 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'qrcode',
-          content: 'https://github.com/Kujiale-Mobile/Painter',
+          content: list.link,
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            // color: 'red',
             borderWidth: '10rpx',
             borderColor: '#F7F7F7',
             width: '156rpx',
@@ -164,31 +175,12 @@ export default class HaveGiftPoster extends Component<Props>{
         },
 
       ]
-    },
-    image: '',
-  }
-  getmeta = (e) => {
-    wx.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
-    e.stopPropagation()
-  }
-
-  onImgOK(e: any) {
-    this.setState({
-      image: e.detail.path
-    })
-  }
-
-  onImgErr = (e) => {
-    console.log(e, 'onImgErr')
-  }
-  render() {
+    }
     return (
       <View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
           widthPixels="250"
-          palette={this.state.data}
+          palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />

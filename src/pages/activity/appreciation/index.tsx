@@ -69,9 +69,10 @@ export default class AppreActivity extends Component {
 
     componentDidMount() {
         // 海报数据
-        let youhui_id = 5777
-        geValueAddedPoster({ youhui_id })
+        let youhui_id = this.$router.params.activity_id
+        geValueAddedPoster({ youhui_id ,type:'wx'})
             .then(({ data, code }) => {
+                console.log(data,'增值')
                 this.setState({ posterList: data })
             })
     }
@@ -244,7 +245,7 @@ export default class AppreActivity extends Component {
                     }}
                 />
                 <ValueAdded
-                    type={1}
+                    type={this.state.posterList.youhui_type}
                     show={this.state.showPoster}
                     list={this.state.posterList}
                     onClose={() => {

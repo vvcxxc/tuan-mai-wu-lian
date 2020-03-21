@@ -8,8 +8,7 @@ import {
     getShareSign,
     toWxPay,
     getUserYouhuiGroupId,
-    getGroupPoster,
-    geValueAddedPoster
+    getGroupPoster
 } from "./service";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import TimeUp from '@/components/TimeUp';
@@ -87,8 +86,9 @@ export default class GroupActivity extends Component {
     componentDidMount() {
         // 海报数据
         let youhui_id = this.$router.params.activity_id
-        getGroupPoster({ youhui_id })
+        getGroupPoster({ youhui_id,type: 'wx' })
             .then(({ data, code }) => {
+                console.log(data,'data')
                 this.setState({ posterList: data })
             })
     }

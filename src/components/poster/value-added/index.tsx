@@ -13,15 +13,12 @@ interface Params {
 const ValueAdded = (params: Params) => {
   const { type, list, show } = params
   console.log(list,'list')
-  const showType = ['HaveGift', 'NoGift', 'Other'][params.type]
   return (
-    show?<View>
+    show ? <View>
       {
-        {
-          'HaveGift': <HaveGift list={list} onClose={() => params.onClose()}/>,
-          'NoGift': <NoGift list={list} onClose={() => params.onClose()}/>,
-          'Other': <Other list={list} onClose={() => params.onClose()}/>
-        }[showType]
+        !params.type ? <Other list={list} onClose={() => params.onClose()} />
+          : list.gift.gift_pic ? <HaveGift list={list} onClose={() => params.onClose()} /> :
+            <NoGift list={list} onClose={() => params.onClose()} />
       }
     </View >:null
   )

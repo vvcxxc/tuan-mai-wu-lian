@@ -14,7 +14,29 @@ export default class CouponsPoster extends Component<Props>{
     }
   }
   state = {
-    data: {
+    
+    image: '',
+  }
+  getmeta = (e) => {
+    wx.saveImageToPhotosAlbum({
+      filePath: this.state.image,
+    });
+    e.stopPropagation()
+  }
+
+  onImgOK(e: any) {
+    this.setState({
+      image: e.detail.path
+    })
+  }
+
+  onImgErr = (e) => {
+    console.log(e,'报错')
+  }
+  render() {
+    const { show, list} = this.props
+    console.log(this.props,'werwere')
+    let data= {
       background: '#fff',
       width: '700rpx',
       height: '1166rpx',
@@ -43,17 +65,18 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/nN7DYYrkniHdYsseYF4iYBTGxzHsxyyc.png?x-oss-process=image/crop,x_175,y_0,w_450,h_450",
+          url: list.image,
           css: {
             top: '143rpx',
             left: '20rpx',
             height: '700rpx',
-            width: '660rpx'
+            width: '660rpx',
+            mode: 'scaleToFill'
           }
         },
         {
           type: 'text',
-          text: '拼团价',
+          text: '活动价',
           css: {
             left: '57rpx',
             bottom: '232rpx',
@@ -73,7 +96,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '99',
+          text: '' + list.pay_money,
           css: {
             left: '134rpx',
             bottom: '232rpx',
@@ -83,7 +106,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '¥199',
+          text: '¥' + list.return_money,
           css: {
             left: '190rpx',
             bottom: '232rpx',
@@ -94,7 +117,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '网红抖音同款会跳舞的钢铁侠 摇摆玩具机器人电玩男孩儿童一大堆的蓝鳍八角了解了可是解开了简历库简历库进口量j',
+          text: '' + list.name,
           css: {
             bottom: '135rpx',
             left: '57rpx',
@@ -106,7 +129,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '适用店铺：麻辣烫小人的店麻辣烫小人的店898989堆的蓝鳍八角了解了可是解开了简历库简历库进口量j',
+          text: '适用店铺：' + list.store.name,
           css: {
             bottom: '85rpx',
             left: '57rpx',
@@ -118,7 +141,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '店铺地址：广东省广州市海珠区琶洲会展店8898989989809809809898098',
+          text: '店铺地址：' + list.store.address,
           css: {
             bottom: '60rpx',
             left: '57rpx',
@@ -130,7 +153,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'qrcode',
-          content: 'https://github.com/Kujiale-Mobile/Painter',
+          content: list.link,
           css: {
             bottom: '107rpx',
             right: '59rpx',
@@ -152,32 +175,12 @@ export default class CouponsPoster extends Component<Props>{
         },
 
       ]
-    },
-    image: '',
-  }
-  getmeta = (e) => {
-    wx.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
-    e.stopPropagation()
-  }
-
-  onImgOK(e: any) {
-    this.setState({
-      image: e.detail.path
-    })
-  }
-
-  onImgErr = (e) => {
-    console.log(e,'报错')
-  }
-  render() {
-    const { show } = this.props
+    }
     return (
       show?<View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
           widthPixels="250"
-          palette={this.state.data}
+          palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />

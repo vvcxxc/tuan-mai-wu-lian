@@ -3,7 +3,7 @@ import { AtIcon } from 'taro-ui';
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.styl";
 import ApplyToTheStore from '@/components/applyToTheStore';
-import { discountCoupons } from "./service";
+import { discountCoupons, shopPoster } from "./service";
 import ShareBox from "@/components/share-box"; //分享组件
 import CouponsPoster from '@/components/poster/coupons'//海报
 import { getLocation } from "@/utils/getInfo";
@@ -86,6 +86,16 @@ export default class AppreActivity extends Component {
     showShare: false, //显示分享
     showPoster: false, //显示海报
     posterList: {}
+  }
+
+  componentDidMount() {
+    let youhui_id = 4865
+      // this.$router.params.id
+    console.log(youhui_id,'eerer')
+    shopPoster({ youhui_id, type: 'wx' })
+      .then(({ data, code }) => {
+        this.setState({ posterList: data })
+      })
   }
 
   /**
