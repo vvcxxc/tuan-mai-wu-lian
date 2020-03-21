@@ -23,6 +23,7 @@ export default class AppreActivity extends Component {
     //表面收藏
     keepCollect_bull: false,
     coupon: {
+      invitation_user_id:'',
       begin_time: "",
       brief: "",
       //真正的收藏
@@ -88,7 +89,7 @@ export default class AppreActivity extends Component {
 
   componentDidMount() {
     let youhui_id = this.$router.params.id
-    shopPoster({ youhui_id, type: 'wx' })
+    shopPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
         this.setState({ posterList: data })
       })
@@ -193,7 +194,7 @@ export default class AppreActivity extends Component {
   onShareAppMessage = () => {
     return {
       title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
-      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id,
+      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
       imageUrl: this.state.coupon.image
     }
   }

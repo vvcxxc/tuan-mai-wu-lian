@@ -33,6 +33,7 @@ export default class TicketBuy extends Component {
     keepCollect_bull: false,
     is_alert: false, //登录弹窗
     coupon: {
+      invitation_user_id:'',
       begin_time: "",
       brief: "",
       description: [],
@@ -95,7 +96,7 @@ export default class TicketBuy extends Component {
 
   componentDidMount() {
     let youhui_id = this.$router.params.id
-    moneyPoster({ youhui_id ,type:'wx'})
+    moneyPoster({ youhui_id, from:'wx'})
       .then(({ data, code }) => {
         this.setState({ posterList: data })
       })
@@ -185,7 +186,7 @@ export default class TicketBuy extends Component {
   onShareAppMessage = () => {
     return {
       title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
-      path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id,
+      path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
       imageUrl: this.state.store.shop_door_header_img
     }
   }

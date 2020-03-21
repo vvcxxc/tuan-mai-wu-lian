@@ -37,6 +37,7 @@ export default class GroupActivity extends Component {
         //查看更多
         showMoreRules: false,
         data: {
+            invitation_user_id:'',
             activity_begin_time: "",
             activity_end_time: "",
             activity_id: 0,
@@ -86,7 +87,7 @@ export default class GroupActivity extends Component {
     componentDidMount() {
         // 海报数据
         let youhui_id = this.$router.params.activity_id
-        getGroupPoster({ youhui_id,type: 'wx' })
+        getGroupPoster({ youhui_id, from: 'wx' })
             .then(({ data, code }) => {
                 console.log(data,'data')
                 this.setState({ posterList: data })
@@ -396,7 +397,7 @@ export default class GroupActivity extends Component {
 
     onShareAppMessage = () => {
         const userInfo = Taro.getStorageSync("userInfo");
-        const { name, youhui_name, gift, pay_money, participation_money, preview } = this.state.data;
+        const { name, youhui_name, gift, pay_money, participation_money, preview, invitation_user_id } = this.state.data;
         const { id, activity_id, gift_id, type } = this.$router.params;
         let title, imageUrl;
         if (gift) {
@@ -408,7 +409,7 @@ export default class GroupActivity extends Component {
         }
         return {
             title: title,
-            path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id,
+            path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
             imageUrl: imageUrl
         }
 

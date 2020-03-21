@@ -30,6 +30,7 @@ export default class AppreActivity extends Component {
         //查看更多
         showMoreRules: false,
         data: {
+            invitation_user_id:'',
             activity_begin_time: "",
             activity_end_time: "",
             activity_time_status: 0,
@@ -70,7 +71,7 @@ export default class AppreActivity extends Component {
     componentDidMount() {
         // 海报数据
         let youhui_id = this.$router.params.activity_id
-        geValueAddedPoster({ youhui_id ,type:'wx'})
+        geValueAddedPoster({ youhui_id, from:'wx'})
             .then(({ data, code }) => {
                 console.log(data,'增值')
                 this.setState({ posterList: data })
@@ -232,7 +233,7 @@ export default class AppreActivity extends Component {
 
     onShareAppMessage() {
         const userInfo = Taro.getStorageSync("userInfo");
-        const { gift_id, gift,return_money, preview, pay_money } = this.state.data;
+        const { gift_id, gift, return_money, preview, pay_money, invitation_user_id } = this.state.data;
         const { id, activity_id,  type } = this.$router.params;
         let title, imageUrl;
         if (gift_id) {
@@ -244,7 +245,7 @@ export default class AppreActivity extends Component {
         }
         return {
             title: title,
-            path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id,
+            path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
             imageUrl: imageUrl
         }
     }
