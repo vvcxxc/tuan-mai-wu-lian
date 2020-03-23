@@ -1,9 +1,17 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.less";
-import { getYouhuiAppreciationInfo, getShareSign, wxXcxuWechatPay, getUserLastYouhuiId } from "./service";
+import {
+    getYouhuiAppreciationInfo,
+    getShareSign,
+    wxXcxuWechatPay,
+    getUserLastYouhuiId,
+    geValueAddedPoster
+} from "./service";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import LoginAlert from '@/components/loginAlert';
+import ShareBox from "@/components/share-box";//分享组件
+import ValueAdded from "@/components/poster/value-added";//海报组件
 
 export default class AppreActivity extends Component {
     config = {
@@ -22,6 +30,7 @@ export default class AppreActivity extends Component {
         //查看更多
         showMoreRules: false,
         data: {
+            invitation_user_id:'',
             activity_begin_time: "",
             activity_end_time: "",
             activity_time_status: 0,
@@ -53,8 +62,21 @@ export default class AppreActivity extends Component {
             xpoint: "",
             ypoint: "",
             dp_count: 0
-        }
+        },
+        showShare: false, //显示分享
+        showPoster: false, //显示海报
+        posterList: {}
     };
+
+    componentDidMount() {
+        // 海报数据
+        let youhui_id = this.$router.params.activity_id
+        geValueAddedPoster({ youhui_id, from:'wx'})
+            .then(({ data, code }) => {
+                console.log(data,'增值')
+                this.setState({ posterList: data })
+            })
+    }
 
     /**
    * 判断从分享链接进入
@@ -209,10 +231,47 @@ export default class AppreActivity extends Component {
         }
     }
 
+    onShareAppMessage() {
+        const userInfo = Taro.getStorageSync("userInfo");
+        const { gift_id, gift, return_money, preview, pay_money, invitation_user_id } = this.state.data;
+        const { id, activity_id,  type } = this.$router.params;
+        let title, imageUrl;
+        if (gift_id) {
+            title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
+            imageUrl = this.state.data.preview;
+        } else {
+            title = `送你一次免费增值机会！${pay_money}元可增值至${return_money}元，速领！`;
+            imageUrl = this.state.data.preview;
+        }
+        return {
+            title: title,
+            path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
+            imageUrl: imageUrl
+        }
+    }
+
     render() {
         const { images, description } = this.state.data;
         return (
             <View className="appre-activity-detail">
+                {/* 分享组件 */}
+                <ShareBox
+                    show={this.state.showShare}
+                    onClose={() => this.setState({ showShare: false })}
+                    sendText={() => { }}
+                    sendLink={this.onShareAppMessage}
+                    createPoster={() => {
+                        this.setState({ showPoster: true })
+                    }}
+                />
+                <ValueAdded
+                    type={this.state.posterList.youhui_type}
+                    show={this.state.showPoster}
+                    list={this.state.posterList}
+                    onClose={() => {
+                        this.setState({ showPoster: false, showShare: false })
+                    }}
+                />
                 <Swiper
                     onChange={(e) => {
                         this.setState({ bannerImgIndex: e.detail.current })
@@ -362,7 +421,9 @@ export default class AppreActivity extends Component {
                         <View className="appre-buy-price-num" >{this.state.data.pay_money}</View>
                     </View>
                     <View className="appre-buy-btn-box" >
-                        <View className="appre-buy-btn-left" >分享活动</View>
+                        <View className="appre-buy-btn-left" onClick={() => {
+                            this.setState({ showShare:true})
+                        }}>分享活动</View>
                         {
                             this.state.data.activity_time_status == 1 ? (
                                 <View className="appre-buy-btn-right" >暂未开始</View>

@@ -53,3 +53,14 @@ export const getUserYouhuiGroupId = (data: object) =>
         method: "GET",
         data
     })
+
+/**
+*  拼图海报
+*/
+export const getGroupPoster = (data: object) =>
+    request({
+        url: 'v3/get_group_poster',
+        method: "GET",
+        data
+    })
+

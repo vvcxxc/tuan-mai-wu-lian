@@ -2,10 +2,20 @@ import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtToast, AtTabs, AtTabsPane } from "taro-ui";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.less";
-import { getGroupYouhuiInfo, getGroupbuyings, getShareSign, toWxPay, getUserYouhuiGroupId } from "./service";
+import {
+    getGroupYouhuiInfo,
+    getGroupbuyings,
+    getShareSign,
+    toWxPay,
+    getUserYouhuiGroupId,
+    getGroupPoster
+} from "./service";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import TimeUp from '@/components/TimeUp';
 import LoginAlert from '@/components/loginAlert';
+import ShareBox from "@/components/share-box";//分享组件
+import SpellGroup from "@/components/poster/spell-group";//海报组件
+
 export default class GroupActivity extends Component {
     config = {
         navigationBarTitleText: "拼团活动",
@@ -27,6 +37,7 @@ export default class GroupActivity extends Component {
         //查看更多
         showMoreRules: false,
         data: {
+            invitation_user_id:'',
             activity_begin_time: "",
             activity_end_time: "",
             activity_id: 0,
@@ -67,8 +78,21 @@ export default class GroupActivity extends Component {
             pageRow: 2,
             total: 0,
         },
-        newGroupList: []
+        newGroupList: [],
+        showShare: false, //显示分享
+        showPoster: false, //显示海报
+        posterList: {}
     };
+
+    componentDidMount() {
+        // 海报数据
+        let youhui_id = this.$router.params.activity_id
+        getGroupPoster({ youhui_id, from: 'wx' })
+            .then(({ data, code }) => {
+                console.log(data,'data')
+                this.setState({ posterList: data })
+            })
+    }
 
     /**
          * 获取位置信息
@@ -366,10 +390,56 @@ export default class GroupActivity extends Component {
         }
     }
 
+    // 分享活动
+    shareActive = () => {
+        this.setState({ showShare: true })
+    }
+
+    onShareAppMessage = () => {
+        const userInfo = Taro.getStorageSync("userInfo");
+        const { name, youhui_name, gift, pay_money, participation_money, preview, invitation_user_id } = this.state.data;
+        const { id, activity_id, gift_id, type } = this.$router.params;
+        let title, imageUrl;
+        if (gift) {
+            title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
+            imageUrl = this.state.data.preview;
+        } else {
+            title = `${name}正在发起${youhui_name}拼团活动，速来！`;
+            imageUrl = this.state.data.preview;
+        }
+        console.log('/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id)
+        return {
+            title: title,
+            path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
+            imageUrl: imageUrl
+        }
+
+    }
+
+
     render() {
         const { description } = this.state.data;
         return (
             <View className="group-activity-detail">
+                {/* 分享 */}
+                <ShareBox
+                    show={this.state.showShare}
+                    onClose={() => this.setState({ showShare: false })}
+                    sendText={() => { }}
+                    sendLink={this.onShareAppMessage}
+                    createPoster={() => {
+                        this.setState({ showPoster: true })
+                    }}
+                />
+                {/* 海报 */}
+                <SpellGroup
+                    show={this.state.showPoster}
+                    list={this.state.posterList}
+                    onClose={() => {
+                        this.setState({ showPoster: false, showShare: false })
+                    }}
+                />
+
                 <Swiper
                     onChange={(e) => {
                         this.setState({ bannerImgIndex: e.detail.current })
@@ -656,7 +726,7 @@ export default class GroupActivity extends Component {
                         <View className="group-buy-price-num" >{this.state.data.participation_money}</View>
                     </View>
                     <View className="group-buy-btn-box" >
-                        <View className="group-buy-btn-left" >分享活动</View>
+                        <View className="group-buy-btn-left" onClick={this.shareActive}>分享活动</View>
                         {
                             this.state.allowGroup ? <View className="group-buy-btn-right" >{this.state.allowGroup}</View>
                                 : <View className="group-buy-btn-right" onClick={this.goToaConfirm.bind(this)} >

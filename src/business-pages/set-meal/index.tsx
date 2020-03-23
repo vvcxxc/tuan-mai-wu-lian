@@ -3,7 +3,9 @@ import { AtIcon } from 'taro-ui';
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.styl";
 import ApplyToTheStore from '@/components/applyToTheStore';
-import { discountCoupons } from "./service";
+import { discountCoupons, shopPoster } from "./service";
+import ShareBox from "@/components/share-box"; //分享组件
+import CouponsPoster from '@/components/poster/coupons'//海报
 import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 // import ShareBox from '@/components/share-box';
@@ -21,6 +23,7 @@ export default class AppreActivity extends Component {
     //表面收藏
     keepCollect_bull: false,
     coupon: {
+      invitation_user_id:'',
       begin_time: "",
       brief: "",
       //真正的收藏
@@ -78,7 +81,18 @@ export default class AppreActivity extends Component {
     isFromShare: false,
     is_alert: false,
     showAll: false,
-    showMoreRules: false
+    showMoreRules: false,
+    showShare: false, //显示分享
+    showPoster: false, //显示海报
+    posterList: {}
+  }
+
+  componentDidMount() {
+    let youhui_id = this.$router.params.id
+    shopPoster({ youhui_id, from: 'wx' })
+      .then(({ data, code }) => {
+        this.setState({ posterList: data })
+      })
   }
 
   /**
@@ -161,11 +175,50 @@ export default class AppreActivity extends Component {
       Taro.navigateTo({ url: '../ticket-buy/index?id=' + _id })
     }
   }
+  copyText = () => {
+    let code = '浴室有人13.92343243243243243243243243233'
+    wx.setClipboardData({
+      data: code,
+      success: function (res) {
+        this.setState({ showShare: false })
+        Taro.showToast({ title: '复制成功，请前往微信发送给好友。', icon: 'none' })
+      },
+      fail: function (res) {
+        this.setState({ showShare: false })
+        Taro.showToast({ title: '复制失败，请刷新页面重试', icon: 'none' })
+      }
+    })
+  }
+
+
+  onShareAppMessage = () => {
+    return {
+      title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
+      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
+      imageUrl: this.state.coupon.image
+    }
+  }
 
   render() {
 
     return (
       <View className="appre-activity-detail">
+        <ShareBox
+          show={this.state.showShare}
+          onClose={() => this.setState({ showShare: false })}
+          sendText={this.copyText}
+          sendLink={this.onShareAppMessage}
+          createPoster={() => {
+            this.setState({ showPoster: true })
+          }}
+        />
+        <CouponsPoster
+          show={this.state.showPoster}
+          list={this.state.posterList}
+          onClose={() => {
+            this.setState({ showPoster: false, showShare: false })
+          }}
+        />
         <Image className='appre-banner' src={this.state.coupon.image} />
         <View className="banner-number-box">
           <View className="banner-number">1</View>
@@ -180,7 +233,7 @@ export default class AppreActivity extends Component {
         <View className="appre-info-content">
           <View className="appre-info-title">
             <View className="appre-info-title-label">兑换券</View>
-            <View className="appre-info-title-text">{this.state.store.sname}</View>
+            <View className="appre-info-title-text">{this.state.coupon.yname}</View>
           </View>
           <View className="appre-info-price">
             <View className="appre-price-info">
@@ -369,7 +422,9 @@ export default class AppreActivity extends Component {
             <View className="appre-buy-price-num" >{this.state.coupon.pay_money}</View>
           </View>
           <View className="appre-buy-btn-box" >
-            <View className="appre-buy-btn-left" >分享活动</View>
+            <View className="appre-buy-btn-left" onClick={() => {
+              this.setState({ showShare:true})
+            }}>分享活动</View>
             <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View>
 
           </View>

@@ -1,17 +1,15 @@
 import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Image, Text } from "@tarojs/components"
+import { View, Image, Text, Button } from "@tarojs/components"
 import request from '@/services/request'
 import LoginAlert from '@/components/loginAlert';
 import { getUserInfo } from '@/utils/getInfo';
 import "./index.less"
 
-interface Cell {
-    text: string;
-    icon: string;
-    path: string;
-}
+type Props = any
 
 interface State {
+    emptyAvatar: String,
+    settingShow: Boolean;
     cells: any;
     userInfo: any;
     user_img: string;
@@ -19,25 +17,29 @@ interface State {
     activityList: Object[],
     list: Object[],
     userData: Object,
-    type: string,
-    is_alert: boolean,
-    is_show: boolean
+    showBounced: boolean,
+    needLogin: boolean,
+    mobile: number | string
 }
 export default class AppreActivity extends Component<Props> {
-    config = {
+    config: Config = {
         navigationBarTitleText: "我的",
-        enablePullDownRefresh: false
+        enablePullDownRefresh: false,
+        navigationBarBackgroundColor: '#ff4444',
+        navigationBarTextStyle: 'white'
     };
 
     state: State = {
+        emptyAvatar: '',
+        settingShow: false,
         cells: {},
         userInfo: {},
-        userData: {},
+        userData: {
+            head_img: '',
+            user_name: ''
+        },
         user_img: '',
-        type: '', // user: 未设置用户信息，phone: 未绑定手机号，为空不展示
         data: '',
-        is_alert: false, //登录弹窗
-        is_show: false,
         activityList: [
             {
                 des: '我的拼团活动',
@@ -76,41 +78,44 @@ export default class AppreActivity extends Component<Props> {
             },
 
         ],
+        showBounced: false,//登录弹框
+        needLogin: true,
+        mobile: ''
     }
 
     componentDidShow() {
+        let phone_status = Taro.getStorageSync('phone_status')
         this.handleGetUserinfo()
         request({
             url: 'v3/user/home_index'
         }).then((res: any) => {
-
             this.setState({
                 userData: {
                     head_img: res.data.avatar,
                     user_name: res.data.user_name
-                }
+                },
+                emptyAvatar: res.data.emptyAvatar,
+                mobile: res.data.mobile
             })
+            if (res.data.mobile) {
+                this.setState({ settingShow: true, needLogin: false })
+            } else {
+                this.setState({ settingShow: false, needLogin: true }, () => {
+                    if (this.state.needLogin) {
+                        this.setState({
+                            userData: {
+                                head_img: 'http://oss.tdianyi.com/front/ek7cPQsFbEt7DXT7E7B6Xaf62a46SCXw.png',
+                                user_name: ''
+                            },
+                        })
+                    }
+                })
+            }
             let myData: any = this.state.list
             myData[0].prompt = res.data.order_msg
             myData[1].prompt = res.data.gift_msg
             myData[2].prompt = res.data.activity_msg
-            this.setState({
-                list: myData
-            })
-            let phone_status = Taro.getStorageSync('phone_status')
-            console.log(phone_status)
-            if (phone_status == 'binded' || phone_status == 'bind_success') {
-                if (res.data.emptyAvatar == 'Y') {
-                    this.setState({ type: 'user' })
-                } else {
-                    this.setState({ type: '' })
-                }
-                console.log(phone_status, 1231222)
-                this.setState({ is_show: true })
-            } else {
-                this.setState({ type: 'phone' })
-                this.setState({ is_show: false })
-            }
+            this.setState({ list: myData })
         })
     }
 
@@ -134,36 +139,21 @@ export default class AppreActivity extends Component<Props> {
 
     // 跳转路径
     jumpData = (data: string) => {
-        let phone_status = Taro.getStorageSync('phone_status')
-        if (phone_status == 'binded' || phone_status == 'bind_success') {
-            if (data.indexOf('order') > 0) {
-                Taro.switchTab({ url: data })
-            } else {
-                Taro.navigateTo({
-                    url: data
-                })
-            }
-        } else {
-            this.setState({ is_alert: true })
+        if (this.state.mobile) {
+            Taro.navigateTo({ url: data })
+            return
         }
+        this.setState({ showBounced: true })
     }
-    //临时跳转测试
-    gotoPersonal = () => {
+    setPersonalInfo = () => {
         Taro.navigateTo({
             url: '/activity-pages/personal/index'
         })
     }
-    setPersonal = (type: string) => {
-        if (type == 'user') {
-            Taro.navigateTo({
-                url: '/pages/auth/index?type=userInfo',
-            })
-        } else {
-            Taro.navigateTo({
-                url: '/pages/auth/index',
-            })
-        }
-
+    // 手动登录跳转
+    handLogin = () => {
+        // Taro.setStorageSync('ql_href', location.href)
+        Taro.navigateTo({ url: '/pages/my/login_page/index' })
     }
     setOrderInfo = (type) => {
         Taro.setStorageSync("order_type", type)
@@ -177,12 +167,10 @@ export default class AppreActivity extends Component<Props> {
     }
 
     render() {
-        const { type } = this.state
+        const { showBounced, needLogin } = this.state
         return (
             <View className="my-list">
                 <View className="my-list-banner">
-
-
                     {
                         this.state.settingShow ?
                             <Image className='my-list-set' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/nAP8aBrDk2yGzG7AdaTrPDWey8fDB2KP.png' />
@@ -193,22 +181,17 @@ export default class AppreActivity extends Component<Props> {
                             <Image className="my-head-img" src={this.state.userData.head_img} />
                         </View>
                         {
-                            type != 'phone' ? <View className="my-text" onClick={getUserInfo}>
-                                <View className="my-text-top">{this.state.userData.user_name}</View>
-                            </View> : null
+                            this.state.emptyAvatar == 'Y' && this.state.settingShow ?
+                                <View className="my-text">
+                                    <View className="my-text-top">{this.state.userData.user_name}</View>
+                                    <Button className="my-text-bottom" openType='getUserInfo' onClick={getUserInfo}>一键获取用户头像~</Button>
+                                </View> : null
                         }
                         {
-                            type == 'phone' ? (
-                                <View className="my-text" onClick={getUserInfo}>
-                                    <View className="my-text-top">登录手机号</View>
-                                    <View className="my-text-bottom">同步全渠道订单与优惠券~</View>
-                                </View>
-                            ) : type == 'user' ? (
-                                <View className="my-text" onClick={this.setPersonal.bind(this, 'user')}>
-                                    <View className="my-text-top">一键设置头像/昵称</View>
-                                </View>
-
-                            ) : null
+                            needLogin ? <View className="my-text" onClick={this.handLogin}>
+                                <View className="my-text-top">登录手机号</View>
+                                <View className="my-text-bottom">同步全渠道订单与优惠券~</View>
+                            </View> : null
                         }
                     </View>
 

@@ -10,3 +10,14 @@ export const discountCoupons = (id: number | string, data: object) =>
         data
     })
 
+/**
+*  现金海报
+*/
+export const moneyPoster = (data) =>
+    request({
+        url: 'v3/get_cash_poster',
+        method: "GET",
+        data
+    })
+
+
