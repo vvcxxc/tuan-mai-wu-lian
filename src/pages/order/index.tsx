@@ -157,9 +157,9 @@ export default class Order extends Component {
           let temp = this.state.coupon1.concat(res.data);
           console.log(temp.length)
           this.setState({ coupon: temp, coupon1: temp, page1: this.state.page1 + 1 }, () => {
-            if (this.state.page1 >= res.last_page) {
-              this.setState({ lengthbull1: false });
-            }
+            // if (this.state.page1 >= res.last_page) {
+            //   this.setState({ lengthbull1: false });
+            // }
           });
 
           Taro.hideLoading();
@@ -182,9 +182,9 @@ export default class Order extends Component {
         .then((res: any) => {
           let temp = this.state.coupon2.concat(res.data);
           this.setState({ coupon: temp, coupon2: temp, page2: this.state.page2 + 1 }, () => {
-            if (this.state.page2 >= res.last_page) {
-              this.setState({ lengthbull2: false });
-            }
+            // if (this.state.page2 >= res.last_page) {
+            //   this.setState({ lengthbull2: false });
+            // }
           });
 
           Taro.hideLoading();
@@ -210,9 +210,9 @@ export default class Order extends Component {
         .then((res: any) => {
           let temp = this.state.coupon3.concat(res.data);
           this.setState({ coupon: temp, coupon3: temp, page3: this.state.page3 + 1 }, () => {
-            if (this.state.page3 >= res.last_page) {
-              this.setState({ lengthbull3: false });
-            }
+            // if (this.state.page3 >= res.last_page) {
+            //   this.setState({ lengthbull3: false });
+            // }
           });
 
           Taro.hideLoading();
@@ -238,9 +238,9 @@ export default class Order extends Component {
         .then((res: any) => {
           let temp = this.state.coupon4.concat(res.data);
           this.setState({ coupon: temp, coupon4: temp, page4: this.state.page4 + 1 }, () => {
-            if (this.state.page4 >= res.last_page) {
-              this.setState({ lengthbull4: false });
-            }
+            // if (this.state.page4 >= res.last_page) {
+            //   this.setState({ lengthbull4: false });
+            // }
           });
 
           Taro.hideLoading();
@@ -257,13 +257,21 @@ export default class Order extends Component {
     }, () => {
       if (!this.state.no_login) {
         if (value == 0 && this.state.coupon1.length == 0) {
-          this.getData1();
+          this.setState({page1: 1},()=>{
+            this.getData1();
+          })
         } else if (value == 1 && this.state.coupon2.length == 0) {
-          this.getData2();
+          this.setState({page2: 1},()=>{
+            this.getData2();
+          })
         } else if (value == 2 && this.state.coupon3.length == 0) {
-          this.getData3();
+          this.setState({page3: 1},()=>{
+            this.getData3();
+          })
         } else if (value == 3 && this.state.coupon4.length == 0) {
-          this.getData4()
+          this.setState({page4: 1},()=>{
+            this.getData4();
+          })
         }
       }
     })

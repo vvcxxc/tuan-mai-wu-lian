@@ -76,7 +76,7 @@ export default class VouchersPoster extends Component<Props>{
       views: [
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/tiDd8wiT68yDJ7tsKJWbRz3W7R5DMXWP.png',
+          url: 'https://oss.tdianyi.com/front/tiDd8wiT68yDJ7tsKJWbRz3W7R5DMXWP.png',
           css: {
             top: '0rpx',
             left: '0rpx',
@@ -98,7 +98,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/NWk3npDCMQfHx2G8JMMe4F7EF7d6HpWp.png",
+          url: "https://oss.tdianyi.com/front/NWk3npDCMQfHx2G8JMMe4F7EF7d6HpWp.png",
           css: {
             top: '110rpx',
             left: '20rpx',
@@ -108,7 +108,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/ExebSGpSecxPwNFa43i7wRxwJjZftasn.png",
+          url: "https://oss.tdianyi.com/front/ExebSGpSecxPwNFa43i7wRxwJjZftasn.png",
           css: {
             top: '220rpx',
             left: '200rpx',
@@ -117,7 +117,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/BAHcaGjG55b68wnR3HfNQF6eDz7StdXz.png',
+          url: 'https://oss.tdianyi.com/front/BAHcaGjG55b68wnR3HfNQF6eDz7StdXz.png',
           css: {
             top: '300rpx',
             left: '80rpx',

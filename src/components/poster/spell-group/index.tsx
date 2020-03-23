@@ -101,7 +101,7 @@ export default class HaveGiftPoster extends Component<Props>{
       },
       {
         type: 'image',
-        url: "http://oss.tdianyi.com/front/tnzrTCT5iccXe6BMYMRJWdYstM5EWKxF.png",
+        url: "https://oss.tdianyi.com/front/tnzrTCT5iccXe6BMYMRJWdYstM5EWKxF.png",
         css: {
           top: '580rpx',
           right: '39rpx',
@@ -111,7 +111,7 @@ export default class HaveGiftPoster extends Component<Props>{
       },
       {
         type: 'image',
-        url: "http://oss.tdianyi.com/front/KMhXfRRbBCswfnZTDQ5AFiKC2766fezr.png",
+        url: "https://oss.tdianyi.com/front/KMhXfRRbBCswfnZTDQ5AFiKC2766fezr.png",
         css: {
           top: '640rpx',
           right: '50rpx',
@@ -149,7 +149,7 @@ export default class HaveGiftPoster extends Component<Props>{
       views: [
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/YxDizX5ihR4NBwFN7KbtjRehX6kai2tb.png',
+          url: 'https://oss.tdianyi.com/front/YxDizX5ihR4NBwFN7KbtjRehX6kai2tb.png',
           css: {
             top: '0rpx',
             left: '0rpx',

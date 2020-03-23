@@ -16,6 +16,7 @@ import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
 import SpellGroup from "@/components/poster/spell-group";//海报组件
 import Zoom from '@/components/zoom';
+const H5_URL = process.env.H5_URL
 
 export default class GroupActivity extends Component {
     config = {
@@ -422,7 +423,7 @@ export default class GroupActivity extends Component {
     }
 
     copyText = () => {
-        let code = this.state.data.share_text
+        let code = this.state.data.share_text.replace(/@#@#/, H5_URL)
         Taro.setClipboardData({
             data: code,
             success() {

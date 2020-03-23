@@ -73,7 +73,7 @@ export default class CouponsPoster extends Component<Props>{
       views: [
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/tiDd8wiT68yDJ7tsKJWbRz3W7R5DMXWP.png',
+          url: 'https://oss.tdianyi.com/front/tiDd8wiT68yDJ7tsKJWbRz3W7R5DMXWP.png',
           css: {
             top: '0rpx',
             left: '0rpx',

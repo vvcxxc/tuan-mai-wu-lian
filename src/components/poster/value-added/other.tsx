@@ -65,7 +65,7 @@ export default class HaveGiftPoster extends Component<Props>{
       views: [
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/5QkwdPibGbd4BEN4GyPTBR6ySdw8p2FK.png',
+          url: 'https://oss.tdianyi.com/front/5QkwdPibGbd4BEN4GyPTBR6ySdw8p2FK.png',
           css: {
             top: '0rpx',
             left: '0rpx',

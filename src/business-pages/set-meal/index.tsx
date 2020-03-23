@@ -11,6 +11,7 @@ import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 
 // import ShareBox from '@/components/share-box';
+const H5_URL = process.env.H5_URL
 export default class AppreActivity extends Component {
   config = {
     navigationBarTitleText: "兑换券",
@@ -46,7 +47,7 @@ export default class AppreActivity extends Component {
       yname: "",
       youhui_type: 0,
       expire_day: '',
-      share_text:''//要分享的文字信息
+      share_text: ''//要分享的文字信息
     },
     store: {
       brief: "",
@@ -180,18 +181,18 @@ export default class AppreActivity extends Component {
       Taro.navigateTo({ url: '../ticket-buy/index?id=' + _id })
     }
   }
-  
+
   copyText = () => {
-    let code = this.state.coupon.share_text
+    let code = this.state.coupon.share_text.replace(/@#@#/, H5_URL)
     Taro.setClipboardData({
       data: code,
       success() {
         Taro.showToast({ title: '复制成功，请前往微信发送给好友。', icon: 'none' })
       },
-      fail () {
+      fail() {
         Taro.showToast({ title: '复制失败，请刷新页面重试', icon: 'none' })
       },
-      complete:()=> {
+      complete: () => {
         this.setState({ showShare: false })
       },
     })

@@ -71,7 +71,7 @@ export default class HaveGiftPoster extends Component<Props>{
       views: [
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/5QkwdPibGbd4BEN4GyPTBR6ySdw8p2FK.png',
+          url: 'https://oss.tdianyi.com/front/5QkwdPibGbd4BEN4GyPTBR6ySdw8p2FK.png',
           css: {
             top: '0rpx',
             left: '0rpx',
@@ -93,7 +93,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/NWk3npDCMQfHx2G8JMMe4F7EF7d6HpWp.png",
+          url: "https://oss.tdianyi.com/front/NWk3npDCMQfHx2G8JMMe4F7EF7d6HpWp.png",
           css: {
             top: '110rpx',
             left: '20rpx',
@@ -103,7 +103,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/ExebSGpSecxPwNFa43i7wRxwJjZftasn.png",
+          url: "https://oss.tdianyi.com/front/ExebSGpSecxPwNFa43i7wRxwJjZftasn.png",
           css: {
             top: '180rpx',
             left: '200rpx',
@@ -122,7 +122,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: "http://oss.tdianyi.com/front/6M2RZst3k8rb4sWQ5mWXeDMhp2RSkEJK.png",
+          url: "https://oss.tdianyi.com/front/6M2RZst3k8rb4sWQ5mWXeDMhp2RSkEJK.png",
           css: {
             top: '280rpx',
             left: '70rpx',
@@ -133,7 +133,7 @@ export default class HaveGiftPoster extends Component<Props>{
         ,
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/BAHcaGjG55b68wnR3HfNQF6eDz7StdXz.png',
+          url: 'https://oss.tdianyi.com/front/BAHcaGjG55b68wnR3HfNQF6eDz7StdXz.png',
           css: {
             top: '350rpx',
             left: '80rpx',
@@ -207,7 +207,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: 'http://oss.tdianyi.com/front/bw6kYwMnDPFdy2a4Fsz2ec87GyAb7w8p.png',
+          url: 'https://oss.tdianyi.com/front/bw6kYwMnDPFdy2a4Fsz2ec87GyAb7w8p.png',
           css: {
             top: '630rpx',
             left: '80rpx',
