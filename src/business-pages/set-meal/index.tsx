@@ -204,7 +204,7 @@ export default class AppreActivity extends Component {
   }
 
   render() {
-
+    const { description } = this.state.coupon;
     return (
       <View className="appre-activity-detail">
         <ShareBox
@@ -281,27 +281,27 @@ export default class AppreActivity extends Component {
             <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
           </View>
           {
-            this.state.coupon.description && this.state.coupon.description.length && !this.state.showMoreRules ? <View>
+            description && description.length && !this.state.showMoreRules ? <View>
               <View className="appre-rules-list-title" >使用规则：</View>
               {
-                this.state.coupon.description.length > 0 ? <View className="appre-rules-list-text" >-{this.state.coupon.description[0]}</View> : null
+                description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
               }
               {
-                this.state.coupon.description.length > 1 ? <View className="appre-rules-list-text" >-{this.state.coupon.description[1]}</View> : null
+                description.length > 1 ? <View className="appre-rules-list-text" >-{description[1]}</View> : null
               }
               {
-                this.state.coupon.description.length > 2 ? <View className="appre-rules-list-text" >-{this.state.coupon.description[2]}</View> : null
+                description.length > 2 ? <View className="appre-rules-list-text" >-{description[2]}</View> : null
               }
               {
-                this.state.coupon.description.length > 3 ? <View className="appre-rules-list-text" >-{this.state.coupon.description[3]}</View> : null
+                description.length > 3 ? <View className="appre-rules-list-text" >-{description[3]}</View> : null
               }
             </View> : null
           }
           {
-            this.state.coupon.description && this.state.coupon.description.length && this.state.coupon.description.length > 4 && this.state.showMoreRules ? <View>
+            description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
               <View className="appre-rules-list-title" >使用规则：</View>
               {
-                this.state.coupon.description.map((item) => {
+                description.map((item) => {
                   return (
                     <View className="appre-rules-list-text" >-{item}</View>
                   )
@@ -310,7 +310,7 @@ export default class AppreActivity extends Component {
             </View> : null
           }
           {
-            this.state.coupon.description.length && this.state.coupon.description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+            description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
               <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
               <View className="appre-more-text" >查看更多</View>
             </View> : null
@@ -318,8 +318,8 @@ export default class AppreActivity extends Component {
         </View>
 
         {
-          this.state.recommend.length > 0 ?
-            (<View className="more_goods">
+          this.state.recommend && this.state.recommend.length > 0 ?
+            <View className="more_goods">
               <View className="title-box">
                 <View className='title-left'></View>
                 <View className="title">更多本店宝贝</View>
@@ -421,7 +421,7 @@ export default class AppreActivity extends Component {
                     </View> : null
                   )
               }
-            </View>) : ""
+            </View> : ""
         }
 
         <View className="appre-buy-box" >

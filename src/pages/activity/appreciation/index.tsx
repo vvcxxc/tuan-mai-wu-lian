@@ -100,7 +100,7 @@ export default class AppreActivity extends Component {
                 if (res.code == 200) {
                     let isPostage = false;
                     if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
-                    console.log(res.data,'data')
+                    console.log(res.data, 'data')
                     this.setState({ data: res.data, isPostage }, () => {
                         this.getPostList()
                     });
@@ -390,7 +390,7 @@ export default class AppreActivity extends Component {
 
 
                     {
-                        this.state.data.type == 0 && description.length && !this.state.showMoreRules ? <View>
+                        this.state.data.type == 0 && description && description.length && !this.state.showMoreRules ? <View>
                             <View className="appre-rules-list-title" >使用规则：</View>                            {
                                 description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
                             }
@@ -406,7 +406,7 @@ export default class AppreActivity extends Component {
                         </View> : null
                     }
                     {
-                        this.state.data.type == 0 && description.length && description.length > 4 && this.state.showMoreRules ? <View>
+                        this.state.data.type == 0 && description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
                             <View className="appre-rules-list-title" >使用规则：</View>
                             {
                                 description.map((item) => {
@@ -418,7 +418,7 @@ export default class AppreActivity extends Component {
                         </View> : null
                     }
                     {
-                        description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+                        this.state.data.type == 0 && description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
                             <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
                             <View className="appre-more-text" >查看更多</View>
                         </View> : null
