@@ -18,26 +18,34 @@ export default class ActivityList extends Component {
   state = {
     list: [],
     page: 1,
-    is_more: true
+    is_more: true,
+    bannerImg: ''
   };
 
   componentDidMount() {
-    let id = this.$router.params.id
+    let id = this.$router.params.id;
+    let that = this;
     switch (id) {
-      case 1:
-        Taro.setNavigationBarTitle({ title: '网红店推荐活动列表' })
+      case '1':
+        Taro.setNavigationBarTitle({ title: '网红店推荐活动列表' });
+        console.log(id, this)
+        that.setState({ bannerImg: "http://oss.tdianyi.com/front/hSBhjxfpWprBHmJijdaGwtWPfSsJ6X4y.png" });
         break
-      case 2:
-        Taro.setNavigationBarTitle({ title: '低到爆活动列表' })
+      case '2':
+        Taro.setNavigationBarTitle({ title: '低到爆活动列表' });
+        that.setState({ bannerImg: "http://oss.tdianyi.com/front/tTGybaH684mCNzTbidr5YsFAwzQrw2dZ.png" });
         break
-      case 3:
-        Taro.setNavigationBarTitle({ title: '抢得快活动列表' })
+      case '3':
+        Taro.setNavigationBarTitle({ title: '抢得快活动列表' });
+        that.setState({ bannerImg: "http://oss.tdianyi.com/front/rrZEs58MPxi7YPYGh4xY5MHCS6pyCJzG.png" });
         break
-      case 4:
-        Taro.setNavigationBarTitle({ title: '值得购活动列表' })
+      case '4':
+        Taro.setNavigationBarTitle({ title: '值得购活动列表' });
+        that.setState({ bannerImg: "http://oss.tdianyi.com/front/RkE8pbFxHXB8imKPmmPjTnxxPsHfC8jy.png" });
         break
-      case 5:
-        Taro.setNavigationBarTitle({ title: '品牌连锁推荐活动列表' })
+      case '5':
+        Taro.setNavigationBarTitle({ title: '品牌连锁推荐活动列表' });
+        that.setState({ bannerImg: "http://oss.tdianyi.com/front/aSFeTMpP5dSFTKX3YAf6xYzFhFzAaDGe.png" });
         break
     }
     Taro.getLocation({
@@ -70,7 +78,7 @@ export default class ActivityList extends Component {
 
   }
   onReachBottom() {
-    if(!this.state.is_more){ // 下一页没数据
+    if (!this.state.is_more) { // 下一页没数据
       return
     }
     let id = this.$router.params.id
@@ -86,10 +94,10 @@ export default class ActivityList extends Component {
             from: 'detail'
           }
           getList(data).then(res => {
-            if(res.data.data.length){
+            if (res.data.data.length) {
               this.getNewList([...this.state.list, ...res.data.data])
-            }else{
-              this.setState({is_more: false})
+            } else {
+              this.setState({ is_more: false })
             }
           })
         },
@@ -102,10 +110,10 @@ export default class ActivityList extends Component {
             from: 'detail'
           }
           getList(data).then(res => {
-            if(res.data.data.length){
+            if (res.data.data.length) {
               this.getNewList([...this.state.list, ...res.data.data])
-            }else{
-              this.setState({is_more: false})
+            } else {
+              this.setState({ is_more: false })
             }
           })
         }
@@ -143,9 +151,9 @@ export default class ActivityList extends Component {
     this.setState({ list })
   }
 
-  handleAction (item: any){
+  handleAction(item: any) {
     const { is_share } = item
-    switch(is_share) {
+    switch (is_share) {
       case 1:
         // 增值
         Taro.navigateTo({
@@ -154,12 +162,12 @@ export default class ActivityList extends Component {
         break
       case 4:
         // 现金券兑换券
-        if(item.youhui_type){
+        if (item.youhui_type) {
           // 现金券
           Taro.navigateTo({
             url: '/business-pages/ticket-buy/index?id=' + item.youhui_id
           })
-        }else{
+        } else {
           // 兑换券
           Taro.navigateTo({
             url: '/business-pages/set-meal/index?id=' + item.youhui_id
@@ -186,50 +194,50 @@ export default class ActivityList extends Component {
     return (
       <View className="activity-list">
         <View className="activity-banner">
-          {/* <Image className="activity-banner-img" src="http://oss.tdianyi.com/front/t4nspcwf3Dbb722DKrGHBaahDcXbJeMj.png" /> */}
-          <Image className="activity-banner-img" src="http://oss.tdianyi.com/front/2tp2Gi5MjC47hd7mGBCjEGdsBiWt5Wec.png" />
+          <Image className="activity-banner-img" src={this.state.bannerImg} />
         </View>
-
-          {
-            list.length ? list.map(item => {
-              return (
-                <View className="activity-content">
-                <View className="activity-item-padding">
-                  <View className="store-info" onClick={this.handleClick.bind(this,item.store.id)}>
-                    <View className="store-name-info">
-                      <Image className="item-shop-icon" src="http://oss.tdianyi.com/front/JhGtnn46tJksAaNCCMXaWWCGmsEKJZds.png" />
-              <View className="item-store-name">{item.store.name}</View>
-                      <Image className="item-go-icon" src="http://oss.tdianyi.com/front/fpsw5CyhYJQTDEABZhs4iFDdC48ZGidn.png" />
+        {
+          list.length ? <View className="activity-content">
+            {
+              list.map((item: any) => {
+                return (
+                  <View className="activity-item-padding">
+                    <View className="store-info" onClick={this.handleClick.bind(this, item.store.id)}>
+                      <View className="store-name-info">
+                        <Image className="item-shop-icon" src="http://oss.tdianyi.com/front/JhGtnn46tJksAaNCCMXaWWCGmsEKJZds.png" />
+                        <View className="item-store-name">{item.store.name}</View>
+                        <Image className="item-go-icon" src="http://oss.tdianyi.com/front/fpsw5CyhYJQTDEABZhs4iFDdC48ZGidn.png" />
+                      </View>
+                      <View className="store-distance">{item.store.distance}</View>
                     </View>
-                    <View className="store-distance">{item.store.distance}</View>
+                    <ActivityItem
+                      imgIconType={item.activity_type}
+                      img={'http://oss.tdianyi.com/' + item.icon}
+                      label={''}
+                      name={item.name}
+                      brief={'有效期：' + item.expire_day + '天有效'}
+                      oldPrice={item.is_share == 5 ? item.participation_money : item.pay_money}
+                      newPrice={item.is_share == 5 ? item.pay_money : item.return_money}
+                      btnText={'拼团'}
+                      handleClick={this.handleAction}
+                      item={item}
+                    />
                   </View>
-                  <ActivityItem
-                    imgIconType={item.activity_type}
-                    img={'http://oss.tdianyi.com/' + item.icon}
-                    label={''}
-                    name={item.name}
-                    brief={'有效期：'+ item.expire_day +'天有效'}
-                    oldPrice={item.is_share == 5 ? item.participation_money : item.pay_money}
-                    newPrice={item.is_share == 5 ? item.pay_money : item.return_money}
-                    btnText={item.is_share == 5 ? '拼团' : '抢购'}
-                    handleClick={this.handleAction}
-                    item={item}
-                  />
-                </View>
-                </View>
-              )
-            }) : (
-                <View className='list-no-data'>
-                  <View className='no-data-box'>
-                    <Image className='no-data-img' src={require('@/assets/index/no-data.png')} />
-                    <View>暂时没有活动，看看其他吧</View>
-                  </View>
-                </View>
-              )
-          }
-
-
-          {/* <View className="activity-item-padding">
+                )
+              })
+            }
+          </View> : null
+        }
+        {
+          !list.length ?
+            <View className='list-no-data'>
+              <View className='no-data-box'>
+                <Image className='no-data-img' src={require('@/assets/index/no-data.png')} />
+                <View>暂时没有活动，看看其他吧</View>
+              </View>
+            </View> : null
+        }
+        {/* <View className="activity-item-padding">
 
             <View className="store-info">
               <View className="store-name-info">
