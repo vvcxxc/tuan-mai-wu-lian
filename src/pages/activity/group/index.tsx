@@ -87,16 +87,6 @@ export default class GroupActivity extends Component {
         posterList: {}
     };
 
-    componentDidMount() {
-        // 海报数据
-        let youhui_id = this.$router.params.activity_id
-        getGroupPoster({ youhui_id, from: 'wx' })
-            .then(({ data, code }) => {
-                console.log(data, 'data')
-                this.setState({ posterList: data })
-            })
-    }
-
     /**
          * 获取位置信息
          */
@@ -129,7 +119,9 @@ export default class GroupActivity extends Component {
                     let new_time = new Date().getTime()//ql
                     new Date(res.data.activity_end_time).getTime() + 86399000 < new_time ? this.setState({ allowGroup: '已结束' }) : null
                     new Date(res.data.activity_begin_time).getTime() > new_time ? this.setState({ allowGroup: '暂未开始' }) : null
-                    this.setState({ data: res.data, isPostage });
+                    this.setState({ data: res.data, isPostage }, () => {
+                        this.getPostList()
+                    });
                     this.getGroupList({ group_info_id: this.$router.params.id, page: 1 });
                 } else {
                     Taro.showToast({ title: '请求失败', icon: 'none' });
@@ -398,6 +390,15 @@ export default class GroupActivity extends Component {
         this.setState({ showShare: true })
     }
 
+    /* 请求海报数据 */
+    getPostList = () => {
+        const { youhui_id } = this.state.data
+        getGroupPoster({ youhui_id, from: 'wx' })
+            .then(({ data, code }) => {
+                this.setState({ posterList: data })
+            })
+    }
+
     onShareAppMessage = () => {
         const userInfo = Taro.getStorageSync("userInfo");
         const { name, youhui_name, gift, pay_money, participation_money, preview, invitation_user_id } = this.state.data;
@@ -422,6 +423,7 @@ export default class GroupActivity extends Component {
 
     render() {
         const { description } = this.state.data;
+        const { posterList } = this.state
         return (
             <View className="group-activity-detail">
                 {/* 分享 */}

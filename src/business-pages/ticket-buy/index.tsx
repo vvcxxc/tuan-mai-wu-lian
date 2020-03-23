@@ -8,7 +8,7 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 // import LandingBounced from '@/components/landing_bounced'//登录弹框
 // import Cookie from 'js-cookie';
 import ShareBox from "@/components/share-box"; //分享组件
-import CouponsPoster from '@/components/poster/coupons'//海报
+import VouchersPoster from '@/components/poster/vouchers'//海报
 import request from '../../services/request'
 
 import { discountCoupons, moneyPoster } from "./service";
@@ -210,7 +210,7 @@ export default class TicketBuy extends Component {
           }}
         />
 
-        <CouponsPoster
+        <VouchersPoster
           show={this.state.showPoster}
           list={this.state.posterList}
           onClose={() => {
