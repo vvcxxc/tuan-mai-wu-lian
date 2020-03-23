@@ -104,10 +104,10 @@ export default class GroupActivity extends Component {
         Taro.getLocation({
             type: 'gcj02',
             success: res => {
-                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, yPoint: res.latitude || '', xPoint: res.longitude || '' })
+                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, ypoint: res.latitude || '', xpoint: res.longitude || '' })
             },
             fail: () => {
-                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, yPoint: '', xPoint: '' })
+                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, ypoint: '', xpoint: '' })
             }
         })
     }
