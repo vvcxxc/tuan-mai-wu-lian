@@ -7,7 +7,7 @@ interface Props {
   onClose:()=>void
 }
 
-export default class HaveGiftPoster extends Component<Props>{
+export default class VouchersPoster extends Component<Props>{
   config: Config = {
     usingComponents: {
       "painter": "../../painter/painter"

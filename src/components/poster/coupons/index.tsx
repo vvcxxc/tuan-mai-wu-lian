@@ -35,7 +35,6 @@ export default class CouponsPoster extends Component<Props>{
   }
   render() {
     const { show, list} = this.props
-    console.log(this.props,'werwere')
     let data= {
       background: '#fff',
       width: '700rpx',
