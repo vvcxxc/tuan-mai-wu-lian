@@ -150,7 +150,7 @@ export default class AppreActivity extends Component<Props> {
     }
     // 手动登录跳转
     handLogin = () => {
-        Taro.setStorageSync('ql_href', location.href)
+        // Taro.setStorageSync('ql_href', location.href)
         Taro.navigateTo({ url: '/pages/my/login_page/index' })
     }
     setOrderInfo = (type) => {
