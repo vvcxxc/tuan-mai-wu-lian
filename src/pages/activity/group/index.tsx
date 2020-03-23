@@ -10,6 +10,7 @@ import {
     getUserYouhuiGroupId,
     getGroupPoster
 } from "./service";
+import { getXcxQrcode } from "@/api";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import TimeUp from '@/components/TimeUp';
 import LoginAlert from '@/components/loginAlert';
@@ -398,7 +399,18 @@ export default class GroupActivity extends Component {
         getGroupPoster({ youhui_id, from: 'wx' })
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
+                let link = data.link
+                getXcxQrcode({ link })
+                    .then((res) => {
+                        let meta = this.state.posterList
+                        meta['wx_img'] = 'data:image/png;base64'+res
+                        this.setState({ posterList: meta }, () => {
+                            console.log('最后', this.state.posterList)
+                        })
+                    })
+                
             })
+        
     }
 
 
