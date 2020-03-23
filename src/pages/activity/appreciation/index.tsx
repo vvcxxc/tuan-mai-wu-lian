@@ -444,8 +444,8 @@ export default class AppreActivity extends Component {
                 {/* 去首页 */}
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '20px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
+                        <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
                         </View>
                     ) : ''
                 }

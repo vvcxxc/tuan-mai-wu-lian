@@ -1,5 +1,5 @@
 import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Image, Text } from "@tarojs/components"
+import { View, Image, Text, Button } from "@tarojs/components"
 import request from '@/services/request'
 import LoginAlert from '@/components/loginAlert';
 import { getUserInfo } from '@/utils/getInfo';
@@ -22,9 +22,11 @@ interface State {
     mobile: number | string
 }
 export default class AppreActivity extends Component<Props> {
-    config = {
+    config: Config = {
         navigationBarTitleText: "我的",
-        enablePullDownRefresh: false
+        enablePullDownRefresh: false,
+        navigationBarBackgroundColor: '#ff4444',
+        navigationBarTextStyle: 'white'
     };
 
     state: State = {
@@ -150,7 +152,7 @@ export default class AppreActivity extends Component<Props> {
     }
     // 手动登录跳转
     handLogin = () => {
-        Taro.setStorageSync('ql_href', location.href)
+        // Taro.setStorageSync('ql_href', location.href)
         Taro.navigateTo({ url: '/pages/my/login_page/index' })
     }
     setOrderInfo = (type) => {
@@ -180,9 +182,9 @@ export default class AppreActivity extends Component<Props> {
                         </View>
                         {
                             this.state.emptyAvatar == 'Y' && this.state.settingShow ?
-                                <View className="my-text" onClick={getUserInfo}>
-                                    <View className="my-text-top">登录/注册</View>
-                                    <View className="my-text-bottom">立即开启购物之旅~</View>
+                                <View className="my-text">
+                                    <View className="my-text-top">{this.state.userData.user_name}</View>
+                                    <Button className="my-text-bottom" openType='getUserInfo' onClick={getUserInfo}>一键获取用户头像~</Button>
                                 </View> : null
                         }
                         {
@@ -217,7 +219,7 @@ export default class AppreActivity extends Component<Props> {
                             <View className="item-text">已过期</View>
                         </View>
                         <View className="nav-btn-item" onClick={this.setOrderInfo.bind(this, '已退款')}>
-                            <Image className='item-img' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/jz3pRNMrsikaNDyipdmZMdGZ2Qhzjhjr.png' />
+                            <Image className='item-img-refund' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/zjbwTHQJEWZh2waG6K2xYjkAP26Gbktr.png' />
                             <View className="item-text">已退款</View>
                         </View>
                     </View>

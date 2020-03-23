@@ -94,10 +94,10 @@ export default class GroupActivity extends Component {
         Taro.getLocation({
             type: 'gcj02',
             success: res => {
-                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, yPoint: res.latitude || '', xPoint: res.longitude || '' })
+                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, ypoint: res.latitude || '', xpoint: res.longitude || '' })
             },
             fail: () => {
-                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, yPoint: '', xPoint: '' })
+                this.getGroupInfo({ group_info_id: this.$router.params.id, is_xcx: 0, ypoint: '', xpoint: '' })
             }
         })
     }
@@ -408,6 +408,7 @@ export default class GroupActivity extends Component {
             title = `${name}正在发起${youhui_name}拼团活动，速来！`;
             imageUrl = this.state.data.preview;
         }
+        console.log('/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id)
         return {
             title: title,
             path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
@@ -742,8 +743,8 @@ export default class GroupActivity extends Component {
                 }
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '0px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go-home/go_home.png')} style={{ width: '80px', height: '80px' }} />
+                        <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx'}} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go-home/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
                         </View>
                     ) : ''
                 }

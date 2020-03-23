@@ -23,7 +23,7 @@ export default class AppreActivity extends Component {
     //表面收藏
     keepCollect_bull: false,
     coupon: {
-      invitation_user_id:'',
+      invitation_user_id: '',
       begin_time: "",
       brief: "",
       //真正的收藏
@@ -233,7 +233,7 @@ export default class AppreActivity extends Component {
         <View className="appre-info-content">
           <View className="appre-info-title">
             <View className="appre-info-title-label">兑换券</View>
-            <View className="appre-info-title-text">{this.state.store.sname}</View>
+            <View className="appre-info-title-text">{this.state.coupon.yname}</View>
           </View>
           <View className="appre-info-price">
             <View className="appre-price-info">
@@ -423,7 +423,7 @@ export default class AppreActivity extends Component {
           </View>
           <View className="appre-buy-btn-box" >
             <View className="appre-buy-btn-left" onClick={() => {
-              this.setState({ showShare:true})
+              this.setState({ showShare: true })
             }}>分享活动</View>
             <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View>
 
@@ -434,8 +434,8 @@ export default class AppreActivity extends Component {
         }
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '50%', right: '0px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../assets/go-home/go_home.png')} style={{ width: '80px', height: '80px' }} />
+            <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go-home/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
             </View>
           ) : ''
         }
