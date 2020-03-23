@@ -14,6 +14,7 @@ import request from '../../services/request'
 import { discountCoupons, moneyPoster } from "./service";
 import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
+import Zoom from '@/components/zoom';
 
 // import ShareBox from '@/components/share-box';
 export default class TicketBuy extends Component {
@@ -23,6 +24,8 @@ export default class TicketBuy extends Component {
   };
 
   state = {
+    imgZoomSrc: '',
+    imgZoom: false,
     showAll: false,
     showBounced: false,
     bannerImgIndex: 0,
@@ -33,7 +36,7 @@ export default class TicketBuy extends Component {
     keepCollect_bull: false,
     is_alert: false, //登录弹窗
     coupon: {
-      invitation_user_id:'',
+      invitation_user_id: '',
       begin_time: "",
       brief: "",
       description: [],
@@ -97,7 +100,7 @@ export default class TicketBuy extends Component {
 
   componentDidMount() {
     let youhui_id = this.$router.params.id
-    moneyPoster({ youhui_id, from:'wx'})
+    moneyPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
         this.setState({ posterList: data })
       })
@@ -194,7 +197,7 @@ export default class TicketBuy extends Component {
 
 
   render() {
-
+    const { description } = this.state.coupon;
     return (
       <View className="appre-activity-detail">
         {/* 分享组件 */}
@@ -215,8 +218,11 @@ export default class TicketBuy extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-       
-        <Image className='appre-banner' src={this.state.coupon.image} />
+        <Image className='appre-banner' src={this.state.coupon.image}
+          onClick={(e) => {
+            this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.image })
+          }}
+        />
         <View className="banner-number-box">
           <View className="banner-number">1</View>
           <View className="banner-number">1</View>
@@ -292,7 +298,7 @@ export default class TicketBuy extends Component {
 
 
         {
-          this.state.recommend.length > 0 ?
+          this.state.recommend && this.state.recommend.length > 0 ?
             (<View className="more_goods">
               <View className="title-box">
                 <View className='title-left'></View>
@@ -404,7 +410,7 @@ export default class TicketBuy extends Component {
             <View className="appre-buy-price-num" >{this.state.coupon.pay_money}</View>
           </View>
           <View className="appre-buy-btn-box" >
-            <View className="appre-buy-btn-left" onClick={() => this.setState({ showShare:true})}>分享活动</View>
+            <View className="appre-buy-btn-left" onClick={() => this.setState({ showShare: true })}>分享活动</View>
 
             <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View>
 
@@ -415,12 +421,17 @@ export default class TicketBuy extends Component {
         }
         {
           this.state.isFromShare ? (
-            <View style={{position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx'}} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../assets/go-home/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
+            <View style={{ position: 'fixed', bottom: '100rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go-home/go_home.png')} style={{ width: '80rpx', height: '80rpx' }} />
             </View>
           ) : ''
         }
 
+        <Zoom
+          src={this.state.imgZoomSrc}
+          showBool={this.state.imgZoom}
+          onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
+        />
       </View>
     );
   }

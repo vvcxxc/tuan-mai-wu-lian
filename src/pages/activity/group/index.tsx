@@ -15,6 +15,7 @@ import TimeUp from '@/components/TimeUp';
 import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
 import SpellGroup from "@/components/poster/spell-group";//海报组件
+import Zoom from '@/components/zoom';
 
 export default class GroupActivity extends Component {
     config = {
@@ -24,6 +25,8 @@ export default class GroupActivity extends Component {
 
 
     state = {
+        imgZoomSrc: '',
+        imgZoom: false,
         //允许参加活动
         allowGroup: '',
         //从分享进入
@@ -458,25 +461,28 @@ export default class GroupActivity extends Component {
                         this.setState({ showPoster: false, showShare: false })
                     }}
                 />
-
-                <Swiper
-                    onChange={(e) => {
-                        this.setState({ bannerImgIndex: e.detail.current })
-                    }}
-                    className='group-banner'
-                    circular
-                    autoplay
-                >
-                    {
-                        this.state.data.images.length ? this.state.data.images.map((item, index) => {
-                            return (
-                                <SwiperItem className="group-banner-swiperItem" key={item}>
-                                    <Image className="group-banner-img" src={item} />
-                                </SwiperItem>
-                            )
-                        }) : null
-                    }
-                </Swiper>
+                <View onClick={(e) => {
+                    this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
+                }}>
+                    <Swiper
+                        onChange={(e) => {
+                            this.setState({ bannerImgIndex: e.detail.current })
+                        }}
+                        className='group-banner'
+                        circular
+                        autoplay
+                    >
+                        {
+                            this.state.data.images.length ? this.state.data.images.map((item, index) => {
+                                return (
+                                    <SwiperItem className="group-banner-swiperItem" key={item}>
+                                        <Image className="group-banner-img" src={item} />
+                                    </SwiperItem>
+                                )
+                            }) : null
+                        }
+                    </Swiper>
+                </View>
                 <View className="banner-number-box">
                     <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
@@ -512,7 +518,7 @@ export default class GroupActivity extends Component {
                     this.state.newGroupList.length ? <View className="group-group-num">
                         <View className='apply-title-box'>
                             <View className='apply-title-left'></View>
-                            <View className='apply-title'>{this.state.data2.total}人正在拼</View>
+                            <View className='apply-title'>{this.state.data2.total}个团正在拼</View>
                         </View>
                         <View className='apply-title-right'>正在拼团</View>
                     </View> : null
@@ -704,7 +710,7 @@ export default class GroupActivity extends Component {
                         <View className="rules-words">成团后7日内可用</View>
                     </View> */}
                     {
-                        description.length && !this.state.showMoreRules ? <View>
+                        description && description.length && !this.state.showMoreRules ? <View>
                             <View className="group-rules-list-title" >使用规则：</View>
                             {
                                 description.length > 0 ? <View className="group-rules-list-text" >-{description[0]}</View> : null
@@ -721,7 +727,7 @@ export default class GroupActivity extends Component {
                         </View> : null
                     }
                     {
-                        description.length && description.length > 4 && this.state.showMoreRules ? <View>
+                        description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
                             <View className="group-rules-list-title" >使用规则：</View>
                             {
                                 description.map((item) => {
@@ -733,7 +739,7 @@ export default class GroupActivity extends Component {
                         </View> : null
                     }
                     {
-                        description.length && description.length > 4 && !this.state.showMoreRules ? <View className="group-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+                        description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="group-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
                             <Image className="group-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
                             <View className="group-more-text" >查看更多</View>
                         </View> : null
@@ -760,12 +766,17 @@ export default class GroupActivity extends Component {
                 }
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx'}} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go-home/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
+                        <View style={{ position: 'fixed', bottom: '100rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go-home/go_home.png')} style={{ width: '80rpx', height: '80rpx' }} />
                         </View>
                     ) : ''
                 }
 
+                <Zoom
+                    src={this.state.imgZoomSrc}
+                    showBool={this.state.imgZoom}
+                    onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
+                />
             </View>
         );
     }

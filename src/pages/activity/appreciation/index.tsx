@@ -12,6 +12,7 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
 import ValueAdded from "@/components/poster/value-added";//海报组件
+import Zoom from '@/components/zoom';
 
 export default class AppreActivity extends Component {
     config = {
@@ -21,6 +22,8 @@ export default class AppreActivity extends Component {
 
 
     state = {
+        imgZoomSrc: '',
+        imgZoom: false,
         //图片轮播下标
         bannerImgIndex: 0,
         //是否从分享链接进入
@@ -97,7 +100,7 @@ export default class AppreActivity extends Component {
                 if (res.code == 200) {
                     let isPostage = false;
                     if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
-                    console.log(res.data,'data')
+                    console.log(res.data, 'data')
                     this.setState({ data: res.data, isPostage }, () => {
                         this.getPostList()
                     });
@@ -274,24 +277,28 @@ export default class AppreActivity extends Component {
                         this.setState({ showPoster: false, showShare: false })
                     }}
                 />
-                <Swiper
-                    onChange={(e) => {
-                        this.setState({ bannerImgIndex: e.detail.current })
-                    }}
-                    className='appre-banner'
-                    circular
-                    autoplay
-                >
-                    {
-                        this.state.data.images.length ? this.state.data.images.map((item, index) => {
-                            return (
-                                <SwiperItem className="appre-banner-swiperItem" key={item}>
-                                    <Image className="appre-banner-img" src={item} />
-                                </SwiperItem>
-                            )
-                        }) : null
-                    }
-                </Swiper>
+                <View onClick={(e) => {
+                    this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
+                }}>
+                    <Swiper
+                        onChange={(e) => {
+                            this.setState({ bannerImgIndex: e.detail.current })
+                        }}
+                        className='appre-banner'
+                        circular
+                        autoplay
+                    >
+                        {
+                            this.state.data.images.length ? this.state.data.images.map((item, index) => {
+                                return (
+                                    <SwiperItem className="appre-banner-swiperItem" key={item}>
+                                        <Image className="appre-banner-img" src={item} />
+                                    </SwiperItem>
+                                )
+                            }) : null
+                        }
+                    </Swiper>
+                </View>
                 <View className="banner-number-box">
                     <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
@@ -383,7 +390,7 @@ export default class AppreActivity extends Component {
 
 
                     {
-                        this.state.data.type == 0 && description.length && !this.state.showMoreRules ? <View>
+                        this.state.data.type == 0 && description && description.length && !this.state.showMoreRules ? <View>
                             <View className="appre-rules-list-title" >使用规则：</View>                            {
                                 description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
                             }
@@ -399,7 +406,7 @@ export default class AppreActivity extends Component {
                         </View> : null
                     }
                     {
-                        this.state.data.type == 0 && description.length && description.length > 4 && this.state.showMoreRules ? <View>
+                        this.state.data.type == 0 && description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
                             <View className="appre-rules-list-title" >使用规则：</View>
                             {
                                 description.map((item) => {
@@ -411,7 +418,7 @@ export default class AppreActivity extends Component {
                         </View> : null
                     }
                     {
-                        description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+                        this.state.data.type == 0 && description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
                             <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
                             <View className="appre-more-text" >查看更多</View>
                         </View> : null
@@ -444,11 +451,17 @@ export default class AppreActivity extends Component {
                 {/* 去首页 */}
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
+                        <View style={{ position: 'fixed', bottom: '100rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go_home.png')} style={{ width: '80rpx', height: '80rpx' }} />
                         </View>
                     ) : ''
                 }
+
+                <Zoom
+                    src={this.state.imgZoomSrc}
+                    showBool={this.state.imgZoom}
+                    onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
+                />
             </View>
         );
     }
