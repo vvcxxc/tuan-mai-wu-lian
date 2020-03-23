@@ -118,7 +118,7 @@ export default class AppreActivity extends Component {
     Taro.getLocation({
       type: 'gcj02',
       success: res => {
-        this.getTicketInfo(this.$router.params.id, { yPoint: res.latitude || '', xPoint: res.longitude || '' })
+        this.getTicketInfo(this.$router.params.id, { ypoint: res.latitude || '', xpoint: res.longitude || '' })
       },
       fail: () => {
         this.getTicketInfo(this.$router.params.id, { xpoint: '', ypoint: '' })
