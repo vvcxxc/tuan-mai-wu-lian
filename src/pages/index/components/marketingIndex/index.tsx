@@ -25,6 +25,7 @@ export default class MarketingIndex extends Component<any> {
 
   }
   componentDidMount() {
+
     getChannelInfo().then((res: any) => {
       if(res.code == 200){
         this.setState({
@@ -188,7 +189,7 @@ export default class MarketingIndex extends Component<any> {
                   banner.map(res => {
                     return (
                       <SwiperItem>
-                        <View className='banner-img'><Image src={res}/>></View>
+                        <View className='banner-img'><Image src={res}/></View>
                       </SwiperItem>
                     )
                   })
@@ -202,8 +203,8 @@ export default class MarketingIndex extends Component<any> {
               </SwiperItem> */}
             </Swiper>
             <View className='indicator'>
-              <Text>{this.state.bannerTag}</Text>
-            <Text>{this.state.banner.length}</Text>
+              <View className='banner-number'>{this.state.bannerTag}</View>
+              <View className='banner-number'>{this.state.banner.length}</View>
             </View>
           </View>
 

@@ -55,6 +55,11 @@ export default class Index extends Component<any> {
   }
 
   componentDidShow(){
+    Taro.getSystemInfo().then(res => {
+      if(res.model.includes('iPhone X')){
+        Taro.setStorageSync('isIPhoneX', true)
+      }
+    })
     let router = Taro.getStorageSync('router') || {}
     if(router.city_name){
       if(router.city_name == '新会区'){
