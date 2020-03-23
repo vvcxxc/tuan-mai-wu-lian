@@ -263,3 +263,11 @@ export const getOrderQrcode = (id) =>
       id: id
     }
   })
+
+  /* 小程序海报二维码 */
+export const getXcxQrcode = (data) =>
+  http({
+    url: "v3/get_xcx_qrcode",
+    method: "get",
+    data
+  })

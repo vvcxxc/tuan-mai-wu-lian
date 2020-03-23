@@ -48,17 +48,15 @@ export default class HaveGiftPoster extends Component<Props>{
           link: list.link,
         }
       })
-    } else {
-      if (this.state.show) {
-        this.setState({show:false})
-      }
-    }
+    } 
   }
 
   getmeta = (e) => {
-    Taro.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
+    Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
+      Taro.showToast({ title: '图片保存成功'});
+    }).finally(() => {
+      Taro.showToast({ title: '图片保存失败', icon: 'none' });
+    })
     e.stopPropagation();
   }
 
@@ -296,7 +294,10 @@ export default class HaveGiftPoster extends Component<Props>{
       ]
     }
     return (
-      this.state.show? <View className="poster" onClick={() => {this.props.onClose()}}>
+      this.state.show ? <View className="poster" onClick={() => {
+        this.props.onClose()
+        this.setState({show:false})
+      }}>
         <painter
           widthPixels="250"
           palette={data}
