@@ -13,11 +13,35 @@ export default class HaveGiftPoster extends Component<Props>{
     }
   }
   state = {
-    
     image: '',
+    listData: {
+      image: '',
+      pay_money:'',
+      return_money: '',
+      name: '',
+      store_name: '',
+      store_address: '',
+      link: ''
+    }
   }
+  componentDidMount() {
+    const { list } = this.props
+    this.setState({
+      show: true,
+      listData: {
+        image: list.image,
+        pay_money: list.pay_money,
+        return_money: list.return_money,
+        name: list.name,
+        store_name: list.store.name,
+        store_address: list.store.address,
+        link: list.link
+      }
+    })
+  }
+  
   getmeta = (e) => {
-    wx.saveImageToPhotosAlbum({
+    Taro.saveImageToPhotosAlbum({
       filePath: this.state.image,
     });
     e.stopPropagation()
@@ -33,7 +57,7 @@ export default class HaveGiftPoster extends Component<Props>{
     console.log(e, 'onImgErr')
   }
   render() {
-    const { list } = this.props
+    const { listData } = this.state
     let data= {
       background: '#fff',
       width: '700rpx',
@@ -63,7 +87,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: list.image,
+          url: listData.image,
           css: {
             top: '143rpx',
             left: '20rpx',
@@ -95,7 +119,7 @@ export default class HaveGiftPoster extends Component<Props>{
         {
           id: 'participation_money',
           type: 'text',
-          text: '' + list.pay_money,
+          text: '' + listData.pay_money,
           css: {
             left: '134rpx',
             bottom: '262rpx',
@@ -105,7 +129,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '最高可抵用' + list.return_money + '元 ',
+          text: '最高可抵用' + listData.return_money + '元 ',
           css: {
             bottom: '214rpx',
             left: '57rpx',
@@ -118,7 +142,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '' + list.name,
+          text: '' + listData.name,
           css: {
             bottom: '135rpx',
             left: '57rpx',
@@ -129,7 +153,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '适用店铺：' + list.store.name,
+          text: '适用店铺：' + listData.store_name,
           css: {
             bottom: '85rpx',
             left: '57rpx',
@@ -141,7 +165,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '店铺地址：' + list.store.address,
+          text: '店铺地址：' + listData.store_address,
           css: {
             bottom: '60rpx',
             left: '57rpx',
@@ -153,7 +177,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'qrcode',
-          content: list.link,
+          content: listData.link,
           css: {
             bottom: '107rpx',
             right: '59rpx',

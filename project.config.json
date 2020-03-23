@@ -4,9 +4,10 @@
 	"description": "tarojs-ts-cli",
 	"appid": "wx5f2271a7c946fef1",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": false,
 		"postcss": false,
+		"preloadBackgroundData": false,
 		"minified": false,
 		"newFeature": true,
 		"coverView": true,
@@ -59,6 +60,20 @@
 				{
 					"id": -1,
 					"name": "pages/activity/appreciation/index",
+					"pathName": "pages/activity/appreciation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pintuan ",
+					"pathName": "pages/activity/group/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "增值",
 					"pathName": "pages/activity/appreciation/index",
 					"scene": null
 				}

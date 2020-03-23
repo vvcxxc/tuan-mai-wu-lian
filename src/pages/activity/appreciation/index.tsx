@@ -260,7 +260,7 @@ export default class AppreActivity extends Component {
                 <ShareBox
                     show={this.state.showShare}
                     onClose={() => this.setState({ showShare: false })}
-                    sendText={() => { }}
+                    sendText={()=>{}}
                     sendLink={this.onShareAppMessage}
                     createPoster={() => {
                         this.setState({ showPoster: true })

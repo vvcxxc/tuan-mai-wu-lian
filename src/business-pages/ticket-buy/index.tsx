@@ -50,7 +50,8 @@ export default class TicketBuy extends Component {
       yname: "",
       youhui_type: 0,
       expire_day: '',
-      total_fee: 0
+      total_fee: 0,
+      share_text:''
     },
     store: {
       brief: "",
@@ -200,7 +201,7 @@ export default class TicketBuy extends Component {
         <ShareBox
           show={this.state.showShare}
           onClose={() => this.setState({ showShare: false })}
-          sendText={() => { }}
+          sendText={()=>{}}
           sendLink={this.onShareAppMessage}
           createPoster={() => {
             this.setState({ showPoster: true })
