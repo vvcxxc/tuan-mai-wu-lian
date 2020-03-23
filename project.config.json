@@ -58,8 +58,14 @@
 				},
 				{
 					"id": -1,
+<<<<<<< HEAD
+					"name": "pages/business/index",
+					"pathName": "pages/business/index",
+					"query": "id=5779&invitation_user_id=222",
+=======
 					"name": "pages/activity/appreciation/index",
 					"pathName": "pages/activity/appreciation/index",
+>>>>>>> e5b9d49271128d6ad906526e878e8618d4d0f3d1
 					"scene": null
 				}
 			]

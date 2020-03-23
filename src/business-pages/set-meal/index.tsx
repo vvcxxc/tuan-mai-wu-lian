@@ -8,6 +8,8 @@ import ShareBox from "@/components/share-box"; //分享组件
 import CouponsPoster from '@/components/poster/coupons'//海报
 import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
+import Zoom from '@/components/zoom';
+
 // import ShareBox from '@/components/share-box';
 export default class AppreActivity extends Component {
   config = {
@@ -16,6 +18,8 @@ export default class AppreActivity extends Component {
   };
 
   state = {
+    imgZoomSrc: '',
+    imgZoom: false,
     bannerImgIndex: 0,
     yPoint: '',
     xPoint: '',
@@ -219,7 +223,11 @@ export default class AppreActivity extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-        <Image className='appre-banner' src={this.state.coupon.image} />
+        <Image className='appre-banner' src={this.state.coupon.image}
+          onClick={(e) => {
+            this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.image })
+          }}
+        />
         <View className="banner-number-box">
           <View className="banner-number">1</View>
           <View className="banner-number">1</View>
@@ -435,11 +443,16 @@ export default class AppreActivity extends Component {
         {
           this.state.isFromShare ? (
             <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../assets/go-home/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
+              <Image src={require('../../assets/go-home/go_home.png')} style={{ width: '80rpx', height: '80rpx' }} />
             </View>
           ) : ''
         }
 
+        <Zoom
+          src={this.state.imgZoomSrc}
+          showBool={this.state.imgZoom}
+          onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
+        />
       </View>
     );
   }
