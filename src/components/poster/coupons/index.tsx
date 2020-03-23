@@ -14,11 +14,42 @@ export default class CouponsPoster extends Component<Props>{
     }
   }
   state = {
-    
+    show:false,
     image: '',
+    listData: {
+      image: '',
+      pay_money: '',
+      return_money: '',
+      name: '',
+      store_name: '',
+      store_address: '',
+      link:''
+    }
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.show && !this.state.show) {
+      const { list } = nextProps
+      this.setState({
+        show: true,
+        listData: {
+          image: list.image,
+          pay_money: list.pay_money,
+          return_money: list.return_money,
+          name: list.name,
+          store_name: list.store.name,
+          store_address: list.store.address,
+          link: list.link,
+        }
+      })
+    } else {
+      if (this.state.show) {
+        this.setState({ show: false })
+      }
+    }
+  }
+
   getmeta = (e) => {
-    wx.saveImageToPhotosAlbum({
+    Taro.saveImageToPhotosAlbum({
       filePath: this.state.image,
     });
     e.stopPropagation()
@@ -34,7 +65,7 @@ export default class CouponsPoster extends Component<Props>{
     console.log(e,'报错')
   }
   render() {
-    const { show, list} = this.props
+    const { listData }= this.state
     let data= {
       background: '#fff',
       width: '700rpx',
@@ -64,7 +95,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'image',
-          url: list.image,
+          url: listData.image,
           css: {
             top: '143rpx',
             left: '20rpx',
@@ -95,7 +126,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '' + list.pay_money,
+          text: '' + listData.pay_money,
           css: {
             left: '134rpx',
             bottom: '232rpx',
@@ -105,7 +136,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '¥' + list.return_money,
+          text: '¥' + listData.return_money,
           css: {
             left: '190rpx',
             bottom: '232rpx',
@@ -116,7 +147,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '' + list.name,
+          text: '' + listData.name,
           css: {
             bottom: '135rpx',
             left: '57rpx',
@@ -128,7 +159,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '适用店铺：' + list.store.name,
+          text: '适用店铺：' + listData.store_name,
           css: {
             bottom: '85rpx',
             left: '57rpx',
@@ -140,7 +171,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '店铺地址：' + list.store.address,
+          text: '店铺地址：' + listData.store_address,
           css: {
             bottom: '60rpx',
             left: '57rpx',
@@ -152,7 +183,7 @@ export default class CouponsPoster extends Component<Props>{
         },
         {
           type: 'qrcode',
-          content: list.link,
+          content: listData.link,
           css: {
             bottom: '107rpx',
             right: '59rpx',
@@ -176,7 +207,7 @@ export default class CouponsPoster extends Component<Props>{
       ]
     }
     return (
-      show?<View className="poster" onClick={() => { this.props.onClose() }}>
+      this.state.show?<View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
           widthPixels="250"
           palette={data}

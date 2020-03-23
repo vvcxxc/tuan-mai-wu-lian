@@ -45,7 +45,8 @@ export default class AppreActivity extends Component {
       return_money: "",
       yname: "",
       youhui_type: 0,
-      expire_day: ''
+      expire_day: '',
+      share_text:''//要分享的文字信息
     },
     store: {
       brief: "",
@@ -179,18 +180,20 @@ export default class AppreActivity extends Component {
       Taro.navigateTo({ url: '../ticket-buy/index?id=' + _id })
     }
   }
+  
   copyText = () => {
-    let code = '浴室有人13.92343243243243243243243243233'
-    wx.setClipboardData({
+    let code = this.state.coupon.share_text
+    Taro.setClipboardData({
       data: code,
-      success: function (res) {
-        this.setState({ showShare: false })
+      success() {
         Taro.showToast({ title: '复制成功，请前往微信发送给好友。', icon: 'none' })
       },
-      fail: function (res) {
-        this.setState({ showShare: false })
+      fail () {
         Taro.showToast({ title: '复制失败，请刷新页面重试', icon: 'none' })
-      }
+      },
+      complete:()=> {
+        this.setState({ showShare: false })
+      },
     })
   }
 
