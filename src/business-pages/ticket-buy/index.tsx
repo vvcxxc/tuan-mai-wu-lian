@@ -218,7 +218,7 @@ export default class TicketBuy extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-        <Image className='appre-banner' src={require('@/assets/xianjin.png')}
+        <Image className='appre-banner' src={this.state.coupon.image}
           onClick={(e) => {
             this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.image })
           }}
