@@ -12,7 +12,6 @@ interface Params {
 
 const ValueAdded = (params: Params) => {
   const { type, list, show } = params
-  console.log(list,'list')
   return (
     show ? <View>
       {

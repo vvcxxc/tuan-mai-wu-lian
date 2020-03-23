@@ -14,12 +14,45 @@ export default class VouchersPoster extends Component<Props>{
     }
   }
   state = {
-    
     image: '',
+    show: false,
+    listData: {
+      return_money:'',
+      total_fee:'',
+      expire_day: '',
+      pay_money: '',
+      name: '',
+      store_name: '',
+      store_address: '',
+      link: ''
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.show && !this.state.show) {
+      const { list } = nextProps
+      this.setState({
+        show: true,
+        listData: {
+          return_money: list.return_money,
+          total_fee: list.total_fee,
+          expire_day: list.expire_day,
+          pay_money: list.pay_money,
+          name: list.name,
+          store_name: list.store.name,
+          store_address: list.store.address,
+          link: list.link
+        }
+      })
+    } else {
+      if (this.state.show) {
+        this.setState({ show: false })
+      }
+    }
   }
 
   getmeta = (e) => {
-    wx.saveImageToPhotosAlbum({
+    Taro.saveImageToPhotosAlbum({
       filePath: this.state.image,
     });
     e.stopPropagation()
@@ -35,8 +68,7 @@ export default class VouchersPoster extends Component<Props>{
     console.log(e, 'onImgErr')
   }
   render() {
-    const { show, list } = this.props
-    console.log(list,'meeme')
+    const { listData } = this.state
     let data = {
       background: '#fff',
       width: '544rpx',
@@ -104,7 +136,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '' + list.return_money,
+          text: '' + listData.return_money,
           css: {
             left: '105rpx',
             top: '345rpx',
@@ -124,7 +156,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '满' + list.total_fee + '元可用',
+          text: '满' + listData.total_fee + '元可用',
           css: {
             left: '255rpx',
             top: '385rpx',
@@ -147,7 +179,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '使用时间：领券后' + list.expire_day + '天有效',
+          text: '使用时间：领券后' + listData.expire_day + '天有效',
           css: {
             left: '90rpx',
             top: '490rpx',
@@ -169,7 +201,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '' + list.pay_money,
+          text: '' + listData.pay_money,
           css: {
             left: '100rpx',
             bottom: '162rpx',
@@ -193,7 +225,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: ' ' + list.name,
+          text: ' ' + listData.name,
           css: {
             bottom: '85rpx',
             left: '40rpx',
@@ -205,7 +237,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '适用店铺：' + list.store.name,
+          text: '适用店铺：' + listData.store_name,
           css: {
             bottom: '45rpx',
             left: '40rpx',
@@ -217,7 +249,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '店铺地址：' + list.store.address,
+          text: '店铺地址：' + listData.store_address,
           css: {
             bottom: '30rpx',
             left: '40rpx',
@@ -229,7 +261,7 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'qrcode',
-          content: list.link,
+          content: listData.link,
           css: {
             bottom: '67rpx',
             right: '45rpx',
@@ -253,7 +285,7 @@ export default class VouchersPoster extends Component<Props>{
       ]
     }
     return (
-      show ? <View className="poster" onClick={() => this.props.onClose()}
+      this.state.show ? <View className="poster" onClick={() => this.props.onClose()}
       >
         <painter
           widthPixels="250"

@@ -73,7 +73,8 @@ export default class GroupActivity extends Component {
             xpoint: '',
             youhui_id: 0,//活动id
             youhui_name: "",//活动名
-            ypoint: ""
+            ypoint: "",
+            share_text:''//复制出去的文字
         },
         data2: {
             data: [],
@@ -399,6 +400,7 @@ export default class GroupActivity extends Component {
             })
     }
 
+
     onShareAppMessage = () => {
         const userInfo = Taro.getStorageSync("userInfo");
         const { name, youhui_name, gift, pay_money, participation_money, preview, invitation_user_id } = this.state.data;
@@ -411,13 +413,28 @@ export default class GroupActivity extends Component {
             title = `${name}正在发起${youhui_name}拼团活动，速来！`;
             imageUrl = this.state.data.preview;
         }
-        console.log('/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id)
         return {
             title: title,
             path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
             imageUrl: imageUrl
         }
 
+    }
+
+    copyText = () => {
+        let code = this.state.data.share_text
+        Taro.setClipboardData({
+            data: code,
+            success() {
+                Taro.showToast({ title: '复制成功，请前往微信发送给好友。', icon: 'none' })
+            },
+            fail() {
+                Taro.showToast({ title: '复制失败，请刷新页面重试', icon: 'none' })
+            },
+            complete: () => {
+                this.setState({ showShare: false })
+            },
+        })
     }
 
 
@@ -430,7 +447,7 @@ export default class GroupActivity extends Component {
                 <ShareBox
                     show={this.state.showShare}
                     onClose={() => this.setState({ showShare: false })}
-                    sendText={() => { }}
+                    sendText={this.copyText}
                     sendLink={this.onShareAppMessage}
                     createPoster={() => {
                         this.setState({ showPoster: true })

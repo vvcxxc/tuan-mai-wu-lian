@@ -76,7 +76,6 @@ Component({
           that.triggerEvent('imgErr', {
             error: error
           });
-          console.error(error);
           return;
         }
       }
@@ -223,23 +222,19 @@ Component({
             that.triggerEvent('imgErr', {
               error: error
             });
-            console.error('执行1');
             return;
           }
           // 比例相符时才证明绘制成功，否则进行强制重绘制
           if (Math.abs((infoRes.width * that.canvasHeightInPx - that.canvasWidthInPx * infoRes.height) / (infoRes.height * that.canvasHeightInPx)) < 0.01) {
-            console.error('执行2',that);
             that.triggerEvent('imgOK', {
               path: filePath
             });
           } else {
-            console.error('执行3');
             that.startPaint();
           }
           that.paintCount++;
         },
         fail: (error) => {
-          console.error(`getImageInfo failed, ${JSON.stringify(error)}`,11111);
           that.triggerEvent('imgErr', {
             error: error
           });
