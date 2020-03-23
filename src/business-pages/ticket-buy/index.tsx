@@ -196,7 +196,7 @@ export default class TicketBuy extends Component {
 
 
   render() {
-
+    const { description } = this.state.coupon;
     return (
       <View className="appre-activity-detail">
         {/* 分享组件 */}
@@ -297,7 +297,7 @@ export default class TicketBuy extends Component {
 
 
         {
-          this.state.recommend.length > 0 ?
+          this.state.recommend && this.state.recommend.length > 0 ?
             (<View className="more_goods">
               <View className="title-box">
                 <View className='title-left'></View>
