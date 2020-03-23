@@ -30,7 +30,7 @@ export default class AppreActivity extends Component {
         //查看更多
         showMoreRules: false,
         data: {
-            invitation_user_id:'',
+            invitation_user_id: '',
             activity_begin_time: "",
             activity_end_time: "",
             activity_time_status: 0,
@@ -71,9 +71,9 @@ export default class AppreActivity extends Component {
     componentDidMount() {
         // 海报数据
         let youhui_id = this.$router.params.activity_id
-        geValueAddedPoster({ youhui_id, from:'wx'})
+        geValueAddedPoster({ youhui_id, from: 'wx' })
             .then(({ data, code }) => {
-                console.log(data,'增值')
+                console.log(data, '增值')
                 this.setState({ posterList: data })
             })
     }
@@ -234,7 +234,7 @@ export default class AppreActivity extends Component {
     onShareAppMessage() {
         const userInfo = Taro.getStorageSync("userInfo");
         const { gift_id, gift, return_money, preview, pay_money, invitation_user_id } = this.state.data;
-        const { id, activity_id,  type } = this.$router.params;
+        const { id, activity_id, type } = this.$router.params;
         let title, imageUrl;
         if (gift_id) {
             title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
@@ -422,7 +422,7 @@ export default class AppreActivity extends Component {
                     </View>
                     <View className="appre-buy-btn-box" >
                         <View className="appre-buy-btn-left" onClick={() => {
-                            this.setState({ showShare:true})
+                            this.setState({ showShare: true })
                         }}>分享活动</View>
                         {
                             this.state.data.activity_time_status == 1 ? (
@@ -442,8 +442,8 @@ export default class AppreActivity extends Component {
                 {/* 去首页 */}
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '50%', right: '20px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} className="go_home" />
+                        <View style={{ position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
                         </View>
                     ) : ''
                 }
