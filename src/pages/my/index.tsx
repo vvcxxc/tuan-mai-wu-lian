@@ -185,7 +185,9 @@ export default class AppreActivity extends Component<Props> {
           userData: {
             head_img: res.data.avatar,
             user_name: res.data.user_name
-          }
+          },
+          emptyAvatar: res.data.emptyAvatar,
+          mobile: res.data.mobile
         })
         let myData: any = this.state.list
         myData[0].prompt = res.data.order_msg
@@ -244,7 +246,7 @@ export default class AppreActivity extends Component<Props> {
         <View className="my-list-banner">
           {
             this.state.settingShow ?
-              <Image className='my-list-set' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/nAP8aBrDk2yGzG7AdaTrPDWey8fDB2KP.png' onClick={this.setPersonalInfo}/>
+              <Image className='my-list-set' src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/nAP8aBrDk2yGzG7AdaTrPDWey8fDB2KP.png' onClick={this.setPersonalInfo} />
               : null
           }
           <View className="my-list-info">
