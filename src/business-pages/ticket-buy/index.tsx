@@ -8,7 +8,7 @@ import ApplyToTheStore from '@/components/applyToTheStore';
 // import LandingBounced from '@/components/landing_bounced'//登录弹框
 // import Cookie from 'js-cookie';
 import ShareBox from "@/components/share-box"; //分享组件
-import CouponsPoster from '@/components/poster/coupons'//海报
+import VouchersPoster from '@/components/poster/vouchers'//海报
 import request from '../../services/request'
 
 import { discountCoupons, moneyPoster } from "./service";
@@ -207,7 +207,7 @@ export default class TicketBuy extends Component {
           }}
         />
 
-        <CouponsPoster
+        <VouchersPoster
           show={this.state.showPoster}
           list={this.state.posterList}
           onClose={() => {
@@ -414,8 +414,8 @@ export default class TicketBuy extends Component {
         }
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '50%', right: '0px', zIndex: 88 }} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../assets/go-home/go_home.png')} style={{ width: '80px', height: '80px' }} />
+            <View style={{position: 'fixed', bottom: '20rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx'}} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go-home/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
             </View>
           ) : ''
         }
