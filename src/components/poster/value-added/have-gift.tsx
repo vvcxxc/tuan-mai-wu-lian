@@ -65,7 +65,7 @@ export default class HaveGiftPoster extends Component<Props>{
   }
 
   onImgErr = (e) => {
-    console.log(e, 'onImgErr')
+    console.log(e, 'onImgErr1')
   }
   render() {
     const { listData } = this.state
