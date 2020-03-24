@@ -8,10 +8,14 @@ import {
     getUserLastYouhuiId,
     geValueAddedPoster
 } from "./service";
+import { getXcxQrcode } from "@/api";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
-import ValueAdded from "@/components/poster/value-added";//海报组件
+import HaveGift from '@/components/poster/value-added/have-gift'//有礼品版本
+import NoGift from '@/components/poster/value-added/no-gift'//无礼品版本
+import Other from '@/components/poster/value-added/other'//其他版本(同拼团海报类似)
+
 import Zoom from '@/components/zoom';
 
 export default class AppreActivity extends Component {
@@ -68,7 +72,13 @@ export default class AppreActivity extends Component {
         },
         showShare: false, //显示分享
         showPoster: false, //显示海报
-        posterList: {}
+        posterList: {
+            gift: {
+                gift_pic: ''
+            },
+            youhui_type: ''
+        },
+        posterType: ''
     };
 
     /**
@@ -230,10 +240,27 @@ export default class AppreActivity extends Component {
     /* 请求海报数据 */
     getPostList = () => {
         const { id } = this.state.data
+        // let id = 5790
         geValueAddedPoster({ youhui_id: id, from: 'wx' })
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
+                let link = data.link
+                getXcxQrcode({ link })
+                    .then((res) => {
+                        let meta = this.state.posterList
+                        meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+                        this.setState({ posterList: meta })
+                    })
+                if (!data.youhui_type) {
+                    this.setState({ posterType: 'Other' })
+                } else {
+                    this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
+                }
             })
+    }
+    
+    componentDidMount() {
+        this.getPostList()
     }
 
     onShareAppMessage() {
@@ -255,12 +282,19 @@ export default class AppreActivity extends Component {
         }
     }
 
+    /* 关闭海报 */
+    closePoster = () => {
+        this.setState({ showPoster: false, showShare: false })
+    }
+
     render() {
         const { images, description } = this.state.data;
+        const { posterList, posterType, showPoster } = this.state
         return (
             <View className="appre-activity-detail">
                 {/* 分享组件 */}
                 <ShareBox
+                    astrict={2}
                     show={this.state.showShare}
                     onClose={() => this.setState({ showShare: false })}
                     sendText={() => { }}
@@ -269,14 +303,14 @@ export default class AppreActivity extends Component {
                         this.setState({ showPoster: true })
                     }}
                 />
-                <ValueAdded
-                    type={this.state.posterList.youhui_type}
-                    show={this.state.showPoster}
-                    list={this.state.posterList}
-                    onClose={() => {
-                        this.setState({ showPoster: false, showShare: false })
-                    }}
-                />
+                {
+                    showPoster ? {
+                        'Other': <Other list={posterList} onClose={this.closePoster} />,
+                        'HaveGift': <HaveGift list={posterList} onClose={this.closePoster} />,
+                        'NoGift': < NoGift list={posterList} onClose={this.closePoster} />
+                    }[posterType] : null
+                }
+
                 <View onClick={(e) => {
                     this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
                 }}>

@@ -15,6 +15,7 @@ import { discountCoupons, moneyPoster } from "./service";
 import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
+import { getXcxQrcode } from "@/api";
 
 // import ShareBox from '@/components/share-box';
 export default class TicketBuy extends Component {
@@ -103,6 +104,13 @@ export default class TicketBuy extends Component {
     moneyPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
         this.setState({ posterList: data })
+        let link = data.link
+        getXcxQrcode({ link })
+          .then((res) => {
+            let meta = this.state.posterList
+            meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+            this.setState({ posterList: meta })
+          })
       })
   }
 

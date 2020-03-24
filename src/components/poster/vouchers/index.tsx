@@ -24,13 +24,15 @@ export default class VouchersPoster extends Component<Props>{
       name: '',
       store_name: '',
       store_address: '',
-      link: ''
+      link: '',
+      wx_img: ''
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
+      console.log(list, 'list')
       this.setState({
         show: true,
         listData: {
@@ -41,7 +43,8 @@ export default class VouchersPoster extends Component<Props>{
           name: list.name,
           store_name: list.store.name,
           store_address: list.store.address,
-          link: list.link
+          link: list.link,
+          wx_img: list.wx_img
         }
       })
     } else {
@@ -52,9 +55,9 @@ export default class VouchersPoster extends Component<Props>{
   }
 
   getmeta = (e) => {
-    Taro.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
+    Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
+      Taro.showToast({ title: '图片保存成功' });
+    })
     e.stopPropagation()
   }
 
@@ -259,16 +262,29 @@ export default class VouchersPoster extends Component<Props>{
             fontSize: '14rpx'
           }
         },
+        // {
+        //   type: 'qrcode',
+        //   content: listData.link,
+        //   css: {
+        //     bottom: '67rpx',
+        //     right: '45rpx',
+        //     borderWidth: '10rpx',
+        //     borderColor: '#F7F7F7',
+        //     width: '130rpx',
+        //     height: '130rpx',
+        //   }
+        // },
         {
-          type: 'qrcode',
-          content: listData.link,
+          type: 'image',
+          url: listData.wx_img,
           css: {
             bottom: '67rpx',
             right: '45rpx',
-            borderWidth: '10rpx',
-            borderColor: '#F7F7F7',
+            // borderWidth: '10rpx',
+            // borderColor: '#F7F7F7',
             width: '130rpx',
             height: '130rpx',
+            mode: 'scaleToFill',
           }
         },
         {
@@ -288,7 +304,7 @@ export default class VouchersPoster extends Component<Props>{
       this.state.show ? <View className="poster" onClick={() => this.props.onClose()}
       >
         <painter
-          widthPixels="250"
+          widthPixels="275"
           palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}

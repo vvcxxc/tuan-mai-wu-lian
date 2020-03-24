@@ -93,10 +93,9 @@ export default class Index extends Component<any> {
         }
       })
     }
-
+    this.setState({is_marketing: false})
     const {changeShow} = this.state
     this.setState({changeShow: changeShow+1})
-    console.log(523423333)
   }
 
   // 下拉刷新

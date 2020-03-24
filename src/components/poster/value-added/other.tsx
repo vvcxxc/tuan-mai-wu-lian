@@ -21,7 +21,8 @@ export default class HaveGiftPoster extends Component<Props>{
       name: '',
       store_name: '',
       store_address: '',
-      link: ''
+      link: '',
+      wx_img: ''
     }
   }
   componentDidMount() {
@@ -35,15 +36,16 @@ export default class HaveGiftPoster extends Component<Props>{
         name: list.name,
         store_name: list.store.name,
         store_address: list.store.address,
-        link: list.link
+        link: list.link,
+        wx_img: list.wx_img
       }
     })
   }
   
   getmeta = (e) => {
-    Taro.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
+    Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
+      Taro.showToast({ title: '图片保存成功' });
+    })
     e.stopPropagation()
   }
 
@@ -59,9 +61,10 @@ export default class HaveGiftPoster extends Component<Props>{
   render() {
     const { listData } = this.state
     let data= {
-      background: '#fff',
-      width: '700rpx',
       height: '1166rpx',
+      width: '700rpx',
+      background: '#fff',
+      mode: 'scaleToFill',
       views: [
         {
           type: 'image',
@@ -175,17 +178,30 @@ export default class HaveGiftPoster extends Component<Props>{
             fontSize: '20rpx'
           }
         },
+        // {
+        //   type: 'qrcode',
+        //   content: listData.link,
+        //   css: {
+        //     bottom: '107rpx',
+        //     right: '59rpx',
+        //     borderWidth: '10rpx',
+        //     borderColor: '#F7F7F7',
+        //     width: '156rpx',
+        //     height: '156rpx',
+        //   },
+        // },
         {
-          type: 'qrcode',
-          content: listData.link,
+          type: 'image',
+          url: listData.wx_img,
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            borderWidth: '10rpx',
-            borderColor: '#F7F7F7',
+            // borderWidth: '10rpx',
+            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
-          },
+            mode: 'scaleToFill',
+          }
         },
         {
           type: 'text',
@@ -203,7 +219,7 @@ export default class HaveGiftPoster extends Component<Props>{
     return (
       <View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
-          widthPixels="250"
+          widthPixels="200"
           palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}

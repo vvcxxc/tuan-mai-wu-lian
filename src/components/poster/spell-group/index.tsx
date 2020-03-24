@@ -26,13 +26,15 @@ export default class HaveGiftPoster extends Component<Props>{
       name: '',
       store_name: '',
       store_address: '',
-      link: ''
+      link: '',
+      wx_img:''
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
+      console.log(list, 'list')
       this.setState({
         show: true,
         listData: {
@@ -46,6 +48,7 @@ export default class HaveGiftPoster extends Component<Props>{
           store_name: list.store.name,
           store_address: list.store.address,
           link: list.link,
+          wx_img: list.wx_img
         }
       })
     } 
@@ -54,8 +57,6 @@ export default class HaveGiftPoster extends Component<Props>{
   getmeta = (e) => {
     Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
       Taro.showToast({ title: '图片保存成功'});
-    }).finally(() => {
-      Taro.showToast({ title: '图片保存失败', icon: 'none' });
     })
     e.stopPropagation();
   }
@@ -72,7 +73,7 @@ export default class HaveGiftPoster extends Component<Props>{
 
 
   render() {
-    const { listData }= this.state
+    const { listData } = this.state
     let giftImg = listData.gift_pic? [
       {
         type: 'image',
@@ -269,17 +270,30 @@ export default class HaveGiftPoster extends Component<Props>{
           }
         },
         {
-          type: 'qrcode',
-          content: listData.link,
+          type: 'image',
+          url: listData.wx_img,
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            borderWidth: '10rpx',
-            borderColor: '#F7F7F7',
+            // borderWidth: '10rpx',
+            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
-          },
+            mode: 'scaleToFill',
+          }
         },
+        // {
+        //   type: 'qrcode',
+        //   content: listData.link,
+        //   css: {
+        //     bottom: '107rpx',
+        //     right: '59rpx',
+        //     borderWidth: '10rpx',
+        //     borderColor: '#F7F7F7',
+        //     width: '156rpx',
+        //     height: '156rpx',
+        //   },
+        // },
         {
           type: 'text',
           text: '长按查看活动详情',
@@ -299,7 +313,7 @@ export default class HaveGiftPoster extends Component<Props>{
         this.setState({show:false})
       }}>
         <painter
-          widthPixels="250"
+          widthPixels="275"
           palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
