@@ -54,70 +54,68 @@ export default class Index extends Component<any> {
     super(props);
   }
 
-  componentDidShow(){
+  componentDidShow() {
     Taro.getSystemInfo().then(res => {
-      if(res.model.includes('iPhone X')){
+      if (res.model.includes('iPhone X')) {
         Taro.setStorageSync('isIPhoneX', true)
       }
     })
     let router = Taro.getStorageSync('router') || {}
-    if(router.city_name){
-      if(router.city_name == '新会区'){
-
-        this.setState({is_marketing: true})
-      }else{
-        this.setState({is_marketing: false})
+    if (router.city_name) {
+      if(router.type_index_id){
+        this.setState({ is_marketing: true })
+      }else {
+        this.setState({ is_marketing: false })
       }
-    }else {
-      console.log(423433)
+    } else {
       Taro.getLocation({
         type: 'gcj02',
-        success: res =>{
+        success: res => {
           let data = {
             xpoint: res.longitude,
             ypoint: res.latitude
           }
           getCityName(data).then((res: any) => {
-            console.log(res.data.district == '新会区','index')
+            console.log(6234234)
             router.city_name = res.data.city
             router.city_id = res.data.city_id
-            if(res.data.district == '新会区'){
-              this.setState({is_marketing: true})
-              router.city_name = res.data.district
-            }else{
-              this.setState({is_marketing: false})
+            router.type_index_id = res.data.type_index_id
+            if (res.data.type_index_id) {
+              this.setState({ is_marketing: true })
+            } else {
+              this.setState({ is_marketing: false })
             }
-            Taro.setStorageSync('router',router)
+            Taro.setStorageSync('router', router)
           })
 
         }
       })
     }
     // this.setState({is_marketing: false})
-    const {changeShow} = this.state
-    this.setState({changeShow: changeShow+1})
+    const { changeShow } = this.state
+    this.setState({ changeShow: changeShow + 1 })
   }
 
   // 下拉刷新
   onPullDownRefresh() {
-    const {changePull} = this.state
-    this.setState({changePull: changePull+1})
+    const { changePull } = this.state
+    this.setState({ changePull: changePull + 1 })
   }
 
   //  触底
   onReachBottom() {
-    const {changeBottom} = this.state
-    this.setState({changeBottom: changeBottom+1})
+    const { changeBottom } = this.state
+    this.setState({ changeBottom: changeBottom + 1 })
   }
 
 
 
 
   render() {
-    const {changeBottom, changePull, changeShow} = this.state
+    const { changeBottom, changePull, changeShow } = this.state
     return (
       <View className="index">
-        { this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull} changeShow={changeShow}/> : <OldIndex changeShow={changeShow} changeBottom={changeBottom} changePull={changePull}/> }
+        {this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull} changeShow={changeShow} /> : <OldIndex changeShow={changeShow} changeBottom={changeBottom} changePull={changePull} />}
       </View>
     );
   }

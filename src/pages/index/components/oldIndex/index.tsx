@@ -223,6 +223,7 @@ export default class Index extends Component<any> {
           })
         }, fail: () => {
           this.setState({ meta: { xpoint: '', ypoint: '', city_id: 1942, pages: 1 } }, () => {
+            console.log('失败了')
             Taro.setStorage({
               key: 'router',
               data: this.state.meta

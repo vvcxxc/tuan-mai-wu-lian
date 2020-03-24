@@ -15,7 +15,8 @@ export default class SelectCity extends Component {
     hot_city: [],
     showSearchList: false,
     searchValue: '',
-    showIndicator:false
+    showIndicator:false,
+    type_index_id: 0
   };
   globalData: {
     userInfo: {}
@@ -73,7 +74,7 @@ export default class SelectCity extends Component {
       data: { xpoint: that.longitude, ypoint: that.latitude }
     })
       .then((res: any) => {
-        this.setState({ cityName: res.data.city })
+        this.setState({ cityName: res.data.city, type_index_id: res.data.type_index_id })
       })
   }
   // agin location
@@ -82,7 +83,7 @@ export default class SelectCity extends Component {
     this.getLocation();
     Taro.setStorage({
       key: 'router',
-      data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude }
+      data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude, type_index_id: this.state.type_index_id, city_name: this.state.cityName }
     })
     setTimeout(() => {
       this.setState({ showIndicator: false })
@@ -111,21 +112,21 @@ export default class SelectCity extends Component {
   }
 
   // click 热门城市
-  searchData = (name, id) => {
+  searchData = (name, id, type_index_id) => {
     console.log(name,id)
-    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
+    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name, type_index_id } })
     Taro.switchTab({ url: '../../pages/index/index?router' })
   }
 
   // 全国列表数据  点击
   onClick = (item, event) => {
-    Taro.setStorage({ key: 'router', data: { city_id: item.id, city_name: item.name } })
+    Taro.setStorage({ key: 'router', data: { city_id: item.id, city_name: item.name, type_index_id: item.type_index_id } })
     Taro.switchTab({ url: '../../pages/index/index?router' })
   }
 
   // 搜索列表点击
-  lineOnClick = (id, name) => {
-    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name } })
+  lineOnClick = (id, name, type_index_id) => {
+    Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name, type_index_id } })
     Taro.switchTab({ url: '../../pages/index/index?router' })
   }
   // 回车键 模糊搜索
@@ -169,7 +170,7 @@ export default class SelectCity extends Component {
         >
           {
             this.state.searchList.map((item: any, index: any) => {
-              return <View className="line" key={item} onClick={this.lineOnClick.bind(this, item.id, item.name)}>{item.name}</View>
+              return <View className="line" key={item} onClick={this.lineOnClick.bind(this, item.id, item.name, item.type_index_id)}>{item.name}</View>
             })
           }
         </View>
@@ -202,7 +203,7 @@ export default class SelectCity extends Component {
             <View className="big-item">
               {
                 hidenData.map((item: any, index: any) => {
-                  return <View className="item" key={item} onClick={this.searchData.bind(this, item.name, item.id)}>{item.name}</View>
+                  return <View className="item" key={item} onClick={this.searchData.bind(this, item.name, item.id, item.type_index_id)}>{item.name}</View>
                 })
               }
             </View>
