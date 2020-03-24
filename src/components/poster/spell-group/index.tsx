@@ -57,8 +57,6 @@ export default class HaveGiftPoster extends Component<Props>{
   getmeta = (e) => {
     Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
       Taro.showToast({ title: '图片保存成功'});
-    }).finally(() => {
-      Taro.showToast({ title: '图片保存失败', icon: 'none' });
     })
     e.stopPropagation();
   }
