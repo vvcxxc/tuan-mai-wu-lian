@@ -660,8 +660,8 @@ export default class PaySuccess extends Component<Props> {
         {/* 去首页 */}
         {
           this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '100rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../assets/go_home.png')}  style={{ width: '80rpx', height: '80rpx' }} />
+            <View style={{ position: 'fixed', bottom: '200rpx', right: '40rpx', zIndex: 88, width: '160rpx', height: '160rpx' }} onClick={this.handleGoHome.bind(this)}>
+              <Image src={require('../../assets/go_home.png')}  style={{ width: '160rpx', height: '160rpx' }} />
             </View>
           ) : ''
         }

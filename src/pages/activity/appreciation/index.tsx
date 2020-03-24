@@ -147,7 +147,7 @@ export default class AppreActivity extends Component {
     */
     payment = () => {
         let that = this;
-        Taro.showLoading({ title: 'loading' })
+        Taro.showLoading({ title: 'loading', mask: true })
         let datas = {
             youhui_id: this.$router.params.id,
             activity_id: this.$router.params.activity_id,
@@ -188,7 +188,7 @@ export default class AppreActivity extends Component {
      */
     getLastYouhuiId = (order_sn) => {
         let that = this;
-        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id' });
+        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id', mask: true });
         let timer = setTimeout(() => {
             clearTimeout(timer);
             getUserLastYouhuiId({ order_sn: order_sn })
@@ -485,8 +485,8 @@ export default class AppreActivity extends Component {
                 {/* 去首页 */}
                 {
                     this.state.isFromShare ? (
-                        <View style={{ position: 'fixed', bottom: '100rpx', right: '20rpx', zIndex: 88, width: '80rpx', height: '80rpx' }} onClick={this.handleGoHome.bind(this)}>
-                            <Image src={require('../../../assets/go_home.png')} style={{ width: '80rpx', height: '80rpx' }} />
+                        <View style={{ position: 'fixed', bottom: '200rpx', right: '40rpx', zIndex: 88, width: '160rpx', height: '160rpx' }} onClick={this.handleGoHome.bind(this)}>
+                            <Image src={require('../../../assets/go_home.png')} style={{ width: '160rpx', height: '160rpx' }} />
                         </View>
                     ) : ''
                 }
