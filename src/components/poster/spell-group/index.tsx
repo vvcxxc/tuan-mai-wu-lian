@@ -222,7 +222,7 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: ' ' + listData.number+'人团 ',
           css: {
-            bottom: '163.5rpx',
+            bottom: '162rpx',
             left: '47rpx',
             color: 'red',
             width: '70rpx',

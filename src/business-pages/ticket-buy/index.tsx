@@ -18,6 +18,7 @@ import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
 
 // import ShareBox from '@/components/share-box';
+const BASIC_API = process.env.BASIC_API;
 export default class TicketBuy extends Component {
   config = {
     navigationBarTitleText: "现金券",
@@ -108,7 +109,7 @@ export default class TicketBuy extends Component {
         getXcxQrcode({ link })
           .then((res) => {
             let meta = this.state.posterList
-            meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+            meta['wx_img'] = BASIC_API+ res.data.url
             this.setState({ posterList: meta })
           })
       })

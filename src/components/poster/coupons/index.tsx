@@ -110,7 +110,7 @@ export default class CouponsPoster extends Component<Props>{
           text: '活动价',
           css: {
             left: '57rpx',
-            bottom: '232rpx',
+            bottom: '212rpx',
             fontSize: '20rpx',
             color: 'red',
           }
@@ -120,7 +120,7 @@ export default class CouponsPoster extends Component<Props>{
           text: '¥',
           css: {
             left: '121rpx',
-            bottom: '232rpx',
+            bottom: '212rpx',
             fontSize: '20rpx',
             color: 'red'
           }
@@ -131,7 +131,7 @@ export default class CouponsPoster extends Component<Props>{
           text: '' + listData.pay_money,
           css: {
             left: '134rpx',
-            bottom: '232rpx',
+            bottom: '212rpx',
             fontSize: '35rpx',
             color: 'red',
           }
@@ -141,7 +141,7 @@ export default class CouponsPoster extends Component<Props>{
           text: '¥' + listData.return_money,
           css: {
             left: ['146rpx','pay_money'],
-            bottom: '232rpx',
+            bottom: '212rpx',
             color: '#B3B3B3',
             fontSize: '25rpx',
             textDecoration: 'line-through'
@@ -151,7 +151,7 @@ export default class CouponsPoster extends Component<Props>{
           type: 'text',
           text: '' + listData.name,
           css: {
-            bottom: '135rpx',
+            top:'980rpx',
             left: '57rpx',
             width: '380rpx',
             maxLines: '2',

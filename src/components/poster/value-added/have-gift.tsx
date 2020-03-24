@@ -85,7 +85,8 @@ export default class HaveGiftPoster extends Component<Props>{
             css: {
               top: '0rpx',
               left: '0rpx',
-              width: '544rpx'
+              width: '544rpx',
+              mode: 'scaleToFill'
             }
           },
           {
@@ -247,7 +248,7 @@ export default class HaveGiftPoster extends Component<Props>{
           },
           {
             type: 'text',
-            text: listData.gift_name,
+            text: ''+listData.gift_name,
             css: {
               top: '651rpx',
               right: '100rpx',
@@ -362,7 +363,7 @@ export default class HaveGiftPoster extends Component<Props>{
           this.setState({ show: false })
         }}>
           <painter
-            widthPixels="250"
+            widthPixels="275"
             palette={haveGiftData}
             onImgOK={this.onImgOK}
             onImgErr={this.onImgErr}

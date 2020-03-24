@@ -18,7 +18,7 @@ import ShareBox from "@/components/share-box";//分享组件
 import SpellGroup from "@/components/poster/spell-group";//海报组件
 import Zoom from '@/components/zoom';
 const H5_URL = process.env.H5_URL
-
+const BASIC_API = process.env.BASIC_API;
 export default class GroupActivity extends Component {
     config = {
         navigationBarTitleText: "拼团活动",
@@ -404,7 +404,7 @@ export default class GroupActivity extends Component {
                 getXcxQrcode({ link })
                     .then((res) => {
                         let meta = this.state.posterList
-                        meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+                        meta['wx_img'] = BASIC_API + res.data.url
                         this.setState({ posterList: meta })
                     })
             })

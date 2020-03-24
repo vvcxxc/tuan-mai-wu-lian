@@ -218,7 +218,7 @@ export default class ActivityList extends Component {
                       brief={'有效期：' + item.expire_day + '天有效'}
                       oldPrice={item.is_share == 5 ? item.participation_money : item.pay_money}
                       newPrice={item.is_share == 5 ? item.pay_money : item.return_money}
-                      btnText={'拼团'}
+                      btnText={'抢购'}
                       handleClick={this.handleAction}
                       item={item}
                     />

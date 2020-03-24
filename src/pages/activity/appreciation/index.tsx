@@ -18,6 +18,7 @@ import Other from '@/components/poster/value-added/other'//其他版本(同拼�
 
 import Zoom from '@/components/zoom';
 
+const BASIC_API = process.env.BASIC_API;
 export default class AppreActivity extends Component {
     config = {
         navigationBarTitleText: "增值活动",
@@ -251,7 +252,7 @@ export default class AppreActivity extends Component {
                 getXcxQrcode({ link })
                     .then((res) => {
                         let meta = this.state.posterList
-                        meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+                        meta['wx_img'] = BASIC_API + res.data.url
                         this.setState({ posterList: meta })
                     })
                 switch (data.youhui_type) {

@@ -138,8 +138,7 @@ export default class HaveGiftPoster extends Component<Props>{
             width: '403rpx',
             height: '52rpx'
           }
-        }
-        ,
+        },
         {
           type: 'image',
           url: 'https://oss.tdianyi.com/front/BAHcaGjG55b68wnR3HfNQF6eDz7StdXz.png',
@@ -235,15 +234,26 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: ' 最高可抵' + listData.return_money + '元 ',
+          text: '扫二维码支付时使用',
           css: {
-            bottom: '124rpx',
-            left: '50rpx',
+            bottom: '138rpx',
+            left: '40rpx',
             color: 'red',
-            borderWidth: '1rpx',
-            borderColor: 'red',
-            borderRadius: '13rpx',
-            fontSize: '14rpx'
+            height: '26rpx',
+            width: '160rpx',
+            textAlign: 'center',
+            fontSize: '14rpx',
+          }
+        },
+        {
+          type: 'image',
+          url: 'https://oss.tdianyi.com/front/WKDeMsYpHetTntQcRcNeQWdD6WifKYeM.png',
+          css: {
+            bottom: '130rpx',
+            left: '40rpx',
+            height: '26rpx',
+            width: '160rpx',
+            mode: 'scaleToFill'
           }
         },
         {
