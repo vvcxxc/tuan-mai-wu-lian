@@ -196,7 +196,7 @@ Component({
           {
             canvasId: 'k-canvas',
             fileType: 'jpg',
-            quality: 0.5,
+            // quality: 0.9,
             success: function (res) {
               that.getImageInfo(res.tempFilePath);
             },

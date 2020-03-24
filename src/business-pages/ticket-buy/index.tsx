@@ -210,6 +210,7 @@ export default class TicketBuy extends Component {
       <View className="appre-activity-detail">
         {/* 分享组件 */}
         <ShareBox
+          astrict={2}
           show={this.state.showShare}
           onClose={() => this.setState({ showShare: false })}
           sendText={()=>{}}
