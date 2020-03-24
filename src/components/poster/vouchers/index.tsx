@@ -129,24 +129,18 @@ export default class VouchersPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '¥',
+          text: '¥' + listData.return_money,
           css: {
-            left: '95rpx',
-            top: '352rpx',
-            fontSize: '18rpx',
-            color: '#EE2633'
-          }
-        },
-        {
-          type: 'text',
-          text: '' + listData.return_money,
-          css: {
-            left: '105rpx',
+            left: '86rpx',
             top: '345rpx',
+            width: '150rpx',
             fontSize: '40rpx',
-            color: '#C32429'
+            color: '#C32429',
+            textAlign: 'center',
+            maxLines: '1',
           }
         },
+
         {
           type: 'text',
           text: '通用券',
@@ -223,7 +217,7 @@ export default class VouchersPoster extends Component<Props>{
             borderColor: 'red',
             borderRadius: '13rpx',
             fontSize: '14rpx',
-            lineHeight: '21rpx'
+            lineHeight: '18rpx'
           }
         },
         {

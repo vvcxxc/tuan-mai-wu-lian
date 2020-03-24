@@ -3,7 +3,8 @@ import { View } from "@tarojs/components"
 import '../index.styl'
 interface Props {
   list?: any,
-  onClose: () => void
+  onClose: () => void,
+  show:boolean
 }
 
 export default class HaveGiftPoster extends Component<Props>{
@@ -14,6 +15,7 @@ export default class HaveGiftPoster extends Component<Props>{
   }
   state = {
     image: '',
+    show:false,
     listData: {
       image: '',
       pay_money:'',
@@ -25,11 +27,13 @@ export default class HaveGiftPoster extends Component<Props>{
       wx_img: ''
     }
   }
-  componentDidMount() {
-    const { list } = this.props
-    this.setState({
-      show: true,
-      listData: {
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.show && !this.state.show) {
+      const { list, show } = nextProps
+      this.setState({
+        show: !list.youhui_type  ? true : false,
+        listData: {
         image: list.image,
         pay_money: list.pay_money,
         return_money: list.return_money,
@@ -40,6 +44,7 @@ export default class HaveGiftPoster extends Component<Props>{
         wx_img: list.wx_img
       }
     })
+    }
   }
   
   getmeta = (e) => {
@@ -64,7 +69,6 @@ export default class HaveGiftPoster extends Component<Props>{
       height: '1166rpx',
       width: '700rpx',
       background: '#fff',
-      mode: 'scaleToFill',
       views: [
         {
           type: 'image',
@@ -139,8 +143,7 @@ export default class HaveGiftPoster extends Component<Props>{
             color: 'red',
             borderWidth: '1rpx',
             borderColor: 'red',
-            borderRadius: '13rpx',
-            lineHeight: '25rpx'
+            borderRadius: '13rpx'
           }
         },
         {
@@ -178,26 +181,12 @@ export default class HaveGiftPoster extends Component<Props>{
             fontSize: '20rpx'
           }
         },
-        // {
-        //   type: 'qrcode',
-        //   content: listData.link,
-        //   css: {
-        //     bottom: '107rpx',
-        //     right: '59rpx',
-        //     borderWidth: '10rpx',
-        //     borderColor: '#F7F7F7',
-        //     width: '156rpx',
-        //     height: '156rpx',
-        //   },
-        // },
         {
           type: 'image',
           url: listData.wx_img,
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
             mode: 'scaleToFill',
@@ -217,15 +206,18 @@ export default class HaveGiftPoster extends Component<Props>{
       ]
     }
     return (
-      <View className="poster" onClick={() => { this.props.onClose() }}>
+      this.state.show ? <View className="poster" onClick={() => {
+        this.props.onClose()
+        this.setState({ show: false })
+      }}>
         <painter
-          widthPixels="200"
+          widthPixels="275"
           palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />
         <View className="save-img" onClick={this.getmeta.bind(this)}>保存图片到相册</View>
-      </View >
+      </View > : null
     )
   }
 }
