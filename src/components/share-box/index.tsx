@@ -7,12 +7,13 @@ interface Props {
     sendText: () => void,//发送文字
     sendLink: () => void,//发送链接
     createPoster: () => void,//生成海报
-    show:Boolean
+    show: Boolean,
+    astrict?:String | Number
 }
 export default class ShareBox extends Component<Props> {
 
     render() {
-        const { show } = this.props
+        const { show, astrict } = this.props
         return (
             show?<View className='share-mask'>
                 <View className='share-content'>
@@ -27,10 +28,13 @@ export default class ShareBox extends Component<Props> {
                             <Image className="share-banner-img" src="http://oss.tdianyi.com/front/YEXaKEmEDXQS7JCGEJGyfKBB3A5BGwWF.png" />
                             <View className='share-btn-title' >生成海报</View >
                         </View >
-                        <View className='share-item' onClick={() => this.props.sendText()}>
-                            <Image className="share-banner-img" src="http://oss.tdianyi.com/front/7wMdSA2X7XEjw3DTyiekRhdbK43J5HBh.png" />
-                            <View className='share-btn-title' >发送文字</View >
-                        </View >
+                        {
+                            astrict == 2 ? null: <View className='share-item' onClick={() => this.props.sendText()}>
+                                <Image className="share-banner-img" src="http://oss.tdianyi.com/front/7wMdSA2X7XEjw3DTyiekRhdbK43J5HBh.png" />
+                                <View className='share-btn-title' >发送文字</View >
+                            </View >
+                        }
+                        
                     </View >
                     <View className='share-cancle' onClick={()=>this.props.onClose()}>取消</View >
                 </View >

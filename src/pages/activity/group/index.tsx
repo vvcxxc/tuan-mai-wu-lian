@@ -76,7 +76,7 @@ export default class GroupActivity extends Component {
             youhui_id: 0,//活动id
             youhui_name: "",//活动名
             ypoint: "",
-            share_text:''//复制出去的文字
+            share_text: ''//复制出去的文字
         },
         data2: {
             data: [],
@@ -383,7 +383,6 @@ export default class GroupActivity extends Component {
             this.setState({ is_alert: false })
         } else {
             // 重新请求当前数据
-
             this.setState({ is_alert: false })
         }
     }
@@ -403,14 +402,11 @@ export default class GroupActivity extends Component {
                 getXcxQrcode({ link })
                     .then((res) => {
                         let meta = this.state.posterList
-                        meta['wx_img'] = 'data:image/png;base64'+res
-                        this.setState({ posterList: meta }, () => {
-                            console.log('最后', this.state.posterList)
-                        })
+                        meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+                        this.setState({ posterList: meta })
                     })
-                
             })
-        
+
     }
 
 

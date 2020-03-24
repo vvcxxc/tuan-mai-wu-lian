@@ -23,7 +23,8 @@ export default class HaveGiftPoster extends Component<Props>{
       name: '',
       store_name: '',
       store_address: '',
-      link: ''
+      link: '',
+      wx_img: ''
     }
   }
 
@@ -39,16 +40,19 @@ export default class HaveGiftPoster extends Component<Props>{
         name: list.name,
         store_name: list.store.name,
         store_address: list.store.address,
-        link: list.link
+        link: list.link,
+        wx_img: list.wx_img
       }
     })
   }
 
 
   getmeta = (e) => {
-    Taro.saveImageToPhotosAlbum({
-      filePath: this.state.image,
-    });
+    Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
+      Taro.showToast({ title: '图片保存成功' });
+    }).finally(() => {
+      Taro.showToast({ title: '图片保存失败', icon: 'none' });
+    })
     e.stopPropagation()
   }
 
@@ -116,10 +120,12 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: '最高可抵用' + listData.return_money+'元',
           css: {
-            left: '69rpx',
+            left: '20rpx',
             top: '220rpx',
             fontSize: '42rpx',
             color: '#fff',
+            width: '504rpx',
+            textAlign: 'center'
           }
         },
         {
@@ -144,42 +150,46 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '¥',
+          text: '¥' + listData.return_money,
           css: {
-            left: '95rpx',
-            top: '402rpx',
-            fontSize: '18rpx',
-            color: '#EE2633'
-          }
-        },
-        {
-          type: 'text',
-          text: '' + listData.return_money,
-          css: {
-            left: '105rpx',
+            left: '86rpx',
             top: '395rpx',
+            width: '150rpx',
             fontSize: '40rpx',
-            color: '#C32429'
+            background: 'blue',
+            color: '#C32429',
+            textAlign: 'center',
+            maxLines: '1',
           }
         },
         {
           type: 'text',
           text: '通用券',
           css: {
-            right: '197rpx',
+            // right: '197rpx',
+            // top: '395rpx',
+            // fontSize: '19rpx',
+            // color: '#C32429'
+            left: '235rpx',
             top: '395rpx',
             fontSize: '19rpx',
-            color: '#C32429'
+            color: '#C32429',
+            width: '130rpx',
+            textAlign: 'center',
+            maxLines: '1',
           }
         },
         {
           type: 'text',
           text: '满' + listData.total_fee+'元可用',
           css: {
-            left: '255rpx',
+            left: '235rpx',
             top: '425rpx',
             fontSize: '14rpx',
-            color: '#C32429'
+            color: '#C32429',
+            width: '130rpx',
+            textAlign: 'center',
+            maxLines: '1',
           }
         },
         {
@@ -277,16 +287,29 @@ export default class HaveGiftPoster extends Component<Props>{
             fontSize: '14rpx'
           }
         },
+        // {
+        //   type: 'qrcode',
+        //   content: listData.link,
+        //   css: {
+        //     bottom: '67rpx',
+        //     right: '45rpx',
+        //     borderWidth: '10rpx',
+        //     borderColor: '#F7F7F7',
+        //     width: '130rpx',
+        //     height: '130rpx',
+        //   }
+        // },
         {
-          type: 'qrcode',
-          content: listData.link,
+          type: 'image',
+          url: listData.wx_img,
           css: {
             bottom: '67rpx',
             right: '45rpx',
-            borderWidth: '10rpx',
-            borderColor: '#F7F7F7',
+            // borderWidth: '10rpx',
+            // borderColor: '#F7F7F7',
             width: '130rpx',
             height: '130rpx',
+            mode: 'scaleToFill',
           }
         },
         {

@@ -9,7 +9,7 @@ import CouponsPoster from '@/components/poster/coupons'//海报
 import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
-
+import { getXcxQrcode } from "@/api";
 // import ShareBox from '@/components/share-box';
 const H5_URL = process.env.H5_URL
 export default class AppreActivity extends Component {
@@ -98,6 +98,13 @@ export default class AppreActivity extends Component {
     shopPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
         this.setState({ posterList: data })
+        let link = data.link
+        getXcxQrcode({ link })
+          .then((res) => {
+            let meta = this.state.posterList
+            meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
+            this.setState({ posterList: meta })
+          })
       })
   }
 
