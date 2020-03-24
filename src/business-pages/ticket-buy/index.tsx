@@ -55,7 +55,7 @@ export default class TicketBuy extends Component {
       youhui_type: 0,
       expire_day: '',
       total_fee: 0,
-      share_text:''
+      share_text: ''
     },
     store: {
       brief: "",
@@ -115,8 +115,8 @@ export default class TicketBuy extends Component {
   }
 
   /**
-     * 回首页
-     */
+    * 回首页
+    */
   handleGoHome = () => {
     Taro.switchTab({ url: '/pages/index/index' })
   }
@@ -212,7 +212,7 @@ export default class TicketBuy extends Component {
         <ShareBox
           show={this.state.showShare}
           onClose={() => this.setState({ showShare: false })}
-          sendText={()=>{}}
+          sendText={() => { }}
           sendLink={this.onShareAppMessage}
           createPoster={() => {
             this.setState({ showPoster: true })

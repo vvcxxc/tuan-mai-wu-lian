@@ -277,14 +277,13 @@ export default class PaySuccess extends Component<Props> {
       })
   }
 
-  /**
-   * 回首页
-   */
-  handleGoHome = () => {
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
+   /**
+    * 回首页
+    */
+   handleGoHome = () => {
+    Taro.switchTab({ url: '/pages/index/index' })
   }
+  
   render() {
     // console.log(this.state.keepCollect_bull);
     return (

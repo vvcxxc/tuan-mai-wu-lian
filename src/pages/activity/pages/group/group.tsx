@@ -283,13 +283,11 @@ export default class Group extends Component {
     })
   }
 
-  /**
-   * 回首页
-   */
-  handleGoHome = () => {
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
+   /**
+    * 回首页
+    */
+   handleGoHome = () => {
+    Taro.switchTab({ url: '/pages/index/index' })
   }
 
   groupDesc = () => {

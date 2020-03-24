@@ -223,9 +223,11 @@ export default class AppreActivity extends Component {
     }
 
     /**
-       * 回首页
-       */
-    handleGoHome = () => { Taro.navigateTo({ url: '/' }) }
+   * 回首页
+   */
+    handleGoHome = () => {
+        Taro.switchTab({ url: '/pages/index/index' })
+    }
 
     // 登录弹窗
     loginChange = (type: string) => {
@@ -258,7 +260,7 @@ export default class AppreActivity extends Component {
                 }
             })
     }
-    
+
     componentDidMount() {
         this.getPostList()
     }

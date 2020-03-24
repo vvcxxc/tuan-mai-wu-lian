@@ -56,12 +56,6 @@
 					"pathName": "business-pages/set-meal/index",
 					"query": "id=5779&invitation_user_id=222",
 					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "增值",
-					"pathName": "pages/activity/appreciation/index",
-					"scene": null
 				}
 			]
 		}
