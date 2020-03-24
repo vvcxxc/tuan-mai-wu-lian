@@ -30,7 +30,6 @@ export default class CouponsPoster extends Component<Props>{
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
-      console.log(list,'list')
       this.setState({
         show: true,
         listData: {
@@ -84,16 +83,14 @@ export default class CouponsPoster extends Component<Props>{
           }
         },
         {
-          type: 'text',
-          text: ' ',
+          type: 'image',
+          url: 'https://oss.tdianyi.com/front/pRmPefzbk2QeJMikjFbcpMpaAZE7Zb72.png',
           css: {
-            bottom: '10rpx',
-            left: '21rpx',
-            width: '656rpx',
-            lineHeight: '500rpx',
+            bottom: '30rpx',
+            left: '20rpx',
             height: '500rpx',
-            borderWidth: '0.5rpx',
-            borderColor: '#E2E2E2'
+            width: '660rpx',
+            mode: 'scaleToFill'
           }
         },
         {
@@ -104,7 +101,8 @@ export default class CouponsPoster extends Component<Props>{
             left: '20rpx',
             height: '700rpx',
             width: '660rpx',
-            mode: 'scaleToFill'
+            mode: 'scaleToFill',
+            background:'red'
           }
         },
         {
@@ -128,6 +126,7 @@ export default class CouponsPoster extends Component<Props>{
           }
         },
         {
+          id:'pay_money',
           type: 'text',
           text: '' + listData.pay_money,
           css: {
@@ -141,7 +140,7 @@ export default class CouponsPoster extends Component<Props>{
           type: 'text',
           text: '¥' + listData.return_money,
           css: {
-            left: '190rpx',
+            left: ['146rpx','pay_money'],
             bottom: '232rpx',
             color: '#B3B3B3',
             fontSize: '25rpx',

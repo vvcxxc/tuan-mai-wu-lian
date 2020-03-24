@@ -89,16 +89,14 @@ export default class HaveGiftPoster extends Component<Props>{
             }
           },
           {
-            type: 'text',
-            text: ' ',
+            type: 'image',
+            url: 'https://oss.tdianyi.com/front/pRmPefzbk2QeJMikjFbcpMpaAZE7Zb72.png',
             css: {
-              bottom: '10rpx',
-              left: '21rpx',
-              width: '496rpx',
-              lineHeight: '500rpx',
+              bottom: '30rpx',
+              left: '20rpx',
               height: '500rpx',
-              borderWidth: '0.5rpx',
-              borderColor: '#E2E2E2'
+              width: '500rpx',
+              mode: 'scaleToFill'
             }
           },
           {
@@ -238,6 +236,16 @@ export default class HaveGiftPoster extends Component<Props>{
             }
           },
           {
+            type: 'image',
+            url: "https://oss.tdianyi.com/front/KMhXfRRbBCswfnZTDQ5AFiKC2766fezr.png",
+            css: {
+              bottom: '270rpx',
+              right: '110rpx',
+              height: '49rpx',
+              width: '49rpx'
+            }
+          },
+          {
             type: 'text',
             text: listData.gift_name,
             css: {
@@ -271,8 +279,8 @@ export default class HaveGiftPoster extends Component<Props>{
             type: 'text',
             text: '活动价 ¥',
             css: {
-              left: '50rpx',
-              bottom: '191rpx',
+              left: '40rpx',
+              bottom: '171rpx',
               fontSize: '14rpx',
               color: 'red',
             }
@@ -281,44 +289,32 @@ export default class HaveGiftPoster extends Component<Props>{
             type: 'text',
             text: '' + listData.pay_money,
             css: {
-              left: '120rpx',
-              bottom: '192rpx',
+              left: '90rpx',
+              bottom: '172rpx',
               fontSize: '35rpx',
               color: 'red',
             }
           },
           {
             type: 'text',
-            text: ' 最高可抵' + listData.return_money + '元 ',
-            css: {
-              bottom: '154rpx',
-              left: '50rpx',
-              color: 'red',
-              borderWidth: '1rpx',
-              borderColor: 'red',
-              borderRadius: '13rpx',
-              fontSize: '14rpx'
-            }
-          },
-          {
-            type: 'text',
             text: '' + listData.name,
             css: {
-              bottom: '95rpx',
+              top: '875rpx',
               left: '40rpx',
               width: '300rpx',
               maxLines: '2',
-              lineHeight: '22rpx',
-              fontSize: '22rpx'
+              lineHeight: '30rpx',
+              fontSize: '20rpx'
             }
           },
+
           {
             type: 'text',
             text: '适用店铺：' + listData.store_name,
             css: {
-              bottom: '45rpx',
+              bottom: '70rpx',
               left: '40rpx',
-              width: '300rpx',
+              width: '286rpx',
               maxLines: '1',
               color: '#B3B3B3',
               fontSize: '14rpx'
@@ -328,9 +324,9 @@ export default class HaveGiftPoster extends Component<Props>{
             type: 'text',
             text: '店铺地址：' + listData.store_address,
             css: {
-              bottom: '30rpx',
+              bottom: '50rpx',
               left: '40rpx',
-              width: '300rpx',
+              width: '286rpx',
               maxLines: '1',
               color: '#B3B3B3',
               fontSize: '14rpx'
@@ -340,10 +336,10 @@ export default class HaveGiftPoster extends Component<Props>{
             type: 'image',
             url: listData.wx_img,
             css: {
-              bottom: '67rpx',
-              right: '45rpx',
-              width: '156rpx',
-              height: '156rpx',
+              bottom: '70rpx',
+              right: '33rpx',
+              width: '142rpx',
+              height: '142rpx',
               mode: 'scaleToFill',
             }
           },
@@ -351,12 +347,12 @@ export default class HaveGiftPoster extends Component<Props>{
             type: 'text',
             text: '长按查看活动详情',
             css: {
-              bottom: '30rpx',
-              right: '60rpx',
+              bottom: '50rpx',
+              right: '50rpx',
               color: '#555555',
               fontSize: '14rpx'
             }
-          },
+          }
 
         ]
       }

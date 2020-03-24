@@ -24,7 +24,9 @@ export default class HaveGiftPoster extends Component<Props>{
       store_name: '',
       store_address: '',
       link: '',
-      wx_img: ''
+      wx_img: '',
+      gift_pic: '',
+      gift_price:''
     }
   }
 
@@ -41,7 +43,9 @@ export default class HaveGiftPoster extends Component<Props>{
         store_name: list.store.name,
         store_address: list.store.address,
         link: list.link,
-        wx_img: list.wx_img
+        wx_img: list.wx_img,
+        gift_pic: list.gift.gift_pic,
+        gift_price: list.gift.gift_price,
       }
     })
     }
@@ -65,9 +69,77 @@ export default class HaveGiftPoster extends Component<Props>{
   }
   render() {
     const { listData } = this.state
+    let giftImg = listData.gift_pic ? [
+      {
+        type: 'image',
+        url: listData.gift_pic,
+        css: {
+          bottom: '360rpx',
+          right: '30rpx',
+          height: '125rpx',
+          width: '155rpx',
+          mode: 'scaleToFill'
+        }
+      },
+      {
+        type: 'text',
+        text: ' ',
+        css: {
+          bottom: '360rpx',
+          right: '29rpx',
+          height: '128rpx',
+          lineHeight: '128rpx',
+          width: '155rpx',
+          borderRadius: '13rpx',
+          background: 'rgba(0,0,0,0.3)'
+        }
+      },
+      {
+        type: 'image',
+        url: "https://oss.tdianyi.com/front/tnzrTCT5iccXe6BMYMRJWdYstM5EWKxF.png",
+        css: {
+          bottom: '356rpx',
+          right: '29rpx',
+          height: '169rpx',
+          width: '156rpx'
+        }
+      },
+      {
+        type: 'image',
+        url: "https://oss.tdianyi.com/front/KMhXfRRbBCswfnZTDQ5AFiKC2766fezr.png",
+        css: {
+          bottom: '430rpx',
+          right: '40rpx',
+          height: '40rpx',
+          width: '40rpx'
+        }
+      },
+      {
+        type: 'text',
+        text: '¥',
+        css: {
+          left: '370rpx',
+          bottom: '382rpx',
+          fontSize: '16rpx',
+          color: '#fff',
+        }
+      },
+      {
+        type: 'text',
+        text: ' ' + listData.gift_price,
+        css: {
+          left: '372rpx',
+          bottom: '382rpx',
+          fontSize: '35rpx',
+          color: '#fff',
+          width: '130rpx',
+          maxLines: '1'
+        }
+      }
+    ] : []
     let data= {
-      height: '1166rpx',
-      width: '700rpx',
+      width: '544rpx',
+      height: '854rpx',
       background: '#fff',
       views: [
         {
@@ -76,49 +148,47 @@ export default class HaveGiftPoster extends Component<Props>{
           css: {
             top: '0rpx',
             left: '0rpx',
-            width: '700rpx'
+            width: '544rpx',
           }
         },
-        {
-          type: 'text',
-          text: ' ',
+          {
+          type: 'image',
+          url: 'https://oss.tdianyi.com/front/pRmPefzbk2QeJMikjFbcpMpaAZE7Zb72.png',
           css: {
-            bottom: '10rpx',
-            left: '21rpx',
-            width: '656rpx',
-            lineHeight: '500rpx',
-            height: '500rpx',
-            borderWidth: '0.5rpx',
-            borderColor: '#E2E2E2'
+            bottom: '30rpx',
+            left: '20rpx',
+            height: '507rpx',
+            width: '507rpx',
+            mode: 'scaleToFill'
           }
         },
         {
           type: 'image',
           url: listData.image,
           css: {
-            top: '143rpx',
+            top: '112rpx',
             left: '20rpx',
-            height: '700rpx',
-            width: '660rpx',
-            mode: 'scaleToFill'
+            height: '507rpx',
+            width: '507rpx',
           }
         },
+        ...giftImg,
         {
           type: 'text',
           text: '活动价',
           css: {
-            left: '57rpx',
-            bottom: '262rpx',
+            left: '47rpx',
+            bottom: '170rpx',
             fontSize: '20rpx',
-            color: 'red',
+            color: 'red'
           }
         },
         {
           type: 'text',
           text: '¥',
           css: {
-            left: '121rpx',
-            bottom: '262rpx',
+            left: '111rpx',
+            bottom: '170rpx',
             fontSize: '20rpx',
             color: 'red'
           }
@@ -128,67 +198,93 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: '' + listData.pay_money,
           css: {
-            left: '134rpx',
-            bottom: '262rpx',
-            fontSize: '35rpx',
+            left: '124rpx',
+            bottom: '170rpx',
+            fontSize: '32rpx',
             color: 'red',
           }
         },
         {
-          type: 'text',
-          text: '最高可抵用' + listData.return_money + '元 ',
+          type: 'image',
+          url: 'https://oss.tdianyi.com/front/aGzMhkHKFQZrFCwp7Am2ZxpKHiP8xiNB.png',
           css: {
-            bottom: '214rpx',
-            left: '57rpx',
-            color: 'red',
-            borderWidth: '1rpx',
-            borderColor: 'red',
-            borderRadius: '13rpx'
+            bottom: '253rpx',
+            right: '5rpx',
+            width: '200rpx',
+            height: '80rpx',
+            mode:'scaleToFill'
+          }
+        },
+        {
+          type: 'text',
+          text: '最高可抵用' ,
+          css: {
+            bottom: '303rpx',
+            left: '340rpx',
+            fontSize: '18rpx',
+            color: '#FFE1A5',
+            width: '200rpx',
+            textAlign: 'center'
+          }
+        },
+        {
+          id:'return_money',
+          type: 'text',
+          text: listData.return_money + '元 ',
+          css: {
+            bottom: '274rpx',
+            left:'340rpx',
+            fontSize: '24rpx',
+            color: '#FFE1A5',
+            width: '200rpx',
+            textAlign: 'center',
+            maxLines: '1'
           }
         },
         {
           type: 'text',
           text: '' + listData.name,
           css: {
-            bottom: '135rpx',
-            left: '57rpx',
-            width: '380rpx',
+            top: '710rpx',
+            left: '47rpx',
+            width: '300rpx',
             maxLines: '2',
-            lineHeight: '30rpx'
+            lineHeight: '30rpx',
+            fontSize: '20rpx'
           }
         },
         {
           type: 'text',
           text: '适用店铺：' + listData.store_name,
           css: {
-            bottom: '85rpx',
-            left: '57rpx',
-            width: '380rpx',
+            bottom: '70rpx',
+            left: '47rpx',
+            width: '286rpx',
             maxLines: '1',
             color: '#B3B3B3',
-            fontSize: '20rpx'
+            fontSize: '14rpx'
           }
         },
         {
           type: 'text',
           text: '店铺地址：' + listData.store_address,
           css: {
-            bottom: '60rpx',
-            left: '57rpx',
-            width: '380rpx',
+            bottom: '50rpx',
+            left: '47rpx',
+            width: '286rpx',
             maxLines: '1',
             color: '#B3B3B3',
-            fontSize: '20rpx'
+            fontSize: '14rpx'
           }
         },
         {
           type: 'image',
           url: listData.wx_img,
           css: {
-            bottom: '107rpx',
-            right: '59rpx',
-            width: '156rpx',
-            height: '156rpx',
+            bottom: '70rpx',
+            right: '33rpx',
+            width: '142rpx',
+            height: '142rpx',
             mode: 'scaleToFill',
           }
         },
@@ -196,10 +292,10 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: '长按查看活动详情',
           css: {
-            bottom: '60rpx',
-            right: '64rpx',
+            bottom: '50rpx',
+            right: '46rpx',
             color: '#555555',
-            fontSize: '20rpx'
+            fontSize: '14rpx'
           }
         },
 

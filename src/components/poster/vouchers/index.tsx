@@ -87,16 +87,14 @@ export default class VouchersPoster extends Component<Props>{
           }
         },
         {
-          type: 'text',
-          text: ' ',
+          type: 'image',
+          url: 'https://oss.tdianyi.com/front/pRmPefzbk2QeJMikjFbcpMpaAZE7Zb72.png',
           css: {
-            bottom: '10rpx',
-            left: '21rpx',
-            width: '496rpx',
-            lineHeight: '500rpx',
+            bottom: '30rpx',
+            left: '20rpx',
             height: '500rpx',
-            borderWidth: '0.5rpx',
-            borderColor: '#E2E2E2'
+            width: '500rpx',
+            mode: 'scaleToFill'
           }
         },
         {
@@ -145,20 +143,26 @@ export default class VouchersPoster extends Component<Props>{
           type: 'text',
           text: '通用券',
           css: {
-            right: '197rpx',
             top: '345rpx',
+            left: '235rpx',
             fontSize: '19rpx',
-            color: '#C32429'
+            color: '#C32429',
+            width: '130rpx',
+            textAlign: 'center',
+            maxLines: '1'
           }
         },
         {
           type: 'text',
           text: '满' + listData.total_fee + '元可用',
           css: {
-            left: '255rpx',
             top: '385rpx',
+            left: '235rpx',
             fontSize: '14rpx',
-            color: '#C32429'
+            color: '#C32429',
+            width: '130rpx',
+            textAlign: 'center',
+            maxLines: '1',
           }
         },
         {
@@ -191,7 +195,7 @@ export default class VouchersPoster extends Component<Props>{
           text: '活动价 ¥',
           css: {
             left: '40rpx',
-            bottom: '161rpx',
+            bottom: '181rpx',
             fontSize: '14rpx',
             color: 'red',
           }
@@ -201,30 +205,40 @@ export default class VouchersPoster extends Component<Props>{
           text: '' + listData.pay_money,
           css: {
             left: '100rpx',
-            bottom: '162rpx',
+            bottom: '182rpx',
             fontSize: '35rpx',
             color: 'red',
           }
         },
         {
           type: 'text',
-          text: ' 扫二维码支付时使用 ',
+          text: '扫二维码支付时使用',
           css: {
-            bottom: '120rpx',
-            left: '45rpx',
+            bottom: '148rpx',
+            left: '40rpx',
             color: 'red',
-            borderWidth: '1rpx',
-            borderColor: 'red',
-            borderRadius: '13rpx',
+            height: '26rpx',
+            width: '160rpx',
+            textAlign:'center',
             fontSize: '14rpx',
-            lineHeight: '18rpx'
+          }
+        },
+        {
+          type: 'image',
+          url: 'https://oss.tdianyi.com/front/WKDeMsYpHetTntQcRcNeQWdD6WifKYeM.png',
+          css: {
+            bottom: '140rpx',
+            left: '40rpx',
+            height: '26rpx',
+            width: '160rpx',
+            mode: 'scaleToFill'
           }
         },
         {
           type: 'text',
           text: ' ' + listData.name,
           css: {
-            bottom: '85rpx',
+            bottom: '105rpx',
             left: '40rpx',
             width: '300rpx',
             maxLines: '2',
@@ -236,7 +250,7 @@ export default class VouchersPoster extends Component<Props>{
           type: 'text',
           text: '适用店铺：' + listData.store_name,
           css: {
-            bottom: '45rpx',
+            bottom: '65rpx',
             left: '40rpx',
             width: '300rpx',
             maxLines: '1',
@@ -248,7 +262,7 @@ export default class VouchersPoster extends Component<Props>{
           type: 'text',
           text: '店铺地址：' + listData.store_address,
           css: {
-            bottom: '30rpx',
+            bottom: '50rpx',
             left: '40rpx',
             width: '300rpx',
             maxLines: '1',
@@ -256,26 +270,12 @@ export default class VouchersPoster extends Component<Props>{
             fontSize: '14rpx'
           }
         },
-        // {
-        //   type: 'qrcode',
-        //   content: listData.link,
-        //   css: {
-        //     bottom: '67rpx',
-        //     right: '45rpx',
-        //     borderWidth: '10rpx',
-        //     borderColor: '#F7F7F7',
-        //     width: '130rpx',
-        //     height: '130rpx',
-        //   }
-        // },
         {
           type: 'image',
           url: listData.wx_img,
           css: {
             bottom: '67rpx',
             right: '45rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '130rpx',
             height: '130rpx',
             mode: 'scaleToFill',
@@ -285,7 +285,7 @@ export default class VouchersPoster extends Component<Props>{
           type: 'text',
           text: '长按查看活动详情',
           css: {
-            bottom: '30rpx',
+            bottom: '50rpx',
             right: '60rpx',
             color: '#555555',
             fontSize: '14rpx'

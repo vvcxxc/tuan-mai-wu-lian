@@ -68,6 +68,41 @@
 					"id": -1,
 					"name": "shop page",
 					"pathName": "pages/merchant/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "活动",
+					"pathName": "pages/activity/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "拼团",
+					"pathName": "pages/activity/group/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "5795",
+					"pathName": "pages/activity/appreciation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "现金券",
+					"pathName": "business-pages/ticket-buy/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "兑换券",
+					"pathName": "business-pages/set-meal/index",
 					"scene": null
 				}
 			]

@@ -79,7 +79,7 @@ export default class AppreActivity extends Component {
             },
             store: {
                 name: '',
-                address:''
+                address: ''
             },
             youhui_type: ''
         },
@@ -243,7 +243,7 @@ export default class AppreActivity extends Component {
     }
 
     /* 请求海报数据 */
-    getPostList = (id:number) => {
+    getPostList = (id: number) => {
         geValueAddedPoster({ youhui_id: id, from: 'wx' })
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
@@ -256,12 +256,9 @@ export default class AppreActivity extends Component {
                     })
                 switch (data.youhui_type) {
                     case 0:
-                        console.log(1)
                         this.setState({ posterType: 'Other' })
                         break;
-                
                     default:
-                        console.log(2)
                         this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
                         break;
                 }
@@ -309,21 +306,9 @@ export default class AppreActivity extends Component {
                         this.setState({ showPoster: true })
                     }}
                 />
-                {/* <Other show={showPoster} list={posterList} onClose={this.closePoster} /> */}
                 <HaveGift show={showPoster} list={posterList} onClose={this.closePoster} />
                 <Other show={showPoster} list={posterList} onClose={this.closePoster} />
-                < NoGift show={showPoster} list={posterList} onClose={this.closePoster} /> 
-                {/* < NoGift show={showPoster} list={posterList} onClose={this.closePoster} /> */}
-                {/* {
-                    posterType == 'Other' && showPoster ? <Other list={posterList} onClose={this.closePoster} />:null
-                } */}
-                {/* {
-                    posterType == 'HaveGift' && showPoster ? <HaveGift list={posterList} onClose={this.closePoster} /> : null
-                }
-                {
-                    posterType == 'NoGift' && showPoster ? < NoGift list={posterList} onClose={this.closePoster} /> : null
-                } */}
-
+                < NoGift show={showPoster} list={posterList} onClose={this.closePoster} />
                 <View onClick={(e) => {
                     this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
                 }}>
