@@ -115,10 +115,8 @@ export default class AppreActivity extends Component {
                 if (res.code == 200) {
                     let isPostage = false;
                     if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
-                    console.log(res.data, 'data')
-                    this.setState({ data: res.data, isPostage }, () => {
-                        this.getPostList()
-                    });
+                    this.getPostList(res.data.id)
+                    this.setState({ data: res.data, isPostage });
                 } else {
                     Taro.showToast({ title: '请求失败', icon: 'none' });
                 }
@@ -245,9 +243,7 @@ export default class AppreActivity extends Component {
     }
 
     /* 请求海报数据 */
-    getPostList = () => {
-        const { id } = this.state.data
-        // let id = 5790
+    getPostList = (id:number) => {
         geValueAddedPoster({ youhui_id: id, from: 'wx' })
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
@@ -269,17 +265,8 @@ export default class AppreActivity extends Component {
                         this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
                         break;
                 }
-                
-                // if (!data.youhui_type) {
-                //     this.setState({ posterType: 'Other' })
-                // } else {
-                //     this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
-                // }
-            })
-    }
 
-    componentDidMount() {
-        this.getPostList()
+            })
     }
 
     onShareAppMessage() {
@@ -322,22 +309,20 @@ export default class AppreActivity extends Component {
                         this.setState({ showPoster: true })
                     }}
                 />
+                {/* <Other show={showPoster} list={posterList} onClose={this.closePoster} /> */}
+                <HaveGift show={showPoster} list={posterList} onClose={this.closePoster} />
+                <Other show={showPoster} list={posterList} onClose={this.closePoster} />
+                < NoGift show={showPoster} list={posterList} onClose={this.closePoster} /> 
+                {/* < NoGift show={showPoster} list={posterList} onClose={this.closePoster} /> */}
                 {/* {
-                    posterType && showPoster ? {
-                        'Other': <Other list={posterList} onClose={this.closePoster} />,
-                        'HaveGift': <HaveGift list={posterList} onClose={this.closePoster} />,
-                        'NoGift': < NoGift list={posterList} onClose={this.closePoster} />
-                    }[posterType] : null
-                } */}
-                {
                     posterType == 'Other' && showPoster ? <Other list={posterList} onClose={this.closePoster} />:null
-                }
-                {
+                } */}
+                {/* {
                     posterType == 'HaveGift' && showPoster ? <HaveGift list={posterList} onClose={this.closePoster} /> : null
                 }
                 {
                     posterType == 'NoGift' && showPoster ? < NoGift list={posterList} onClose={this.closePoster} /> : null
-                }
+                } */}
 
                 <View onClick={(e) => {
                     this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
