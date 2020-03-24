@@ -120,9 +120,7 @@ export default class Appreciation extends Component {
    * 回首页
    */
   handleGoHome = () => {
-    Taro.switchTab({
-      url: '/pages/index/index'
-    })
+    Taro.switchTab({ url: '/pages/index/index' })
   }
 
 
@@ -488,8 +486,8 @@ export default class Appreciation extends Component {
             {/* 去首页 */}
             {
               this.state.isFromShare ? (
-                <View style={{position: 'fixed', bottom: '200rpx', right: '40rpx', zIndex: 88, width: '160rpx', height: '160rpx'}} onClick={this.handleGoHome.bind(this)}>
-                  <Image src={require('../../../../assets/go_home.png')} style={{ width: '160rpx', height: '160rpx' }}/>
+                <View style={{ position: 'fixed', bottom: '200rpx', right: '40rpx', zIndex: 88, width: '160rpx', height: '160rpx' }} onClick={this.handleGoHome.bind(this)}>
+                  <Image src={require('../../../../assets/go_home.png')} style={{ width: '160rpx', height: '160rpx' }} />
                 </View>
               ) : ''
             }
