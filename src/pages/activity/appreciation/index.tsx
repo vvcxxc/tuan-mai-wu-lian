@@ -239,10 +239,8 @@ export default class AppreActivity extends Component {
 
     /* 请求海报数据 */
     getPostList = () => {
-        // const { id } = this.state.data
-        
-        // let id = 5795
-        let id = 5790
+        const { id } = this.state.data
+        // let id = 5790
         geValueAddedPoster({ youhui_id: id, from: 'wx' })
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
