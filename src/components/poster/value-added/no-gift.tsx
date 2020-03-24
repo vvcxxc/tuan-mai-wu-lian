@@ -3,7 +3,8 @@ import { View } from "@tarojs/components"
 import '../index.styl'
 interface Props {
   list?: any,
-  onClose:()=>void
+  onClose: () => void,
+  show: boolean
 }
 
 export default class HaveGiftPoster extends Component<Props>{
@@ -19,7 +20,7 @@ export default class HaveGiftPoster extends Component<Props>{
       return_money: '',
       total_fee: '',
       expire_day: '',
-      pay_money:'',
+      pay_money: '',
       name: '',
       store_name: '',
       store_address: '',
@@ -28,22 +29,24 @@ export default class HaveGiftPoster extends Component<Props>{
     }
   }
 
-  componentDidMount() {
-    const { list } = this.props
-    this.setState({
-      show: true,
-      listData: {
-        return_money: list.return_money,
-        total_fee: list.total_fee,
-        expire_day: list.expire_day,
-        pay_money: list.pay_money,
-        name: list.name,
-        store_name: list.store.name,
-        store_address: list.store.address,
-        link: list.link,
-        wx_img: list.wx_img
-      }
-    })
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.show && !this.state.show) {
+      const { list } = nextProps
+      this.setState({
+        show: list.youhui_type && !list.gift.gift_pic ? true : false,
+        listData: {
+          return_money: list.return_money,
+          total_fee: list.total_fee,
+          expire_day: list.expire_day,
+          pay_money: list.pay_money,
+          name: list.name,
+          store_name: list.store.name,
+          store_address: list.store.address,
+          link: list.link,
+          wx_img: list.wx_img
+        }
+      })
+    }
   }
 
 
@@ -64,11 +67,11 @@ export default class HaveGiftPoster extends Component<Props>{
     console.log(e, 'onImgErr')
   }
   onClose = (e) => {
-    
+
   }
   render() {
     const { listData } = this.state
-    let data= {
+    let meta = {
       background: '#fff',
       width: '544rpx',
       height: '854rpx',
@@ -116,7 +119,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '最高可抵用' + listData.return_money+'元',
+          text: '最高可抵用' + listData.return_money + '元',
           css: {
             left: '20rpx',
             top: '220rpx',
@@ -174,7 +177,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '满' + listData.total_fee+'元可用',
+          text: '满' + listData.total_fee + '元可用',
           css: {
             left: '235rpx',
             top: '425rpx',
@@ -200,7 +203,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: '使用时间：领券后' + listData.expire_day+'天有效',
+          text: '使用时间：领券后' + listData.expire_day + '天有效',
           css: {
             left: '90rpx',
             top: '520rpx',
@@ -232,7 +235,7 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: ' 最高可抵' + listData.return_money+'元 ',
+          text: ' 最高可抵' + listData.return_money + '元 ',
           css: {
             bottom: '124rpx',
             left: '50rpx',
@@ -304,15 +307,18 @@ export default class HaveGiftPoster extends Component<Props>{
       ]
     }
     return (
-      <View className="poster" onClick={() => { this.props.onClose() }}>
+      this.state.show ? <View className="poster" onClick={() => {
+        this.props.onClose()
+        this.setState({ show: false })
+      }}>
         <painter
           widthPixels="250"
-          palette={data}
+          palette={meta}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}
         />
         <View className="save-img" onClick={this.getmeta.bind(this)}>保存图片到相册</View>
-      </View >
+      </View >: null
     )
   }
 }

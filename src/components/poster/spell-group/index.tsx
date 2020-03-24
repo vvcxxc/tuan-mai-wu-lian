@@ -34,7 +34,6 @@ export default class HaveGiftPoster extends Component<Props>{
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
-      console.log(list, 'list')
       this.setState({
         show: true,
         listData: {
@@ -275,25 +274,11 @@ export default class HaveGiftPoster extends Component<Props>{
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
             mode: 'scaleToFill',
           }
         },
-        // {
-        //   type: 'qrcode',
-        //   content: listData.link,
-        //   css: {
-        //     bottom: '107rpx',
-        //     right: '59rpx',
-        //     borderWidth: '10rpx',
-        //     borderColor: '#F7F7F7',
-        //     width: '156rpx',
-        //     height: '156rpx',
-        //   },
-        // },
         {
           type: 'text',
           text: '长按查看活动详情',
