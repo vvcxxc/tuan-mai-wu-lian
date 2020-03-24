@@ -25,9 +25,13 @@ export default class MarketingIndex extends Component<any> {
 
   }
   componentDidMount() {
-
+    let router = Taro.getStorageSync('router')
+    console.log(router, 'routerss')
+    if (router.city_name) {
+      this.setState({ city_name: router.city_name })
+    }
     getChannelInfo().then((res: any) => {
-      if(res.code == 200){
+      if (res.code == 200) {
         this.setState({
           hotRecommendList: res.data.channels.whdtj.youhui,
           brandRecommendList: res.data.channels.pplstj.youhui,
@@ -35,19 +39,19 @@ export default class MarketingIndex extends Component<any> {
         })
       }
     })
-    getTabList({channel_id: 6, page: 1}).then(res => {
-      if(res.code == 200){
-        this.setState({list: res.data.data})
+    getTabList({ channel_id: 6, page: 1 }).then(res => {
+      if (res.code == 200) {
+        this.setState({ list: res.data.data })
       }
     })
   }
   componentWillReceiveProps(nextProps) {
     // 下拉刷新
-    if(this.props.changePull != nextProps.changePull){
+    if (this.props.changePull != nextProps.changePull) {
 
       getChannelInfo().then((res: any) => {
         Taro.stopPullDownRefresh()
-        if(res.code == 200){
+        if (res.code == 200) {
           this.setState({
             hotRecommendList: res.data.channels.whdtj.youhui,
             brandRecommendList: res.data.channels.pplstj.youhui,
@@ -55,18 +59,23 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({channel_id: 6, page: 1}).then(res => {
+      getTabList({ channel_id: 6, page: 1 }).then(res => {
         Taro.stopPullDownRefresh()
-        if(res.code == 200){
-          this.setState({list: res.data.data})
-          this.setState({page: 1})
+        if (res.code == 200) {
+          this.setState({ list: res.data.data })
+          this.setState({ page: 1 })
         }
       })
     }
     // componentDidShow
-    if(this.props.changeShow != nextProps.changeShow){
+    if (this.props.changeShow != nextProps.changeShow) {
+      let router = Taro.getStorageSync('router')
+      console.log(router, 'routerss')
+      if (router.city_name) {
+        this.setState({ city_name: router.city_name })
+      }
       getChannelInfo().then((res: any) => {
-        if(res.code == 200){
+        if (res.code == 200) {
           this.setState({
             hotRecommendList: res.data.channels.whdtj.youhui,
             brandRecommendList: res.data.channels.pplstj.youhui,
@@ -74,19 +83,19 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({channel_id: 6, page: 1}).then(res => {
-        if(res.code == 200){
-          this.setState({list: res.data.data})
-          this.setState({page: 1})
+      getTabList({ channel_id: 6, page: 1 }).then(res => {
+        if (res.code == 200) {
+          this.setState({ list: res.data.data })
+          this.setState({ page: 1 })
         }
       })
     }
     // 触底加载更多
-    if(this.props.changeBottom != nextProps.changeBottom){
-      this.setState({page: this.state.page + 1},()=> {
-        getTabList({channel_id: this.state.id, page: this.state.page}).then(res => {
-          if(res.code == 200){
-            this.setState({list: [...this.state.list,...res.data.data]})
+    if (this.props.changeBottom != nextProps.changeBottom) {
+      this.setState({ page: this.state.page + 1 }, () => {
+        getTabList({ channel_id: this.state.id, page: this.state.page }).then(res => {
+          if (res.code == 200) {
+            this.setState({ list: [...this.state.list, ...res.data.data] })
           }
         })
       })
@@ -108,17 +117,17 @@ export default class MarketingIndex extends Component<any> {
   handlerTabChange(current, id, _this) {
     this.setState({ current, id });
     // this.setState({ meta: data })
-    getTabList({channel_id: id}).then(res => {
-      if(res.code == 200){
-        this.setState({list: res.data.data,id})
+    getTabList({ channel_id: id }).then(res => {
+      if (res.code == 200) {
+        this.setState({ list: res.data.data, id })
       }
     })
   }
 
 
-  handleAction (item: any){
+  handleAction(item: any) {
     const { is_share } = item
-    switch(is_share) {
+    switch (is_share) {
       case 1:
         // 增值
         Taro.navigateTo({
@@ -127,12 +136,12 @@ export default class MarketingIndex extends Component<any> {
         break
       case 4:
         // 现金券兑换券
-        if(item.youhui_type){
+        if (item.youhui_type) {
           // 现金券
           Taro.navigateTo({
             url: '/business-pages/ticket-buy/index?id=' + item.youhui_id
           })
-        }else{
+        } else {
           // 兑换券
           Taro.navigateTo({
             url: '/business-pages/set-meal/index?id=' + item.youhui_id
@@ -147,13 +156,13 @@ export default class MarketingIndex extends Component<any> {
         break
     }
   }
-   // 跳转
-   goTo = (router) => {
-    Taro.navigateTo({url: router})
+  // 跳转
+  goTo = (router) => {
+    Taro.navigateTo({ url: router })
   }
 
   render() {
-    const {banner} = this.state
+    const { banner } = this.state
     return (
       <View className='marketing-page'>
         <Image className='head-bj' src={require('@/assets/index/head-bj.png')} />
@@ -185,15 +194,15 @@ export default class MarketingIndex extends Component<any> {
               circular
               onChange={e => this.setState({ bannerTag: e.detail.current + 1 })}
               autoplay>
-                {
-                  banner.map(res => {
-                    return (
-                      <SwiperItem>
-                        <View className='banner-img'><Image src={res}/></View>
-                      </SwiperItem>
-                    )
-                  })
-                }
+              {
+                banner.map(res => {
+                  return (
+                    <SwiperItem>
+                      <View className='banner-img'><Image src={res} /></View>
+                    </SwiperItem>
+                  )
+                })
+              }
 
               {/* <SwiperItem>
                 <View className='demo-text-2'>2</View>
@@ -248,17 +257,17 @@ export default class MarketingIndex extends Component<any> {
           </View>
 
           {/* 网红店推荐 */}
-          <RecommendBox type={1} list={this.state.hotRecommendList} onAction={this.handleAction}/>
+          <RecommendBox type={1} list={this.state.hotRecommendList} onAction={this.handleAction} />
 
           {/* 图片 */}
           <View className='image-box'>
             {data.map(res => {
-              return <Image className='img-item' src={res.url} onClick={this.goTo.bind(this,res.router)} />
+              return <Image className='img-item' src={res.url} onClick={this.goTo.bind(this, res.router)} />
             })}
           </View>
 
           {/* 品牌连锁推荐 */}
-          <RecommendBox type={2} list={this.state.brandRecommendList} onAction={this.handleAction}/>
+          <RecommendBox type={2} list={this.state.brandRecommendList} onAction={this.handleAction} />
 
           {/* tab栏 */}
           <View className='tab-box'>
@@ -285,7 +294,7 @@ export default class MarketingIndex extends Component<any> {
           {/* 商品列表 */}
           <View className='listBox'>
             {
-              this.state.list ? this.state.list.map((res:any, index )=> {
+              this.state.list ? this.state.list.map((res: any, index) => {
                 return <CouponBox item={res} key={res.channel_id} onAction={this.handleAction} />
               }) : null
             }
