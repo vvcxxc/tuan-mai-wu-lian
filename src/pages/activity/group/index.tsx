@@ -76,7 +76,7 @@ export default class GroupActivity extends Component {
             youhui_id: 0,//活动id
             youhui_name: "",//活动名
             ypoint: "",
-            share_text:''//复制出去的文字
+            share_text: ''//复制出去的文字
         },
         data2: {
             data: [],
@@ -240,7 +240,7 @@ export default class GroupActivity extends Component {
         let that = this;
         let _tempid = this.$router.params.publictypeid ? this.$router.params.publictypeid : undefined;
         let _temptype = this.$router.params.type;
-        Taro.showLoading({ title: 'loading' });
+        Taro.showLoading({ title: 'loading', mask: true });
         let datas = {
             public_type_id: this.$router.params.publictypeid ? this.$router.params.publictypeid : this.$router.params.id,
             activity_id: this.$router.params.activity_id,
@@ -286,7 +286,7 @@ export default class GroupActivity extends Component {
      */
     groupPayment(_groupid) {
         let that = this;
-        Taro.showLoading({ title: 'loading' });
+        Taro.showLoading({ title: 'loading', mask: true });
         let datas = {
             public_type_id: _groupid,
             activity_id: this.$router.params.activity_id,
@@ -329,7 +329,7 @@ export default class GroupActivity extends Component {
     */
     getLastGroupId = (order_sn) => {
         let that = this;
-        Taro.showLoading({ title: '支付成功，正在查询用户团活动id' });
+        Taro.showLoading({ title: '支付成功，正在查询用户团活动id', mask: true });
         let timer = setTimeout(() => {
             clearTimeout(timer);
             getUserYouhuiGroupId({ order_sn: order_sn })
@@ -403,14 +403,14 @@ export default class GroupActivity extends Component {
                 getXcxQrcode({ link })
                     .then((res) => {
                         let meta = this.state.posterList
-                        meta['wx_img'] = 'data:image/png;base64'+res
+                        meta['wx_img'] = 'data:image/png;base64' + res
                         this.setState({ posterList: meta }, () => {
                             console.log('最后', this.state.posterList)
                         })
                     })
-                
+
             })
-        
+
     }
 
 

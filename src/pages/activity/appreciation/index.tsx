@@ -137,7 +137,7 @@ export default class AppreActivity extends Component {
     */
     payment = () => {
         let that = this;
-        Taro.showLoading({ title: 'loading' })
+        Taro.showLoading({ title: 'loading', mask: true })
         let datas = {
             youhui_id: this.$router.params.id,
             activity_id: this.$router.params.activity_id,
@@ -178,7 +178,7 @@ export default class AppreActivity extends Component {
      */
     getLastYouhuiId = (order_sn) => {
         let that = this;
-        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id' });
+        Taro.showLoading({ title: '支付成功，正在查询用户增值活动id', mask: true });
         let timer = setTimeout(() => {
             clearTimeout(timer);
             getUserLastYouhuiId({ order_sn: order_sn })
@@ -263,7 +263,7 @@ export default class AppreActivity extends Component {
                 <ShareBox
                     show={this.state.showShare}
                     onClose={() => this.setState({ showShare: false })}
-                    sendText={()=>{}}
+                    sendText={() => { }}
                     sendLink={this.onShareAppMessage}
                     createPoster={() => {
                         this.setState({ showPoster: true })
