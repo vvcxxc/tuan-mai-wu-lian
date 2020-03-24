@@ -61,6 +61,13 @@
 					"id": -1,
 					"name": "增值",
 					"pathName": "pages/activity/appreciation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "shop page",
+					"pathName": "pages/merchant/index",
 					"scene": null
 				}
 			]

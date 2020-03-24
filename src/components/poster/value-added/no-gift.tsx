@@ -154,7 +154,6 @@ export default class HaveGiftPoster extends Component<Props>{
             top: '395rpx',
             width: '150rpx',
             fontSize: '40rpx',
-            background: 'blue',
             color: '#C32429',
             textAlign: 'center',
             maxLines: '1',
@@ -164,17 +163,13 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: '通用券',
           css: {
-            // right: '197rpx',
-            // top: '395rpx',
-            // fontSize: '19rpx',
-            // color: '#C32429'
             left: '235rpx',
             top: '395rpx',
             fontSize: '19rpx',
             color: '#C32429',
             width: '130rpx',
             textAlign: 'center',
-            maxLines: '1',
+            maxLines: '1'
           }
         },
         {
@@ -245,8 +240,7 @@ export default class HaveGiftPoster extends Component<Props>{
             borderWidth: '1rpx',
             borderColor: 'red',
             borderRadius: '13rpx',
-            fontSize: '14rpx',
-            lineHeight: '21rpx'
+            fontSize: '14rpx'
           }
         },
         {
@@ -285,26 +279,12 @@ export default class HaveGiftPoster extends Component<Props>{
             fontSize: '14rpx'
           }
         },
-        // {
-        //   type: 'qrcode',
-        //   content: listData.link,
-        //   css: {
-        //     bottom: '67rpx',
-        //     right: '45rpx',
-        //     borderWidth: '10rpx',
-        //     borderColor: '#F7F7F7',
-        //     width: '130rpx',
-        //     height: '130rpx',
-        //   }
-        // },
         {
           type: 'image',
           url: listData.wx_img,
           css: {
             bottom: '67rpx',
             right: '45rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '130rpx',
             height: '130rpx',
             mode: 'scaleToFill',

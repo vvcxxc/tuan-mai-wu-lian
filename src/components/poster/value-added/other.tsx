@@ -64,7 +64,6 @@ export default class HaveGiftPoster extends Component<Props>{
       height: '1166rpx',
       width: '700rpx',
       background: '#fff',
-      mode: 'scaleToFill',
       views: [
         {
           type: 'image',
@@ -139,8 +138,7 @@ export default class HaveGiftPoster extends Component<Props>{
             color: 'red',
             borderWidth: '1rpx',
             borderColor: 'red',
-            borderRadius: '13rpx',
-            lineHeight: '25rpx'
+            borderRadius: '13rpx'
           }
         },
         {
@@ -178,26 +176,12 @@ export default class HaveGiftPoster extends Component<Props>{
             fontSize: '20rpx'
           }
         },
-        // {
-        //   type: 'qrcode',
-        //   content: listData.link,
-        //   css: {
-        //     bottom: '107rpx',
-        //     right: '59rpx',
-        //     borderWidth: '10rpx',
-        //     borderColor: '#F7F7F7',
-        //     width: '156rpx',
-        //     height: '156rpx',
-        //   },
-        // },
         {
           type: 'image',
           url: listData.wx_img,
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
             mode: 'scaleToFill',
@@ -219,7 +203,7 @@ export default class HaveGiftPoster extends Component<Props>{
     return (
       <View className="poster" onClick={() => { this.props.onClose() }}>
         <painter
-          widthPixels="200"
+          widthPixels="275"
           palette={data}
           onImgOK={this.onImgOK}
           onImgErr={this.onImgErr}

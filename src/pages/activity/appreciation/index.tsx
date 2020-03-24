@@ -74,7 +74,12 @@ export default class AppreActivity extends Component {
         showPoster: false, //显示海报
         posterList: {
             gift: {
-                gift_pic: ''
+                gift_pic: '',
+                gift_price: ''
+            },
+            store: {
+                name: '',
+                address:''
             },
             youhui_type: ''
         },
@@ -251,14 +256,26 @@ export default class AppreActivity extends Component {
                         meta['wx_img'] = 'https://test.api.tdianyi.com/' + res.data.url
                         this.setState({ posterList: meta })
                     })
-                if (!data.youhui_type) {
-                    this.setState({ posterType: 'Other' })
-                } else {
-                    this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
+                switch (data.youhui_type) {
+                    case 0:
+                        console.log(1)
+                        this.setState({ posterType: 'Other' })
+                        break;
+                
+                    default:
+                        console.log(2)
+                        this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
+                        break;
                 }
+                
+                // if (!data.youhui_type) {
+                //     this.setState({ posterType: 'Other' })
+                // } else {
+                //     this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
+                // }
             })
     }
-    
+
     componentDidMount() {
         this.getPostList()
     }
@@ -303,12 +320,21 @@ export default class AppreActivity extends Component {
                         this.setState({ showPoster: true })
                     }}
                 />
-                {
-                    showPoster ? {
+                {/* {
+                    posterType && showPoster ? {
                         'Other': <Other list={posterList} onClose={this.closePoster} />,
                         'HaveGift': <HaveGift list={posterList} onClose={this.closePoster} />,
                         'NoGift': < NoGift list={posterList} onClose={this.closePoster} />
                     }[posterType] : null
+                } */}
+                {
+                    posterType == 'Other' && showPoster ? <Other list={posterList} onClose={this.closePoster} />:null
+                }
+                {
+                    posterType == 'HaveGift' && showPoster ? <HaveGift list={posterList} onClose={this.closePoster} /> : null
+                }
+                {
+                    posterType == 'NoGift' && showPoster ? < NoGift list={posterList} onClose={this.closePoster} /> : null
                 }
 
                 <View onClick={(e) => {

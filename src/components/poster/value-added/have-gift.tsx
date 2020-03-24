@@ -32,13 +32,16 @@ export default class HaveGiftPoster extends Component<Props>{
   }
   componentDidMount() {
     const { list } = this.props
-    console.log(list,'list9999')
+    console.log(list, 'list9999')
+    let meta = {
+
+    }
     this.setState({
       listData: {
         return_money: list.return_money,
         total_fee: list.total_fee,
         expire_day: list.expire_day,
-        gift_pic: list.gift.gift_pic,
+        gift_pic:  list.gift.gift_pic,
         name: list.name,
         gift_price: list.gift.gift_price,
         pay_money: list.pay_money,
@@ -70,8 +73,9 @@ export default class HaveGiftPoster extends Component<Props>{
   render() {
     const { listData } = this.state
     let data = {
-      width: '544rpx',
+      id:'meta',
       height: '1027rpx',
+      width: '544rpx',
       background: '#fff',
       views: [
         {
@@ -88,7 +92,7 @@ export default class HaveGiftPoster extends Component<Props>{
           text: ' ',
           css: {
             bottom: '10rpx',
-            left: '21rpx',
+            left: '11rpx',
             width: '496rpx',
             lineHeight: '500rpx',
             height: '500rpx',
@@ -101,7 +105,7 @@ export default class HaveGiftPoster extends Component<Props>{
           url: "https://oss.tdianyi.com/front/NWk3npDCMQfHx2G8JMMe4F7EF7d6HpWp.png",
           css: {
             top: '110rpx',
-            left: '20rpx',
+            left: '10rpx',
             height: '500rpx',
             width: '500rpx'
           }
@@ -292,8 +296,7 @@ export default class HaveGiftPoster extends Component<Props>{
             borderWidth: '1rpx',
             borderColor: 'red',
             borderRadius: '13rpx',
-            fontSize: '14rpx',
-            lineHeight: '21rpx'
+            fontSize: '14rpx'
           }
         },
         {
@@ -338,8 +341,6 @@ export default class HaveGiftPoster extends Component<Props>{
           css: {
             bottom: '67rpx',
             right: '45rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
             mode: 'scaleToFill',
