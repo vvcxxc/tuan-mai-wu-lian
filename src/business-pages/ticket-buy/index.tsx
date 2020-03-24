@@ -331,7 +331,8 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                        <View className="good_new_money">￥{this.state.recommend[0].pay_money}</View>
+                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money">{this.state.recommend[0].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[0].return_money}</View>
                       </View>
                     </View>
@@ -359,7 +360,8 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                        <View className="good_new_money">￥{this.state.recommend[1].pay_money}</View>
+                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money">{this.state.recommend[1].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[1].return_money}</View>
                       </View>
                     </View>
@@ -388,7 +390,8 @@ export default class TicketBuy extends Component {
                           </View>
                         </View>
                         <View className="good_money">
-                          <View className="good_new_money">￥{item.pay_money}</View>
+                        <View className="good_new_money_icon">￥</View>
+                          <View className="good_new_money">{item.pay_money}</View>
                           <View className="good_old_money">￥{item.return_money}</View>
                         </View>
                       </View>

@@ -61,7 +61,7 @@ export default class AppreActivity extends Component {
                     <View className="invitation-title">邀请的用户数量</View>
                     <View className="invitation-num">{this.state.total}</View>
                 </View>
-                <View className='invitation-title-left-box'>
+                <View className='invitation-title-left-box' style={{ background: this.state.list.length ? '#f3f4f8' : '#fff' }}>
                     <View className='invitation-title-left'></View>
                     <View className='invitation-title'>邀请列表</View>
                 </View>
@@ -91,7 +91,7 @@ export default class AppreActivity extends Component {
                         <View className='list-no-data'>
                             <View className='no-data-box'>
                                 <Image className='no-data-img' src={require('@/assets/index/no-data.png')} />
-                                <View>暂时没有活动，看看其他吧</View>
+                                <View>暂无邀请好友~</View>
                             </View>
                         </View>
                         : null
