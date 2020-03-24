@@ -186,26 +186,12 @@ export default class CouponsPoster extends Component<Props>{
             fontSize: '20rpx'
           }
         },
-        // {
-        //   type: 'qrcode',
-        //   content: listData.link,
-        //   css: {
-        //     bottom: '107rpx',
-        //     right: '59rpx',
-        //     borderWidth: '10rpx',
-        //     borderColor: '#F7F7F7',
-        //     width: '156rpx',
-        //     height: '156rpx',
-        //   },
-        // },
         {
           type: 'image',
           url: listData.wx_img,
           css: {
             bottom: '107rpx',
             right: '59rpx',
-            // borderWidth: '10rpx',
-            // borderColor: '#F7F7F7',
             width: '156rpx',
             height: '156rpx',
             mode: 'scaleToFill',
