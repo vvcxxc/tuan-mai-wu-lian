@@ -6,8 +6,8 @@ module.exports = {
     // BASIC_API: '"https://api.tdianyi.com/"',
     USER_API: '"http://test.usercenter.tdianyi.com/"',
     // BASIC_API: '"https://release.api.tdianyi.com/"'
-    H5_URL: 'http://mall.tdianyi.com',
-    // H5_URL: 'http://test.mall.tdianyi.com',
+    // H5_URL: 'http://mall.tdianyi.com',
+    H5_URL: 'http://test.mall.tdianyi.com',
   },
   defineConstants: {
   },
