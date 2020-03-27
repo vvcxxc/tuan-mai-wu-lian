@@ -4,15 +4,13 @@
 	"description": "tarojs-ts-cli",
 	"appid": "wx5f2271a7c946fef1",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"minified": false,
 		"newFeature": true,
 		"coverView": true,
 		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -21,6 +19,8 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
 		"preloadBackgroundData": false
 	},
 	"compileType": "miniprogram",
@@ -103,6 +103,14 @@
 					"id": -1,
 					"name": "兑换券",
 					"pathName": "business-pages/set-meal/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/coupon-distribution/index",
+					"pathName": "business-pages/coupon-distribution/index",
+					"query": "id=5839&invitation_user_id=222",
 					"scene": null
 				}
 			]

@@ -199,12 +199,12 @@ export default class GroupActivity extends Component {
                 if (this.$router.params.type == '5') {
                     //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
                     Taro.navigateTo({
-                        url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.name)
+                        url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.name)
                     })
                 } else if (this.$router.params.type == '55') {
                     //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
                     Taro.navigateTo({
-                        url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + encodeURIComponent(this.state.data.name)
+                        url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + encodeURIComponent(this.state.data.name)
                     })
                 }
             } else {
@@ -223,7 +223,7 @@ export default class GroupActivity extends Component {
         if (phone_status == 'binded' || phone_status == 'bind_success') {
             if (this.state.data.gift_id) {
                 Taro.navigateTo({
-                    url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name)
+                    url: '/activity-pages/group-distribution/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name)
                 })
             } else {
                 this.groupPayment(_id);

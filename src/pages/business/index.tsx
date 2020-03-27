@@ -198,14 +198,12 @@ export default class PaySuccess extends Component<Props> {
   gotoGroup = (_id, gift_id, activity_id) => {
     Taro.navigateTo({
       url: '/pages/activity/group/index?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
-      // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   // 去增值活动
   gotoAppreciation = (_id, gift_id, activity_id) => {
     Taro.navigateTo({
       url: '/pages/activity/appreciation/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
-      // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   //现金券详情
@@ -217,7 +215,7 @@ export default class PaySuccess extends Component<Props> {
   //去优惠信息
   handleClick2 = (_id, e) => {
     Taro.navigateTo({
-      url: '../../business-pages/set-meal/index?id=' + _id
+      url: '../../business-pages/coupon-distribution/index?id=' + _id
     })
   }
   //去附近店铺
