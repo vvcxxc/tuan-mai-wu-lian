@@ -184,7 +184,7 @@ export default class distributionDetail extends Component {
             youhui_number: 1,
             xcx: 1,
             is_distribution: this.state.chooseDistribution ? 1 : 0,
-            address_id: this.state.address.id,
+            address_id: this.state.address && this.state.address.id ? this.state.address.id : undefined,
             open_id: Taro.getStorageSync("openid"),
             unionid: Taro.getStorageSync("unionid"),
         }
