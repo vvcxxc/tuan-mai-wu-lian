@@ -195,7 +195,7 @@ export default class GroupActivity extends Component {
     goToaConfirm = (e) => {
         let phone_status = Taro.getStorageSync('phone_status')
         if (phone_status == 'binded' || phone_status == 'bind_success') {
-            if (this.state.data.gift_id) {
+            if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
                 if (this.$router.params.type == '5') {
                     //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
                     Taro.navigateTo({
@@ -221,7 +221,7 @@ export default class GroupActivity extends Component {
     goToaConfirmAddGroup = (_id, e) => {
         let phone_status = Taro.getStorageSync('phone_status')
         if (phone_status == 'binded' || phone_status == 'bind_success') {
-            if (this.state.data.gift_id) {
+            if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
                 Taro.navigateTo({
                     url: '/activity-pages/group-distribution/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name)
                 })

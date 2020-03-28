@@ -17,7 +17,7 @@ export default class distributionDetail extends Component {
         sumMoney: 0,
         data: {
             address: {
-                id:0,
+                id: 0,
                 city: "",
                 detail: "",
                 district: "",
@@ -195,7 +195,7 @@ export default class distributionDetail extends Component {
             gift_id: this.state.chooseGift && this.state.data.youhui.gift_id ? this.state.data.youhui.gift_id : undefined,
             is_distribution: this.state.chooseDistribution && this.state.data.youhui.is_delivery ? 1 : 0,
             type: this.$router.params.activityType,
-            address_id: this.state.data.address.id,
+            address_id: this.state.data.address.id ? this.state.data.address.id : undefined,
             xcx: 1,
             number: 1,
             open_id: Taro.getStorageSync("openid"),
