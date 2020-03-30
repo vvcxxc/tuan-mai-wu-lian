@@ -11,9 +11,9 @@ export default class distributionDetail extends Component {
         enablePullDownRefresh: false
     };
     state = {
-        chooseGift: false,
-        chooseDistribution: false,
-        contentboxShow: true,
+        chooseGift: true,
+        chooseDistribution: true,
+        contentboxShow: false,
         sumMoney: 0,
         data: {
             address: {
