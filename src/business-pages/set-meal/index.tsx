@@ -100,7 +100,7 @@ export default class AppreActivity extends Component {
       .then(({ data, code }) => {
         this.setState({ posterList: data })
         let link = data.link
-        getXcxQrcode({ link })
+        getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
             let meta = this.state.posterList
             meta['wx_img'] = BASIC_API + res.data.url
