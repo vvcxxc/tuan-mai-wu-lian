@@ -15,7 +15,6 @@ import ShareBox from "@/components/share-box";//分享组件
 import HaveGift from '@/components/poster/value-added/have-gift'//有礼品版本
 import NoGift from '@/components/poster/value-added/no-gift'//无礼品版本
 import Other from '@/components/poster/value-added/other'//其他版本(同拼团海报类似)
-
 import Zoom from '@/components/zoom';
 
 const BASIC_API = process.env.BASIC_API;

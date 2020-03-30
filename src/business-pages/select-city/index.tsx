@@ -16,7 +16,8 @@ export default class SelectCity extends Component {
     showSearchList: false,
     searchValue: '',
     showIndicator:false,
-    type_index_id: 0
+    type_index_id: 0,
+    city_id: ''
   };
   globalData: {
     userInfo: {}
@@ -74,7 +75,7 @@ export default class SelectCity extends Component {
       data: { xpoint: that.longitude, ypoint: that.latitude }
     })
       .then((res: any) => {
-        this.setState({ cityName: res.data.city, type_index_id: res.data.type_index_id })
+        this.setState({ cityName: res.data.city, type_index_id: res.data.type_index_id, city_id: res.data.city_id })
       })
   }
   // agin location
@@ -83,7 +84,7 @@ export default class SelectCity extends Component {
     this.getLocation();
     Taro.setStorage({
       key: 'router',
-      data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude, type_index_id: this.state.type_index_id, city_name: this.state.cityName }
+      data: { xpoint: this.state.locations.longitude, ypoint: this.state.locations.latitude, type_index_id: this.state.type_index_id, city_name: this.state.cityName,city_id: this.state.city_id }
     })
     setTimeout(() => {
       this.setState({ showIndicator: false })
@@ -113,7 +114,7 @@ export default class SelectCity extends Component {
 
   // click 热门城市
   searchData = (name, id, type_index_id) => {
-    console.log(name,id)
+    console.log(name,id, type_index_id)
     Taro.setStorage({ key: 'router', data: { city_id: id, city_name: name, type_index_id } })
     Taro.switchTab({ url: '../../pages/index/index?router' })
   }
