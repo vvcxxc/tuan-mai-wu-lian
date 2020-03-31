@@ -26,19 +26,11 @@ export default class distributionDetail extends Component {
             youhui_type: 0,
         },
         supplierDelivery: {
-            created_at: null,
             delivery_end_time: "",
-            delivery_phone: "",
             delivery_radius_m: 0,
             delivery_service_money: 0,
             delivery_start_time: "",
-            delivery_status: 0,
-            id: 0,
-            location_xpoint: "",
-            location_ypoint: "",
-            supplier_id: 0,
-            supplier_location_id: 0,
-            updated_at: null,
+            id: 0
         },
         store: {
             id: 0,
@@ -75,7 +67,7 @@ export default class distributionDetail extends Component {
                 .then((res: any) => {
                     if (res.code == 200) {
                         that.getTheAddress(currPage.data.parmsData.address_id);
-                        that.setState({ coupon: res.data.info.coupon, store: res.data.info.store,supplierDelivery: res.data.supplierDelivery }, () => { that.calculateSumMoney() })
+                        that.setState({ coupon: res.data.info.coupon, store: res.data.info.store,supplierDelivery: res.data.delivery_service_info }, () => { that.calculateSumMoney() })
                     } else {
                         Taro.showToast({ title: res.message, icon: 'none' })
                         that.getTheAddress(currPage.data.parmsData.address_id);
@@ -298,7 +290,7 @@ export default class distributionDetail extends Component {
                                     <View className="distribution-labels">
                                         <View className="distribution-label-item">配送费{this.state.supplierDelivery.delivery_service_money}元</View>
                                         <View className="distribution-label-item">{this.state.supplierDelivery.delivery_radius_m}km可送</View>
-                                        <View className="distribution-label-item">{this.state.supplierDelivery.delivery_start_time}-{this.state.coupon.supplierDelivery.delivery_end_time}配送</View>
+                                        <View className="distribution-label-item">{this.state.supplierDelivery.delivery_start_time}-{this.state.supplierDelivery.delivery_end_time}配送</View>
                                     </View>
                                 </View>
                             </View> : null
