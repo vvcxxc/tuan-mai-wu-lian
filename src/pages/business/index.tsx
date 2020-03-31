@@ -215,7 +215,7 @@ export default class PaySuccess extends Component<Props> {
   //去优惠信息
   handleClick2 = (_id, e) => {
     Taro.navigateTo({
-      url: '../../business-pages/coupon-distribution/index?id=' + _id
+      url: '../../business-pages/set-meal/index?id=' + _id
     })
   }
   //去附近店铺

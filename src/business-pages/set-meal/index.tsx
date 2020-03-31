@@ -171,7 +171,7 @@ export default class AppreActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       Taro.navigateTo({
-        url: '../../business-pages/confirm-order/index?id=' + id
+        url: '../../business-pages/coupon-distribution/index?id=' + id
       })
     } else {
       this.setState({ is_alert: true })
