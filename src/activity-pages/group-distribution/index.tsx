@@ -273,6 +273,7 @@ export default class distributionDetail extends Component {
     }
 
     render() {
+        console.log('gift_id', this.state.data.youhui.gift_id)
         return (
             <View className="distribution-detail">
                 {
@@ -387,7 +388,7 @@ export default class distributionDetail extends Component {
                         <View className='order-item-words'>￥{this.state.data.youhui.pay_money}</View>
                     </View>
                     {
-                        this.state.chooseGift ?
+                        this.state.chooseGift && this.state.data.youhui.gift_id ?
                             <View className='order-item'>
                                 <View className='order-item-key'>礼品运费</View>
                                 <View className='order-item-words'>￥{this.state.data.youhui.postage}</View>
