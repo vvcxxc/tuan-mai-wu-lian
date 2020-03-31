@@ -152,7 +152,10 @@ export default class TicketBuy extends Component {
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
           recommend: res.data.recommend.data
+        },()=> {
+          console.log(this.state.store)
         })
+
       }).catch(err => {
         Taro.hideLoading()
         Taro.showToast({ title: '信息错误', icon: 'none' })
@@ -262,7 +265,7 @@ export default class TicketBuy extends Component {
 
         <View className="appre-store-info">
           <ApplyToTheStore
-            id={this.state.store.id}
+            store_id={this.state.store.id}
             isTitle={true}
             img={this.state.store.shop_door_header_img}
             name={this.state.store.sname}

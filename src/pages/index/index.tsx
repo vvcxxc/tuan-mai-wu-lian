@@ -62,7 +62,7 @@ export default class Index extends Component<any> {
     })
     let router = Taro.getStorageSync('router') || {}
     if (router.city_name) {
-      if(router.type_index_id){
+      if(router.type_index_id >= 1){
         this.setState({ is_marketing: true })
       }else {
         this.setState({ is_marketing: false })
@@ -80,7 +80,7 @@ export default class Index extends Component<any> {
             router.city_name = res.data.city
             router.city_id = res.data.city_id
             router.type_index_id = res.data.type_index_id
-            if (res.data.type_index_id) {
+            if (res.data.type_index_id >= 1) {
               this.setState({ is_marketing: true })
             } else {
               this.setState({ is_marketing: false })

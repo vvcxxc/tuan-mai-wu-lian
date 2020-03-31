@@ -105,6 +105,13 @@
 					"pathName": "detail-pages/course/newbie",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/group/index",
+					"pathName": "pages/activity/group/index",
+					"query": "id=5688&type=5&gift_id=0&activity_id=2205&__key_=15855649712522",
+					"scene": null
 				}
 			]
 		}

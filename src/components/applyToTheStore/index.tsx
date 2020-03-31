@@ -7,7 +7,7 @@ interface Location {
 }
 
 interface Props {
-  id?: string|number;
+  store_id?: any;
   isTitle?: boolean; // 是否展示店铺名
   img: string; // 店铺图片
   name: string; // 店铺名称
@@ -18,7 +18,7 @@ interface Props {
 }
 export default class ApplyToTheStore extends Component<Props> {
   ApplyToTheStore.defaultProps = {
-    id: 0,
+    // id: 0,
     isTitle: false, // 是否展示店铺名
     img: '', // 店铺图片
     name: '', // 店铺名称
@@ -56,13 +56,19 @@ export default class ApplyToTheStore extends Component<Props> {
     });
     e.stopPropagation();
   }
+  gotoStore = () => {
+    console.log(this.props.store_id)
+    Taro.navigateTo({
+			url: '/pages/business/index?id=' + this.props.store_id
+		})
+  }
 
   render() {
     return (
       <View>
         {
           this.props.isTitle ?
-            (<View className='apply-page'>
+            (<View className='apply-page' onClick={this.gotoStore}>
               <View className='apply-title-box'>
                 <View className='apply-title-left'></View>
                 <View className='apply-title'>适用店铺</View>
@@ -88,7 +94,7 @@ export default class ApplyToTheStore extends Component<Props> {
               </View>
             </View>)
             : (
-              <View className='apply-page'>
+              <View className='apply-page' onClick={this.gotoStore}>
                 <View className='apply-main'>
                   <Image className='store-img' src={this.props.img} />
                   <View className='store-detail'>
