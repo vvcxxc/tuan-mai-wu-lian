@@ -16,6 +16,7 @@ import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
+import {accSubtr } from '@/utils/common'
 
 // import ShareBox from '@/components/share-box';
 const BASIC_API = process.env.BASIC_API;
@@ -257,7 +258,7 @@ export default class TicketBuy extends Component {
               <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
               <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
             </View>
-            <View className="appre-price-discounts">已优惠￥{Number(this.state.coupon.return_money) - Number(this.state.coupon.pay_money)}</View>
+            <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money) , Number(this.state.coupon.pay_money))}</View>
           </View>
 
         </View>

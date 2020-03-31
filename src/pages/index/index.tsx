@@ -76,7 +76,6 @@ export default class Index extends Component<any> {
             ypoint: res.latitude
           }
           getCityName(data).then((res: any) => {
-            console.log(6234234)
             router.city_name = res.data.city
             router.city_id = res.data.city_id
             router.type_index_id = res.data.type_index_id
