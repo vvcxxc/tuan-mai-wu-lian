@@ -17,7 +17,7 @@ import NoGift from '@/components/poster/value-added/no-gift'//无礼品版本
 import Other from '@/components/poster/value-added/other'//其他版本(同拼团海报类似)
 
 import Zoom from '@/components/zoom';
-
+import { accAdd } from '@/components/acc-num'
 const BASIC_API = process.env.BASIC_API;
 export default class AppreActivity extends Component {
     config = {
@@ -333,7 +333,7 @@ export default class AppreActivity extends Component {
                     </Swiper>
                 </View>
                 <View className="banner-number-box">
-                    <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
+                    <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
                 </View>
                 {/* <View className="collect-box">

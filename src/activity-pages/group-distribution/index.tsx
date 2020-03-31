@@ -4,6 +4,7 @@ import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@taro
 import "./index.less";
 import { groupOrderInfo, toWxPay, getUserYouhuiGroupId } from "./service";
 import { getLocation } from "@/utils/getInfo";
+import { accAdd } from '@/components/acc-num'
 
 export default class distributionDetail extends Component {
     config = {
@@ -167,8 +168,8 @@ export default class distributionDetail extends Component {
      */
     calculateSumMoney = () => {
         let sum = Number(this.state.data.youhui.pay_money);
-        if (this.state.chooseGift) { sum = sum + Number(this.state.data.youhui.postage) }
-        if (this.state.chooseDistribution) { sum = sum + Number(this.state.data.youhui.supplier_delivery_service_money) }
+        if (this.state.chooseGift) { sum = accAdd(sum, this.state.data.youhui.postage) }
+        if (this.state.chooseDistribution) { sum = accAdd(sum, this.state.data.youhui.supplier_delivery_service_money) }
         this.setState({ sumMoney: sum })
     }
 

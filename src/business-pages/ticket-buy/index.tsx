@@ -16,6 +16,7 @@ import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
+import { accSub } from '@/components/acc-num'
 
 // import ShareBox from '@/components/share-box';
 const BASIC_API = process.env.BASIC_API;
@@ -109,7 +110,7 @@ export default class TicketBuy extends Component {
         getXcxQrcode({ link })
           .then((res) => {
             let meta = this.state.posterList
-            meta['wx_img'] = BASIC_API+ res.data.url
+            meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })
       })
@@ -254,7 +255,7 @@ export default class TicketBuy extends Component {
               <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
               <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
             </View>
-            <View className="appre-price-discounts">已优惠￥{Number(this.state.coupon.return_money) - Number(this.state.coupon.pay_money)}</View>
+            <View className="appre-price-discounts">已优惠￥{accSub(this.state.coupon.return_money, this.state.coupon.pay_money)}</View>
           </View>
 
         </View>
@@ -332,7 +333,7 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money_icon">￥</View>
                         <View className="good_new_money">{this.state.recommend[0].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[0].return_money}</View>
                       </View>
@@ -361,7 +362,7 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money_icon">￥</View>
                         <View className="good_new_money">{this.state.recommend[1].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[1].return_money}</View>
                       </View>
@@ -391,7 +392,7 @@ export default class TicketBuy extends Component {
                           </View>
                         </View>
                         <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
+                          <View className="good_new_money_icon">￥</View>
                           <View className="good_new_money">{item.pay_money}</View>
                           <View className="good_old_money">￥{item.return_money}</View>
                         </View>

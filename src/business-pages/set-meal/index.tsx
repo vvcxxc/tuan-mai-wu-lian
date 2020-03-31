@@ -11,6 +11,7 @@ import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
 // import ShareBox from '@/components/share-box';
+import { accSub } from '@/components/acc-num'
 const H5_URL = process.env.H5_URL
 const BASIC_API = process.env.BASIC_API;
 export default class AppreActivity extends Component {
@@ -261,7 +262,7 @@ export default class AppreActivity extends Component {
               <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
               <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
             </View>
-            <View className="appre-price-discounts">已优惠￥{Number(this.state.coupon.return_money) - Number(this.state.coupon.pay_money)}</View>
+            <View className="appre-price-discounts">已优惠￥{accSub(this.state.coupon.return_money, this.state.coupon.pay_money)}</View>
           </View>
 
         </View>

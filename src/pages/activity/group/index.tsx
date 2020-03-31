@@ -17,6 +17,8 @@ import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
 import SpellGroup from "@/components/poster/spell-group";//海报组件
 import Zoom from '@/components/zoom';
+import { accAdd } from '@/components/acc-num'
+
 const H5_URL = process.env.H5_URL
 const BASIC_API = process.env.BASIC_API;
 export default class GroupActivity extends Component {
@@ -495,7 +497,7 @@ export default class GroupActivity extends Component {
                     </Swiper>
                 </View>
                 <View className="banner-number-box">
-                    <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
+                    <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
                 </View>
                 {/* <View className="collect-box">
