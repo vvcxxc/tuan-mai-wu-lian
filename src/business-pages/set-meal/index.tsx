@@ -51,6 +51,13 @@ export default class AppreActivity extends Component {
       expire_day: '',
       share_text: ''//要分享的文字信息
     },
+    delivery_service_info: {
+      delivery_end_time: '',
+      delivery_radius_m: 0,
+      delivery_service_money: 0,
+      delivery_start_time: '',
+      id: 0
+    },
     store: {
       brief: "",
       id: 0,
@@ -146,7 +153,8 @@ export default class AppreActivity extends Component {
           coupon: res.data.info.coupon,
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
-          recommend: res.data.recommend.data
+          recommend: res.data.recommend.data,
+          delivery_service_info: res.data.delivery_service_info
         })
       }).catch(err => {
         Taro.hideLoading()
@@ -218,6 +226,7 @@ export default class AppreActivity extends Component {
 
   render() {
     const { description } = this.state.coupon;
+    const {  delivery_service_info } = this.state
     return (
       <View className="appre-activity-detail">
         <ShareBox
@@ -293,6 +302,15 @@ export default class AppreActivity extends Component {
             <View className="rules-key">有效期：</View>
             <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
           </View>
+          {
+            delivery_service_info.id ? <View className="group-rules-list-margin">
+              <View className="group-rules-list-title" >配送服务：</View>
+              <View className="group-rules-list-text" >-配送费用：{delivery_service_info.delivery_service_money}元</View>
+              <View className="group-rules-list-text" >-配送范围：{delivery_service_info.delivery_radius_m}km</View>
+              <View className="group-rules-list-text" >-配送时间：{delivery_service_info.delivery_start_time + '-' + delivery_service_info.delivery_end_time}</View>
+              <View className="group-rules-list-text" >-联系电话：{this.state.store.tel}</View>
+            </View> : null
+          }
           {
             description && description.length && !this.state.showMoreRules ? <View>
               <View className="appre-rules-list-title" >使用规则：</View>

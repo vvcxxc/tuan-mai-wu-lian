@@ -78,7 +78,14 @@ export default class GroupActivity extends Component {
             youhui_id: 0,//活动id
             youhui_name: "",//活动名
             ypoint: "",
-            share_text: ''//复制出去的文字
+            share_text: '',//复制出去的文字 
+            delivery_service_info: {
+                delivery_end_time: '',
+                delivery_radius_m: 0,
+                delivery_service_money: 0,
+                delivery_start_time: '',
+                id: 0
+            }
         },
         data2: {
             data: [],
@@ -452,7 +459,7 @@ export default class GroupActivity extends Component {
 
 
     render() {
-        const { description } = this.state.data;
+        const { description, delivery_service_info } = this.state.data;
         const { posterList } = this.state
         return (
             <View className="group-activity-detail">
@@ -506,7 +513,6 @@ export default class GroupActivity extends Component {
                 <View className="share-box">
                     <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
                 </View> */}
-
                 <View className="group-info-content">
                     <View className="group-info-title">
                         <View className="group-info-title-label">拼团券</View>
@@ -558,7 +564,6 @@ export default class GroupActivity extends Component {
                                                     </View>
                                                     <View className="group-list-name" >{item[0].real_name}</View>
                                                 </View>
-
                                                 <View className="group-info" >
                                                     <View className="group-list-timesbox" >
                                                         <View className="group-list-lack" >
@@ -718,10 +723,15 @@ export default class GroupActivity extends Component {
                         <View className="rules-key"> 拼团时限：</View>
                         <View className="rules-words">需{this.state.data.team_set_end_time}时内成团</View>
                     </View>
-                    {/* <View className="group-rules-item" >
-                        <View className="rules-key">有效期：</View>
-                        <View className="rules-words">成团后7日内可用</View>
-                    </View> */}
+                    {
+                        delivery_service_info.id ? <View className="group-rules-list-margin">
+                            <View className="group-rules-list-title" >配送服务：</View>
+                            <View className="group-rules-list-text" >-配送费用：{delivery_service_info.delivery_service_money}元</View>
+                            <View className="group-rules-list-text" >-配送范围：{delivery_service_info.delivery_radius_m}km</View>
+                            <View className="group-rules-list-text" >-配送时间：{delivery_service_info.delivery_start_time + '-' + delivery_service_info.delivery_end_time}</View>
+                            <View className="group-rules-list-text" >-联系电话：{this.state.data.tel}</View>
+                        </View> : null
+                    }
                     {
                         description && description.length && !this.state.showMoreRules ? <View>
                             <View className="group-rules-list-title" >使用规则：</View>
