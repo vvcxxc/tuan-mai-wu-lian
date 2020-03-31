@@ -273,7 +273,6 @@ export default class distributionDetail extends Component {
     }
 
     render() {
-        console.log('gift_id', this.state.data.youhui.gift_id)
         return (
             <View className="distribution-detail">
                 {
