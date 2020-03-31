@@ -17,7 +17,7 @@ import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
 import SpellGroup from "@/components/poster/spell-group";//海报组件
 import Zoom from '@/components/zoom';
-import {accSubtr } from '@/utils/common'
+import { accSubtr, accAdd } from '@/utils/common'
 const H5_URL = process.env.H5_URL
 const BASIC_API = process.env.BASIC_API;
 export default class GroupActivity extends Component {
@@ -402,7 +402,7 @@ export default class GroupActivity extends Component {
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
                 let link = data.link
-                getXcxQrcode({ link,id: data.youhui_id })
+                getXcxQrcode({ link, id: data.youhui_id })
                     .then((res) => {
                         let meta = this.state.posterList
                         meta['wx_img'] = BASIC_API + res.data.url
@@ -496,7 +496,7 @@ export default class GroupActivity extends Component {
                     </Swiper>
                 </View>
                 <View className="banner-number-box">
-                    <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
+                    <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
                 </View>
                 {/* <View className="collect-box">
@@ -517,7 +517,7 @@ export default class GroupActivity extends Component {
                             <View className="group-price-info-new">{this.state.data.participation_money}</View>
                             <View className="group-price-info-old">￥{this.state.data.pay_money}</View>
                         </View>
-                        <View className="group-price-discounts">已优惠￥{accSubtr(Number(this.state.data.pay_money) , Number(this.state.data.participation_money)) }</View>
+                        <View className="group-price-discounts">已优惠￥{accSubtr(Number(this.state.data.pay_money), Number(this.state.data.participation_money))}</View>
                     </View>
                     <View className="group-info-label">
                         <View className="group-info-label-item">{this.state.data.number}人团</View>
