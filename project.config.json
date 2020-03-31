@@ -86,10 +86,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 5,
 					"name": "现金券",
 					"pathName": "business-pages/ticket-buy/index",
-					"query": "",
+					"query": "id=5925&__key_=15856261017742",
 					"scene": null
 				},
 				{

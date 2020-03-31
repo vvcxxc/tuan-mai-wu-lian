@@ -16,7 +16,7 @@ import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
-import {accSubtr } from '@/utils/common'
+import {accSubtr, accAdd } from '@/utils/common'
 
 // import ShareBox from '@/components/share-box';
 const BASIC_API = process.env.BASIC_API;
@@ -57,7 +57,8 @@ export default class TicketBuy extends Component {
       youhui_type: 0,
       expire_day: '',
       total_fee: 0,
-      share_text: ''
+      share_text: '',
+      images: []
     },
     store: {
       brief: "",
@@ -232,14 +233,31 @@ export default class TicketBuy extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-        <Image className='appre-banner' src={this.state.coupon.image}
-          onClick={(e) => {
-            this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.image })
-          }}
-        />
+         <View onClick={(e) => {
+          this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.images[this.state.bannerImgIndex] })
+        }}>
+          <Swiper
+            onChange={(e) => {
+              this.setState({ bannerImgIndex: e.detail.current })
+            }}
+            className='group-banner'
+            circular
+            autoplay
+          >
+            {
+              this.state.coupon.images.length ? this.state.coupon.images.map((item, index) => {
+                return (
+                  <SwiperItem className="group-banner-swiperItem" key={item}>
+                    <Image className="group-banner-img" src={item} />
+                  </SwiperItem>
+                )
+              }) : null
+            }
+          </Swiper>
+        </View>
         <View className="banner-number-box">
-          <View className="banner-number">1</View>
-          <View className="banner-number">1</View>
+          <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
+          <View className="banner-number">{this.state.coupon.images.length}</View>
         </View>
         {/* <View className="collect-box">
           <Image className="collect-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
