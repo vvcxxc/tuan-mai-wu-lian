@@ -67,7 +67,7 @@ export default class distributionDetail extends Component {
                 .then((res: any) => {
                     if (res.code == 200) {
                         that.getTheAddress(currPage.data.parmsData.address_id);
-                        that.setState({ coupon: res.data.info.coupon, store: res.data.info.store,supplierDelivery: res.data.delivery_service_info }, () => { that.calculateSumMoney() })
+                        that.setState({ coupon: res.data.info.coupon, store: res.data.info.store, supplierDelivery: res.data.delivery_service_info }, () => { that.calculateSumMoney() })
                     } else {
                         Taro.showToast({ title: res.message, icon: 'none' })
                         that.getTheAddress(currPage.data.parmsData.address_id);
@@ -82,7 +82,7 @@ export default class distributionDetail extends Component {
                 .then((res: any) => {
                     if (res.code == 200) {
                         that.getDefaultAddress();
-                        that.setState({ coupon: res.data.info.coupon, store: res.data.info.store }, () => { that.calculateSumMoney() })
+                        that.setState({ coupon: res.data.info.coupon, store: res.data.info.store, supplierDelivery: res.data.delivery_service_info }, () => { that.calculateSumMoney() })
                     } else {
                         Taro.showToast({ title: res.message, icon: 'none' })
                         that.getDefaultAddress();
