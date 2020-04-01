@@ -32,7 +32,6 @@ export default class VouchersPoster extends Component<Props>{
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
-      console.log(list, 'list')
       this.setState({
         show: true,
         listData: {
@@ -47,10 +46,6 @@ export default class VouchersPoster extends Component<Props>{
           wx_img: list.wx_img
         }
       })
-    } else {
-      if (this.state.show) {
-        this.setState({ show: false })
-      }
     }
   }
 
@@ -295,7 +290,10 @@ export default class VouchersPoster extends Component<Props>{
       ]
     }
     return (
-      this.state.show ? <View className="poster" onClick={() => this.props.onClose()}
+      this.state.show ? <View className="poster" onClick={() => {
+        this.props.onClose()
+        this.setState({ show: false })
+      }}
       >
         <painter
           widthPixels="275"

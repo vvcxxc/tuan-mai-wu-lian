@@ -43,10 +43,6 @@ export default class CouponsPoster extends Component<Props>{
           wx_img: list.wx_img
         }
       })
-    } else {
-      if (this.state.show) {
-        this.setState({ show: false })
-      }
     }
   }
 
@@ -208,7 +204,10 @@ export default class CouponsPoster extends Component<Props>{
       ]
     }
     return (
-      this.state.show?<View className="poster" onClick={() => { this.props.onClose() }}>
+      this.state.show ? <View className="poster" onClick={() => {
+        this.props.onClose()
+        this.setState({ show: false })
+      }}>
         <painter
           widthPixels="275"
           palette={data}
