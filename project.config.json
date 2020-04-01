@@ -100,10 +100,31 @@
 					"scene": null
 				},
 				{
+<<<<<<< HEAD
 					"id": -1,
 					"name": "business-pages/coupon-distribution/index",
 					"pathName": "business-pages/coupon-distribution/index",
 					"query": "id=5839&invitation_user_id=222",
+=======
+					"id": 7,
+					"name": "图片",
+					"pathName": "detail-pages/course/newbie",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "pages/activity/group/index",
+					"pathName": "pages/activity/group/index",
+					"query": "id=4652&__key_=15856528675291",
+					"scene": null
+				},
+				{
+					"id": 9,
+					"name": "pages/business/index",
+					"pathName": "pages/business/index",
+					"query": "id=4652&__key_=15856528675291",
+>>>>>>> 8f5d651dd675a57171a74338d3a6f980d4b222fb
 					"scene": null
 				}
 			]
