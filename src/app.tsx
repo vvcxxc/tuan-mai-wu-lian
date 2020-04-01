@@ -84,7 +84,8 @@ class App extends Component {
           'confirm-order/index',
           'select-city/index',
           'set-meal/index',
-          'ticket-buy/index'
+          'ticket-buy/index',
+          'coupon-distribution/index'
         ]
       },
       {
@@ -104,7 +105,8 @@ class App extends Component {
           'personal/index',
           'personal/personalInformation/index',
           'personal/phoneInformation/index',
-          'activity-list/index'
+          'activity-list/index',
+          'group-distribution/index'
         ]
       }
     ],

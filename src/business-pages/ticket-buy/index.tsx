@@ -16,7 +16,8 @@ import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
-import {accSubtr, accAdd } from '@/utils/common'
+import { accSubtr } from '@/utils/common'
+import { accSub, accAdd } from '@/components/acc-num'
 
 // import ShareBox from '@/components/share-box';
 const BASIC_API = process.env.BASIC_API;
@@ -108,10 +109,10 @@ export default class TicketBuy extends Component {
       .then(({ data, code }) => {
         this.setState({ posterList: data })
         let link = data.link
-        getXcxQrcode({ link, id: youhui_id  })
+        getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
             let meta = this.state.posterList
-            meta['wx_img'] = BASIC_API+ res.data.url
+            meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })
       })
@@ -154,7 +155,7 @@ export default class TicketBuy extends Component {
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
           recommend: res.data.recommend.data
-        },()=> {
+        }, () => {
           console.log(this.state.store)
         })
 
@@ -233,7 +234,7 @@ export default class TicketBuy extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-         <View onClick={(e) => {
+        <View onClick={(e) => {
           this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.images[this.state.bannerImgIndex] })
         }}>
           <Swiper
@@ -276,7 +277,7 @@ export default class TicketBuy extends Component {
               <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
               <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
             </View>
-            <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money) , Number(this.state.coupon.pay_money))}</View>
+            <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
           </View>
 
         </View>
@@ -354,7 +355,7 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money_icon">￥</View>
                         <View className="good_new_money">{this.state.recommend[0].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[0].return_money}</View>
                       </View>
@@ -383,7 +384,7 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money_icon">￥</View>
                         <View className="good_new_money">{this.state.recommend[1].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[1].return_money}</View>
                       </View>
@@ -413,7 +414,7 @@ export default class TicketBuy extends Component {
                           </View>
                         </View>
                         <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
+                          <View className="good_new_money_icon">￥</View>
                           <View className="good_new_money">{item.pay_money}</View>
                           <View className="good_old_money">￥{item.return_money}</View>
                         </View>

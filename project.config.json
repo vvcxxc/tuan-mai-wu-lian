@@ -11,8 +11,6 @@
 		"newFeature": true,
 		"coverView": true,
 		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -21,6 +19,8 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
 		"preloadBackgroundData": false
 	},
 	"compileType": "miniprogram",
@@ -100,17 +100,10 @@
 					"scene": null
 				},
 				{
-					"id": 7,
-					"name": "图片",
-					"pathName": "detail-pages/course/newbie",
-					"query": "",
-					"scene": null
-				},
-				{
 					"id": -1,
-					"name": "pages/activity/group/index",
-					"pathName": "pages/activity/group/index",
-					"query": "id=5688&type=5&gift_id=0&activity_id=2205&__key_=15855649712522",
+					"name": "business-pages/coupon-distribution/index",
+					"pathName": "business-pages/coupon-distribution/index",
+					"query": "id=5839&invitation_user_id=222",
 					"scene": null
 				}
 			]

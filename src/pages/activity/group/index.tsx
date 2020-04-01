@@ -17,7 +17,9 @@ import LoginAlert from '@/components/loginAlert';
 import ShareBox from "@/components/share-box";//分享组件
 import SpellGroup from "@/components/poster/spell-group";//海报组件
 import Zoom from '@/components/zoom';
-import { accSubtr, accAdd } from '@/utils/common'
+import { accSubtr } from '@/utils/common'
+import { accAdd } from '@/components/acc-num'
+
 const H5_URL = process.env.H5_URL
 const BASIC_API = process.env.BASIC_API;
 export default class GroupActivity extends Component {
@@ -77,7 +79,14 @@ export default class GroupActivity extends Component {
             youhui_id: 0,//活动id
             youhui_name: "",//活动名
             ypoint: "",
-            share_text: ''//复制出去的文字
+            share_text: '',//复制出去的文字 
+            delivery_service_info: {
+                delivery_end_time: '',
+                delivery_radius_m: 0,
+                delivery_service_money: 0,
+                delivery_start_time: '',
+                id: 0
+            }
         },
         data2: {
             data: [],
@@ -196,16 +205,16 @@ export default class GroupActivity extends Component {
     goToaConfirm = (e) => {
         let phone_status = Taro.getStorageSync('phone_status')
         if (phone_status == 'binded' || phone_status == 'bind_success') {
-            if (this.state.data.gift_id) {
+            if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
                 if (this.$router.params.type == '5') {
                     //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
                     Taro.navigateTo({
-                        url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.name)
+                        url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.name)
                     })
                 } else if (this.$router.params.type == '55') {
                     //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
                     Taro.navigateTo({
-                        url: '/activity-pages/confirm-address/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + encodeURIComponent(this.state.data.name)
+                        url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + encodeURIComponent(this.state.data.name)
                     })
                 }
             } else {
@@ -222,9 +231,9 @@ export default class GroupActivity extends Component {
     goToaConfirmAddGroup = (_id, e) => {
         let phone_status = Taro.getStorageSync('phone_status')
         if (phone_status == 'binded' || phone_status == 'bind_success') {
-            if (this.state.data.gift_id) {
+            if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
                 Taro.navigateTo({
-                    url: '/activity-pages/confirm-address/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name)
+                    url: '/activity-pages/group-distribution/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name)
                 })
             } else {
                 this.groupPayment(_id);
@@ -451,7 +460,7 @@ export default class GroupActivity extends Component {
 
 
     render() {
-        const { description } = this.state.data;
+        const { description, delivery_service_info } = this.state.data;
         const { posterList } = this.state
         return (
             <View className="group-activity-detail">
@@ -505,7 +514,6 @@ export default class GroupActivity extends Component {
                 <View className="share-box">
                     <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
                 </View> */}
-
                 <View className="group-info-content">
                     <View className="group-info-title">
                         <View className="group-info-title-label">拼团券</View>
@@ -520,6 +528,7 @@ export default class GroupActivity extends Component {
                         <View className="group-price-discounts">已优惠￥{accSubtr(Number(this.state.data.pay_money), Number(this.state.data.participation_money))}</View>
                     </View>
                     <View className="group-info-label">
+                        {this.state.data.supplier_delivery_id ? <View className="group-info-label-item">可配送</View> : null}
                         <View className="group-info-label-item">{this.state.data.number}人团</View>
                         {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null}
                     </View>
@@ -557,7 +566,6 @@ export default class GroupActivity extends Component {
                                                     </View>
                                                     <View className="group-list-name" >{item[0].real_name}</View>
                                                 </View>
-
                                                 <View className="group-info" >
                                                     <View className="group-list-timesbox" >
                                                         <View className="group-list-lack" >
@@ -717,10 +725,15 @@ export default class GroupActivity extends Component {
                         <View className="rules-key"> 拼团时限：</View>
                         <View className="rules-words">需{this.state.data.team_set_end_time}时内成团</View>
                     </View>
-                    {/* <View className="group-rules-item" >
-                        <View className="rules-key">有效期：</View>
-                        <View className="rules-words">成团后7日内可用</View>
-                    </View> */}
+                    {
+                        delivery_service_info.id ? <View className="group-rules-list-margin">
+                            <View className="group-rules-list-title" >配送服务：</View>
+                            <View className="group-rules-list-text" >-配送费用：{delivery_service_info.delivery_service_money}元</View>
+                            <View className="group-rules-list-text" >-配送范围：{delivery_service_info.delivery_radius_m}km</View>
+                            <View className="group-rules-list-text" >-配送时间：{delivery_service_info.delivery_start_time + '-' + delivery_service_info.delivery_end_time}</View>
+                            {/* <View className="group-rules-list-text" >-联系电话：{this.state.data.tel}</View> */}
+                        </View> : null
+                    }
                     {
                         description && description.length && !this.state.showMoreRules ? <View>
                             <View className="group-rules-list-title" >使用规则：</View>

@@ -42,13 +42,33 @@ export default class Orderdetail extends Component {
       supplier_id: '',
       source: 0,
       preview: '',
-      source_name: ''
+      source_name: '',
+      init_money: '',
+      expire_day: '',
+      appreciation_money: '',
+      order_delivery_log: {
+        id: '',
+        supplier_delivery_id: '',
+        user_name: '',
+        user_mobile: '',
+        province: '',
+        city: '',
+        district: '',
+        detail: '',
+        delivery_status: 0,	//配送状态:0待接单 1配送中 2配送成功 3配送失败
+        supplier_delivery: {
+          id: '',
+          delivery_phone: '',
+          delivery_start_time: '',
+          delivery_end_time: '',
+        }
+      }
     },
     _Imgurl: "",
     isApply: false,
-
     checkFlag: false,  // true --> 收回  false --> 查看更多
     // description: [],
+
   };
 
   componentWillMount() {
@@ -62,7 +82,7 @@ export default class Orderdetail extends Component {
       })
         .then((res: any) => {
           console.log(res);
-          this.setState({defaultData: res.data}, () => {
+          this.setState({ defaultData: res.data }, () => {
             if (this.state.defaultData.coupons_type * 1 == 0) { //兑换券获取兑换码
               request({
                 url: 'api/wap/coupon/showCode',
@@ -117,23 +137,31 @@ export default class Orderdetail extends Component {
     }, 1000)
   }
 
+  //打电话给配送员
+  makePhoneCall = () => {
+    Taro.makePhoneCall({
+      phoneNumber: this.state.defaultData.order_delivery_log.supplier_delivery.delivery_phone
+    })
+      .then((res: any) => {
+      })
+  }
 
   render() {
-    const descriptions=this.state.defaultData.description ;
+    const descriptions = this.state.defaultData.description;
     return (
       <View className='index' >
         <View className='a_head'>
-        <View className='a_head_content' onClick={(e)=>{e.stopPropagation()}}></View>
-        {
-            this.state.defaultData.source == 4 ? <CashCoupon3 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} init_money={this.state.defaultData.init_money} money={this.state.defaultData.money} expire_day={this.state.defaultData.expire_day} appreciation_money={(this.state.defaultData.appreciation_money*100 + this.state.defaultData.init_money*100)/100} total_fee={this.state.defaultData.total_fee} type={this.state.defaultData.coupons_type}/> :
-            this.state.defaultData.coupons_type == 1 && this.state.defaultData.source != 4
-              ?
-              <CashCoupon2 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} _total_fee={this.state.defaultData.total_fee} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} expiration={this.state.defaultData.expiration} />
-              :
-              this.state.defaultData.coupons_type == 0 && this.state.defaultData.source != 4 ?
-              <CashCoupon1 bg_img_type={this.state.defaultData.status == 2 ? 1 : 0} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} _image={this.state.defaultData.image} clickcode={null} />
-              :
-              null
+          <View className='a_head_content' onClick={(e) => { e.stopPropagation() }}></View>
+          {
+            this.state.defaultData.source == 4 ? <CashCoupon3 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} init_money={this.state.defaultData.init_money} money={this.state.defaultData.money} expire_day={this.state.defaultData.expire_day} appreciation_money={(this.state.defaultData.appreciation_money * 100 + this.state.defaultData.init_money * 100) / 100} total_fee={this.state.defaultData.total_fee} type={this.state.defaultData.coupons_type} /> :
+              this.state.defaultData.coupons_type == 1 && this.state.defaultData.source != 4
+                ?
+                <CashCoupon2 bg_img_type={this.state.defaultData.status == 1 ? 1 : (this.state.defaultData.status == 2 ? 2 : 0)} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} _total_fee={this.state.defaultData.total_fee} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} expiration={this.state.defaultData.expiration} />
+                :
+                this.state.defaultData.coupons_type == 0 && this.state.defaultData.source != 4 ?
+                  <CashCoupon1 bg_img_type={this.state.defaultData.status == 2 ? 1 : 0} type={0} _id={this.state.defaultData.coupons_id} _logid={this.state.defaultData.coupons_log_id} confirm_time={this.state.defaultData.confirm_time} return_money={this.state.defaultData.money} youhui_type={this.state.defaultData.coupons_type} timer={this.state.defaultData.begin_time + " - " + this.state.defaultData.end_time} sname={this.state.defaultData.store_name} list_brief={this.state.defaultData.coupons_name} _image={this.state.defaultData.image} clickcode={null} />
+                  :
+                  null
           }
         </View>
         { /* 购买须知  */}
@@ -147,11 +175,11 @@ export default class Orderdetail extends Component {
                 </View>
                 <View className='a_two' >有效期</View>
                 <View className='a_three' >{this.state.defaultData.begin_time} - {this.state.defaultData.end_time}</View>
-               {this.state.defaultData.description.length ? <View>
-                <View className='a_four' >使用规则：</View>
-                {
-                  this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={item} className='a_item' > · {item} </View>) : null
-                }
+                {this.state.defaultData.description.length ? <View>
+                  <View className='a_four' >使用规则：</View>
+                  {
+                    this.state.defaultData.description ? this.state.defaultData.description.map((item: string, i: number) => <View key={item} className='a_item' > · {item} </View>) : null
+                  }
                 </View> : null}
                 {/* <View className='a_last'  onClick={handerShowMore}  > { isMore ? '收起更多' : '查看更多' } </View>  */}
               </View>
@@ -186,7 +214,6 @@ export default class Orderdetail extends Component {
         }
         { /* 订单信息  */}
         <View className='z_billingInfo' >
-
           <View className='a_buyBox' >
             <View className='a_one' >订单信息 </View>
             <View className='a_billingInfo flex' >
@@ -253,24 +280,24 @@ export default class Orderdetail extends Component {
 
               <View className="flex">
                 <View className='a_billingInfo_1'>使用门槛</View>:
-                <View style={{marginLeft: '9px'}}>
+                <View style={{ marginLeft: '9px' }}>
                   <View>满{this.state.defaultData.total_fee}元可用</View>
                 </View>
               </View>
 
               <View className="flex">
                 <View className='a_billingInfo_1'>券有效期</View>:
-                <View style={{marginLeft: '9px'}}>
+                <View style={{ marginLeft: '9px' }}>
                   <View>领券日起{this.state.defaultData.expire_day}天有效</View>
                 </View>
               </View>
 
               {this.state.defaultData.description.length ? <View className="flex use_rules" style={{ overflow: "hidden", height: (this.state.checkFlag || this.state.defaultData.description.length <= 2) ? 'auto' : '4rem' }}>
                 <View className='a_billingInfo_1'>使用规则</View>:
-                <View style={{marginLeft: '9px'}}>
+                <View style={{ marginLeft: '9px' }}>
                   {
                     descriptions.length ? (descriptions.map((item, index) => (
-                      <View key={item} style={{height: '32px'}}>{index + 1}. {item}</View>
+                      <View key={item} style={{ height: '32px' }}>{index + 1}. {item}</View>
                     ))) : null
                   }
                 </View>
@@ -290,11 +317,51 @@ export default class Orderdetail extends Component {
                   : <View style={{ width: "100%", background: "#fff", height: "24rpx" }}></View>
 
               }
-
             </View>
           </View>
         </View>
 
+        { /* 配送信息  */}
+        {
+          this.state.defaultData.order_delivery_log.id ? <View className='z_billingInfo' >
+            <View className='a_buyBox' >
+              <View className='a_one' >配送信息 </View>
+              <View className='a_billingInfo' >
+                <View className="flex">
+                  <View className="a_billingInfo_1">订单状态</View>：
+                  <View>{this.state.defaultData.order_delivery_log.delivery_status == 0 ? '待接单' : (
+                    this.state.defaultData.order_delivery_log.delivery_status == 1 ? '配送中' : (
+                      this.state.defaultData.order_delivery_log.delivery_status == 2 ? '配送成功' : (
+                        this.state.defaultData.order_delivery_log.delivery_status == 3 ? '配送失败' : (
+                          this.state.defaultData.order_delivery_log.delivery_status == 4 ? '接单中' : ''
+                        )
+                      )
+                    )
+                  )}</View>
+                </View>
+                <View className="flex">
+                  <View className="a_billingInfo_1">收件人</View>：
+                  <View>{this.state.defaultData.order_delivery_log.user_name}</View>
+                </View>
+                <View className="flex">
+                  <View className="a_billingInfo_1">联系电话</View>：
+                  <View>{this.state.defaultData.order_delivery_log.user_mobile}</View>
+                </View>
+                <View className="flex">
+                  <View className="a_billingInfo_1">配送时间</View>：
+                  <View>{this.state.defaultData.order_delivery_log.supplier_delivery.delivery_start_time + '-' + this.state.defaultData.order_delivery_log.supplier_delivery.delivery_end_time}</View>
+                </View>
+                <View className="flex">
+                  <View className="a_billingInfo_1">收货地址</View>：
+            <View className="a_billingInfo_3">{this.state.defaultData.order_delivery_log.province + this.state.defaultData.order_delivery_log.city + this.state.defaultData.order_delivery_log.district + this.state.defaultData.order_delivery_log.detail}</View>
+                </View>
+                <View className="call_poster_box" onClick={this.makePhoneCall.bind(this)}>
+                  <View className="call_poster">联系配送员</View>
+                </View>
+              </View>
+            </View>
+          </View> : null
+        }
 
         { /* 适用商铺  */}
         <View className='z_billingInfo' >
@@ -327,8 +394,9 @@ export default class Orderdetail extends Component {
         </View>
         { /* 申请退款 */}
         {
-          this.state.defaultData.status * 1 === 1 && (this.state.defaultData.source == 3 || this.state.defaultData.source == 4 || this.state.defaultData.source == 5) ?
-            <View className='z_applyReturn' >
+          (this.state.defaultData.status * 1 === 1 && (this.state.defaultData.source == 3 || this.state.defaultData.source == 4 || this.state.defaultData.source == 5)) ||
+            (this.state.defaultData.order_delivery_log.delivery_status && (this.state.defaultData.order_delivery_log.delivery_status == 1 || this.state.defaultData.order_delivery_log.delivery_status == 2 || this.state.defaultData.order_delivery_log.delivery_status == 3))
+            ? <View className='z_applyReturn' >
               <View className='z_applyReturn_info' onClick={() => { this.setState({ isApply: !this.state.isApply }) }} >申请退款</View>
             </View>
             : null
