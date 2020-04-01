@@ -26,22 +26,6 @@ export default class EditorAddress extends Component {
     };
 
 
-    // componentWillMount() {
-    //     request({
-    //         url: 'v3/district',
-    //         method: "GET",
-    //         data: { model_type: 1 }
-    //     })
-    //         .then((res: any) => {
-    //             console.log(JSON.stringify(res.data));
-    //             Taro.setStorage({ key: 'cityList', data: res.data })
-    //         })
-    // }
-
-    // componentWillUnmount(){
-    //     Taro.removeStorage({ key: 'cityList' })
-    // }
-
     componentDidMount() {
         console.log(this.$router.params);
         if (this.$router.params.type == "editorItem" || this.$router.params.type == "useItemChange") {
@@ -308,12 +292,12 @@ export default class EditorAddress extends Component {
                         if (pages[pages.length - 2].route.indexOf('confirm-address/chooseAddress') > 0) {
                             delta = 2;
                             prevPage = pages[pages.length - 3];
-                            //activity-pages/confirm-address/chooseAddress
                         }
-                        else if (pages[pages.length - 2].route.indexOf('confirm-address/index') > 0) {
+                        else if (pages[pages.length - 2].route.indexOf('confirm-address/index') > 0 ||
+                            pages[pages.length - 2].route.indexOf('group-distribution/index') > 0 ||
+                            pages[pages.length - 2].route.indexOf('coupon-distribution/index') > 0) {
                             delta = 1;
                             prevPage = pages[pages.length - 2];
-                            //activity-pages/confirm-address/index
                         }
                         if (this.$router.params.type == 'useItemChange') {
                             adderssId = this.$router.params.editorId;
@@ -322,20 +306,27 @@ export default class EditorAddress extends Component {
                         }
                         setTimeout(() => {
                             if (this.$router.params.activityType == '55') {
+                                console.log('55', prevPage)
                                 prevPage.setData({
                                     fromPage: 'editor',
                                     parmsData: {
                                         activityType: 55,
                                         id: this.$router.params.goodsId,
                                         groupId: this.$router.params.groupId,
-                                        storeName: this.$router.params.storeName,
                                         address_id: adderssId
                                     }
                                 })
-                                Taro.navigateBack({
-                                    delta: delta
+                            } else if (this.$router.params.activityType == '5') {
+                                console.log('5', prevPage)
+                                prevPage.setData({
+                                    fromPage: 'editor',
+                                    parmsData: {
+                                        activityType: this.$router.params.activityType,
+                                        id: this.$router.params.goodsId,
+                                        address_id: adderssId
+                                    }
                                 })
-                            } else {
+                            } else if (this.$router.params.activityType == '1') {
                                 prevPage.setData({
                                     fromPage: 'editor',
                                     parmsData: {
@@ -345,29 +336,19 @@ export default class EditorAddress extends Component {
                                         address_id: adderssId
                                     }
                                 })
-                                Taro.navigateBack({
-                                    delta: delta
+                            } else if (this.$router.params.activityType == 'duihuan') {
+                                prevPage.setData({
+                                    fromPage: 'editor',
+                                    parmsData: {
+                                        activityType: 'duihuan',
+                                        id: this.$router.params.goodsId,
+                                        address_id: adderssId
+                                    }
                                 })
                             }
-                            // if (that.$router.params.activityType == '55') {
-                            //     Taro.navigateTo({
-                            //         url: '/activity-pages/confirm-address/index?activityType=55&id=' + that.$router.params.goodsId + '&groupId=' + that.$router.params.groupId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
-                            //         success: (e) => {
-                            //             let page = Taro.getCurrentPages().pop();
-                            //             if (page == undefined || page == null) return;
-                            //             page.onShow();
-                            //         }
-                            //     })
-                            // } else {
-                            //     Taro.navigateTo({
-                            //         url: '/activity-pages/confirm-address/index?activityType=' + that.$router.params.activityType + '&id=' + that.$router.params.goodsId + '&storeName=' + that.$router.params.storeName + '&address_id=' + adderssId,
-                            //         success: (e) => {
-                            //             let page = Taro.getCurrentPages().pop();
-                            //             if (page == undefined || page == null) return;
-                            //             page.onShow();
-                            //         }
-                            //     })
-                            // }
+                            Taro.navigateBack({
+                                delta: delta
+                            })
                         }, 1500)
                     } else {
                         Taro.showToast({ title: res.message, icon: 'none' })

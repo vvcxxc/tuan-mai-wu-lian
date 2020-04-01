@@ -10,8 +10,9 @@ import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
-import { accSubtr, accAdd } from '@/utils/common'
+import { accSubtr } from '@/utils/common'
 // import ShareBox from '@/components/share-box';
+import { accSub, accAdd } from '@/components/acc-num'
 const H5_URL = process.env.H5_URL
 const BASIC_API = process.env.BASIC_API;
 export default class AppreActivity extends Component {
@@ -51,6 +52,13 @@ export default class AppreActivity extends Component {
       expire_day: '',
       share_text: '',//要分享的文字信息
       images: []
+    },
+    delivery_service_info: {
+      delivery_end_time: '',
+      delivery_radius_m: 0,
+      delivery_service_money: 0,
+      delivery_start_time: '',
+      id: 0
     },
     store: {
       brief: "",
@@ -147,7 +155,8 @@ export default class AppreActivity extends Component {
           coupon: res.data.info.coupon,
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
-          recommend: res.data.recommend.data
+          recommend: res.data.recommend.data,
+          delivery_service_info: res.data.delivery_service_info
         })
       }).catch(err => {
         Taro.hideLoading()
@@ -164,7 +173,7 @@ export default class AppreActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       Taro.navigateTo({
-        url: '../../business-pages/confirm-order/index?id=' + id
+        url: '../../business-pages/coupon-distribution/index?id=' + id
       })
     } else {
       this.setState({ is_alert: true })
@@ -219,6 +228,7 @@ export default class AppreActivity extends Component {
 
   render() {
     const { description } = this.state.coupon;
+    const { delivery_service_info } = this.state
     return (
       <View className="appre-activity-detail">
         <ShareBox
@@ -282,7 +292,11 @@ export default class AppreActivity extends Component {
             </View>
             <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
           </View>
-
+          {
+            delivery_service_info.id ? <View className="appre-info-label">
+              <View className="appre-info-label-item">可配送</View>
+            </View> : null
+          }
         </View>
         <Image className="appre-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
 
@@ -311,6 +325,15 @@ export default class AppreActivity extends Component {
             <View className="rules-key">有效期：</View>
             <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
           </View>
+          {
+            delivery_service_info.id ? <View className="group-rules-list-margin">
+              <View className="group-rules-list-title" >配送服务：</View>
+              <View className="group-rules-list-text" >-配送费用：{delivery_service_info.delivery_service_money}元</View>
+              <View className="group-rules-list-text" >-配送范围：{delivery_service_info.delivery_radius_m}km</View>
+              <View className="group-rules-list-text" >-配送时间：{delivery_service_info.delivery_start_time + '-' + delivery_service_info.delivery_end_time}</View>
+              {/* <View className="group-rules-list-text" >-联系电话：{this.state.store.tel}</View> */}
+            </View> : null
+          }
           {
             description && description.length && !this.state.showMoreRules ? <View>
               <View className="appre-rules-list-title" >使用规则：</View>
