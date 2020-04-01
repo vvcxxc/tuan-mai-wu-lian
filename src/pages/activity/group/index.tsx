@@ -79,7 +79,7 @@ export default class GroupActivity extends Component {
       youhui_id: 0,//活动id
       youhui_name: "",//活动名
       ypoint: "",
-      share_text: '',//复制出去的文字 
+      share_text: '',//复制出去的文字
       delivery_service_info: {
         delivery_end_time: '',
         delivery_radius_m: 0,
@@ -411,7 +411,7 @@ export default class GroupActivity extends Component {
       .then(({ data, code }) => {
         this.setState({ posterList: data })
         let link = data.link
-        getXcxQrcode({ link })
+        getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
             let meta = this.state.posterList
             meta['wx_img'] = BASIC_API + res.data.url
