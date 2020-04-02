@@ -135,6 +135,50 @@ export default class Activity extends Component {
     })
   }
 
+
+  componentDidShow = () => {
+
+    // 获取Tab栏距离的高度后再进去滚动时悬浮Tab栏
+    // const query = this.refs.tab.boundingClientRect()
+    // query.exec(res => {
+    //   console.log(res)
+    //   this.setState({
+    //     tabDistanceTop: res[0].top,
+    //     tabHeight: res[0].height
+    //   })
+    // })
+
+
+    // 获取定位
+    Taro.getLocation({
+      type: 'gcj02',
+      success: res => {
+        this.setState({
+          yPoint: res.latitude,
+          xPoint: res.longitude,
+          page: 1,
+          dataList: [],
+          current: 0
+        }, () => {
+
+          this.getAllData();
+        })
+      }
+    })
+
+    // tab标题
+    this.requestTab()
+
+    // 获取广告
+    let data: any = Taro.getStorageSync('router')
+    console.log(data,'router')
+    this.setState({
+      cityId: data.city_id
+    }, () => {
+      this.getAdvertising()
+    })
+  }
+
   // get 广告
   getAdvertising = () => {
     console.log('广告')

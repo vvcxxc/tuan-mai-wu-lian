@@ -16,6 +16,8 @@ import { getLocation } from "@/utils/getInfo";
 import LoginAlert from '@/components/loginAlert';
 import Zoom from '@/components/zoom';
 import { getXcxQrcode } from "@/api";
+import { accSubtr } from '@/utils/common'
+import { accSub, accAdd } from '@/components/acc-num'
 
 // import ShareBox from '@/components/share-box';
 const BASIC_API = process.env.BASIC_API;
@@ -56,7 +58,8 @@ export default class TicketBuy extends Component {
       youhui_type: 0,
       expire_day: '',
       total_fee: 0,
-      share_text: ''
+      share_text: '',
+      images: []
     },
     store: {
       brief: "",
@@ -106,10 +109,10 @@ export default class TicketBuy extends Component {
       .then(({ data, code }) => {
         this.setState({ posterList: data })
         let link = data.link
-        getXcxQrcode({ link })
+        getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
             let meta = this.state.posterList
-            meta['wx_img'] = BASIC_API+ res.data.url
+            meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })
       })
@@ -152,7 +155,10 @@ export default class TicketBuy extends Component {
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
           recommend: res.data.recommend.data
+        }, () => {
+          console.log(this.state.store)
         })
+
       }).catch(err => {
         Taro.hideLoading()
         Taro.showToast({ title: '信息错误', icon: 'none' })
@@ -228,14 +234,31 @@ export default class TicketBuy extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-        <Image className='appre-banner' src={this.state.coupon.image}
-          onClick={(e) => {
-            this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.image })
-          }}
-        />
+        <View onClick={(e) => {
+          this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.images[this.state.bannerImgIndex] })
+        }}>
+          <Swiper
+            onChange={(e) => {
+              this.setState({ bannerImgIndex: e.detail.current })
+            }}
+            className='group-banner'
+            circular
+            autoplay
+          >
+            {
+              this.state.coupon.images.length ? this.state.coupon.images.map((item, index) => {
+                return (
+                  <SwiperItem className="group-banner-swiperItem" key={item}>
+                    <Image className="group-banner-img" src={item} />
+                  </SwiperItem>
+                )
+              }) : null
+            }
+          </Swiper>
+        </View>
         <View className="banner-number-box">
-          <View className="banner-number">1</View>
-          <View className="banner-number">1</View>
+          <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
+          <View className="banner-number">{this.state.coupon.images.length}</View>
         </View>
         {/* <View className="collect-box">
           <Image className="collect-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
@@ -254,7 +277,7 @@ export default class TicketBuy extends Component {
               <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
               <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
             </View>
-            <View className="appre-price-discounts">已优惠￥{Number(this.state.coupon.return_money) - Number(this.state.coupon.pay_money)}</View>
+            <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
           </View>
 
         </View>
@@ -262,7 +285,7 @@ export default class TicketBuy extends Component {
 
         <View className="appre-store-info">
           <ApplyToTheStore
-            id={this.state.store.id}
+            store_id={this.state.store.id}
             isTitle={true}
             img={this.state.store.shop_door_header_img}
             name={this.state.store.sname}
@@ -315,7 +338,7 @@ export default class TicketBuy extends Component {
                 <View className="title">更多本店宝贝</View>
               </View>
               {
-                this.state.recommend.length > 0 && !this.state.showAll ? <View className="good_info">
+                this.state.recommend.length > 0 && !this.state.showAll ? <View className="good_info" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[0].youhui_type, this.state.recommend[0].id)}>
                   <View className="good_msg">
                     <Image className="good_img" src={this.state.recommend[0].image} />
 
@@ -332,20 +355,20 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money_icon">￥</View>
                         <View className="good_new_money">{this.state.recommend[0].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[0].return_money}</View>
                       </View>
                     </View>
                   </View>
 
-                  <View className="good_btn" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[0].youhui_type, this.state.recommend[0].id)}>
+                  <View className="good_btn">
                     <View className="text">抢购</View>
                   </View>
                 </View> : null
               }
               {
-                this.state.recommend.length > 1 && !this.state.showAll ? <View className="good_info">
+                this.state.recommend.length > 1 && !this.state.showAll ? <View className="good_info" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[1].youhui_type, this.state.recommend[1].id)}>
                   <View className="good_msg">
                     <Image className="good_img" src={this.state.recommend[1].image} />
                     <View className="good_detail">
@@ -361,20 +384,20 @@ export default class TicketBuy extends Component {
                         </View>
                       </View>
                       <View className="good_money">
-                      <View className="good_new_money_icon">￥</View>
+                        <View className="good_new_money_icon">￥</View>
                         <View className="good_new_money">{this.state.recommend[1].pay_money}</View>
                         <View className="good_old_money">￥{this.state.recommend[1].return_money}</View>
                       </View>
                     </View>
                   </View>
-                  <View className="good_btn" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[1].youhui_type, this.state.recommend[1].id)}>
+                  <View className="good_btn">
                     <View className="text">抢购</View>
                   </View>
                 </View> : null
               }
               {
                 this.state.showAll && this.state.recommend.map((item) => (
-                  <View className="good_info">
+                  <View className="good_info" onClick={this.gotoTicketBuy.bind(this, item.youhui_type, item.id)}>
                     <View className="good_msg">
                       <Image className="good_img" src={item.image} />
 
@@ -391,14 +414,14 @@ export default class TicketBuy extends Component {
                           </View>
                         </View>
                         <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
+                          <View className="good_new_money_icon">￥</View>
                           <View className="good_new_money">{item.pay_money}</View>
                           <View className="good_old_money">￥{item.return_money}</View>
                         </View>
                       </View>
                     </View>
 
-                    <View className="good_btn" onClick={this.gotoTicketBuy.bind(this, item.youhui_type, item.id)}>
+                    <View className="good_btn">
                       <View className="text">抢购</View>
                     </View>
                   </View>

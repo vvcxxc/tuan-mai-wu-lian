@@ -15,9 +15,9 @@ import ShareBox from "@/components/share-box";//分享组件
 import HaveGift from '@/components/poster/value-added/have-gift'//有礼品版本
 import NoGift from '@/components/poster/value-added/no-gift'//无礼品版本
 import Other from '@/components/poster/value-added/other'//其他版本(同拼团海报类似)
-
 import Zoom from '@/components/zoom';
-
+import { accSubtr } from '@/utils/common'
+import { accAdd } from '@/components/acc-num'
 const BASIC_API = process.env.BASIC_API;
 export default class AppreActivity extends Component {
     config = {
@@ -249,7 +249,7 @@ export default class AppreActivity extends Component {
             .then(({ data, code }) => {
                 this.setState({ posterList: data })
                 let link = data.link
-                getXcxQrcode({ link })
+                getXcxQrcode({ link, id })
                     .then((res) => {
                         let meta = this.state.posterList
                         meta['wx_img'] = BASIC_API + res.data.url
@@ -333,7 +333,7 @@ export default class AppreActivity extends Component {
                     </Swiper>
                 </View>
                 <View className="banner-number-box">
-                    <View className="banner-number">{Number(this.state.bannerImgIndex) + 1}</View>
+                    <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
                     <View className="banner-number">{this.state.data.images.length}</View>
                 </View>
                 {/* <View className="collect-box">
@@ -361,7 +361,7 @@ export default class AppreActivity extends Component {
 
                 <View className="appre-store-info">
                     <ApplyToTheStore
-                        id={this.state.data.store_id}
+                        store_id={this.state.data.store_id}
                         isTitle={true}
                         img={this.state.data.preview}
                         name={this.state.data.location_name}

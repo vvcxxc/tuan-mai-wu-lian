@@ -32,7 +32,7 @@ export default class MerChantPage extends Component {
   constructor(props) {
     super(props);
   }
-  componentWillMount() {
+  componentDidShow() {
     this.getPosition();// 经纬度
     Taro.showLoading({ title: 'loading', mask: true })//显示loading
   }
@@ -112,11 +112,11 @@ export default class MerChantPage extends Component {
     })
       .then((res: any) => {
         if (res.data.store_info.data.length < 1) {
-          this.setState({ 
+          this.setState({
             no_value:true
            })
         } else {
-          this.setState({ 
+          this.setState({
             no_value:false
            })
 
@@ -127,30 +127,36 @@ export default class MerChantPage extends Component {
   }
 
 
-  filterClick(index, id1?, id2?, id3?) {
+  async filterClick(index, id1?, id2?, id3?) {
     // let define: defineType = {}
+    console.log(id1,id2,id3)
     let define: any = this.state.locationPosition
     if (id1) {
       define.deal_cate_id = id1
-      this.setState({ deal_cate_id: id1 })
+      await this.setState({ deal_cate_id: id1 })
     } else {
-      this.setState({ deal_cate_id: null })
+      console.log(id1,'id1')
+      await this.setState({ deal_cate_id: null })
+      // define.deal_cate_id = undefined
+      delete define['deal_cate_id']
     }
     if (id2) {
       define.distance_id = id2
-      this.setState({ distance_id: id2 })
+      await this.setState({ distance_id: id2 })
     } else {
-      this.setState({ distance_id: null })
+      await this.setState({ distance_id: null })
+      define.distance_id = null
     }
     if (id3) {
       define.sort_id = id3
-      this.setState({ sort_id: id3 })
+      await this.setState({ sort_id: id3 })
     } else {
-      this.setState({ sort_id: null })
+      await this.setState({ sort_id: null })
+      // define.sort_id = null
     }
     if (this.$router.params.value) {
       define.keyword = this.$router.params.value
-      this.setState({ search: this.$router.params.value })
+      await this.setState({ search: this.$router.params.value })
     }
     if (this.state.search) {
       define.keyword = this.state.search
@@ -163,21 +169,23 @@ export default class MerChantPage extends Component {
       if (define.sort_id) delete define['sort_id']
     }
     define.pages = this.state.page
-    this.setState({
+    await this.setState({
       locationPosition: define
     })
+    console.log(define,'define')
     request({
       url: 'v3/stores',
       data: define
     })
       .then((res: any) => {
-        if (res.data.store_info.data.length < 1) {
-          this.setState({ 
+        if (res.data.store_info.data.length < 1 && define.pages == 1) {
+          console.log(define.pages,'pages')
+          this.setState({
             show_bottom: true,
             no_value:true
            })
         } else {
-          this.setState({ 
+          this.setState({
             show_bottom: false,
             no_value:false
            })
@@ -231,6 +239,7 @@ export default class MerChantPage extends Component {
 
   // 标题点击
   titleOnClick = (index, deal_cate_id, distance_id, sort_id) => { // 点击事件
+    console.log(deal_cate_id,distance_id,sort_id,'222')
     this.setState({ page: 1 }, () => {
       this.filterClick(0, deal_cate_id, distance_id, sort_id)
     })
@@ -301,7 +310,7 @@ export default class MerChantPage extends Component {
           />
         </View>
         <FilterTotal onClick={this.titleOnClick.bind(this, 0)} onscroll={this.filteronScroll.bind(this)} />
-        
+
         {
           no_value ? <View className="no_value">
             <View>

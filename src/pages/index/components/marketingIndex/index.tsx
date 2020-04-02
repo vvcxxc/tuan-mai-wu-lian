@@ -83,7 +83,7 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({ channel_id: 6, page: 1 }).then(res => {
+      getTabList({ channel_id: this.state.id, page: 1 }).then(res => {
         if (res.code == 200) {
           this.setState({ list: res.data.data })
           this.setState({ page: 1 })
@@ -240,14 +240,14 @@ export default class MarketingIndex extends Component<any> {
 
           {/* 赚钱计划 */}
           <View className='feature-box'>
-            <View className='feature'>
+            <View className='feature' onClick={this.goTo.bind(this,'/detail-pages/course/characteristic')}>
               <Image className='feature-img' src={require('@/assets/index/xiong.png')} />
               <View className='feature-text'>
                 <View className='text-title'>小熊敬礼特色</View>
                 <View>小熊敬礼</View>
               </View>
             </View>
-            <View className='feature'>
+            <View className='feature' onClick={this.goTo.bind(this,'/detail-pages/course/make_money_plan')}>
               <Image className='feature-img' src={require('@/assets/index/zhuan.png')} />
               <View className='feature-text'>
                 <View className='text-title'>赚钱计划</View>

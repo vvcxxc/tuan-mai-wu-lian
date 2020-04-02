@@ -198,14 +198,12 @@ export default class PaySuccess extends Component<Props> {
   gotoGroup = (_id, gift_id, activity_id) => {
     Taro.navigateTo({
       url: '/pages/activity/group/index?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
-      // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   // 去增值活动
   gotoAppreciation = (_id, gift_id, activity_id) => {
     Taro.navigateTo({
       url: '/pages/activity/appreciation/index?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
-      // url: '/pages/activity/pages/detail/detail?id=' + _id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id
     })
   }
   //现金券详情
@@ -283,7 +281,7 @@ export default class PaySuccess extends Component<Props> {
    handleGoHome = () => {
     Taro.switchTab({ url: '/pages/index/index' })
   }
-  
+
   render() {
     // console.log(this.state.keepCollect_bull);
     return (
@@ -301,13 +299,13 @@ export default class PaySuccess extends Component<Props> {
               <View className="name">{this.state.business_list.name}</View>
               {/* <View className="money">人均：￥62</View> */}
             </View>
-            {
+            {/* {
               this.state.keepCollect_bull ?
                 <AtIcon className="image" value="star-2" color="#FFBF00" size="24px" onClick={this.keepCollect.bind(this)} />
                 :
                 <AtIcon className="image" value="star" color="#999" size="24px" onClick={this.keepCollect.bind(this)} />
 
-            }
+            } */}
           </View>
           <ScrollView scrollX className="scroll-view" >
             <View className="flex">

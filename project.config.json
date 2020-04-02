@@ -51,13 +51,6 @@
 			"current": -1,
 			"list": [
 				{
-					"id": 0,
-					"name": "business-pages/set-meal/index",
-					"pathName": "business-pages/set-meal/index",
-					"query": "id=5779&invitation_user_id=222",
-					"scene": null
-				},
-				{
 					"id": -1,
 					"name": "增值",
 					"pathName": "pages/activity/appreciation/index",
@@ -93,16 +86,24 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 5,
 					"name": "现金券",
 					"pathName": "business-pages/ticket-buy/index",
-					"query": "",
+					"query": "id=5925&__key_=15856261017742",
 					"scene": null
 				},
 				{
 					"id": -1,
 					"name": "兑换券",
 					"pathName": "business-pages/set-meal/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/coupon-distribution/index",
+					"pathName": "business-pages/coupon-distribution/index",
+					"query": "id=5839&invitation_user_id=222",
 					"scene": null
 				}
 			]
