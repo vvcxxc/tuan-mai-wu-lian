@@ -183,24 +183,29 @@ export default class distributionDetail extends Component {
         }
         wxWechatPay(datas)
             .then((res: any) => {
-                Taro.hideLoading();
-                //微信
-                Taro.requestPayment({
-                    timeStamp: res.data.timeStamp,
-                    nonceStr: res.data.nonceStr,
-                    package: res.data.package,
-                    signType: res.data.signType,
-                    paySign: res.data.paySign,
-                    success(res) {
-                        //微信成功
-                        Taro.showToast({ title: '支付成功', icon: 'none' })
-                        that.goToOrder();
-                    },
-                    fail(err) {
-                        Taro.showToast({ title: '支付失败', icon: 'none' })
-                    }
-                });
+                if (res.code == 200) {
+                    Taro.hideLoading();
+                    //微信
+                    Taro.requestPayment({
+                        timeStamp: res.data.timeStamp,
+                        nonceStr: res.data.nonceStr,
+                        package: res.data.package,
+                        signType: res.data.signType,
+                        paySign: res.data.paySign,
+                        success(res) {
+                            //微信成功
+                            Taro.showToast({ title: '支付成功', icon: 'none' })
+                            that.goToOrder();
+                        },
+                        fail(err) {
+                            Taro.showToast({ title: '支付失败', icon: 'none' })
+                        }
+                    });
+                } else {
+                    Taro.showToast({ title: res.message, icon: 'none' })
+                }
             })
+
     }
 
     /**

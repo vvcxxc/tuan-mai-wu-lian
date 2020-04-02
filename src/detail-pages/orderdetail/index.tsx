@@ -147,6 +147,7 @@ export default class Orderdetail extends Component {
   }
 
   render() {
+    const { delivery_status, supplier_delivery_id } = this.state.defaultData.order_delivery_log;
     const descriptions = this.state.defaultData.description;
     return (
       <View className='index' >
@@ -395,7 +396,7 @@ export default class Orderdetail extends Component {
         { /* 申请退款 */}
         {
           (this.state.defaultData.status * 1 === 1 && (this.state.defaultData.source == 3 || this.state.defaultData.source == 4 || this.state.defaultData.source == 5)) &&
-            (this.state.defaultData.order_delivery_log.delivery_status && this.state.defaultData.order_delivery_log.delivery_status != 1 && this.state.defaultData.order_delivery_log.delivery_status != 2 && this.state.defaultData.order_delivery_log.delivery_status != 3)
+            ((supplier_delivery_id && delivery_status != 1 && delivery_status != 2 && delivery_status != 3) || !supplier_delivery_id)
             ? <View className='z_applyReturn' >
               <View className='z_applyReturn_info' onClick={() => { this.setState({ isApply: !this.state.isApply }) }} >申请退款</View>
             </View>
