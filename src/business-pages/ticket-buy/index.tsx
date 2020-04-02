@@ -450,7 +450,7 @@ export default class TicketBuy extends Component {
             <View className="appre-buy-btn-left" onClick={() => this.setState({ showShare: true })}>分享活动</View>
             {
               this.state.coupon.total_num ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
-                <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>库存不足</View>
+                <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
             }
           </View>
         </View>
