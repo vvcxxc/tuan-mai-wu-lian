@@ -294,6 +294,17 @@ export default class AppreActivity extends Component {
         this.setState({ showPoster: false, showShare: false })
     }
 
+    // 图片预览
+  onPreviewImage = () => {
+    // this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
+    Taro.previewImage({
+      current: this.state.data.images[this.state.bannerImgIndex],
+      urls: [
+        ...this.state.data.images
+      ]
+    })
+  }
+
     render() {
         const { images, description } = this.state.data;
         const { posterList, posterType, showPoster } = this.state
@@ -313,9 +324,7 @@ export default class AppreActivity extends Component {
                 <HaveGift show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
                 <Other show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
                 < NoGift show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
-                <View onClick={(e) => {
-                    this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
-                }}>
+                <View onClick={this.onPreviewImage}>
                     <Swiper
                         onChange={(e) => {
                             this.setState({ bannerImgIndex: e.detail.current })
