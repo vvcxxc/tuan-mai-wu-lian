@@ -89,7 +89,7 @@
 					"id": 5,
 					"name": "现金券",
 					"pathName": "business-pages/ticket-buy/index",
-					"query": "id=5925&__key_=15856261017742",
+					"query": "id=6005&__key_=15858925380286",
 					"scene": null
 				},
 				{
@@ -110,6 +110,7 @@
 					"id": -1,
 					"name": "增值",
 					"pathName": "pages/activity/appreciation/index",
+					"query": "",
 					"scene": null
 				}
 			]

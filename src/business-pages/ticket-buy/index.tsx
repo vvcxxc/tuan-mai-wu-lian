@@ -218,6 +218,15 @@ export default class TicketBuy extends Component {
     }
   }
 
+  // 图片预览
+  onPreviewImage = () => {
+    Taro.previewImage({
+      current: this.state.coupon.images[this.state.bannerImgIndex],
+      urls: [
+        ...this.state.coupon.images
+      ]
+    })
+  }
 
   render() {
     const { description } = this.state.coupon;
@@ -242,9 +251,7 @@ export default class TicketBuy extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-        <View onClick={(e) => {
-          this.setState({ imgZoom: true, imgZoomSrc: this.state.coupon.images[this.state.bannerImgIndex] })
-        }}>
+        <View onClick={this.onPreviewImage}>
           <Swiper
             onChange={(e) => {
               this.setState({ bannerImgIndex: e.detail.current })

@@ -475,6 +475,17 @@ export default class GroupActivity extends Component {
     })
   }
 
+  // 图片预览
+  onPreviewImage = () => {
+    // this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
+    Taro.previewImage({
+      current: this.state.data.images[this.state.bannerImgIndex],
+      urls: [
+        ...this.state.data.images
+      ]
+    })
+  }
+
 
   render() {
     const { description, delivery_service_info } = this.state.data;
@@ -499,9 +510,7 @@ export default class GroupActivity extends Component {
             this.setState({ showPoster: false, showShare: false })
           }}
         />
-        <View onClick={(e) => {
-          this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
-        }}>
+        <View onClick={this.onPreviewImage}>
           <Swiper
             onChange={(e) => {
               this.setState({ bannerImgIndex: e.detail.current })
