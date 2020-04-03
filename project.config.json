@@ -108,14 +108,8 @@
 				},
 				{
 					"id": -1,
-<<<<<<< HEAD
-					"name": "business-pages/coupon-distribution/index",
-					"pathName": "business-pages/coupon-distribution/index",
-					"query": "",
-=======
 					"name": "增值",
 					"pathName": "pages/activity/appreciation/index",
->>>>>>> ql_bug
 					"scene": null
 				}
 			]
