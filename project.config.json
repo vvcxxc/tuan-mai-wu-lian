@@ -105,6 +105,13 @@
 					"pathName": "business-pages/coupon-distribution/index",
 					"query": "id=5839&invitation_user_id=222",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/coupon-distribution/index",
+					"pathName": "business-pages/coupon-distribution/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

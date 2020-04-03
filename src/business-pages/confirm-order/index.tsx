@@ -22,13 +22,15 @@ export default class ConfirmOrder extends Component {
       pay_money: 0,
       brief: "",
       list_brief: "",
-      description: "0",
-      yname: ""
+      description: "",
+      yname: "",
+      total_num: 0
     },
     store: {
       id: "",
       sname: ""
     },
+    tipsMessage: '',
     is_login: false
   };
   componentWillMount() {
@@ -61,7 +63,7 @@ export default class ConfirmOrder extends Component {
   }
   addnum() {
     console.log(this.accMul())
-    if (this.state.amount < 10) {
+    if (this.state.amount < 10 && this.state.amount < this.state.coupon.total_num) {
       this.setState({ amount: Number(this.state.amount) + 1 }, () => {
         this.accMul();
       })
@@ -87,28 +89,34 @@ export default class ConfirmOrder extends Component {
     })
       .then((res: any) => {
         Taro.hideLoading();
-        // 发起支付
-        Taro.requestPayment({
-          timeStamp: res.data.timeStamp,
-          nonceStr: res.data.nonceStr,
-          package: res.data.package,
-          signType: res.data.signType,
-          paySign: res.data.paySign,
-          success(res) {
-            Taro.showToast({ title: '支付成功', icon: 'none' })
-            Taro.switchTab({
-              url: '/pages/order/index',
-              success: () => {
-                var page = Taro.getCurrentPages().pop();
-                if (page == undefined || page == null) return;
-                page.onLoad();
-              }
-            })
-          },
-          fail(err) {
-            Taro.showToast({ title: '支付失败', icon: 'none' })
-          },
-        })
+        if (res.code == 200) {
+
+          // 发起支付
+          Taro.requestPayment({
+            timeStamp: res.data.timeStamp,
+            nonceStr: res.data.nonceStr,
+            package: res.data.package,
+            signType: res.data.signType,
+            paySign: res.data.paySign,
+            success(res) {
+              Taro.showToast({ title: '支付成功', icon: 'none' })
+              Taro.switchTab({
+                url: '/pages/order/index',
+                success: () => {
+                  var page = Taro.getCurrentPages().pop();
+                  if (page == undefined || page == null) return;
+                  page.onLoad();
+                }
+              })
+            },
+            fail(err) {
+              Taro.showToast({ title: '支付失败', icon: 'none' })
+            },
+          })
+        } else {
+          this.setState({ tipsMessage: res.message })
+          // Taro.showToast({ title: res.message, icon: 'none' })
+        }
       });
   }
 
@@ -147,7 +155,7 @@ export default class ConfirmOrder extends Component {
               <View className="amount" >{this.state.amount}</View>
               {/* <AtIcon value="add-circle" color={this.state.amount < 10 ? "#FF6654" : "#999"} onClick={this.addnum.bind(this)} /> */}
               <View className="addimg" style={{ width: "22px", height: "22px" }} onClick={this.addnum.bind(this)}>
-                <Image className="image" style={{ width: "100%", height: "100%" }} src={this.state.amount < 10 ? addimg : addimg2} />
+                <Image className="image" style={{ width: "100%", height: "100%" }} src={this.state.amount < 10 && this.state.amount < this.state.coupon.total_num ? addimg : addimg2} />
               </View>
             </View>
           </View>
@@ -160,17 +168,26 @@ export default class ConfirmOrder extends Component {
             </View>
           </View>
         </View>
-        <View className="pay-btn-box">
+        {/* <View className="pay-btn-box">
           <View className="pay-btn" onClick={this.payMoney.bind(this)}>￥ {this.state.tempNum}去支付</View>
-        </View>
-        {/* <View className="btn-wrap">
+        </View> */}
+        <View className="btn-wrap">
           <View className="submit-btn flex center"
             onClick={this.payMoney.bind(this)}
           >
-            ￥ {this.state.coupon.pay_money * this.state.amount} 去支付
+            ￥{this.state.tempNum} 去支付
           </View>
-        </View> */}
+        </View>
 
+        {
+          this.state.tipsMessage ? <View className="tips-mask">
+            <View className="tips-content">
+              <View className="tips-title">购买失败</View>
+              <View className="tips-info">{this.state.tipsMessage}</View>
+              <View className="tips-btn" onClick={() => { this.setState({ tipsMessage: '' }) }}>确定</View>
+            </View>
+          </View> : null
+        }
       </View>
     );
   }

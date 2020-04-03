@@ -50,7 +50,8 @@ export default class distributionDetail extends Component {
                 youhui_id: 0,
             },
             team_set_end_time: ''
-        }
+        },
+        tipsMessage: ''
     }
     componentDidShow() {
         let data;
@@ -225,7 +226,8 @@ export default class distributionDetail extends Component {
                     }
                 })
             } else {
-                Taro.showToast({ title: res.message, icon: 'none' })
+                this.setState({ tipsMessage: res.message })
+                // Taro.showToast({ title: res.message, icon: 'none' })
             }
         }).catch(err => {
             Taro.showToast({ title: '调起支付失败', icon: 'none' })
@@ -412,6 +414,15 @@ export default class distributionDetail extends Component {
                     </View>
                     <View className="paymoney_buynow" onClick={this.payment.bind(this)} >提交订单</View>
                 </View>
+                {
+                    this.state.tipsMessage ? <View className="tips-mask">
+                        <View className="tips-content">
+                            <View className="tips-title">购买失败</View>
+                            <View className="tips-info">{this.state.tipsMessage}</View>
+                            <View className="tips-btn" onClick={() => { this.setState({ tipsMessage: '' }) }}>确定</View>
+                        </View>
+                    </View> : null
+                }
 
             </View>
         );
