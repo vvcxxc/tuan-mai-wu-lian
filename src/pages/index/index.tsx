@@ -63,6 +63,7 @@ export default class Index extends Component<any> {
     let router = Taro.getStorageSync('router') || {}
     if (router.city_name) {
       if(router.type_index_id >= 1){
+        console.log('触发333')
         this.setState({ is_marketing: true })
       }else {
         this.setState({ is_marketing: false })
@@ -107,6 +108,16 @@ export default class Index extends Component<any> {
     this.setState({ changeBottom: changeBottom + 1 })
   }
 
+  // 避免出现定位未切换首页情况
+  handleChange = (type) => {
+    console.log(2,'type change')
+    if(type == 1){
+      this.setState({ is_marketing: true })
+    }else {
+      this.setState({ is_marketing: false })
+    }
+  }
+
 
 
 
@@ -114,7 +125,7 @@ export default class Index extends Component<any> {
     const { changeBottom, changePull, changeShow } = this.state
     return (
       <View className="index">
-        {this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull} changeShow={changeShow} /> : <OldIndex changeShow={changeShow} changeBottom={changeBottom} changePull={changePull} />}
+        {this.state.is_marketing ? <MarketingIndex changeBottom={changeBottom} changePull={changePull} changeShow={changeShow} /> : <OldIndex onChange={this.handleChange} changeShow={changeShow} changeBottom={changeBottom} changePull={changePull} />}
       </View>
     );
   }
