@@ -78,6 +78,7 @@ export default class Index extends Component<any> {
 
   componentDidMount() {
     // this.SilentAuthorization()
+    console.log('触发22')
     this.requestLocation();
       this.recognizer();
       this.showGift()
@@ -163,6 +164,15 @@ export default class Index extends Component<any> {
         this.getLocationxy()// 获取定位和 城市id 城市名字
         return
       }
+      // 判断是否跳转营销页
+      console.log()
+      if(res.data.type_index_id){
+        if(res.data.type_index_id == 1){
+          this.props.onChange(res.data.type_index_id)
+        }
+      }
+
+
       this.requestTab();
       let is_one = Taro.getStorageSync('is_one')
       if (is_one) {
@@ -180,6 +190,7 @@ export default class Index extends Component<any> {
               data.ypoint = res2.latitude
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
+              data.type_index_id = res.data.type_index_id
               data.pages = 1
               this.setState({ meta: data }, () => {
                 this.requestHomeList(data)
@@ -191,9 +202,11 @@ export default class Index extends Component<any> {
               data.city_id = res.data.city_id
               data.city_name = res.data.city_name
               data.xpoint = ''
-              data.ypoint = ''
-              this.setState({ meta: data })
-              this.requestHomeList(data);
+              data.ypoint = '',
+              data.type_index_id = res.data.type_index_id
+              this.setState({ meta: data },()=>{
+                this.requestHomeList(data);
+              })
             }
           })
         return
@@ -245,6 +258,9 @@ export default class Index extends Component<any> {
       data: datas
     })
       .then((res: any) => {
+        if(res.data.type_index_id == 1){
+          this.props.onChange(res.data.type_index_id)
+        }
         this.setState({ cityName: res.data.city }) //城市名字
         this.setState({ // 保存了城市id 和经纬度
           meta: {
@@ -252,7 +268,8 @@ export default class Index extends Component<any> {
             xpoint: this.state.meta.xpoint,
             ypoint: this.state.meta.ypoint,
             pages: this.state.page,
-            city_name: res.data.city
+            city_name: res.data.city,
+            type_index_id: res.data.type_index_id
           }
         }, () => {
           this.showImage();
