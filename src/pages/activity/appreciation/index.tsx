@@ -87,6 +87,31 @@ export default class AppreActivity extends Component {
         posterType: ''
     };
 
+    componentDidMount() {
+        /* 请求海报数据 */
+        let id = this.$router.params.id;
+        geValueAddedPoster({ youhui_id: id, from: 'wx' })
+            .then(({ data, code }) => {
+                this.setState({ posterList: data })
+                let link = data.link
+                getXcxQrcode({ link, id })
+                    .then((res) => {
+                        let meta = this.state.posterList
+                        meta['wx_img'] = BASIC_API + res.data.url
+                        this.setState({ posterList: meta })
+                    })
+                switch (data.youhui_type) {
+                    case 0:
+                        this.setState({ posterType: 'Other' })
+                        break;
+                    default:
+                        this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
+                        break;
+                }
+
+            })
+    }
+
     /**
    * 判断从分享链接进入
    * 获取定位
@@ -116,7 +141,7 @@ export default class AppreActivity extends Component {
                 if (res.code == 200) {
                     let isPostage = false;
                     if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
-                    this.getPostList(res.data.id)
+                    // this.getPostList(res.data.id)
                     this.setState({ data: res.data, isPostage });
                 } else {
                     Taro.showToast({ title: '请求失败', icon: 'none' });
@@ -243,30 +268,6 @@ export default class AppreActivity extends Component {
         }
     }
 
-    /* 请求海报数据 */
-    getPostList = (id: number) => {
-        geValueAddedPoster({ youhui_id: id, from: 'wx' })
-            .then(({ data, code }) => {
-                this.setState({ posterList: data })
-                let link = data.link
-                getXcxQrcode({ link, id })
-                    .then((res) => {
-                        let meta = this.state.posterList
-                        meta['wx_img'] = BASIC_API + res.data.url
-                        this.setState({ posterList: meta })
-                    })
-                switch (data.youhui_type) {
-                    case 0:
-                        this.setState({ posterType: 'Other' })
-                        break;
-                    default:
-                        this.setState({ posterType: data.gift.gift_pic ? 'HaveGift' : 'NoGift' })
-                        break;
-                }
-
-            })
-    }
-
     onShareAppMessage() {
         const userInfo = Taro.getStorageSync("userInfo");
         const { gift_id, gift, return_money, preview, pay_money, invitation_user_id } = this.state.data;
@@ -307,9 +308,9 @@ export default class AppreActivity extends Component {
                         this.setState({ showPoster: true })
                     }}
                 />
-                <HaveGift show={showPoster} list={posterList} onClose={this.closePoster} />
-                <Other show={showPoster} list={posterList} onClose={this.closePoster} />
-                < NoGift show={showPoster} list={posterList} onClose={this.closePoster} />
+                <HaveGift show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
+                <Other show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
+                < NoGift show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
                 <View onClick={(e) => {
                     this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
                 }}>
