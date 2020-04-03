@@ -4,7 +4,8 @@ import '../index.styl'
 interface Props {
   list?: any,
   onClose: () => void,
-  show:boolean
+  show: boolean,
+  type: string
 }
 
 export default class HaveGiftPoster extends Component<Props>{
@@ -32,9 +33,9 @@ export default class HaveGiftPoster extends Component<Props>{
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
-      const { list, show } = nextProps
+      const { list, show, type } = nextProps
       this.setState({
-        show: !list.youhui_type  ? true : false,
+        show: type =='Other' ? true : false,
         listData: {
         image: list.image,
         pay_money: list.pay_money,
