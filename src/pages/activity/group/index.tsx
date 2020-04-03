@@ -97,8 +97,24 @@ export default class GroupActivity extends Component {
     newGroupList: [],
     showShare: false, //显示分享
     showPoster: false, //显示海报
-    posterList: {}
+    posterList: {
+      return_money: '',
+      total_fee: '',
+      expire_day:'',
+      name: '',
+      pay_money:'',
+      store: {
+        name: '',
+        address:''
+      }
+    }
   };
+
+  componentDidMount() {
+    // console.log(this.$router.params.id, 'this.$router.params.id')
+    this.setState({ securityPoster: true })
+    this.getPostList()
+  }
 
   /**
        * 获取位置信息
@@ -134,7 +150,8 @@ export default class GroupActivity extends Component {
           let new_time = new Date().getTime()//ql
           new Date(res.data.activity_end_time).getTime() + 86399000 < new_time ? this.setState({ allowGroup: '已结束' }) : null
           new Date(res.data.activity_begin_time).getTime() > new_time ? this.setState({ allowGroup: '暂未开始' }) : null
-          that.setState({ data: res.data, isPostage }, () => { this.getPostList() });
+          that.setState({ data: res.data, isPostage });
+          // , () => { this.getPostList() }
         } else {
           Taro.showToast({ title: '请求失败', icon: 'none' });
         }
@@ -406,7 +423,7 @@ export default class GroupActivity extends Component {
 
   /* 请求海报数据 */
   getPostList = () => {
-    const { youhui_id } = this.state.data
+    let youhui_id = this.$router.params.id
     getGroupPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
         this.setState({ posterList: data })
