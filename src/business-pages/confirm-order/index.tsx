@@ -1,13 +1,14 @@
 import Taro, { Component } from "@tarojs/taro";
 import { Image, View } from "@tarojs/components";
 import { AtIcon, AtToast } from "taro-ui";
-
 import request from '../../services/request'
 import "./index.styl";
 import addimg from '../../assets/add.png';
 import addimg2 from '../../assets/add2.png';
 import cutimg from '../../assets/cut.png';
 import cutimg2 from '../../assets/cut2.png';
+import { accAdd, accSub } from '@/components/acc-num'
+
 export default class ConfirmOrder extends Component {
   config = {
     navigationBarTitleText: "确认订单"
@@ -24,7 +25,9 @@ export default class ConfirmOrder extends Component {
       list_brief: "",
       description: "",
       yname: "",
-      total_num: 0
+      total_num: 0,
+      limit_purchase_quantity: 0,//限购数量
+      user_youhu_log_sum: 0// 已购数量
     },
     store: {
       id: "",
@@ -55,21 +58,27 @@ export default class ConfirmOrder extends Component {
   }
   cutnum() {
     if (this.state.amount > 1) {
-      this.setState({ amount: Number(this.state.amount) - 1 }, () => {
+      let cut = accSub(this.state.amount, 1);
+      this.setState({ amount: cut }, () => {
         this.accMul();
       })
     }
-
   }
   addnum() {
-    console.log(this.accMul())
-    if (this.state.amount < 10 && this.state.amount < this.state.coupon.total_num) {
-      this.setState({ amount: Number(this.state.amount) + 1 }, () => {
+    if (this.state.amount < 10 && this.state.amount < this.state.coupon.total_num && (
+      (!this.state.coupon.limit_purchase_quantity || (this.state.coupon.limit_purchase_quantity && accAdd(this.state.amount, this.state.coupon.user_youhu_log_sum)) <= this.state.coupon.limit_purchase_quantity)
+    )) {
+      let add = accAdd(this.state.amount, 1);
+      this.setState({ amount: add }, () => {
         this.accMul();
       })
     }
   }
   payMoney() {
+    if (this.state.coupon.limit_purchase_quantity && (accAdd(this.state.amount, this.state.coupon.user_youhu_log_sum)) > this.state.coupon.limit_purchase_quantity) {
+      this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
+      return;
+    }
     Taro.showLoading({
       title: 'loading',
     })
