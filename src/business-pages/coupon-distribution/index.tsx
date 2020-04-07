@@ -52,7 +52,8 @@ export default class distributionDetail extends Component {
             province: "",
             province_id: 0,
             user_id: 0
-        }
+        },
+        tipsMessage: ''
 
     }
     componentDidShow() {
@@ -176,31 +177,37 @@ export default class distributionDetail extends Component {
             store_id: this.state.store.id,
             youhui_number: 1,
             xcx: 1,
-            is_distribution: this.state.chooseDistribution ? 1 : 0,
+            is_distribution: this.state.coupon.is_delivery && this.state.chooseDistribution ? 1 : 0,
             address_id: this.state.address && this.state.address.id ? this.state.address.id : undefined,
             open_id: Taro.getStorageSync("openid"),
             unionid: Taro.getStorageSync("unionid"),
         }
         wxWechatPay(datas)
             .then((res: any) => {
-                Taro.hideLoading();
-                //微信
-                Taro.requestPayment({
-                    timeStamp: res.data.timeStamp,
-                    nonceStr: res.data.nonceStr,
-                    package: res.data.package,
-                    signType: res.data.signType,
-                    paySign: res.data.paySign,
-                    success(res) {
-                        //微信成功
-                        Taro.showToast({ title: '支付成功', icon: 'none' })
-                        that.goToOrder();
-                    },
-                    fail(err) {
-                        Taro.showToast({ title: '支付失败', icon: 'none' })
-                    }
-                });
+                if (res.code == 200) {
+                    Taro.hideLoading();
+                    //微信
+                    Taro.requestPayment({
+                        timeStamp: res.data.timeStamp,
+                        nonceStr: res.data.nonceStr,
+                        package: res.data.package,
+                        signType: res.data.signType,
+                        paySign: res.data.paySign,
+                        success(res) {
+                            //微信成功
+                            Taro.showToast({ title: '支付成功', icon: 'none' })
+                            that.goToOrder();
+                        },
+                        fail(err) {
+                            Taro.showToast({ title: '支付失败', icon: 'none' })
+                        }
+                    });
+                } else {
+                    this.setState({ tipsMessage: res.message })
+                    // Taro.showToast({ title: res.message, icon: 'none' })
+                }
             })
+
     }
 
     /**
@@ -326,6 +333,16 @@ export default class distributionDetail extends Component {
                     </View>
                     <View className="paymoney_buynow" onClick={this.payMoney.bind(this)} >提交订单</View>
                 </View>
+                {
+                    this.state.tipsMessage ? <View className="tips-mask">
+                        <View className="tips-content">
+                            <View className="tips-title">购买失败</View>
+                            <View className="tips-info">{this.state.tipsMessage}</View>
+                            <View className="tips-btn" onClick={() => { this.setState({ tipsMessage: '' }) }}>确定</View>
+                        </View>
+                    </View> : null
+                }
+
             </View>
         );
     }

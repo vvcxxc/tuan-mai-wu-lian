@@ -65,11 +65,13 @@ export default class AppreActivity extends Component {
             supplier_id: 0,
             tel: "",
             total_fee: 0,
+            total_num: 0,
             type: 0,
             validity: 0,
             xpoint: "",
             ypoint: "",
-            dp_count: 0
+            dp_count: 0,
+            publish_wait: 0
         },
         showShare: false, //显示分享
         showPoster: false, //显示海报
@@ -292,6 +294,17 @@ export default class AppreActivity extends Component {
         this.setState({ showPoster: false, showShare: false })
     }
 
+    // 图片预览
+  onPreviewImage = () => {
+    // this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
+    Taro.previewImage({
+      current: this.state.data.images[this.state.bannerImgIndex],
+      urls: [
+        ...this.state.data.images
+      ]
+    })
+  }
+
     render() {
         const { images, description } = this.state.data;
         const { posterList, posterType, showPoster } = this.state
@@ -311,9 +324,7 @@ export default class AppreActivity extends Component {
                 <HaveGift show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
                 <Other show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
                 < NoGift show={showPoster} list={posterList} onClose={this.closePoster} type={posterType}/>
-                <View onClick={(e) => {
-                    this.setState({ imgZoom: true, imgZoomSrc: this.state.data.images[this.state.bannerImgIndex] })
-                }}>
+                <View onClick={this.onPreviewImage}>
                     <Swiper
                         onChange={(e) => {
                             this.setState({ bannerImgIndex: e.detail.current })
@@ -468,12 +479,12 @@ export default class AppreActivity extends Component {
                             this.setState({ showShare: true })
                         }}>分享活动</View>
                         {
-                            this.state.data.activity_time_status == 1 ? (
-                                <View className="appre-buy-btn-right" >暂未开始</View>
+                            this.state.data.publish_wait != 1 || this.state.data.total_num == 0 || this.state.data.activity_time_status == 3 ? (
+                                <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
+                            ) : this.state.data.activity_time_status == 1 ? (
+                                <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }} >暂未开始</View>
                             ) : this.state.data.activity_time_status == 2 ? (
                                 <View className="appre-buy-btn-right" onClick={this.goToaConfirm.bind(this)}>立即购买</View>
-                            ) : this.state.data.activity_time_status == 3 ? (
-                                <View className="appre-buy-btn-right">已结束</View>
                             ) : null
                         }
                     </View>

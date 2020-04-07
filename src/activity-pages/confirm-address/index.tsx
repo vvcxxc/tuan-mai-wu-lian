@@ -48,7 +48,8 @@ export default class confirmAddress extends Component {
                 participation_number: 0
             },
             team_set_end_time: ''
-        }
+        },
+        tipsMessage: ''
     };
 
     componentDidShow() {
@@ -297,7 +298,8 @@ export default class confirmAddress extends Component {
                         }
                     })
                 } else {
-                    Taro.showToast({ title: res.message, icon: 'none' })
+                    this.setState({ tipsMessage: res.message })
+                    // Taro.showToast({ title: res.message, icon: 'none' })
                 }
             })
         } else if (this.state.activityType == '5') {
@@ -371,7 +373,8 @@ export default class confirmAddress extends Component {
                         }
                     })
                 } else {
-                    Taro.showToast({ title: res.message, icon: 'none' })
+                    this.setState({ tipsMessage: res.message })
+                    // Taro.showToast({ title: res.message, icon: 'none' })
                 }
             })
         } else if (this.state.activityType == '55') {
@@ -427,7 +430,8 @@ export default class confirmAddress extends Component {
                         }
                     })
                 } else {
-                    Taro.showToast({ title: res.message, icon: 'none' })
+                    this.setState({ tipsMessage: res.message })
+                    // Taro.showToast({ title: res.message, icon: 'none' })
                 }
             })
         } else {
@@ -614,6 +618,15 @@ export default class confirmAddress extends Component {
                     <View className="paymoney_buynow" onClick={this.payment.bind(this)} >立即购买</View>
                 </View>
 
+                {
+                    this.state.tipsMessage ? <View className="tips-mask">
+                        <View className="tips-content">
+                            <View className="tips-title">购买失败</View>
+                            <View className="tips-info">{this.state.tipsMessage}</View>
+                            <View className="tips-btn" onClick={() => { this.setState({ tipsMessage: '' }) }}>确定</View>
+                        </View>
+                    </View> : null
+                }
             </View>
         );
     }
