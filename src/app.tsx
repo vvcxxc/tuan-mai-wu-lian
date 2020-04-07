@@ -167,7 +167,50 @@ class App extends Component {
   defineApp: {
     define: '22'
   }
+
+  /**
+   * 判断小程序是否需要更新
+   */
+  isUpdate = () => {
+    console.log(Taro.canIUse('getUpdateManager'),'isUpdate')
+    if(Taro.canIUse('getUpdateManager')){
+      const updateManager = Taro.getUpdateManager()
+      updateManager.onCheckForUpdate(function (res) {
+        console.log('onCheckForUpdate====', res)
+        // 请求完新版本信息的回调
+        if (res.hasUpdate) {
+          console.log('res.hasUpdate====')
+          updateManager.onUpdateReady(function () {
+            Taro.showModal({
+              title: '更新提示',
+              content: '新版本已经准备好，是否重启应用？',
+              success: function (res) {
+                console.log('success====', res)
+                // res: {errMsg: "showModal: ok", cancel: false, confirm: true}
+                if (res.confirm) {
+                  // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+                  updateManager.applyUpdate()
+                }
+              }
+            })
+          })
+          updateManager.onUpdateFailed(function () {
+            // 新的版本下载失败
+            Taro.showModal({
+              title: '已经有新版本啦',
+              content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~'
+            })
+          })
+        }
+      })
+    }else {
+
+    }
+  }
+
+
   componentDidShow() {
+    this.isUpdate()
     let date = dayjs().unix()
     Taro.setStorageSync('is_one', date)
     let token = Taro.getStorageSync('token');
