@@ -119,6 +119,13 @@
 					"pathName": "pages/business/index",
 					"query": "id=5300&__key_=15863090363421",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/index",
+					"pathName": "pages/activity/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

@@ -254,9 +254,16 @@ export default class Activity extends Component {
       }
     }).then(async res => {
       if (res.data.length != 0) {
-        await this.setState({
-          dataList: res.data.concat(this.state.dataList)
-        })
+        if(this.state.page == 1){
+          await this.setState({
+            dataList: res.data
+          })
+        }else {
+          await this.setState({
+            dataList: res.data.concat(this.state.dataList)
+          })
+        }
+
       } else if (res.data.length == 0) {
         Taro.showToast({
           title: '暂无更多数据',
@@ -291,9 +298,15 @@ export default class Activity extends Component {
       }
     }).then(async res => {
       if (res.data.length != 0) {
-        await this.setState({
-          dataList: res.data.concat(this.state.dataList)
-        })
+        if(this.state.page == 1){
+          await this.setState({
+            dataList: res.data
+          })
+        }else {
+          await this.setState({
+            dataList: res.data.concat(this.state.dataList)
+          })
+        }
       } else if (res.data.length == 0) {
         Taro.showToast({
           title: '暂无更多数据',
@@ -329,9 +342,15 @@ export default class Activity extends Component {
       }
     }).then(async res => {
       if (res.data.length != 0) {
-        await this.setState({
-          dataList: res.data.concat(this.state.dataList)
-        })
+        if(this.state.page == 1){
+          await this.setState({
+            dataList: res.data
+          })
+        }else {
+          await this.setState({
+            dataList: res.data.concat(this.state.dataList)
+          })
+        }
       } else if (res.data.length == 0) {
         Taro.showToast({
           title: '暂无更多数据',
