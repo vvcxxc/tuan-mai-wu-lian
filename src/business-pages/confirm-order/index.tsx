@@ -111,11 +111,6 @@ export default class ConfirmOrder extends Component {
               Taro.showToast({ title: '支付成功', icon: 'none' })
               Taro.switchTab({
                 url: '/pages/order/index',
-                success: () => {
-                  var page = Taro.getCurrentPages().pop();
-                  if (page == undefined || page == null) return;
-                  page.onLoad();
-                }
               })
             },
             fail(err) {
