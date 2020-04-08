@@ -26,7 +26,7 @@
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
-	"libVersion": "2.7.7",
+	"libVersion": "2.10.4",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -51,66 +51,17 @@
 			"current": -1,
 			"list": [
 				{
-					"id": -1,
-					"name": "增值",
-					"pathName": "pages/activity/appreciation/index",
+					"id": 0,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "shop page",
-					"pathName": "pages/merchant/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "活动",
-					"pathName": "pages/activity/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "拼团",
-					"pathName": "pages/activity/group/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "5795",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 5,
-					"name": "现金券",
-					"pathName": "business-pages/ticket-buy/index",
-					"query": "id=6005&__key_=15858925380286",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "兑换券",
-					"pathName": "business-pages/set-meal/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/coupon-distribution/index",
-					"pathName": "business-pages/coupon-distribution/index",
-					"query": "id=5839&invitation_user_id=222",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "增值",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "",
+					"name": "pages/business/index",
+					"pathName": "pages/business/index",
+					"query": "id=5300&__key_=15862445008881",
 					"scene": null
 				},
 				{

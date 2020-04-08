@@ -7,7 +7,7 @@ interface Props {
   onAction: any;
 }
 export default class CouponBox extends Component<Props> {
-  CouponBox.defaultProps = {
+  defaultProps = {
     item: {
       is_share: 0
     }
