@@ -80,12 +80,12 @@ export default class Index extends Component<any> {
     // this.SilentAuthorization()
     console.log('触发22')
     this.requestLocation();
-      this.recognizer();
-      this.showGift()
-      let token = Taro.getStorageSync("token");
-      if (token) {
-        this.setState({ is_login: false })
-      }
+    this.recognizer();
+    this.showGift()
+    let token = Taro.getStorageSync("token");
+    if (token) {
+      this.setState({ is_login: false })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,15 +99,15 @@ export default class Index extends Component<any> {
     }
     // 触底加载更多
     if (this.props.changeBottom != nextProps.changeBottom) {
-       this.setState({ page: this.state.page + 1 }, () => {
-      this.requestHomeList({ ...this.state.meta })
-    })
-    let data: any = this.state.meta
-    data.pages = data.pages + 1
-    this.setState({ meta: data })
+      this.setState({ page: this.state.page + 1 }, () => {
+        this.requestHomeList({ ...this.state.meta })
+      })
+      let data: any = this.state.meta
+      data.pages = data.pages + 1
+      this.setState({ meta: data })
     }
     // componentDidShow
-    if(this.props.changeShow != nextProps.changeShow){
+    if (this.props.changeShow != nextProps.changeShow) {
       this.requestLocation();
       this.recognizer();
       this.showGift()
@@ -166,8 +166,8 @@ export default class Index extends Component<any> {
       }
       // 判断是否跳转营销页
       console.log()
-      if(res.data.type_index_id){
-        if(res.data.type_index_id == 1){
+      if (res.data.type_index_id) {
+        if (res.data.type_index_id == 1) {
           this.props.onChange(res.data.type_index_id)
         }
       }
@@ -203,8 +203,8 @@ export default class Index extends Component<any> {
               data.city_name = res.data.city_name
               data.xpoint = ''
               data.ypoint = '',
-              data.type_index_id = res.data.type_index_id
-              this.setState({ meta: data },()=>{
+                data.type_index_id = res.data.type_index_id
+              this.setState({ meta: data }, () => {
                 this.requestHomeList(data);
               })
             }
@@ -258,7 +258,7 @@ export default class Index extends Component<any> {
       data: datas
     })
       .then((res: any) => {
-        if(res.data.type_index_id == 1){
+        if (res.data.type_index_id == 1) {
           this.props.onChange(res.data.type_index_id)
         }
         this.setState({ cityName: res.data.city }) //城市名字
@@ -608,7 +608,7 @@ export default class Index extends Component<any> {
 
         {
           this.state.storeList.map((item2: any, index: any) => {
-            return <View className="new_box">
+            return <View className="new_box" key={index}>
               <View className="box" style={{ paddingBottom: item2.activity ? '' : '4px' }} onClick={this.handleClick.bind(this, item2.id)}>
                 <View className="box_title" style={{ borderBottom: item2.activity_num ? '0.5px solid #eeeeee' : 'none', paddingBottom: item2.activity_num ? '12rpx' : 'none' }}>
                   <View className="title_l">
@@ -673,7 +673,7 @@ export default class Index extends Component<any> {
                   >
 
                     <View className="box_bottom_child">
-                      < Image src={
+                      <Image src={
                         item2.activity ?
                           (item2.activity.group ? item2.activity.group.icon : null)
                           : null}
@@ -771,23 +771,23 @@ export default class Index extends Component<any> {
             </View>
           })
         }
-        {/* <AtModal isOpened={this.state.is_login} className='confirm_box'>
+        <AtModal isOpened={this.state.is_login} className='confirm_box'>
           <AtModalContent>
-            <Image src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TQnWAHEBkpBtEiAW6wmfJDyGS6Kfzydj.png' className='confirm_logo'/>
+            <Image src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/TQnWAHEBkpBtEiAW6wmfJDyGS6Kfzydj.png' className='confirm_logo' />
             <View className='confirm_text'>登录后可访问更精彩的内容</View>
           </AtModalContent>
-          <AtModalAction> <Button onClick={()=>{this.setState({is_login: false})}}>取消</Button> <Button style={{color: '#fe9692'}} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfohandleGetUserInfo}>微信登录</Button> </AtModalAction>
+          <AtModalAction> <Button onClick={() => { this.setState({ is_login: false }) }}>取消</Button> <Button style={{ color: '#fe9692' }} openType="getUserInfo" onGetUserInfo={this.handleGetUserInfohandleGetUserInfo}>微信登录</Button> </AtModalAction>
         </AtModal>
         <AtModal isOpened={this.state.is_location}>
           <AtModalContent className='locationModal'>
-      <View className='modal_text'>定位您在<Image src={require('@/assets/address.png')}/>{this.state.city_data.city_name}</View>
+            <View className='modal_text'>定位您在<Image src={require('@/assets/address.png')} />{this.state.city_data.city_name}</View>
             <View className='modal_text'>是否切换到该城市进行查看</View>
           </AtModalContent>
           <AtModalAction>
             <Button onClick={this.noChangeCity}>取消</Button>
-            <Button onClick={this.changeCity} style={{color: '#FE7263'}}>切换</Button>
+            <Button onClick={this.changeCity} style={{ color: '#FE7263' }}>切换</Button>
           </AtModalAction>
-        </AtModal> */}
+        </AtModal>
       </View>
     );
   }
