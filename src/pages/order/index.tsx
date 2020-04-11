@@ -156,7 +156,6 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-          console.log(5123123)
           let temp = this.state.coupon1.concat(res.data);
           console.log(temp.length)
           this.setState({ coupon: temp, coupon1: temp, page1: this.state.page1 + 1 }, () => {
@@ -245,7 +244,6 @@ export default class Order extends Component {
             //   this.setState({ lengthbull4: false });
             // }
           });
-
           Taro.hideLoading();
         })
         .catch(() => {
