@@ -1,9 +1,10 @@
 import Taro, { Component } from "@tarojs/taro"
-import { Block, View, ScrollView, Image, Text, Button} from "@tarojs/components"
+import { Block, View, ScrollView, Image, Text, Button } from "@tarojs/components"
 import './index.styl'
 import userRequest from '../../services/userRequest';
 import MergePrompt from '@/components/merge_prompt'
-const router_data = ['pages/index/index','pages/order/index','pages/my/index','pages/activity/index','pages/merchant/index']
+
+const router_data = ['pages/index/index', 'pages/order/index', 'pages/my/index', 'pages/activity/index', 'pages/merchant/index']
 interface Props {
   onChange: any
 }
@@ -46,14 +47,14 @@ export default function LoginAlert(props: Props) {
               title: '登录成功'
             })
             props.onChange('login')
-          }else if(res.data.status == 'merge_success') {
+          } else if (res.data.status == 'merge_success') {
             Taro.setStorageSync('phone_status', 'bind_success')
-            Taro.setStorageSync('token','Bearer ' + res.data.token)
+            Taro.setStorageSync('token', 'Bearer ' + res.data.token)
             Taro.showToast({
               title: '登录成功'
             })
             props.onChange('login')
-          }else if (res.data.status == 'need_merge') {
+          } else if (res.data.status == 'need_merge') {
             is_show = true
             phone = res.data.mobile
           }
@@ -68,14 +69,14 @@ export default function LoginAlert(props: Props) {
       url: 'v1/user/user/merge_user',
       method: "PUT",
       data: {
-        mobile: this.state.phoneNumber,
+        mobile: phone,
         type: 'xcx'
       }
     }).then(res => {
-      if(res.status_code == 200){
+      if (res.status_code == 200) {
         Taro.setStorageSync('phone_status', 'bind_success')
-        Taro.setStorageSync('token','Bearer ' + res.data.token)
-        Taro.showToast({title: '同步成功'})
+        Taro.setStorageSync('token', 'Bearer ' + res.data.token)
+        Taro.showToast({ title: '同步成功' })
         props.onChange('close')
       }
     })
