@@ -75,16 +75,18 @@ export default class LoginPage extends Component<any>{
   //确定登录
   sureLogin = () => {
     const { phoneNumber, validationNumber } = this.state;
+    console.log(phoneNumber, validationNumber)
     if (phoneNumber && validationNumber) {
       userRequest({
         url: 'v1/user/auth/login',
         method: 'PUT',
         data: {
           phone: phoneNumber,
-          verify_code: validationNumber
+          verify_code: validationNumber,
           from: 'xcx'
         }
       }).then((res: any) => {
+    console.log(res)
         let { status_code } = res
         if (status_code == 200) {
           if(res.data.status == 'bind_success' || res.data.status == 'binded'){
