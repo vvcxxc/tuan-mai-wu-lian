@@ -84,6 +84,13 @@
 					"pathName": "pages/auth/login_page/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "pages/activity/group/index",
+					"pathName": "pages/activity/group/index",
+					"query": "id=5945&type=5&gift_id=0&activity_id=2331",
+					"scene": null
 				}
 			]
 		}
