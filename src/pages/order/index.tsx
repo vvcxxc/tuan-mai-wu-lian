@@ -53,6 +53,7 @@ export default class Order extends Component {
   };
 
   componentDidShow() {
+    console.log('didSHow')
     let that = this;
     let phone_status = Taro.getStorageSync('phone_status')
     let order_type = Taro.getStorageSync('order_type');
@@ -89,6 +90,7 @@ export default class Order extends Component {
 
 
   onPullDownRefresh = () => { // 自带 下拉事件
+    console.log('下啦')
     if (!this.state.no_login) {
       if (this.state.current == 0) {
         this.setState({
@@ -132,6 +134,7 @@ export default class Order extends Component {
   }
   // 触底事件
   onReachBottom = () => {
+    console.log('触底')
     this.state.current == 0 ? this.getData1() : (
       this.state.current == 1 ? this.getData2() : (
         this.state.current == 2 ? this.getData3() : (
@@ -153,7 +156,6 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-          console.log(5123123)
           let temp = this.state.coupon1.concat(res.data);
           console.log(temp.length)
           this.setState({ coupon: temp, coupon1: temp, page1: this.state.page1 + 1 }, () => {
@@ -242,7 +244,6 @@ export default class Order extends Component {
             //   this.setState({ lengthbull4: false });
             // }
           });
-
           Taro.hideLoading();
         })
         .catch(() => {

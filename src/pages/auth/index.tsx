@@ -122,7 +122,7 @@ export default class Auth extends Component {
       url: 'v1/user/user/merge_user',
       method: "PUT",
       data: {
-        mobile: this.state.phoneNumber,
+        mobile: this.state.phone,
         type: 'xcx'
       }
     }).then(res => {

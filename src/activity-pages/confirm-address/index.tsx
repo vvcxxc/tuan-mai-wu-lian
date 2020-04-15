@@ -282,12 +282,7 @@ export default class confirmAddress extends Component {
                                         Taro.hideLoading();
                                         //得到增值活动id并跳转活动详情
                                         Taro.navigateTo({
-                                            url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id,
-                                            success: () => {
-                                                var page = Taro.getCurrentPages().pop();
-                                                if (page == undefined || page == null) return;
-                                                page.onLoad();
-                                            }
+                                            url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id
                                         })
                                     }
                                 })
@@ -357,12 +352,7 @@ export default class confirmAddress extends Component {
                                         clearInterval(interval);
                                         Taro.hideLoading();
                                         Taro.navigateTo({
-                                            url: '/pages/activity/pages/group/group?id=' + res.data.id,
-                                            success: () => {
-                                                var page = Taro.getCurrentPages().pop();
-                                                if (page == undefined || page == null) return;
-                                                page.onLoad();
-                                            }
+                                            url: '/pages/activity/pages/group/group?id=' + res.data.id
                                         })
                                     }
                                 })
@@ -417,12 +407,7 @@ export default class confirmAddress extends Component {
                         paySign: res.data.paySign,
                         success(res) {
                             Taro.navigateTo({
-                                url: '/pages/activity/pages/group/group?id=' + that.state.groupId,
-                                success: () => {
-                                    var page = Taro.getCurrentPages().pop();
-                                    if (page == undefined || page == null) return;
-                                    page.onLoad();
-                                }
+                                url: '/pages/activity/pages/group/group?id=' + that.state.groupId
                             })
                         },
                         fail(err) {

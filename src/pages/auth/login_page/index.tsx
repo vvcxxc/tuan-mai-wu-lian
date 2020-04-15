@@ -50,6 +50,8 @@ export default class LoginPage extends Component<any>{
             title: message
           })
           this.performTimer()
+        }else {
+          Taro.showToast({title: message,icon: 'none'})
         }
       })
     }
@@ -75,16 +77,18 @@ export default class LoginPage extends Component<any>{
   //确定登录
   sureLogin = () => {
     const { phoneNumber, validationNumber } = this.state;
+    console.log(phoneNumber, validationNumber)
     if (phoneNumber && validationNumber) {
       userRequest({
         url: 'v1/user/auth/login',
         method: 'PUT',
         data: {
           phone: phoneNumber,
-          verify_code: validationNumber
+          verify_code: validationNumber,
           from: 'xcx'
         }
       }).then((res: any) => {
+    console.log(res)
         let { status_code } = res
         if (status_code == 200) {
           if(res.data.status == 'bind_success' || res.data.status == 'binded'){
@@ -123,8 +127,46 @@ export default class LoginPage extends Component<any>{
             Taro.showToast({
               title: '登录失败'
             })
+          } else if (res.data.status == 'need_switch') {
+            userRequest({
+              method: 'POST',
+              url: 'v1/user/auth/switch_user',
+              data: {
+                phone: phoneNumber,
+                verify_code: validationNumber,
+              }
+            }).then (res1 => {
+              console.log(res1)
+              if (res1.status_code == 200) {
+                Taro.setStorageSync('token', 'Bearer ' + res1.data.token)
+                Taro.setStorageSync('openid', res1.data.user.xcx_openid)
+                Taro.setStorageSync('user', res1.data.user)
+                Taro.setStorageSync('token_expires_in', res1.data.expires_in)
+                if (res1.data.user.phone) {
+                  Taro.setStorageSync('phone_status', 'binded')
+                }else {
+                  Taro.setStorageSync('phone_status', 'need_login')
+                }
+                Taro.showToast({
+                  title: '登录成功'
+                })
+                setTimeout(() => {
+                  let page = Taro.getCurrentPages()
+                  if (page.length > 1) {
+                    Taro.navigateBack({
+                      delta: 2
+                    })
+                  }
+                }, 1500)
+              }
+
+            })
           }
 
+        }else {
+          Taro.showToast({
+            title: res.message
+          })
         }
       })
     }
@@ -167,10 +209,11 @@ export default class LoginPage extends Component<any>{
               type='number'
               placeholder='请输入手机号码'
               value={this.state.phoneNumber}
+              className='phone-input'
               onChange={this.handleChange.bind(this, 'phoneNumber')}
             />
             {
-              !this.state.showTime ? <Text onClick={this.getValidationNumber}>获取验证码</Text> : <Text >{time}</Text>
+              !this.state.showTime ? <Text style={{zIndex: 999}} onClick={this.getValidationNumber}>获取验证码</Text> : <Text >{time}</Text>
             }
           </View>
 

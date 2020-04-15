@@ -295,10 +295,10 @@ export default class Orderdetail extends Component {
 
               {this.state.defaultData.description.length ? <View className="flex use_rules" style={{ overflow: "hidden", height: (this.state.checkFlag || this.state.defaultData.description.length <= 2) ? 'auto' : '4rem' }}>
                 <View className='a_billingInfo_1'>使用规则</View>:
-                <View style={{ marginLeft: '9px' }}>
+                <View className="a_billingInfo_rules">
                   {
                     descriptions.length ? (descriptions.map((item, index) => (
-                      <View key={item} style={{ height: '32px' }}>{index + 1}. {item}</View>
+                      <View key={item} >{index + 1}. {item}</View>
                     ))) : null
                   }
                 </View>

@@ -44,6 +44,7 @@ export default class GroupActivity extends Component {
     current: 0,
     //查看更多
     showMoreRules: false,
+    showMoreImages: false,
     data: {
       invitation_user_id: '',
       activity_begin_time: "",
@@ -61,6 +62,7 @@ export default class GroupActivity extends Component {
       id: 0,//店id
       image: "",
       images: [],
+      brief: [],
       is_show_button: 0,
       list_brief: "",
       locate_match_row: "",
@@ -80,6 +82,7 @@ export default class GroupActivity extends Component {
       youhui_name: "",//活动名
       ypoint: "",
       share_text: '',//复制出去的文字
+      supplier_delivery_id: 0,
       delivery_service_info: {
         delivery_end_time: '',
         delivery_radius_m: 0,
@@ -100,12 +103,12 @@ export default class GroupActivity extends Component {
     posterList: {
       return_money: '',
       total_fee: '',
-      expire_day:'',
+      expire_day: '',
       name: '',
-      pay_money:'',
+      pay_money: '',
       store: {
         name: '',
-        address:''
+        address: ''
       }
     }
   };
@@ -148,8 +151,8 @@ export default class GroupActivity extends Component {
           let isPostage = false;
           if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
           let new_time = new Date().getTime()//ql
-          new Date(res.data.activity_end_time).getTime() + 86399000 < new_time ? this.setState({ allowGroup: '已结束' }) : null
-          new Date(res.data.activity_begin_time).getTime() > new_time ? this.setState({ allowGroup: '暂未开始' }) : null
+          res.data.activity_time_status == 3 ? this.setState({ allowGroup: '已结束' }) : null
+          res.data.activity_time_status == 1 ? this.setState({ allowGroup: '暂未开始' }) : null
           that.setState({ data: res.data, isPostage });
           // , () => { this.getPostList() }
         } else {
@@ -379,12 +382,7 @@ export default class GroupActivity extends Component {
    */
   goToGroupInfo = (_tempid: any) => {
     Taro.navigateTo({
-      url: '/pages/activity/pages/group/group?id=' + _tempid,
-      success: () => {
-        var page = Taro.getCurrentPages().pop();
-        if (page == undefined || page == null) return;
-        page.onLoad();
-      }
+      url: '/pages/activity/pages/group/group?id=' + _tempid
     })
   }
 
@@ -488,7 +486,7 @@ export default class GroupActivity extends Component {
 
 
   render() {
-    const { description, delivery_service_info } = this.state.data;
+    const { description, delivery_service_info, brief } = this.state.data;
     const { posterList } = this.state
     return (
       <View className="group-activity-detail">
@@ -796,6 +794,45 @@ export default class GroupActivity extends Component {
             </View> : null
           }
         </View>
+
+        {
+          brief.length ? <View className="img-list-box">
+            <View className="img-title-box">
+              <View className='img-title-left'></View>
+              <View className='img-title'>图文详情</View>
+            </View>
+            <View className="images-content">
+              {
+                !this.state.showMoreImages && brief.length > 0 ? <Image className="images-item" mode={'widthFix'} src={brief[0]} />
+                  : null
+              }
+              {
+                !this.state.showMoreImages && brief.length > 1 ? <Image className="images-item" mode={'widthFix'} src={brief[1]} />
+                  : null
+              }
+              {
+                this.state.showMoreImages && brief.length > 2 ? brief.map((item: any, index: any) => {
+                  return (
+                    <Image className="images-item" mode={'widthFix'} key={item} src={item} />
+                  )
+                }) : null
+              }
+            </View>
+            {
+              brief.length > 2 && !this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: true }) }} >
+                <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
+                <View className="img-more-text" >查看更多</View>
+              </View>
+                : (
+                  brief.length > 2 && this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: false }) }} >
+                    <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/3pwMx3EMhEpZQs7jhS2zrA6fjSQdsFbW.png"} />
+                    <View className="img-more-text" >收起</View>
+                  </View> : null
+                )
+            }
+          </View> : null
+        }
+
         <View className="group-buy-box" >
           <View className="group-buy-price-box" >
             <View className="group-buy-price-icon" >￥</View>
