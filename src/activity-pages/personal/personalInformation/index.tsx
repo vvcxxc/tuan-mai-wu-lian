@@ -99,6 +99,7 @@ export default class PersonalInformation extends Component {
             url: 'v1/user/user/upload_user_detail',
             method: "PUT",
             data: {
+                avatar: this.state.avatar,
                 byear: this.state.byear,
                 bmonth: this.state.bmonth,
                 bday: this.state.bday,
@@ -154,22 +155,12 @@ export default class PersonalInformation extends Component {
             count: 1,
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
-            success(res) {
-                // tempFilePath可以作为img标签的src属性显示图片
-                const tempFilePaths = res.tempFilePaths;
-
-                console.log('tempFilePaths', tempFilePaths);
-
-
-                upload(tempFilePaths).then(res => {
-                  let path =  JSON.parse(res.data).data.path
-                    console.log('tempFilePaths', path)
+            success(res0) {
+                const tempFilePaths = res0.tempFilePaths;
+                upload(tempFilePaths).then((res: any) => {
+                    let path = JSON.parse(res.data).data.path
+                    that.setState({ avatar: 'http://oss.tdianyi.com/' + path }, () => { that.changeNameInfo() })
                 });
-
-
-
-
-                that.setState({ avatar: tempFilePaths });
             }
         });
     }
