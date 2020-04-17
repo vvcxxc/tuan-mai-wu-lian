@@ -7,6 +7,7 @@ import "./index.less"
 import { url } from "inspector"
 import CitySelecter from "../../components/citySelecter/index"
 import Citypicker from "../../components/citySelecter/index2.js"
+import upload from '@/services/oss';
 
 export default class PersonalInformation extends Component {
 
