@@ -1,4 +1,35 @@
 import Taro, { RequestParams } from "@tarojs/taro";
+import {
+    FETCH_BAD,
+    FETCH_OK,
+    SERVER_ERROR,
+    NOT_FIND,
+    NOT_SIGN
+} from "@/utils/constants";
+import { resolve } from "dist/npm/promise-polyfill/lib";
+
+/**base64转blob */
+const b64toBlob = (b64Data: any, contentType = '', sliceSize = 512) => {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+}
+
 /**随机数 */
 const randomString = (len: any) => {
     len = len || 32;
@@ -13,6 +44,8 @@ const randomString = (len: any) => {
 const host = 'https://oss.tdianyi.com';
 export default async function upload(files: any) {
     console.log(files)
+    const options = { method: 'post' }
+
     const imgUrl = files[0];
     const length = 14680064;
     if (imgUrl.length > length) {
@@ -29,7 +62,10 @@ export default async function upload(files: any) {
                     method: "GET",
                 }
             ).then(res => {
+                console.log('res', res)
+
                 let { data } = res.data;
+                console.log(5345345)
                 let oss_data = {
                     policy: data.policy,
                     OSSAccessKeyId: data.accessid,
@@ -40,10 +76,15 @@ export default async function upload(files: any) {
                     key: data.dir
                 };
                 Taro.setStorageSync("oss_data", JSON.stringify(oss_data))
+
             })
+
+
+
         }
         let oss_data = JSON.parse(Taro.getStorageSync("oss_data") || '');
         let key = oss_data.key + randomString(32) + '.jpg'
+        console.log('32432', key, imgUrl)
         return Taro.uploadFile({
             url: host,
             filePath: imgUrl,
@@ -58,9 +99,12 @@ export default async function upload(files: any) {
                 file: imgUrl
             },
             success: (res) => {
+
             }
         })
+        // return Taro.request({ ...options })
+        //     .then(res => res.data)
+        //     .catch(err => { });
     }
 
 }
-
