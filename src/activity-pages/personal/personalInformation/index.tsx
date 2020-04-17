@@ -159,10 +159,11 @@ export default class PersonalInformation extends Component {
                 const tempFilePaths = res.tempFilePaths;
 
                 console.log('tempFilePaths', tempFilePaths);
-               
-               
+
+
                 upload(tempFilePaths).then(res => {
-                    console.log('tempFilePaths', res.data.path)
+                  let path =  JSON.parse(res.data).data.path
+                    console.log('tempFilePaths', path)
                 });
 
 

@@ -6,6 +6,7 @@ import {
     NOT_FIND,
     NOT_SIGN
 } from "@/utils/constants";
+import { resolve } from "dist/npm/promise-polyfill/lib";
 
 /**base64转blob */
 const b64toBlob = (b64Data: any, contentType = '', sliceSize = 512) => {
@@ -82,12 +83,12 @@ export default async function upload(files: any) {
 
         }
         let oss_data = JSON.parse(Taro.getStorageSync("oss_data") || '');
-        let key = oss_data.key + randomString(32) + '.png'
+        let key = oss_data.key + randomString(32) + '.jpg'
         console.log('32432', key, imgUrl)
-        Taro.uploadFile({
+        return Taro.uploadFile({
             url: host,
             filePath: imgUrl,
-            name: '/front',
+            name: 'file',
             formData: {
                 key: key,
                 policy: oss_data.policy,
@@ -98,28 +99,9 @@ export default async function upload(files: any) {
                 file: imgUrl
             },
             success: (res) => {
-                console.log(res)
-            }
-        }
-        )
-        // const block = imgUrl.split(';');
-        // const contentType = block[0].split(':')[1]; // In this case "image/jpeg"
-        // const realData = block[1].split(',')[1];
-        // var blob = b64toBlob(realData, contentType);
-        // const formData = new FormData();
 
-        // formData.append('OSSAccessKeyId', oss_data.OSSAccessKeyId);
-        // formData.append('callback', oss_data.callback);
-        // formData.append('host', oss_data.host);
-        // formData.append('policy', oss_data.policy);
-        // formData.append('signature', oss_data.signature);
-        // formData.append('success_action_status', '200');
-        // formData.append('key', oss_data.key + randomString(32) + '.png');
-        // formData.append('file', blob);
-        // options.headers = { ...options.headers, 'Content-Type': 'multipart/form-data' };
-        // options.url = host;
-        // options.data = formData;
-        // console.log(formData)
+            }
+        })
         // return Taro.request({ ...options })
         //     .then(res => res.data)
         //     .catch(err => { });
