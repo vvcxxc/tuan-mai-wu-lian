@@ -7,7 +7,6 @@ import "./index.less"
 import { url } from "inspector"
 import CitySelecter from "../../components/citySelecter/index"
 import Citypicker from "../../components/citySelecter/index2.js"
-import upload from '@/services/oss';
 
 export default class PersonalInformation extends Component {
 
@@ -148,36 +147,12 @@ export default class PersonalInformation extends Component {
                 this.getUserInfo();
             })
     }
-    changeImg = () => {
-        let that = this;
-        Taro.chooseImage({
-            count: 1,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['album', 'camera'],
-            success(res) {
-                // tempFilePath可以作为img标签的src属性显示图片
-                const tempFilePaths = res.tempFilePaths;
-
-                console.log('tempFilePaths', tempFilePaths);
-               
-               
-                upload(tempFilePaths).then(res => {
-                    console.log('tempFilePaths', res.data.path)
-                });
-
-
-
-
-                that.setState({ avatar: tempFilePaths });
-            }
-        });
-    }
     render() {
         return (
             <View className='personalInformation'>
                 <View className='informationTitle'>基本信息</View>
                 <View className='informationBox'>
-                    <View className='informationItem' onClick={this.changeImg}>
+                    <View className='informationItem'>
                         <View className='itemLeft'>头像</View>
                         <View className='itemRight'>
                             <View className='itemImage'>
