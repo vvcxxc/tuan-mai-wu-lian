@@ -272,10 +272,10 @@ export default class AppreActivity extends Component {
         let title, imageUrl;
         if (gift_id) {
             title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
-            imageUrl = this.state.data.preview;
+            imageUrl = this.state.data.image
         } else {
             title = `送你一次免费增值机会！${pay_money}元可增值至${return_money}元，速领！`;
-            imageUrl = this.state.data.preview;
+            imageUrl = this.state.data.image
         }
         return {
             title: title,
