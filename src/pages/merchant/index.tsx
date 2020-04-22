@@ -102,6 +102,7 @@ export default class MerChantPage extends Component {
   requestSearch = (search) => {
     if (!search) return
     Taro.showLoading({ title: 'loading', mask: true })
+    console.log(this.state.locationPosition,222)
     request({
       url: 'v3/stores',
       data: {
@@ -173,9 +174,22 @@ export default class MerChantPage extends Component {
       locationPosition: define
     })
     console.log(define,'define')
+    let data = {}
+    if(define.keyword){
+      let define1 = {...define}
+      delete define1['city_id']
+       data = {
+         ...define1,
+       }
+    }else {
+      data = {...define}
+    }
     request({
       url: 'v3/stores',
-      data: define
+      data: {
+        ...data,
+
+      }
     })
       .then((res: any) => {
         if (res.data.store_info.data.length < 1 && define.pages == 1) {
@@ -225,6 +239,17 @@ export default class MerChantPage extends Component {
   // 首页页面渲染
   requestData = (data, search?) => {
     if (search) return
+    console.log(data,'dddd')
+    let define = {...data}
+    if(define.keyword){
+      let define1 = {...define}
+      delete define1['city_id']
+       data = {
+         ...define1,
+       }
+    }else {
+      data = {...define}
+    }
     request({
       url: 'v3/stores',
       data
