@@ -9,7 +9,11 @@ export default class Member extends Component {
 
     render() {
         return (
-            <View >
+            <View onClick={()=>{
+                Taro.navigateTo({
+                    url: '/business-pages/fan-data/index'   
+                })
+            }}>
      会员
             </View>
         );

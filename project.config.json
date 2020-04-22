@@ -110,6 +110,13 @@
 					"id": -1,
 					"name": "detail-pages/upload/index",
 					"pathName": "detail-pages/upload/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/fan-data/index",
+					"pathName": "business-pages/fan-data/index",
 					"scene": null
 				}
 			]
