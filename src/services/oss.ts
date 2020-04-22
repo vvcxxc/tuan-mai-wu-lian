@@ -46,7 +46,7 @@ export default async function upload(files: any) {
     console.log(files)
     const options = { method: 'post' }
 
-    const imgUrl = files[0];
+    const imgUrl = files;
     const length = 14680064;
     if (imgUrl.length > length) {
         Taro.showToast({ title: '上传失败，请上传小于10M的图片', icon: 'none' })

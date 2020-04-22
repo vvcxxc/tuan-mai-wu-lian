@@ -74,6 +74,7 @@ class App extends Component {
           'course/make_money_plan',
           'course/group_strategy',
           'course/newbie',
+          'upload/index',
         ]
       },
       {

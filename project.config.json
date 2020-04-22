@@ -105,6 +105,12 @@
 					"pathName": "activity-pages/personal/personalInformation/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "detail-pages/upload/index",
+					"pathName": "detail-pages/upload/index",
+					"scene": null
 				}
 			]
 		}

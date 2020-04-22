@@ -156,7 +156,7 @@ export default class PersonalInformation extends Component {
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success(res0) {
-                const tempFilePaths = res0.tempFilePaths;
+                const tempFilePaths = res0.tempFilePaths[0];
                 upload(tempFilePaths).then((res: any) => {
                     let path = JSON.parse(res.data).data.path
                     that.setState({ avatar: 'http://oss.tdianyi.com/' + path }, () => { that.changeNameInfo() })
@@ -169,7 +169,7 @@ export default class PersonalInformation extends Component {
             <View className='personalInformation'>
                 <View className='informationTitle'>基本信息</View>
                 <View className='informationBox'>
-                    <View className='informationItem'>
+                    <View className='informationItem' onClick={this.changeImg}>
                         <View className='itemLeft'>头像</View>
                         <View className='itemRight'>
                             <View className='itemImage'>
