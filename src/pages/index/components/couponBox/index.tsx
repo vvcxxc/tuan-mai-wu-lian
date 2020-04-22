@@ -24,21 +24,21 @@ export default class CouponBox extends Component<Props> {
   couponType(item) {
     const { is_share } = item
     let type = ''
-    if(is_share == 1) {
-        // 增值
-        type = '增值券'
-    }else if(is_share == 4){
+    if (is_share == 1) {
+      // 增值
+      type = '增值券'
+    } else if (is_share == 4) {
       // 现金券兑换券
-      if(item.youhui_type){
+      if (item.youhui_type) {
         // 现金券
         type = '现金券'
-      }else{
+      } else {
         // 兑换券
         type = '兑换券'
       }
-    }else if(is_share == 5){
-       // 拼团
-       type = '拼团券'
+    } else if (is_share == 5) {
+      // 拼团
+      type = '拼团券'
     }
     return type
   }
@@ -53,28 +53,27 @@ export default class CouponBox extends Component<Props> {
           <View className='coupon-title'>
             <View className='coupon-type'>
               {this.couponType(item)}
-              </View>
+            </View>
             <Text>
               {item.name}
             </Text>
           </View>
           <View className='coupon-validity'>有效期：{item.expire_day}天有效</View>
-          {/* <View className='coupon-label'>立减￥{item.is_share == 5 ? accSubtr(item.pay_money, item.participation_money) : accSubtr(item.return_money, item.pay_money)}</View>
-          <View className='coupon-money'>
-            优惠价￥
-            <Text className='new-money'>{item.is_share == 5 ? item.participation_money : item.pay_money}</Text>
-            <Text className='old-money'>￥{item.is_share == 5 ? item.pay_money : item.return_money}</Text>
-          </View> */}
           <View className='money-box'>
             <View className='member-box'>
               <View className='member-name'>会员价￥</View>
               <View className='member-money'>29.9</View>
             </View>
-            <View className='member-label'>
-            升级会员可再省￥1.39
+            {/* <View className='member-label'>
+              升级会员可再省￥1.39
+              <Image className='goto' src={require('@/assets/index/go-to.png')} />
+            </View> */}
+            <View className='member-label1'>
+              分享可得佣金￥1.39
             </View>
           </View>
-          <View className='coupon-button'>抢购</View>
+          {/* <View className='coupon-button'>抢购</View> */}
+          <View className='coupon-button1'>立即推广</View>
         </View>
       </View>
     )
