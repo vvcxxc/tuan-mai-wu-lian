@@ -4,7 +4,7 @@ import './index.styl'
 import userRequest from '../../services/userRequest';
 import MergePrompt from '@/components/merge_prompt'
 
-const router_data = ['pages/index/index', 'pages/order/index', 'pages/my/index', 'pages/activity/index', 'pages/merchant/index']
+const router_data = ['pages/index/index', 'pages/order/index', 'pages/my/index', 'pages/activity/index', 'pages/member/index']
 interface Props {
   onChange: any
 }

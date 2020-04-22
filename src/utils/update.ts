@@ -56,7 +56,7 @@ export default async function isUpdate() {
 
       } else {
         // let update_page = Taro.getStorageSync('update_page')
-        // let tab = ['pages/index/index', 'pages/merchant/index', 'pages/activity/index', 'pages/order/index', 'pages/my/index']
+        // let tab = ['pages/index/index', 'pages/member/index', 'pages/activity/index', 'pages/order/index', 'pages/my/index']
         // if (update_page) {
         //   if (tab.includes(update_page)) {
         //     Taro.switchTab({ url: '/' + update_page })
