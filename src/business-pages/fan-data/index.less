@@ -1,7 +1,36 @@
 .fan-data-page {
     width: 100vw;
     height: 100vh;
-    background: yellow;
+    position: relative;
+
+    .fan-nodata {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .fan-nodata-img {
+            width: 263px;
+            height: 141px;
+        }
+
+        .fan-nodata-info {
+            width: 400px;
+            height: 24px;
+            font-size: 24px;
+            text-align: center;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 1);
+            line-height: 1;
+            margin-top: 30px;
+        }
+    }
 
     .fan-data-page-tabBar {
         height: 80px;
@@ -16,14 +45,156 @@
             width: 25%;
             height: 100%;
             float: left;
-            font-size: 26px;
-            font-family: PingFang SC;
-            font-weight: bold;
-            color: rgba(255, 68, 68, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
+
+            .fan-data-page-tabBar-item-words {
+                width: 120px;
+                height: 25px;
+                text-align: center;
+                font-size: 26px;
+                font-family: PingFang SC;
+                font-weight: bold;
+                color: rgba(0, 0, 0, 1);
+                line-height: 24px;
+            }
+
+            .fan-data-page-tabBar-item-words-select {
+                width: 120px;
+                height: 25px;
+                text-align: center;
+                font-size: 26px;
+                font-family: PingFang SC;
+                font-weight: bold;
+                color: rgba(255, 68, 68, 1);
+                line-height: 24px;
+            }
+
+            .fan-data-page-tabBar-item-lines {
+                width: 25px;
+                height: 8px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 4px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, 25px);
+            }
         }
+    }
+
+    .fan-data-page-content {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        padding: 96px 22px 16px;
+        box-sizing: border-box;
+
+
+
+        .fan-data-member,
+        .fan-data-store {
+            width: 100%;
+            height: 113px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 22px;
+            box-sizing: border-box;
+            margin-bottom: 22px;
+
+            .fan-data-member-left {
+                width: 73px;
+                height: 73px;
+                border-radius: 50%;
+                margin-right: 22px;
+            }
+
+            .fan-data-member-right {
+                width: calc(100% - 100px);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+
+                .fan-data-member-item {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-bottom: 12px;
+
+                    .fan-data-member-key {
+                        height: 24px;
+                        font-size: 24px;
+                        font-family: PingFang SC;
+                        color: rgba(0, 0, 0, 1);
+                        line-height: 1;
+                    }
+
+                    .fan-data-member-words {
+                        height: 24px;
+                        font-size: 24px;
+                        font-family: PingFang SC;
+                        color: #999999;
+                        line-height: 1;
+                    }
+                }
+
+                .fan-data-member-item-box-row {
+                    height: auto;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    margin-bottom: 12px;
+
+                    .fan-data-member-item-row {
+                        height: 24px;
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        margin-right: 22px;
+
+                        .fan-data-member-key-row {
+                            height: 24px;
+                            font-size: 24px;
+                            font-family: PingFang SC;
+                            color: rgba(0, 0, 0, 1);
+                            line-height: 1;
+                        }
+
+                        .fan-data-member-words-row {
+                            height: 24px;
+                            font-size: 24px;
+                            font-family: PingFang SC;
+                            color: #999999;
+                            line-height: 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        .fan-data-store {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 22px 0 22px 22px;
+            box-sizing: border-box;
+            height: 194px;
+        }
+
     }
 }
