@@ -33,7 +33,7 @@ export default class PersonalInformation extends Component {
     }
     componentDidMount() { this.getUserInfo() }
     getUserInfo = () => {
-        Taro.showLoading();
+        Taro.showLoading({ title: 'loading', mask: true });
         userRequest({
             url: 'v1/user/user/user_info',
             method: "GET",
@@ -94,7 +94,7 @@ export default class PersonalInformation extends Component {
         this.setState({ sumbitName: this.state.name, maskShow: false }, () => { this.changeNameInfo() })
     }
     sumbitInfo = () => {
-        Taro.showLoading();
+        Taro.showLoading({ title: 'loading', mask: true });
         userRequest({
             url: 'v1/user/user/upload_user_detail',
             method: "PUT",
@@ -124,7 +124,7 @@ export default class PersonalInformation extends Component {
             })
     }
     changeNameInfo = () => {
-        Taro.showLoading();
+        Taro.showLoading({ title: 'loading', mask: true });
         userRequest({
             url: 'v1/user/user/upload_user_info',
             method: "PUT",

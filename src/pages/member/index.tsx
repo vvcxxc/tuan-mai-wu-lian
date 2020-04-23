@@ -12,7 +12,9 @@ export default class Member extends Component {
 
 
 
-
+    /**
+     * 复制文字
+     */
     copyBtn = (e) => {
         Taro.setClipboardData({
             data: '邀请码：BH9527',
@@ -36,7 +38,7 @@ export default class Member extends Component {
         return (
             <View className="member-page" onClick={() => {
                 Taro.navigateTo({
-                    url: '/business-pages/fan-data/index'
+                    url: '/business-pages/member-promotion/index'
                 })
             }}>
 
@@ -76,11 +78,11 @@ export default class Member extends Component {
                     </View>
                 </View>
 
-                <MemberTab title='我的粉丝/店铺' tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
-                <MemberTab title='社群收益' tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
-                <View className="member-page-sign" onClick={this.goto}>注册会员升级成为创客，赚取更多佣金</View>
-                <MemberTab title='邀请店铺收益' tabItem={[]} onAction={() => { }} question={true} />
-                <MemberTab title='邀请运营中心收益' tabItem={[]} onAction={() => { }} question={true} />
+                <MemberTab title={'我的粉丝/店铺'} tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
+                <MemberTab title={'社群收益'} noMore={true} tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
+                <View className="member-page-sign">注册会员升级成为创客，赚取更多佣金</View>
+                <MemberTab title={'邀请店铺收益'} noMore={true} tabItem={[]} onAction={() => { }} question={true} />
+                <MemberTab title={'邀请运营中心收益'} noMore={true} tabItem={[]} onAction={() => { }} question={true} />
 
 
 
