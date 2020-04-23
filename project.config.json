@@ -51,69 +51,6 @@
 			"current": -1,
 			"list": [
 				{
-					"id": 0,
-					"name": "pages/index/index",
-					"pathName": "pages/index/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
-					"query": "id=5300&__key_=15862445008881",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/business/index",
-					"pathName": "pages/business/index",
-					"query": "id=5300&__key_=15863090363421",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/activity/index",
-					"pathName": "pages/activity/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/auth/login_page/index",
-					"pathName": "pages/auth/login_page/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 5,
-					"name": "pages/activity/group/index",
-					"pathName": "pages/activity/group/index",
-					"query": "id=5945&type=5&gift_id=0&activity_id=2331",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "activity-pages/personal/personalInformation/index",
-					"pathName": "activity-pages/personal/personalInformation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "头像",
-					"pathName": "activity-pages/personal/personalInformation/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "detail-pages/upload/index",
-					"pathName": "detail-pages/upload/index",
-					"query": "",
-					"scene": null
-				},
-				{
 					"id": -1,
 					"name": "business-pages/fan-data/index",
 					"pathName": "business-pages/fan-data/index",
@@ -128,16 +65,17 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "business-pages/member-promotion/index",
-					"pathName": "pages/index/index",
+					"id": 12,
+					"name": "business-pages/membership-upgrade/index",
+					"pathName": "business-pages/membership-upgrade/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "business-pages/member-promotion/index",
-					"pathName": "business-pages/member-promotion/index",
+					"name": "business-pages/withdraw-deposit/index",
+					"pathName": "business-pages/withdraw-deposit/index",
+					"query": "",
 					"scene": null
 				}
 			]
