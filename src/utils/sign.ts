@@ -132,7 +132,7 @@ export const ShareSign = () => {
       if (pages.length == 1) {
         console.log('这里')
         let route = pages[0].route
-        if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
+        if (route != 'pages/index/index' && route != 'pages/member/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
           Taro.showToast({ title: '授权成功，请重新进入', icon: 'none', duration: 1500 })
           setTimeout(() => {
             Taro.navigateBack({
@@ -150,7 +150,7 @@ export const ShareSign = () => {
     if (pages.length == 1) {
       console.log('这里2')
       let route = pages[0].route
-      if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
+      if (route != 'pages/index/index' && route != 'pages/member/index' && route != 'pages/activity/index' && route != 'pages/order/index' && route != 'pages/my/index') {
         Taro.showToast({ title: '授权成功，请重新进入', icon: 'none', duration: 1500 })
         setTimeout(() => {
           Taro.navigateBack({
@@ -167,7 +167,7 @@ export const routerLogin = () => {
   let pages = Taro.getCurrentPages()
   if (pages.length == 1) {
     let route = pages[0].route
-    if (route != 'pages/index/index' && route != 'pages/merchant/index' && route != 'pages/activity/index') {
+    if (route != 'pages/index/index' && route != 'pages/member/index' && route != 'pages/activity/index') {
       Taro.navigateTo({
         url: '/pages/auth/index'
       })

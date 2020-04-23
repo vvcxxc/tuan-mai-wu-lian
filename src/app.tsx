@@ -60,6 +60,7 @@ class App extends Component {
       "pages/activity/pages/list/list",
       "pages/activity/appreciation/index",
       "pages/activity/group/index",
+      "pages/member/index",
     ],
     subPackages: [
       {
@@ -79,13 +80,13 @@ class App extends Component {
       {
         /**其他业务页面 比如订单流程，礼物，物流 */
         root: 'business-pages',
-
         pages: [
           'confirm-order/index',
           'select-city/index',
           'set-meal/index',
           'ticket-buy/index',
-          'coupon-distribution/index'
+          'coupon-distribution/index',
+          'fan-data/index'
         ]
       },
       {
@@ -137,8 +138,8 @@ class App extends Component {
           selectedIconPath: './assets/tabbar/6.png'
         },
         {
-          pagePath: 'pages/merchant/index',
-          text: '商家',
+          pagePath: 'pages/member/index',
+          text: '会员',
           iconPath: './assets/tabbar/2.png',
           selectedIconPath: './assets/tabbar/7.png'
         },
@@ -225,7 +226,7 @@ class App extends Component {
     } else {
       quietLogin()
     }
-    console.log(this.$router.params.query,'query')
+    console.log(this.$router.params.query, 'query')
     if (this.$router.params.query.invitation_user_id) {
       quietLogin(this.$router.params.query.invitation_user_id)
     }

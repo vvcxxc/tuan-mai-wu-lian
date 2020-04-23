@@ -1,0 +1,118 @@
+.member-page-tab {
+  width: 100vw;
+  height: 207px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 16px;
+  margin-top: 16px;
+
+  .member-page-tab-title {
+      width: 100%;
+      height: 67px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 22px;
+      box-sizing: border-box;
+
+
+      .member-page-tab-left {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-start;
+
+          .member-page-tab-left-info {
+              font-size: 26px;
+              font-family: PingFang SC;
+              font-weight: bold;
+              color: rgba(0, 0, 0, 1);
+              line-height: 1;
+              margin-right: 10px;
+          }
+
+          .member-page-tab-left-icon {
+              width: 25px;
+              height: 25px;
+              margin-right: 8px;
+          }
+      }
+
+      .member-page-tab-right {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+
+          .member-page-tab-right-info {
+              font-size: 24px;
+              font-family: PingFang SC;
+              font-weight: 500;
+              color: rgba(153, 153, 153, 1);
+              line-height: 1;
+          }
+
+          .member-page-tab-right-icon {
+              width: 12px;
+              height: 21px;
+              margin-left: 9px;
+          }
+      }
+  }
+
+  .member-page-tab-content {
+      height: 140px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .member-page-tab-item {
+          height: 100%;
+          flex: 1;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          justify-content: center;
+
+          .item-key {
+              height: 30px;
+              width: 100%;
+              margin-bottom: 20px;
+              display: flex;
+              flex-direction: row;
+              align-items: baseline;
+              justify-content: center;
+
+              .item-key-num {
+                  font-size: 30px;
+                  font-family: PingFang SC;
+                  font-weight: 800;
+                  color: rgba(255, 68, 68, 1);
+                  line-height: 1
+              }
+
+              .item-key-text {
+                  font-size: 20px;
+                  font-family: PingFang SC;
+                  font-weight: 800;
+                  color: rgba(255, 68, 68, 1);
+                  line-height: 1;
+              }
+          }
+
+          .item-word {
+              height: 23px;
+              width: 100%;
+              text-align: center;
+              font-size: 24px;
+              font-family: PingFang SC;
+              font-weight: 500;
+              color: rgba(0, 0, 0, 1);
+              line-height: 1;
+          }
+      }
+  }
+}

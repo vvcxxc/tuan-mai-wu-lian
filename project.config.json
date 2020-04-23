@@ -91,6 +91,40 @@
 					"pathName": "pages/activity/group/index",
 					"query": "id=5945&type=5&gift_id=0&activity_id=2331",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/personal/personalInformation/index",
+					"pathName": "activity-pages/personal/personalInformation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "头像",
+					"pathName": "activity-pages/personal/personalInformation/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "detail-pages/upload/index",
+					"pathName": "detail-pages/upload/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/fan-data/index",
+					"pathName": "business-pages/fan-data/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/member/index",
+					"pathName": "pages/member/index",
+					"scene": null
 				}
 			]
 		}
