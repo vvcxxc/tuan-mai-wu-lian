@@ -86,7 +86,9 @@ class App extends Component {
           'set-meal/index',
           'ticket-buy/index',
           'coupon-distribution/index',
-          'fan-data/index'
+          'fan-data/index',
+          'member-promotion/index',
+          'membership-upgrade/index'
         ]
       },
       {

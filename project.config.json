@@ -124,6 +124,20 @@
 					"id": -1,
 					"name": "pages/member/index",
 					"pathName": "pages/member/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/member-promotion/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/member-promotion/index",
+					"pathName": "business-pages/member-promotion/index",
 					"scene": null
 				}
 			]

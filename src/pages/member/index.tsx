@@ -12,7 +12,9 @@ export default class Member extends Component {
 
 
 
-
+    /**
+     * 复制文字
+     */
     copyBtn = (e) => {
         Taro.setClipboardData({
             data: '邀请码：BH9527',
@@ -30,7 +32,7 @@ export default class Member extends Component {
         return (
             <View className="member-page" onClick={() => {
                 Taro.navigateTo({
-                    url: '/business-pages/fan-data/index'
+                    url: '/business-pages/member-promotion/index'
                 })
             }}>
 
