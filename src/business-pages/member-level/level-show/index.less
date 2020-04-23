@@ -1,0 +1,126 @@
+.show-box {
+  width: 100%;
+  height: auto;
+  padding: 30px;
+  border-radius: 16px;
+  background: #fff;
+  box-sizing: border-box;
+
+  .level-main {
+    padding: 0 18px;
+
+    .level-box {
+      height: 100px;
+      background: url('../../../assets/member/progress.png') no-repeat;
+      background-size: 100%;
+      background-position-y: 22px;
+      position: relative;
+
+      .level-item {
+        position: absolute;
+        width: 100px;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 24px;
+
+        .item-img {
+          width: 57px;
+          height: 57px;
+        }
+      }
+
+      .item1 {
+        left: -18px;
+      }
+
+      .item2 {
+        left: 150px;
+      }
+
+      .item3 {
+        right: 150px;
+      }
+
+      .item4 {
+        right: -18px;
+      }
+    }
+  }
+
+  .level-details {
+    width: 100%;
+    height: auto;
+    padding: 39px 31px;
+
+    box-sizing: border-box;
+    border-radius: 16px;
+    margin-top: 40px;
+    position: relative;
+    .title {
+      font-size: 26px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+    .text {
+      font-size: 24px;
+      color: #fff;
+    }
+    .triangle1 {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -20px;
+      left: 30px;
+      border-bottom: 29px solid #FF8585;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+    }
+    .triangle2 {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -20px;
+      left: 198px;
+      border-bottom: 29px solid #14A999;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+    }
+    .triangle3 {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -20px;
+      left: 410px;
+      border-bottom: 29px solid #1D82FF;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+    }
+    .triangle4 {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: -20px;
+      left: 575px;
+      border-bottom: 29px solid #FF9B11;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+    }
+  }
+
+  .details1 {
+    background: #FF8585;
+  }
+  .details2 {
+    background: #14A999;
+  }
+  .details3 {
+    background: #1D82FF;
+  }
+  .details4 {
+    background: #FF9B11;
+  }
+
+}

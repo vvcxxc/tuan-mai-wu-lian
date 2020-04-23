@@ -87,6 +87,7 @@ class App extends Component {
           'ticket-buy/index',
           'coupon-distribution/index',
           'fan-data/index',
+          'member-level/index',
           'withdraw-deposit/index',
           'membership-upgrade/index'
         ]
