@@ -26,6 +26,12 @@ export default class Member extends Component {
         })
     }
 
+    goto = () => {
+      Taro.navigateTo({
+        url: '/business-pages/member-level/index'
+      })
+    }
+
     render() {
         return (
             <View className="member-page" onClick={() => {
@@ -70,11 +76,11 @@ export default class Member extends Component {
                     </View>
                 </View>
 
-                <MemberTab title={'我的粉丝/店铺'} tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
-                <MemberTab title={'社群收益'} tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
-                <View className="member-page-sign">注册会员升级成为创客，赚取更多佣金</View>
-                <MemberTab title={'邀请店铺收益'} tabItem={[]} onAction={() => { }} question={true} />
-                <MemberTab title={'邀请运营中心收益'} tabItem={[]} onAction={() => { }} question={true} />
+                <MemberTab title='我的粉丝/店铺' tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
+                <MemberTab title='社群收益' tabItem={[{ num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }, { num: 100, unit: '个', text: '测试' }]} onAction={() => { }} question={true} />
+                <View className="member-page-sign" onClick={this.goto}>注册会员升级成为创客，赚取更多佣金</View>
+                <MemberTab title='邀请店铺收益' tabItem={[]} onAction={() => { }} question={true} />
+                <MemberTab title='邀请运营中心收益' tabItem={[]} onAction={() => { }} question={true} />
 
 
 

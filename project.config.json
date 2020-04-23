@@ -124,6 +124,14 @@
 					"id": -1,
 					"name": "pages/member/index",
 					"pathName": "pages/member/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/member-level/index",
+					"pathName": "business-pages/member-level/index",
+					"query": "",
 					"scene": null
 				}
 			]
