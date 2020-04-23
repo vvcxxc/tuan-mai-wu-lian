@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
+import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem, Input } from "@tarojs/components";
 import './index.less'
 export default class WithdrawDeposit extends Component {
     config = {
@@ -40,18 +40,31 @@ export default class WithdrawDeposit extends Component {
                         <View className="withdraw-deposit-takeMoney-info-word">100.00元</View>
                     </View>
                     <View className="withdraw-deposit-takeMoney-input-area">
-
+                        <View className="withdraw-deposit-takeMoney-input-box">
+                            <View className="withdraw-deposit-takeMoney-money-icon">￥</View>
+                            <Input className="withdraw-deposit-takeMoney-input" placeholder="" />
+                        </View>
                         <View className="withdraw-deposit-takeMoney-input-btn">全部提现</View>
 
                     </View>
                     <View className="withdraw-deposit-takeMoney-msg">每个月15-18号、28-30号可申请提现</View>
+                </View>
+                <View className="withdraw-deposit-sumbit">提现记录</View>
+
+                <View className="withdraw-deposit-rules">
+                    <View className="withdraw-deposit-item">我当前预估收益与可提现收益金额不一致？</View>
+                    <View className="withdraw-deposit-item">根据平台收益奖励规则：</View>
+                    <View className="withdraw-deposit-item">1、预估收益:已核销产品及未核销产品的佣金收益</View>
+                    <View className="withdraw-deposit-item">2、未核销产品，则延至下期作为预估收益</View>
+                    <View className="withdraw-deposit-item">3、已核销产品，则由预估收益自动转成可提现收益</View>
+                    <View className="withdraw-deposit-item">4、每个月15-17号、28-30号（2月在月末3天），可在“可提现收益”账户中进行提现</View>
 
                 </View>
-
-
-
-
             </View>
+
+
+
+
         );
     }
 }
