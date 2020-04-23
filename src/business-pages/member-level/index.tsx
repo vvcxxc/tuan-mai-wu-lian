@@ -9,6 +9,12 @@ export default class MemberLevel extends Component {
     show: false,
   }
 
+  goto = () => {
+    Taro.navigateTo({
+      url: '/business-pages/membership-upgrade/index'
+    })
+  }
+
   render() {
     return (
       <View className='level-page'>
@@ -18,7 +24,7 @@ export default class MemberLevel extends Component {
             EDchan
             <Image className="header-icon" src="http://oss.tdianyi.com/front/yFiASnipf36jW8CTnRHRrQpDNNWwmx7x.png" />
           </View>
-          <View className='to-level'>
+          <View className='to-level' onClick={this.goto}>
             去升级
             <Image src={require('@/assets/member/right.png')} />
           </View>
