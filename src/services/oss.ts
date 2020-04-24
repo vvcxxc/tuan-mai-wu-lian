@@ -75,14 +75,15 @@ export default async function upload(files: any) {
                     host: data.host,
                     key: data.dir
                 };
-                Taro.setStorageSync("oss_data", JSON.stringify(oss_data))
+                Taro.setStorageSync("oss_data",oss_data)
 
             })
 
 
 
         }
-        let oss_data = JSON.parse(Taro.getStorageSync("oss_data") || '');
+        let oss_data = Taro.getStorageSync("oss_data");
+        console.log(oss_data)
         let key = oss_data.key + randomString(32) + '.jpg'
         console.log('32432', key, imgUrl)
         return Taro.uploadFile({
