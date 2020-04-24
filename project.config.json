@@ -91,6 +91,13 @@
 					"pathName": "business-pages/member-level/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的邀请店铺二维码",
+					"pathName": "business-pages/my-qrcode/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}
