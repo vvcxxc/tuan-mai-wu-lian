@@ -222,4 +222,61 @@
         line-height: 1;
     }
 
+    .mark {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        background: rgba(0, 0, 0, .5);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .mark-main {
+            width: 598px;
+            height: 407px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 60px 58px;
+            padding-bottom: 0;
+            box-sizing: border-box;
+            position: relative;
+
+            .title {
+                font-size: 32px;
+                font-weight: bold;
+                text-align: center;
+                line-height: 1;
+            }
+
+            .text {
+                width: 450px;
+                height: auto;
+                font-size: 32px;
+                color: #999999;
+                text-align: center;
+                line-height: 1.2;
+                position: absolute;
+                left: 50%;
+                top: calc(50% - 25px);
+                transform: translate(-50%,-50%);
+            }
+
+            .button {
+                position: absolute;
+                bottom: 40px;
+                width: 466px;
+                height: 76px;
+                text-align: center;
+                line-height: 76px;
+                color: #fff;
+                font-size: 30px;
+                background: #FF4444;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 38px;
+            }
+        }
+    }
 }

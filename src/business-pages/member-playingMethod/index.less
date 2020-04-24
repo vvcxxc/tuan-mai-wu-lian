@@ -1,0 +1,61 @@
+.member-playingMethod {
+    width: 100vw;
+    height: 100vh;
+    padding: 16px 22px;
+    box-sizing: border-box;
+
+    .member-playingMethod-content {
+        width: 706px;
+        height: auto;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 16px;
+        padding: 0 30px 30px;
+        box-sizing: border-box;
+
+        .member-playingMethod-title {
+            height: 74px;
+            width: 100%;
+            font-size: 26px;
+            font-family: PingFang SC;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 1);
+            line-height: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .member-playingMethod-item {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            .member-playingMethod-item-key,
+            .member-playingMethod-item-word {
+                height: auto;
+                font-size: 24px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 1);
+                line-height: 36px;
+            }
+
+            .member-playingMethod-item-key {
+                width: 80px;
+            }
+
+            .member-playingMethod-item-word {
+                width: calc(100% - 80px);
+                color: #999999;
+
+                .item-text {
+                    width:100%;
+                    color: #999999;
+                }
+
+            }
+        }
+    }
+}

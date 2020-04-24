@@ -9,7 +9,10 @@ export default class MemberLevel extends Component {
     show: false,
   }
 
-  goto = () => {
+  /**
+    * 升级，审核
+    */
+  upgrade = () => {
     Taro.navigateTo({
       url: '/business-pages/membership-upgrade/index'
     })
@@ -24,7 +27,7 @@ export default class MemberLevel extends Component {
             EDchan
             <Image className="header-icon" src="http://oss.tdianyi.com/front/yFiASnipf36jW8CTnRHRrQpDNNWwmx7x.png" />
           </View>
-          <View className='to-level' onClick={this.goto}>
+          <View className='to-level' onClick={this.upgrade}>
             去升级
             <Image src={require('@/assets/member/right.png')} />
           </View>
@@ -57,7 +60,7 @@ export default class MemberLevel extends Component {
               <View className='mark-main'>
                 <View className='title'>什么是活跃值</View>
                 <View className='text'>近30天，本人销售产品的佣金加上所有直推创客产品销售佣金，按产品销售佣金1元等于1个活跃值</View>
-                <View className='button' onClick={()=>this.setState({show: false})}>
+                <View className='button' onClick={() => this.setState({ show: false })}>
                   确定
                 </View>
               </View>

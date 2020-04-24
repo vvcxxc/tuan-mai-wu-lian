@@ -89,7 +89,9 @@ class App extends Component {
           'fan-data/index',
           'member-level/index',
           'withdraw-deposit/index',
-          'membership-upgrade/index'
+          'membership-upgrade/index',
+          'member-playingMethod/index',
+          'uploadImg-example/index'
         ]
       },
       {

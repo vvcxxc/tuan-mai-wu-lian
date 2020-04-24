@@ -2,14 +2,34 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem, Input } from "@tarojs/components";
 import "./index.less";
 import upload from '@/services/oss';
-
+import { getUserInfo, loadImg } from "./service";
 export default class Member extends Component {
     config = {
         navigationBarTitleText: "会员升级",
         enablePullDownRefresh: false
     };
     state = {
+        name: '',
+        grade: '',
+        active: '',
+        user_add_at: '2019/04/01',
+        invitation_code: '',
         chooseImglist: [],
+    }
+    componentDidMount() {
+        getUserInfo().then((res: any) => {
+            if (res.status_code == 200) {
+                this.setState({
+                    name: res.data.user_name, grade: res.data.grade, active: res.data.active_value,
+                    // user_add_at:res.data.时间还没有,咋搞
+                })
+            }
+        }).catch(err => {
+            Taro.showToast({ title: err.message || '请求失败', icon: 'none', })
+        })
+    }
+    inputCode = (e: any) => {
+        this.setState({ invitation_code: e.target.value })
     }
 
     changeImg = () => {
@@ -42,6 +62,31 @@ export default class Member extends Component {
         this.setState({ chooseImglist: templist });
     }
 
+    sumbitImg = () => {
+        console.log(this.state.chooseImglist)
+        let data = {
+            name: this.state.name,
+            grade: this.state.grade,
+            active: this.state.active,
+            user_add_at: this.state.user_add_at,
+            invitation_code: this.state.invitation_code,
+            imgs: JSON.stringify(this.state.chooseImglist),
+        };
+        loadImg(data).then((res: any) => {
+            console.log(res)
+            if (res.status_code == 200) {
+                Taro.showToast({ title: res.message, icon: 'none' })
+                setTimeout(() => {
+                    Taro.switchTab({
+                        url: '/pages/member/index'
+                    })
+                }, 1500)
+            }
+        }).catch(err => {
+            Taro.showToast({ title: err.message || '提交失败', icon: 'none' })
+        })
+    }
+
     render() {
         const { chooseImglist } = this.state;
         return (
@@ -68,7 +113,7 @@ export default class Member extends Component {
                         </View>
                         <View className="member-upgrade-title-right">如何填写邀请码？</View>
                     </View>
-                    <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" />
+                    <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={this.state.invitation_code} />
                 </View>
 
 
@@ -106,9 +151,8 @@ export default class Member extends Component {
                         <View className="member-upgrade-upload-info-text">1、上传截图需要显示建群群主以及群人数</View>
                         <View className="member-upgrade-upload-info-text">2、截图显示群名称</View>
                     </View>
-
                 </View>
-
+                <View className="member-upgrade-upload-btn" onClick={this.sumbitImg}>提交审核</View>
 
                 {/* <View className="in-the-review">
                     <View className="in-the-review-content">
