@@ -26,8 +26,8 @@ export default class MemberLevel extends Component {
       url: 'v1/community/examine',
       method: 'GET'
     }).then((res:any) => {
-      // const width = Math.round(res.data.active / 3000)
-      const width = 100
+      const width = Math.round(res.data.active / 3000)
+      // const width = 100
       this.setState({...res.data,width})
     })
   }
@@ -67,7 +67,10 @@ export default class MemberLevel extends Component {
               <View className='rate' style={width < 95 ? { width: `${width}%`,borderRadius: '16rpx 0 0 16rpx' } : {width: `${width}%`,borderRadius: '16rpx'}}>
                 <View className='rate-label'>
                   <View className='rate-num' style={width < 90 ? {paddingLeft: '80rpx'} : {paddingRight: '80rpx'}}>{active}/3000</View>
-                  <View className='triangle'></View>
+                  {
+                    width == 100 ? null : <View className='triangle'></View>
+                  }
+
                 </View>
               </View>
             </View>
