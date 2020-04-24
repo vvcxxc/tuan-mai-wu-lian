@@ -91,7 +91,8 @@ class App extends Component {
           'withdraw-deposit/index',
           'membership-upgrade/index',
           'member-playingMethod/index',
-          'uploadImg-example/index'
+          'uploadImg-example/index',
+          'my-qrcode/index'
         ]
       },
       {

@@ -5,6 +5,9 @@ import LevelShow from './level-show';
 import './index.less';
 
 export default class MemberLevel extends Component {
+  config = {
+    navigationBarTitleText: "会员等级",
+};
   state = {
     show: false,
   }

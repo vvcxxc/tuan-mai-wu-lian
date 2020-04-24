@@ -94,15 +94,8 @@
 				},
 				{
 					"id": -1,
-					"name": "business-pages/member-playingMethod/index",
-					"pathName": "business-pages/member-playingMethod/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 7,
-					"name": "business-pages/uploadImg-example/index",
-					"pathName": "business-pages/uploadImg-example/index",
+					"name": "我的邀请店铺二维码",
+					"pathName": "business-pages/my-qrcode/index",
 					"query": "",
 					"scene": null
 				}
