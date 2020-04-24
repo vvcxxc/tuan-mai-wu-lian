@@ -14,7 +14,7 @@ export default class WithdrawDeposit extends Component {
         return (
             <View className="withdraw-deposit">
 
-                <View className="withdraw-deposit-content">
+                {/* <View className="withdraw-deposit-content">
                     <View className="withdraw-deposit-left">未绑定银行卡</View>
                     <View className="withdraw-deposit-right">
                         <View className="withdraw-deposit-right-info">去绑定</View>
@@ -30,26 +30,26 @@ export default class WithdrawDeposit extends Component {
                             <View className="withdraw-deposit-bankcard-num">**** **** **** 1234</View>
                         </View>
                     </View>
-                </View>
+                </View> */}
 
 
 
                 <View className="withdraw-deposit-takeMoney">
                     <View className="withdraw-deposit-takeMoney-info">
                         <View className="withdraw-deposit-takeMoney-info-key">可提现收益：</View>
-                        <View className="withdraw-deposit-takeMoney-info-word">100.00元</View>
+                        <View className="withdraw-deposit-takeMoney-info-word">0.00元</View>
                     </View>
                     <View className="withdraw-deposit-takeMoney-input-area">
                         <View className="withdraw-deposit-takeMoney-input-box">
                             <View className="withdraw-deposit-takeMoney-money-icon">￥</View>
                             <Input className="withdraw-deposit-takeMoney-input" placeholder="" />
                         </View>
-                        <View className="withdraw-deposit-takeMoney-input-btn">全部提现</View>
+                        <View className="withdraw-deposit-takeMoney-input-btn" style={{ background: '#ccc' }}>全部提现</View>
 
                     </View>
                     <View className="withdraw-deposit-takeMoney-msg">每个月15-18号、28-30号可申请提现</View>
                 </View>
-                <View className="withdraw-deposit-sumbit">提现记录</View>
+                <View className="withdraw-deposit-sumbit" style={{ background: '#ccc' }}>提现记录</View>
 
                 <View className="withdraw-deposit-rules">
                     <View className="withdraw-deposit-item">我当前预估收益与可提现收益金额不一致？</View>
@@ -58,7 +58,6 @@ export default class WithdrawDeposit extends Component {
                     <View className="withdraw-deposit-item">2、未核销产品，则延至下期作为预估收益</View>
                     <View className="withdraw-deposit-item">3、已核销产品，则由预估收益自动转成可提现收益</View>
                     <View className="withdraw-deposit-item">4、每个月15-17号、28-30号（2月在月末3天），可在“可提现收益”账户中进行提现</View>
-
                 </View>
             </View>
 

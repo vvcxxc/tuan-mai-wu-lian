@@ -12,6 +12,7 @@ interface Props {
   tabItem: Array<tabItem>;
   title: string;//标题
   question: boolean//有无问号
+  questionAction?: any//有无问号回调
   onAction: any;//回调
   noMore?: boolean//临时，是否隐藏查看详情
 }
@@ -31,10 +32,10 @@ export default class MemberTab extends Component<Props> {
         <View className="member-page-tab-title">
           <View className="member-page-tab-left">
             <View className="member-page-tab-left-info">{this.props.title}</View>
-            {this.props.question ? <Image className="member-page-tab-left-icon" src="http://oss.tdianyi.com/front/ewyywJ6f5tzmA8NHH6ea54RizhTkE2GQ.png" /> : null}
+            {this.props.question ? <Image className="member-page-tab-left-icon" onClick={this.props.questionAction} src="http://oss.tdianyi.com/front/ewyywJ6f5tzmA8NHH6ea54RizhTkE2GQ.png" /> : null}
           </View>
           {
-            this.props.noMore ? null : <View className="member-page-tab-right" onClick={() => { this.props.onAction }}>
+            this.props.noMore ? null : <View className="member-page-tab-right" onClick={this.props.onAction}>
               <View className="member-page-tab-right-info">查看详情</View>
               <Image className="member-page-tab-right-icon" src="http://oss.tdianyi.com/front/EaMDtiM388m4BwmGa3yzH5GKw82Xh3SX.png" />
             </View>

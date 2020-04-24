@@ -8,17 +8,32 @@ export default class Member extends Component {
         enablePullDownRefresh: false
     };
     state = {
-        fanTabIndex: 0
+        fanTabIndex: 0,
+        noData: false,
     }
 
     render() {
         return (
             <View className="fan-data-page">
+                {
+                    this.state.noData ? <View className="fan-nodata-box">
+                        <View className="fan-nodata">
+                            <Image className="fan-nodata-img" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="fan-nodata-info">暂无邀请店铺，快去逛逛吧！</View>
+                        </View>
+                    </View> : null
+                }
 
-                <View className="fan-nodata">
-                    <Image className="fan-nodata-img" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
-                    <View className="fan-nodata-info">暂无邀请店铺，快去逛逛吧！</View>
-                </View>
+
+
+                {
+                    this.state.fanTabIndex == 2 || this.state.fanTabIndex == 3 ? <View className="fan-nodata-box">
+                        <View className="fan-nodata">
+                            <Image className="fan-nodata-img" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="fan-nodata-info">暂无邀请店铺，快去逛逛吧！</View>
+                        </View>
+                    </View> : null
+                }
 
                 <View className="fan-data-page-tabBar">
                     <View className="fan-data-page-tabBar-item" onClick={() => this.setState({ fanTabIndex: 0 })}>
@@ -41,48 +56,99 @@ export default class Member extends Component {
 
                 <View className="fan-data-page-content">
 
-                    <View className="fan-data-member">
-                        <Image className="fan-data-member-left" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
-                        <View className="fan-data-member-right">
-                            <View className="fan-data-member-item">
-                                <View className="fan-data-member-key">昵称：</View>
-                                <View className="fan-data-member-words">小熊敬礼普通用户</View>
-                            </View>
-                            <View className="fan-data-member-item">
-                                <View className="fan-data-member-key">注册时间：</View>
-                                <View className="fan-data-member-words">2020-01-25</View>
-                            </View>
-                        </View>
-                    </View>
 
-
-                    <View className="fan-data-store">
-                        <Image className="fan-data-member-left" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
-                        <View className="fan-data-member-right">
-                            <View className="fan-data-member-item">
-                                <View className="fan-data-member-key">昵称：</View>
-                                <View className="fan-data-member-words">小熊敬礼普通用户</View>
-                            </View>
-                            <View className="fan-data-member-item-box-row">
-                                <View className="fan-data-member-item-row">
-                                    <View className="fan-data-member-key-row">今日销售收益：</View>
-                                    <View className="fan-data-member-words-row">100.00</View>
+                    {
+                        this.state.fanTabIndex == 0 ? <View className="fan-data-member">
+                            <Image className="fan-data-member-left" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="fan-data-member-right">
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">昵称：</View>
+                                    <View className="fan-data-member-words">小熊敬礼普通用户</View>
                                 </View>
-                                <View className="fan-data-member-item-row">
-                                    <View className="fan-data-member-key-row">注册时间：</View>
-                                    <View className="fan-data-member-words-row">2020-01-25</View>
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">注册时间：</View>
+                                    <View className="fan-data-member-words">2020-01-25</View>
                                 </View>
                             </View>
-                            <View className="fan-data-member-item">
-                                <View className="fan-data-member-key">总销售收益：</View>
-                                <View className="fan-data-member-words">2020-01-25</View>
+                        </View> : null
+                    }
+                    {
+                        this.state.fanTabIndex == 0 ? <View className="fan-data-member">
+                            <Image className="fan-data-member-left" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="fan-data-member-right">
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">昵称：</View>
+                                    <View className="fan-data-member-words">小熊敬礼普通用户</View>
+                                </View>
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">注册时间：</View>
+                                    <View className="fan-data-member-words">2020-01-25</View>
+                                </View>
                             </View>
-                            <View className="fan-data-member-item">
-                                <View className="fan-data-member-key">我今日获得平台奖励：</View>
-                                <View className="fan-data-member-words">1000.00</View>
+                        </View> : null
+                    }
+
+
+
+                    {
+                        this.state.fanTabIndex == 1 ? <View className="fan-data-store">
+                            <Image className="fan-data-member-left" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="fan-data-member-right">
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">昵称：</View>
+                                    <View className="fan-data-member-words">小熊敬礼普通用户</View>
+                                </View>
+                                <View className="fan-data-member-item-box-row">
+                                    <View className="fan-data-member-item-row">
+                                        <View className="fan-data-member-key-row">今日销售收益：</View>
+                                        <View className="fan-data-member-words-row">100.00</View>
+                                    </View>
+                                    <View className="fan-data-member-item-row">
+                                        <View className="fan-data-member-key-row">注册时间：</View>
+                                        <View className="fan-data-member-words-row">2020-01-25</View>
+                                    </View>
+                                </View>
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">总销售收益：</View>
+                                    <View className="fan-data-member-words">2020-01-25</View>
+                                </View>
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">我今日获得平台奖励：</View>
+                                    <View className="fan-data-member-words">1000.00</View>
+                                </View>
                             </View>
-                        </View>
-                    </View>
+                        </View> : null
+                    }
+                    {
+                        this.state.fanTabIndex == 1 ? <View className="fan-data-store">
+                            <Image className="fan-data-member-left" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="fan-data-member-right">
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">昵称：</View>
+                                    <View className="fan-data-member-words">小熊敬礼普通用户</View>
+                                </View>
+                                <View className="fan-data-member-item-box-row">
+                                    <View className="fan-data-member-item-row">
+                                        <View className="fan-data-member-key-row">今日销售收益：</View>
+                                        <View className="fan-data-member-words-row">100.00</View>
+                                    </View>
+                                    <View className="fan-data-member-item-row">
+                                        <View className="fan-data-member-key-row">注册时间：</View>
+                                        <View className="fan-data-member-words-row">2020-01-25</View>
+                                    </View>
+                                </View>
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">总销售收益：</View>
+                                    <View className="fan-data-member-words">2020-01-25</View>
+                                </View>
+                                <View className="fan-data-member-item">
+                                    <View className="fan-data-member-key">我今日获得平台奖励：</View>
+                                    <View className="fan-data-member-words">1000.00</View>
+                                </View>
+                            </View>
+                        </View> : null
+                    }
+
 
                 </View>
 
