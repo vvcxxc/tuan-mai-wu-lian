@@ -98,6 +98,19 @@
 					"pathName": "business-pages/my-qrcode/index",
 					"query": "",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/index/index",
+					"pathName": "pages/index/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/my-qrcode/index",
+					"pathName": "business-pages/my-qrcode/index",
+					"scene": null
 				}
 			]
 		}
