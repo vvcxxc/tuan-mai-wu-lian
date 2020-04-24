@@ -40,17 +40,22 @@ export default class Member extends Component {
     }
 
     componentDidMount() {
-        getUser().then((res: any) => {
-            console.log(res)
-            let data = res.data;
-            let list1 = [{ num: data.invite_member, unit: '人', text: '注册会员' }, { num: data.direct_maker, unit: '人', text: '直属创客' }, { num: data.total_maker, unit: '人', text: '创客总数' }, { num: data.invite_store, unit: '家', text: '邀请店铺' }];
-            let list2 = [{ num: data.estimated_sales_revenue, unit: '元', text: '预估销售收益' }, { num: data.estimated_platform_rewards, unit: '元', text: '预估平台奖励' }, { num: 0, unit: '元', text: '补贴收益' }, { num: data.estimated_total_revenue, unit: '元', text: '预估总收益' }];
-            let list3 = [{ num: data.rate_income, unit: '元', text: '费率收益' }, { num: 0, unit: '元', text: '预估订单收益' }, { num: data.advertising_revenue, unit: '元', text: '广告收益' }, { num: 0, unit: '元', text: '总收益' }];
-            let list4 = [{ num: 0, unit: '家', text: '邀请运营中心' }, { num: 0, unit: '元', text: '总收益' }];
-            this.setState({ data, list1, list2, list3, list4 })
-        })
-    }
 
+        let phone_status = Taro.getStorageSync('phone_status')
+        Taro.setStorageSync('order_type', '');
+        if (phone_status == 'binded' || phone_status == 'bind_success') {
+            getUser().then((res: any) => {
+                let data = res.data;
+                let list1 = [{ num: data.invite_member, unit: '人', text: '注册会员' }, { num: data.direct_maker, unit: '人', text: '直属创客' }, { num: data.total_maker, unit: '人', text: '创客总数' }, { num: data.invite_store, unit: '家', text: '邀请店铺' }];
+                let list2 = [{ num: data.estimated_sales_revenue, unit: '元', text: '预估销售收益' }, { num: data.estimated_platform_rewards, unit: '元', text: '预估平台奖励' }, { num: 0, unit: '元', text: '补贴收益' }, { num: data.estimated_total_revenue, unit: '元', text: '预估总收益' }];
+                let list3 = [{ num: data.rate_income, unit: '元', text: '费率收益' }, { num: 0, unit: '元', text: '预估订单收益' }, { num: data.advertising_revenue, unit: '元', text: '广告收益' }, { num: 0, unit: '元', text: '总收益' }];
+                let list4 = [{ num: 0, unit: '家', text: '邀请运营中心' }, { num: 0, unit: '元', text: '总收益' }];
+                this.setState({ data, list1, list2, list3, list4 })
+            })
+        } else {
+            Taro.navigateTo({ url: '/pages/auth/index' })
+        }
+    }
 
     /**
      * 复制文字
