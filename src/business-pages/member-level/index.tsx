@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
+import request from '@/services/request'
 import LevelShow from './level-show';
 
 import './index.less';
@@ -7,9 +8,27 @@ import './index.less';
 export default class MemberLevel extends Component {
   config = {
     navigationBarTitleText: "会员等级",
+    navigationBarBackgroundColor: '#ff4444',
+    navigationBarTextStyle: 'white'
 };
   state = {
     show: false,
+    grade: '',
+    upgrade: '',
+    active: '',
+    invitation_code: '',
+    user_add_at: '',
+    width: 0
+  }
+
+  componentDidMount(){
+    request({
+      url: 'v1/community/examine',
+      method: 'GET'
+    }).then((res:any) => {
+      const width = Math.round(res.data.active / 3000)
+      this.setState({...res.data,width})
+    })
   }
 
   /**
@@ -22,6 +41,7 @@ export default class MemberLevel extends Component {
   }
 
   render() {
+    const { active,width } = this.state
     return (
       <View className='level-page'>
         <View className='level-header'>
@@ -43,9 +63,9 @@ export default class MemberLevel extends Component {
               <View onClick={() => this.setState({ show: true })}>什么是活跃值</View>
             </View>
             <View className='progress-box'>
-              <View className='rate' style={{ width: '20%' }}>
+              <View className='rate' style={{ width: `${width}%` }}>
                 <View className='rate-label'>
-                  12/3000
+                  <View className='rate-num' style={width < 90 ? {paddingLeft: '35rpx'} : {paddingRight: '35rpx'}}>{active}/3000</View>
                   <View className='triangle'></View>
                 </View>
               </View>

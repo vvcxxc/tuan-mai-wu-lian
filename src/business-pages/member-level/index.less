@@ -92,10 +92,9 @@
         height: 32px;
         background: #F3F4F8;
         margin-top: 53px;
-
         .rate {
           width: 0%;
-          border-radius: 16px;
+          border-radius: 16px 0 0 16px;
           height: 32px;
           background: linear-gradient(270deg, rgba(255, 103, 68, 1) 0%, rgba(255, 68, 68, 1) 100%);
           position: relative;
@@ -104,11 +103,13 @@
             position: absolute;
             right: 0;
             top: 0;
-            color: #FF4444;
-            font-size: 24px;
+
             line-height: 40px;
             transform: translate(50%, -100%);
-
+            .rate-num {
+              color: #FF4444;
+              font-size: 24px;
+            }
             .triangle {
               position: absolute;
               left: 50%;
