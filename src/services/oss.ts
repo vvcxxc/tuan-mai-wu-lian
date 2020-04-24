@@ -95,7 +95,6 @@ export default async function upload(files: any) {
                 signature: oss_data.signature,
                 success_action_status: '200',
                 callback: oss_data.callback,
-                file: imgUrl
             },
             success: (res) => {
 

@@ -9,19 +9,22 @@ export default class Member extends Component {
         enablePullDownRefresh: false
     };
     state = {
+        id: 0,
         name: '',
         grade: '',
         active: '',
         user_add_at: '2019/04/01',
         invitation_code: '',
         chooseImglist: [],
+        tipsShow: false,
+        upgrade: false,//可升级
     }
     componentDidMount() {
         getUserInfo().then((res: any) => {
             if (res.status_code == 200) {
                 this.setState({
-                    name: res.data.user_name, grade: res.data.grade, active: res.data.active_value,
-                    // user_add_at:res.data.时间还没有,咋搞
+                    id: res.data.id, name: res.data.user_name, grade: res.data.grade, active: res.data.active_value, invitation_code: res.data.invitation_code,
+                    user_add_at: res.data.user_add_at, upgrade: res.data.upgrade
                 })
             }
         }).catch(err => {
@@ -30,6 +33,11 @@ export default class Member extends Component {
     }
     inputCode = (e: any) => {
         this.setState({ invitation_code: e.target.value })
+    }
+    seeExample = () => {
+        Taro.navigateTo({
+            url: '/business-pages/uploadImg-example/index'
+        })
     }
 
     changeImg = () => {
@@ -111,7 +119,7 @@ export default class Member extends Component {
                             <View className="member-upgrade-title-left-line"></View>
                             <View className="member-upgrade-title-left-word">*填写邀请码</View>
                         </View>
-                        <View className="member-upgrade-title-right">如何填写邀请码？</View>
+                        <View className="member-upgrade-title-right" onClick={() => { this.setState({ tipsShow: true }) }}>如何填写邀请码？</View>
                     </View>
                     <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={this.state.invitation_code} />
                 </View>
@@ -144,7 +152,7 @@ export default class Member extends Component {
                     </View>
 
                     <View className="member-upgrade-upload-info-box">
-                        <View className="member-upgrade-upload-info-title-box">
+                        <View className="member-upgrade-upload-info-title-box" onClick={this.seeExample}>
                             <View className="member-upgrade-upload-info-title-box-left">上传要求：</View>
                             <View className="member-upgrade-upload-info-title-box-right">查看示例</View>
                         </View>
@@ -183,6 +191,18 @@ export default class Member extends Component {
                         <View className="in-the-review-returnBtn">返回首页</View>
                     </View>
                 </View> */}
+
+                {
+                    this.state.tipsShow ? <View className='mark'>
+                        <View className='mark-main'>
+                            <View className='title'>如何填写邀请码</View>
+                            <View className='text'>请填写获得的邀请码或 手机号码/跳过</View>
+                            <View className='button' onClick={() => this.setState({ tipsShow: false })}>确定</View>
+                        </View>
+                    </View> : null
+                }
+
+
 
             </View>
         );

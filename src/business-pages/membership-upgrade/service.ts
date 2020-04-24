@@ -5,7 +5,7 @@ import request from '@/services/request';
 */
 export const getUserInfo = () =>
     request({
-        url: 'v1/community/user',
+        url: 'v1/community/examine',
         method: "GET",
     })
 
