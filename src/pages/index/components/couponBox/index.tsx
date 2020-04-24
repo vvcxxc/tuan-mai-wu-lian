@@ -64,13 +64,13 @@ export default class CouponBox extends Component<Props> {
               <View className='member-name'>会员价￥</View>
               <View className='member-money'>29.9</View>
             </View>
-            {/* <View className='member-label'>
+            <View className='member-label'>
               升级会员可再省￥1.39
               <Image className='goto' src={require('@/assets/index/go-to.png')} />
-            </View> */}
-            <View className='member-label1'>
-              分享可得佣金￥1.39
             </View>
+            {/* <View className='member-label1'>
+              分享可得佣金￥1.39
+            </View> */}
           </View>
           {/* <View className='coupon-button'>抢购</View> */}
           <View className='coupon-button1'>立即推广</View>
