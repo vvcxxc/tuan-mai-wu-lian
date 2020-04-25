@@ -21,7 +21,7 @@ export default class Member extends Component {
             remarks: "",
             upgrade: "",
             user_add_at: "",
-            is_invitation_code: 0,//0-不能填写 1-可以填写
+            is_invitation_code: 0,//0-能填写 1-不可以填写
         },
         chooseImglist: [],
         tipsShow: false,
@@ -101,7 +101,7 @@ export default class Member extends Component {
             if (res.status_code == 200) {
                 Taro.showToast({ title: res.message, icon: 'none' })
                 setTimeout(() => {
-                    Taro.switchTab({
+                    Taro.navigateTo({
                         url: '/pages/member/index'
                     })
                 }, 1500)
@@ -131,7 +131,7 @@ export default class Member extends Component {
                         <View className="member-upgrade-nowInfo-word">{data.upgrade}</View>
                     </View>
                     {
-                        data.is_invitation_code == 1 ?
+                        data.is_invitation_code == 0 ?
                             <View className="member-upgrade-title">
                                 <View className="member-upgrade-title-left">
                                     <View className="member-upgrade-title-left-line"></View>
@@ -141,7 +141,7 @@ export default class Member extends Component {
                             </View> : null
                     }
                     {
-                        data.is_invitation_code == 1 ? <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={data.invitation_code} /> : null
+                        data.is_invitation_code == 0 ? <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={data.invitation_code} /> : null
                     }
                 </View>
                 <View className="member-upgrade-content">

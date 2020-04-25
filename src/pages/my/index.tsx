@@ -236,7 +236,12 @@ export default class AppreActivity extends Component<Props> {
         url: '/pages/auth/index',
       })
     }
+  }
 
+  toMember = () => {
+    Taro.navigateTo({
+      url: '/pages/member/index',
+    })
   }
 
   render() {
@@ -269,7 +274,16 @@ export default class AppreActivity extends Component<Props> {
               </View> : null
             }
           </View>
-
+          <View className="my-member" onClick={this.toMember}>
+            <View className="my-member-left">
+              <Image className="my-member-left-icon" src="http://oss.tdianyi.com/front/txKFnKDjwkzjEacrJWzZ4DNyPeefMNMA.png" />
+              <View className="my-member-left-info">我的会员等级</View>
+            </View>
+            <View className="my-member-right">
+              <View className="my-member-right-info">立即查看</View>
+              <Image className="my-member-right-icon" src="http://oss.tdianyi.com/front/AeDfZdwfppksiMzNKwxK8e2K5DEfsbpp.png" />
+            </View>
+          </View>
         </View>
         <View className="my-list-nav">
           <View className="my-list-nav-title-box" onClick={this.setOrderInfo.bind(this, '待使用')}>

@@ -59,8 +59,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/member/index",
-					"pathName": "pages/member/index",
+					"name": "pages/merchant/index",
+					"pathName": "pages/merchant/index",
 					"query": "",
 					"scene": null
 				},
@@ -110,6 +110,13 @@
 					"id": -1,
 					"name": "business-pages/my-qrcode/index",
 					"pathName": "business-pages/my-qrcode/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/index",
+					"pathName": "pages/my/index",
 					"scene": null
 				}
 			]

@@ -32,7 +32,6 @@ export default class Member extends Component {
             rate_income: "",
             total_maker: "",
             user_name: "",
-
             estimated_order: "",
             invitation_code: "",
             operation_center_number: "",
@@ -132,7 +131,7 @@ export default class Member extends Component {
                         </View>
                         {/* data.grade */}
                         <View className="member-page-personal-row" onClick={this.copyBtn}>
-                            <View className="member-page-personal-item">邀请码：BH9527</View>
+                            <View className="member-page-personal-item">邀请码：{data.invitation_code}</View>
                             <View className="member-page-personal-item-copy">复制</View>
                         </View>
                     </View>
