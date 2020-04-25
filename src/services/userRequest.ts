@@ -62,7 +62,7 @@ export default function userRequest(options: Options) {
               title: data.message || "bad request",
               icon: "none"
             })
-            return reject(res)
+            return resolve(res.data)
             break
           case NOT_SIGN:
             // 重新触发登录，重新请求接口
