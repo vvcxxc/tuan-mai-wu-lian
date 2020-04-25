@@ -12,6 +12,9 @@ export default class Characteristic extends Component {
   state = {
 
   }
+  onShareAppMessage = e => {
+    return {}
+  }
 
   render() {
     return (
