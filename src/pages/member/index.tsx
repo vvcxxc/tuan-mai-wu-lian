@@ -17,21 +17,29 @@ export default class Member extends Component {
         tipsTitle: '什么是活跃值',
         tipsText: '按产品销售佣金1元等于1个活跃值',
         data: {
-            active_value: "1",
-            advertising_revenue: "10",
-            coupon_premium: "10",
-            direct_maker: "10",
-            estimated_platform_rewards: "10",
-            estimated_sales_revenue: "10",
-            estimated_total_revenue: "10",
-            grade: "1",
-            head_portrait: "头像",
-            id: "用户id",
-            invite_member: "10",
-            invite_store: "0",
-            rate_income: "10",
-            total_maker: "10",
-            user_name: "天生玩家",
+            active_value: "",
+            advertising_revenue: "",
+            coupon_premium: "",
+            direct_maker: "",
+            estimated_platform_rewards: "",
+            estimated_sales_revenue: "",
+            estimated_total_revenue: "",
+            grade: "",
+            head_portrait: "",
+            id: "",
+            invite_member: "",
+            invite_store: "",
+            rate_income: "",
+            total_maker: "",
+            user_name: "",
+            estimated_order: "",
+            invitation_code: "",
+            operation_center_number: "",
+            operation_center_revenue: "",
+            shop_total_revenue: "10",
+            subsidy_income: ""
+
+
         },
         list1: [],
         list2: [],
@@ -39,17 +47,16 @@ export default class Member extends Component {
         list4: [],
     }
 
-    componentDidMount() {
-
+    componentDidShow() {
         let phone_status = Taro.getStorageSync('phone_status')
         Taro.setStorageSync('order_type', '');
         if (phone_status == 'binded' || phone_status == 'bind_success') {
             getUser().then((res: any) => {
                 let data = res.data;
                 let list1 = [{ num: data.invite_member, unit: '人', text: '注册会员' }, { num: data.direct_maker, unit: '人', text: '直属创客' }, { num: data.total_maker, unit: '人', text: '创客总数' }, { num: data.invite_store, unit: '家', text: '邀请店铺' }];
-                let list2 = [{ num: data.estimated_sales_revenue, unit: '元', text: '预估销售收益' }, { num: data.estimated_platform_rewards, unit: '元', text: '预估平台奖励' }, { num: 0, unit: '元', text: '补贴收益' }, { num: data.estimated_total_revenue, unit: '元', text: '预估总收益' }];
-                let list3 = [{ num: data.rate_income, unit: '元', text: '费率收益' }, { num: 0, unit: '元', text: '预估订单收益' }, { num: data.advertising_revenue, unit: '元', text: '广告收益' }, { num: 0, unit: '元', text: '总收益' }];
-                let list4 = [{ num: 0, unit: '家', text: '邀请运营中心' }, { num: 0, unit: '元', text: '总收益' }];
+                let list2 = [{ num: data.estimated_sales_revenue, unit: '元', text: '预估销售收益' }, { num: data.estimated_platform_rewards, unit: '元', text: '预估平台奖励' }, { num: data.subsidy_income, unit: '元', text: '补贴收益' }, { num: data.estimated_total_revenue, unit: '元', text: '预估总收益' }];
+                let list3 = [{ num: data.rate_income, unit: '元', text: '费率收益' }, { num: data.estimated_order, unit: '元', text: '预估订单收益' }, { num: data.advertising_revenue, unit: '元', text: '广告收益' }, { num: data.shop_total_revenue, unit: '元', text: '总收益' }];
+                let list4 = [{ num: data.operation_center_number, unit: '家', text: '邀请运营中心' }, { num: data.operation_center_revenue, unit: '元', text: '总收益' }];
                 this.setState({ data, list1, list2, list3, list4 })
             })
         } else {
@@ -61,8 +68,9 @@ export default class Member extends Component {
      * 复制文字
      */
     copyBtn = (e) => {
+        let invitation_code = this.state.data.invitation_code;
         Taro.setClipboardData({
-            data: '邀请码：BH9527',
+            data: invitation_code,
             success: function (res) {
                 Taro.getClipboardData({
                     success: function (res) {
@@ -123,7 +131,7 @@ export default class Member extends Component {
                         </View>
                         {/* data.grade */}
                         <View className="member-page-personal-row" onClick={this.copyBtn}>
-                            <View className="member-page-personal-item">邀请码：BH9527</View>
+                            <View className="member-page-personal-item">邀请码：{data.invitation_code}</View>
                             <View className="member-page-personal-item-copy">复制</View>
                         </View>
                     </View>

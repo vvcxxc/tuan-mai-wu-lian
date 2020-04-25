@@ -26,7 +26,7 @@ export default class MemberLevel extends Component {
       url: 'v1/community/examine',
       method: 'GET'
     }).then((res:any) => {
-      const width = Math.round(res.data.active / 3000)
+      const width = Math.round(res.data.active / 3000) || 0
       // const width = 100
       this.setState({...res.data,width})
     })

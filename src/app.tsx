@@ -144,8 +144,8 @@ class App extends Component {
           selectedIconPath: './assets/tabbar/6.png'
         },
         {
-          pagePath: 'pages/member/index',
-          text: '会员',
+          pagePath: 'pages/merchant/index',
+          text: '列表',
           iconPath: './assets/tabbar/2.png',
           selectedIconPath: './assets/tabbar/7.png'
         },

@@ -4,7 +4,7 @@
 export const tabbar = [
   "/pages/my/index",
   "/pages/order/index",
-  "/pages/member/index",
+  "/pages/merchant/index",
   "/pages/activity/index",
   "/pages/index/index",
 ]

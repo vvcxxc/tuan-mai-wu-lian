@@ -87,6 +87,65 @@
             right: 52px;
             top: 105px;
         }
+
+        .my-member {
+            width: calc(100% - 44px);
+            height: 49px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translate(-50%, 0);
+
+            .my-member-left {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+
+                .my-member-left-icon {
+                    width: 23px;
+                    height: 23px;
+                    margin-right: 8px;
+                }
+
+                .my-member-left-info {
+                    font-size: 24px;
+                    font-family: PingFang SC;
+                    font-weight: 500;
+                    color: rgba(255, 255, 255, 1);
+                    line-height: 1;
+                }
+            }
+
+            .my-member-right {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+
+                .my-member-right-info {
+                    font-size: 22px;
+                    font-family: PingFang SC;
+                    font-weight: bold;
+                    color: rgba(255, 255, 255, 1);
+                    line-height: 24px;
+                }
+
+                .my-member-right-icon {
+                    width: 12px;
+                    height: 21px;
+                    margin-left: 9px;
+                }
+            }
+        }
     }
 
     .my-list-nav {
