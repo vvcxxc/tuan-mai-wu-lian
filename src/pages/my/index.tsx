@@ -8,6 +8,7 @@ import "./index.less"
 type Props = any
 
 interface State {
+  memberShow: boolean,
   emptyAvatar: String,
   settingShow: Boolean;
   cells: any;
@@ -30,6 +31,7 @@ export default class AppreActivity extends Component<Props> {
   };
 
   state: State = {
+    memberShow: false,
     emptyAvatar: '',
     settingShow: false,
     cells: {},
@@ -84,6 +86,8 @@ export default class AppreActivity extends Component<Props> {
   }
 
   componentDidShow() {
+    let router = Taro.getStorageSync('router') || {}
+    if (router && router.type_index_id == 1) { this.setState({ memberShow: true }) } else { this.setState({ memberShow: false }) }
     let phone_status = Taro.getStorageSync('phone_status')
     this.handleGetUserinfo()
     request({
@@ -245,7 +249,7 @@ export default class AppreActivity extends Component<Props> {
   }
 
   render() {
-    const { showBounced, needLogin } = this.state
+    const { showBounced, needLogin, memberShow } = this.state
     return (
       <View className="my-list">
         <View className="my-list-banner">
@@ -274,16 +278,18 @@ export default class AppreActivity extends Component<Props> {
               </View> : null
             }
           </View>
-          <View className="my-member" onClick={this.toMember}>
-            <View className="my-member-left">
-              <Image className="my-member-left-icon" src="http://oss.tdianyi.com/front/txKFnKDjwkzjEacrJWzZ4DNyPeefMNMA.png" />
-              <View className="my-member-left-info">我的会员等级</View>
-            </View>
-            <View className="my-member-right">
-              <View className="my-member-right-info">立即查看</View>
-              <Image className="my-member-right-icon" src="http://oss.tdianyi.com/front/AeDfZdwfppksiMzNKwxK8e2K5DEfsbpp.png" />
-            </View>
-          </View>
+          {
+            memberShow ? <View className="my-member" onClick={this.toMember}>
+              <View className="my-member-left">
+                <Image className="my-member-left-icon" src="http://oss.tdianyi.com/front/txKFnKDjwkzjEacrJWzZ4DNyPeefMNMA.png" />
+                <View className="my-member-left-info">我的会员等级</View>
+              </View>
+              <View className="my-member-right">
+                <View className="my-member-right-info">立即查看</View>
+                <Image className="my-member-right-icon" src="http://oss.tdianyi.com/front/AeDfZdwfppksiMzNKwxK8e2K5DEfsbpp.png" />
+              </View>
+            </View> : null
+          }
         </View>
         <View className="my-list-nav">
           <View className="my-list-nav-title-box" onClick={this.setOrderInfo.bind(this, '待使用')}>

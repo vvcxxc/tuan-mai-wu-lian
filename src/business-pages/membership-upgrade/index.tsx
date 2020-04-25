@@ -2,7 +2,7 @@ import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem, Input } from "@tarojs/components";
 import "./index.less";
 import upload from '@/services/oss';
-import { getUserInfo, loadImg } from "./service";
+import { getUserInfo, loadImg, examineSuccess } from "./service";
 export default class Member extends Component {
   config = {
     navigationBarTitleText: "会员升级",
@@ -22,6 +22,7 @@ export default class Member extends Component {
       upgrade: "",
       user_add_at: "",
       is_invitation_code: 0,//0-能填写 1-不可以填写
+      is_first: 0,//是否首次注册 0-是首次注册 1-不是首次注册
     },
     chooseImglist: [],
     tipsShow: false,
@@ -34,10 +35,7 @@ export default class Member extends Component {
         method: "GET",
       }
     ).then(res => {
-      console.log('res', res)
-
       let { data } = res.data;
-      console.log(5345345)
       let oss_data = {
         policy: data.policy,
         OSSAccessKeyId: data.accessid,
@@ -52,17 +50,26 @@ export default class Member extends Component {
     })
 
   }
+  /**
+   * is_first==0首次注册，无审核
+   * is_first==1
+   */
   componentDidShow() {
     Taro.showLoading({ title: 'loading', mask: true });
     getUserInfo().then((res: any) => {
       Taro.hideLoading();
       if (res.status_code == 200) {
         this.setState({ data: res.data })
+        if (res.data.is_jurisdiction == 0) { Taro.navigateTo({ url: '/pages/auth/index' }) }
+        if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.id) }
       }
     }).catch(err => {
       Taro.hideLoading();
       Taro.showToast({ title: err.message || '请求失败', icon: 'none', })
     })
+  }
+  examineSuccessUpdeat = (id: any) => {
+    examineSuccess(id).then(res => console.log(res)).catch(err => console.log(err))
   }
   inputCode = (e: any) => {
     this.setState({ invitation_code: e.target.value })
@@ -206,7 +213,7 @@ export default class Member extends Component {
         </View>
         <View className="member-upgrade-upload-btn" onClick={this.sumbitImg}>提交审核</View>
         {
-          data.examine_status == 0 ? <View className="in-the-review">
+          data.is_first != 0 && data.examine_status == 0 ? <View className="in-the-review">
             <View className="in-the-review-content">
               <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/QdBDtfeytCxdwkhhAZK2fKkERT8Q4dbk.png" />
               <View className="in-the-review-text">当前你的审核已提交，等待平台审核</View>
@@ -216,7 +223,7 @@ export default class Member extends Component {
           </View> : null
         }
         {
-          !data.is_notice && data.examine_status == 1 ?
+          !data.is_notice && data.is_first != 0 && data.examine_status == 1 ?
             <View className="in-the-review">
               <View className="in-the-review-content">
                 <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/P4Q7EeKnpC8DGhFKTwyrhhKmiJZDiJcf.png" />
@@ -228,7 +235,7 @@ export default class Member extends Component {
             </View> : null
         }
         {
-          !this.state.reUpload && data.examine_status == 2 ?
+          !this.state.reUpload && data.is_first != 0 && data.examine_status == 2 ?
             <View className="in-the-review">
               <View className="in-the-review-content">
                 <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/xGYed4pbwa54fDpeMiMBcJcYeDjrzJYy.png" />

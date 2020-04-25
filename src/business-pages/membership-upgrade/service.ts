@@ -18,3 +18,11 @@ export const loadImg = (data: object) =>
         method: "POST",
         data
     })
+/**
+*  审核成功通知
+*/
+export const examineSuccess = (id: any) =>
+    request({
+        url: 'v1/community/examine/' + id,
+        method: "PUT",
+    })
