@@ -17,7 +17,7 @@ const host = process.env.USER_API;
 
 export default function userRequest(options: Options) {
   const pages = Taro.getCurrentPages();
-
+console.log(32323)
   // console.log(pages[pages.length - 1].route.indexOf("confirm-order"));
   // if (pages[pages.length - 1].route.indexOf("confirm-order") == -1) {
   //   if (pages.length == 9) {
@@ -62,7 +62,7 @@ export default function userRequest(options: Options) {
               title: data.message || "bad request",
               icon: "none"
             })
-            return resolve(res.data)
+            return reject(res)
             break
           case NOT_SIGN:
             // 重新触发登录，重新请求接口

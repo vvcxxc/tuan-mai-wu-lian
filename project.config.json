@@ -110,6 +110,21 @@
 					"id": -1,
 					"name": "business-pages/my-qrcode/index",
 					"pathName": "business-pages/my-qrcode/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/auth/index",
+					"pathName": "pages/auth/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/pages/group/group",
+					"pathName": "pages/activity/pages/group/group",
+					"query": "id=715&__key_=15877859294593",
 					"scene": null
 				}
 			]
