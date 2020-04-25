@@ -9,25 +9,33 @@ export default class Member extends Component {
         enablePullDownRefresh: false
     };
     state = {
-        id: 0,
-        name: '',
-        grade: '',
-        active: '',
-        user_add_at: '2019/04/01',
-        invitation_code: '',
+        data: {
+            active_value: "",
+            examine_status: 0,// 0-待审核 1-通过 2-拒绝
+            grade: "",
+            id: "",
+            invitation_code: "",
+            is_jurisdiction: 1,//是否有权限 0没有 1有,正常不该会出现0
+            is_notice: 1,//0-显示 1-不显示
+            name: "",
+            remarks: "",
+            upgrade: "",
+            user_add_at: "",
+            is_invitation_code: 0,//0-不能填写 1-可以填写
+        },
         chooseImglist: [],
         tipsShow: false,
-        upgrade: false,//可升级
+        reUpload: false//审核失败层显示隐藏
     }
-    componentDidMount() {
+    componentDidShow() {
+        Taro.showLoading({ title: 'loading', mask: true });
         getUserInfo().then((res: any) => {
+            Taro.hideLoading();
             if (res.status_code == 200) {
-                this.setState({
-                    id: res.data.id, name: res.data.user_name, grade: res.data.grade, active: res.data.active_value, invitation_code: res.data.invitation_code,
-                    user_add_at: res.data.user_add_at, upgrade: res.data.upgrade
-                })
+                this.setState({ data: res.data })
             }
         }).catch(err => {
+            Taro.hideLoading();
             Taro.showToast({ title: err.message || '请求失败', icon: 'none', })
         })
     }
@@ -39,7 +47,16 @@ export default class Member extends Component {
             url: '/business-pages/uploadImg-example/index'
         })
     }
-
+    /**
+   * 回首页
+   */
+    handleGoHome = () => {
+        Taro.switchTab({
+            url: '/pages/index/index', success: () => {
+                location.href = location.href
+            }
+        })
+    }
     changeImg = () => {
         let that = this;
         Taro.showLoading({ title: 'loading', mask: true });
@@ -63,25 +80,24 @@ export default class Member extends Component {
             }
         });
     }
-
     closeOneImg = (index: number | string, e: any) => {
         let templist = this.state.chooseImglist;
         templist.splice(Number(index), 1);
         this.setState({ chooseImglist: templist });
     }
-
     sumbitImg = () => {
-        console.log(this.state.chooseImglist)
+        Taro.showLoading({ title: 'loading', mask: true });
+        let obj = this.state.data
         let data = {
-            name: this.state.name,
-            grade: this.state.grade,
-            active: this.state.active,
-            user_add_at: this.state.user_add_at,
-            invitation_code: this.state.invitation_code,
+            name: obj.name,
+            grade: obj.grade,
+            active: obj.active_value,
+            user_add_at: obj.user_add_at,
+            invitation_code: obj.invitation_code,
             imgs: JSON.stringify(this.state.chooseImglist),
         };
         loadImg(data).then((res: any) => {
-            console.log(res)
+            Taro.hideLoading();
             if (res.status_code == 200) {
                 Taro.showToast({ title: res.message, icon: 'none' })
                 setTimeout(() => {
@@ -91,12 +107,12 @@ export default class Member extends Component {
                 }, 1500)
             }
         }).catch(err => {
+            Taro.hideLoading();
             Taro.showToast({ title: err.message || '提交失败', icon: 'none' })
         })
     }
-
     render() {
-        const { chooseImglist } = this.state;
+        const { chooseImglist, data } = this.state;
         return (
             <View className="membership-upgrade">
                 <View className="member-upgrade-content">
@@ -112,19 +128,22 @@ export default class Member extends Component {
                     </View>
                     <View className="member-upgrade-nowInfo">
                         <View className="member-upgrade-nowInfo-key">可升级：</View>
-                        <View className="member-upgrade-nowInfo-word">普通创客、超级创客、合伙人</View>
+                        <View className="member-upgrade-nowInfo-word">{data.upgrade}</View>
                     </View>
-                    <View className="member-upgrade-title">
-                        <View className="member-upgrade-title-left">
-                            <View className="member-upgrade-title-left-line"></View>
-                            <View className="member-upgrade-title-left-word">*填写邀请码</View>
-                        </View>
-                        <View className="member-upgrade-title-right" onClick={() => { this.setState({ tipsShow: true }) }}>如何填写邀请码？</View>
-                    </View>
-                    <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={this.state.invitation_code} />
+                    {
+                        data.is_invitation_code == 1 ?
+                            <View className="member-upgrade-title">
+                                <View className="member-upgrade-title-left">
+                                    <View className="member-upgrade-title-left-line"></View>
+                                    <View className="member-upgrade-title-left-word">*填写邀请码</View>
+                                </View>
+                                <View className="member-upgrade-title-right" onClick={() => { this.setState({ tipsShow: true }) }}>如何填写邀请码？</View>
+                            </View> : null
+                    }
+                    {
+                        data.is_invitation_code == 1 ? <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={data.invitation_code} /> : null
+                    }
                 </View>
-
-
                 <View className="member-upgrade-content">
                     <View className="member-upgrade-title">
                         <View className="member-upgrade-title-left">
@@ -161,37 +180,41 @@ export default class Member extends Component {
                     </View>
                 </View>
                 <View className="member-upgrade-upload-btn" onClick={this.sumbitImg}>提交审核</View>
-
-                {/* <View className="in-the-review">
-                    <View className="in-the-review-content">
-                        <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/QdBDtfeytCxdwkhhAZK2fKkERT8Q4dbk.png" />
-                        <View className="in-the-review-text">当前你的审核已提交，等待平台审核</View>
-                        <View className="in-the-review-text">预计审核时间24小时内</View>
-                        <View className="in-the-review-returnBtn">返回首页</View>
-                    </View>
-                </View> */}
-
-                {/* <View className="in-the-review">
-                    <View className="in-the-review-content">
-                        <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/xGYed4pbwa54fDpeMiMBcJcYeDjrzJYy.png" />
-                        <View className="in-the-review-text">审核失败</View>
-                        <View className="in-the-review-text">很遗憾，当前审核失败</View>
-                        <View className="in-the-review-text">您当前提交截图群人数角色，而且不满足拓客条件</View>
-                        <View className="in-the-review-returnBtn">返回首页</View>
-                        <View className="in-the-review-againBtn">重新提交</View>
-                    </View>
-                </View> */}
-
-                {/* <View className="in-the-review">
-                    <View className="in-the-review-content">
-                        <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/P4Q7EeKnpC8DGhFKTwyrhhKmiJZDiJcf.png" />
-                        <View className="in-the-review-text">审核成功</View>
-                        <View className="in-the-review-text">恭喜您，当前审核通过</View>
-                        <Image className="in-the-review-successImg" src="http://oss.tdianyi.com/front/w8MPhyBtTFniYEjXAtQ5Yp6px8aikMah.png" />
-                        <View className="in-the-review-returnBtn">返回首页</View>
-                    </View>
-                </View> */}
-
+                {
+                    data.examine_status == 0 ? <View className="in-the-review">
+                        <View className="in-the-review-content">
+                            <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/QdBDtfeytCxdwkhhAZK2fKkERT8Q4dbk.png" />
+                            <View className="in-the-review-text">当前你的审核已提交，等待平台审核</View>
+                            <View className="in-the-review-text">预计审核时间24小时内</View>
+                            <View className="in-the-review-returnBtn" onClick={this.handleGoHome}>返回首页</View>
+                        </View>
+                    </View> : null
+                }
+                {
+                    !data.is_notice && data.examine_status == 1 ?
+                        <View className="in-the-review">
+                            <View className="in-the-review-content">
+                                <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/P4Q7EeKnpC8DGhFKTwyrhhKmiJZDiJcf.png" />
+                                <View className="in-the-review-text">审核成功</View>
+                                <View className="in-the-review-text">恭喜您，当前审核通过</View>
+                                <Image className="in-the-review-successImg" src="http://oss.tdianyi.com/front/w8MPhyBtTFniYEjXAtQ5Yp6px8aikMah.png" />
+                                <View className="in-the-review-returnBtn" onClick={this.handleGoHome}>返回首页</View>
+                            </View>
+                        </View> : null
+                }
+                {
+                    !this.state.reUpload && data.examine_status == 2 ?
+                        <View className="in-the-review">
+                            <View className="in-the-review-content">
+                                <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/xGYed4pbwa54fDpeMiMBcJcYeDjrzJYy.png" />
+                                <View className="in-the-review-text">审核失败</View>
+                                <View className="in-the-review-text">很遗憾，当前审核失败</View>
+                                <View className="in-the-review-text">您当前提交截图群人数角色，而且不满足拓客条件</View>
+                                <View className="in-the-review-returnBtn" onClick={() => this.setState({ reUpload: false })}>重新提交</View>
+                                <View className="in-the-review-againBtn" onClick={this.handleGoHome}>返回首页</View>
+                            </View>
+                        </View> : null
+                }
                 {
                     this.state.tipsShow ? <View className='mark'>
                         <View className='mark-main'>
@@ -201,9 +224,6 @@ export default class Member extends Component {
                         </View>
                     </View> : null
                 }
-
-
-
             </View>
         );
     }
