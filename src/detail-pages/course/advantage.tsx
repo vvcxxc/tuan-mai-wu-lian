@@ -12,6 +12,9 @@ export default class Advantage extends Component {
   state = {
 
   }
+  onShareAppMessage = e => {
+    return {}
+  }
 
   render() {
     return (

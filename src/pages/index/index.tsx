@@ -53,6 +53,9 @@ export default class Index extends Component<any> {
   constructor(props) {
     super(props);
   }
+  onShareAppMessage = e => {
+    return {}
+  }
 
   componentDidShow() {
     Taro.getSystemInfo().then(res => {
