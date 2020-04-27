@@ -12,7 +12,9 @@ export default class Member extends Component {
     data: {
       active_value: "",
       examine_status: 0,// 0-待审核 1-通过 2-拒绝
-      grade: "",
+      grade_id: 0,
+      old_grade: '',
+      grade: '',
       id: "",
       invitation_code: "",
       is_jurisdiction: 1,//是否有权限 0没有 1有,正常不该会出现0
@@ -60,7 +62,7 @@ export default class Member extends Component {
       Taro.hideLoading();
       if (res.status_code == 200) {
         this.setState({ data: res.data })
-        if (res.data.is_jurisdiction == 0) { Taro.navigateTo({ url: '/pages/auth/index' }) }
+        if (res.data.is_jurisdiction == false) { Taro.navigateTo({ url: '/pages/auth/index' }) }
         if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.id) }
       }
     }).catch(err => {
@@ -84,9 +86,7 @@ export default class Member extends Component {
  */
   handleGoHome = () => {
     Taro.switchTab({
-      url: '/pages/index/index', success: () => {
-        location.href = location.href
-      }
+      url: '/pages/index/index'
     })
   }
   changeImg = () => {
@@ -122,7 +122,7 @@ export default class Member extends Component {
     let obj = this.state.data
     let data = {
       name: obj.name,
-      grade: obj.grade,
+      grade: obj.grade_id,
       active: obj.active_value,
       user_add_at: obj.user_add_at,
       invitation_code: obj.invitation_code,
@@ -156,7 +156,7 @@ export default class Member extends Component {
           </View>
           <View className="member-upgrade-nowInfo">
             <View className="member-upgrade-nowInfo-key">当前角色身份：</View>
-            <View className="member-upgrade-nowInfo-word">普通会员</View>
+            <View className="member-upgrade-nowInfo-word">  {data.grade}</View>
           </View>
           <View className="member-upgrade-nowInfo">
             <View className="member-upgrade-nowInfo-key">可升级：</View>
@@ -229,7 +229,11 @@ export default class Member extends Component {
                 <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/P4Q7EeKnpC8DGhFKTwyrhhKmiJZDiJcf.png" />
                 <View className="in-the-review-text">审核成功</View>
                 <View className="in-the-review-text">恭喜您，当前审核通过</View>
-                <Image className="in-the-review-successImg" src="http://oss.tdianyi.com/front/w8MPhyBtTFniYEjXAtQ5Yp6px8aikMah.png" />
+
+                <View className="in-the-review-successImg" >
+                  <View className="in-the-review-successImg-item" >{data.old_grade}</View>
+                  <View className="in-the-review-successImg-item" >{data.grade}</View>
+                </View>
                 <View className="in-the-review-returnBtn" onClick={this.handleGoHome}>返回首页</View>
               </View>
             </View> : null

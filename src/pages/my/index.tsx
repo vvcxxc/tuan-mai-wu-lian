@@ -103,6 +103,7 @@ export default class AppreActivity extends Component<Props> {
       })
       if (res.data.mobile) {
         this.setState({ settingShow: true, needLogin: false })
+        Taro.setStorageSync('mobile', res.data.mobile)
       } else {
         this.setState({ settingShow: false, needLogin: true }, () => {
           if (this.state.needLogin) {

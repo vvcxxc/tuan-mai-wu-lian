@@ -24,7 +24,7 @@ export default class Member extends Component {
             estimated_platform_rewards: "",
             estimated_sales_revenue: "",
             estimated_total_revenue: "",
-            grade: "",
+            grade: 0,
             head_portrait: "",
             id: "",
             invite_member: "",
@@ -89,6 +89,11 @@ export default class Member extends Component {
             url: '/business-pages/member-level/index'
         })
     }
+    goQRcode = () => {
+        Taro.navigateTo({
+            url: '/business-pages/my-qrcode/index'
+        })
+    }
 
     /**
      * 列表
@@ -126,10 +131,16 @@ export default class Member extends Component {
                     <View className="member-page-personal-right">
                         <View className="member-page-personal-row">
                             <View className="member-page-personal-title">{data.user_name}</View>
-                            {/* <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/sCdc3MZektR5JfTBsMiP4bxKdaDXCGBE.png" /> */}
-                            <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/yFiASnipf36jW8CTnRHRrQpDNNWwmx7x.png" />
+                            {
+                                data.grade == 5 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/hKJDb3t8CiJj5fmFzEY4FiNQzXEataPY.png" /> : (
+                                    data.grade == 6 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/CGcd64DyAJAnJk5kCFJERXMAGBPNPPzF.png" /> : (
+                                        data.grade == 7 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/2YxRmhGnap4ricS27GbTB4Tc8dY6bBPQ.png" /> : (
+                                            data.grade == 8 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/ETTnGxZk6FHaCPBDzaRSpdkjFGGSmpsb.png" /> : null
+                                        )
+                                    )
+                                )
+                            }
                         </View>
-                        {/* data.grade */}
                         <View className="member-page-personal-row" onClick={this.copyBtn}>
                             <View className="member-page-personal-item">邀请码：{data.invitation_code}</View>
                             <View className="member-page-personal-item-copy">复制</View>
@@ -162,8 +173,8 @@ export default class Member extends Component {
                 <MemberTab title={'社群收益'} questionAction={() => { this.setState({ tipsShow: true }) }} noMore={true} tabItem={list2} onAction={() => { }} question={true} />
                 <View className="member-page-sign" onClick={this.goto}>注册会员升级成为创客，赚取更多佣金</View>
                 <MemberTab title={'邀请店铺收益'} questionAction={() => { this.setState({ tipsShow: true }) }} noMore={true} tabItem={list3} onAction={() => { }} question={true} />
+                <View className="member-page-sign" onClick={this.goQRcode}>我的店铺邀请码，赚取更多额为奖励</View>
                 <MemberTab title={'邀请运营中心收益'} questionAction={() => { this.setState({ tipsShow: true }) }} noMore={true} tabItem={list4} onAction={() => { }} question={true} />
-
                 {
                     this.state.tipsShow ? <View className='mark'>
                         <View className='mark-main'>
@@ -173,8 +184,6 @@ export default class Member extends Component {
                         </View>
                     </View> : null
                 }
-
-
             </View>
         );
     }

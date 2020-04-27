@@ -117,6 +117,13 @@
 					"id": -1,
 					"name": "pages/my/index",
 					"pathName": "pages/my/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/member-level/index",
+					"pathName": "business-pages/member-level/index",
 					"scene": null
 				}
 			]
