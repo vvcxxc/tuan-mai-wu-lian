@@ -90,14 +90,11 @@
         height: auto;
         padding: 30px 30px;
         box-sizing: border-box;
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
         overflow: hidden;
         background: #fff;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        margin-bottom: 15px;
 
         .appre-info-title {
             width: 100%;
@@ -184,6 +181,7 @@
 
             .appre-price-discounts {
                 width: 184px;
+                // padding: 0 20px;
                 height: 36px;
                 background: rgba(255, 68, 68, 1);
                 border-radius: 18px;
@@ -202,7 +200,7 @@
             align-items: center;
             justify-content: flex-start;
             padding-top: 15px;
-            
+
             .appre-info-label-item {
                 height: 36px;
                 padding: 0 12px;
@@ -218,6 +216,156 @@
             }
         }
     }
+
+    .appre-info-content-member {
+        width: 100vw;
+        height: auto;
+        padding: 30px 30px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        .appre-info-title {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+            position: relative;
+
+            .appre-info-title-label {
+                width: 120px;
+                height: 29px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 6px;
+                font-size: 20px;
+                color: rgba(255, 255, 255, 1);
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                position: absolute;
+                top: 21px;
+                left: 0;
+                transform: translate(0, -50%);
+            }
+
+            .appre-info-title-text {
+                width: 100%;
+                height: auto;
+                text-indent: 134px;
+                min-height: 42px;
+                max-height: 84px;
+                font-size: 36px;
+                line-height: 42px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                /* autoprefixer: off */
+                -webkit-box-orient: vertical;
+                /* autoprefixer: on */
+
+            }
+        }
+
+        .appre-info-price {
+            width: 100%;
+            height: 36px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .appre-price-info {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                justify-content: flex-start;
+
+                .appre-price-info-text {
+                    font-size: 22px;
+                    color: rgba(255, 68, 68, 1);
+                    line-height: 1;
+                }
+
+                .appre-price-info-new {
+                    font-size: 36px;
+                    color: rgba(255, 68, 68, 1);
+                    line-height: 1;
+                    font-weight: bold;
+                }
+
+                .appre-price-info-old {
+                    font-size: 22px;
+                    text-decoration: line-through;
+                    color: rgba(153, 153, 153, 1);
+                    line-height: 1;
+                    margin-left: 10px;
+                }
+            }
+
+            .appre-price-discounts {
+                width: auto;
+                padding: 0 20px;
+                height: 36px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 18px;
+                font-size: 20px;
+                line-height: 1;
+                color: rgba(254, 254, 254, 1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .appre-info-label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 15px;
+
+            .appre-info-label-item {
+                height: 36px;
+                padding: 0 12px;
+                font-size: 20px;
+                color: rgba(255, 68, 68, 1);
+                line-height: 1;
+                background: #ffecec;
+                border-radius: 18px;
+                margin-right: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    .syz-share-box {
+    width: 100%;
+    height: 82px;
+    border-top: 1px solid #F3F4F8;
+    display: flex;
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius:0px 0px 16px 16px;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+    .share-item {
+      width: 160px;
+      height: 36px;
+    }
+  }
+
 
     .appre-banner-img {
         width: 100vw;
@@ -661,28 +809,28 @@
         box-sizing: border-box;
         box-shadow: 0 0 4px 3px rgba(0, 0, 0, .2);
 
-        .appre-buy-price-box {
+          .group-buy-icon-box {
+          display: flex;
+          flex-direction: row;
+          align-items: baseline;
+          justify-content: flex-start;
+          width: 200px;
+          justify-content: space-between;
+          padding-left: 20px;
+          .group-buy-icon-item {
+            width: 40px;
+            font-size: 20px;
             display: flex;
-            flex-direction: row;
-            align-items: baseline;
-            justify-content: flex-start;
-
-            .appre-buy-price-icon {
-                font-size: 24px;
-                font-weight: bold;
-                line-height: 1;
-                color: rgba(255, 68, 68, 1);
-
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            color: #B7B7B7;
+            Image {
+              width: 38px;
+              height: 38px;
             }
-
-            .appre-buy-price-num {
-                font-size: 54px;
-                font-weight: bold;
-                line-height: 1;
-                color: rgba(255, 68, 68, 1);
-
-            }
-        }
+          }
+      }
 
         .appre-buy-btn-box {
             display: flex;
@@ -729,6 +877,12 @@
                     line-height: 1;
                 }
             }
+             .appre-buy-btn-yongjin {
+              font-size: 20px;
+              margin-top: 5px;
+              line-height: 1;
+              color: rgba(255, 255, 255, 1);
+          }
         }
     }
 
@@ -801,7 +955,7 @@
         }
 
     }
-    
+
     .more_goods {
         background: #fff;
         padding: 0 30px;
