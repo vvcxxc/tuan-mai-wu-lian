@@ -21,7 +21,9 @@ export default class MarketingIndex extends Component<any> {
     id: 6, // tab的id
     city_name: '新会区',
     banner: [],
-    page: 1
+    page: 1,
+    is_level: false,
+    userGroupId: 0
 
   }
   componentDidMount() {
@@ -39,12 +41,17 @@ export default class MarketingIndex extends Component<any> {
         })
       }
     })
-    getTabList({ channel_id: 6, page: 1 }).then(res => {
+    getTabList({ channel_id: 6, page: 1 }).then((res: any) => {
       if (res.code == 200) {
-        if(res.data.user_info){
-          console.log('232323')
-        }else {
-          console.log('121212')
+        if (res.data.user_info) {
+          const { userGroupId } = res.data.user_info
+          if (userGroupId == 5) {
+            this.setState({ is_level: false, userGroupId })
+          } else if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+            this.setState({ is_level: true, userGroupId })
+          }
+        } else {
+          this.setState({ is_level: false })
         }
         this.setState({ list: res.data.data })
       }
@@ -88,8 +95,18 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({ channel_id: this.state.id, page: 1 }).then(res => {
+      getTabList({ channel_id: this.state.id, page: 1 }).then((res: any) => {
         if (res.code == 200) {
+          if (res.data.user_info) {
+            const { userGroupId } = res.data.user_info
+            if (userGroupId == 5) {
+              this.setState({ is_level: false, userGroupId })
+            } else if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+              this.setState({ is_level: true, userGroupId })
+            }
+          } else {
+            this.setState({ is_level: false })
+          }
           this.setState({ list: res.data.data })
           this.setState({ page: 1 })
         }
@@ -245,14 +262,14 @@ export default class MarketingIndex extends Component<any> {
 
           {/* 赚钱计划 */}
           <View className='feature-box'>
-            <View className='feature' onClick={this.goTo.bind(this,'/detail-pages/course/characteristic')}>
+            <View className='feature' onClick={this.goTo.bind(this, '/detail-pages/course/characteristic')}>
               <Image className='feature-img' src={require('@/assets/index/xiong.png')} />
               <View className='feature-text'>
                 <View className='text-title'>小熊敬礼特色</View>
                 <View>小熊敬礼</View>
               </View>
             </View>
-            <View className='feature' onClick={this.goTo.bind(this,'/detail-pages/course/make_money_plan')}>
+            <View className='feature' onClick={this.goTo.bind(this, '/detail-pages/course/make_money_plan')}>
               <Image className='feature-img' src={require('@/assets/index/zhuan.png')} />
               <View className='feature-text'>
                 <View className='text-title'>赚钱计划</View>
@@ -300,7 +317,7 @@ export default class MarketingIndex extends Component<any> {
           <View className='listBox'>
             {
               this.state.list ? this.state.list.map((res: any, index) => {
-                return <CouponBox item={res} key={res.channel_id} onAction={this.handleAction} />
+                return <CouponBox userGroupId={this.state.userGroupId} is_level={this.state.is_level} item={res} key={res.channel_id} onAction={this.handleAction} />
               }) : null
             }
           </View>

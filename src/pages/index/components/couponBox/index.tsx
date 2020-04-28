@@ -5,6 +5,8 @@ import { accSubtr } from '@/utils/common'
 interface Props {
   item: any;
   onAction: any;
+  is_level: boolean;
+  userGroupId: Number;
 }
 export default class CouponBox extends Component<Props> {
   defaultProps = {
@@ -43,9 +45,21 @@ export default class CouponBox extends Component<Props> {
     return type
   }
 
+  goto = () => {
+    if(this.props.userGroupId == 5){
+      Taro.navigateTo({
+        url: '/business-pages/membership-upgrade/index'
+      })
+    }else if(this.props.userGroupId == 0){
+      Taro.navigateTo({
+        url: '/pages/auth/index'
+      })
+    }
+  }
+
 
   render() {
-    const { item } = this.props
+    const { item, is_level } = this.props
     return (
       <View className='coupon-box' onClick={this.handleClick.bind(this, item)}>
         <Image className='coupon-img' src={'http://oss.tdianyi.com/' + item.icon} />
@@ -67,16 +81,25 @@ export default class CouponBox extends Component<Props> {
               <View className='member-name'>会员价￥</View>
               <View className='member-money'>{item.is_share == 5 ? item.participation_money : item.pay_money}</View>
             </View>
-            <View className='member-label'>
-              升级会员可再省￥{item.commission}
-              <Image className='goto' src={require('@/assets/index/go-to.png')} />
-            </View>
-            {/* <View className='member-label1'>
+            {
+              is_level ? (
+                <View className='member-label1'>
               分享可得佣金￥{item.commission}
-            </View> */}
+            </View>
+              ) : (
+                <View className='member-label' onClick={this.goto}>
+                升级会员可再省￥{item.commission}
+                <Image className='goto' src={require('@/assets/index/go-to.png')} />
+              </View>
+              )
+            }
+
           </View>
-          {/* <View className='coupon-button'>抢购</View> */}
-          <View className='coupon-button1'>立即推广</View>
+          {
+            is_level ? <View className='coupon-button1'>立即推广</View> : <View className='coupon-button'>抢购</View>
+          }
+
+
         </View>
       </View>
     )
