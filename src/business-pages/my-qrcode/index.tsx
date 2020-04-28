@@ -1,27 +1,84 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
+import request from '../../services/request'
+import Qrcode from "./Qrcode"                     //使用二维码
+
+import { getImg } from './saveImg';
 
 import './index.less';
 
 export default class MyQRCode extends Component {
   config = {
     navigationBarTitleText: "我的邀请店铺二维码",
-};
+  };
   state = {
-
+    avatarImage: "",
+    qrCodeImage: ""
   }
 
-  render (){
+
+  componentDidMount() {
+    request({
+      url: "/v3/user/invitation_store_code"
+    }).then(async (res: any) => {
+      // console.log('res', res);
+      if (res.status_code == 200) {
+        await this.setState({
+          avatarImage: res.data.avatar,
+        })
+        this.showQrCodeURL(res.data.phone);
+      }
+    })
+  }
+
+  showQrCodeURL = (phone) => {
+    let qrCodeURL = `${process.env.SUPPLIER_URL}?invite_phone=${phone}`
+    let imgData = Qrcode.createQrCodeImg(qrCodeURL);
+    this.setState({
+      qrCodeImage: imgData
+    })
+  }
+
+  getmeta = (e) => {
+    let save = wx.getFileSystemManager();
+    let number = Math.random();
+    let imgSrc = this.state.qrCodeImage;
+    save.writeFile({
+      filePath: wx.env.USER_DATA_PATH + '/pic' + number + '.png',
+      data: imgSrc.slice(22),
+      encoding: 'base64',
+      success: res => {
+        wx.saveImageToPhotosAlbum({
+          filePath: wx.env.USER_DATA_PATH + '/pic' + number + '.png',
+          success: function (res) {
+            Taro.showToast({ title: '图片保存成功' });
+          },
+          fail: function (err) {
+            console.log(err)
+          }
+        })
+      }, fail: err => {
+        console.log(err)
+      }
+    })
+  }
+
+  render() {
+    const { avatarImage, qrCodeImage } = this.state;
     return (
       <View className='my-code-page'>
         <View className='code-main'>
           <View className='header'>
-            <View className="avatar_img"></View>
+            <View className="avatar_img">
+              <Image src={avatarImage} className="avatar_image_url" />
+            </View>
             <View className="user_name">EDchen</View>
           </View>
-          <View className="qrcode"></View>
+          <View className="qrcode">
+            <Image src={qrCodeImage} className="qrcode_image_url" />
+          </View>
           <View className="download_qrcode">
-            <View className="btn">下载保存二维码</View>
+            <View className="btn" onClick={this.getmeta.bind(this)}>下载保存二维码</View>
           </View>
         </View>
 
