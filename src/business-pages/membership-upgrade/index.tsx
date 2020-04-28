@@ -25,6 +25,7 @@ export default class Member extends Component {
       is_invitation_code: 0,//0-能填写 1-不可以填写
       is_first: 0,//是否首次注册 0-是首次注册 1-不是首次注册
     },
+    invitation_code: '',
     chooseImglist: [],
     tipsShow: false,
     reUpload: false//审核失败层显示隐藏
@@ -59,7 +60,7 @@ export default class Member extends Component {
     getUserInfo().then((res: any) => {
       Taro.hideLoading();
       if (res.status_code == 200) {
-        this.setState({ data: res.data })
+        this.setState({ data: res.data, invitation_code: res.data.invitation_code })
         if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.id) }
       } else {
         Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
@@ -73,7 +74,9 @@ export default class Member extends Component {
     examineSuccess(id).then(res => console.log(res)).catch(err => console.log(err))
   }
   inputCode = (e: any) => {
-    this.setState({ invitation_code: e.target.value })
+    let data = this.state.data;
+    data.invitation_code = e.target.value;
+    this.setState({ data, invitation_code: e.target.value })
   }
   seeExample = () => {
     Taro.navigateTo({
@@ -118,15 +121,16 @@ export default class Member extends Component {
   }
   sumbitImg = () => {
     Taro.showLoading({ title: 'loading', mask: true });
-    let obj = this.state.data
+    let obj = this.state.data;
     let data = {
       name: obj.name,
       grade: obj.grade_id,
       active: obj.active_value ? obj.active_value : undefined,
       user_add_at: obj.user_add_at,
-      invitation_code: obj.invitation_code,
+      invitation_code: this.state.invitation_code,
       imgs: JSON.stringify(this.state.chooseImglist),
     };
+    console.log(this.state.invitation_code)
     loadImg(data).then((res: any) => {
       Taro.hideLoading();
       if (res.status_code == 200) {
@@ -174,7 +178,7 @@ export default class Member extends Component {
               </View> : null
           }
           {
-            data.is_invitation_code == 0 ? <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={data.invitation_code} /> : null
+            data.is_invitation_code == 0 ? <Input className="member-upgrade-title-input" type="text" placeholder="请输入邀请人邀请码" onInput={this.inputCode} value={this.state.invitation_code} /> : null
           }
         </View>
         <View className="member-upgrade-content">
@@ -213,7 +217,7 @@ export default class Member extends Component {
           </View>
         </View>
         <View className="member-upgrade-upload-btn" onClick={this.sumbitImg}>提交审核</View>
-        {
+        {/* {
           data.is_first != 0 && data.examine_status == 0 ? <View className="in-the-review">
             <View className="in-the-review-content">
               <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/QdBDtfeytCxdwkhhAZK2fKkERT8Q4dbk.png" />
@@ -222,7 +226,7 @@ export default class Member extends Component {
               <View className="in-the-review-returnBtn" onClick={this.handleGoHome}>返回首页</View>
             </View>
           </View> : null
-        }
+        } */}
         {
           !data.is_notice && data.is_first != 0 && data.examine_status == 1 ?
             <View className="in-the-review">
