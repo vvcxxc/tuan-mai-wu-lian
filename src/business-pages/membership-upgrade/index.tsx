@@ -218,7 +218,7 @@ export default class Member extends Component {
           </View>
         </View>
         <View className="member-upgrade-upload-btn" onClick={this.sumbitImg}>提交审核</View>
-        {/* {
+        {
           data.is_first != 0 && data.examine_status == 0 ? <View className="in-the-review">
             <View className="in-the-review-content">
               <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/QdBDtfeytCxdwkhhAZK2fKkERT8Q4dbk.png" />
@@ -227,7 +227,7 @@ export default class Member extends Component {
               <View className="in-the-review-returnBtn" onClick={this.handleGoHome}>返回首页</View>
             </View>
           </View> : null
-        } */}
+        }
         {
           !data.is_notice && data.is_first != 0 && data.examine_status == 1 ?
             <View className="in-the-review">
