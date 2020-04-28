@@ -612,7 +612,7 @@ export default class GroupActivity extends Component {
 
         {/* 分享（发送图片链接等） */}
         <View className='syz-share-box'>
-          <Image className='share-item' src={require('@/assets/member/link.png')}  onClick={this.onShareAppMessage} />
+        <Button openType='share' className='share-item share-button' />
           <Image className='share-item' src={require('@/assets/member/img.png')}  onClick={this.onPreviewImage} />
           <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} />
         </View>

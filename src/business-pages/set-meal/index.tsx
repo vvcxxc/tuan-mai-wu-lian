@@ -246,6 +246,7 @@ export default class AppreActivity extends Component {
 
 
   onShareAppMessage = () => {
+    console.log(4323)
     return {
       title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
       path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
@@ -284,7 +285,7 @@ export default class AppreActivity extends Component {
     const { delivery_service_info } = this.state
     return (
       <View className="appre-activity-detail">
-        <ShareBox
+        {/* <ShareBox
           show={this.state.showShare}
           onClose={() => this.setState({ showShare: false })}
           sendText={this.copyText}
@@ -292,7 +293,7 @@ export default class AppreActivity extends Component {
           createPoster={() => {
             this.setState({ showPoster: true })
           }}
-        />
+        /> */}
         <CouponsPoster
           show={this.state.showPoster}
           list={this.state.posterList}
@@ -376,7 +377,8 @@ export default class AppreActivity extends Component {
         </View>
         {/* 分享（发送图片链接等） */}
         <View className='syz-share-box'>
-          <Image className='share-item' src={require('@/assets/member/link.png')} onClick={this.onShareAppMessage} />
+          {/* <Image className='share-item' src={require('@/assets/member/link.png')} onClick={this.onShareAppMessage} /> */}
+          <Button openType='share' className='share-item share-button' />
           <Image className='share-item' src={require('@/assets/member/img.png')} onClick={this.onPreviewImage} />
           <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} />
         </View>

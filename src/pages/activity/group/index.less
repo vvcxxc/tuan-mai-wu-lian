@@ -359,22 +359,34 @@
   }
 
 
-    .syz-share-box {
-      width: 100%;
-      height: 82px;
-      border-top: 1px solid #F3F4F8;
-      display: flex;
-      background: #fff;
-      margin-bottom: 15px;
-      border-radius:0px 0px 16px 16px;
-      justify-content: space-around;
-      align-items: center;
-      box-sizing: border-box;
-      .share-item {
-        width: 160px;
-        height: 36px;
-      }
+  .syz-share-box {
+    width: 100%;
+    height: 82px;
+    border-top: 1px solid #F3F4F8;
+    display: flex;
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius:0px 0px 16px 16px;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+    .share-item {
+      width: 160px;
+      height: 36px;
     }
+    .share-button {
+      margin: 0;
+      width:161px;
+      height:36px;
+      border-radius:18px;
+      box-sizing: border-box;
+      background: url("http://oss.tdianyi.com/front/dXKaNK2ZXNcsDiXRnZM8ffNnYcGRNNtd.jpg");
+      background-size: 100%;
+    }
+    .share-button::after {
+      content: none
+    }
+  }
 
     .group-banner-img {
         width: 100vw;
