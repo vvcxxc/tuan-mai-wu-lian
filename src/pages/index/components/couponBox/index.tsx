@@ -60,16 +60,19 @@ export default class CouponBox extends Component<Props> {
           </View>
           <View className='coupon-validity'>有效期：{item.expire_day}天有效</View>
           <View className='money-box'>
+            <View className='store-money-box'>
+              门市价￥{item.return_money}
+            </View>
             <View className='member-box'>
               <View className='member-name'>会员价￥</View>
-              <View className='member-money'>29.9</View>
+              <View className='member-money'>{item.is_share == 5 ? item.participation_money : item.pay_money}</View>
             </View>
             <View className='member-label'>
-              升级会员可再省￥1.39
+              升级会员可再省￥{item.commission}
               <Image className='goto' src={require('@/assets/index/go-to.png')} />
             </View>
             {/* <View className='member-label1'>
-              分享可得佣金￥1.39
+              分享可得佣金￥{item.commission}
             </View> */}
           </View>
           {/* <View className='coupon-button'>抢购</View> */}

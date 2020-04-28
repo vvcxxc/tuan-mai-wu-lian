@@ -41,6 +41,11 @@ export default class MarketingIndex extends Component<any> {
     })
     getTabList({ channel_id: 6, page: 1 }).then(res => {
       if (res.code == 200) {
+        if(res.data.user_info){
+          console.log('232323')
+        }else {
+          console.log('121212')
+        }
         this.setState({ list: res.data.data })
       }
     })
