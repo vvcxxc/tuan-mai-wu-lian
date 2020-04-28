@@ -244,9 +244,13 @@ export default class AppreActivity extends Component<Props> {
   }
 
   toMember = () => {
-    Taro.navigateTo({
-      url: '/pages/member/index',
-    })
+    if (this.state.mobile) {
+      Taro.navigateTo({
+        url: '/pages/member/index',
+      })
+    } else {
+      this.setState({ is_alert: true })
+    }
   }
 
   render() {

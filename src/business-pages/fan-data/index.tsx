@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.less";
-import { getRelationChain } from './service'
+import { getRelationChain, getStoreList } from './service'
 export default class Member extends Component {
     config = {
         navigationBarTitleText: "粉丝数据",
@@ -44,7 +44,9 @@ export default class Member extends Component {
                 this.getList(2, this.state.pageList[0], 1)
             } else if (index == 2 && this.state.dataList[2].length == 0) {
                 this.getList(3, this.state.pageList[0], 2)
-            } else if (index == 3) { }
+            } else if (index == 3) {
+                this.getStore();
+            }
         })
     }
     /**
@@ -52,7 +54,7 @@ export default class Member extends Component {
      */
     loadMore = () => {
         if (this.state.fanTabIndex == 3) {
-
+            this.getStore();
         } else {
             this.getList(Number(this.state.fanTabIndex) + 1, this.state.pageList[this.state.fanTabIndex], this.state.fanTabIndex)
         }
@@ -66,22 +68,52 @@ export default class Member extends Component {
         if (this.state.pageTotalList[index] > 1 && this.state.pageTotalList[index] < page) {
             return
         }
+        Taro.showLoading({ title: 'loading', mask: true });
         getRelationChain({
             phone: mobile,
             type,
             page
         })
             .then((res: any) => {
-                let tempData = this.state.dataList;
-                let tempPageTotalList = this.state.pageTotalList;
-                let tempPage = this.state.pageList;
-                let tempShowList = tempData[index].length == 0 ? res.data.data : tempData[index].concat(res.data.data);
-                tempData[index] = tempShowList;
-                tempPageTotalList[index] = res.data.last_page;
-                tempPage[index] += 1;
-                that.setState({ dataList: tempData, showList: tempShowList, pageTotalList: tempPageTotalList, pageList: tempPage })
-            }).then((err: any) => {
-
+                Taro.hideLoading();
+                if (res.status_code == 200) {
+                    let tempData = this.state.dataList;
+                    let tempPageTotalList = this.state.pageTotalList;
+                    let tempPage = this.state.pageList;
+                    let tempShowList = tempData[index].length == 0 ? res.data.data : tempData[index].concat(res.data.data);
+                    tempData[index] = tempShowList;
+                    tempPageTotalList[index] = res.data.last_page;
+                    tempPage[index] += 1;
+                    that.setState({ dataList: tempData, showList: tempShowList, pageTotalList: tempPageTotalList, pageList: tempPage })
+                } else {
+                    Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
+                }
+            }).catch((err: any) => {
+                Taro.hideLoading();
+                Taro.showToast({ title: err.message || '请求失败', icon: 'none' })
+            })
+    }
+    getStore = () => {
+        let that = this;
+        Taro.showLoading({ title: 'loading', mask: true });
+        getStoreList({ page: this.state.pageList[3] })
+            .then((res: any) => {
+                Taro.hideLoading();
+                if (res.status_code == 200) {
+                    let tempData = this.state.dataList;
+                    let tempPageTotalList = this.state.pageTotalList;
+                    let tempPage = this.state.pageList;
+                    let tempShowList = tempData[3].length == 0 ? res.data : tempData[3].concat(res.data);
+                    tempData[3] = tempShowList;
+                    tempPageTotalList[3] = res.last_page;
+                    tempPage[3] += 1;
+                    that.setState({ dataList: tempData, showList: tempShowList, pageTotalList: tempPageTotalList, pageList: tempPage })
+                } else {
+                    Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
+                }
+            }).catch((err: any) => {
+                Taro.hideLoading();
+                Taro.showToast({ title: err.message || '请求失败', icon: 'none' })
             })
     }
 
@@ -139,7 +171,6 @@ export default class Member extends Component {
                     {
                         this.state.showList.length > 0 && (this.state.fanTabIndex == 1 || this.state.fanTabIndex == 2) ? this.state.showList.map((item: any, index: any) => {
                             return (
-
                                 <View className="fan-data-store" key={index}>
                                     <Image className="fan-data-member-left" src={item.avatar} />
                                     <View className="fan-data-member-right">
@@ -161,7 +192,6 @@ export default class Member extends Component {
                                                 <View className="fan-data-member-words-row">{item.totalIncome}</View>
                                             </View>
                                         </View>
-
                                         <View className="fan-data-member-item">
                                             <View className="fan-data-member-key">我今日获得平台奖励：</View>
                                             <View className="fan-data-member-words">{item.todayPlatformReward}</View>
@@ -172,11 +202,32 @@ export default class Member extends Component {
                         }) : null
                     }
                     {
+                        this.state.showList.length > 0 && this.state.fanTabIndex == 3 ? this.state.showList.map((item: any, index: any) => {
+                            return (
+                                <View className="fan-data-store" key={index}>
+                                    <Image className="fan-data-member-left" src={item.preview} />
+                                    <View className="fan-data-member-right">
+                                        <View className="fan-data-member-item">
+                                            <View className="fan-data-member-key">昵称：</View>
+                                            <View className="fan-data-member-words">{item.name}</View>
+                                        </View>
+                                        <View className="fan-data-member-item">
+                                            <View className="fan-data-member-key">注册时间：</View>
+                                            <View className="fan-data-member-words">{item.registerTime}</View>
+                                        </View>
+                                        <View className="fan-data-member-item">
+                                            <View className="fan-data-member-key">总销售收益：</View>
+                                            <View className="fan-data-member-words">{item.money}</View>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        }) : null
+                    }
+                    {
                         this.state.pageTotalList[this.state.fanTabIndex] >= this.state.pageList[this.state.fanTabIndex] ? <View className="fan-data-more" onClick={this.loadMore}>加载更多</View> : null
                     }
                 </View>
-
-
             </View>
         );
     }

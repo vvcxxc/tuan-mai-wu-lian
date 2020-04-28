@@ -14,8 +14,8 @@ export default class Member extends Component {
 
     state = {
         tipsShow: false,
-        tipsTitle: '什么是活跃值',
-        tipsText: '按产品销售佣金1元等于1个活跃值',
+        tipsTitle: '',
+        tipsText: [],
         data: {
             active_value: "",
             advertising_revenue: "",
@@ -51,13 +51,22 @@ export default class Member extends Component {
         let phone_status = Taro.getStorageSync('phone_status')
         Taro.setStorageSync('order_type', '');
         if (phone_status == 'binded' || phone_status == 'bind_success') {
+            Taro.showLoading({ title: 'loading', mask: true });
             getUser().then((res: any) => {
-                let data = res.data;
-                let list1 = [{ num: data.invite_member, unit: '人', text: '注册会员' }, { num: data.direct_maker, unit: '人', text: '直属创客' }, { num: data.total_maker, unit: '人', text: '创客总数' }, { num: data.invite_store, unit: '家', text: '邀请店铺' }];
-                let list2 = [{ num: data.estimated_sales_revenue, unit: '元', text: '预估销售收益' }, { num: data.estimated_platform_rewards, unit: '元', text: '预估平台奖励' }, { num: data.subsidy_income, unit: '元', text: '补贴收益' }, { num: data.estimated_total_revenue, unit: '元', text: '预估总收益' }];
-                let list3 = [{ num: data.rate_income, unit: '元', text: '费率收益' }, { num: data.estimated_order, unit: '元', text: '预估订单收益' }, { num: data.advertising_revenue, unit: '元', text: '广告收益' }, { num: data.shop_total_revenue, unit: '元', text: '总收益' }];
-                let list4 = [{ num: data.operation_center_number, unit: '家', text: '邀请运营中心' }, { num: data.operation_center_revenue, unit: '元', text: '总收益' }];
-                this.setState({ data, list1, list2, list3, list4 })
+                Taro.hideLoading();
+                if (res.status_code == 200) {
+                    let data = res.data;
+                    let list1 = [{ num: data.invite_member, unit: '人', text: '注册会员' }, { num: data.direct_maker, unit: '人', text: '直属创客' }, { num: data.total_maker, unit: '人', text: '创客总数' }, { num: data.invite_store, unit: '家', text: '邀请店铺' }];
+                    let list2 = [{ num: data.estimated_sales_revenue, unit: '元', text: '预估销售收益' }, { num: data.estimated_platform_rewards, unit: '元', text: '预估平台奖励' }, { num: data.subsidy_income, unit: '元', text: '补贴收益' }, { num: data.estimated_total_revenue, unit: '元', text: '预估总收益' }];
+                    let list3 = [{ num: data.rate_income, unit: '元', text: '费率收益' }, { num: data.estimated_order, unit: '元', text: '预估订单收益' }, { num: data.advertising_revenue, unit: '元', text: '广告收益' }, { num: data.shop_total_revenue, unit: '元', text: '总收益' }];
+                    let list4 = [{ num: data.operation_center_number, unit: '家', text: '邀请运营中心' }, { num: data.operation_center_revenue, unit: '元', text: '总收益' }];
+                    this.setState({ data, list1, list2, list3, list4 })
+                } else {
+                    Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
+                }
+            }).catch((err) => {
+                Taro.hideLoading();
+                Taro.showToast({ title: err.message || '请求失败', icon: 'none' })
             })
         } else {
             Taro.navigateTo({ url: '/pages/auth/index' })
@@ -122,6 +131,18 @@ export default class Member extends Component {
         })
     }
 
+    showListInfo = (index: number) => {
+        let titleList = ['我的粉丝/店铺', '社群收益', '邀请店铺收益', '邀请运营中心收益']
+        let list = [
+            ['我的粉丝/店铺：本会员邀请用户、店铺数量总计'],
+            ['1.预估销售收益：本会员销售产品获得的收益（包括已核销产品及未核销产品的佣金收益）', '2.预估平台奖励：本会员邀请其他会员销售产品获得的邀请奖励收益', '3.额外补贴：商家或平台额外奖励会员用户销售奖励'],
+            ['1.费率收益：本会员所开拓商家，使用线下扫码支付时，所产生费率佣金', '2.预估订单收益：本会员拓展的商家，商家在平台销售卡券后（未使用和已使用订单），获得预估订单收益奖励', '3.广告收益：本会员因所拓展的商家展示商圈广告所获得的收益奖励'],
+            ['邀请运营中心收益:当前会员用户邀请运营中心入驻后，可获得额外运营中心 产生的收益奖励']
+        ]
+        this.setState({ tipsText: list[index], tipsTitle: titleList[index], tipsShow: true })
+    }
+
+
     render() {
         const { data, list1, list2, list3, list4 } = this.state;
         return (
@@ -169,18 +190,28 @@ export default class Member extends Component {
                     </View>
                 </View>
 
-                <MemberTab title={'我的粉丝/店铺'} questionAction={() => { this.setState({ tipsShow: true }) }} tabItem={list1} onAction={this.toFanData} question={true} />
-                <MemberTab title={'社群收益'} questionAction={() => { this.setState({ tipsShow: true }) }} noMore={true} tabItem={list2} onAction={() => { }} question={true} />
+                <MemberTab title={'我的粉丝/店铺'} questionAction={this.showListInfo.bind(this, 0)} tabItem={list1} onAction={this.toFanData} />
+                <MemberTab title={'社群收益'} questionAction={this.showListInfo.bind(this, 1)} noMore={true} tabItem={list2} onAction={() => { }} />
                 <View className="member-page-sign" onClick={this.goto}>注册会员升级成为创客，赚取更多佣金</View>
-                <MemberTab title={'邀请店铺收益'} questionAction={() => { this.setState({ tipsShow: true }) }} noMore={true} tabItem={list3} onAction={() => { }} question={true} />
+                <MemberTab title={'邀请店铺收益'} questionAction={this.showListInfo.bind(this, 2)} noMore={true} tabItem={list3} onAction={() => { }} />
                 <View className="member-page-sign" onClick={this.goQRcode}>我的店铺邀请码，赚取更多额为奖励</View>
-                <MemberTab title={'邀请运营中心收益'} questionAction={() => { this.setState({ tipsShow: true }) }} noMore={true} tabItem={list4} onAction={() => { }} question={true} />
+                <MemberTab title={'邀请运营中心收益'} questionAction={this.showListInfo.bind(this, 3)} noMore={true} tabItem={list4} onAction={() => { }} />
                 {
-                    this.state.tipsShow ? <View className='mark'>
+                    this.state.tipsShow ? <View className='memberMark'>
                         <View className='mark-main'>
-                            <View className='title'>{this.state.tipsTitle}</View>
-                            <View className='text'>{this.state.tipsText}</View>
-                            <View className='button' onClick={() => this.setState({ tipsShow: false })}>确定</View>
+                            <View className='title'>{this.state.tipsTitle}</View>{}
+                            <View className='text'>
+                                {
+                                    this.state.tipsText.length ? this.state.tipsText.map((item: any, index: any) => {
+                                        return (
+                                            <View className='text-item' key={index} style={{ textAlign: this.state.tipsText.length == 1 ? 'center' : 'left' }}> {item}</View>
+                                        )
+                                    }) : null
+                                }
+                            </View>
+                            <View className='button' onClick={() => this.setState({ tipsShow: false })}>
+                                <View className='button-area'>确定</View>
+                            </View>
                         </View>
                     </View> : null
                 }

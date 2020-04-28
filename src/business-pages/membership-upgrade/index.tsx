@@ -17,7 +17,6 @@ export default class Member extends Component {
       grade: '',
       id: "",
       invitation_code: "",
-      is_jurisdiction: 1,//是否有权限 0没有 1有,正常不该会出现0
       is_notice: 1,//0-显示 1-不显示
       name: "",
       remarks: "",
@@ -48,7 +47,6 @@ export default class Member extends Component {
         key: data.dir
       };
       Taro.setStorageSync("oss_data", oss_data)
-
     })
 
   }
@@ -62,8 +60,9 @@ export default class Member extends Component {
       Taro.hideLoading();
       if (res.status_code == 200) {
         this.setState({ data: res.data })
-        if (res.data.is_jurisdiction == false) { Taro.navigateTo({ url: '/pages/auth/index' }) }
         if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.id) }
+      } else {
+        Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
       }
     }).catch(err => {
       Taro.hideLoading();
@@ -123,7 +122,7 @@ export default class Member extends Component {
     let data = {
       name: obj.name,
       grade: obj.grade_id,
-      active: obj.active_value,
+      active: obj.active_value ? obj.active_value : undefined,
       user_add_at: obj.user_add_at,
       invitation_code: obj.invitation_code,
       imgs: JSON.stringify(this.state.chooseImglist),
@@ -137,6 +136,8 @@ export default class Member extends Component {
             url: '/pages/member/index'
           })
         }, 1500)
+      } else {
+        Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
       }
     }).catch(err => {
       Taro.hideLoading();
