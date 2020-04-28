@@ -110,7 +110,8 @@ export default class AppreActivity extends Component {
     posterList: {},
     tipsMessage: '',
     is_code: false,
-    is_level: false
+    is_level: false,
+    type_index_id: 0
   }
 
   componentDidMount() {
@@ -139,6 +140,11 @@ export default class AppreActivity extends Component {
        * 获取定位
        */
   componentDidShow() {
+    const { type_index_id } = Taro.getStorageSync('router');
+    console.log(type_index_id,'typeindex')
+    this.setState({type_index_id},()=>{
+      console.log(this.state.type_index_id)
+    })
     let arrs = Taro.getCurrentPages()
     if (arrs.length <= 1) { this.setState({ isFromShare: true }) }
     Taro.showLoading({ title: 'loading', mask: true })
@@ -160,12 +166,12 @@ export default class AppreActivity extends Component {
     discountCoupons(id, data)
       .then((res: any) => {
         Taro.hideLoading()
-        if(res.data.user_info){
-          const {userGroupId} = res.data.user_info
-          if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
-            this.setState({is_level: true})
-          }else {
-            this.setState({is_level: false})
+        if (res.data.user_info) {
+          const { userGroupId } = res.data.user_info
+          if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+            this.setState({ is_level: true })
+          } else {
+            this.setState({ is_level: false })
           }
         }
         this.setState({
@@ -247,8 +253,8 @@ export default class AppreActivity extends Component {
     }
   }
 
-   // 图片预览
-   onPreviewImage = () => {
+  // 图片预览
+  onPreviewImage = () => {
     Taro.previewImage({
       current: this.state.coupon.images[this.state.bannerImgIndex],
       urls: [
@@ -259,22 +265,22 @@ export default class AppreActivity extends Component {
   /**
 * 去店铺
 */
-handleGoStore = () => {
-  Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.store.id })
-}
+  handleGoStore = () => {
+    Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.store.id })
+  }
 
- //    保存二维码
- saveCode = () => {
-  const img = require('@/assets/member/code.jpg')
-  Taro.saveImageToPhotosAlbum({
-    filePath: img,
-  }).then(res => {
-    Taro.showToast({title: '保存成功'})
-  })
-}
+  //    保存二维码
+  saveCode = () => {
+    const img = require('@/assets/member/code.jpg')
+    Taro.saveImageToPhotosAlbum({
+      filePath: img,
+    }).then(res => {
+      Taro.showToast({ title: '保存成功' })
+    })
+  }
 
   render() {
-    const { description,brief } = this.state.coupon;
+    const { description, brief } = this.state.coupon;
     const { delivery_service_info } = this.state
     return (
       <View className="appre-activity-detail">
@@ -356,16 +362,16 @@ handleGoStore = () => {
               <View className="appre-price-info-old">门市价￥{this.state.coupon.return_money}</View>
             </View>
             {
-              this.state.is_level ?  <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
+              this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
             }
           </View>
           <View className="appre-info-label">
-          <View className='appre-info-label-item'>已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
-          {
-            delivery_service_info.id ?
-              <View className="appre-info-label-item">可配送</View>
-             : null
-          }
+            <View className='appre-info-label-item'>已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
+            {
+              delivery_service_info.id ?
+                <View className="appre-info-label-item">可配送</View>
+                : null
+            }
           </View>
         </View>
         {/* 分享（发送图片链接等） */}
@@ -600,7 +606,7 @@ handleGoStore = () => {
         }
 
         <View className="appre-buy-box" >
-        <View className="group-buy-icon-box" >
+          <View className="group-buy-icon-box" >
             <View className='group-buy-icon-item' onClick={this.handleGoHome}>
               <Image src={require('@/assets/member/home.png')} />
               首页
@@ -609,20 +615,21 @@ handleGoStore = () => {
               <Image src={require('@/assets/member/store.png')} />
               进店
             </View>
-            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+            <View className='group-buy-icon-item' onClick={() => this.setState({ is_code: true })}>
               <Image src={require('@/assets/member/service.png')} />
               客服
             </View>
           </View>
           <View className="appre-buy-btn-box" >
-          <View className="appre-buy-btn-left" onClick={() => {
-            this.setState({ showPoster: true })
-          }}>
-             分享海报
+            <View className="appre-buy-btn-left" onClick={() => {
+              this.setState({ showPoster: true })
+            }}
+            >
+              分享海报
              {
-               this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
-             }
-          </View>
+                this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
+              }
+            </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
                 <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
@@ -633,20 +640,20 @@ handleGoStore = () => {
           this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
 
-{
-        this.state.is_code ? (
-          <View className="tips-mask">
-          <View className='code-content'>
-            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
-            <View className='code-text'>
-            点击保存二维码关注小熊敬礼公众号即可联系客服
+        {
+          this.state.is_code ? (
+            <View className="tips-mask">
+              <View className='code-content'>
+                <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+                <View className='code-text'>
+                  点击保存二维码关注小熊敬礼公众号即可联系客服
             </View>
-            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
-            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
-          </View>
-        </View>
-        ) : null
-      }
+                <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+                <Image className='code-close' onClick={() => this.setState({ is_code: false })} src={require('@/assets/member/close.png')} />
+              </View>
+            </View>
+          ) : null
+        }
 
         {
           this.state.tipsMessage ? <View className="tips-mask">

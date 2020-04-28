@@ -32,7 +32,7 @@ export default class MyQRCode extends Component {
   }
 
   showQrCodeURL = (phone) => {
-    let qrCodeURL = `${process.env.SUPPLIER_URL}?invite_phone=${phone}`
+    let qrCodeURL = `${process.env.SUPPLIER_URL}?phone=${phone}`
     let imgData = Qrcode.createQrCodeImg(qrCodeURL);
     this.setState({
       qrCodeImage: imgData
