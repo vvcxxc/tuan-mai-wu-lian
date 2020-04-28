@@ -106,6 +106,7 @@ export default class TicketBuy extends Component {
     tipsMessage: '',
     isFromShare: false,
     showMoreImages: false,
+    is_code: false, // 展示公众号二维码
   }
 
   componentDidMount() {
@@ -215,7 +216,7 @@ export default class TicketBuy extends Component {
     return {
       title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
       path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
-      imageUrl:  this.state.coupon.image
+      imageUrl: this.state.coupon.image
     }
   }
 
@@ -226,6 +227,25 @@ export default class TicketBuy extends Component {
       urls: [
         ...this.state.coupon.images
       ]
+    })
+  }
+
+
+
+  /**
+* 去店铺
+*/
+  handleGoStore = () => {
+    Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.store.id })
+  }
+
+  //    保存二维码
+  saveCode = () => {
+    const img = require('@/assets/member/code.jpg')
+    Taro.saveImageToPhotosAlbum({
+      filePath: img,
+    }).then(res => {
+      Taro.showToast({title: '保存成功'})
     })
   }
 
@@ -276,13 +296,7 @@ export default class TicketBuy extends Component {
           <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
           <View className="banner-number">{this.state.coupon.images.length}</View>
         </View>
-        {/* <View className="collect-box">
-          <Image className="collect-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
-        </View>
-        <View className="share-box">
-          <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
-        </View> */}
-        <View className="appre-info-content">
+        {/* <View className="appre-info-content">
           <View className="appre-info-title">
             <View className="appre-info-title-label">到店支付可用</View>
             <View className="appre-info-title-text">{this.state.coupon.yname}</View>
@@ -295,8 +309,32 @@ export default class TicketBuy extends Component {
             </View>
             <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
           </View>
+        </View> */}
 
+        <View className="appre-info-content-member">
+          <View className="appre-info-title">
+            <View className="appre-info-title-label">到店支付可用</View>
+            <View className="appre-info-title-text">{this.state.coupon.yname}</View>
+          </View>
+          <View className="appre-info-price">
+            <View className="appre-price-info">
+              <View className="appre-price-info-text">会员价￥</View>
+              <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
+              <View className="appre-price-info-old">门市价￥{this.state.coupon.return_money}</View>
+            </View>
+            <View className="appre-price-discounts">分享可得佣金¥1.39</View>
+          </View>
+          <View className="appre-info-label">
+            <View className='appre-info-label-item'>已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
+          </View>
         </View>
+        {/* 分享（发送图片链接等） */}
+        <View className='syz-share-box'>
+          <Image className='share-item' src={require('@/assets/member/link.png')} onClick={this.onShareAppMessage} />
+          <Image className='share-item' src={require('@/assets/member/img.png')} onClick={this.onPreviewImage} />
+        </View>
+
+
         <Image className="appre-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
 
         <View className="appre-store-info">
@@ -454,7 +492,7 @@ export default class TicketBuy extends Component {
               }
               {
                 this.state.showAll && this.state.recommend.map((item) => (
-                  <View className="good_info" onClick={this.gotoTicketBuy.bind(this, item.youhui_type, item.id)}>
+                  <View key={item.id} className="good_info" onClick={this.gotoTicketBuy.bind(this, item.youhui_type, item.id)}>
                     <View className="good_msg">
                       <Image className="good_img" src={item.image} />
 
@@ -498,12 +536,27 @@ export default class TicketBuy extends Component {
         }
 
         <View className="appre-buy-box" >
-          <View className="appre-buy-price-box" >
-            <View className="appre-buy-price-icon" >￥</View>
-            <View className="appre-buy-price-num" >{this.state.coupon.pay_money}</View>
+          <View className="group-buy-icon-box" >
+            <View className='group-buy-icon-item' onClick={this.handleGoHome}>
+              <Image src={require('@/assets/member/home.png')} />
+              首页
+            </View>
+            <View className='group-buy-icon-item' onClick={this.handleGoStore}>
+              <Image src={require('@/assets/member/store.png')} />
+              进店
+            </View>
+            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+              <Image src={require('@/assets/member/service.png')} />
+              客服
+            </View>
           </View>
           <View className="appre-buy-btn-box" >
-            <View className="appre-buy-btn-left" onClick={() => this.setState({ showShare: true })}>分享活动</View>
+            <View className="appre-buy-btn-left" onClick={() => {
+            this.setState({ showPoster: true })
+          }}>
+             分享海报
+            <View className="appre-buy-btn-yongjin" >佣金¥1.39</View>
+          </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
                 <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
@@ -513,7 +566,7 @@ export default class TicketBuy extends Component {
         {
           this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
-        {
+        {/* {
           this.state.isFromShare ? (
             <View style={{ position: 'fixed', bottom: '200rpx', right: '40rpx', zIndex: 88, width: '160rpx', height: '160rpx' }} onClick={this.handleGoHome.bind(this)}>
               <Image src={require('../../assets/go-home/go_home.png')} style={{ width: '160rpx', height: '160rpx' }} />
@@ -525,7 +578,24 @@ export default class TicketBuy extends Component {
           src={this.state.imgZoomSrc}
           showBool={this.state.imgZoom}
           onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
-        />
+        /> */}
+
+
+
+      {
+        this.state.is_code ? (
+          <View className="tips-mask">
+          <View className='code-content'>
+            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+            <View className='code-text'>
+            点击保存二维码关注小熊敬礼公众号即可联系客服
+            </View>
+            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
+          </View>
+        </View>
+        ) : null
+      }
 
         {
           this.state.tipsMessage ? <View className="tips-mask">
