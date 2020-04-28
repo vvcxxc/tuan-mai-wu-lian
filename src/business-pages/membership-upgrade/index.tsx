@@ -125,6 +125,10 @@ export default class Member extends Component {
       Taro.showToast({ title: '请上传图片', icon: 'none' });
       return;
     }
+    if (!this.state.invitation_code && this.state.data.is_invitation_code == 0) {
+      Taro.showToast({ title: '请填写邀请码', icon: 'none' });
+      return;
+    }
     Taro.showLoading({ title: 'loading', mask: true });
     let obj = this.state.data;
     let data = {
