@@ -70,12 +70,14 @@ export default class MemberLevel extends Component {
               )
             }
           </View>
-          <View className='to-level' onClick={this.upgrade}>
-            去升级
+          {
+            this.state.user_group != 8 ?
+              <View className='to-level' onClick={this.upgrade}>
+                去升级
             <Image src={require('@/assets/member/right.png')} />
-          </View>
+              </View> : null
+          }
         </View>
-
         <View className='level-main'>
           <View className='liveness-box'>
             <View className='liveness-title'>
