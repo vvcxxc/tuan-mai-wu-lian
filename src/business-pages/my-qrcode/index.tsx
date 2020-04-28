@@ -13,7 +13,8 @@ export default class MyQRCode extends Component {
   };
   state = {
     avatarImage: "",
-    qrCodeImage: ""
+    qrCodeImage: "",
+    user_name: ''
   }
 
 
@@ -25,6 +26,7 @@ export default class MyQRCode extends Component {
       if (res.status_code == 200) {
         await this.setState({
           avatarImage: res.data.avatar,
+          user_name: res.data.user_name
         })
         this.showQrCodeURL(res.data.phone);
       }
@@ -64,7 +66,7 @@ export default class MyQRCode extends Component {
   }
 
   render() {
-    const { avatarImage, qrCodeImage } = this.state;
+    const { avatarImage, qrCodeImage, user_name } = this.state;
     return (
       <View className='my-code-page'>
         <View className='code-main'>
@@ -72,7 +74,7 @@ export default class MyQRCode extends Component {
             <View className="avatar_img">
               <Image src={avatarImage} className="avatar_image_url" />
             </View>
-            <View className="user_name">EDchen</View>
+            <View className="user_name">{user_name}</View>
           </View>
           <View className="qrcode">
             <Image src={qrCodeImage} className="qrcode_image_url" />
