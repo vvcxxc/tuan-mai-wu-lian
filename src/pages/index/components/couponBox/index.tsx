@@ -24,25 +24,28 @@ export default class CouponBox extends Component<Props> {
   }
 
   couponType(item) {
-    const { is_share } = item
-    let type = ''
-    if (is_share == 1) {
-      // 增值
-      type = '增值券'
-    } else if (is_share == 4) {
-      // 现金券兑换券
-      if (item.youhui_type) {
-        // 现金券
-        type = '现金券'
-      } else {
-        // 兑换券
-        type = '兑换券'
+    if(item){
+      const is_share = item.is_share || 0
+      let type = ''
+      if (is_share == 1) {
+        // 增值
+        type = '增值券'
+      } else if (is_share == 4) {
+        // 现金券兑换券
+        if (item.youhui_type) {
+          // 现金券
+          type = '现金券'
+        } else {
+          // 兑换券
+          type = '兑换券'
+        }
+      } else if (is_share == 5) {
+        // 拼团
+        type = '拼团券'
       }
-    } else if (is_share == 5) {
-      // 拼团
-      type = '拼团券'
+      return type
     }
-    return type
+
   }
 
   goto = () => {

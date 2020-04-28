@@ -43,6 +43,7 @@ export default class AppreActivity extends Component {
       image: "",
       image_type: 1,
       list_brief: "",
+      commission: '',
       own: "",
       label: [''],
       pay_money: "",
@@ -109,6 +110,7 @@ export default class AppreActivity extends Component {
     posterList: {},
     tipsMessage: '',
     is_code: false,
+    is_level: false
   }
 
   componentDidMount() {
@@ -158,6 +160,14 @@ export default class AppreActivity extends Component {
     discountCoupons(id, data)
       .then((res: any) => {
         Taro.hideLoading()
+        if(res.data.user_info){
+          const {userGroupId} = res.data.user_info
+          if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
+            this.setState({is_level: true})
+          }else {
+            this.setState({is_level: false})
+          }
+        }
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store,
@@ -345,7 +355,9 @@ handleGoStore = () => {
               <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
               <View className="appre-price-info-old">门市价￥{this.state.coupon.return_money}</View>
             </View>
-            <View className="appre-price-discounts">分享可得佣金¥1.39</View>
+            {
+              this.state.is_level ?  <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
+            }
           </View>
           <View className="appre-info-label">
           <View className='appre-info-label-item'>已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
@@ -607,7 +619,9 @@ handleGoStore = () => {
             this.setState({ showPoster: true })
           }}>
              分享海报
-            <View className="appre-buy-btn-yongjin" >佣金¥1.39</View>
+             {
+               this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
+             }
           </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :

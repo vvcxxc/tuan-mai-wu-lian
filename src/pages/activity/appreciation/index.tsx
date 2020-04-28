@@ -44,6 +44,7 @@ export default class AppreActivity extends Component {
       activity_time_status: 0,
       address: "",
       begin_time: "",
+      commission: '',
       imagesCurrent: 0,
       description: [],
       distances: "",
@@ -66,6 +67,7 @@ export default class AppreActivity extends Component {
       tel: "",
       total_fee: 0,
       total_num: 0,
+      user_info: {},
       type: 0,
       validity: 0,
       xpoint: "",
@@ -88,6 +90,7 @@ export default class AppreActivity extends Component {
     },
     posterType: '',
     is_code: false, // 展示公众号二维码
+    is_level: false
   };
 
   componentDidMount() {
@@ -142,6 +145,14 @@ export default class AppreActivity extends Component {
       .then((res: any) => {
         Taro.hideLoading();
         if (res.code == 200) {
+          if(res.data.user_info){
+            const {userGroupId} = res.data.user_info
+            if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
+              this.setState({is_level: true})
+            }else {
+              this.setState({is_level: false})
+            }
+          }
           let isPostage = false;
           if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
           // this.getPostList(res.data.id)
@@ -392,7 +403,9 @@ handleGoStore = () => {
               <View className="appre-price-info-new">{this.state.data.pay_money}</View>
               <View className="appre-price-info-old">门市价￥{this.state.data.pay_money}</View>
             </View>
-            <View className="appre-price-discounts">升级会员可再省¥1.39</View>
+            {
+              this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
+            }
           </View>
           <View className="appre-info-label">
             <View className='appre-info-label-item'>最高抵用￥{this.state.data.return_money}</View>
@@ -527,7 +540,10 @@ handleGoStore = () => {
             this.setState({ showPoster: true })
           }}>
             分享海报
-            <View className="appre-buy-btn-yongjin" >佣金¥1.39</View>
+            {
+              this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥1.39</View> : null
+            }
+
           </View>
             {
               this.state.data.publish_wait != 1 || this.state.data.total_num == 0 || this.state.data.activity_time_status == 3 ? (
