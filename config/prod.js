@@ -9,6 +9,7 @@ module.exports = {
     H5_URL: 'http://test.mall.tdianyi.com',
     // USER_API: '"http://release.usercenter.tdianyi.com/"',
     // BASIC_API: '"http://release.api.tdianyi.com/"'
+    SUPPLIER_URL: 'http://supplier.tdianyi.com/login/register'
   },
   defineConstants: {
   },
