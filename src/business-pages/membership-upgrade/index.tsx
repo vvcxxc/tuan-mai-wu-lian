@@ -85,7 +85,7 @@ export default class Member extends Component {
  */
   handleGoHome = () => {
     Taro.switchTab({
-      url: '/pages/index/index'
+      url: '/pages/index/index',
     })
   }
   changeImg = () => {
