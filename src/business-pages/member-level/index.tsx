@@ -27,10 +27,19 @@ export default class MemberLevel extends Component {
   }
 
   componentDidMount() {
+    Taro.showLoading({ title: 'loading', mask: true });
     getUserGrade().then((res: any) => {
-      const width = Math.round(res.data.dynamic_value / res.data.dynamic_sum) || 0
-      // const width = 100
-      this.setState({ ...res.data, width })
+      Taro.hideLoading();
+      if (res.status_code == 200) {
+        const width = Math.round(res.data.dynamic_value / res.data.dynamic_sum) || 0
+        // const width = 100
+        this.setState({ ...res.data, width })
+      } else {
+        Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
+      }
+    }).catch((err: any) => {
+      Taro.hideLoading();
+      Taro.showToast({ title: err.message || '请求失败', icon: 'none' })
     })
   }
 
