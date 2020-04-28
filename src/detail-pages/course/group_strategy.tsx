@@ -12,6 +12,9 @@ export default class GroupStrategy extends Component {
   state = {
 
   }
+  onShareAppMessage = e => {
+    return {}
+  }
 
   render() {
     return (

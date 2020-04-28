@@ -5,7 +5,7 @@ import request from '@/services/request';
 */
 export const getUserInfo = () =>
     request({
-        url: 'v1/community/user',
+        url: 'v1/community/examine',
         method: "GET",
     })
 
@@ -17,4 +17,12 @@ export const loadImg = (data: object) =>
         url: 'v1/community/examine',
         method: "POST",
         data
+    })
+/**
+*  审核成功通知
+*/
+export const examineSuccess = (id: any) =>
+    request({
+        url: 'v1/community/examine/' + id,
+        method: "PUT",
     })

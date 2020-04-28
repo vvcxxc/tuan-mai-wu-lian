@@ -17,7 +17,7 @@ const host = process.env.USER_API;
 
 export default function userRequest(options: Options) {
   const pages = Taro.getCurrentPages();
-
+console.log(32323)
   // console.log(pages[pages.length - 1].route.indexOf("confirm-order"));
   // if (pages[pages.length - 1].route.indexOf("confirm-order") == -1) {
   //   if (pages.length == 9) {

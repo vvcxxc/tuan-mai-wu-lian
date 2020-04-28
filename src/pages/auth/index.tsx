@@ -21,9 +21,11 @@ export default class Auth extends Component {
     }
   }
 
-  getPhoneNumber = (e) => {
+  getPhoneNumber =  async(e) => {
     let { encryptedData, iv, errMsg } = e.detail
     console.log(errMsg)
+    let code = await Taro.login()
+    console.log(code)
     if (errMsg == 'getPhoneNumber:ok') {
       userRequest({
         url: 'v1/user/auth/xcx_quick_login',
@@ -67,6 +69,9 @@ export default class Auth extends Component {
           quietLogin()
           Taro.showToast({ title: '授权失败，请重新尝试', icon: 'none' })
         }
+      }).catch(() => {
+        quietLogin()
+        Taro.showToast({ title: '授权失败，请重新尝试', icon: 'none' })
       })
     } else {
       let res = Taro.getCurrentPages()

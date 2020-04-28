@@ -12,6 +12,9 @@ export default class MakeMoneyPlan extends Component {
   state = {
 
   }
+  onShareAppMessage = e => {
+    return {}
+  }
 
   goto = () => {
     Taro.navigateTo({

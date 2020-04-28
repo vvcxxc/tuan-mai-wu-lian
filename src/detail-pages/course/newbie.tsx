@@ -12,6 +12,9 @@ export default class Newbie extends Component {
   state = {
 
   }
+  onShareAppMessage = e => {
+    return {}
+  }
 
   goto = () => {
     Taro.navigateTo({

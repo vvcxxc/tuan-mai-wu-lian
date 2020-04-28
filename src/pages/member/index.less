@@ -73,7 +73,12 @@
                 }
 
                 .member-page-personal-label {
-                    width: 120px;
+                    width: 125px;
+                    height: 28px;
+                }
+
+                .member-page-personal-label2 {
+                    width: 108px;
                     height: 28px;
                 }
             }
@@ -81,7 +86,6 @@
     }
 
     .member-page-activeValue {
-        width: 181px;
         height: 41px;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 21px 0px 0px 21px;
@@ -90,7 +94,7 @@
         font-weight: 500;
         color: rgba(255, 255, 255, 1);
         line-height: 24px;
-        padding-left: 16px;
+        padding: 0 16px;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -222,11 +226,12 @@
         line-height: 1;
     }
 
-    .mark {
+    .memberMark {
         position: fixed;
         width: 100vw;
         height: 100vh;
         top: 0;
+        left: 0;
         background: rgba(0, 0, 0, .5);
         z-index: 100;
         display: flex;
@@ -235,48 +240,60 @@
 
         .mark-main {
             width: 598px;
-            height: 407px;
+            height: auto;
             background: #fff;
             border-radius: 10px;
-            padding: 60px 58px;
-            padding-bottom: 0;
+            padding: 60px 42px 40px;
             box-sizing: border-box;
-            position: relative;
 
             .title {
+                width: 100%;
+                text-align: center;
+                height: 32px;
                 font-size: 32px;
                 font-weight: bold;
                 text-align: center;
                 line-height: 1;
+                margin-bottom: 53px;
             }
 
             .text {
-                width: 450px;
+                width: 100%;
                 height: auto;
-                font-size: 32px;
-                color: #999999;
-                text-align: center;
-                line-height: 1.2;
-                position: absolute;
-                left: 50%;
-                top: calc(50% - 25px);
-                transform: translate(-50%,-50%);
+
+                .text-item {
+                    width: 100%;
+                    height: auto;
+                    font-size: 32px;
+                    color: #999999;
+                    text-align: left;
+                    line-height: 1.2;
+                }
             }
 
             .button {
-                position: absolute;
-                bottom: 40px;
-                width: 466px;
-                height: 76px;
-                text-align: center;
-                line-height: 76px;
-                color: #fff;
-                font-size: 30px;
-                background: #FF4444;
-                left: 50%;
-                transform: translateX(-50%);
-                border-radius: 38px;
+                width: 100%;
+                height: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 40px;
+
+                .button-area {
+                    width: 466px;
+                    height: 76px;
+                    background: rgba(255, 68, 68, 1);
+                    border-radius: 38px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    line-height: 1;
+                    color: #fff;
+                    font-size: 30px;
+                }
             }
+
+
         }
     }
 }

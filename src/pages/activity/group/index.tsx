@@ -110,7 +110,8 @@ export default class GroupActivity extends Component {
         name: '',
         address: ''
       }
-    }
+    },
+    is_code: false, // 展示公众号二维码
   };
 
   componentDidMount() {
@@ -403,6 +404,12 @@ export default class GroupActivity extends Component {
   handleGoHome = () => {
     Taro.switchTab({ url: '/pages/index/index' })
   }
+  /**
+ * 去店铺
+ */
+  handleGoStore = () => {
+    Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.data.id })
+  }
 
   // 登录弹窗
   loginChange = (type: string) => {
@@ -484,6 +491,16 @@ export default class GroupActivity extends Component {
     })
   }
 
+   //    保存二维码
+   saveCode = () => {
+    const img = require('@/assets/member/code.jpg')
+    Taro.saveImageToPhotosAlbum({
+      filePath: img,
+    }).then(res => {
+      Taro.showToast({title: '保存成功'})
+    })
+  }
+
 
   render() {
     const { description, delivery_service_info, brief } = this.state.data;
@@ -491,7 +508,7 @@ export default class GroupActivity extends Component {
     return (
       <View className="group-activity-detail">
         {/* 分享 */}
-        <ShareBox
+        {/* <ShareBox
           show={this.state.showShare}
           onClose={() => this.setState({ showShare: false })}
           sendText={this.copyText}
@@ -499,7 +516,7 @@ export default class GroupActivity extends Component {
           createPoster={() => {
             this.setState({ showPoster: true })
           }}
-        />
+        /> */}
         {/* 海报 */}
         <SpellGroup
           show={this.state.showPoster}
@@ -557,6 +574,34 @@ export default class GroupActivity extends Component {
             {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null}
           </View>
         </View>
+        {/* <View className="group-info-content-member">
+          <View className="group-info-title">
+            <View className="group-info-title-label">拼团券</View>
+            <View className="group-info-title-text">{this.state.data.youhui_name}</View>
+          </View>
+          <View className="group-info-price">
+            <View className="group-price-info">
+              <View className="group-price-info-text">会员价￥</View>
+              <View className="group-price-info-new">{this.state.data.participation_money}</View>
+              <View className="group-price-info-old">门市价￥{this.state.data.pay_money}</View>
+            </View>
+            <View className="group-price-discounts">升级会员可再省¥1.39</View>
+          </View>
+          <View className="group-info-label">
+            {this.state.data.supplier_delivery_id ? <View className="group-info-label-item">可配送</View> : null}
+            <View className="group-info-label-item">{this.state.data.number}人团</View>
+            <View className="group-info-label-item">已优惠￥{accSubtr(Number(this.state.data.pay_money), Number(this.state.data.participation_money))}</View>
+            {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null}
+          </View>
+        </View> */}
+
+        {/* 分享（发送图片链接等） */}
+        <View className='syz-share-box'>
+          <Image className='share-item' src={require('@/assets/member/link.png')}  onClick={this.onShareAppMessage} />
+          <Image className='share-item' src={require('@/assets/member/img.png')}  onClick={this.onPreviewImage} />
+          <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} />
+        </View>
+
         <Image className="group-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
 
         {
@@ -706,8 +751,8 @@ export default class GroupActivity extends Component {
 
         <View className="group-store-info">
           <ApplyToTheStore
-            id={this.state.data.id}
-            isTitle={true}
+            store_id={this.state.data.id}
+            isTitle
             img={this.state.data.preview}
             name={this.state.data.name}
             phone={this.state.data.tel}
@@ -834,12 +879,28 @@ export default class GroupActivity extends Component {
         }
 
         <View className="group-buy-box" >
-          <View className="group-buy-price-box" >
-            <View className="group-buy-price-icon" >￥</View>
-            <View className="group-buy-price-num" >{this.state.data.participation_money}</View>
+          <View className="group-buy-icon-box" >
+            <View className='group-buy-icon-item' onClick={this.handleGoHome}>
+              <Image src={require('@/assets/member/home.png')} />
+              首页
+            </View>
+            <View className='group-buy-icon-item' onClick={this.handleGoStore}>
+              <Image src={require('@/assets/member/store.png')} />
+              进店
+            </View>
+            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+              <Image src={require('@/assets/member/service.png')} />
+              客服
+            </View>
           </View>
           <View className="group-buy-btn-box" >
-            <View className="group-buy-btn-left" onClick={this.shareActive}>分享活动</View>
+            <View className="group-buy-btn-left" onClick={() => {
+            this.setState({ showPoster: true })
+          }}>
+            <View className="group-buy-btn-group" >
+            分享海报
+            </View>
+            </View>
             {
               this.state.allowGroup ? <View className="group-buy-btn-right" >{this.state.allowGroup}</View>
                 : <View className="group-buy-btn-right" onClick={this.goToaConfirm.bind(this)} >
@@ -849,22 +910,26 @@ export default class GroupActivity extends Component {
             }
           </View>
         </View>
+
+        {
+        this.state.is_code ? (
+          <View className="tips-mask">
+          <View className='code-content'>
+            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+            <View className='code-text'>
+            点击保存二维码关注小熊敬礼公众号即可联系客服
+            </View>
+            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
+          </View>
+        </View>
+        ) : null
+      }
+
+
         {
           this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null
         }
-        {
-          this.state.isFromShare ? (
-            <View style={{ position: 'fixed', bottom: '200rpx', right: '40rpx', zIndex: 88, width: '160rpx', height: '160rpx' }} onClick={this.handleGoHome.bind(this)}>
-              <Image src={require('../../../assets/go-home/go_home.png')} style={{ width: '160rpx', height: '160rpx' }} />
-            </View>
-          ) : ''
-        }
-
-        <Zoom
-          src={this.state.imgZoomSrc}
-          showBool={this.state.imgZoom}
-          onChange={() => { this.setState({ imgZoom: !this.state.imgZoom }) }}
-        />
       </View>
     );
   }

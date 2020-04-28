@@ -7,10 +7,13 @@
 		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
+		"preloadBackgroundData": false,
 		"minified": false,
 		"newFeature": true,
 		"coverView": true,
 		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
 		"uploadWithSourceMap": true,
@@ -18,10 +21,7 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		},
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"preloadBackgroundData": false
+		}
 	},
 	"compileType": "miniprogram",
 	"simulatorType": "wechat",
@@ -59,8 +59,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/member/index",
-					"pathName": "pages/member/index",
+					"name": "pages/merchant/index",
+					"pathName": "pages/merchant/index",
 					"query": "",
 					"scene": null
 				},
@@ -110,6 +110,42 @@
 					"id": -1,
 					"name": "business-pages/my-qrcode/index",
 					"pathName": "business-pages/my-qrcode/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/index",
+					"pathName": "pages/my/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/activity/group/index",
+					"pathName": "pages/activity/group/index",
+					"query": "id=6161&type=5&gift_id=0&activity_id=2419&__key_=15879501171487",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "增值",
+					"pathName": "pages/activity/appreciation/index",
+					"query": "id=6162&type=1&gift_id=0&activity_id=2420&__key_=15879665011282",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/ticket-buy/index",
+					"pathName": "business-pages/ticket-buy/index",
+					"query": "id=6066&__key_=15879726890553",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/set-meal/index",
+					"pathName": "business-pages/set-meal/index",
+					"query": "id=6100&__key_=15879768270372",
 					"scene": null
 				}
 			]
