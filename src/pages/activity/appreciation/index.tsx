@@ -406,8 +406,13 @@ export default class AppreActivity extends Component {
               <View className="appre-price-info-old">门市价￥{this.state.data.pay_money}</View>
             </View>
             {
-              this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
+              this.state.data.commission ? <View>
+                {
+                  this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
+                }
+              </View> : null
             }
+
           </View>
           <View className="appre-info-label">
             <View className='appre-info-label-item'>最高抵用￥{this.state.data.return_money}</View>
@@ -542,9 +547,14 @@ export default class AppreActivity extends Component {
               this.setState({ showPoster: true })
             }}>
               分享海报
-            {
-                this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥1.39</View> : null
+              {
+                this.state.data.commission ? <View>
+                  {
+                    this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.data.commission}</View> : null
+                  }
+                </View> : null
               }
+
 
             </View>
             {

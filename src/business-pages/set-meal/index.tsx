@@ -364,8 +364,13 @@ export default class AppreActivity extends Component {
               <View className="appre-price-info-old">门市价￥{this.state.coupon.return_money}</View>
             </View>
             {
+              this.state.coupon.commission ? <View>
+{
               this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
             }
+              </View> : null
+            }
+
           </View>
           <View className="appre-info-label">
             <View className='appre-info-label-item'>已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
@@ -629,9 +634,14 @@ export default class AppreActivity extends Component {
             }}
             >
               分享海报
-             {
+              {
+                this.state.coupon.commission ? <View>
+                   {
                 this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
               }
+                </View> : null
+              }
+
             </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
