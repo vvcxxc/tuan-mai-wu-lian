@@ -185,7 +185,7 @@
 
             .group-price-discounts {
                 width: 240px;
-                height: 40px;
+                height: 36px;
                 background: rgba(255, 68, 68, 1);
                 border-radius: 18px;
                 font-size: 20px;
@@ -322,7 +322,7 @@
 
           .group-price-discounts {
               width: 240px;
-              height: 40px;
+              height: 36px;
               background: rgba(255, 68, 68, 1);
               border-radius: 18px;
               font-size: 20px;
@@ -359,22 +359,34 @@
   }
 
 
-    .syz-share-box {
-      width: 100%;
-      height: 82px;
-      border-top: 1px solid #F3F4F8;
-      display: flex;
-      background: #fff;
-      margin-bottom: 15px;
-      border-radius:0px 0px 16px 16px;
-      justify-content: space-around;
-      align-items: center;
-      box-sizing: border-box;
-      .share-item {
-        width: 160px;
-        height: 36px;
-      }
+  .syz-share-box {
+    width: 100%;
+    height: 82px;
+    border-top: 1px solid #F3F4F8;
+    display: flex;
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius:0px 0px 16px 16px;
+    justify-content: space-around;
+    align-items: center;
+    box-sizing: border-box;
+    .share-item {
+      width: 160px;
+      height: 36px;
     }
+    .share-button {
+      margin: 0;
+      width:161px;
+      height:36px;
+      border-radius:18px;
+      box-sizing: border-box;
+      background: url("http://oss.tdianyi.com/front/dXKaNK2ZXNcsDiXRnZM8ffNnYcGRNNtd.jpg");
+      background-size: 100%;
+    }
+    .share-button::after {
+      content: none
+    }
+  }
 
     .group-banner-img {
         width: 100vw;
@@ -897,7 +909,7 @@
             justify-content: space-between;
             padding-left: 20px;
             .group-buy-icon-item {
-              width: 40px;
+              width: 45px;
               font-size: 20px;
               display: flex;
               align-items: center;
@@ -960,6 +972,7 @@
               margin-top: 5px;
               line-height: 1;
               color: rgba(255, 255, 255, 1);
+              text-align: center;
           }
         }
     }

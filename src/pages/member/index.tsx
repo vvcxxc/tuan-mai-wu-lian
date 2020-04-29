@@ -24,7 +24,8 @@ export default class Member extends Component {
             estimated_platform_rewards: "",
             estimated_sales_revenue: "",
             estimated_total_revenue: "",
-            grade: 0,
+            grade: '',
+            grade_id: 0,
             head_portrait: "",
             id: "",
             invite_member: "",
@@ -37,8 +38,8 @@ export default class Member extends Component {
             operation_center_number: "",
             operation_center_revenue: "",
             shop_total_revenue: "10",
-            subsidy_income: ""
-
+            subsidy_income: "",
+            upgrade: ''
 
         },
         list1: [],
@@ -134,10 +135,10 @@ export default class Member extends Component {
     showListInfo = (index: number) => {
         let titleList = ['我的粉丝/店铺', '社群收益', '邀请店铺收益', '邀请运营中心收益']
         let list = [
-            ['我的粉丝/店铺：本会员邀请用户、店铺数量总计'],
+            ['本会员邀请用户、店铺数量总计'],
             ['1.预估销售收益：本会员销售产品获得的收益（包括已核销产品及未核销产品的佣金收益）', '2.预估平台奖励：本会员邀请其他会员销售产品获得的邀请奖励收益', '3.额外补贴：商家或平台额外奖励会员用户销售奖励'],
             ['1.费率收益：本会员所开拓商家，使用线下扫码支付时，所产生费率佣金', '2.预估订单收益：本会员拓展的商家，商家在平台销售卡券后（未使用和已使用订单），获得预估订单收益奖励', '3.广告收益：本会员因所拓展的商家展示商圈广告所获得的收益奖励'],
-            ['邀请运营中心收益:当前会员用户邀请运营中心入驻后，可获得额外运营中心 产生的收益奖励']
+            ['当前会员用户邀请运营中心入驻后，可获得额外运营中心 产生的收益奖励']
         ]
         this.setState({ tipsText: list[index], tipsTitle: titleList[index], tipsShow: true })
     }
@@ -153,10 +154,10 @@ export default class Member extends Component {
                         <View className="member-page-personal-row">
                             <View className="member-page-personal-title">{data.user_name}</View>
                             {
-                                data.grade == 5 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/hKJDb3t8CiJj5fmFzEY4FiNQzXEataPY.png" /> : (
-                                    data.grade == 6 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/CGcd64DyAJAnJk5kCFJERXMAGBPNPPzF.png" /> : (
-                                        data.grade == 7 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/2YxRmhGnap4ricS27GbTB4Tc8dY6bBPQ.png" /> : (
-                                            data.grade == 8 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/ETTnGxZk6FHaCPBDzaRSpdkjFGGSmpsb.png" /> : null
+                                data.grade_id == 5 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/CGcd64DyAJAnJk5kCFJERXMAGBPNPPzF.png" /> : (
+                                    data.grade_id == 6 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/hKJDb3t8CiJj5fmFzEY4FiNQzXEataPY.png" /> : (
+                                        data.grade_id == 7 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/2YxRmhGnap4ricS27GbTB4Tc8dY6bBPQ.png" /> : (
+                                            data.grade_id == 8 ? <Image className="member-page-personal-label" src="http://oss.tdianyi.com/front/ETTnGxZk6FHaCPBDzaRSpdkjFGGSmpsb.png" /> : null
                                         )
                                     )
                                 )
@@ -192,7 +193,9 @@ export default class Member extends Component {
 
                 <MemberTab title={'我的粉丝/店铺'} questionAction={this.showListInfo.bind(this, 0)} tabItem={list1} onAction={this.toFanData} />
                 <MemberTab title={'社群收益'} questionAction={this.showListInfo.bind(this, 1)} noMore={true} tabItem={list2} onAction={() => { }} />
-                <View className="member-page-sign" onClick={this.goto}>注册会员升级成为创客，赚取更多佣金</View>
+                {
+                    data.upgrade ? <View className="member-page-sign" onClick={this.goto}>{data.grade}升级成为{data.upgrade}，赚取更多佣金</View> : null
+                }
                 <MemberTab title={'邀请店铺收益'} questionAction={this.showListInfo.bind(this, 2)} noMore={true} tabItem={list3} onAction={() => { }} />
                 <View className="member-page-sign" onClick={this.goQRcode}>我的店铺邀请码，赚取更多额为奖励</View>
                 <MemberTab title={'邀请运营中心收益'} questionAction={this.showListInfo.bind(this, 3)} noMore={true} tabItem={list4} onAction={() => { }} />

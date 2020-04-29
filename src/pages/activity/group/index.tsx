@@ -63,6 +63,7 @@ export default class GroupActivity extends Component {
       image: "",
       images: [],
       brief: [],
+      commission: '',
       is_show_button: 0,
       list_brief: "",
       locate_match_row: "",
@@ -77,6 +78,7 @@ export default class GroupActivity extends Component {
       supplier_id: 0,
       team_set_end_time: '',
       tel: "",
+      user_info: '',
       xpoint: '',
       youhui_id: 0,//活动id
       youhui_name: "",//活动名
@@ -112,6 +114,7 @@ export default class GroupActivity extends Component {
       }
     },
     is_code: false, // 展示公众号二维码
+    is_level: false
   };
 
   componentDidMount() {
@@ -150,6 +153,14 @@ export default class GroupActivity extends Component {
         Taro.hideLoading();
         if (res.code == 200) {
           let isPostage = false;
+          if(res.data.user_info){
+            const {userGroupId} = res.data.user_info
+            if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
+              this.setState({is_level: true})
+            }else {
+              this.setState({is_level: false})
+            }
+          }
           if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
           let new_time = new Date().getTime()//ql
           res.data.activity_time_status == 3 ? this.setState({ allowGroup: '已结束' }) : null
@@ -555,7 +566,7 @@ export default class GroupActivity extends Component {
                 <View className="share-box">
                     <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
                 </View> */}
-        <View className="group-info-content">
+        {/* <View className="group-info-content">
           <View className="group-info-title">
             <View className="group-info-title-label">拼团券</View>
             <View className="group-info-title-text">{this.state.data.youhui_name}</View>
@@ -573,8 +584,8 @@ export default class GroupActivity extends Component {
             <View className="group-info-label-item">{this.state.data.number}人团</View>
             {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null}
           </View>
-        </View>
-        {/* <View className="group-info-content-member">
+        </View> */}
+        <View className="group-info-content-member">
           <View className="group-info-title">
             <View className="group-info-title-label">拼团券</View>
             <View className="group-info-title-text">{this.state.data.youhui_name}</View>
@@ -585,7 +596,11 @@ export default class GroupActivity extends Component {
               <View className="group-price-info-new">{this.state.data.participation_money}</View>
               <View className="group-price-info-old">门市价￥{this.state.data.pay_money}</View>
             </View>
-            <View className="group-price-discounts">升级会员可再省¥1.39</View>
+            {
+              this.state.is_level ? <View className="group-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="group-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
+            }
+
+
           </View>
           <View className="group-info-label">
             {this.state.data.supplier_delivery_id ? <View className="group-info-label-item">可配送</View> : null}
@@ -593,11 +608,11 @@ export default class GroupActivity extends Component {
             <View className="group-info-label-item">已优惠￥{accSubtr(Number(this.state.data.pay_money), Number(this.state.data.participation_money))}</View>
             {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null}
           </View>
-        </View> */}
+        </View>
 
         {/* 分享（发送图片链接等） */}
         <View className='syz-share-box'>
-          <Image className='share-item' src={require('@/assets/member/link.png')}  onClick={this.onShareAppMessage} />
+        <Button openType='share' className='share-item share-button' />
           <Image className='share-item' src={require('@/assets/member/img.png')}  onClick={this.onPreviewImage} />
           <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} />
         </View>
@@ -899,6 +914,9 @@ export default class GroupActivity extends Component {
           }}>
             <View className="group-buy-btn-group" >
             分享海报
+            {
+              this.state.is_level ?  <View className="group-buy-btn-groupnum" >佣金{this.state.data.commission}</View> : null
+            }
             </View>
             </View>
             {

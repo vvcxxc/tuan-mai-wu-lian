@@ -50,18 +50,18 @@ export default class Member extends Component {
       Taro.setStorageSync("oss_data", oss_data)
     })
 
-  }
-  /**
-   * is_first==0首次注册，无审核
-   * is_first==1
-   */
-  componentDidShow() {
+    // }
+    // /**
+    //  * is_first==0首次注册，无审核
+    //  * is_first==1
+    //  */
+    // componentDidShow() {
     Taro.showLoading({ title: 'loading', mask: true });
     getUserInfo().then((res: any) => {
       Taro.hideLoading();
       if (res.status_code == 200) {
         this.setState({ data: res.data, invitation_code: res.data.invitation_code })
-        if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.id) }
+        if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.community_examine_id) }
       } else {
         Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
       }
@@ -121,6 +121,14 @@ export default class Member extends Component {
     this.setState({ chooseImglist: templist });
   }
   sumbitImg = () => {
+    if (!this.state.chooseImglist.length) {
+      Taro.showToast({ title: '请上传图片', icon: 'none' });
+      return;
+    }
+    if (!this.state.invitation_code && this.state.data.is_invitation_code == 0) {
+      Taro.showToast({ title: '请填写邀请码', icon: 'none' });
+      return;
+    }
     Taro.showLoading({ title: 'loading', mask: true });
     let obj = this.state.data;
     let data = {
@@ -251,8 +259,8 @@ export default class Member extends Component {
                 <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/xGYed4pbwa54fDpeMiMBcJcYeDjrzJYy.png" />
                 <View className="in-the-review-text">审核失败</View>
                 <View className="in-the-review-text">很遗憾，当前审核失败</View>
-                <View className="in-the-review-text">您当前提交截图群人数角色，而且不满足拓客条件</View>
-                <View className="in-the-review-returnBtn" onClick={() => this.setState({ reUpload: false })}>重新提交</View>
+                <View className="in-the-review-text">{data.remarks}</View>
+                <View className="in-the-review-returnBtn" onClick={() => this.setState({ reUpload: true })}>重新提交</View>
                 <View className="in-the-review-againBtn" onClick={this.handleGoHome}>返回首页</View>
               </View>
             </View> : null

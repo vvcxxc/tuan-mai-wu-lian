@@ -1,6 +1,7 @@
 import Taro, { Component, Config } from "@tarojs/taro"
 import { View, Image, Text, Button } from "@tarojs/components"
 import request from '@/services/request'
+import UserRequest from '@/services/userRequest'
 import LoginAlert from '@/components/loginAlert';
 import { getUserInfo } from '@/utils/getInfo';
 import "./index.less"
@@ -93,6 +94,15 @@ export default class AppreActivity extends Component<Props> {
     request({
       url: 'v3/user/home_index'
     }).then((res: any) => {
+      if(res.data.mobile){
+        UserRequest({
+          url: 'v2/relation/user/create',
+          method: 'POST',
+          data: {
+            phone: res.data.mobile
+          }
+        })
+      }
       this.setState({
         userData: {
           head_img: res.data.avatar,

@@ -4,6 +4,7 @@ import './index.less';
 
 interface Props {
   textInfo: any;
+  level: number;
 }
 // const text = ['注册会员：通过产品或者平台链接进入平台，授权登录即成为注册会员', '建群：本人建立1个50人以上的微信群，截图人数页及群主页上传，审核通过即可成为创客', '同时满足以下3个条件：1. 建群：①本人所建立群人数达200人；②直属创客不低于5人，总创客数不低于20人2.拓展商家3家   3. 活跃值达到1000；活跃值：1元销售佣金=1个活跃值；活跃值构成：1.本人建群：200分封顶 2.直属创客建群：200分封顶/群', '1、推荐3名超级创客，拓展店铺5家 2、拓展5个群']
 export default class LevelShow extends Component<Props> {
@@ -11,6 +12,9 @@ export default class LevelShow extends Component<Props> {
     pageX: 0,
     index: 1, // 会员的index
     animationData: {}
+  }
+  componentDidMount(){
+    this.setState({index: this.props.level-3})
   }
 
   TouchStart = (e) => {

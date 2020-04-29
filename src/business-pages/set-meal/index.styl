@@ -286,7 +286,7 @@
             .appre-price-info {
                 display: flex;
                 flex-direction: row;
-                align-items: flex-end;
+                align-items: baseline;
                 justify-content: flex-start;
 
                 .appre-price-info-text {
@@ -363,6 +363,18 @@
     .share-item {
       width: 160px;
       height: 36px;
+    }
+    .share-button {
+      margin: 0;
+      width:161px;
+      height:36px;
+      border-radius:18px;
+      box-sizing: border-box;
+      background: url("http://oss.tdianyi.com/front/dXKaNK2ZXNcsDiXRnZM8ffNnYcGRNNtd.jpg");
+      background-size: 100%;
+    }
+    .share-button::after {
+      content: none
     }
   }
 
@@ -818,7 +830,7 @@
           justify-content: space-between;
           padding-left: 20px;
           .group-buy-icon-item {
-            width: 40px;
+            width: 45px;
             font-size: 20px;
             display: flex;
             align-items: center;
