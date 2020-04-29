@@ -14,7 +14,11 @@ export default class LevelShow extends Component<Props> {
     animationData: {}
   }
   componentDidMount(){
-    this.setState({index: this.props.level-3})
+    if(this.props.level == 8){
+      this.setState({index: 4})
+    }else {
+      this.setState({index: this.props.level-3})
+    }
   }
 
   TouchStart = (e) => {
