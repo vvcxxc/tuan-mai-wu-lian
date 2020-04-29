@@ -40,7 +40,7 @@ export  const tabList = [
     id: 8
   },
   {
-    name: '社区便民',
+    name: '小熊生鲜',
     id: 9
   },
 ]

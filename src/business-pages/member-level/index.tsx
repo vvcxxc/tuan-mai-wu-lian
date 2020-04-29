@@ -31,7 +31,7 @@ export default class MemberLevel extends Component {
     getUserGrade().then((res: any) => {
       Taro.hideLoading();
       if (res.status_code == 200) {
-        const width = Math.round(res.data.dynamic_value / res.data.dynamic_sum) || 0
+        const width = Math.round(res.data.dynamic_value / res.data.dynamic_sum * 100) || 0
         // const width = 100
         this.setState({ ...res.data, width })
       } else {

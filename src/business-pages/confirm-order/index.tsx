@@ -92,6 +92,7 @@ export default class ConfirmOrder extends Component {
         youhui_number: this.state.amount,
         type: "1",  //1 微信 2支付宝
         open_id: Taro.getStorageSync("openid"), //登录时获取设置本地缓存
+        invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
         // open_id: "oCRAS0aZJrVnuK3K-pw0b1AZslzM"
         // alipay_user_id: ""
       }

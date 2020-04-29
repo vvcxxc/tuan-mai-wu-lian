@@ -54,6 +54,7 @@ export default class distributionDetail extends Component {
         tipsMessage: ''
     }
     componentDidShow() {
+      console.log(this.$router.params.invitation_user_id,'333')
         let data;
         this.setState({ contentboxShow: false })
         let pages = Taro.getCurrentPages();
@@ -202,6 +203,7 @@ export default class distributionDetail extends Component {
             number: 1,
             open_id: Taro.getStorageSync("openid"),
             unionid: Taro.getStorageSync("unionid"),
+            invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
         };
         toWxPay(data).then((res: any) => {
             Taro.hideLoading();

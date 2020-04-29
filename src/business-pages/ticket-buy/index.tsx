@@ -192,8 +192,9 @@ export default class TicketBuy extends Component {
       if (this.state.coupon.limit_purchase_quantity && this.state.coupon.user_youhu_log_sum >= this.state.coupon.limit_purchase_quantity) {
         this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
       } else {
+        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '../../business-pages/confirm-order/index?id=' + id
+          url: '../../business-pages/confirm-order/index?id=' + id + invitation_user_id
         })
       }
     } else {
@@ -333,8 +334,13 @@ export default class TicketBuy extends Component {
               <View className="appre-price-info-old">门市价￥{this.state.coupon.return_money}</View>
             </View>
             {
+              this.state.coupon.commission ? <View>
+                {
               this.state.is_level ?  <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
             }
+              </View> : null
+            }
+
 
           </View>
           <View className="appre-info-label">
@@ -569,8 +575,13 @@ export default class TicketBuy extends Component {
           }}>
              分享海报
              {
+               this.state.coupon.commission ? <View>
+                  {
                this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
              }
+               </View> : null
+             }
+
 
           </View>
             {

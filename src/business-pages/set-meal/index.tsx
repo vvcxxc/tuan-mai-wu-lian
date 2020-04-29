@@ -141,8 +141,8 @@ export default class AppreActivity extends Component {
        */
   componentDidShow() {
     const { type_index_id } = Taro.getStorageSync('router');
-    console.log(type_index_id,'typeindex')
-    this.setState({type_index_id},()=>{
+    console.log(type_index_id, 'typeindex')
+    this.setState({ type_index_id }, () => {
       console.log(this.state.type_index_id)
     })
     let arrs = Taro.getCurrentPages()
@@ -198,8 +198,9 @@ export default class AppreActivity extends Component {
       if (this.state.coupon.limit_purchase_quantity && this.state.coupon.user_youhu_log_sum >= this.state.coupon.limit_purchase_quantity) {
         this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
       } else {
+        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '../../business-pages/coupon-distribution/index?id=' + id
+          url: '../../business-pages/coupon-distribution/index?id=' + id + invitation_user_id
         })
       }
     } else {
@@ -363,8 +364,13 @@ export default class AppreActivity extends Component {
               <View className="appre-price-info-old">门市价￥{this.state.coupon.return_money}</View>
             </View>
             {
+              this.state.coupon.commission ? <View>
+{
               this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
             }
+              </View> : null
+            }
+
           </View>
           <View className="appre-info-label">
             <View className='appre-info-label-item'>已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
@@ -628,9 +634,14 @@ export default class AppreActivity extends Component {
             }}
             >
               分享海报
-             {
+              {
+                this.state.coupon.commission ? <View>
+                   {
                 this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
               }
+                </View> : null
+              }
+
             </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
