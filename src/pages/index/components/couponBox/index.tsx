@@ -49,6 +49,7 @@ export default class CouponBox extends Component<Props> {
   }
 
   goto = () => {
+    console.log(this.props.userGroupId)
     if(this.props.userGroupId == 5){
       Taro.navigateTo({
         url: '/business-pages/membership-upgrade/index'
@@ -99,7 +100,7 @@ export default class CouponBox extends Component<Props> {
 
           </View>
           {
-            is_level ? <View className='coupon-button1'>立即推广</View> : <View className='coupon-button'>抢购</View>
+            is_level ? <View className='coupon-button1'>立即推广</View> : <View className='coupon-button1'>立即抢购</View>
           }
 
 
