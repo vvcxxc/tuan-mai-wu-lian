@@ -61,8 +61,8 @@ export default class MemberLevel extends Component {
           <View className='name'>
             {this.state.user_name}
             {
-              user_group == 5 ? <Image className="header-icon" src="http://oss.tdianyi.com/front/hKJDb3t8CiJj5fmFzEY4FiNQzXEataPY.png" /> : (
-                user_group == 6 ? <Image className="header-icon" src="http://oss.tdianyi.com/front/CGcd64DyAJAnJk5kCFJERXMAGBPNPPzF.png" /> : (
+              user_group == 5 ? <Image className="header-icon" src="http://oss.tdianyi.com/front/CGcd64DyAJAnJk5kCFJERXMAGBPNPPzF.png" /> : (
+                user_group == 6 ? <Image className="header-icon" src="http://oss.tdianyi.com/front/hKJDb3t8CiJj5fmFzEY4FiNQzXEataPY.png" /> : (
                   user_group == 7 ? <Image className="header-icon" src="http://oss.tdianyi.com/front/2YxRmhGnap4ricS27GbTB4Tc8dY6bBPQ.png" /> : (
                     user_group == 8 ? <Image className="header-icon" src="http://oss.tdianyi.com/front/ETTnGxZk6FHaCPBDzaRSpdkjFGGSmpsb.png" /> : null
                   )
