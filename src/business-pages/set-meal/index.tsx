@@ -141,8 +141,8 @@ export default class AppreActivity extends Component {
        */
   componentDidShow() {
     const { type_index_id } = Taro.getStorageSync('router');
-    console.log(type_index_id,'typeindex')
-    this.setState({type_index_id},()=>{
+    console.log(type_index_id, 'typeindex')
+    this.setState({ type_index_id }, () => {
       console.log(this.state.type_index_id)
     })
     let arrs = Taro.getCurrentPages()
@@ -198,8 +198,9 @@ export default class AppreActivity extends Component {
       if (this.state.coupon.limit_purchase_quantity && this.state.coupon.user_youhu_log_sum >= this.state.coupon.limit_purchase_quantity) {
         this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
       } else {
+        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '../../business-pages/coupon-distribution/index?id=' + id
+          url: '../../business-pages/coupon-distribution/index?id=' + id + invitation_user_id
         })
       }
     } else {

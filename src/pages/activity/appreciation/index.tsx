@@ -145,12 +145,12 @@ export default class AppreActivity extends Component {
       .then((res: any) => {
         Taro.hideLoading();
         if (res.code == 200) {
-          if(res.data.user_info){
-            const {userGroupId} = res.data.user_info
-            if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
-              this.setState({is_level: true})
-            }else {
-              this.setState({is_level: false})
+          if (res.data.user_info) {
+            const { userGroupId } = res.data.user_info
+            if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+              this.setState({ is_level: true })
+            } else {
+              this.setState({ is_level: false })
             }
           }
           let isPostage = false;
@@ -174,8 +174,9 @@ export default class AppreActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       if (this.state.data.gift_id) {
+        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.location_name)
+          url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.location_name) + invitation_user_id
         })
       } else {
         this.payment()
@@ -197,7 +198,8 @@ export default class AppreActivity extends Component {
       open_id: Taro.getStorageSync("openid"),
       unionid: Taro.getStorageSync("unionid"),
       type: "1",
-      xcx: 1
+      xcx: 1,
+      invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
     }
     wxXcxuWechatPay(datas).then((res: any) => {
       Taro.hideLoading();
@@ -314,19 +316,19 @@ export default class AppreActivity extends Component {
   /**
  * 去店铺
  */
-handleGoStore = () => {
-  Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.data.store_id })
-}
+  handleGoStore = () => {
+    Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.data.store_id })
+  }
 
- //    保存二维码
- saveCode = () => {
-  const img = require('@/assets/member/code.jpg')
-  Taro.saveImageToPhotosAlbum({
-    filePath: img,
-  }).then(res => {
-    Taro.showToast({title: '保存成功'})
-  })
-}
+  //    保存二维码
+  saveCode = () => {
+    const img = require('@/assets/member/code.jpg')
+    Taro.saveImageToPhotosAlbum({
+      filePath: img,
+    }).then(res => {
+      Taro.showToast({ title: '保存成功' })
+    })
+  }
 
   render() {
     const { images, description } = this.state.data;
@@ -414,7 +416,7 @@ handleGoStore = () => {
 
         {/* 分享（发送图片链接等） */}
         <View className='syz-share-box'>
-        <Button openType='share' className='share-item share-button' />
+          <Button openType='share' className='share-item share-button' />
           <Image className='share-item' src={require('@/assets/member/img.png')} onClick={this.onPreviewImage} />
           {/* <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} /> */}
         </View>
@@ -530,21 +532,21 @@ handleGoStore = () => {
               <Image src={require('@/assets/member/store.png')} />
               进店
             </View>
-            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+            <View className='group-buy-icon-item' onClick={() => this.setState({ is_code: true })}>
               <Image src={require('@/assets/member/service.png')} />
               客服
             </View>
           </View>
           <View className="appre-buy-btn-box" >
             <View className="appre-buy-btn-left" onClick={() => {
-            this.setState({ showPoster: true })
-          }}>
-            分享海报
+              this.setState({ showPoster: true })
+            }}>
+              分享海报
             {
-              this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥1.39</View> : null
-            }
+                this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥1.39</View> : null
+              }
 
-          </View>
+            </View>
             {
               this.state.data.publish_wait != 1 || this.state.data.total_num == 0 || this.state.data.activity_time_status == 3 ? (
                 <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
@@ -558,19 +560,19 @@ handleGoStore = () => {
         </View>
 
         {
-        this.state.is_code ? (
-          <View className="tips-mask">
-          <View className='code-content'>
-            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
-            <View className='code-text'>
-            点击保存二维码关注小熊敬礼公众号即可联系客服
+          this.state.is_code ? (
+            <View className="tips-mask">
+              <View className='code-content'>
+                <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+                <View className='code-text'>
+                  点击保存二维码关注小熊敬礼公众号即可联系客服
             </View>
-            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
-            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
-          </View>
-        </View>
-        ) : null
-      }
+                <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+                <Image className='code-close' onClick={() => this.setState({ is_code: false })} src={require('@/assets/member/close.png')} />
+              </View>
+            </View>
+          ) : null
+        }
 
         {
           this.state.is_alert ? <LoginAlert onChange={this.loginChange} /> : null

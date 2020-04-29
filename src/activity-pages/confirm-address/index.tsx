@@ -238,7 +238,8 @@ export default class confirmAddress extends Component {
                     open_id: open_id,
                     unionid: unionid,
                     type: 1,// 微信1 支付宝2
-                    xcx: 1
+                    xcx: 1,
+                    invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
                 }
             } else {
                 data = {
@@ -247,7 +248,8 @@ export default class confirmAddress extends Component {
                     open_id: open_id,
                     unionid: unionid,
                     type: 1,
-                    xcx: 1
+                    xcx: 1,
+                    invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
                 }
             }
             request({
@@ -308,7 +310,8 @@ export default class confirmAddress extends Component {
                     unionid: unionid,
                     type: this.state.activityType,//5开团 55拼团
                     xcx: 1,
-                    number: 1
+                    number: 1,
+                    invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
                 }
             } else {
                 data = {
@@ -318,7 +321,8 @@ export default class confirmAddress extends Component {
                     unionid: unionid,
                     type: this.state.activityType,
                     xcx: 1,
-                    number: 1
+                    number: 1,
+                    invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
                 }
             }
             request({
@@ -378,7 +382,8 @@ export default class confirmAddress extends Component {
                     unionid: unionid,
                     type: this.state.activityType,
                     xcx: 1,
-                    number: 1
+                    number: 1,
+                    invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
                 }
             } else {
                 data = {
@@ -388,7 +393,8 @@ export default class confirmAddress extends Component {
                     unionid: unionid,
                     type: this.state.activityType,
                     xcx: 1,
-                    number: 1
+                    number: 1,
+                    invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
                 }
             }
             request({
