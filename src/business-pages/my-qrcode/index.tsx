@@ -83,8 +83,12 @@ export default class MyQRCode extends Component {
         </View>
 
         <View className="code-desc">
-          <View className="desc_title">邀请店铺入驻可获得以下收益：</View>
+          <View className="desc_title">如何邀请店铺入驻小熊敬礼平台：</View>
           <View className="desc_info">
+          <View className="item">1.展示以上二维码，商家用微信扫码即可进行自动入驻</View>
+          </View>
+          <View className="desc_title">邀请店铺入驻可获得以下收益：</View>
+          <View className="desc_info" style={{marginBottom: 0}}>
             <View className="item">1.订单收益：入驻店铺通过小熊敬礼平台所达成的商品、卡券等销售，邀请人均可获得佣金，佣金比例为创客分享该产品所获销售收益的40%；</View>
             <View className="item">2.直属店铺广告收益分佣；</View>
             <View className="item">3.直属店铺线下扫码支付费率收益分佣</View>
