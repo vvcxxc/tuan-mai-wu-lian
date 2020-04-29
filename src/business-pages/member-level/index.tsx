@@ -106,7 +106,7 @@ export default class MemberLevel extends Component {
             <View className='mark'>
               <View className='mark-main'>
                 <View className='title'>什么是活跃值</View>
-                <View className='text'>近30天，本人销售产品的佣金加上所有直推创客产品销售佣金，按产品销售佣金1元等于1个活跃值</View>
+                <View className='text'>近30天，本人销售产品的佣金加上 所有直推创客销售产品佣金，按产 品销售佣金1元等于1个活跃值计算</View>
                 <View className='button' onClick={() => this.setState({ show: false })}>
                   确定
                 </View>

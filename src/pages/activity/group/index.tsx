@@ -320,6 +320,7 @@ export default class GroupActivity extends Component {
         Taro.showToast({ title: res.message, icon: 'none' })
       }
     }).catch(err => {
+      Taro.hideLoading();
       Taro.showToast({ title: '调起支付失败', icon: 'none' })
     })
   }
@@ -363,6 +364,7 @@ export default class GroupActivity extends Component {
         Taro.showToast({ title: res.message, icon: 'none' })
       }
     }).catch(err => {
+      Taro.hideLoading();
       Taro.showToast({ title: '调起支付失败', icon: 'none' })
     })
   }

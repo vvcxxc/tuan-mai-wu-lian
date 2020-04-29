@@ -79,9 +79,7 @@ export default class ConfirmOrder extends Component {
       this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
       return;
     }
-    Taro.showLoading({
-      title: 'loading',
-    })
+    Taro.showLoading({ title: 'loading', mask: true })
     //请求支付属性
     request({
       url: 'api/wap/coupon/wxWechatPay',
@@ -122,7 +120,11 @@ export default class ConfirmOrder extends Component {
           this.setState({ tipsMessage: res.message })
           // Taro.showToast({ title: res.message, icon: 'none' })
         }
-      });
+      })
+      .catch(err => {
+        Taro.hideLoading();
+        Taro.showToast({ title: '支付失败', icon: 'none' })
+      })
   }
 
 

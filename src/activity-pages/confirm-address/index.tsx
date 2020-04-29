@@ -223,6 +223,7 @@ export default class confirmAddress extends Component {
             this.setState({ contentboxShow: true })
             return;
         }
+        Taro.showLoading({ title: '', mask: true });
         let that = this;
         let data = {};
         let interval;
@@ -299,6 +300,10 @@ export default class confirmAddress extends Component {
                     // Taro.showToast({ title: res.message, icon: 'none' })
                 }
             })
+                .catch(err => {
+                    Taro.hideLoading();
+                    Taro.showToast({ title: '支付失败', icon: 'none' })
+                })
         } else if (this.state.activityType == '5') {
             //5开团
             if (this.state.giftChoice && this.state.data.youhui.gift_id) {
@@ -371,6 +376,10 @@ export default class confirmAddress extends Component {
                     // Taro.showToast({ title: res.message, icon: 'none' })
                 }
             })
+                .catch(err => {
+                    Taro.hideLoading();
+                    Taro.showToast({ title: '支付失败', icon: 'none' })
+                })
         } else if (this.state.activityType == '55') {
             //55参团
             if (this.state.giftChoice && this.state.data.youhui.gift_id) {
@@ -425,6 +434,10 @@ export default class confirmAddress extends Component {
                     // Taro.showToast({ title: res.message, icon: 'none' })
                 }
             })
+                .catch(err => {
+                    Taro.hideLoading();
+                    Taro.showToast({ title: '支付失败', icon: 'none' })
+                })
         } else {
             console.log('不知道啥子类型')
             return;
