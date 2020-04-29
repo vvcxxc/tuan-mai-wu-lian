@@ -135,10 +135,10 @@ export default class Member extends Component {
     showListInfo = (index: number) => {
         let titleList = ['我的粉丝/店铺', '社群收益', '邀请店铺收益', '邀请运营中心收益']
         let list = [
-            ['我的粉丝/店铺：本会员邀请用户、店铺数量总计'],
+            ['本会员邀请用户、店铺数量总计'],
             ['1.预估销售收益：本会员销售产品获得的收益（包括已核销产品及未核销产品的佣金收益）', '2.预估平台奖励：本会员邀请其他会员销售产品获得的邀请奖励收益', '3.额外补贴：商家或平台额外奖励会员用户销售奖励'],
             ['1.费率收益：本会员所开拓商家，使用线下扫码支付时，所产生费率佣金', '2.预估订单收益：本会员拓展的商家，商家在平台销售卡券后（未使用和已使用订单），获得预估订单收益奖励', '3.广告收益：本会员因所拓展的商家展示商圈广告所获得的收益奖励'],
-            ['邀请运营中心收益:当前会员用户邀请运营中心入驻后，可获得额外运营中心 产生的收益奖励']
+            ['当前会员用户邀请运营中心入驻后，可获得额外运营中心 产生的收益奖励']
         ]
         this.setState({ tipsText: list[index], tipsTitle: titleList[index], tipsShow: true })
     }
@@ -163,10 +163,12 @@ export default class Member extends Component {
                                 )
                             }
                         </View>
-                        <View className="member-page-personal-row" onClick={this.copyBtn}>
-                            <View className="member-page-personal-item">邀请码：{data.invitation_code}</View>
-                            <View className="member-page-personal-item-copy">复制</View>
-                        </View>
+                        {
+                            data.grade_id != 5 ? <View className="member-page-personal-row" onClick={this.copyBtn}>
+                                <View className="member-page-personal-item">邀请码：{data.invitation_code}</View>
+                                <View className="member-page-personal-item-copy">复制</View>
+                            </View> : null
+                        }
                     </View>
                 </View>
                 <View className="member-page-activeValue">活跃值:{data.active_value}</View>
