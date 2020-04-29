@@ -97,7 +97,7 @@ export default class MemberLevel extends Component {
             </View>
           </View>
           {
-            grade.length ? <LevelShow textInfo={this.state.grade} /> : null
+            grade.length ? <LevelShow textInfo={this.state.grade} level={user_group} /> : null
           }
 
         </View>
