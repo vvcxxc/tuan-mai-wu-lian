@@ -68,6 +68,7 @@ export default class CouponBox extends Component<Props> {
       <View className='coupon-box' onClick={this.handleClick.bind(this, item)}>
         <Image className='coupon-img' src={'http://oss.tdianyi.com/' + item.icon} />
         <View className='coupon-detail'>
+          <View>
           <View className='coupon-title'>
             <View className='coupon-type'>
               {this.couponType(item)}
@@ -77,6 +78,8 @@ export default class CouponBox extends Component<Props> {
             </Text>
           </View>
           <View className='coupon-validity'>有效期：{item.expire_day}天有效</View>
+          </View>
+
           <View className='money-box'>
             <View className='store-money-box'>
               门市价￥{item.return_money}
@@ -86,6 +89,8 @@ export default class CouponBox extends Component<Props> {
               <View className='member-money'>{item.is_share == 5 ? item.participation_money : item.pay_money}</View>
             </View>
             {
+              item.commission ? <View>
+                {
               is_level ? (
                 <View className='member-label1'>
               分享可得佣金￥{item.commission}
@@ -96,6 +101,8 @@ export default class CouponBox extends Component<Props> {
                 <Image className='goto' src={require('@/assets/index/go-to.png')} />
               </View>
               )
+            }
+              </View> : null
             }
 
           </View>

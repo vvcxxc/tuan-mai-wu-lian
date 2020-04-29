@@ -1,6 +1,6 @@
 .coupon-box
   width 100%
-  height 276px
+  height auto
   background: #ffffff
   border-radius: 16px
   padding: 30px
@@ -15,6 +15,9 @@
   .coupon-detail
     flex: 1
     position relative
+    display: flex
+    flex-direction: column
+    justify-content: space-between
     .coupon-title
       width 100%
       // max-height: 61px
@@ -23,6 +26,7 @@
       position: relative
       overflow : hidden
       text-overflow: ellipsis
+      line-height: 1.2
       display: -webkit-box
       -webkit-line-clamp: 2
       -webkit-box-orient: vertical
@@ -42,41 +46,18 @@
       color: #999999
       margin-top: 10px
       line-height: 1
-    // .coupon-label
-    //   height:34px
-    //   background:rgba(254,246,246,1)
-    //   border:1px solid rgba(255,68,68,1)
-    //   border-radius:17px
-    //   padding: 0 18px
-    //   display: flex
-    //   align-items: center
-    //   display inline-block
-    //   font-size: 20px
-    //   color: #ff4444
-    //   font-weight: bold
-    //   box-sizing: border-box
-    // .coupon-money
-    //   position: absolute
-    //   bottom: 0
-    //   left 0
-    //   color: #ff4444
-    //   font-size: 20px
-    //   .new-money
-    //     font-weight: bold
-    //     font-size: 32px
-    //     margin-right: 12px
-    //   .old-money
-    //     color #999999
-    //     text-decoration:line-through;
     .money-box
-      position: absolute
-      bottom: 0
+      // position: absolute
+      // bottom: 0
+      width 100%
+      display: flex
+      flex-direction: column
+      align-items: flex-start
       .store-money-box
         display: flex
         align-items: baseline
         font-size: 20px
         color #999
-        line-height: 1
       .member-box
         display: flex
         align-items: baseline
@@ -90,14 +71,17 @@
           font-weight: bold
           line-height: 1
       .member-label
-        width auto
+        // width auto
         height 39px
         display: flex
+        flex-direction: row
         padding: 0 13px
         background: #333433
         color: #EDD1A6
         font-size: 20px
         align-items: center
+        justify-content: center
+        line-height 1
         border-radius: 20px
         margin-top: 13px
         .goto

@@ -114,12 +114,11 @@ export default class GroupActivity extends Component {
       }
     },
     is_code: false, // 展示公众号二维码
-    is_level: false
+    is_level: false,
   };
 
   componentDidMount() {
-    // console.log(this.$router.params.id, 'this.$router.params.id')
-    this.setState({ securityPoster: true })
+    this.setState({ securityPoster: true,})
     this.getPostList()
   }
 
@@ -238,15 +237,16 @@ export default class GroupActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
+        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         if (this.$router.params.type == '5') {
           //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
           Taro.navigateTo({
-            url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.name)
+            url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.name) + invitation_user_id
           })
         } else if (this.$router.params.type == '55') {
           //打开分享链接进入参团，接口的youhui_id为活动id，路由过来的id为团id
           Taro.navigateTo({
-            url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + encodeURIComponent(this.state.data.name)
+            url: '/activity-pages/group-distribution/index?activityType=' + this.$router.params.type + '&id=' + this.$router.params.id + '&groupId=' + this.$router.params.publictypeid + '&storeName=' + encodeURIComponent(this.state.data.name) + invitation_user_id
           })
         }
       } else {
@@ -264,8 +264,9 @@ export default class GroupActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
+        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '/activity-pages/group-distribution/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name)
+          url: '/activity-pages/group-distribution/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name) + invitation_user_id
         })
       } else {
         this.groupPayment(_id);
@@ -290,7 +291,8 @@ export default class GroupActivity extends Component {
       unionid: Taro.getStorageSync("unionid"),
       type: this.$router.params.type,
       xcx: 1,
-      number: 1
+      number: 1,
+      invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
     }
     toWxPay(datas).then((res: any) => {
       Taro.hideLoading();
@@ -336,7 +338,8 @@ export default class GroupActivity extends Component {
       unionid: Taro.getStorageSync("unionid"),
       type: 55,
       xcx: 1,
-      number: 1
+      number: 1,
+      invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
     };
     toWxPay(datas).then((res: any) => {
       Taro.hideLoading();

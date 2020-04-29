@@ -139,7 +139,7 @@ export default class Member extends Component {
                         <View style={{ opacity: this.state.fanTabIndex == 1 ? 1 : 0 }} className="fan-data-page-tabBar-item-lines"> </View>
                     </View>
                     <View className="fan-data-page-tabBar-item" onClick={this.changeTab.bind(this, 2)}>
-                        <View className={this.state.fanTabIndex == 2 ? "fan-data-page-tabBar-item-words-select" : "fan-data-page-tabBar-item-words"}>总创客</View>
+                        <View className={this.state.fanTabIndex == 2 ? "fan-data-page-tabBar-item-words-select" : "fan-data-page-tabBar-item-words"}>创客总数</View>
                         <View style={{ opacity: this.state.fanTabIndex == 2 ? 1 : 0 }} className="fan-data-page-tabBar-item-lines"> </View>
                     </View>
                     <View className="fan-data-page-tabBar-item" onClick={this.changeTab.bind(this, 3)}>
