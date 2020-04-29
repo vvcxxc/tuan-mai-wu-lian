@@ -87,7 +87,7 @@ export default class MyQRCode extends Component {
         <View className="code-desc">
           <View className="desc_title">如何邀请店铺入驻小熊敬礼平台：</View>
           <View className="desc_info">
-          <View className="item">1.展示以上二维码，商家用微信扫码即可进行自动入驻</View>
+          <View className="item">1.展示以上二维码，商家用微信扫码即可进行自助进驻</View>
           </View>
           <View className="desc_title">邀请店铺入驻可获得以下收益：</View>
           <View className="desc_info" style={{marginBottom: 0}}>
