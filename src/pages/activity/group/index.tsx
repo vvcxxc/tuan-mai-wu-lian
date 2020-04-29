@@ -600,8 +600,13 @@ export default class GroupActivity extends Component {
               <View className="group-price-info-old">门市价￥{this.state.data.pay_money}</View>
             </View>
             {
+              this.state.data.commission ? <View>
+                {
               this.state.is_level ? <View className="group-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="group-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
             }
+              </View> : null
+            }
+
 
 
           </View>
@@ -918,8 +923,13 @@ export default class GroupActivity extends Component {
             <View className="group-buy-btn-group" >
             分享海报
             {
+              this.state.data.commission ? <View>
+                {
               this.state.is_level ?  <View className="group-buy-btn-groupnum" >佣金{this.state.data.commission}</View> : null
             }
+              </View> : null
+            }
+
             </View>
             </View>
             {

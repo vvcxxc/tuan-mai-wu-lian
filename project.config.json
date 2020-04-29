@@ -135,10 +135,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 12,
 					"name": "business-pages/ticket-buy/index",
 					"pathName": "business-pages/ticket-buy/index",
-					"query": "id=6066&__key_=15879726890553",
+					"query": "id=6066&__key_=15881453480142& invitation_user_id=36883",
 					"scene": null
 				},
 				{
