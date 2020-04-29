@@ -181,6 +181,7 @@ export default class distributionDetail extends Component {
             address_id: this.state.address && this.state.address.id ? this.state.address.id : undefined,
             open_id: Taro.getStorageSync("openid"),
             unionid: Taro.getStorageSync("unionid"),
+            invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
         }
         wxWechatPay(datas)
             .then((res: any) => {
