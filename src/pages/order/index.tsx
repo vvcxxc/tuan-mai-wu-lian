@@ -156,7 +156,12 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-          let temp = this.state.coupon1.concat(res.data);
+          let temp = []
+          if(this.state.page1 == 1){
+            temp = res.data
+          }else {
+            temp = this.state.coupon1.concat(res.data);
+          }
           console.log(temp.length)
           this.setState({ coupon: temp, coupon1: temp, page1: this.state.page1 + 1 }, () => {
             // if (this.state.page1 >= res.last_page) {
@@ -182,7 +187,12 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-          let temp = this.state.coupon2.concat(res.data);
+          let temp = []
+          if(this.state.page2 == 1){
+            temp = res.data
+          }else {
+            temp = this.state.coupon2.concat(res.data);
+          }
           this.setState({ coupon: temp, coupon2: temp, page2: this.state.page2 + 1 }, () => {
             // if (this.state.page2 >= res.last_page) {
             //   this.setState({ lengthbull2: false });
@@ -210,7 +220,12 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-          let temp = this.state.coupon3.concat(res.data);
+          let temp = []
+          if(this.state.page3 == 1){
+            temp = res.data
+          }else {
+            temp = this.state.coupon3.concat(res.data);
+          }
           this.setState({ coupon: temp, coupon3: temp, page3: this.state.page3 + 1 }, () => {
             // if (this.state.page3 >= res.last_page) {
             //   this.setState({ lengthbull3: false });
@@ -238,7 +253,12 @@ export default class Order extends Component {
         }
       })
         .then((res: any) => {
-          let temp = this.state.coupon4.concat(res.data);
+          let temp = []
+          if(this.state.page4 == 1){
+            temp = res.data
+          }else {
+            temp = this.state.coupon4.concat(res.data);
+          }
           this.setState({ coupon: temp, coupon4: temp, page4: this.state.page4 + 1 }, () => {
             // if (this.state.page4 >= res.last_page) {
             //   this.setState({ lengthbull4: false });
