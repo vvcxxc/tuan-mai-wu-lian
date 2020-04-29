@@ -124,7 +124,7 @@
 					"id": 10,
 					"name": "pages/activity/group/index",
 					"pathName": "pages/activity/group/index",
-					"query": "id=6165&type=5&gift_id=90&activity_id=2423&invitation_user_id=36883",
+					"query": "id=6163&type=5&gift_id=0&activity_id=2421&invitation_user_id=36896",
 					"scene": null
 				},
 				{
@@ -146,6 +146,20 @@
 					"name": "business-pages/set-meal/index",
 					"pathName": "business-pages/set-meal/index",
 					"query": "id=6100&__key_=15879768270372",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/fan-data/index",
+					"pathName": "business-pages/fan-data/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/fan-data/index",
+					"pathName": "business-pages/fan-data/index",
+					"query": "",
 					"scene": null
 				}
 			]

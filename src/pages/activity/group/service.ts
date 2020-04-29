@@ -9,7 +9,7 @@ export const getGroupYouhuiInfo = (data: object) =>
         method: "GET",
         data
     })
-    
+
 /**
 *  拼团活动拼团列表信息
 */
@@ -25,7 +25,7 @@ export const getGroupbuyings = (data: object) =>
 */
 export const getShareSign = (data: object) =>
 request({
-    url: 'http://api.supplier.tdianyi.com/wechat/getShareSign',
+    url: 'https://api.supplier.tdianyi.com/wechat/getShareSign',
     method: "GET",
     data
 })

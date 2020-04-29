@@ -9,13 +9,13 @@ export const getYouhuiAppreciationInfo = (data: object) =>
         method: "GET",
         data
     })
-    
+
 /**
 *  微信配置
 */
 export const getShareSign = (data: object) =>
     request({
-        url: 'http://api.supplier.tdianyi.com/wechat/getShareSign',
+        url: 'https://api.supplier.tdianyi.com/wechat/getShareSign',
         method: "GET",
         data
     })

@@ -38,12 +38,13 @@ export default class Member extends Component {
     changeTab = (index, e) => {
         console.log(e)
         this.setState({ fanTabIndex: index, showList: this.state.dataList[index] }, () => {
+          console.log(this.state.pageList[0],'this.state.pageList[0]')
             if (index == 0 && this.state.dataList[0].length == 0) {
                 this.getList(1, this.state.pageList[0], 0)
             } else if (index == 1 && this.state.dataList[1].length == 0) {
-                this.getList(2, this.state.pageList[0], 1)
+                this.getList(2, this.state.pageList[1], 1)
             } else if (index == 2 && this.state.dataList[2].length == 0) {
-                this.getList(3, this.state.pageList[0], 2)
+                this.getList(3, this.state.pageList[2], 2)
             } else if (index == 3) {
                 this.getStore();
             }
@@ -66,8 +67,10 @@ export default class Member extends Component {
         let that = this;
         let mobile = Taro.getStorageSync('mobile');
         if (this.state.pageTotalList[index] > 1 && this.state.pageTotalList[index] < page) {
+          console.log(43434)
             return
         }
+
         Taro.showLoading({ title: 'loading', mask: true });
         getRelationChain({
             phone: mobile,

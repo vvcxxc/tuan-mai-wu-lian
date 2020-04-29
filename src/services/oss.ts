@@ -58,7 +58,7 @@ export default async function upload(files: any) {
             /**获取oss */
             Taro.request(
                 {
-                    url: 'http://api.supplier.tdianyi.com/api/v2/up',
+                    url: 'https://api.supplier.tdianyi.com/api/v2/up',
                     method: "GET",
                 }
             ).then(res => {

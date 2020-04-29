@@ -28,12 +28,14 @@ export default class Member extends Component {
     invitation_code: '',
     chooseImglist: [],
     tipsShow: false,
-    reUpload: false//审核失败层显示隐藏
+    reUpload: false,//审核失败层显示隐藏
+    error: '',
+    show_err: false
   }
   componentDidMount() {
     Taro.request(
       {
-        url: 'http://api.supplier.tdianyi.com/api/v2/up',
+        url: 'https://api.supplier.tdianyi.com/api/v2/up',
         method: "GET",
       }
     ).then(res => {
@@ -150,7 +152,8 @@ export default class Member extends Component {
           })
         }, 1500)
       } else {
-        Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
+        this.setState({error: res.message, show_err: true})
+        // Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
       }
     }).catch(err => {
       Taro.hideLoading();
@@ -158,7 +161,7 @@ export default class Member extends Component {
     })
   }
   render() {
-    const { chooseImglist, data } = this.state;
+    const { chooseImglist, data, error, show_err } = this.state;
     return (
       <View className="membership-upgrade">
         <View className="member-upgrade-content">
@@ -271,6 +274,15 @@ export default class Member extends Component {
               <View className='title'>如何填写邀请码</View>
               <View className='text'>请填写获得的邀请码或 手机号码/跳过</View>
               <View className='button' onClick={() => this.setState({ tipsShow: false })}>确定</View>
+            </View>
+          </View> : null
+        }
+        {
+          show_err ? <View className='mark'>
+            <View className='mark-main'>
+              <View className='title'>提交失败</View>
+              <View className='text'>{error}</View>
+              <View className='button' onClick={() => this.setState({ show_err: false })}>确定</View>
             </View>
           </View> : null
         }
