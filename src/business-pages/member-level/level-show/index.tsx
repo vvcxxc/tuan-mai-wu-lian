@@ -14,7 +14,7 @@ export default class LevelShow extends Component<Props> {
     animationData: {}
   }
   componentDidMount(){
-    console.log(this.props.level,'level')
+    this.setState({index: this.props.level-3})
   }
 
   TouchStart = (e) => {
@@ -95,7 +95,6 @@ export default class LevelShow extends Component<Props> {
 
   render() {
     const { index } = this.state
-    const { level } = this.props
     return (
       <View className='show-box'>
         <View className='level-main'>
@@ -105,24 +104,24 @@ export default class LevelShow extends Component<Props> {
               <View>注册会员</View>
             </View>
             <View className='level-item item2' onClick={this.handleClick.bind(this, 2)}>
-              <Image className='item-img' src={(level-3) == 2 ? require('@/assets/member/2.png') : require('@/assets/member/6.png')} />
+              <Image className='item-img' src={index == 2 ? require('@/assets/member/2.png') : require('@/assets/member/6.png')} />
               <View>普通创客</View>
             </View>
             <View className='level-item item3' onClick={this.handleClick.bind(this, 3)}>
-              <Image className='item-img' src={(level-3) == 3 ? require('@/assets/member/3.png') : require('@/assets/member/7.png')} />
+              <Image className='item-img' src={index == 3 ? require('@/assets/member/3.png') : require('@/assets/member/7.png')} />
               <View>超级创客</View>
             </View>
             <View className='level-item item4' onClick={this.handleClick.bind(this, 4)}>
-              <Image className='item-img' src={(level-3) == 4 ? require('@/assets/member/4.png') : require('@/assets/member/8.png')} />
+              <Image className='item-img' src={index == 4 ? require('@/assets/member/4.png') : require('@/assets/member/8.png')} />
               <View>合伙人</View>
             </View>
           </View>
         </View>
-        <View className={`level-details details${(level-3)}`} onTouchStart={this.TouchStart} onTouchEnd={this.TouchEnd} animation={this.state.animationData}>
-          <View className={`triangle${(level-3)}`}></View>
+        <View className={`level-details details${index}`} onTouchStart={this.TouchStart} onTouchEnd={this.TouchEnd} animation={this.state.animationData}>
+          <View className={`triangle${index}`}></View>
           <View className='title'>晋升任务</View>
           <View className='text'>
-            {this.props.textInfo[(level-3)]}
+            {this.props.textInfo[index - 1]}
           </View>
         </View>
       </View>
