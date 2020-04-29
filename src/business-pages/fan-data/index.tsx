@@ -213,7 +213,7 @@ export default class Member extends Component {
                                         </View>
                                         <View className="fan-data-member-item">
                                             <View className="fan-data-member-key">注册时间：</View>
-                                            <View className="fan-data-member-words">{item.registerTime}</View>
+                                            <View className="fan-data-member-words">{item.created_at}</View>
                                         </View>
                                         <View className="fan-data-member-item">
                                             <View className="fan-data-member-key">总销售收益：</View>
