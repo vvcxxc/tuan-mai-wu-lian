@@ -164,7 +164,7 @@ export default class Member extends Component {
                             }
                         </View>
                         {
-                            data.grade_id != 5 ? <View className="member-page-personal-row" onClick={this.copyBtn}>
+                            data.grade_id != 5 ? <View className="member-page-personal-row member-page-personal-bottom" onClick={this.copyBtn}>
                                 <View className="member-page-personal-item">邀请码：{data.invitation_code}</View>
                                 <View className="member-page-personal-item-copy">复制</View>
                             </View> : null
