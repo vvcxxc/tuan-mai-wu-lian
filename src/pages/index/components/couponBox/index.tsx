@@ -48,7 +48,7 @@ export default class CouponBox extends Component<Props> {
 
   }
 
-  goto = () => {
+  goto = (e: any) => {
     console.log(this.props.userGroupId)
     if(this.props.userGroupId == 5){
       Taro.navigateTo({
@@ -59,6 +59,7 @@ export default class CouponBox extends Component<Props> {
         url: '/pages/auth/index'
       })
     }
+    e.stopPropagation()
   }
 
 

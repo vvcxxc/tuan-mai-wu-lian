@@ -205,6 +205,7 @@ export default class distributionDetail extends Component {
             unionid: Taro.getStorageSync("unionid"),
             invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
         };
+        console.log('datas',data)
         toWxPay(data).then((res: any) => {
             Taro.hideLoading();
             if (res.code == 200) {
