@@ -4,7 +4,7 @@
 	"description": "tarojs-ts-cli",
 	"appid": "wx5f2271a7c946fef1",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"preloadBackgroundData": false,
@@ -160,6 +160,13 @@
 					"name": "business-pages/fan-data/index",
 					"pathName": "business-pages/fan-data/index",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": 16,
+					"name": "pages/activity/pages/group/group",
+					"pathName": "pages/activity/pages/group/group",
+					"query": "id=490&invitation_user_id=2503",
 					"scene": null
 				}
 			]

@@ -85,10 +85,11 @@ export default class Group extends Component {
   onShareAppMessage() {
     const { share: { title, small_img: imageUrl } } = this.state.basicinfo
     const { id = "" } = this.$router.params
+    console.log( `/pages/activity/pages/group/group?id=${id}&invitation_user_id=${this.state.basicinfo.invitation_user_id}`)
     return {
       title,
       imageUrl,
-      path: `/pages/activity/pages/group/group?id=${id}`
+      path: `/pages/activity/pages/group/group?id=${id}&invitation_user_id=${this.state.basicinfo.invitation_user_id}`
     }
   }
 
@@ -117,9 +118,10 @@ export default class Group extends Component {
         if (data && data.id) {
           dataId = data.id
         }
+        const invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id='+this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
           // url: `/pages/activity/pages/detail/detail?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`,
-          url: `/pages/activity/group/index?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}`
+          url: `/pages/activity/group/index?id=${dataId || id}&type=${+type === 55 ? 55 : 5}&gift_id=${gift_id}&activity_id=${activity_id}&publictypeid=${dataId || publictypeid}${invitation_user_id}`
         })
         break
       }
