@@ -30,15 +30,16 @@ export default class Member extends Component {
     }
 
     componentDidShow() {
-        this.getList(1, 1, 0)
+        if (this.state.fanTabIndex == 0 && this.state.dataList[0].length == 0) {
+            this.getList(1, 1, 0)
+        }
     }
     /**
      * 改变tab
      */
     changeTab = (index, e) => {
-        console.log(e)
         this.setState({ fanTabIndex: index, showList: this.state.dataList[index] }, () => {
-          console.log(this.state.pageList[0],'this.state.pageList[0]')
+            console.log(this.state.pageList[0], 'this.state.pageList[0]')
             if (index == 0 && this.state.dataList[0].length == 0) {
                 this.getList(1, this.state.pageList[0], 0)
             } else if (index == 1 && this.state.dataList[1].length == 0) {
@@ -67,7 +68,6 @@ export default class Member extends Component {
         let that = this;
         let mobile = Taro.getStorageSync('mobile');
         if (this.state.pageTotalList[index] > 1 && this.state.pageTotalList[index] < page) {
-          console.log(43434)
             return
         }
 
