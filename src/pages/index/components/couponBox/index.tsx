@@ -7,6 +7,7 @@ interface Props {
   onAction: any;
   is_level: boolean;
   userGroupId: Number;
+  phone: string;
 }
 export default class CouponBox extends Component<Props> {
   defaultProps = {
@@ -49,16 +50,23 @@ export default class CouponBox extends Component<Props> {
   }
 
   goto = (e: any) => {
-    console.log(this.props.userGroupId)
-    if(this.props.userGroupId == 5){
-      Taro.navigateTo({
-        url: '/business-pages/membership-upgrade/index'
-      })
-    }else if(this.props.userGroupId == 0){
+    console.log(this.props.userGroupId,this.props.phone)
+    if(this.props.phone){
+      if(this.props.userGroupId == 5){
+        Taro.navigateTo({
+          url: '/business-pages/membership-upgrade/index'
+        })
+      }else if(this.props.userGroupId == 0){
+        Taro.navigateTo({
+          url: '/business-pages/membership-upgrade/index'
+        })
+      }
+    }else {
       Taro.navigateTo({
         url: '/pages/auth/index'
       })
     }
+
     e.stopPropagation()
   }
 

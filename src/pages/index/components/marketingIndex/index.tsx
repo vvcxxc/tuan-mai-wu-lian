@@ -23,7 +23,8 @@ export default class MarketingIndex extends Component<any> {
     banner: [],
     page: 1,
     is_level: false,
-    userGroupId: 0
+    userGroupId: 0,
+    phone: ''
 
   }
   componentDidMount() {
@@ -44,9 +45,9 @@ export default class MarketingIndex extends Component<any> {
     getTabList({ channel_id: 6, page: 1 }).then((res: any) => {
       if (res.code == 200) {
         if (res.data.user_info) {
-          const { userGroupId } = res.data.user_info
+          const { userGroupId, phone } = res.data.user_info
           if (userGroupId == 5) {
-            this.setState({ is_level: false, userGroupId })
+            this.setState({ is_level: false, userGroupId, phone })
           } else if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
             this.setState({ is_level: true, userGroupId })
           }
@@ -98,9 +99,9 @@ export default class MarketingIndex extends Component<any> {
       getTabList({ channel_id: this.state.id, page: 1 }).then((res: any) => {
         if (res.code == 200) {
           if (res.data.user_info) {
-            const { userGroupId } = res.data.user_info
+            const { userGroupId, phone } = res.data.user_info
             if (userGroupId == 5) {
-              this.setState({ is_level: false, userGroupId })
+              this.setState({ is_level: false, userGroupId, phone })
             } else if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
               this.setState({ is_level: true, userGroupId })
             }
@@ -317,7 +318,7 @@ export default class MarketingIndex extends Component<any> {
           <View className='listBox'>
             {
               this.state.list ? this.state.list.map((res: any, index) => {
-                return <CouponBox userGroupId={this.state.userGroupId} is_level={this.state.is_level} item={res} key={res.channel_id} onAction={this.handleAction} />
+                return <CouponBox userGroupId={this.state.userGroupId} is_level={this.state.is_level} item={res} key={res.channel_id} phone={this.state.phone} onAction={this.handleAction} />
               }) : null
             }
           </View>
