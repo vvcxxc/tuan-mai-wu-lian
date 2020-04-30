@@ -96,12 +96,12 @@ export default class Member extends Component {
   changeImg = () => {
     let that = this;
     let invitation_code = this.state.invitation_code;
-    Taro.showLoading({ title: 'loading', mask: true });
     Taro.chooseImage({
       count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success(res0) {
+        Taro.showLoading({ title: 'loading', mask: true });
         let templist: any = that.state.chooseImglist;
         let tempFilePaths = res0.tempFilePaths[0];
         upload(tempFilePaths).then((res: any) => {
