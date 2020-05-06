@@ -103,7 +103,12 @@ export default class TicketBuy extends Component {
     }],
     showShare: false, //显示分享
     showPoster: false, //显示海报
-    posterList: {},
+    posterList: {
+      store: {
+        name: '',
+        address: ''
+      }
+    },
     tipsMessage: '',
     isFromShare: false,
     showMoreImages: false,

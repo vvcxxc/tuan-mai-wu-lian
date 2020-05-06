@@ -111,7 +111,8 @@ export default class GroupActivity extends Component {
       store: {
         name: '',
         address: ''
-      }
+      },
+      gift: {}
     },
     is_code: false, // 展示公众号二维码
     is_level: false,
