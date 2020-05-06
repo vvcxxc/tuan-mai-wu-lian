@@ -34,6 +34,7 @@ export default class HaveGiftPoster extends Component<Props>{
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
+      console.log(nextProps,'next')
       this.setState({
         show: true,
         listData: {
@@ -50,7 +51,7 @@ export default class HaveGiftPoster extends Component<Props>{
           wx_img: list.wx_img
         }
       })
-    } 
+    }
   }
 
   getmeta = (e) => {
