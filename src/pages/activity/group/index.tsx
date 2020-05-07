@@ -119,7 +119,7 @@ export default class GroupActivity extends Component {
   };
 
   componentDidMount() {
-    this.setState({ securityPoster: true,})
+    this.setState({ securityPoster: true, })
     this.getPostList()
   }
 
@@ -153,12 +153,12 @@ export default class GroupActivity extends Component {
         Taro.hideLoading();
         if (res.code == 200) {
           let isPostage = false;
-          if(res.data.user_info){
-            const {userGroupId} = res.data.user_info
-            if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
-              this.setState({is_level: true})
-            }else {
-              this.setState({is_level: false})
+          if (res.data.user_info) {
+            const { userGroupId } = res.data.user_info
+            if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+              this.setState({ is_level: true })
+            } else {
+              this.setState({ is_level: false })
             }
           }
           if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
@@ -448,16 +448,17 @@ export default class GroupActivity extends Component {
     let youhui_id = this.$router.params.id
     getGroupPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
-        // setTimeout(() => {
-          this.setState({ posterList: data })
+        // this.setState({ posterList: data })
         let link = data.link
         getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
-            let meta = this.state.posterList
+            // let meta = this.state.posterList
+            let meta = data
             meta['wx_img'] = BASIC_API + res.data.url
-            this.setState({ posterList: meta })
+            // setTimeout(()=>{
+              this.setState({ posterList: meta })
+            // },7000)
           })
-        // }, 3000);
 
       })
 
@@ -511,13 +512,13 @@ export default class GroupActivity extends Component {
     })
   }
 
-   //    保存二维码
-   saveCode = () => {
+  //    保存二维码
+  saveCode = () => {
     const img = require('@/assets/member/code.jpg')
     Taro.saveImageToPhotosAlbum({
       filePath: img,
     }).then(res => {
-      Taro.showToast({title: '保存成功'})
+      Taro.showToast({ title: '保存成功' })
     })
   }
 
@@ -608,8 +609,8 @@ export default class GroupActivity extends Component {
             {
               this.state.data.commission ? <View>
                 {
-              this.state.is_level ? <View className="group-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="group-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
-            }
+                  this.state.is_level ? <View className="group-price-discounts">分享可得佣金¥{this.state.data.commission}</View> : <View className="group-price-discounts">升级会员可再省¥{this.state.data.commission}</View>
+                }
               </View> : null
             }
 
@@ -626,8 +627,8 @@ export default class GroupActivity extends Component {
 
         {/* 分享（发送图片链接等） */}
         <View className='syz-share-box'>
-        <Button openType='share' className='share-item share-button' />
-          <Image className='share-item' src={require('@/assets/member/img.png')}  onClick={this.onPreviewImage} />
+          <Button openType='share' className='share-item share-button' />
+          <Image className='share-item' src={require('@/assets/member/img.png')} onClick={this.onPreviewImage} />
           <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} />
         </View>
 
@@ -917,26 +918,26 @@ export default class GroupActivity extends Component {
               <Image src={require('@/assets/member/store.png')} />
               进店
             </View>
-            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+            <View className='group-buy-icon-item' onClick={() => this.setState({ is_code: true })}>
               <Image src={require('@/assets/member/service.png')} />
               客服
             </View>
           </View>
           <View className="group-buy-btn-box" >
             <View className="group-buy-btn-left" onClick={() => {
-            this.setState({ showPoster: true })
-          }}>
-            <View className="group-buy-btn-group" >
-            分享海报
+              this.setState({ showPoster: true })
+            }}>
+              <View className="group-buy-btn-group" >
+                分享海报
             {
-              this.state.data.commission ? <View>
-                {
-              this.state.is_level ?  <View className="group-buy-btn-groupnum" >佣金{this.state.data.commission}</View> : null
-            }
-              </View> : null
-            }
+                  this.state.data.commission ? <View>
+                    {
+                      this.state.is_level ? <View className="group-buy-btn-groupnum" >佣金{this.state.data.commission}</View> : null
+                    }
+                  </View> : null
+                }
 
-            </View>
+              </View>
             </View>
             {
               this.state.allowGroup ? <View className="group-buy-btn-right" >{this.state.allowGroup}</View>
@@ -949,19 +950,19 @@ export default class GroupActivity extends Component {
         </View>
 
         {
-        this.state.is_code ? (
-          <View className="tips-mask">
-          <View className='code-content'>
-            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
-            <View className='code-text'>
-            点击保存二维码关注小熊敬礼公众号即可联系客服
+          this.state.is_code ? (
+            <View className="tips-mask">
+              <View className='code-content'>
+                <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+                <View className='code-text'>
+                  点击保存二维码关注小熊敬礼公众号即可联系客服
             </View>
-            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
-            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
-          </View>
-        </View>
-        ) : null
-      }
+                <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+                <Image className='code-close' onClick={() => this.setState({ is_code: false })} src={require('@/assets/member/close.png')} />
+              </View>
+            </View>
+          ) : null
+        }
 
 
         {
