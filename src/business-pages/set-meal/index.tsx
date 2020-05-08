@@ -2,6 +2,8 @@ import Taro, { Component } from "@tarojs/taro";
 import { AtIcon } from 'taro-ui';
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.styl";
+import ActivityTab from '@/components/activity-tab';
+import GiftItem from '@/components/gift-item';
 import ApplyToTheStore from '@/components/applyToTheStore';
 import { discountCoupons, shopPoster } from "./service";
 import ShareBox from "@/components/share-box"; //分享组件
@@ -22,6 +24,7 @@ export default class AppreActivity extends Component {
   };
 
   state = {
+    tabCurrent: 0,
     imgZoomSrc: '',
     imgZoom: false,
     bannerImgIndex: 0,
@@ -218,17 +221,6 @@ export default class AppreActivity extends Component {
     }
   }
 
-  /**
-      * 其他现金券
-      */
-  gotoTicketBuy = (type, _id, e) => {
-    if (type == 0) {
-      Taro.navigateTo({ url: '../set-meal/index?id=' + _id })
-    } else {
-      Taro.navigateTo({ url: '../ticket-buy/index?id=' + _id })
-    }
-  }
-
   copyText = () => {
     let code = this.state.coupon.share_text.replace(/@#@#/, H5_URL)
     Taro.setClipboardData({
@@ -279,6 +271,11 @@ export default class AppreActivity extends Component {
     }).then(res => {
       Taro.showToast({ title: '保存成功' })
     })
+  }
+
+  changeTab = (item: any) => {
+    console.log('item', item)
+    this.setState({ tabCurrent: item })
   }
 
   render() {
@@ -332,26 +329,6 @@ export default class AppreActivity extends Component {
         <View className="share-box">
           <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
         </View> */}
-        {/* <View className="appre-info-content">
-          <View className="appre-info-title">
-            <View className="appre-info-title-label">小熊敬礼</View>
-            <View className="appre-info-title-text">{this.state.coupon.yname}</View>
-          </View>
-          <View className="appre-info-price">
-            <View className="appre-price-info">
-              <View className="appre-price-info-text">优惠价￥</View>
-              <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
-              <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
-            </View>
-            <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
-          </View>
-          {
-            delivery_service_info.id ? <View className="appre-info-label">
-              <View className="appre-info-label-item">可配送</View>
-            </View> : null
-          }
-        </View> */}
-
         <View className="appre-info-content-member">
           <View className="appre-info-title">
             <View className="appre-info-title-label">小熊敬礼</View>
@@ -365,9 +342,9 @@ export default class AppreActivity extends Component {
             </View>
             {
               this.state.coupon.commission ? <View>
-{
-              this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
-            }
+                {
+                  this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
+                }
               </View> : null
             }
 
@@ -391,20 +368,14 @@ export default class AppreActivity extends Component {
 
 
 
-        <Image className="appre-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
-
-        <View className="appre-store-info">
-          <ApplyToTheStore
-            store_id={this.state.store.id}
-            isTitle={true}
-            img={this.state.store.shop_door_header_img}
-            name={this.state.store.sname}
-            phone={this.state.store.tel}
-            address={this.state.store.saddress}
-            location={{ xpoint: this.state.store.xpoint, ypoint: this.state.store.ypoint }}
-            meter={this.state.store.distance}
-          />
+        <ActivityTab tabList={[{ id: 1, key: '测试1' }, { id: 2, key: '测试2' }, { id: 3, key: '测试3' }]} onAtion={this.changeTab} />
+        {/* tabCurrent */}
+        <View className='gift-item-content'  >
+          <GiftItem label={'现金券'} title={"凄凄切切群群群群群群群"} desc={'简介简介简介简介简介简介'} price={'22.00'} btn={2} />
+          <GiftItem label={'平台礼品'} title={"凄凄切切群群群群群群群"} desc={'简介简介简介简介简介简介'} price={'22.00'} btn={2} />
         </View>
+
+
         <View className="appre-rules">
           <View className="appre-title-box">
             <View className='appre-title-left'></View>
@@ -503,115 +474,6 @@ export default class AppreActivity extends Component {
             }
           </View> : null
         }
-        {
-          this.state.recommend && this.state.recommend.length > 0 ?
-            <View className="more_goods">
-              <View className="title-box">
-                <View className='title-left'></View>
-                <View className="title">更多本店宝贝</View>
-              </View>
-              {
-                this.state.recommend.length > 0 && !this.state.showAll ? <View className="good_info" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[0].youhui_type, this.state.recommend[0].id)}>
-                  <View className="good_msg">
-                    <Image className="good_img" src={this.state.recommend[0].image} />
-
-                    <View className="good_detail">
-                      <View className="good_detail_info">
-                        <View className="good_title">
-                          <View className="good_type">
-                            <View className="text">{this.state.recommend[0].youhui_type == 0 ? "小熊敬礼" : "到店支付可用"}</View>
-                          </View>
-                          <View className="good_cash">{this.state.recommend[0].yname}</View>
-                        </View>
-                        <View className="good_desc">
-                          <View className="good_desc_info">购买后{this.state.recommend[0].expire_day}天内有效</View>
-                        </View>
-                      </View>
-                      <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
-                        <View className="good_new_money">{this.state.recommend[0].pay_money}</View>
-                        <View className="good_old_money">￥{this.state.recommend[0].return_money}</View>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View className="good_btn">
-                    <View className="text">抢购</View>
-                  </View>
-                </View> : null
-              }
-              {
-                this.state.recommend.length > 1 && !this.state.showAll ? <View className="good_info" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[1].youhui_type, this.state.recommend[1].id)}>
-                  <View className="good_msg">
-                    <Image className="good_img" src={this.state.recommend[1].image} />
-                    <View className="good_detail">
-                      <View className="good_detail_info">
-                        <View className="good_title">
-                          <View className="good_type">
-                            <View className="text">{this.state.recommend[1].youhui_type == 0 ? "小熊敬礼" : "到店支付可用"}</View>
-                          </View>
-                          <View className="good_cash">{this.state.recommend[1].yname}</View>
-                        </View>
-                        <View className="good_desc">
-                          <View className="good_desc_info">购买后{this.state.recommend[1].expire_day}天内有效</View>
-                        </View>
-                      </View>
-                      <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
-                        <View className="good_new_money">{this.state.recommend[1].pay_money}</View>
-                        <View className="good_old_money">￥{this.state.recommend[1].return_money}</View>
-                      </View>
-                    </View>
-                  </View>
-                  <View className="good_btn">
-                    <View className="text">抢购</View>
-                  </View>
-                </View> : null
-              }
-              {
-                this.state.showAll && this.state.recommend.map((item) => (
-                  <View key={item.id} className="good_info" onClick={this.gotoTicketBuy.bind(this, item.youhui_type, item.id)}>
-                    <View className="good_msg">
-                      <Image className="good_img" src={item.image} />
-
-                      <View className="good_detail">
-                        <View className="good_detail_info">
-                          <View className="good_title">
-                            <View className="good_type">
-                              <View className="text">{item.youhui_type == 0 ? "小熊敬礼" : "到店支付可用"}</View>
-                            </View>
-                            <View className="good_cash">{item.yname}</View>
-                          </View>
-                          <View className="good_desc">
-                            <View className="good_desc_info">购买后{item.expire_day}天内有效</View>
-                          </View>
-                        </View>
-                        <View className="good_money">
-                          <View className="good_new_money_icon">￥</View>
-                          <View className="good_new_money">{item.pay_money}</View>
-                          <View className="good_old_money">￥{item.return_money}</View>
-                        </View>
-                      </View>
-                    </View>
-
-                    <View className="good_btn">
-                      <View className="text">抢购</View>
-                    </View>
-                  </View>
-                ))
-              }
-              {
-                this.state.recommend.length && this.state.recommend.length > 2 && !this.state.showAll ?
-                  <View className="load_more" onClick={() => this.setState({ showAll: !this.state.showAll })}>
-                    <View><AtIcon value='chevron-down' size="18" color='#999'></AtIcon>点击查看更多</View>
-                  </View> : (this.state.recommend.length && this.state.recommend.length > 2 && !this.state.showAll ?
-                    <View className="load_more" onClick={() => this.setState({ showAll: !this.state.showAll })}>
-                      <View><AtIcon value='chevron-up' size="18" color='#999'></AtIcon>收起</View>
-                    </View> : null
-                  )
-              }
-            </View> : ""
-        }
 
         <View className="appre-buy-box" >
           <View className="group-buy-icon-box" >
@@ -636,9 +498,9 @@ export default class AppreActivity extends Component {
               分享海报
               {
                 this.state.coupon.commission ? <View>
-                   {
-                this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
-              }
+                  {
+                    this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
+                  }
                 </View> : null
               }
 

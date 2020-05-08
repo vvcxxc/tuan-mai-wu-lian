@@ -63,7 +63,7 @@ export default class Member extends Component {
       Taro.hideLoading();
       if (res.status_code == 200) {
         this.setState({ data: res.data, invitation_code: res.data.invitation_code })
-        if (res.data.examine_status == 1 && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.community_examine_id) }
+        if ((res.data.examine_status == 1 || res.data.examine_status == 2) && res.data.is_notice == 0) { this.examineSuccessUpdeat(res.data.community_examine_id) }
       } else {
         Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
       }
@@ -152,7 +152,7 @@ export default class Member extends Component {
           })
         }, 1500)
       } else {
-        this.setState({error: res.message, show_err: true})
+        this.setState({ error: res.message, show_err: true })
         // Taro.showToast({ title: res.message || '请求失败', icon: 'none' })
       }
     }).catch(err => {
@@ -256,7 +256,7 @@ export default class Member extends Component {
             </View> : null
         }
         {
-          !this.state.reUpload && data.is_first != 0 && data.examine_status == 2 ?
+          !this.state.reUpload && data.is_first != 0 && !data.is_notice && data.examine_status == 2 ?
             <View className="in-the-review">
               <View className="in-the-review-content">
                 <Image className="in-the-review-img" src="http://oss.tdianyi.com/front/xGYed4pbwa54fDpeMiMBcJcYeDjrzJYy.png" />
