@@ -477,29 +477,6 @@ export default class AppreActivity extends Component {
             </View>
             : null
         }
-
-        {
-          tabCurrent == 3 && this.state.data.gift_id ?
-            <View className="appre-gift">
-              <View className="appre-title-box">
-                <View className='appre-title-left-box'>
-                  <View className='appre-title-left'></View>
-                  <View className='appre-title'>赠送礼品</View>
-                </View>
-                <View className='appre-title-right' onClick={this.toImgList.bind(this)}>
-                  <View className='appre-title-right-info' >查看详情</View>
-                  <Image className="appre-title-right-icon" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
-                </View>
-              </View>
-              <View className='appre-gift-brief'>{this.state.data.gift.title}</View>
-              <View className='appre-gift-label-box'>
-                <View className='appre-gift-label'>{
-                  this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
-                }</View>
-              </View>
-              <Image className="appre-gift-img" src={this.state.data.gift_pic} mode={'widthFix'} />
-            </View> : null
-        }
         {/* {
           tabCurrent == 3 && this.state.data.gift_id ?
             <View className="appre-gift">
