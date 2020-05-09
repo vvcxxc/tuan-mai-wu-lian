@@ -364,6 +364,46 @@ export default class Orderdetail extends Component {
           </View> : null
         }
 
+        { /* 我的礼品  */}
+        <View className='z_billingInfo' >
+          <View className='a_buyBox' >
+            <View className='a_one' >配送信息 </View>
+            <View className='a_billingInfo' >
+
+              <View className="gift-info-area">
+                <View className="gift-img">
+                  <Image className="gift-img-img" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
+                  <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
+                </View>
+                <View className="gift-info">
+                  <View className="gift-title">空间广i就Gigi给哦iuu后yi欧阳过后i有空间广i就Gigi给哦iuu后yi欧阳过后i有</View>
+                  <View className="gift-info">参与有礼</View>
+                  <View className="gift-labels">
+                    <View className="gift-label-item">价值￥22</View>
+                    <View className="gift-label-item">数量：1</View>
+                  </View>
+                </View>
+              </View>
+              <View className="gift-info-area">
+                <View className="gift-img">
+                  <Image className="gift-img-img" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
+                  <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
+                </View>
+                <View className="gift-info">
+                  <View className="gift-title">空间广i就Gigi给哦iuu后yi欧阳过后i有</View>
+                  <View className="gift-info">参与有礼</View>
+                  <View className="gift-labels">
+                    <View className="gift-label-item">价值￥22</View>
+                    <View className="gift-label-item">数量：1</View>
+                  </View>
+                </View>
+              </View>
+
+            </View>
+          </View>
+        </View>
+
+
         { /* 适用商铺  */}
         <View className='z_billingInfo' >
 

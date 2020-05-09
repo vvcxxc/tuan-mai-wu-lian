@@ -8,6 +8,8 @@ import {
   getUserLastYouhuiId,
   geValueAddedPoster
 } from "./service";
+import ActivityTab from '@/components/activity-tab';
+import GiftItem from '@/components/gift-item';
 import { getXcxQrcode } from "@/api";
 import ApplyToTheStore from '@/components/applyToTheStore';
 import LoginAlert from '@/components/loginAlert';
@@ -27,6 +29,9 @@ export default class AppreActivity extends Component {
 
 
   state = {
+    tabCurrent: 0,
+    tabContent: [[], [], []],
+    tabList: [],
     imgZoomSrc: '',
     imgZoom: false,
     //图片轮播下标
@@ -38,6 +43,7 @@ export default class AppreActivity extends Component {
     //查看更多
     showMoreRules: false,
     data: {
+      is_gift: 0,
       invitation_user_id: '',
       activity_begin_time: "",
       activity_end_time: "",
@@ -156,7 +162,28 @@ export default class AppreActivity extends Component {
           let isPostage = false;
           if (res.data.gift_id && res.data.gift.mail_mode == 2) { isPostage = true; }
           // this.getPostList(res.data.id)
-          this.setState({ data: res.data, isPostage });
+
+          let bindingGift: any = res.data.bindingGift;
+          let tabList: any = [];
+          let tabContent: any = [[], [], []];
+          let defaultCurrent = 3;
+          if (res.data.is_gift && bindingGift && bindingGift.length) {
+            for (let i in bindingGift) {
+              tabContent[Number(bindingGift[i].give_stage) - 1].push(bindingGift[i])
+            }
+            if (tabContent[0].length) { tabList.push({ index: 0, key: '购买有礼' }) }
+            if (tabContent[1].length) { tabList.push({ index: 1, key: '助力有礼' }) }
+            if (tabContent[2].length) { tabList.push({ index: 2, key: '成交有礼' }) }
+            tabList.push({ index: 3, key: '商品详情' })
+            for (let i in tabContent) {
+              if (tabContent[i].length > 0) {
+                defaultCurrent = Number(i);
+                break;
+              }
+            }
+          }
+
+          this.setState({ data: res.data, isPostage, tabContent, tabList, tabCurrent: defaultCurrent });
         } else {
           Taro.showToast({ title: '请求失败', icon: 'none' });
         }
@@ -173,7 +200,7 @@ export default class AppreActivity extends Component {
   goToaConfirm = () => {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
-      if (this.state.data.gift_id) {
+      if (this.state.data.gift_id || this.state.data.is_gift) {
         let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
           url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.location_name) + invitation_user_id
@@ -330,9 +357,13 @@ export default class AppreActivity extends Component {
     })
   }
 
+  changeTab = (item: any) => {
+    this.setState({ tabCurrent: item })
+  }
+
   render() {
     const { images, description } = this.state.data;
-    const { posterList, posterType, showPoster } = this.state
+    const { posterList, posterType, showPoster, tabCurrent, tabContent } = this.state
     return (
       <View className="appre-activity-detail">
         {/* 分享组件 */}
@@ -379,20 +410,6 @@ export default class AppreActivity extends Component {
                 <View className="share-box">
                     <Image className="share-img" src="http://oss.tdianyi.com/front/Af5WfM7xaAjFHSWNeCtY4Hnn4t54i8me.png" />
                 </View> */}
-
-        {/* <View className="appre-info-content">
-          <View className="appre-info-title">
-            <View className="appre-info-title-label">增值券</View>
-            <View className="appre-info-title-text">{this.state.data.name}</View>
-          </View>
-          <View className="appre-info-price">
-            <View className="appre-price-info">
-              <View className="appre-price-info-text">优惠价￥</View>
-              <View className="appre-price-info-new">{this.state.data.pay_money}</View>
-            </View>
-            <View className="appre-price-discounts">最高抵用￥{this.state.data.return_money}</View>
-          </View>
-        </View> */}
 
         <View className="appre-info-content-member">
           <View className="appre-info-title">
@@ -443,7 +460,26 @@ export default class AppreActivity extends Component {
         </View>
 
         {
-          this.state.data.gift_id ?
+          this.state.tabList.length > 1 ? <ActivityTab tabList={this.state.tabList} onAtion={this.changeTab} /> : null
+        }
+        {
+          tabCurrent == 0 || tabCurrent == 1 || tabCurrent == 2 ?
+            <View className='gift-item-content'  >
+              {
+                tabContent[tabCurrent].map((item: any, index: any) => {
+                  return (
+                    <View key={item.gift_id}>
+                      <GiftItem label={'平台礼品'} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
+                    </View>
+                  )
+                })
+              }
+            </View>
+            : null
+        }
+
+        {
+          tabCurrent == 3 && this.state.data.gift_id ?
             <View className="appre-gift">
               <View className="appre-title-box">
                 <View className='appre-title-left-box'>
@@ -464,69 +500,90 @@ export default class AppreActivity extends Component {
               <Image className="appre-gift-img" src={this.state.data.gift_pic} mode={'widthFix'} />
             </View> : null
         }
-
-
-
-        <View className="appre-rules">
-          <View className="appre-title-box">
-            <View className='appre-title-left'></View>
-            <View className='appre-title'>使用说明</View>
-          </View>
-          {
-            this.state.data.type != 0 ?
+        {/* {
+          tabCurrent == 3 && this.state.data.gift_id ?
+            <View className="appre-gift">
+              <View className="appre-title-box">
+                <View className='appre-title-left-box'>
+                  <View className='appre-title-left'></View>
+                  <View className='appre-title'>赠送礼品</View>
+                </View>
+                <View className='appre-title-right' onClick={this.toImgList.bind(this)}>
+                  <View className='appre-title-right-info' >查看详情</View>
+                  <Image className="appre-title-right-icon" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
+                </View>
+              </View>
+              <View className='appre-gift-brief'>{this.state.data.gift.title}</View>
+              <View className='appre-gift-label-box'>
+                <View className='appre-gift-label'>{
+                  this.state.data.gift.mail_mode == 1 ? '免运费' : `运费${this.state.data.gift.postage}元`
+                }</View>
+              </View>
+              <Image className="appre-gift-img" src={this.state.data.gift_pic} mode={'widthFix'} />
+            </View> : null
+        } */}
+        {
+          tabCurrent == 3 ?
+            <View className="appre-rules">
+              <View className="appre-title-box">
+                <View className='appre-title-left'></View>
+                <View className='appre-title'>使用说明</View>
+              </View>
+              {
+                this.state.data.type != 0 ?
+                  <View className="appre-rules-item" >
+                    <View className="rules-key">使用方式：</View>
+                    <View className="rules-words">扫码支付时抵用</View>
+                  </View> : null
+              }
+              {
+                this.state.data.type != 0 ?
+                  <View className="appre-rules-item" >
+                    <View className="rules-key"> 使用门槛：</View>
+                    <View className="rules-words">满{this.state.data.total_fee}可用</View>
+                  </View> : null
+              }
               <View className="appre-rules-item" >
-                <View className="rules-key">使用方式：</View>
-                <View className="rules-words">扫码支付时抵用</View>
-              </View> : null
-          }
-          {
-            this.state.data.type != 0 ?
-              <View className="appre-rules-item" >
-                <View className="rules-key"> 使用门槛：</View>
-                <View className="rules-words">满{this.state.data.total_fee}可用</View>
-              </View> : null
-          }
-          <View className="appre-rules-item" >
-            <View className="rules-key">有效期：</View>
-            <View className="rules-words">成团后{this.state.data.validity}日内可用</View>
-          </View>
+                <View className="rules-key">有效期：</View>
+                <View className="rules-words">成团后{this.state.data.validity}日内可用</View>
+              </View>
 
 
-          {
-            this.state.data.type == 0 && description && description.length && !this.state.showMoreRules ? <View>
-              <View className="appre-rules-list-title" >使用规则：</View>                            {
-                description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
+              {
+                this.state.data.type == 0 && description && description.length && !this.state.showMoreRules ? <View>
+                  <View className="appre-rules-list-title" >使用规则：</View>                            {
+                    description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
+                  }
+                  {
+                    description.length > 1 ? <View className="appre-rules-list-text" >-{description[1]}</View> : null
+                  }
+                  {
+                    description.length > 2 ? <View className="appre-rules-list-text" >-{description[2]}</View> : null
+                  }
+                  {
+                    description.length > 3 ? <View className="appre-rules-list-text" >-{description[3]}</View> : null
+                  }
+                </View> : null
               }
               {
-                description.length > 1 ? <View className="appre-rules-list-text" >-{description[1]}</View> : null
+                this.state.data.type == 0 && description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
+                  <View className="appre-rules-list-title" >使用规则：</View>
+                  {
+                    description.map((item) => {
+                      return (
+                        <View className="appre-rules-list-text" >-{item}</View>
+                      )
+                    })
+                  }
+                </View> : null
               }
               {
-                description.length > 2 ? <View className="appre-rules-list-text" >-{description[2]}</View> : null
+                this.state.data.type == 0 && description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+                  <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
+                  <View className="appre-more-text" >查看更多</View>
+                </View> : null
               }
-              {
-                description.length > 3 ? <View className="appre-rules-list-text" >-{description[3]}</View> : null
-              }
-            </View> : null
-          }
-          {
-            this.state.data.type == 0 && description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
-              <View className="appre-rules-list-title" >使用规则：</View>
-              {
-                description.map((item) => {
-                  return (
-                    <View className="appre-rules-list-text" >-{item}</View>
-                  )
-                })
-              }
-            </View> : null
-          }
-          {
-            this.state.data.type == 0 && description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
-              <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
-              <View className="appre-more-text" >查看更多</View>
-            </View> : null
-          }
-        </View>
+            </View> : null}
         <View className="appre-buy-box" >
           <View className="group-buy-icon-box" >
             <View className='group-buy-icon-item' onClick={this.handleGoHome}>

@@ -8,7 +8,7 @@ import { accAdd } from '@/components/acc-num'
 
 export default class distributionDetail extends Component {
     config = {
-        navigationBarTitleText: "兑换券购买列表",
+        navigationBarTitleText: "兑换券购买",
         enablePullDownRefresh: false
     };
     state = {
@@ -57,6 +57,7 @@ export default class distributionDetail extends Component {
 
     }
     componentDidShow() {
+        Taro.setNavigationBarTitle({ title: this.$router.params.couponType == '1' ? '现金券购买' : '兑换券购买' })
         let that = this;
         this.setState({ contentboxShow: false })
         let pages = Taro.getCurrentPages();

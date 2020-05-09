@@ -3,6 +3,8 @@ import { AtIcon } from 'taro-ui';
 // import { AtIcon, AtToast, AtTabs, AtTabsPane } from "taro-ui";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.styl";
+import ActivityTab from '@/components/activity-tab';
+import GiftItem from '@/components/gift-item';
 import ApplyToTheStore from '@/components/applyToTheStore';
 // import TimeUp from '@/components/TimeUp';
 // import LandingBounced from '@/components/landing_bounced'//登录弹框
@@ -28,6 +30,9 @@ export default class TicketBuy extends Component {
   };
 
   state = {
+    tabCurrent: 0,
+    tabContent: [[], []],
+    tabList: [],
     imgZoomSrc: '',
     imgZoom: false,
     showAll: false,
@@ -64,7 +69,15 @@ export default class TicketBuy extends Component {
       limit_purchase_quantity: 0,//限购数量
       user_youhu_log_sum: 0,// 已购数量
       share_text: '',
-      images: []
+      images: [],
+      bindingGift: {}
+    },
+    delivery_service_info: {
+      delivery_end_time: '',
+      delivery_radius_m: 0,
+      delivery_service_money: 0,
+      delivery_start_time: '',
+      id: 0
     },
     store: {
       brief: "",
@@ -158,19 +171,41 @@ export default class TicketBuy extends Component {
     discountCoupons(id, data)
       .then((res: any) => {
         Taro.hideLoading()
-        if(res.data.user_info){
-          const {userGroupId} = res.data.user_info
-          if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
-            this.setState({is_level: true})
-          }else {
-            this.setState({is_level: false})
+        if (res.data.user_info) {
+          const { userGroupId } = res.data.user_info
+          if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+            this.setState({ is_level: true })
+          } else {
+            this.setState({ is_level: false })
+          }
+        }
+        let bindingGift: any = res.data.info.coupon.bindingGift;
+        let tabList: any = [];
+        let tabContent: any = [[], []];
+        let defaultCurrent = 2;
+        if (res.data.info.coupon.is_gift && bindingGift && bindingGift.length) {
+          for (let i in bindingGift) {
+            tabContent[Number(bindingGift[i].give_stage) - 1].push(bindingGift[i])
+          }
+          if (tabContent[0].length) { tabList.push({ index: 0, key: '购买有礼' }) }
+          if (tabContent[1].length) { tabList.push({ index: 1, key: '成交有礼' }) }
+          tabList.push({ index: 2, key: '商品详情' })
+          for (let i in tabContent) {
+            if (tabContent[i].length > 0) {
+              defaultCurrent = Number(i);
+              break;
+            }
           }
         }
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
-          recommend: res.data.recommend.data
+          recommend: res.data.recommend.data,
+          // delivery_service_info: res.data.delivery_service_info,
+          tabContent,
+          tabList,
+          tabCurrent: defaultCurrent
         }, () => {
           console.log(this.state.store)
         })
@@ -194,7 +229,8 @@ export default class TicketBuy extends Component {
       } else {
         let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '../../business-pages/confirm-order/index?id=' + id + invitation_user_id
+          // url: '../../business-pages/confirm-order/index?id=' + id + invitation_user_id
+          url: '../../business-pages/coupon-distribution/index?id=' + id + invitation_user_id + '&couponType=1'
         })
       }
     } else {
@@ -256,12 +292,18 @@ export default class TicketBuy extends Component {
     Taro.saveImageToPhotosAlbum({
       filePath: img,
     }).then(res => {
-      Taro.showToast({title: '保存成功'})
+      Taro.showToast({ title: '保存成功' })
     })
+  }
+
+  changeTab = (item: any) => {
+    console.log(item)
+    this.setState({ tabCurrent: item })
   }
 
   render() {
     const { description, brief } = this.state.coupon;
+    const { delivery_service_info, tabCurrent, tabContent } = this.state
     return (
       <View className="appre-activity-detail">
         {/* 分享组件 */}
@@ -307,21 +349,6 @@ export default class TicketBuy extends Component {
           <View className="banner-number">{accAdd(this.state.bannerImgIndex, 1)}</View>
           <View className="banner-number">{this.state.coupon.images.length}</View>
         </View>
-        {/* <View className="appre-info-content">
-          <View className="appre-info-title">
-            <View className="appre-info-title-label">到店支付可用</View>
-            <View className="appre-info-title-text">{this.state.coupon.yname}</View>
-          </View>
-          <View className="appre-info-price">
-            <View className="appre-price-info">
-              <View className="appre-price-info-text">优惠价￥</View>
-              <View className="appre-price-info-new">{this.state.coupon.pay_money}</View>
-              <View className="appre-price-info-old">￥{this.state.coupon.return_money}</View>
-            </View>
-            <View className="appre-price-discounts">已优惠￥{accSubtr(Number(this.state.coupon.return_money), Number(this.state.coupon.pay_money))}</View>
-          </View>
-        </View> */}
-
         <View className="appre-info-content-member">
           <View className="appre-info-title">
             <View className="appre-info-title-label">到店支付可用</View>
@@ -336,8 +363,8 @@ export default class TicketBuy extends Component {
             {
               this.state.coupon.commission ? <View>
                 {
-              this.state.is_level ?  <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
-            }
+                  this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
+                }
               </View> : null
             }
 
@@ -352,7 +379,6 @@ export default class TicketBuy extends Component {
           <Button openType='share' className='share-item share-button' />
           <Image className='share-item' src={require('@/assets/member/img.png')} onClick={this.onPreviewImage} />
         </View>
-
 
         <Image className="appre-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
 
@@ -369,190 +395,93 @@ export default class TicketBuy extends Component {
           />
         </View>
 
-
-
-        <View className="appre-rules">
-          <View className="appre-title-box">
-            <View className='appre-title-left'></View>
-            <View className='appre-title'>使用说明</View>
-          </View>
-
-          <View className="appre-rules-item" >
-            <View className="rules-key">使用方式：</View>
-            <View className="rules-words">扫码支付时抵用</View>
-          </View>
-
-          <View className="appre-rules-item" >
-            <View className="rules-key"> 使用门槛：</View>
-            <View className="rules-words">满￥{this.state.coupon.total_fee}可用</View>
-          </View>
-          <View className="appre-rules-item" >
-            <View className="rules-key">有效期：</View>
-            <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
-          </View>
-          {
-            this.state.coupon.limit_purchase_quantity ? <View className="appre-rules-item" >
-              <View className="rules-key">购买限制：</View>
-              <View className="rules-words">每人最多可购买{this.state.coupon.limit_purchase_quantity}份</View>
-            </View> : null
-          }
-          {/* {
-            this.state.coupon.description&&this.state.coupon.description.length ? <View>
-              <View className="appre-rules-list-title" >使用规则：</View>
-              {
-                this.state.coupon.description.map((item, index) => {
-                  <View className="appre-rules-list-text" >-{item}</View>
-                })
-              }
-            </View> : null
-          } */}
-        </View>
         {
-          brief.length ? <View className="img-list-box">
-            <View className="img-title-box">
-              <View className='img-title-left'></View>
-              <View className='img-title'>图文详情</View>
-            </View>
-            <View className="images-content">
-              {
-                !this.state.showMoreImages && brief.length > 0 ? <Image className="images-item" mode={'widthFix'} src={brief[0]} />
-                  : null
-              }
-              {
-                !this.state.showMoreImages && brief.length > 1 ? <Image className="images-item" mode={'widthFix'} src={brief[1]} />
-                  : null
-              }
-              {
-                this.state.showMoreImages && brief.length > 2 ? brief.map((item: any, index: any) => {
-                  return (
-                    <Image className="images-item" mode={'widthFix'} key={item} src={item} />
-                  )
-                }) : null
-              }
-            </View>
-            {
-              brief.length > 2 && !this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: true }) }} >
-                <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
-                <View className="img-more-text" >查看更多</View>
-              </View>
-                : (
-                  brief.length > 2 && this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: false }) }} >
-                    <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/3pwMx3EMhEpZQs7jhS2zrA6fjSQdsFbW.png"} />
-                    <View className="img-more-text" >收起</View>
-                  </View> : null
-                )
-            }
-          </View> : null
+          this.state.tabList.length > 1 ? <ActivityTab tabList={this.state.tabList} onAtion={this.changeTab} /> : null
         }
         {
-          this.state.recommend && this.state.recommend.length > 0 ?
-            (<View className="more_goods">
-              <View className="title-box">
-                <View className='title-left'></View>
-                <View className="title">更多本店宝贝</View>
+          tabCurrent == 0 || tabCurrent == 1 ?
+            <View className='gift-item-content'  >
+              {
+                tabContent[tabCurrent].map((item: any, index: any) => {
+                  return (
+                    <View key={item.gift_id}>
+                      <GiftItem label={'平台礼品'} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
+                    </View>
+                  )
+                })
+              }
+            </View>
+            : null
+        }
+
+        {
+          tabCurrent == 2 ?
+            <View className="appre-rules">
+              <View className="appre-title-box">
+                <View className='appre-title-left'></View>
+                <View className='appre-title'>使用说明</View>
+              </View>
+
+              <View className="appre-rules-item" >
+                <View className="rules-key">使用方式：</View>
+                <View className="rules-words">扫码支付时抵用</View>
+              </View>
+
+              <View className="appre-rules-item" >
+                <View className="rules-key"> 使用门槛：</View>
+                <View className="rules-words">满￥{this.state.coupon.total_fee}可用</View>
+              </View>
+              <View className="appre-rules-item" >
+                <View className="rules-key">有效期：</View>
+                <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
               </View>
               {
-                this.state.recommend.length > 0 && !this.state.showAll ? <View className="good_info" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[0].youhui_type, this.state.recommend[0].id)}>
-                  <View className="good_msg">
-                    <Image className="good_img" src={this.state.recommend[0].image} />
-
-                    <View className="good_detail">
-                      <View className="good_detail_info">
-                        <View className="good_title">
-                          <View className="good_type">
-                            <View className="text">{this.state.recommend[0].youhui_type == 0 ? "小熊敬礼" : "到店支付可用"}</View>
-                          </View>
-                          <View className="good_cash">{this.state.recommend[0].yname}</View>
-                        </View>
-                        <View className="good_desc">
-                          <View className="good_desc_info">购买后{this.state.recommend[0].expire_day}天内有效</View>
-                        </View>
-                      </View>
-                      <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
-                        <View className="good_new_money">{this.state.recommend[0].pay_money}</View>
-                        <View className="good_old_money">￥{this.state.recommend[0].return_money}</View>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View className="good_btn">
-                    <View className="text">抢购</View>
-                  </View>
+                this.state.coupon.limit_purchase_quantity ? <View className="appre-rules-item" >
+                  <View className="rules-key">购买限制：</View>
+                  <View className="rules-words">每人最多可购买{this.state.coupon.limit_purchase_quantity}份</View>
                 </View> : null
               }
+            </View> : null
+        }
+        {
+          tabCurrent == 2 && brief.length ?
+            <View className="img-list-box">
+              <View className="img-title-box">
+                <View className='img-title-left'></View>
+                <View className='img-title'>图文详情</View>
+              </View>
+              <View className="images-content">
+                {
+                  !this.state.showMoreImages && brief.length > 0 ? <Image className="images-item" mode={'widthFix'} src={brief[0]} />
+                    : null
+                }
+                {
+                  !this.state.showMoreImages && brief.length > 1 ? <Image className="images-item" mode={'widthFix'} src={brief[1]} />
+                    : null
+                }
+                {
+                  this.state.showMoreImages && brief.length > 2 ? brief.map((item: any, index: any) => {
+                    return (
+                      <Image className="images-item" mode={'widthFix'} key={item} src={item} />
+                    )
+                  }) : null
+                }
+              </View>
               {
-                this.state.recommend.length > 1 && !this.state.showAll ? <View className="good_info" onClick={this.gotoTicketBuy.bind(this, this.state.recommend[1].youhui_type, this.state.recommend[1].id)}>
-                  <View className="good_msg">
-                    <Image className="good_img" src={this.state.recommend[1].image} />
-                    <View className="good_detail">
-                      <View className="good_detail_info">
-                        <View className="good_title">
-                          <View className="good_type">
-                            <View className="text">{this.state.recommend[1].youhui_type == 0 ? "小熊敬礼" : "到店支付可用"}</View>
-                          </View>
-                          <View className="good_cash">{this.state.recommend[1].yname}</View>
-                        </View>
-                        <View className="good_desc">
-                          <View className="good_desc_info">购买后{this.state.recommend[1].expire_day}天内有效</View>
-                        </View>
-                      </View>
-                      <View className="good_money">
-                        <View className="good_new_money_icon">￥</View>
-                        <View className="good_new_money">{this.state.recommend[1].pay_money}</View>
-                        <View className="good_old_money">￥{this.state.recommend[1].return_money}</View>
-                      </View>
-                    </View>
-                  </View>
-                  <View className="good_btn">
-                    <View className="text">抢购</View>
-                  </View>
-                </View> : null
-              }
-              {
-                this.state.showAll && this.state.recommend.map((item) => (
-                  <View key={item.id} className="good_info" onClick={this.gotoTicketBuy.bind(this, item.youhui_type, item.id)}>
-                    <View className="good_msg">
-                      <Image className="good_img" src={item.image} />
-
-                      <View className="good_detail">
-                        <View className="good_detail_info">
-                          <View className="good_title">
-                            <View className="good_type">
-                              <View className="text">{item.youhui_type == 0 ? "小熊敬礼" : "到店支付可用"}</View>
-                            </View>
-                            <View className="good_cash">{item.yname}</View>
-                          </View>
-                          <View className="good_desc">
-                            <View className="good_desc_info">购买后{item.expire_day}天内有效</View>
-                          </View>
-                        </View>
-                        <View className="good_money">
-                          <View className="good_new_money_icon">￥</View>
-                          <View className="good_new_money">{item.pay_money}</View>
-                          <View className="good_old_money">￥{item.return_money}</View>
-                        </View>
-                      </View>
-                    </View>
-
-                    <View className="good_btn">
-                      <View className="text">抢购</View>
-                    </View>
-                  </View>
-                ))
-              }
-              {
-                this.state.recommend.length && this.state.recommend.length > 2 && !this.state.showAll ?
-                  <View className="load_more" onClick={() => this.setState({ showAll: !this.state.showAll })}>
-                    <View><AtIcon value='chevron-down' size="18" color='#999'></AtIcon>点击查看更多</View>
-                  </View> : (this.state.recommend.length && this.state.recommend.length > 2 && !this.state.showAll ?
-                    <View className="load_more" onClick={() => this.setState({ showAll: !this.state.showAll })}>
-                      <View><AtIcon value='chevron-up' size="18" color='#999'></AtIcon>收起</View>
+                brief.length > 2 && !this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: true }) }} >
+                  <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
+                  <View className="img-more-text" >查看更多</View>
+                </View>
+                  : (
+                    brief.length > 2 && this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: false }) }} >
+                      <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/3pwMx3EMhEpZQs7jhS2zrA6fjSQdsFbW.png"} />
+                      <View className="img-more-text" >收起</View>
                     </View> : null
                   )
               }
-            </View>) : ""
+            </View> : null
         }
+
 
         <View className="appre-buy-box" >
           <View className="group-buy-icon-box" >
@@ -564,26 +493,26 @@ export default class TicketBuy extends Component {
               <Image src={require('@/assets/member/store.png')} />
               进店
             </View>
-            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+            <View className='group-buy-icon-item' onClick={() => this.setState({ is_code: true })}>
               <Image src={require('@/assets/member/service.png')} />
               客服
             </View>
           </View>
           <View className="appre-buy-btn-box" >
             <View className="appre-buy-btn-left" onClick={() => {
-            this.setState({ showPoster: true })
-          }}>
-             分享海报
+              this.setState({ showPoster: true })
+            }}>
+              分享海报
              {
-               this.state.coupon.commission ? <View>
+                this.state.coupon.commission ? <View>
                   {
-               this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
-             }
-               </View> : null
-             }
+                    this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
+                  }
+                </View> : null
+              }
 
 
-          </View>
+            </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
                 <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
@@ -609,20 +538,20 @@ export default class TicketBuy extends Component {
 
 
 
-      {
-        this.state.is_code ? (
-          <View className="tips-mask">
-          <View className='code-content'>
-            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
-            <View className='code-text'>
-            点击保存二维码关注小熊敬礼公众号即可联系客服
+        {
+          this.state.is_code ? (
+            <View className="tips-mask">
+              <View className='code-content'>
+                <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+                <View className='code-text'>
+                  点击保存二维码关注小熊敬礼公众号即可联系客服
             </View>
-            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
-            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
-          </View>
-        </View>
-        ) : null
-      }
+                <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+                <Image className='code-close' onClick={() => this.setState({ is_code: false })} src={require('@/assets/member/close.png')} />
+              </View>
+            </View>
+          ) : null
+        }
 
         {
           this.state.tipsMessage ? <View className="tips-mask">

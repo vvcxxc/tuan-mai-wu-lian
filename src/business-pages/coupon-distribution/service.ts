@@ -1,7 +1,7 @@
 import request from '@/services/request';
 
 /**
-*  拼团活动信息
+*  活动信息
 */
 export const discount_coupons = (id: number | string) =>
     request({
@@ -10,7 +10,7 @@ export const discount_coupons = (id: number | string) =>
     })
 
 /**
-*  拼团活动购买
+*  活动购买
 */
 export const wxWechatPay = (data: object) =>
     request({

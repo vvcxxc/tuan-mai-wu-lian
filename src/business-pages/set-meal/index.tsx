@@ -25,6 +25,8 @@ export default class AppreActivity extends Component {
 
   state = {
     tabCurrent: 0,
+    tabContent: [[], []],
+    tabList: [],
     imgZoomSrc: '',
     imgZoom: false,
     bannerImgIndex: 0,
@@ -60,6 +62,7 @@ export default class AppreActivity extends Component {
       user_youhu_log_sum: 0,// 已购数量
       share_text: '',//要分享的文字信息
       images: [],
+      bindingGift: {}
     },
     delivery_service_info: {
       delivery_end_time: '',
@@ -102,7 +105,6 @@ export default class AppreActivity extends Component {
       youhui_type: 0,
       expire_day: '',
     }],
-
     isFromShare: false,
     is_alert: false,
     showAll: false,
@@ -114,7 +116,7 @@ export default class AppreActivity extends Component {
     tipsMessage: '',
     is_code: false,
     is_level: false,
-    type_index_id: 0
+    type_index_id: 0,
   }
 
   componentDidMount() {
@@ -177,12 +179,33 @@ export default class AppreActivity extends Component {
             this.setState({ is_level: false })
           }
         }
+        let bindingGift: any = res.data.info.coupon.bindingGift;
+        let tabList: any = [];
+        let tabContent: any = [[], []];
+        let defaultCurrent = 2;
+        if (res.data.info.coupon.is_gift && bindingGift && bindingGift.length) {
+          for (let i in bindingGift) {
+            tabContent[Number(bindingGift[i].give_stage) - 1].push(bindingGift[i])
+          }
+          if (tabContent[0].length) { tabList.push({ index: 0, key: '购买有礼' }) }
+          if (tabContent[1].length) { tabList.push({ index: 1, key: '成交有礼' }) }
+          tabList.push({ index: 2, key: '商品详情' })
+          for (let i in tabContent) {
+            if (tabContent[i].length > 0) {
+              defaultCurrent = Number(i);
+              break;
+            }
+          }
+        }
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
           recommend: res.data.recommend.data,
-          delivery_service_info: res.data.delivery_service_info
+          delivery_service_info: res.data.delivery_service_info,
+          tabContent,
+          tabList,
+          tabCurrent: defaultCurrent
         })
       }).catch(err => {
         Taro.hideLoading()
@@ -190,7 +213,6 @@ export default class AppreActivity extends Component {
         setTimeout(() => { Taro.navigateBack() }, 2000)
       })
   }
-
 
   /**
       * 去支付
@@ -203,7 +225,7 @@ export default class AppreActivity extends Component {
       } else {
         let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
-          url: '../../business-pages/coupon-distribution/index?id=' + id + invitation_user_id
+          url: '../../business-pages/coupon-distribution/index?id=' + id + invitation_user_id + '&couponType=2'
         })
       }
     } else {
@@ -239,7 +261,6 @@ export default class AppreActivity extends Component {
 
 
   onShareAppMessage = () => {
-    console.log(4323)
     return {
       title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
       path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
@@ -257,8 +278,8 @@ export default class AppreActivity extends Component {
     })
   }
   /**
-* 去店铺
-*/
+  * 去店铺
+  */
   handleGoStore = () => {
     Taro.navigateTo({ url: '/pages/business/index?id=' + this.state.store.id })
   }
@@ -274,13 +295,12 @@ export default class AppreActivity extends Component {
   }
 
   changeTab = (item: any) => {
-    console.log('item', item)
     this.setState({ tabCurrent: item })
   }
 
   render() {
     const { description, brief } = this.state.coupon;
-    const { delivery_service_info } = this.state
+    const { delivery_service_info, tabCurrent, tabContent } = this.state
     return (
       <View className="appre-activity-detail">
         {/* <ShareBox
@@ -366,113 +386,141 @@ export default class AppreActivity extends Component {
           <Image className='share-item' src={require('@/assets/member/text.png')} onClick={this.copyText} />
         </View>
 
+        <Image className="appre-banner-img" src="http://oss.tdianyi.com/front/AY8XDHGntwa8dWN3fJe4hTWkK4zFG7F3.png" />
 
-
-        <ActivityTab tabList={[{ id: 1, key: '测试1' }, { id: 2, key: '测试2' }, { id: 3, key: '测试3' }]} onAtion={this.changeTab} />
-        {/* tabCurrent */}
-        <View className='gift-item-content'  >
-          <GiftItem label={'现金券'} title={"凄凄切切群群群群群群群"} desc={'简介简介简介简介简介简介'} price={'22.00'} btn={2} />
-          <GiftItem label={'平台礼品'} title={"凄凄切切群群群群群群群"} desc={'简介简介简介简介简介简介'} price={'22.00'} btn={2} />
+        <View className="appre-store-info">
+          <ApplyToTheStore
+            store_id={this.state.store.id}
+            isTitle={true}
+            img={this.state.store.shop_door_header_img}
+            name={this.state.store.sname}
+            phone={this.state.store.tel}
+            address={this.state.store.saddress}
+            location={{ xpoint: this.state.store.xpoint, ypoint: this.state.store.ypoint }}
+            meter={this.state.store.distance}
+          />
         </View>
 
-
-        <View className="appre-rules">
-          <View className="appre-title-box">
-            <View className='appre-title-left'></View>
-            <View className='appre-title'>使用说明</View>
-          </View>
-
-          <View className="appre-rules-item" >
-            <View className="rules-key">有效期：</View>
-            <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
-          </View>
-          {
-            this.state.coupon.limit_purchase_quantity ? <View className="appre-rules-item" >
-              <View className="rules-key">购买限制：</View>
-              <View className="rules-words">每人最多可购买{this.state.coupon.limit_purchase_quantity}份</View>
-            </View> : null
-          }
-          {
-            delivery_service_info.id ? <View className="group-rules-list-margin">
-              <View className="group-rules-list-title" >配送服务：</View>
-              <View className="group-rules-list-text" >-配送费用：{delivery_service_info.delivery_service_money}元</View>
-              <View className="group-rules-list-text" >-配送范围：{delivery_service_info.delivery_radius_m}km</View>
-              <View className="group-rules-list-text" >-配送时间：{delivery_service_info.delivery_start_time + '-' + delivery_service_info.delivery_end_time}</View>
-              {/* <View className="group-rules-list-text" >-联系电话：{this.state.store.tel}</View> */}
-            </View> : null
-          }
-          {
-            description && description.length && !this.state.showMoreRules ? <View>
-              <View className="appre-rules-list-title" >使用规则：</View>
+        {
+          this.state.tabList.length > 1 ? <ActivityTab tabList={this.state.tabList} onAtion={this.changeTab} /> : null
+        }
+        {
+          tabCurrent == 0 || tabCurrent == 1 ?
+            <View className='gift-item-content'  >
               {
-                description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
-              }
-              {
-                description.length > 1 ? <View className="appre-rules-list-text" >-{description[1]}</View> : null
-              }
-              {
-                description.length > 2 ? <View className="appre-rules-list-text" >-{description[2]}</View> : null
-              }
-              {
-                description.length > 3 ? <View className="appre-rules-list-text" >-{description[3]}</View> : null
-              }
-            </View> : null
-          }
-          {
-            description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
-              <View className="appre-rules-list-title" >使用规则：</View>
-              {
-                description.map((item) => {
+                tabContent[tabCurrent].map((item: any, index: any) => {
                   return (
-                    <View className="appre-rules-list-text" >-{item}</View>
+                    <View key={item.gift_id}>
+                      <GiftItem label={'平台礼品'} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
+                    </View>
                   )
                 })
               }
-            </View> : null
-          }
-          {
-            description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
-              <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
-              <View className="appre-more-text" >查看更多</View>
-            </View> : null
-          }
-        </View>
+            </View>
+            : null
+        }
+
         {
-          brief.length ? <View className="img-list-box">
-            <View className="img-title-box">
-              <View className='img-title-left'></View>
-              <View className='img-title'>图文详情</View>
-            </View>
-            <View className="images-content">
-              {
-                !this.state.showMoreImages && brief.length > 0 ? <Image className="images-item" mode={'widthFix'} src={brief[0]} />
-                  : null
-              }
-              {
-                !this.state.showMoreImages && brief.length > 1 ? <Image className="images-item" mode={'widthFix'} src={brief[1]} />
-                  : null
-              }
-              {
-                this.state.showMoreImages && brief.length > 2 ? brief.map((item: any, index: any) => {
-                  return (
-                    <Image className="images-item" mode={'widthFix'} key={item} src={item} />
-                  )
-                }) : null
-              }
-            </View>
-            {
-              brief.length > 2 && !this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: true }) }} >
-                <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
-                <View className="img-more-text" >查看更多</View>
+          tabCurrent == 2 ?
+            <View className="appre-rules">
+              <View className="appre-title-box">
+                <View className='appre-title-left'></View>
+                <View className='appre-title'>使用说明</View>
               </View>
-                : (
-                  brief.length > 2 && this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: false }) }} >
-                    <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/3pwMx3EMhEpZQs7jhS2zrA6fjSQdsFbW.png"} />
-                    <View className="img-more-text" >收起</View>
-                  </View> : null
-                )
-            }
-          </View> : null
+
+              <View className="appre-rules-item" >
+                <View className="rules-key">有效期：</View>
+                <View className="rules-words">购买后{this.state.coupon.expire_day}天内可用</View>
+              </View>
+              {
+                this.state.coupon.limit_purchase_quantity ? <View className="appre-rules-item" >
+                  <View className="rules-key">购买限制：</View>
+                  <View className="rules-words">每人最多可购买{this.state.coupon.limit_purchase_quantity}份</View>
+                </View> : null
+              }
+              {
+                delivery_service_info.id ? <View className="group-rules-list-margin">
+                  <View className="group-rules-list-title" >配送服务：</View>
+                  <View className="group-rules-list-text" >-配送费用：{delivery_service_info.delivery_service_money}元</View>
+                  <View className="group-rules-list-text" >-配送范围：{delivery_service_info.delivery_radius_m}km</View>
+                  <View className="group-rules-list-text" >-配送时间：{delivery_service_info.delivery_start_time + '-' + delivery_service_info.delivery_end_time}</View>
+                  {/* <View className="group-rules-list-text" >-联系电话：{this.state.store.tel}</View> */}
+                </View> : null
+              }
+              {
+                description && description.length && !this.state.showMoreRules ? <View>
+                  <View className="appre-rules-list-title" >使用规则：</View>
+                  {
+                    description.length > 0 ? <View className="appre-rules-list-text" >-{description[0]}</View> : null
+                  }
+                  {
+                    description.length > 1 ? <View className="appre-rules-list-text" >-{description[1]}</View> : null
+                  }
+                  {
+                    description.length > 2 ? <View className="appre-rules-list-text" >-{description[2]}</View> : null
+                  }
+                  {
+                    description.length > 3 ? <View className="appre-rules-list-text" >-{description[3]}</View> : null
+                  }
+                </View> : null
+              }
+              {
+                description && description.length && description.length > 4 && this.state.showMoreRules ? <View>
+                  <View className="appre-rules-list-title" >使用规则：</View>
+                  {
+                    description.map((item) => {
+                      return (
+                        <View className="appre-rules-list-text" >-{item}</View>
+                      )
+                    })
+                  }
+                </View> : null
+              }
+              {
+                description && description.length && description.length > 4 && !this.state.showMoreRules ? <View className="appre-more" onClick={() => { this.setState({ showMoreRules: true }) }} >
+                  <Image className="appre-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
+                  <View className="appre-more-text" >查看更多</View>
+                </View> : null
+              }
+            </View> : null
+        }
+        {
+          tabCurrent == 2 && brief.length ?
+            <View className="img-list-box">
+              <View className="img-title-box">
+                <View className='img-title-left'></View>
+                <View className='img-title'>图文详情</View>
+              </View>
+              <View className="images-content">
+                {
+                  !this.state.showMoreImages && brief.length > 0 ? <Image className="images-item" mode={'widthFix'} src={brief[0]} />
+                    : null
+                }
+                {
+                  !this.state.showMoreImages && brief.length > 1 ? <Image className="images-item" mode={'widthFix'} src={brief[1]} />
+                    : null
+                }
+                {
+                  this.state.showMoreImages && brief.length > 2 ? brief.map((item: any, index: any) => {
+                    return (
+                      <Image className="images-item" mode={'widthFix'} key={item} src={item} />
+                    )
+                  }) : null
+                }
+              </View>
+              {
+                brief.length > 2 && !this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: true }) }} >
+                  <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/GQr5D7QZwJczZ6RTwDapaYXj8nMbkenx.png"} />
+                  <View className="img-more-text" >查看更多</View>
+                </View>
+                  : (
+                    brief.length > 2 && this.state.showMoreImages ? <View className="img-more" onClick={() => { this.setState({ showMoreImages: false }) }} >
+                      <Image className="img-more-icon" src={"http://oss.tdianyi.com/front/3pwMx3EMhEpZQs7jhS2zrA6fjSQdsFbW.png"} />
+                      <View className="img-more-text" >收起</View>
+                    </View> : null
+                  )
+              }
+            </View> : null
         }
 
         <View className="appre-buy-box" >
