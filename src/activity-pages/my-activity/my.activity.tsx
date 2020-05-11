@@ -46,14 +46,23 @@ export default class MyActivity extends Component<MyActivityProp> {
 
   onShareAppMessage = e => {
     const { id, image, title } = e.target.dataset
-    console.log(id);
-    console.log(e.target.dataset)
     const userInfo = Taro.getStorageSync('userInfo')
-    return {
-      title: `${userInfo.nickName}邀请您参加拼团抢购${title}优惠券`,
-      imageUrl: image,
-      path: `/pages/activity/pages/group/group?id=${id}`
+    let router = Taro.getStorageSync('router')
+    let data = {}
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      data = {
+        title: `${userInfo.nickName}邀请您参加拼团抢购${title}优惠券`,
+        imageUrl: image,
+        path: `/pages/activity/pages/group/group?id=${id}&c_id${router.city_id}&c_name${router.city_name}&type_id${router.type_index_id}`
+      }
+    }else {
+      data = {
+        title: `${userInfo.nickName}邀请您参加拼团抢购${title}优惠券`,
+        imageUrl: image,
+        path: `/pages/activity/pages/group/group?id=${id}`
+      }
     }
+    return data
   }
 
   /**

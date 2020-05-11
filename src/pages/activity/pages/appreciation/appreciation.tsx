@@ -109,9 +109,16 @@ export default class Appreciation extends Component {
   onShareAppMessage() {
     const { getTextContent: { title, small_img: imageUrl } } = this.state.basicinfo
     const { id = "1095" } = this.$router.params
+    let router = Taro.getStorageSync('router')
+    let path = ''
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      path = `/pages/activity/pages/appreciation/appreciation?id=${id}&c_id${router.city_id}&c_name${router.city_name}&type_id${router.type_index_id}`
+    }else{
+      path = `/pages/activity/pages/appreciation/appreciation?id=${id}`
+    }
     return {
       title,
-      path: `/pages/activity/pages/appreciation/appreciation?id=${id}`,
+      path,
       imageUrl
     }
   }

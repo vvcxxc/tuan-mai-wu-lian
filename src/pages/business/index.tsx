@@ -187,9 +187,16 @@ export default class PaySuccess extends Component<Props> {
     })
   }
   onShareAppMessage = (res) => {
+    let router = Taro.getStorageSync('router')
+    let path = ''
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      path = '/pages/business/index?id=' + this.$router.params.id + '&c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id
+    }else{
+      path = '/pages/business/index?id=' + this.$router.params.id
+    }
     return {
       title: '听说你找了很久，' + this.state.business_list.name + '优惠力度超大，推荐给你看看！',
-      path: '/pages/business/index?id=' + this.$router.params.id,
+      path,
       imageUrl: this.state.business_list.preview
     }
   }

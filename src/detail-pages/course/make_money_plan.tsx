@@ -13,9 +13,17 @@ export default class MakeMoneyPlan extends Component {
 
   }
   onShareAppMessage = e => {
-    return {}
+    let router = Taro.getStorageSync('router')
+    let data = {}
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      data = {
+        path: '/detail-pages/course/make_money_plan?c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id,
+      }
+    }else {
+      data = {path: '/detail-pages/course/make_money_plan'}
+    }
+    return data
   }
-
   goto = () => {
     Taro.navigateTo({
       url: '/detail-pages/course/newbie'

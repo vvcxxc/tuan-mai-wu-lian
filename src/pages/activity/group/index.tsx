@@ -469,7 +469,13 @@ export default class GroupActivity extends Component {
     const userInfo = Taro.getStorageSync("userInfo");
     const { name, youhui_name, gift, pay_money, participation_money, preview, invitation_user_id } = this.state.data;
     const { id, activity_id, gift_id, type } = this.$router.params;
-    let title, imageUrl;
+    let title, imageUrl, path;
+    let router = Taro.getStorageSync('router')
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      path = '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id + '&c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id
+    }else {
+      path = '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id
+    }
     if (gift) {
       title = `只需${participation_money}元即可领取价值${pay_money}元的拼团券，还有超值礼品等着你`;
       imageUrl = this.state.data.image
@@ -479,7 +485,7 @@ export default class GroupActivity extends Component {
     }
     return {
       title: title,
-      path: '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
+      path,
       imageUrl: imageUrl
     }
 

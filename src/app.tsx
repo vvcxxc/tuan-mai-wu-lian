@@ -220,6 +220,35 @@ class App extends Component {
 
   componentDidShow() {
     isUpdate()
+    console.log(this.$router.params,'rppp')
+
+    // 小程序分享进来会携带城市的参数，要进行判断
+    if(this.$router.params.query.c_id){
+      let router = Taro.getStorageSync('router') || {}
+      let query = this.$router.params.query
+      if(Object.keys(router).length){
+        router.city_id = query.c_id
+        router.city_name = query.c_name
+        router.type_index_id = query.type_id
+        Taro.setStorageSync('router', router)
+      }else {
+        Taro.getLocation({
+          type: 'gcj02',
+          success: res => {
+            router.city_id = query.c_id
+            router.city_name = query.c_name
+            router.type_index_id = query.type_id
+            router.xpoint = res.longitude
+            router.ypoint = res.latitude
+            Taro.setStorageSync('router', router)
+          }
+        })
+      }
+
+    }
+
+
+
     let date = dayjs().unix()
     Taro.setStorageSync('is_one', date)
     let token = Taro.getStorageSync('token');

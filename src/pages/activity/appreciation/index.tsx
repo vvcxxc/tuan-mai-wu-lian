@@ -284,7 +284,13 @@ export default class AppreActivity extends Component {
     const userInfo = Taro.getStorageSync("userInfo");
     const { gift_id, gift, return_money, preview, pay_money, invitation_user_id } = this.state.data;
     const { id, activity_id, type } = this.$router.params;
-    let title, imageUrl;
+    let title, imageUrl, path;
+    let router = Taro.getStorageSync('router')
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      path = '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id+ '&c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id
+    }else {
+      path = '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id
+    }
     if (gift_id) {
       title = `快来！${pay_money}元增值至${return_money}元，还可免费领${gift.price}元礼品，机会仅此一次！`;
       imageUrl = this.state.data.image
@@ -294,7 +300,7 @@ export default class AppreActivity extends Component {
     }
     return {
       title: title,
-      path: '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id,
+      path,
       imageUrl: imageUrl
     }
   }
