@@ -231,6 +231,20 @@
 					"pathName": "detail-pages/orderdetail/index",
 					"query": "id=3866&__key_=15892457228501",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/set-meal/index",
+					"pathName": "business-pages/set-meal/index",
+					"query": "id=6308&__key_=15892723610604",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/set-meal/index",
+					"pathName": "business-pages/set-meal/index",
+					"query": "id=6256&__key_=15892724000734",
+					"scene": null
 				}
 			]
 		}
