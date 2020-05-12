@@ -33,24 +33,24 @@ export default class Member extends Component {
     show_err: false
   }
   componentDidMount() {
-    Taro.request(
-      {
-        url: 'https://api.supplier.tdianyi.com/api/v2/up',
-        method: "GET",
-      }
-    ).then(res => {
-      let { data } = res.data;
-      let oss_data = {
-        policy: data.policy,
-        OSSAccessKeyId: data.accessid,
-        success_action_status: 200, //让服务端返回200,不然，默认会返回204
-        signature: data.signature,
-        callback: data.callback,
-        host: data.host,
-        key: data.dir
-      };
-      Taro.setStorageSync("oss_data", oss_data)
-    })
+    // Taro.request(
+    //   {
+    //     url: 'https://api.supplier.tdianyi.com/api/v2/up',
+    //     method: "GET",
+    //   }
+    // ).then(res => {
+    //   let { data } = res.data;
+    //   let oss_data = {
+    //     policy: data.policy,
+    //     OSSAccessKeyId: data.accessid,
+    //     success_action_status: 200, //让服务端返回200,不然，默认会返回204
+    //     signature: data.signature,
+    //     callback: data.callback,
+    //     host: data.host,
+    //     key: data.dir
+    //   };
+    //   Taro.setStorageSync("oss_data", oss_data)
+    // })
 
     // }
     // /**

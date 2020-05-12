@@ -645,7 +645,7 @@ export default class GroupActivity extends Component {
             {this.state.data.supplier_delivery_id ? <View className="group-info-label-item">可配送</View> : null}
             <View className="group-info-label-item">{this.state.data.number}人团</View>
             <View className="group-info-label-item">已优惠￥{accSubtr(Number(this.state.data.pay_money), Number(this.state.data.participation_money))}</View>
-            {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null}
+            {/* {this.state.data.gift ? <View className="group-info-label-item">送{this.state.data.gift.title}</View> : null} */}
           </View>
         </View>
 
@@ -776,7 +776,7 @@ export default class GroupActivity extends Component {
                 tabContent[tabCurrent].map((item: any, index: any) => {
                   return (
                     <View key={item.gift_id}>
-                      <GiftItem label={'平台礼品'} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
+                      <GiftItem label={'平台礼品'} itemImg={item.gift_image} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
                     </View>
                   )
                 })

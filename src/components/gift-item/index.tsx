@@ -11,6 +11,7 @@ interface Props {
     rules: string;
     price: string | number;
     btn?: string | number;
+    itemImg: string;
 }
 
 
@@ -30,7 +31,7 @@ export default class GiftItem extends Component<Props> {
             <View className="gift_info" >
                 <View className="gift_msg_area" onClick={() => { this.setState({ rulesShow: true }) }}>
                     <View className="gift_msg" >
-                        <Image className="gift_img" src={"http://oss.tdianyi.com/front/2tp2Gi5MjC47hd7mGBCjEGdsBiWt5Wec.png"} />
+                        <Image className="gift_img" src={this.props.itemImg} />
                         <View className="gift_detail">
                             <View className="gift_detail_info">
                                 <View className="gift_title">

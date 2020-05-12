@@ -52,37 +52,55 @@ export default async function upload(files: any) {
         Taro.showToast({ title: '上传失败，请上传小于10M的图片', icon: 'none' })
         return new Promise(() => { });
     } else {
-        if (!Taro.getStorageSync("oss_data")) {
-            Taro.hideLoading()
+        // if (!Taro.getStorageSync("oss_data")) {
+        //     Taro.hideLoading()
+        //     Taro.showToast({ title: '上传失败，请重新上传', icon: 'none' })
+        //     /**获取oss */
+        //     Taro.request(
+        //         {
+        //             url: 'https://api.supplier.tdianyi.com/api/v2/up',
+        //             method: "GET",
+        //         }
+        //     ).then(res => {
+        //         console.log('res', res)
+
+        //         let { data } = res.data;
+        //         console.log(5345345)
+        //         let oss_data = {
+        //             policy: data.policy,
+        //             OSSAccessKeyId: data.accessid,
+        //             success_action_status: 200, //让服务端返回200,不然，默认会返回204
+        //             signature: data.signature,
+        //             callback: data.callback,
+        //             host: data.host,
+        //             key: data.dir
+        //         };
+        //         Taro.setStorageSync("oss_data",oss_data)
+
+        //     })
+
+
+
+        // }
+        let oss_data = {};
+        try {
+            let res = await Taro.request({ url: 'https://api.supplier.tdianyi.com/api/v2/up', method: "GET", })
+            console.log(data,'ddd')
+            let data = res.data.data
+            oss_data = {
+                policy: data.policy,
+                OSSAccessKeyId: data.accessid,
+                success_action_status: 200, //让服务端返回200,不然，默认会返回204
+                signature: data.signature,
+                callback: data.callback,
+                host: data.host,
+                key: data.dir
+            };
+        } catch (error) {
             Taro.showToast({ title: '上传失败，请重新上传', icon: 'none' })
-            /**获取oss */
-            Taro.request(
-                {
-                    url: 'https://api.supplier.tdianyi.com/api/v2/up',
-                    method: "GET",
-                }
-            ).then(res => {
-                console.log('res', res)
-
-                let { data } = res.data;
-                console.log(5345345)
-                let oss_data = {
-                    policy: data.policy,
-                    OSSAccessKeyId: data.accessid,
-                    success_action_status: 200, //让服务端返回200,不然，默认会返回204
-                    signature: data.signature,
-                    callback: data.callback,
-                    host: data.host,
-                    key: data.dir
-                };
-                Taro.setStorageSync("oss_data",oss_data)
-
-            })
-
-
-
         }
-        let oss_data = Taro.getStorageSync("oss_data");
+        console.log(oss_data)
+        // let oss_data = Taro.getStorageSync("oss_data");
         let key = oss_data.key + randomString(32) + '.jpg'
         return Taro.uploadFile({
             url: host,

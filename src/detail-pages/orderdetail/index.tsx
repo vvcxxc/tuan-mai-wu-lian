@@ -8,6 +8,7 @@ import CashCoupon1 from "@/pages/order/cash-coupon1/index";
 import CashCoupon2 from "@/pages/order/cash-coupon2/index";
 import CashCoupon3 from "@/pages/order/cash-coupon3/index";
 import { getLocation } from '@/utils/getInfo';
+import GiftType from './sourceType'
 
 
 export default class Orderdetail extends Component {
@@ -62,7 +63,8 @@ export default class Orderdetail extends Component {
           delivery_start_time: '',
           delivery_end_time: '',
         }
-      }
+      },
+      order_gift: []
     },
     _Imgurl: "",
     isApply: false,
@@ -149,6 +151,7 @@ export default class Orderdetail extends Component {
   render() {
     const { delivery_status, supplier_delivery_id } = this.state.defaultData.order_delivery_log;
     const descriptions = this.state.defaultData.description;
+    const { defaultData } = this.state;
     return (
       <View className='index' >
         <View className='a_head'>
@@ -365,44 +368,39 @@ export default class Orderdetail extends Component {
         }
 
         { /* 我的礼品  */}
-        <View className='z_billingInfo' >
-          <View className='a_buyBox' >
-            <View className='a_one' >配送信息 </View>
-            <View className='a_billingInfo' >
+        {
+          defaultData.order_gift && defaultData.order_gift.length ?
 
-              <View className="gift-info-area">
-                <View className="gift-img">
-                  <Image className="gift-img-img" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
-                  <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
-                </View>
-                <View className="gift-info">
-                  <View className="gift-title">空间广i就Gigi给哦iuu后yi欧阳过后i有空间广i就Gigi给哦iuu后yi欧阳过后i有</View>
-                  <View className="gift-info">参与有礼</View>
-                  <View className="gift-labels">
-                    <View className="gift-label-item">价值￥22</View>
-                    <View className="gift-label-item">数量：1</View>
-                  </View>
+            <View className='z_billingInfo' >
+              <View className='a_buyBox' >
+                <View className='a_one' >我的礼品 </View>
+                <View className='a_billingInfo' >
+                  {
+                    defaultData.order_gift.map((item: any, index: any) => {
+                      return (
+                        <View className="gift-info-area">
+                          <View className="gift-img">
+                            <Image className="gift-img-img" src={item.gift_image} />
+                            <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
+                          </View>
+                          <View className="gift-info">
+                            <View className="gift-title">{item.gift_name}</View>
+                            <View className="gift-info">
+                              <GiftType source={defaultData.source} coupons_type={defaultData.coupons_type} give_stage={item.give_stage} />
+                            </View>
+                            <View className="gift-labels">
+                              <View className="gift-label-item">价值￥{item.original_money}</View>
+                              <View className="gift-label-item">数量：{item.give_num}</View>
+                            </View>
+                          </View>
+                        </View>
+                      )
+                    })
+                  }
                 </View>
               </View>
-              <View className="gift-info-area">
-                <View className="gift-img">
-                  <Image className="gift-img-img" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
-                  <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
-                </View>
-                <View className="gift-info">
-                  <View className="gift-title">空间广i就Gigi给哦iuu后yi欧阳过后i有</View>
-                  <View className="gift-info">参与有礼</View>
-                  <View className="gift-labels">
-                    <View className="gift-label-item">价值￥22</View>
-                    <View className="gift-label-item">数量：1</View>
-                  </View>
-                </View>
-              </View>
-
-            </View>
-          </View>
-        </View>
-
+            </View> : null
+        }
 
         { /* 适用商铺  */}
         <View className='z_billingInfo' >
