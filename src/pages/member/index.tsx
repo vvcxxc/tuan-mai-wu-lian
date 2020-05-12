@@ -50,7 +50,6 @@ export default class Member extends Component {
 
     componentDidShow() {
         let phone_status = Taro.getStorageSync('phone_status')
-        Taro.setStorageSync('order_type', '');
         if (phone_status == 'binded' || phone_status == 'bind_success') {
             Taro.showLoading({ title: 'loading', mask: true });
             getUser().then((res: any) => {
