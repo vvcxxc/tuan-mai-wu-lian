@@ -112,7 +112,12 @@ export default class AppreActivity extends Component {
     showMoreImages: false,
     showShare: false, //显示分享
     showPoster: false, //显示海报
-    posterList: {},
+    posterList: {
+      store: {
+        name: '',
+        address: ''
+      }
+    },
     tipsMessage: '',
     is_code: false,
     is_level: false,
@@ -123,11 +128,12 @@ export default class AppreActivity extends Component {
     let youhui_id = this.$router.params.id
     shopPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
-        this.setState({ posterList: data })
+        // this.setState({ posterList: data })
         let link = data.link
         getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
-            let meta = this.state.posterList
+            // let meta = this.state.posterList
+            let meta = data
             meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })
@@ -261,11 +267,23 @@ export default class AppreActivity extends Component {
 
 
   onShareAppMessage = () => {
-    return {
-      title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
-      path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
-      imageUrl: this.state.coupon.image
+    let router = Taro.getStorageSync('router')
+    let data = {}
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      data = {
+        title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
+        path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id + '&c_id=' + router.city_id,
+        imageUrl: this.state.coupon.image
+      }
+    }else {
+      data = {
+        title: this.state.store.sname + '送福利啦！' + this.state.coupon.return_money + '元兑换券下单立刻抵扣，快点抢！',
+        path: '/business-pages/set-meal/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
+        imageUrl: this.state.coupon.image
+      }
     }
+    console.log(data)
+    return data
   }
 
   // 图片预览

@@ -124,7 +124,7 @@
 					"id": 10,
 					"name": "pages/activity/group/index",
 					"pathName": "pages/activity/group/index",
-					"query": "id=6179&type=5&gift_id=0&activity_id=2430&__key_=15887508752451",
+					"query": "id=5875&type=5&gift_id=88&activity_id=2302&__key_=15888148731551",
 					"scene": null
 				},
 				{
@@ -145,7 +145,7 @@
 					"id": 13,
 					"name": "business-pages/set-meal/index",
 					"pathName": "business-pages/set-meal/index",
-					"query": "id=6190",
+					"query": "id=6192&invitation_user_id=36883&c_id=1995",
 					"scene": null
 				},
 				{

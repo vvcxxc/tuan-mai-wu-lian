@@ -13,7 +13,16 @@ export default class GroupStrategy extends Component {
 
   }
   onShareAppMessage = e => {
-    return {}
+    let router = Taro.getStorageSync('router')
+    let data = {}
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      data = {
+        path: '/detail-pages/course/group_strategy?c_id=' + router.city_id ,
+      }
+    }else {
+      data = {path: '/detail-pages/course/group_strategy'}
+    }
+    return data
   }
 
   render() {
