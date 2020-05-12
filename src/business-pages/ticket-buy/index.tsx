@@ -118,10 +118,16 @@ export default class TicketBuy extends Component {
 
   componentDidMount() {
     let youhui_id = this.$router.params.id
+    let router = Taro.getStorageSync('router')
     moneyPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
         // this.setState({ posterList: data })
-        let link = data.link
+        let link = ''
+        if(router.city_id){
+          link = data.link + '&c_id=' + router.city_id
+        }else {
+          link = data.link
+        }
         getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
             // let meta = this.state.posterList

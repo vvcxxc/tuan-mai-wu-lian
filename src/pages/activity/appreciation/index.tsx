@@ -96,10 +96,16 @@ export default class AppreActivity extends Component {
   componentDidMount() {
     /* 请求海报数据 */
     let id = this.$router.params.id;
+    let router = Taro.getStorageSync('router')
     geValueAddedPoster({ youhui_id: id, from: 'wx' })
       .then(({ data, code }) => {
         // this.setState({ posterList: data })
-        let link = data.link
+        let link = ''
+        if(router.city_id){
+          link = data.link + '&c_id=' + router.city_id
+        }else {
+          link = data.link
+        }
         getXcxQrcode({ link, id })
           .then((res) => {
             // let meta = this.state.posterList
