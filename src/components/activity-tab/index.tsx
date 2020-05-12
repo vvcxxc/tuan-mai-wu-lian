@@ -20,6 +20,10 @@ export default class ActivityTab extends Component<Props> {
         this.props.onAtion(propsCurrent)
     }
 
+    componentDidShow() {
+        this.setState({ current: 0 })
+    }
+
     render() {
         return (
             <View className="activity-tab" >

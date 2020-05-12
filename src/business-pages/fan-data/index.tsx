@@ -127,7 +127,7 @@ export default class Member extends Component {
                     this.state.showList.length == 0 ? <View className="fan-nodata-box">
                         <View className="fan-nodata">
                             <Image className="fan-nodata-img" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
-                            <View className="fan-nodata-info">暂无邀请店铺，快去逛逛吧</View>
+                            <View className="fan-nodata-info">暂无更多数据，快去逛逛吧</View>
                         </View>
                     </View> : null
                 }

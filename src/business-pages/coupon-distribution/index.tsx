@@ -226,6 +226,7 @@ export default class distributionDetail extends Component {
     }
 
     render() {
+        const { supplierDelivery } = this.state;
         return (
             <View className="distribution-detail">
                 {
@@ -295,9 +296,15 @@ export default class distributionDetail extends Component {
                                 <View className="distribution-info">
                                     <View className="distribution-tips">选择后，商家将会提供送货上门的服务。</View>
                                     <View className="distribution-labels">
-                                        <View className="distribution-label-item">配送费{this.state.supplierDelivery.delivery_service_money}元</View>
-                                        <View className="distribution-label-item">{this.state.supplierDelivery.delivery_radius_m}km可送</View>
-                                        <View className="distribution-label-item">{this.state.supplierDelivery.delivery_start_time}-{this.state.supplierDelivery.delivery_end_time}配送</View>
+                                        {
+                                            supplierDelivery.delivery_service_money ? <View className="distribution-label-item">配送费{this.state.supplierDelivery.delivery_service_money}元</View> : null
+                                        }
+                                        {
+                                            supplierDelivery.delivery_radius_m ? <View className="distribution-label-item">{this.state.supplierDelivery.delivery_radius_m}km可送</View> : null
+                                        }
+                                        {
+                                            supplierDelivery.delivery_start_time ? <View className="distribution-label-item">{this.state.supplierDelivery.delivery_start_time}-{this.state.supplierDelivery.delivery_end_time}配送</View> : null
+                                        }
                                     </View>
                                 </View>
                             </View> : null

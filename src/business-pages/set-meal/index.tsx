@@ -411,7 +411,7 @@ export default class AppreActivity extends Component {
                 tabContent[tabCurrent].map((item: any, index: any) => {
                   return (
                     <View key={item.gift_id}>
-                      <GiftItem label={'平台礼品'} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
+                      <GiftItem label={'平台礼品'} itemImg={item.gift_image} title={item.gift_name} desc={item.use_description} rules={item.rule_description} price={item.original_money} btn={item.each_num} />
                     </View>
                   )
                 })
