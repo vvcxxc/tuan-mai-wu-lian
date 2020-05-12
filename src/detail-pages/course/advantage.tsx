@@ -17,7 +17,7 @@ export default class Advantage extends Component {
     let data = {}
     if(router.type_index_id == 0 || router.type_index_id == 1){
       data = {
-        path: '/detail-pages/course/advantage?c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id,
+        path: '/detail-pages/course/advantage?c_id=' + router.city_id ,
       }
     }else {
       data = {path: '/detail-pages/course/advantage'}

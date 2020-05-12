@@ -472,7 +472,7 @@ export default class GroupActivity extends Component {
     let title, imageUrl, path;
     let router = Taro.getStorageSync('router')
     if(router.type_index_id == 0 || router.type_index_id == 1){
-      path = '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id + '&c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id
+      path = '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id + '&c_id=' + router.city_id
     }else {
       path = '/pages/activity/group/index?id=' + id + '&type=5&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id
     }

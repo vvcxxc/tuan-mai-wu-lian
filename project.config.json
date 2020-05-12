@@ -145,7 +145,7 @@
 					"id": 13,
 					"name": "business-pages/set-meal/index",
 					"pathName": "business-pages/set-meal/index",
-					"query": "id=6192&invitation_user_id=36883&c_id=1995&c_name=新会区12&type_id=1",
+					"query": "id=6192&invitation_user_id=36883&c_id=1995",
 					"scene": null
 				},
 				{

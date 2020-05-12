@@ -190,7 +190,7 @@ export default class PaySuccess extends Component<Props> {
     let router = Taro.getStorageSync('router')
     let path = ''
     if(router.type_index_id == 0 || router.type_index_id == 1){
-      path = '/pages/business/index?id=' + this.$router.params.id + '&c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id
+      path = '/pages/business/index?id=' + this.$router.params.id + '&c_id=' + router.city_id
     }else{
       path = '/pages/business/index?id=' + this.$router.params.id
     }

@@ -235,7 +235,7 @@ export default class TicketBuy extends Component {
     if(router.type_index_id == 0 || router.type_index_id == 1){
       data = {
         title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
-        path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id+ '&c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id,
+        path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id+ '&c_id=' + router.city_id ,
         imageUrl: this.state.coupon.image
       }
     }else{

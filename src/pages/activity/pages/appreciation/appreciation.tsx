@@ -112,7 +112,7 @@ export default class Appreciation extends Component {
     let router = Taro.getStorageSync('router')
     let path = ''
     if(router.type_index_id == 0 || router.type_index_id == 1){
-      path = `/pages/activity/pages/appreciation/appreciation?id=${id}&c_id${router.city_id}&c_name${router.city_name}&type_id${router.type_index_id}`
+      path = `/pages/activity/pages/appreciation/appreciation?id=${id}&c_id${router.city_id}`
     }else{
       path = `/pages/activity/pages/appreciation/appreciation?id=${id}`
     }

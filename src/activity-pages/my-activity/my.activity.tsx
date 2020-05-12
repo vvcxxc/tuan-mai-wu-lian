@@ -53,7 +53,7 @@ export default class MyActivity extends Component<MyActivityProp> {
       data = {
         title: `${userInfo.nickName}邀请您参加拼团抢购${title}优惠券`,
         imageUrl: image,
-        path: `/pages/activity/pages/group/group?id=${id}&c_id${router.city_id}&c_name${router.city_name}&type_id${router.type_index_id}`
+        path: `/pages/activity/pages/group/group?id=${id}&c_id${router.city_id}`
       }
     }else {
       data = {

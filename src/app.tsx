@@ -13,6 +13,7 @@ import 'taro-ui/dist/style/index.scss';
 import dayjs from 'dayjs'
 import { quietLogin } from './utils/sign'
 import isUpdate from '@/utils/update'
+import request from '@/services/request'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -175,76 +176,37 @@ class App extends Component {
     define: '22'
   }
 
-  /**
-   * 判断小程序是否需要更新
-   */
-  // isUpdate = () => {
-  //   console.log(Taro.canIUse('getUpdateManager'),'isUpdate')
-  //   if(Taro.canIUse('getUpdateManager')){
-  //     const updateManager = Taro.getUpdateManager()
-  //     updateManager.onCheckForUpdate(function (res) {
-  //       console.log('onCheckForUpdate====', res)
-  //       // 请求完新版本信息的回调
-  //       if (res.hasUpdate) {
-  //         console.log('res.hasUpdate====')
-  //         updateManager.onUpdateReady(function () {
-  //           Taro.showModal({
-  //             title: '更新提示',
-  //             content: '新版本已经准备好，是否重启应用？',
-  //             success: function (res1) {
-  //               console.log('success====', res1)
-  //               // res: {errMsg: "showModal: ok", cancel: false, confirm: true}
-  //               if (res1.confirm) {
-  //                 // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-  //                 let route = Taro.getCurrentPages
-  //                 console.log(route,'route')
-  //                 updateManager.applyUpdate()
-  //               }
-  //             }
-  //           })
-  //         })
-  //         updateManager.onUpdateFailed(function () {
-  //           // 新的版本下载失败
-  //           Taro.showModal({
-  //             title: '已经有新版本啦',
-  //             content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~'
-  //           })
-  //         })
-  //       }
-  //     })
-  //   }else {
-
-  //   }
-  // }
-
-
-  componentDidShow() {
+  async componentDidShow() {
     isUpdate()
-    console.log(this.$router.params,'rppp')
+    console.log(this.$router.params, 'rppp')
 
     // 小程序分享进来会携带城市的参数，要进行判断
-    if(this.$router.params.query.c_id){
+    if (this.$router.params.query.c_id) {
       let router = Taro.getStorageSync('router') || {}
       let query = this.$router.params.query
-      if(Object.keys(router).length){
-        router.city_id = query.c_id
-        router.city_name = query.c_name
-        router.type_index_id = query.type_id
-        Taro.setStorageSync('router', router)
-      }else {
-        Taro.getLocation({
-          type: 'gcj02',
-          success: res => {
-            router.city_id = query.c_id
-            router.city_name = query.c_name
-            router.type_index_id = query.type_id
-            router.xpoint = res.longitude
-            router.ypoint = res.latitude
-            Taro.setStorageSync('router', router)
-          }
-        })
-      }
+      try {
+        let res = await request({ url: 'v3/city_info/' + query.c_id })
+        if (Object.keys(router).length) {
+          router.city_id = query.c_id
+          router.city_name = res.data.name
+          router.type_index_id = res.data.type_index_id
+          Taro.setStorageSync('router', router)
+        } else {
+          Taro.getLocation({
+            type: 'gcj02',
+            success: res1 => {
+              router.city_id = query.c_id
+              router.city_name = res.data.name
+              router.type_index_id = res.data.type_index_id
+              router.xpoint = res1.longitude
+              router.ypoint = res1.latitude
+              Taro.setStorageSync('router', router)
+            }
+          })
+        }
+      } catch (error) {
 
+      }
     }
 
 

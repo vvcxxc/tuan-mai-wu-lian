@@ -57,7 +57,7 @@ export default class Index extends Component<any> {
     let path = ''
     let router = Taro.getStorageSync('router')
     if(router.type_index_id == 0 || router.type_index_id == 1){
-      path = '/pages/index/index?c_id=' + router.city_id + '&c_name=' + router.city_name + '&type_id=' + router.type_index_id
+      path = '/pages/index/index?c_id=' + router.city_id
     }else{
       path = '/pages/index/index'
     }
