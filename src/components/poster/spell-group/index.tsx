@@ -1,10 +1,10 @@
 import Taro, { Component, Config } from "@tarojs/taro"
-import { View } from "@tarojs/components"
+import { View, Button } from "@tarojs/components"
 import '../index.styl'
 interface Props {
   list?: any,
   show: boolean,
-  onClose:()=>void
+  onClose: () => void
 }
 
 export default class HaveGiftPoster extends Component<Props>{
@@ -27,36 +27,67 @@ export default class HaveGiftPoster extends Component<Props>{
       store_name: '',
       store_address: '',
       link: '',
-      wx_img:''
+      wx_img: ''
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list } = nextProps
-      this.setState({
-        show: true,
-        listData: {
-          image: list.image,
-          gift_pic: list.gift.gift_pic,
-          gift_price: list.gift.gift_price,
-          participation_money: list.participation_money,
-          pay_money: list.pay_money,
-          number: list.number,
-          name: list.name,
-          store_name: list.store.name,
-          store_address: list.store.address,
-          link: list.link,
-          wx_img: list.wx_img
-        }
-      })
-    } 
+      console.log(nextProps, 'nextProps触发')
+      if(list.name){
+        Taro.hideLoading()
+        this.setState({
+          show: true,
+          listData: {
+            image: list.image,
+            gift_pic: list.gift.gift_pic,
+            gift_price: list.gift.gift_price,
+            participation_money: list.participation_money,
+            pay_money: list.pay_money,
+            number: list.number,
+            name: list.name,
+            store_name: list.store.name,
+            store_address: list.store.address,
+            link: list.link,
+            wx_img: list.wx_img
+          }
+        })
+      }else{
+        Taro.showLoading({title: '海报生成中'})
+      }
+
+    }
   }
 
   getmeta = (e) => {
-    Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
-      Taro.showToast({ title: '图片保存成功'});
+    Taro.getSetting({
+      success: (res) => {
+        console.log(res)
+        if (res.authSetting["scope.writePhotosAlbum"] === false) {
+          Taro.showModal({
+            title: '提示',
+            content: '打开保存到相册才能保存图片',
+            success: res1 => {
+              if(res1.confirm){
+                Taro.openSetting({
+                  success: (res2) => {
+                    console.log(res2)
+                  }
+                })
+              }
+            }
+          })
+
+        } else {
+          Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
+            Taro.showToast({ title: '图片保存成功' });
+          })
+        }
+      }
     })
+
+
     e.stopPropagation();
   }
 
@@ -73,12 +104,13 @@ export default class HaveGiftPoster extends Component<Props>{
 
   render() {
     const { listData } = this.state
-    let giftImg = listData.gift_pic? [
+    // console.log('render触发')
+    let giftImg = listData.gift_pic ? [
       {
         type: 'image',
         url: listData.gift_pic,
         css: {
-          bottom:'286rpx',
+          bottom: '286rpx',
           right: '40rpx',
           height: '145rpx',
           width: '195rpx',
@@ -139,9 +171,9 @@ export default class HaveGiftPoster extends Component<Props>{
           maxLines: '1',
         }
       }
-    ]:[]
+    ] : []
     let data = {
-      width:'544rpx',
+      width: '544rpx',
       height: '884rpx',
       background: '#fff',
       views: [
@@ -169,7 +201,7 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'image',
           url: listData.image,
           css: {
-            top:'112rpx',
+            top: '112rpx',
             left: '20rpx',
             height: '507rpx',
             width: '507rpx',
@@ -197,7 +229,7 @@ export default class HaveGiftPoster extends Component<Props>{
           }
         },
         {
-          id:'participation_money',
+          id: 'participation_money',
           type: 'text',
           text: '' + listData.participation_money,
           css: {
@@ -211,7 +243,7 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: '¥' + listData.pay_money,
           css: {
-            left: ['135rpx','participation_money'],
+            left: ['135rpx', 'participation_money'],
             bottom: '190rpx',
             color: '#B3B3B3',
             fontSize: '22rpx',
@@ -220,13 +252,13 @@ export default class HaveGiftPoster extends Component<Props>{
         },
         {
           type: 'text',
-          text: ' ' + listData.number+'人团 ',
+          text: ' ' + listData.number + '人团 ',
           css: {
             bottom: '162rpx',
             left: '47rpx',
             color: 'red',
             width: '70rpx',
-            textAlign:'center',
+            textAlign: 'center',
             fontSize: '14rpx',
           }
         },
@@ -245,7 +277,7 @@ export default class HaveGiftPoster extends Component<Props>{
           type: 'text',
           text: '' + listData.name,
           css: {
-            top:'735rpx',
+            top: '735rpx',
             left: '47rpx',
             width: '300rpx',
             maxLines: '2',
@@ -304,7 +336,7 @@ export default class HaveGiftPoster extends Component<Props>{
     return (
       this.state.show ? <View className="poster" onClick={() => {
         this.props.onClose()
-        this.setState({show:false})
+        this.setState({ show: false })
       }}>
         <painter
           widthPixels="275"
@@ -313,7 +345,7 @@ export default class HaveGiftPoster extends Component<Props>{
           onImgErr={this.onImgErr}
         />
         <View className="save-img" onClick={this.getmeta.bind(this)}>保存图片到相册</View>
-      </View >:null
+      </View > : null
     )
   }
 }

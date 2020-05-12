@@ -116,7 +116,12 @@ export default class TicketBuy extends Component {
     }],
     showShare: false, //显示分享
     showPoster: false, //显示海报
-    posterList: {},
+    posterList: {
+      store: {
+        name: '',
+        address: ''
+      }
+    },
     tipsMessage: '',
     isFromShare: false,
     showMoreImages: false,
@@ -128,11 +133,12 @@ export default class TicketBuy extends Component {
     let youhui_id = this.$router.params.id
     moneyPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
-        this.setState({ posterList: data })
+        // this.setState({ posterList: data })
         let link = data.link
         getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
-            let meta = this.state.posterList
+            // let meta = this.state.posterList
+            let meta = data
             meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })
@@ -260,11 +266,22 @@ export default class TicketBuy extends Component {
   }
 
   onShareAppMessage = () => {
-    return {
-      title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
-      path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
-      imageUrl: this.state.coupon.image
+    let router = Taro.getStorageSync('router')
+    let data = {}
+    if(router.type_index_id == 0 || router.type_index_id == 1){
+      data = {
+        title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
+        path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id+ '&c_id=' + router.city_id ,
+        imageUrl: this.state.coupon.image
+      }
+    }else{
+      data = {
+        title: '老板送钱！' + this.state.coupon.return_money + '元现金券限时发放中，快来一起领取！',
+        path: '/business-pages/ticket-buy/index?id=' + this.state.coupon.id + '&invitation_user_id=' + this.state.coupon.invitation_user_id,
+        imageUrl: this.state.coupon.image
+      }
     }
+    return data
   }
 
   // 图片预览
