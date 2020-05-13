@@ -284,10 +284,18 @@ export default class confirmAddress extends Component {
                                         clearInterval(interval);
                                         Taro.hideLoading();
                                         //得到增值活动id并跳转活动详情
-                                        Taro.navigateTo({
-                                            url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id
-                                        })
+                                        if (res.data.id && res.data.order_abnormal == 0) {
+                                            Taro.navigateTo({
+                                                url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id
+                                            })
+                                        } else {
+                                            Taro.showToast({ title: res.data.order_message, icon: 'none' })
+                                        }
+
                                     }
+                                }).catch((err) => {
+                                    clearInterval(interval);
+                                    Taro.showToast({ title: err.message, icon: 'none' })
                                 })
                             }, 1000);
                         },
