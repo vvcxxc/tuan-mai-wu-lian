@@ -294,6 +294,7 @@ export default class confirmAddress extends Component {
 
                                     }
                                 }).catch((err) => {
+                                    clearInterval(interval);
                                     Taro.showToast({ title: err.message, icon: 'none' })
                                 })
                             }, 1000);
