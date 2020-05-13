@@ -38,7 +38,7 @@ export default class AppreActivity extends Component {
             return;
         }
         Taro.showLoading({ title: 'loading', mask: true });
-        groupListInfo({ page: this.state.pageList[this.state.current], limit: 2, delivery_status })
+        groupListInfo({ page: this.state.pageList[this.state.current], limit: 10, delivery_status })
             .then((res: any) => {
                 Taro.hideLoading();
                 if (res.code == 200) {
