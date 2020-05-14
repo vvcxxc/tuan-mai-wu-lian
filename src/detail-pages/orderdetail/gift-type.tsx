@@ -1,7 +1,6 @@
 import Taro, { Component } from "@tarojs/taro";
 import { AtIcon, AtToast } from "taro-ui"
 import { View, Text, Image, ScrollView, Button, Switch } from "@tarojs/components";
-import "./index.less";
 import request from '../../services/request'
 import { Swiper, SwiperItem } from '@tarojs/components'
 

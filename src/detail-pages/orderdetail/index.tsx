@@ -8,7 +8,7 @@ import CashCoupon1 from "@/pages/order/cash-coupon1/index";
 import CashCoupon2 from "@/pages/order/cash-coupon2/index";
 import CashCoupon3 from "@/pages/order/cash-coupon3/index";
 import { getLocation } from '@/utils/getInfo';
-import GiftType from './sourceType'
+import GiftType from './gift-type'
 
 
 export default class Orderdetail extends Component {

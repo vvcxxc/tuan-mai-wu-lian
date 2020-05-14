@@ -164,9 +164,13 @@ export default class distributionDetail extends Component {
     }
 
     payMoney() {
-        if ((!this.state.address || !this.state.address.id) &&
-            (this.state.chooseDistribution && this.state.coupon.is_delivery)
-        ) {
+        // if ((!this.state.address || !this.state.address.id) &&
+        //     (this.state.chooseDistribution && this.state.coupon.is_delivery)
+        // ) {
+        //     this.setState({ contentboxShow: true })
+        //     return;
+        // }
+        if (!this.state.address || !this.state.address.id) {
             this.setState({ contentboxShow: true })
             return;
         }
