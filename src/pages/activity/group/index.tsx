@@ -527,6 +527,10 @@ export default class GroupActivity extends Component {
 
   copyText = () => {
     let code = this.state.data.share_text.replace(/@#@#/, H5_URL)
+    let router = Taro.getStorageSync('router')
+    if(router.city_id){
+      code = code + '&c_id=' + router.city_id
+    }
     Taro.setClipboardData({
       data: code,
       success() {
