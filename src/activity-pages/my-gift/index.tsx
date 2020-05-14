@@ -1,7 +1,8 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Text, Image, ScrollView, Button, Swiper, SwiperItem } from "@tarojs/components";
 import "./index.less";
-import { groupListInfo } from './service';
+import { groupListInfo, groupLogisticsInfo } from './service';
+import dayjs from 'dayjs'
 
 export default class AppreActivity extends Component {
     config = {
@@ -16,6 +17,13 @@ export default class AppreActivity extends Component {
         pageList: [1, 1, 1, 1],
         totalPageList: [1, 1, 1, 1],
         showList: [],
+
+        expGiftName: '',
+        expGiftImg: '',
+        expName: '',//公司名
+        expNumber: '',//物流单号
+        explist: [],
+        deliverystatus: '',
     }
 
     componentDidShow() {
@@ -50,7 +58,7 @@ export default class AppreActivity extends Component {
                     tempPage[this.state.current] = Number(tempPage[this.state.current]) + 1;
                     //tab对应总页数
                     let tempTotalPageList = this.state.totalPageList;
-                    tempTotalPageList[this.state.current] = res.data.last_page;//last_page可能不是总页数
+                    tempTotalPageList[this.state.current] = res.data.last_page;
 
                     this.setState({ dataList: tempDataList, showList: tempDataList[this.state.current], pageList: tempPage, totalPageList: tempTotalPageList })
                 } else {
@@ -62,9 +70,23 @@ export default class AppreActivity extends Component {
             })
     }
 
+    groupLogistics = (delivery_sn: string | number, gift_name: string, gift_image: string) => {
+        Taro.showLoading({ title: 'loading', mask: true });
+        groupLogisticsInfo({ delivery_sn }).then((res: any) => {
+            if (res.code == 200) {
+                Taro.hideLoading();
+                this.setState({ expGiftName: gift_name, expGiftImg: gift_image, expName: res.data.expName, expNumber: res.data.number, explist: res.data.list, ApeakerlogisticsContentShow: true, deliverystatus: res.data.deliverystatus })
+            }
+        })
+            .then((err: any) => {
+                Taro.hideLoading();
+                Taro.showToast({ title: err.message, icon: 'none', })
+            })
+    }
+
     render() {
         const List = [{ id: 1, key: '全部' }, { id: 2, key: '待发货' }, { id: 3, key: '进行中' }, { id: 4, key: '已签收' }];
-        const { showList } = this.state;
+        const { showList, explist, deliverystatus } = this.state;
         return (
             <View className="my-gift">
                 <View className="gift-tab-area" >
@@ -115,8 +137,8 @@ export default class AppreActivity extends Component {
                                     {
                                         item.delivery_status == 4 ? <View className="gift-member-type postColor3"> 配送失败</View> : null
                                     }
-                                    {/* <View className="gift-member-type postColor1">{item.delivery_status == 0 ? '待接单' : (item.delivery_status == 1 ? '已接单' : (item.delivery_status == 2 ? '配送中' : (item.delivery_status == 3 ? '配送成功' : (item.delivery_status == 4 ? '配送失败' : ''))))}</View> */}
-                                    {item.delivery_status == 0 ? <View className="gift-member-btn1">查看物流</View> : <View className="gift-member-btn2">查看物流</View>}
+                                    {item.delivery_status != 0 ? <View className="gift-member-btn2" onClick={this.groupLogistics.bind(this, item.delivery_sn, item.gift_name, item.gift_image)}>查看物流</View> : null}
+                                    {/* {item.delivery_status == 0 ? <View className="gift-member-btn1">查看物流</View> : <View className="gift-member-btn2" onClick={this.groupLogistics.bind(this, item.delivery_sn, item.gift_name, item.gift_image)}>查看物流</View>} */}
                                 </View>
                             </View>
                         )
@@ -132,70 +154,42 @@ export default class AppreActivity extends Component {
                             <View className={"ApeakerlogisticsContentBox"} onClick={(e) => { e.stopPropagation() }}>
                                 <View className={"Apeakerlogisticspages"}>
                                     <View className={"ApeakerlogisticsContentBoxTop"}>
-
-                                        <Image className={"topInfoBox-img"} src={"http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png"} />
+                                        <Image className={"topInfoBox-img"} src={'http://oss.tdianyi.com/' + this.state.expGiftImg} />
                                         <View className={"InfoContent"}>
-                                            <View className={"InfoName"}>就换个号</View>
-                                            <View className={"InfoCompany"}>物流快递:顺丰速运</View>
-                                            <View className={"InfoNumber"}>快递单号:SF102345678968
-                                        <Image className={"InfoNumber-img"} src='http://oss.tdianyi.com/front/AeDfZdwfppksiMzNKwxK8e2K5DEfsbpp.png' />
+                                            <View className={"InfoName"}>{this.state.expGiftName}</View>
+                                            <View className={"InfoCompany"}>物流快递:{this.state.expName}</View>
+                                            <View className={"InfoNumber"}>快递单号:{this.state.expNumber}
+                                                <Image className={"InfoNumber-img"} src='http://oss.tdianyi.com/front/AeDfZdwfppksiMzNKwxK8e2K5DEfsbpp.png' />
                                             </View>
                                         </View>
                                     </View>
                                     <View className={"ApeakerlogisticsContentBoxBottom"}>
                                         <View className={"BottomContent"}>
-
-                                            <View className={"adderessItem"}>
-                                                <View className={"adderessItemTime-img-area"}>
-                                                    <Image className={"adderessItemTime-red"} src='http://oss.tdianyi.com/front/6NEZBSt27xps2Mr6GjsRzGA4f7NXSmyQ.png' />
-                                                </View>
-                                                <View className={"adderessItemTime"}>
-                                                    <View className={"ItemTime"}>15:19 </View>
-                                                    <View className={"ItemDate"}>02-29</View>
-                                                </View>
-                                                <View className={"adderessItemMsg"}>快件交给小陈，正在派送途中（联系电话，顺丰已开启“安全呼叫”保 护您的电话隐私，请放心接听）</View>
-                                            </View>
-
-                                            <View className={"adderessItem"}>
-                                                <View className={"adderessItemTime-img-area"}>
-                                                    <Image className={"adderessItemTime-img"} src='http://oss.tdianyi.com/front/TtSZSBCcajzFeSkmQ8TrBaiYhAcAQwyc.png' />
-                                                </View>
-                                                <View className={"adderessItemTime"}>
-                                                    <View className={"ItemTime"}>15:19 </View>
-                                                    <View className={"ItemDate"}>02-29</View>
-                                                </View>
-                                                <View className={"adderessItemMsg"}>快件交给小陈，正在派送途中（联系电话，顺丰已开启“安全呼叫”保 护您的电话隐私，请放心接听）</View>
-                                            </View>
-                                            <View className={"adderessItem"}>
-                                                <View className={"adderessItemTime-img-area"}>
-                                                    {/* <Image className={"adderessItemTime-img"} src='http://oss.tdianyi.com/front/TtSZSBCcajzFeSkmQ8TrBaiYhAcAQwyc.png' /> */}
-                                                </View>                                        <View className={"adderessItemTime"}>
-                                                    <View className={"ItemTime"}>15:19 </View>
-                                                    <View className={"ItemDate"}>02-29</View>
-                                                </View>
-                                                <View className={"adderessItemMsg"}>快件交给小陈，正在派送途中（联系电话，顺丰已开启“安全呼叫”保 护您的电话隐私，请放心接听）</View>
-                                            </View>
-                                            <View className={"adderessItem"}>
-                                                <View className={"adderessItemTime-img-area"}>
-                                                    {/* <Image className={"adderessItemTime-img"} src='http://oss.tdianyi.com/front/TtSZSBCcajzFeSkmQ8TrBaiYhAcAQwyc.png' /> */}
-                                                </View>                                        <View className={"adderessItemTime"}>
-                                                    <View className={"ItemTime"}>15:19 </View>
-                                                    <View className={"ItemDate"}>02-29</View>
-                                                </View>
-                                                <View className={"adderessItemMsg"}>快件交给小陈，正在派送途中（联系电话，顺丰已开启“安全呼叫”保 护您的电话隐私，请放心接听）</View>
-                                            </View>
-                                            <View className={"adderessItem"}>
-                                                <View className={"adderessItemTime-img-area"}>
-                                                    {/* <Image className={"adderessItemTime-img"} src='http://oss.tdianyi.com/front/TtSZSBCcajzFeSkmQ8TrBaiYhAcAQwyc.png' /> */}
-                                                </View>                                        <View className={"adderessItemTime"}>
-                                                    <View className={"ItemTime"}>15:19 </View>
-                                                    <View className={"ItemDate"}>02-29</View>
-                                                </View>
-                                                <View className={"adderessItemMsg"}>快件交给小陈，正在派送途中（联系电话，顺丰已开启“安全呼叫”保 护您的电话隐私，请放心接听）</View>
-                                            </View>
-
+                                            {
+                                                explist.length ? explist.map((item: any, index: any) => {
+                                                    return (
+                                                        <View className={"adderessItem"} key={index}>
+                                                            <View className={"adderessItemTime-img-area"}>
+                                                                {
+                                                                    deliverystatus == '3' && index == 0 ? <Image className={"adderessItemTime-red"} src='http://oss.tdianyi.com/front/6NEZBSt27xps2Mr6GjsRzGA4f7NXSmyQ.png' />
+                                                                        : ((deliverystatus == '3' && index == 1) || (deliverystatus != '3' && index == 0) ? <Image className={"adderessItemTime-img"} src='http://oss.tdianyi.com/front/TtSZSBCcajzFeSkmQ8TrBaiYhAcAQwyc.png' />
+                                                                            : null)
+                                                                }
+                                                                {/* <Image className={"adderessItemTime-img"} src='http://oss.tdianyi.com/front/TtSZSBCcajzFeSkmQ8TrBaiYhAcAQwyc.png' /> */}
+                                                            </View>                                        <View className={"adderessItemTime"}>
+                                                                <View className={"ItemTime"}>{dayjs(item.time).format('HH:mm')}</View>
+                                                                <View className={"ItemDate"}>{dayjs(item.time).format('MM-DD')}</View>
+                                                            </View>
+                                                            <View className={"adderessItemMsg"}>{item.status}</View>
+                                                        </View>
+                                                    )
+                                                }) : null
+                                            }
                                         </View>
                                     </View>
+                                </View>
+                                <View className="ApeakerlogisticsIcon" onClick={() => { this.setState({ ApeakerlogisticsContentShow: false }) }} >
+                                    <Image className="ApeakerlogisticsIcon-img" src='http://oss.tdianyi.com/front/m5ZnPzzxbKxPtnHtx8xEz62QN6jfcxiB.png' />
                                 </View>
                             </View>
                         </View> : null

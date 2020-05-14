@@ -245,6 +245,12 @@
 					"pathName": "business-pages/set-meal/index",
 					"query": "id=6256&__key_=15892724000734",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "activity-pages/my-gift/index",
+					"pathName": "activity-pages/my-gift/index",
+					"scene": null
 				}
 			]
 		}
