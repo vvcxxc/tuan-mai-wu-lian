@@ -46,9 +46,9 @@ export default class AppreActivity extends Component {
             return;
         }
         Taro.showLoading({ title: 'loading', mask: true });
-        let page = delivery_status == 1 ? '0' : (
-            delivery_status == 2 ? '2' : (
-                delivery_status == 3 ? '3' : null
+        let page = Number(delivery_status) == 1 ? 0 : (
+            Number(delivery_status) == 2 ? 2 : (
+                Number(delivery_status) == 3 ? 3 : undefined
             )
         )
         groupListInfo({ page, limit: 10, delivery_status })
