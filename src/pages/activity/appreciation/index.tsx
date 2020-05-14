@@ -280,7 +280,7 @@ export default class AppreActivity extends Component {
                 url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id
               })
             } else {
-              Taro.showToast({ title: res.data.order_message, icon: 'none' })
+              Taro.showToast({ title: res.data.order_message, icon: 'none', duration: 5000 })
             }
           } else {
             that.getLastYouhuiId(order_sn)

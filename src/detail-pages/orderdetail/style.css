@@ -261,6 +261,9 @@
   line-height: 36px;
   margin-right: 10px;
 }
+.a_buyBox .a_billingInfo .gift-info-area:last-child {
+  margin-bottom: 0;
+}
 .a_buyBox .a_imgBox {
   height: 113px;
   padding-bottom: 5px;
