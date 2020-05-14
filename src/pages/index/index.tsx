@@ -65,6 +65,7 @@ export default class Index extends Component<any> {
   }
 
   componentDidShow() {
+    console.log(this.props,'props')
     Taro.getSystemInfo().then(res => {
       if (res.model.includes('iPhone X')) {
         Taro.setStorageSync('isIPhoneX', true)
