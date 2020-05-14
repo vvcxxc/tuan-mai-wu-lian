@@ -46,12 +46,12 @@ export default class AppreActivity extends Component {
             return;
         }
         Taro.showLoading({ title: 'loading', mask: true });
-        let page = Number(delivery_status) == 1 ? 0 : (
+        let type = Number(delivery_status) == 1 ? 0 : (
             Number(delivery_status) == 2 ? 2 : (
                 Number(delivery_status) == 3 ? 3 : undefined
             )
         )
-        groupListInfo({ page, limit: 10, delivery_status })
+        groupListInfo({ page: this.state.pageList[delivery_status], limit: 10, delivery_status: type })
             .then((res: any) => {
                 Taro.hideLoading();
                 if (res.code == 200) {
