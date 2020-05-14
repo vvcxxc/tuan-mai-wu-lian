@@ -72,13 +72,17 @@ export default class AppreActivity extends Component {
 
     groupLogistics = (delivery_sn: string | number, gift_name: string, gift_image: string) => {
         Taro.showLoading({ title: 'loading', mask: true });
-        groupLogisticsInfo({ delivery_sn }).then((res: any) => {
-            if (res.code == 200) {
+        groupLogisticsInfo({ delivery_sn })
+            .then((res: any) => {
                 Taro.hideLoading();
-                this.setState({ expGiftName: gift_name, expGiftImg: gift_image, expName: res.data.expName, expNumber: res.data.number, explist: res.data.list, ApeakerlogisticsContentShow: true, deliverystatus: res.data.deliverystatus })
-            }
-        })
-            .then((err: any) => {
+                if (res.code == 200 && res.data.list) {
+                    Taro.hideLoading();
+                    this.setState({ expGiftName: gift_name, expGiftImg: gift_image, expName: res.data.expName, expNumber: res.data.number, explist: res.data.list, ApeakerlogisticsContentShow: true, deliverystatus: res.data.deliverystatus })
+                } else {
+                    Taro.showToast({ title: res.message, icon: 'none', })
+                }
+            })
+            .catch((err: any) => {
                 Taro.hideLoading();
                 Taro.showToast({ title: err.message, icon: 'none', })
             })

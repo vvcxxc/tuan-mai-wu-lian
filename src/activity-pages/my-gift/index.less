@@ -228,17 +228,19 @@
 
     .ApeakerlogisticsContent {
         height: 100vh;
-        width: 100%;
-        position: absolute;
+        width: 100vw;
+        position: fixed;
         background: rgba(0, 0, 0, .7);
         z-index: 2;
         left: 0;
+        right: 0;
         top: 0;
+        bottom: 0;
 
         .ApeakerlogisticsContentBox {
             width: 80%;
             height: auto;
-            position: fixed;
+            position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
