@@ -32,6 +32,7 @@ export default class AppreActivity extends Component {
 
     //改tab
     changeCurrent = (index: number | string) => {
+        Taro.pageScrollTo({ scrollTop: 0, duration: 300 });
         if (this.state.dataList[index].length == 0) {
             this.setState({ showList: [], current: index }, () => {
                 this.getList(index);
@@ -41,17 +42,32 @@ export default class AppreActivity extends Component {
         }
     }
     //拿数据
-    getList = (delivery_status: string | number) => {
+    getList = (current: string | number) => {
         if (this.state.pageList[this.state.current] > this.state.totalPageList[this.state.current]) {
             return;
         }
         Taro.showLoading({ title: 'loading', mask: true });
-        let type = Number(delivery_status) == 1 ? 0 : (
-            Number(delivery_status) == 2 ? 2 : (
-                Number(delivery_status) == 3 ? 3 : undefined
-            )
-        )
-        groupListInfo({ page: this.state.pageList[delivery_status], limit: 10, delivery_status: type })
+        let sameData = {
+            page: this.state.pageList[current],
+            limit: 10
+        };
+        let data;
+        if (Number(current) == 1) {
+            data = {
+                ...sameData,
+                delivery_status: 0
+            }
+        } else if (Number(current) == 2 || Number(current) == 3) {
+            data = {
+                ...sameData,
+                delivery_status: Number(current)
+            }
+        } else {
+            data = {
+                ...sameData,
+            }
+        }
+        groupListInfo(data)
             .then((res: any) => {
                 Taro.hideLoading();
                 if (res.code == 200) {

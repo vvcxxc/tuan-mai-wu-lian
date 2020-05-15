@@ -7,18 +7,22 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    padding-top: 85px;
 
     .gift-tab-area {
         width: 100vw;
         height: 85px;
         font-size: 16px;
         background: rgba(255, 255, 255, 1);
-        display: flex;
-        flex-direction: row;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
 
         .gift-tab-item {
             width: 25%;
             height: 85px;
+            float: left;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -37,6 +41,7 @@
         .gift-tab-item-select {
             width: 25%;
             height: 85px;
+            float: left;
             display: flex;
             align-items: center;
             justify-content: center;
