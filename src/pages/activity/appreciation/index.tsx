@@ -234,7 +234,7 @@ export default class AppreActivity extends Component {
    */
   getLastYouhuiId = (order_sn) => {
     let that = this;
-    Taro.showLoading({ title: '支付成功，正在查询用户增值活动id', mask: true });
+    Taro.showLoading({ title: '支付成功，正在查询id', mask: true });
     let timer = setTimeout(() => {
       clearTimeout(timer);
       getUserLastYouhuiId({ order_sn: order_sn })
@@ -242,9 +242,13 @@ export default class AppreActivity extends Component {
           if (res.code == 200) {
             Taro.hideLoading();
             //得到增值活动id并跳转活动详情
-            Taro.navigateTo({
-              url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id
-            })
+            if (res.data.id && res.data.order_abnormal == 0) {
+              Taro.navigateTo({
+                url: '/pages/activity/pages/appreciation/appreciation?id=' + res.data.id
+              })
+            } else {
+              Taro.showToast({ title: res.data.order_message, icon: 'none', duration: 5000 })
+            }
           } else {
             that.getLastYouhuiId(order_sn)
           }
