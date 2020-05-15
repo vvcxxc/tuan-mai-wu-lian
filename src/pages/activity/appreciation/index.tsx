@@ -98,11 +98,12 @@ export default class AppreActivity extends Component {
     let id = this.$router.params.id;
     geValueAddedPoster({ youhui_id: id, from: 'wx' })
       .then(({ data, code }) => {
-        this.setState({ posterList: data })
+        // this.setState({ posterList: data })
         let link = data.link
         getXcxQrcode({ link, id })
           .then((res) => {
-            let meta = this.state.posterList
+            // let meta = this.state.posterList
+            let meta = data
             meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })

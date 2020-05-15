@@ -107,7 +107,12 @@ export default class AppreActivity extends Component {
     showMoreImages: false,
     showShare: false, //显示分享
     showPoster: false, //显示海报
-    posterList: {},
+    posterList: {
+      store: {
+        name: '',
+        address: ''
+      }
+    },
     tipsMessage: '',
     is_code: false,
     is_level: false,
@@ -118,11 +123,12 @@ export default class AppreActivity extends Component {
     let youhui_id = this.$router.params.id
     shopPoster({ youhui_id, from: 'wx' })
       .then(({ data, code }) => {
-        this.setState({ posterList: data })
+        // this.setState({ posterList: data })
         let link = data.link
         getXcxQrcode({ link, id: youhui_id })
           .then((res) => {
-            let meta = this.state.posterList
+            // let meta = this.state.posterList
+            let meta = data
             meta['wx_img'] = BASIC_API + res.data.url
             this.setState({ posterList: meta })
           })

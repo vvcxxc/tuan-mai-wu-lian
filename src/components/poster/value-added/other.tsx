@@ -34,27 +34,54 @@ export default class HaveGiftPoster extends Component<Props>{
   componentWillReceiveProps(nextProps) {
     if (nextProps.show && !this.state.show) {
       const { list, show, type } = nextProps
-      this.setState({
-        show: type =='Other' ? true : false,
-        listData: {
-        image: list.image,
-        pay_money: list.pay_money,
-        return_money: list.return_money,
-        name: list.name,
-        store_name: list.store.name,
-        store_address: list.store.address,
-        link: list.link,
-        wx_img: list.wx_img,
-        gift_pic: list.gift.gift_pic,
-        gift_price: list.gift.gift_price,
+      if(list.name){
+        Taro.hideLoading()
+        this.setState({
+          show: type =='Other' ? true : false,
+          listData: {
+          image: list.image,
+          pay_money: list.pay_money,
+          return_money: list.return_money,
+          name: list.name,
+          store_name: list.store.name,
+          store_address: list.store.address,
+          link: list.link,
+          wx_img: list.wx_img,
+          gift_pic: list.gift.gift_pic,
+          gift_price: list.gift.gift_price,
+        }
+      })
+      }else {
+        Taro.showLoading({title: '海报生成中'})
       }
-    })
+
     }
   }
-  
+
   getmeta = (e) => {
-    Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
-      Taro.showToast({ title: '图片保存成功' });
+    Taro.getSetting({
+      success: (res) => {
+        console.log(res)
+        if (res.authSetting["scope.writePhotosAlbum"] === false) {
+          Taro.showModal({
+            title: '提示',
+            content: '打开保存到相册才能保存图片',
+            success: res1 => {
+              if(res1.confirm){
+                Taro.openSetting({
+                  success: (res2) => {
+                    console.log(res2)
+                  }
+                })
+              }
+            }
+          })
+        } else {
+          Taro.saveImageToPhotosAlbum({ filePath: this.state.image }).then(() => {
+            Taro.showToast({ title: '图片保存成功' });
+          })
+        }
+      }
     })
     e.stopPropagation()
   }
