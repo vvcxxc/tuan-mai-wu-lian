@@ -57,7 +57,7 @@ export default class ActivityList extends Component {
           ypoint: res.latitude,
           channel_id: id,
           page: 1,
-          area_id: router.city_id,
+          city_id: router.city_id,
           from: 'detail'
         }
         getList(data).then(res => {
@@ -71,7 +71,7 @@ export default class ActivityList extends Component {
           channel_id: id,
           page: 1,
           from: 'detail',
-          area_id: router.city_id,
+          city_id: router.city_id,
         }
         getList(data).then(res => {
           this.getNewList(res.data.data)
@@ -96,7 +96,7 @@ export default class ActivityList extends Component {
             channel_id: id,
             page: this.state.page,
             from: 'detail',
-            area_id: router.city_id,
+            city_id: router.city_id,
           }
           getList(data).then(res => {
             if (res.data.data.length) {
@@ -113,7 +113,7 @@ export default class ActivityList extends Component {
             channel_id: id,
             page: this.state.page,
             from: 'detail',
-            area_id: router.city_id,
+            city_id: router.city_id,
           }
           getList(data).then(res => {
             if (res.data.data.length) {

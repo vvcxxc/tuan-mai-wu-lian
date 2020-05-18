@@ -42,7 +42,7 @@ export default class MarketingIndex extends Component<any> {
         })
       }
     })
-    getTabList({ channel_id: 6, area_id: router.city_id, page: 1 }).then((res: any) => {
+    getTabList({ channel_id: 6, city_id: router.city_id, page: 1 }).then((res: any) => {
       if (res.code == 200) {
         if (res.data.user_info) {
           const { userGroupId, phone } = res.data.user_info
@@ -73,7 +73,7 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({ channel_id: 6,area_id: router.city_id, page: 1 }).then(res => {
+      getTabList({ channel_id: 6,city_id: router.city_id, page: 1 }).then(res => {
         Taro.stopPullDownRefresh()
         if (res.code == 200) {
           this.setState({ list: res.data.data })
@@ -97,7 +97,7 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({ channel_id: this.state.id,area_id: router.city_id, page: 1 }).then((res: any) => {
+      getTabList({ channel_id: this.state.id,city_id: router.city_id, page: 1 }).then((res: any) => {
         if (res.code == 200) {
           if (res.data.user_info) {
             const { userGroupId, phone } = res.data.user_info
@@ -118,7 +118,7 @@ export default class MarketingIndex extends Component<any> {
     if (this.props.changeBottom != nextProps.changeBottom) {
       let router = Taro.getStorageSync('router')
       this.setState({ page: this.state.page + 1 }, () => {
-        getTabList({ channel_id: this.state.id,area_id: router.city_id, page: this.state.page }).then(res => {
+        getTabList({ channel_id: this.state.id,city_id: router.city_id, page: this.state.page }).then(res => {
           if (res.code == 200) {
             this.setState({ list: [...this.state.list, ...res.data.data] })
           }
