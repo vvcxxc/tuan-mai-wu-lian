@@ -48,6 +48,7 @@ export default class ActivityList extends Component {
         that.setState({ bannerImg: "http://oss.tdianyi.com/front/aSFeTMpP5dSFTKX3YAf6xYzFhFzAaDGe.png" });
         break
     }
+    let router = Taro.getStorageSync('router')
     Taro.getLocation({
       type: 'gcj02',
       success: res => {
@@ -56,6 +57,7 @@ export default class ActivityList extends Component {
           ypoint: res.latitude,
           channel_id: id,
           page: 1,
+          area_id: router.city_id,
           from: 'detail'
         }
         getList(data).then(res => {
@@ -68,7 +70,8 @@ export default class ActivityList extends Component {
           ypoint: '',
           channel_id: id,
           page: 1,
-          from: 'detail'
+          from: 'detail',
+          area_id: router.city_id,
         }
         getList(data).then(res => {
           this.getNewList(res.data.data)
@@ -82,6 +85,7 @@ export default class ActivityList extends Component {
       return
     }
     let id = this.$router.params.id
+    let router = Taro.getStorageSync('router')
     this.setState({ page: this.state.page + 1 }, () => {
       Taro.getLocation({
         type: 'gcj02',
@@ -91,7 +95,8 @@ export default class ActivityList extends Component {
             ypoint: res.latitude,
             channel_id: id,
             page: this.state.page,
-            from: 'detail'
+            from: 'detail',
+            area_id: router.city_id,
           }
           getList(data).then(res => {
             if (res.data.data.length) {
@@ -107,7 +112,8 @@ export default class ActivityList extends Component {
             ypoint: '',
             channel_id: id,
             page: this.state.page,
-            from: 'detail'
+            from: 'detail',
+            area_id: router.city_id,
           }
           getList(data).then(res => {
             if (res.data.data.length) {
