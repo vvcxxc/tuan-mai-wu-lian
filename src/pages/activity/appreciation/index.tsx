@@ -107,9 +107,9 @@ export default class AppreActivity extends Component {
       .then(({ data, code }) => {
         // this.setState({ posterList: data })
         let link = ''
-        if(router.city_id){
+        if (router.city_id) {
           link = data.link + '&c_id=' + router.city_id
-        }else {
+        } else {
           link = data.link
         }
         getXcxQrcode({ link, id })
@@ -288,7 +288,7 @@ export default class AppreActivity extends Component {
         }).catch((err) => {
           that.getLastYouhuiId(order_sn)
         })
-    }, 500);
+    }, 1000);
   }
 
   /**
@@ -323,9 +323,9 @@ export default class AppreActivity extends Component {
     const { id, activity_id, type } = this.$router.params;
     let title, imageUrl, path;
     let router = Taro.getStorageSync('router')
-    if(router.type_index_id == 0 || router.type_index_id == 1){
-      path = '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id+ '&c_id=' + router.city_id
-    }else {
+    if (router.type_index_id == 0 || router.type_index_id == 1) {
+      path = '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id + '&c_id=' + router.city_id
+    } else {
       path = '/pages/activity/appreciation/index?id=' + id + '&type=1&gift_id=' + gift_id + '&activity_id=' + activity_id + '&invitation_user_id=' + invitation_user_id
     }
     if (gift_id) {
@@ -577,7 +577,8 @@ export default class AppreActivity extends Component {
                   <View className="appre-more-text" >查看更多</View>
                 </View> : null
               }
-            </View> : null}
+            </View> : null
+        }
         <View className="appre-buy-box" >
           <View className="group-buy-icon-box" >
             <View className='group-buy-icon-item' onClick={this.handleGoHome}>

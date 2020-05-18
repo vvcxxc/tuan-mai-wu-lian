@@ -13,8 +13,6 @@ import {
 import ActivityTab from '@/components/activity-tab';
 import GiftItem from '@/components/gift-item';
 import { getXcxQrcode } from "@/api";
-import ActivityTab from '@/components/activity-tab';
-import GiftItem from '@/components/gift-item';
 import ApplyToTheStore from '@/components/applyToTheStore';
 import TimeUp from '@/components/TimeUp';
 import LoginAlert from '@/components/loginAlert';

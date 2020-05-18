@@ -404,6 +404,8 @@ export default class EditorAddress extends Component {
                     <View className="editor-box2">
                         <View className="editor-box_left2">详细地址:</View>
                         <Textarea
+                            // show-confirm-bar={false}
+                            show-confirm-bar = "{{false}}"
                             className="editor-box_input2"
                             value={this.state.TextareaValue}
                             onInput={this.onHandelChangeAddress.bind(this)}

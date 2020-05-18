@@ -8,7 +8,7 @@ import { accAdd } from '@/components/acc-num'
 
 export default class distributionDetail extends Component {
     config = {
-        navigationBarTitleText: "兑换券购买",
+        navigationBarTitleText: "优惠券购买订单页",
         enablePullDownRefresh: false
     };
     state = {
