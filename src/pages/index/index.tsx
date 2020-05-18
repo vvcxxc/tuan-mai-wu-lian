@@ -4,6 +4,7 @@ import { connect } from '@tarojs/redux'
 import { getCityName } from './service'
 import OldIndex from './components/oldIndex'
 import MarketingIndex from './components/marketingIndex'
+import request from '@/services/request'
 @connect(
   state => ({
     serchName: state.search.get('serchName'),
@@ -64,13 +65,34 @@ export default class Index extends Component<any> {
       }
     })
     let router = Taro.getStorageSync('router') || {}
-    if (router.city_name) {
-      if(router.type_index_id >= 1){
-        console.log('触发333')
-        this.setState({ is_marketing: true })
-      }else {
-        this.setState({ is_marketing: false })
-      }
+    if (router.city_id) {
+      request({ url: 'v3/city_info/' + router.city_id }).then((res: any) => {
+        if (res.code == 200 && router.type_index_id != res.data.type_index_id) {
+          let type_index_id = res.data.type_index_id
+          router.type_index_id = type_index_id
+          if (router.type_index_id >= 1) {
+            this.setState({ is_marketing: true })
+          } else {
+            this.setState({ is_marketing: false })
+          }
+          Taro.setStorageSync('router', router)
+        } else {
+          if (router.type_index_id >= 1) {
+            console.log('触发333')
+            this.setState({ is_marketing: true })
+          } else {
+            this.setState({ is_marketing: false })
+          }
+        }
+      }).catch(() => {
+        if (router.type_index_id >= 1) {
+          console.log('触发333')
+          this.setState({ is_marketing: true })
+        } else {
+          this.setState({ is_marketing: false })
+        }
+      })
+
     } else {
       Taro.getLocation({
         type: 'gcj02',
@@ -113,10 +135,10 @@ export default class Index extends Component<any> {
 
   // 避免出现定位未切换首页情况
   handleChange = (type) => {
-    console.log(2,'type change')
-    if(type == 1){
+    console.log(2, 'type change')
+    if (type == 1) {
       this.setState({ is_marketing: true })
-    }else {
+    } else {
       this.setState({ is_marketing: false })
     }
   }
