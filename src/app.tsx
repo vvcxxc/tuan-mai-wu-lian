@@ -92,7 +92,8 @@ class App extends Component {
           'membership-upgrade/index',
           'member-playingMethod/index',
           'uploadImg-example/index',
-          'my-qrcode/index'
+          'my-qrcode/index',
+          'snap-up/index',
         ]
       },
       {
