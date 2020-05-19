@@ -185,7 +185,7 @@ export default class TicketBuy extends Component {
 
       }).catch(err => {
         Taro.hideLoading()
-        Taro.showToast({ title: '信息错误', icon: 'none' })
+        Taro.showToast({ title: '系统繁忙', icon: 'none' })
         setTimeout(() => { Taro.navigateBack() }, 2000)
       })
   }

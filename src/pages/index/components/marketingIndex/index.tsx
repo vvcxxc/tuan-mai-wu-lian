@@ -142,7 +142,8 @@ export default class MarketingIndex extends Component<any> {
   handlerTabChange(current, id, _this) {
     this.setState({ current, id });
     // this.setState({ meta: data })
-    getTabList({ channel_id: id }).then(res => {
+    let router = Taro.getStorageSync('router')
+    getTabList({ channel_id: id, city_id: router.city_id, }).then(res => {
       if (res.code == 200) {
         this.setState({ list: res.data.data, id })
       }
