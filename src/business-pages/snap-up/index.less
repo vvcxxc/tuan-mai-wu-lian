@@ -1,0 +1,825 @@
+.snap-up-detail {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+    background: #f3f4f8;
+    padding-bottom: 140px;
+
+    .snap-banner {
+        width: 100vw;
+        height: 100vw;
+
+        .snap-banner-swiperItem {
+            width: 100%;
+            height: 100%;
+
+            .snap-banner-box {
+                width: 100%;
+                height: 100%;
+                position: relative;
+
+                .snap-banner-cover {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .snap-banner-playBox {
+                    width: 150px;
+                    height: 53px;
+                    background: rgba(255, 255, 255, 1);
+                    border: 1px solid rgba(243, 244, 248, 1);
+                    border-radius: 27px;
+                    position: absolute;
+                    z-index: 2;
+                    left: 50%;
+                    bottom: 40px;
+                    transform: translate(-50%, 0);
+                    display: flex;
+                    flex-direction: row;
+                    padding: 6px;
+                    box-sizing: border-box;
+
+                    .snap-banner-playIcon {
+                        width: 41px;
+                        height: 41px;
+                    }
+
+                    .snap-banner-playWord {
+                        width: calc(100% - 41px);
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+            }
+
+            .snap-banner-img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .snap-banner-timeUp-box {
+        width: 100%;
+        height: 91px;
+        background-image: url('http://oss.tdianyi.com/front/5kcpNiEH7YskwsmFkPZSTinC46YTksaC.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+
+        .snap-banner-timeUp-area {
+            width: 245px;
+            height: 100%;
+            float: right;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .snap-banner-timeUp-top {
+                width: 100%;
+                height: 24px;
+                text-align: center;
+                font-size: 24px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(255, 68, 68, 1);
+                line-height: 1;
+            }
+
+            .snap-banner-timeUp-down {
+                margin-top: 10px;
+                width: 100%;
+                height: 40px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .timeUp-down-word {
+                font-size: 24px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(255, 68, 68, 1);
+                line-height: 1;
+                padding: 0 5px;
+            }
+
+            .timeUp-down-num {
+                width: 36px;
+                height: 40px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(255, 255, 255, 1);
+                line-height: 1;
+            }
+        }
+    }
+
+
+    .snap-up-content-member {
+        width: 100vw;
+        height: auto;
+        padding: 30px 30px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin-bottom: 15px;
+
+        .snap-up-title {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 30px;
+            position: relative;
+
+            .snap-up-title-label {
+                width: 76px;
+                height: 29px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 6px;
+                font-size: 20px;
+                color: rgba(255, 255, 255, 1);
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 12px;
+                position: absolute;
+                top: 21px;
+                left: 0;
+                transform: translate(0, -50%);
+            }
+
+            .snap-up-title-text {
+                width: 100%;
+                height: auto;
+                text-indent: 90px;
+                min-height: 42px;
+                max-height: 84px;
+                font-size: 36px;
+                line-height: 42px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                /* autoprefixer: off */
+                -webkit-box-orient: vertical;
+                /* autoprefixer: on */
+
+            }
+        }
+
+        .snap-up-price {
+            width: 100%;
+            height: 36px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .snap-up-info {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                justify-content: flex-start;
+
+                .snap-up-info-text {
+                    font-size: 22px;
+                    color: rgba(255, 68, 68, 1);
+                    line-height: 1;
+                }
+
+                .snap-up-info-new {
+                    font-size: 36px;
+                    color: rgba(255, 68, 68, 1);
+                    line-height: 1;
+                    font-weight: bold;
+                }
+
+                .snap-up-info-old {
+                    font-size: 22px;
+                    color: rgba(153, 153, 153, 1);
+                    line-height: 1;
+                    margin-left: 10px;
+                    text-decoration: line-through
+                }
+            }
+
+            .snap-up-discounts {
+                width: 240px;
+                height: 40px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 20px;
+                font-size: 20px;
+                font-weight: normal;
+                line-height: 1;
+                color: rgba(254, 254, 254, 1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .snap-up-people-box {
+            width: 100%;
+            height: 76px;
+            background: rgba(254, 246, 246, 1);
+            border-radius: 16px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 18px;
+            box-sizing: border-box;
+
+            .snap-up-people-ul {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+
+                .open_group,
+                .participants {
+                    position: relative;
+                    height: 44px;
+                    width: 44px;
+                    border-radius: 50%;
+                    border: 1px solid #fff;
+                    overflow: hidden;
+
+                    .smallBox-img {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                .participants {
+                    margin-left: -15px;
+                }
+            }
+
+            .snap-up-people-info {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                margin-left: 12px;
+
+                .snap-up-people-info-num,
+                .snap-up-people-info-word {
+                    font-size: 24px;
+                    color: rgba(255, 68, 68, 1);
+                    line-height: 1;
+                }
+
+                .snap-up-people-info-word {
+                    color: #3E3A39
+                }
+
+                .snap-up-people-info-icon {
+                    width: 12px;
+                    height: 21px;
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    .snap-up {
+        width: 100vw;
+        height: auto;
+        padding: 0 0 32px;
+        box-sizing: border-box;
+        border-radius: 15px;
+        background: #fff;
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        .snap-up-box {
+            height: 95px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            background: #fff;
+            padding: 0 32px;
+            box-sizing: border-box;
+
+            .snap-up-left-box {
+                height: 35px;
+                width: 250px;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                .snap-up-left {
+                    width: 8px;
+                    height: 25px;
+                    background: #FF4444;
+                    border-radius: 4px;
+                    margin-right: 11px;
+                }
+
+                .snap-up-title {
+                    font-size: 36px;
+                    font-weight: bold;
+                }
+            }
+
+            .snap-up-right {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+
+                .snap-up-right-info {
+                    font-size: 26px;
+                    color: rgba(153, 153, 153, 1);
+                    line-height: 1;
+                }
+
+                .snap-up-right-icon {
+                    width: 12px;
+                    height: 21px;
+                }
+            }
+        }
+
+        .gift_info {
+            width: 100%;
+            height: auto;
+
+            .gift_msg_area {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                padding: 30px 30px 0;
+                box-sizing: border-box;
+                background-color: #fff;
+
+                .gift_msg {
+                    display: flex;
+
+                    .gift_img {
+                        width: 163px;
+                        height: 163px;
+                        border-radius: 16px;
+                    }
+
+                    .gift_detail {
+                        margin-left: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        .gift_detail_info {
+                            .gift_title {
+                                display: flex;
+                                align-items: center;
+                                margin-bottom: 10px;
+
+                                .gift_type {
+                                    height: 29px;
+                                    padding: 0 12px;
+                                    margin-right: 10px;
+                                    background: rgba(255, 68, 68, 1);
+                                    border-radius: 6px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 20px;
+                                    color: rgba(255, 255, 255, 1);
+                                    line-height: 1;
+                                }
+
+                                .gift_cash {
+                                    color: #000;
+                                    font-size: 26px;
+                                    font-weight: bold;
+                                    width: 250px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                            }
+
+                            .gift_desc {
+                                width: 380px;
+                                height: 24px;
+                                color: #999999;
+                                font-size: 24px;
+                                line-height: 1;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                margin-top: 15px;
+                            }
+                        }
+
+                        .gift_money {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: baseline;
+                            justify-content: flex-start;
+                            margin-top: 29px;
+
+                            .gift_new_money_icon {
+                                font-size: 20px;
+                                color: #FF4444;
+                            }
+
+                            .gift_new_money {
+                                font-size: 32px;
+                                color: #FF4444;
+                                font-weight: bold;
+                            }
+
+                        }
+                    }
+                }
+
+                .gift_icon {
+                    width: 12px;
+                    height: 21px;
+                }
+            }
+        }
+    }
+
+    .snap-up-info {
+        height: auto;
+        width: 100vw;
+        border: 15px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+
+
+
+
+    .appre-buy-box {
+        width: 100vw;
+        height: 100px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 0 20px;
+        box-sizing: border-box;
+        box-shadow: 0 0 4px 3px rgba(0, 0, 0, .2);
+
+        .group-buy-icon-box {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            justify-content: flex-start;
+            width: 200px;
+            padding-left: 20px;
+
+            .group-buy-icon-item {
+                width: 45px;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                justify-content: center;
+                color: #B7B7B7;
+                margin-right: 60px;
+
+                Image {
+                    width: 38px;
+                    height: 38px;
+                }
+            }
+        }
+
+        .appre-buy-btn-box {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 72px;
+            width: 444px;
+
+            .appre-buy-btn-left {
+                height: 100%;
+                width: 50%;
+                background-image: url("http://oss.tdianyi.com/front/ZXFyhEQmcP85skmZQ8B265sJabZXYMzD.png");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: rgba(255, 255, 255, 1);
+                line-height: 1;
+            }
+
+            .appre-buy-btn-right {
+                height: 100%;
+                width: 50%;
+                background-image: url("http://oss.tdianyi.com/front/w7wMHM4Rtjn6rafM56SN6c6f86N74Xhf.png");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: rgba(255, 255, 255, 1);
+
+                .appre-buy-btn-appre {
+                    font-size: 26px;
+                    line-height: 1;
+                }
+
+                .appre-buy-btn-apprenum {
+                    font-size: 20px;
+                    margin-top: 5px;
+                    line-height: 1;
+                }
+            }
+
+            .appre-buy-btn-yongjin {
+                font-size: 20px;
+                margin-top: 5px;
+                line-height: 1;
+                color: rgba(255, 255, 255, 1);
+            }
+        }
+    }
+
+    .tips-mask {
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, .7);
+        position: fixed;
+        z-index: 90;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+
+        .tips-content {
+            width: 598px;
+            height: 407px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding-top: 60px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .tips-title {
+                width: 100%;
+                text-align: center;
+                height: 32px;
+                line-height: 1;
+                font-size: 32px;
+                font-family: PingFang SC;
+                font-weight: 800;
+                color: rgba(1, 1, 1, 1);
+                margin-bottom: 72px;
+            }
+
+            .tips-info {
+                width: 100%;
+                text-align: center;
+                height: 28px;
+                font-size: 28px;
+                line-height: 1;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(153, 153, 153, 1);
+                margin-bottom: 92px;
+            }
+
+            .tips-btn {
+                width: 466px;
+                height: 76px;
+                text-align: center;
+                line-height: 76px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 38px;
+                font-size: 30px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(255, 255, 255, 1);
+            }
+
+        }
+
+        .code-content {
+            width: 610px;
+            height: 830px;
+            background: url('http://oss.tdianyi.com/front/3kms7cWzSbjT5wpG8MmXjkiHm8BCPQiw.png');
+            background-size: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0 67px;
+            padding-top: 60px;
+            box-sizing: border-box;
+
+            .code-img {
+                width: 476px;
+                height: 476px;
+            }
+
+            .code-text {
+                margin-top: 80px;
+                padding: 0 65px;
+                font-size: 26px;
+                color: #999999;
+                text-align: center;
+            }
+
+            .code-button {
+                margin-top: 20px;
+                width: 466px;
+                height: 76px;
+                background: #FF4444;
+                border-radius: 38px;
+                font-size: 30px;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .code-close {
+                width: 70px;
+                height: 70px;
+                position: absolute;
+                bottom: -110px;
+                left: 50%;
+                transform: translateX(-50%)
+            }
+        }
+
+
+        .gift-content {
+            width: 598px;
+            height: auto;
+
+            border-radius: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 20px;
+            overflow: hidden;
+
+            .gift-content-top {
+                width: 100%;
+                height: 252px;
+                background: linear-gradient(-52deg, rgba(255, 103, 68, 1) 0%, rgba(255, 68, 68, 1) 100%);
+
+                .gift-content-box {
+                    height: 95px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    border-top-right-radius: 15px;
+                    border-top-left-radius: 15px;
+                    padding: 0 32px;
+                    box-sizing: border-box;
+
+                    .gift-content-left-box {
+                        height: 35px;
+                        width: 250px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+
+                        .gift-content-left {
+                            width: 8px;
+                            height: 25px;
+                            background: #fff;
+                            border-radius: 4px;
+                            margin-right: 11px;
+                        }
+
+                        .gift-content-title {
+                            font-size: 36px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+                    }
+
+                }
+
+
+            }
+
+            .gift-content-bottom {
+                width: 100%;
+                height: auto;
+                background: rgba(255, 255, 255, 1);
+                padding: 30px 0;
+                box-sizing: border-box;
+
+                .bottom-info,
+                .bottom-info-column {
+                    height: 55px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    padding: 0 30px;
+
+                    .bottom-info-key {
+                        font-size: 26px;
+                        color: #000;
+                        line-height: 1;
+                    }
+
+                    .bottom-info-word {
+                        font-size: 26px;
+                        color: rgba(153, 153, 153, 1);
+                        line-height: 1;
+                    }
+                }
+
+                .bottom-info-column {
+                    height: 80px;
+                    flex-direction: column;
+                }
+
+                .gift-bottom-box {
+                    height: 95px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    border-top-right-radius: 15px;
+                    border-top-left-radius: 15px;
+                    padding: 0 32px;
+                    box-sizing: border-box;
+
+                    .gift-bottom-left-box {
+                        height: 35px;
+                        width: 250px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+
+                        .gift-bottom-left {
+                            width: 8px;
+                            height: 25px;
+                            background: #FF4444;
+                            border-radius: 4px;
+                            margin-right: 11px;
+                        }
+
+                        .gift-bottom-title {
+                            font-size: 36px;
+                            font-weight: bold;
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+    }
+}

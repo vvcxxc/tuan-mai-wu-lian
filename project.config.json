@@ -52,121 +52,15 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "business-pages/fan-data/index",
-					"pathName": "business-pages/fan-data/index",
+					"name": "business-pages/snap-up/index",
+					"pathName": "business-pages/snap-up/index",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/merchant/index",
-					"pathName": "pages/merchant/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 12,
-					"name": "business-pages/membership-upgrade/index",
-					"pathName": "business-pages/membership-upgrade/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/withdraw-deposit/index",
-					"pathName": "business-pages/withdraw-deposit/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/member/index",
-					"pathName": "pages/member/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/member-level/index",
-					"pathName": "business-pages/member-level/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "我的邀请店铺二维码",
-					"pathName": "business-pages/my-qrcode/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/index/index",
-					"pathName": "pages/index/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/my-qrcode/index",
-					"pathName": "business-pages/my-qrcode/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/index",
-					"pathName": "pages/my/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 10,
-					"name": "pages/activity/group/index",
-					"pathName": "pages/activity/group/index",
-					"query": "id=5875&type=5&gift_id=88&activity_id=2302&__key_=15888148731551",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "增值",
-					"pathName": "pages/activity/appreciation/index",
-					"query": "id=6162&type=1&gift_id=0&activity_id=2420&__key_=15879665011282",
-					"scene": null
-				},
-				{
-					"id": 12,
-					"name": "business-pages/ticket-buy/index",
-					"pathName": "business-pages/ticket-buy/index",
-					"query": "id=6066&__key_=15881453480142&invitation_user_id=36883",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/set-meal/index",
-					"pathName": "business-pages/set-meal/index",
-					"query": "id=6100&__key_=15879768270372",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/fan-data/index",
-					"pathName": "business-pages/fan-data/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "business-pages/fan-data/index",
-					"pathName": "business-pages/fan-data/index",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 16,
-					"name": "pages/activity/pages/group/group",
-					"pathName": "pages/activity/pages/group/group",
-					"query": "id=490&invitation_user_id=2503",
+					"name": "business-pages/snap-activity-list/index",
+					"pathName": "business-pages/snap-activity-list/index",
 					"scene": null
 				}
 			]
