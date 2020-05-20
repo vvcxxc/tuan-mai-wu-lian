@@ -67,13 +67,13 @@ export default class AppreActivity extends Component {
       tel: "",
       total_fee: 0,
       total_num: 0,
-      user_info: {},
       type: 0,
       validity: 0,
       xpoint: "",
       ypoint: "",
       dp_count: 0,
-      publish_wait: 0
+      publish_wait: 0,
+      user_info: { userGroupId: 0 }
     },
     showShare: false, //显示分享
     showPoster: false, //显示海报
@@ -175,7 +175,7 @@ export default class AppreActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       if (this.state.data.gift_id) {
-        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
+        let invitation_user_id = this.$router.params.invitation_user_id && this.state.data.user_info.userGroupId == 5 ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
           url: '/activity-pages/confirm-address/index?activityType=1&id=' + this.$router.params.id + '&storeName=' + encodeURIComponent(this.state.data.location_name) + invitation_user_id
         })
@@ -200,7 +200,7 @@ export default class AppreActivity extends Component {
       unionid: Taro.getStorageSync("unionid"),
       type: "1",
       xcx: 1,
-      invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
+      invitation_user_id: this.$router.params.invitation_user_id && this.state.data.user_info.userGroupId == 5 ? this.$router.params.invitation_user_id : undefined
     }
     wxXcxuWechatPay(datas).then((res: any) => {
       Taro.hideLoading();

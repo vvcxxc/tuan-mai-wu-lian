@@ -17,10 +17,13 @@ export const getCityName = (data: object) =>
 /**
  * 获取营销首页频道的数据（网红和品牌）
  * */
-export const getChannelInfo = () =>
+export const getChannelInfo = (city_id: string | number) =>
   request({
     url: 'v3/channels',
-    method: 'GET'
+    method: 'GET',
+    data: {
+      city_id
+    }
   })
 
 export const getTabList = data =>

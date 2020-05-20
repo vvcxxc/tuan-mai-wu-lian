@@ -101,6 +101,7 @@ export default class TicketBuy extends Component {
       image: "",
       youhui_type: 0
     }],
+    user_info: { userGroupId: 0 },
     showShare: false, //显示分享
     showPoster: false, //显示海报
     posterList: {
@@ -164,26 +165,27 @@ export default class TicketBuy extends Component {
     discountCoupons(id, data)
       .then((res: any) => {
         Taro.hideLoading()
-        if(res.data.user_info){
-          const {userGroupId} = res.data.user_info
-          if(userGroupId == 6 || userGroupId == 7 || userGroupId == 8){
-            this.setState({is_level: true})
-          }else {
-            this.setState({is_level: false})
+        if (res.data.user_info) {
+          const { userGroupId } = res.data.user_info
+          if (userGroupId == 6 || userGroupId == 7 || userGroupId == 8) {
+            this.setState({ is_level: true })
+          } else {
+            this.setState({ is_level: false })
           }
         }
         this.setState({
           coupon: res.data.info.coupon,
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
-          recommend: res.data.recommend.data
+          recommend: res.data.recommend.data,
+          user_info: res.data.user_info
         }, () => {
           console.log(this.state.store)
         })
 
       }).catch(err => {
         Taro.hideLoading()
-        Taro.showToast({ title: '信息错误', icon: 'none' })
+        Taro.showToast({ title: '系统繁忙', icon: 'none' })
         setTimeout(() => { Taro.navigateBack() }, 2000)
       })
   }
@@ -198,7 +200,7 @@ export default class TicketBuy extends Component {
       if (this.state.coupon.limit_purchase_quantity && this.state.coupon.user_youhu_log_sum >= this.state.coupon.limit_purchase_quantity) {
         this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
       } else {
-        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
+        let invitation_user_id = this.$router.params.invitation_user_id && this.state.user_info.userGroupId == 5 ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
           url: '../../business-pages/confirm-order/index?id=' + id + invitation_user_id
         })
@@ -262,7 +264,7 @@ export default class TicketBuy extends Component {
     Taro.saveImageToPhotosAlbum({
       filePath: img,
     }).then(res => {
-      Taro.showToast({title: '保存成功'})
+      Taro.showToast({ title: '保存成功' })
     })
   }
 
@@ -342,8 +344,8 @@ export default class TicketBuy extends Component {
             {
               this.state.coupon.commission ? <View>
                 {
-              this.state.is_level ?  <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
-            }
+                  this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
+                }
               </View> : null
             }
 
@@ -570,26 +572,26 @@ export default class TicketBuy extends Component {
               <Image src={require('@/assets/member/store.png')} />
               进店
             </View>
-            <View className='group-buy-icon-item' onClick={()=>this.setState({is_code: true})}>
+            <View className='group-buy-icon-item' onClick={() => this.setState({ is_code: true })}>
               <Image src={require('@/assets/member/service.png')} />
               客服
             </View>
           </View>
           <View className="appre-buy-btn-box" >
             <View className="appre-buy-btn-left" onClick={() => {
-            this.setState({ showPoster: true })
-          }}>
-             分享海报
+              this.setState({ showPoster: true })
+            }}>
+              分享海报
              {
-               this.state.coupon.commission ? <View>
+                this.state.coupon.commission ? <View>
                   {
-               this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
-             }
-               </View> : null
-             }
+                    this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
+                  }
+                </View> : null
+              }
 
 
-          </View>
+            </View>
             {
               this.state.coupon.total_num && this.state.coupon.publish_wait == 1 ? <View className="appre-buy-btn-right" onClick={this.goToPay.bind(this, this.state.coupon.id)}>立即购买</View> :
                 <View className="appre-buy-btn-right" style={{ backgroundImage: 'url("http://oss.tdianyi.com/front/TaF78G3Nk2HzZpY7z6Zj4eaScAxFKJHN.png")' }}>已结束</View>
@@ -615,20 +617,20 @@ export default class TicketBuy extends Component {
 
 
 
-      {
-        this.state.is_code ? (
-          <View className="tips-mask">
-          <View className='code-content'>
-            <Image className='code-img' src={require('@/assets/member/code.jpg')} />
-            <View className='code-text'>
-            点击保存二维码关注小熊敬礼公众号即可联系客服
+        {
+          this.state.is_code ? (
+            <View className="tips-mask">
+              <View className='code-content'>
+                <Image className='code-img' src={require('@/assets/member/code.jpg')} />
+                <View className='code-text'>
+                  点击保存二维码关注小熊敬礼公众号即可联系客服
             </View>
-            <View className='code-button' onClick={this.saveCode}>保存二维码</View>
-            <Image className='code-close' onClick={()=>this.setState({is_code: false})} src={require('@/assets/member/close.png')} />
-          </View>
-        </View>
-        ) : null
-      }
+                <View className='code-button' onClick={this.saveCode}>保存二维码</View>
+                <Image className='code-close' onClick={() => this.setState({ is_code: false })} src={require('@/assets/member/close.png')} />
+              </View>
+            </View>
+          ) : null
+        }
 
         {
           this.state.tipsMessage ? <View className="tips-mask">

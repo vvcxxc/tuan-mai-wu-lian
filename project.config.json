@@ -168,6 +168,13 @@
 					"pathName": "pages/activity/pages/group/group",
 					"query": "id=490&invitation_user_id=2503",
 					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/auth/index",
+					"pathName": "pages/auth/index",
+					"query": "id=6100&__key_=15879768270372",
+					"scene": null
 				}
 			]
 		}

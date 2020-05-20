@@ -78,7 +78,6 @@ export default class GroupActivity extends Component {
       supplier_id: 0,
       team_set_end_time: '',
       tel: "",
-      user_info: '',
       xpoint: '',
       youhui_id: 0,//活动id
       youhui_name: "",//活动名
@@ -91,7 +90,8 @@ export default class GroupActivity extends Component {
         delivery_service_money: 0,
         delivery_start_time: '',
         id: 0
-      }
+      },
+      user_info: { userGroupId: 0 }
     },
     data2: {
       data: [],
@@ -238,7 +238,7 @@ export default class GroupActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
-        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
+        let invitation_user_id = this.$router.params.invitation_user_id && this.state.data.user_info.userGroupId == 5 ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         if (this.$router.params.type == '5') {
           //列表页或商家页进入拼团，路由params带过来的为活动id,id为活动id
           Taro.navigateTo({
@@ -265,7 +265,7 @@ export default class GroupActivity extends Component {
     let phone_status = Taro.getStorageSync('phone_status')
     if (phone_status == 'binded' || phone_status == 'bind_success') {
       if (this.state.data.gift_id || this.state.data.supplier_delivery_id) {
-        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
+        let invitation_user_id = this.$router.params.invitation_user_id && this.state.data.user_info.userGroupId == 5 ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
           url: '/activity-pages/group-distribution/index?activityType=55&id=' + this.$router.params.id + '&groupId=' + _id + '&storeName=' + encodeURIComponent(this.state.data.name) + invitation_user_id
         })
@@ -293,7 +293,7 @@ export default class GroupActivity extends Component {
       type: this.$router.params.type,
       xcx: 1,
       number: 1,
-      invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
+      invitation_user_id: this.$router.params.invitation_user_id && this.state.data.user_info.userGroupId == 5 ? this.$router.params.invitation_user_id : undefined
     }
     toWxPay(datas).then((res: any) => {
       Taro.hideLoading();
@@ -341,7 +341,7 @@ export default class GroupActivity extends Component {
       type: 55,
       xcx: 1,
       number: 1,
-      invitation_user_id: this.$router.params.invitation_user_id ? this.$router.params.invitation_user_id : undefined
+      invitation_user_id: this.$router.params.invitation_user_id && this.state.data.user_info.userGroupId == 5 ? this.$router.params.invitation_user_id : undefined
     };
     toWxPay(datas).then((res: any) => {
       Taro.hideLoading();
@@ -456,7 +456,7 @@ export default class GroupActivity extends Component {
             let meta = data
             meta['wx_img'] = BASIC_API + res.data.url
             // setTimeout(()=>{
-              this.setState({ posterList: meta })
+            this.setState({ posterList: meta })
             // },7000)
           })
 

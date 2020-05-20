@@ -9,12 +9,12 @@ module.exports = {
     // BASIC_API: '"https://test.api.tdianyi.com/"',
     // H5_URL: 'http://test.mall.tdianyi.com',
     // SUPPLIER_URL: 'http://test.supplierv2.tdianyi.com/login/register',
-  //   SUPPLIER_URL: 'http://release.supplierv2.tdianyi.com/login/register',
-  //   USER_API: '"http://release.usercenter.tdianyi.com/"',
-  //   BASIC_API: '"http://release.api.tdianyi.com/"'
+    // SUPPLIER_URL: 'http://release.supplierv2.tdianyi.com/login/register',
+    // USER_API: '"http://release.usercenter.tdianyi.com/"',
+    // BASIC_API: '"http://release.api.tdianyi.com/"',
+    // H5_URL: 'http://test.mall.tdianyi.com',
   },
-  defineConstants: {
-  },
+  defineConstants: {},
   weapp: {
 
   },

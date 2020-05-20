@@ -33,7 +33,7 @@ export default class MarketingIndex extends Component<any> {
     if (router.city_name) {
       this.setState({ city_name: router.city_name })
     }
-    getChannelInfo().then((res: any) => {
+    getChannelInfo(router.city_id).then((res: any) => {
       if (res.code == 200) {
         this.setState({
           hotRecommendList: res.data.channels.whdtj.youhui,
@@ -42,7 +42,7 @@ export default class MarketingIndex extends Component<any> {
         })
       }
     })
-    getTabList({ channel_id: 6, page: 1 }).then((res: any) => {
+    getTabList({ channel_id: 6, city_id: router.city_id, page: 1 }).then((res: any) => {
       if (res.code == 200) {
         if (res.data.user_info) {
           const { userGroupId, phone } = res.data.user_info
@@ -59,10 +59,11 @@ export default class MarketingIndex extends Component<any> {
     })
   }
   componentWillReceiveProps(nextProps) {
+
     // 下拉刷新
     if (this.props.changePull != nextProps.changePull) {
-
-      getChannelInfo().then((res: any) => {
+      let router = Taro.getStorageSync('router')
+      getChannelInfo(router.city_id).then((res: any) => {
         Taro.stopPullDownRefresh()
         if (res.code == 200) {
           this.setState({
@@ -72,7 +73,7 @@ export default class MarketingIndex extends Component<any> {
           })
         }
       })
-      getTabList({ channel_id: 6, page: 1 }).then(res => {
+      getTabList({ channel_id: 6,city_id: router.city_id, page: 1 }).then(res => {
         Taro.stopPullDownRefresh()
         if (res.code == 200) {
           this.setState({ list: res.data.data })
@@ -83,20 +84,21 @@ export default class MarketingIndex extends Component<any> {
     // componentDidShow
     if (this.props.changeShow != nextProps.changeShow) {
       let router = Taro.getStorageSync('router')
-      console.log(router, 'routerss')
+      console.log(router, 'router222ss')
       if (router.city_name) {
         this.setState({ city_name: router.city_name })
       }
-      getChannelInfo().then((res: any) => {
+      getChannelInfo(router.city_id).then((res: any) => {
+        console.log(res.data.channels.whdtj.youhui,'res.data.channels.whdtj.youhui')
         if (res.code == 200) {
           this.setState({
             hotRecommendList: res.data.channels.whdtj.youhui,
             brandRecommendList: res.data.channels.pplstj.youhui,
-            banner: res.data.banner
+            banner: res.data.banner,
           })
         }
       })
-      getTabList({ channel_id: this.state.id, page: 1 }).then((res: any) => {
+      getTabList({ channel_id: this.state.id,city_id: router.city_id, page: 1 }).then((res: any) => {
         if (res.code == 200) {
           if (res.data.user_info) {
             const { userGroupId, phone } = res.data.user_info
@@ -115,8 +117,9 @@ export default class MarketingIndex extends Component<any> {
     }
     // 触底加载更多
     if (this.props.changeBottom != nextProps.changeBottom) {
+      let router = Taro.getStorageSync('router')
       this.setState({ page: this.state.page + 1 }, () => {
-        getTabList({ channel_id: this.state.id, page: this.state.page }).then(res => {
+        getTabList({ channel_id: this.state.id,city_id: router.city_id, page: this.state.page }).then(res => {
           if (res.code == 200) {
             this.setState({ list: [...this.state.list, ...res.data.data] })
           }
@@ -140,7 +143,8 @@ export default class MarketingIndex extends Component<any> {
   handlerTabChange(current, id, _this) {
     this.setState({ current, id });
     // this.setState({ meta: data })
-    getTabList({ channel_id: id }).then(res => {
+    let router = Taro.getStorageSync('router')
+    getTabList({ channel_id: id, city_id: router.city_id, }).then(res => {
       if (res.code == 200) {
         this.setState({ list: res.data.data, id })
       }

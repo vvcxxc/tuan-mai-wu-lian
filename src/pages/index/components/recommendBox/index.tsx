@@ -20,14 +20,17 @@ export default class RecommendBox extends Component<Props> {
   }
   componentWillReceiveProps(nextProps) {
     if(this.props.list.length != nextProps.list.length){
-      let list = nextProps.list
+      this.setState({list: [],result: [[]]},()=> {
+        let list = nextProps.list
       let result = []
       if (list.length) {
         for (let i = 0; i < list.length; i += 3) {
           result.push(list.slice(i, i + 3));
         }
       }
-      this.setState({ result })
+      this.setState({ result, list })
+      })
+
     }
 
   }
@@ -41,7 +44,7 @@ export default class RecommendBox extends Component<Props> {
   }
 
   render() {
-    const { result } = this.state
+    const { result, list } = this.state
     return (
       <View className='recommend-box'>
         <View className='recommend-title-box'>
@@ -64,7 +67,8 @@ export default class RecommendBox extends Component<Props> {
           <View className='look-more' onClick={this.goTo}>查看更多</View>
         </View>
         <View>
-          <Swiper
+          {
+            list.length ? <Swiper
             className='coupon-list'
             indicatorColor='#999'
             indicatorActiveColor='#333'
@@ -100,7 +104,9 @@ export default class RecommendBox extends Component<Props> {
               }) : null
             }
 
-          </Swiper>
+          </Swiper> : null
+          }
+
         </View>
       </View>
     )

@@ -99,7 +99,7 @@ export default class AppreActivity extends Component {
       youhui_type: 0,
       expire_day: '',
     }],
-
+    user_info: { userGroupId: 0 },
     isFromShare: false,
     is_alert: false,
     showAll: false,
@@ -185,11 +185,12 @@ export default class AppreActivity extends Component {
           store: res.data.info.store,
           goods_album: res.data.info.goods_album,
           recommend: res.data.recommend.data,
-          delivery_service_info: res.data.delivery_service_info
+          delivery_service_info: res.data.delivery_service_info,
+          user_info: res.data.user_info
         })
       }).catch(err => {
         Taro.hideLoading()
-        Taro.showToast({ title: '信息错误', icon: 'none' })
+        Taro.showToast({ title: '系统繁忙', icon: 'none' })
         setTimeout(() => { Taro.navigateBack() }, 2000)
       })
   }
@@ -204,7 +205,7 @@ export default class AppreActivity extends Component {
       if (this.state.coupon.limit_purchase_quantity && this.state.coupon.user_youhu_log_sum >= this.state.coupon.limit_purchase_quantity) {
         this.setState({ tipsMessage: '本优惠已达购买上限，无法购买。' })
       } else {
-        let invitation_user_id = this.$router.params.invitation_user_id ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
+        let invitation_user_id = this.$router.params.invitation_user_id && this.state.user_info.userGroupId == 5 ? '&invitation_user_id=' + this.$router.params.invitation_user_id : ''
         Taro.navigateTo({
           url: '../../business-pages/coupon-distribution/index?id=' + id + invitation_user_id
         })
@@ -371,9 +372,9 @@ export default class AppreActivity extends Component {
             </View>
             {
               this.state.coupon.commission ? <View>
-{
-              this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
-            }
+                {
+                  this.state.is_level ? <View className="appre-price-discounts">分享可得佣金¥{this.state.coupon.commission}</View> : <View className="appre-price-discounts">升级会员可再省¥{this.state.coupon.commission}</View>
+                }
               </View> : null
             }
 
@@ -642,9 +643,9 @@ export default class AppreActivity extends Component {
               分享海报
               {
                 this.state.coupon.commission ? <View>
-                   {
-                this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
-              }
+                  {
+                    this.state.is_level ? <View className="appre-buy-btn-yongjin" >佣金¥{this.state.coupon.commission}</View> : null
+                  }
                 </View> : null
               }
 
