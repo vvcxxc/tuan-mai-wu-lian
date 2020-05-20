@@ -84,16 +84,17 @@ export default class MarketingIndex extends Component<any> {
     // componentDidShow
     if (this.props.changeShow != nextProps.changeShow) {
       let router = Taro.getStorageSync('router')
-      console.log(router, 'routerss')
+      console.log(router, 'router222ss')
       if (router.city_name) {
         this.setState({ city_name: router.city_name })
       }
       getChannelInfo(router.city_id).then((res: any) => {
+        console.log(res.data.channels.whdtj.youhui,'res.data.channels.whdtj.youhui')
         if (res.code == 200) {
           this.setState({
             hotRecommendList: res.data.channels.whdtj.youhui,
             brandRecommendList: res.data.channels.pplstj.youhui,
-            banner: res.data.banner
+            banner: res.data.banner,
           })
         }
       })
