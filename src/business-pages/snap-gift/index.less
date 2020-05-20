@@ -1,0 +1,694 @@
+.snap-gift {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    background: #F3F4F8;
+    padding-bottom: 60px;
+
+    .snap-gift-banner {
+        width: 100%;
+        height: 100vw;
+        display: block;
+        margin-bottom: 0;
+    }
+
+    .snap-gift-info-list {
+        width: 100%;
+        height: auto;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 0px 0px 16px 16px;
+        padding: 0 30px;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+
+        .snap-gift-info-list-item {
+            height: 85px;
+            border-bottom: 1px solid #F3F4F8;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .snap-gift-info-list-item-key,
+            .snap-gift-info-list-item-word,
+            .snap-gift-info-list-item-word-green,
+            .snap-gift-info-list-item-word-yellow {
+                height: 26px;
+                font-size: 26px;
+                font-weight: 500;
+
+                line-height: 1;
+            }
+
+            .snap-gift-info-list-item-key {
+                width: 140px;
+                color: rgba(0, 0, 0, 1);
+            }
+
+            .snap-gift-info-list-item-word {
+                width: calc(100% - 140px);
+                text-align: right;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: rgba(153, 153, 153, 1);
+            }
+
+            .snap-gift-info-list-item-word-green {
+                width: calc(100% - 140px);
+                text-align: right;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #43DC1F;
+            }
+
+            .snap-gift-info-list-item-word-yellow {
+                width: calc(100% - 140px);
+                text-align: right;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #FF9C00;
+            }
+        }
+    }
+
+    .snap-store-info {
+        height: auto;
+        width: 100%;
+        border: 15px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+
+    .snap-logistics {
+        width: 100%;
+        height: auto;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 0px 0px 16px 16px;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+
+        .snap-title-box {
+            height: 95px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            background: #fff;
+            padding: 0 32px;
+            box-sizing: border-box;
+
+            .snap-title-left {
+                width: 8px;
+                height: 25px;
+                background: #FF4444;
+                border-radius: 4px;
+                margin-right: 11px;
+            }
+
+            .snap-title {
+                font-size: 36px;
+                font-weight: bold;
+            }
+        }
+
+        .snap-logistics-info-list-item {
+            height: 85px;
+            border-bottom: 1px solid #F3F4F8;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-sizing: border-box;
+
+            .snap-logistics-info-list-item-key,
+            .snap-logistics-info-list-item-word {
+                height: 26px;
+                font-size: 26px;
+                font-weight: 500;
+
+                line-height: 1;
+            }
+
+            .snap-logistics-info-list-item-key {
+                width: 140px;
+                color: rgba(0, 0, 0, 1);
+            }
+
+            .snap-logistics-info-list-item-word {
+                width: calc(100% - 140px);
+                text-align: right;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: rgba(153, 153, 153, 1);
+            }
+        }
+    }
+
+    .snap-order {
+        width: 100%;
+        height: auto;
+        background: rgba(255, 255, 255, 1);
+        border-radius: 0px 0px 16px 16px;
+        box-sizing: border-box;
+        margin-bottom: 16px;
+        position: relative;
+
+        .snap-title-box {
+            height: 95px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            background: #fff;
+            padding: 0 32px;
+            box-sizing: border-box;
+
+            .snap-title-left {
+                width: 8px;
+                height: 25px;
+                background: #FF4444;
+                border-radius: 4px;
+                margin-right: 11px;
+            }
+
+            .snap-title {
+                font-size: 36px;
+                font-weight: bold;
+            }
+        }
+
+        .snap-verification-time {
+            width: 500px;
+            height: 23px;
+            text-align: right;
+            font-size: 24px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 1);
+            line-height: 1;
+            position: absolute;
+            right: 29px;
+            top: 41px;
+        }
+
+        .snap-store {
+            width: 100%;
+            height: 28px;
+            padding: 0 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            .snap-store-left {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                .store-icon1 {
+                    width: 25px;
+                    height: 28px;
+                }
+
+                .store-num {
+                    margin: 0 9px;
+                    font-size: 26px;
+                    font-family: PingFang SC;
+                    font-weight: 500;
+                    color: rgba(0, 0, 0, 1);
+                    line-height: 1;
+                }
+
+                .store-icon2 {
+                    width: 12px;
+                    height: 21px;
+                }
+
+            }
+
+            .snap-store-right {
+                height: 23px;
+                font-size: 24px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 1);
+                line-height: 1;
+            }
+        }
+
+        .snap-gift-content,
+        .snap-gift-content2 {
+            padding: 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+
+
+            .snap-gift-content-img {
+                width: 114px;
+                height: 114px;
+                border-radius: 16px;
+            }
+
+            .snap-gift-content-right {
+                width: calc(100% - 114px);
+                height: 114px;
+                padding-left: 20px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                .snap-gift-content-right-left {
+                    width: calc(100% - 100px);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: space-between;
+
+                    .snap-gift-content-right-left-top {
+                        font-size: 26px;
+                        font-family: PingFang SC;
+                        font-weight: bold;
+                        color: rgba(0, 0, 0, 1);
+                        line-height: 1;
+                        width: 100%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .snap-gift-content-right-left-middle {
+                        width: 100%;
+                        height: 24px;
+                        font-size: 24px;
+                        font-family: PingFang SC;
+                        font-weight: 500;
+                        color: rgba(153, 153, 153, 1);
+                        line-height: 1;
+                        margin-top: 15px;
+                    }
+
+                    .snap-gift-content-right-left-bottom {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: baseline;
+                        justify-content: flex-start;
+                        margin-top: 24px;
+
+                        .snap-gift-content-right-left-bottom-key,
+                        .snap-gift-content-right-left-bottom-icon,
+                        .snap-gift-content-right-left-bottom-num {
+                            height: 24px;
+                            font-family: PingFang SC;
+                            font-weight: 500;
+                            line-height: 1;
+                        }
+
+                        .snap-gift-content-right-left-bottom-key {
+                            font-size: 24px;
+                            color: rgba(153, 153, 153, 1);
+                        }
+
+                        .snap-gift-content-right-left-bottom-icon {
+                            color: #FF4444;
+                            font-size: 18px;
+                        }
+
+                        .snap-gift-content-right-left-bottom-num {
+                            color: #FF4444;
+                            font-size: 32px;
+                        }
+                    }
+                }
+
+                .snap-gift-content-right-right {
+                    height: 26px;
+                    width: 90px;
+                    text-align: right;
+                    font-size: 26px;
+                    font-family: PingFang SC;
+                    font-weight: 500;
+                    color: rgba(153, 153, 153, 1);
+                    line-height: 1;
+                }
+            }
+        }
+
+        .snap-gift-content2 {
+            padding: 0 30px 30px;
+        }
+
+    }
+
+    .snap-order-btn-box {
+        width: 100%;
+        height: auto;
+        padding: 22px 60px;
+        box-sizing: border-box;
+
+        .snap-order-btn {
+            width: 100%;
+            height: 95px;
+            background: rgba(255, 68, 68, 1);
+            border-radius: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 1);
+            line-height: 1;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    .tips-mask {
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, .7);
+        position: fixed;
+        z-index: 90;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+
+        .tips-content {
+            width: 598px;
+            height: 407px;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding-top: 60px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .tips-title {
+                width: 100%;
+                text-align: center;
+                height: 32px;
+                line-height: 1;
+                font-size: 32px;
+                font-family: PingFang SC;
+                font-weight: 800;
+                color: rgba(1, 1, 1, 1);
+                margin-bottom: 72px;
+            }
+
+            .tips-info {
+                width: 100%;
+                text-align: center;
+                height: 28px;
+                font-size: 28px;
+                line-height: 1;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(153, 153, 153, 1);
+                margin-bottom: 92px;
+            }
+
+            .tips-btn {
+                width: 466px;
+                height: 76px;
+                text-align: center;
+                line-height: 76px;
+                background: rgba(255, 68, 68, 1);
+                border-radius: 38px;
+                font-size: 30px;
+                font-family: PingFang SC;
+                font-weight: 500;
+                color: rgba(255, 255, 255, 1);
+            }
+
+        }
+
+        .code-content {
+            width: 610px;
+            height: 830px;
+            background: url('http://oss.tdianyi.com/front/3kms7cWzSbjT5wpG8MmXjkiHm8BCPQiw.png');
+            background-size: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0 67px;
+            padding-top: 60px;
+            box-sizing: border-box;
+
+            .code-img {
+                width: 476px;
+                height: 476px;
+            }
+
+            .code-use-text {
+                margin-top: 130px;
+                padding: 0 65px;
+                font-size: 30px;
+                color: #999999;
+                text-align: center;
+            }
+
+
+            .code-close {
+                width: 70px;
+                height: 70px;
+                position: absolute;
+                bottom: -110px;
+                left: 50%;
+                transform: translateX(-50%)
+            }
+        }
+    }
+
+    .ApeakerlogisticsContent {
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        background: rgba(0, 0, 0, .7);
+        z-index: 2;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        .ApeakerlogisticsContentBox {
+            width: calc(100% - 60px);
+            height: auto;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+
+            .Apeakerlogisticspages {
+                background: #fff;
+                border-radius: 22px;
+                width: 100%;
+                height: 1038px;
+                overflow: hidden;
+                box-sizing: border-box;
+                position: relative;
+
+                .ApeakerlogisticsContentBoxTop {
+                    height: 220px;
+                    width: 100%;
+                    background: linear-gradient(-52deg, rgba(255, 103, 68, 1) 0%, rgba(255, 68, 68, 1) 100%);
+                    padding: 0 0 0 35px;
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    .topInfoBox-img {
+                        width: 115px;
+                        height: 115px;
+                        border: solid 2px #fff;
+                        margin-right: 20px;
+                        border-radius: 18px;
+                    }
+
+                    .InfoContent {
+                        height: auto;
+                        width: calc(100% - 140px);
+                        font-size: 24px;
+                        color: #fff;
+                        box-sizing: border-box;
+
+                        .InfoName {
+                            height: 45px;
+                            width: 100%;
+                            font-size: 26px;
+                            font-family: PingFang SC;
+                            font-weight: bold;
+                            color: rgba(255, 255, 255, 1);
+                            line-height: 1;
+                        }
+
+                        .InfoCompany,
+                        .InfoNumber {
+                            height: 24px;
+                            width: 100%;
+                            font-size: 24px;
+                            font-family: PingFang SC;
+                            font-weight: 500;
+                            color: rgba(255, 255, 255, 1);
+                            margin-bottom: 16px;
+                            line-height: 1;
+                        }
+
+                        .InfoNumber {
+                            margin-bottom: 0;
+                            position: relative;
+
+                            .InfoNumber-img {
+                                width: 13px;
+                                height: 23px;
+                                position: absolute;
+                                right: 35px;
+                                top: 50%;
+                                transform: translate(0, -50%);
+                            }
+                        }
+                    }
+
+                }
+
+                .ApeakerlogisticsContentBoxBottom {
+                    height: calc(100% - 220px);
+                    border-top: 2px solid #f0f2f5;
+                    box-sizing: border-box;
+
+                    .BottomContent {
+                        width: 100%;
+                        height: 100%;
+                        padding: 35px 30px 35px 65px;
+                        box-sizing: border-box;
+                        overflow-y: scroll;
+                        overflow-x: hidden;
+
+                        .adderessItem {
+                            width: 100%;
+                            box-sizing: border-box;
+                            position: relative;
+                            border-left: 2px solid #f3f4f8;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: flex-start;
+                            justify-content: flex-start;
+                            padding: 0 0 45px;
+
+                            .adderessItemTime-img-area {
+                                position: absolute;
+                                top: 0;
+                                left: -19px;
+                                width: 38px;
+                                height: 38px;
+                                border-radius: 19px;
+                                background-color: #f3f4f8;
+                                z-index: 2;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+
+                                .adderessItemTime-red {
+                                    width: 38px;
+                                    height: 38px;
+                                }
+
+                                .adderessItemTime-img {
+                                    width: 24px;
+                                    height: 20px;
+                                }
+                            }
+
+                            .adderessItemTime {
+                                width: 130px;
+                                height: 100%;
+                                padding-top: 5px;
+                                padding-left: 16px;
+                                box-sizing: border-box;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+
+                                .ItemTime {
+                                    height: 25px;
+                                    font-size: 20px;
+                                    color: #999999;
+                                    line-height: 1;
+                                }
+
+                                .ItemDate {
+                                    height: 20px;
+                                    font-size: 20px;
+                                    color: #999999;
+                                    line-height: 1;
+                                }
+                            }
+
+
+                            .adderessItemMsg {
+                                width: calc(100% - 130px);
+                                line-height: 1.2;
+                            }
+                        }
+
+                        .adderessItem:last-child {
+                            border-left: none;
+                        }
+                    }
+                }
+            }
+
+            .ApeakerlogisticsIcon {
+                height: 10%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-end;
+
+                .ApeakerlogisticsIcon-img {
+                    width: 46px;
+                    height: 46px;
+                    margin-top: 30px;
+                }
+            }
+        }
+    }
+
+}

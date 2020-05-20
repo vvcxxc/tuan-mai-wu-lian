@@ -745,7 +745,42 @@
 
                 }
 
+                .top-info {
+                    width: 100%;
+                    height: 116px;
+                    display: flex;
+                    flex-direction: row;
+                    padding-left: 30px;
+                    box-sizing: border-box;
 
+                    .top-info-img {
+                        border: 1px solid #fff;
+                        width: 114px;
+                        height: 114px;
+                        border-radius: 16px;
+                    }
+
+                    .top-info-right {
+                        width: calc(100% - 150px);
+                        height: auto;
+                        padding-left: 20px;
+
+                        .right-text {
+                            width: 100%;
+                            height: 26px;
+                            font-size: 26px;
+                            font-family: PingFang SC;
+                            font-weight: bold;
+                            color: rgba(255, 255, 255, 1);
+                            line-height: 1;
+                            margin-bottom: 30px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+
+                    }
+                }
             }
 
             .gift-content-bottom {
@@ -816,6 +851,107 @@
                         }
                     }
 
+                }
+
+                .store-box {
+                    height: 114px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    padding: 0 30px;
+                    box-sizing: border-box;
+
+                    .store-img {
+                        width: 114px;
+                        height: 114px;
+                        border-radius: 16px;
+                        display: block;
+                    }
+
+                    .store-msg-content {
+                        height: 100%;
+                        width: calc(100% - 114px);
+
+                        .store-msg-title {
+                            width: 100%;
+                            height: 36px;
+                            font-size: 36px;
+                            font-family: PingFang SC;
+                            font-weight: bold;
+                            color: rgba(1, 1, 1, 1);
+                            line-height: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+
+                        .store-msg-address {
+                            width: 100%;
+                            height: 22px;
+                            font-size: 22px;
+                            font-family: PingFang SC;
+                            font-weight: 500;
+                            color: rgba(153, 153, 153, 1);
+                            line-height: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            margin-top: 20px;
+                        }
+
+                        .store-distance {
+                            width: 100%;
+                            height: 21px;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            justify-content: flex-start;
+                            margin-top: 9px;
+
+                            .distance-icon1 {
+                                width: 16px;
+                                height: 18px;
+                            }
+
+                            .distance-num {
+                                font-size: 22px;
+                                font-family: PingFang SC;
+                                font-weight: 500;
+                                color: rgba(153, 153, 153, 1);
+                                margin: 0 9px;
+                            }
+
+                            .distance-icon2 {
+                                width: 12px;
+                                height: 21px;
+                            }
+                        }
+                    }
+                }
+
+                .gift-btn-box {
+                    width: 100%;
+                    height: auto;
+                    padding: 45px 40px 0;
+                    box-sizing: border-box;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    .gift-btn {
+                        width: 100%;
+                        height: 85px;
+                        background: rgba(255, 68, 68, 1);
+                        border-radius: 43px;
+                        font-size: 26px;
+                        font-family: PingFang SC;
+                        font-weight: bold;
+                        color: rgba(255, 255, 255, 1);
+                        line-height: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 }
             }
         }

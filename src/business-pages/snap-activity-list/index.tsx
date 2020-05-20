@@ -20,7 +20,8 @@ export default class Member extends Component {
         const { current } = this.state;
         return (
             <View className="snap-activity-list">
-                <View id="preloader"></View>
+                <View id="preloader1"></View>
+                <View id="preloader2"></View>
                 <Image mode="widthFix" className="snap-banner" src="http://oss.tdianyi.com/front/YCCjMcz78NenNAzeQ2QtWZTbKJ8XTHFQ.png" />
                 <View className={current == 1 ? "snap-tab1" : current == 2 ? "snap-tab2" : "snap-tab0"}>
                     {
@@ -89,8 +90,31 @@ export default class Member extends Component {
                         </View>
                     </View>
 
-
                 </View>
+
+
+
+                {/* <View className="mask">
+                    <View className="tips-box">
+                        <View className="tips-title">预约抢购</View>
+                        <View className="tips-info">请先登录，登录成功才可预约抢购 预约后平台会提前15分钟提醒您抢购哦</View>
+                        <View className="tips-btn-box">
+                            <View className="tips-btn-box-btn1">去登录</View>
+                        </View>
+                        <View className="tips-btn-box">
+                            <View className="tips-btn-box-btn2">残忍离开</View>
+                            <View className="tips-btn-box-btn3">继续购买</View>
+                        </View>
+                    </View>
+                </View> */}
+
+                {/* <View className="snap-nodata-box">
+                    <View className="snap-nodata">
+                        <Image className="snap-nodata-img" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                        <View className="snap-nodata-info">暂无预约，快去逛逛吧</View>
+                    </View>
+                </View> */}
+
             </View>
         );
     }

@@ -93,9 +93,11 @@ class App extends Component {
           'member-playingMethod/index',
           'uploadImg-example/index',
           'my-qrcode/index',
+          'snap-gift/index',
           'snap-up/index',
           'snap-up/snap-up-list/index',
-          'snap-activity-list/index'
+          'snap-activity-list/index',
+          'appointment-snap/index',
         ]
       },
       {

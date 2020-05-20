@@ -325,6 +325,43 @@ export default class distributionDetail extends Component {
                     </View>
                 </View>
 
+                <View className="gift-box">
+                    <View className='gift-title-left-box'>
+                        <View className='gift-title-left'></View>
+                        <View className='gift-title'>礼品详情</View>
+                    </View>
+                    <View className="gift-info-item">
+                        <View className="gift-img">
+                            <Image className="gift-img-img" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
+                            <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
+                        </View>
+                        <View className="gift-info">
+                            <View className="appointment-gift-title">空间广i就Gigi给哦iuu后yi欧阳过后i有空间广i就Gigi给哦iuu后yi欧阳过后i有</View>
+                            <View className="gift-info">参与有礼</View>
+                            <View className="gift-labels">
+                                <View className="gift-label-item">价值￥22</View>
+                                <View className="gift-label-item">数量：1</View>
+                            </View>
+                        </View>
+                    </View>
+                    <View className="gift-info-item">
+                        <View className="gift-img">
+                            <Image className="gift-img-img" src={"http://oss.tdianyi.com/front/SpKtBHYnYMDGks85zyxGHrHc43K5cxRE.png"} />
+                            <Image className="gift-img-icon" src="http://oss.tdianyi.com/front/J4DmETc3KiSHZTjPkth6EETAHGTwHede.png" />
+                        </View>
+                        <View className="gift-info">
+                            <View className="appointment-gift-title">空间广i就Gigi给哦iuu后yi欧阳过后i有空间广i就Gigi给哦iuu后yi欧阳过后i有</View>
+                            <View className="gift-info">参与有礼</View>
+                            <View className="gift-labels">
+                                <View className="gift-label-item">价值￥22</View>
+                                <View className="gift-label-item">数量：1</View>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+
+
+
                 <View className="paymoney_box">
                     <View className="paymoney_price">
                         <View className="paymoney_price_icon">￥</View>

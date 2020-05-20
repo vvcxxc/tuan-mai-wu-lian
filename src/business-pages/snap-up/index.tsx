@@ -365,15 +365,19 @@ export default class SnapUp extends Component {
         <View className="tips-mask">
           <View className="gift-content">
             <View className="gift-content-top">
-
               <View className="gift-content-box">
                 <View className='gift-content-left-box'>
                   <View className='gift-content-left'></View>
                   <View className='gift-content-title'>礼品信息</View>
                 </View>
               </View>
-
-
+              <View className="top-info">
+                <Image className="top-info-img" src="http://oss.tdianyi.com/front/YpXpE5CfGazrbp6ynt72QBaiQGPAh766.png" />
+                <View className='top-info-right'>
+                  <View className='right-text'>礼品名称：XX现金券XX现金券XX现金券XX现金券XX现金券XX现金券</View>
+                  <View className='right-text'>礼品面额：￥123.00</View>
+                </View>
+              </View>
             </View>
             <View className="gift-content-bottom">
               <View className="bottom-info">
@@ -392,19 +396,27 @@ export default class SnapUp extends Component {
                 <View className="bottom-info-key">使用说明</View>
                 <View className="bottom-info-word">消费满200可用</View>
               </View>
-
-
               <View className="gift-bottom-box">
                 <View className='gift-bottom-left-box'>
                   <View className='gift-bottom-left'></View>
-                  <View className='gift-bottom-title'>成交有礼</View>
-                </View>               
+                  <View className='gift-bottom-title'>适用商铺</View>
+                </View>
               </View>
-
-
-           
-
-
+              <View className="store-box">
+                <Image className="store-img" src="http://oss.tdianyi.com/front/YpXpE5CfGazrbp6ynt72QBaiQGPAh766.png" />
+                <View className="store-msg-content">
+                  <View className="store-msg-title">海珠创意产业园产业园产业园产业园产业园产业园产业园</View>
+                  <View className="store-msg-address">广州市海珠区大干围海珠创意产业园产业园10栋402</View>
+                  <View className="store-distance">
+                    <Image className="distance-icon1" src="http://oss.tdianyi.com/front/h5mHiFXn7ikmij7SnANwzcKjxPQyidnS.png" />
+                    <View className="distance-num">399m</View>
+                    <Image className="distance-icon2" src="http://oss.tdianyi.com/front/2EyBMiQH8N7m6cKa43caZ3B3xwXCR3WF.png" />
+                  </View>
+                </View>
+              </View>
+              <View className="gift-btn-box">
+                <View className="gift-btn">我知道了</View>
+              </View>
             </View>
           </View>
         </View>

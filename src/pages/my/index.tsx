@@ -94,7 +94,7 @@ export default class AppreActivity extends Component<Props> {
     request({
       url: 'v3/user/home_index'
     }).then((res: any) => {
-      if(res.data.mobile){
+      if (res.data.mobile) {
         UserRequest({
           url: 'v2/relation/user/create',
           method: 'POST',
@@ -333,6 +333,9 @@ export default class AppreActivity extends Component<Props> {
               <View className="item-text">已退款</View>
             </View>
           </View>
+        </View>
+        <View className="my-snap-content">
+          <Image className='snap-img' mode="widthFix" src='http://tmwl.oss-cn-shenzhen.aliyuncs.com/front/2e3ctW73sjtTFYBAJpdDECNmzW8zQ7HG.png' />
         </View>
         <View className="my-tab-content">
           <View className="my-tab-item" onClick={this.setActivityInfo.bind(this, '拼团')}>
