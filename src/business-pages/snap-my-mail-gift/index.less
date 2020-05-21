@@ -1,0 +1,369 @@
+.snap-my-gift,
+.snap-my-gift2 {
+    width: 100vw;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 167px;
+
+    .snap-gift-tab {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background: #fff;
+        border-bottom: 1px solid #F3F4F8;
+
+        .snap-gift-tab-ul {
+            width: 100%;
+            height: 85px;
+            display: flex;
+            flex-direction: row;
+
+            .snap-gift-tab-li {
+                height: 100%;
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+
+                .snap-gift-title,
+                .snap-gift-title-select {
+                    width: 100%;
+                    height: 25px;
+                    text-align: center;
+                    font-size: 26px;
+                    font-family: PingFang SC;
+                    font-weight: bold;
+                    color: rgba(255, 68, 68, 1);
+                    line-height: 1;
+                }
+
+                .snap-gift-title {
+                    color: rgba(0, 0, 0, 1);
+                }
+
+                .snap-gift-title-select {
+                    color: rgba(255, 68, 68, 1);
+                }
+
+                .snap-gift-line {
+                    width: 25px;
+                    height: 8px;
+                    background: rgba(255, 68, 68, 1);
+                    border-radius: 4px;
+                    position: absolute;
+                    left: 50%;
+                    bottom: 10px;
+                    transform: translate(-50%, 0);
+                }
+            }
+        }
+
+        .snap-gift-select-ul {
+            width: 100%;
+            height: 82px;
+            background: rgba(255, 255, 255, 1);
+            border-top: 1px solid #F3F4F8;
+            display: flex;
+            flex-direction: row;
+            box-sizing: border-box;
+
+            .snap-gift-select-li {
+                flex: 1;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                .snap-gift-select-title,
+                .snap-gift-select-title-red {
+                    font-size: 24px;
+                    font-family: PingFang SC;
+                    font-weight: 500;
+                    line-height: 1;
+                }
+
+                .snap-gift-select-title {
+                    color: rgba(153, 153, 153, 1);
+                }
+
+                .snap-gift-select-title-red {
+                    color: rgba(255, 68, 68, 1);
+                }
+
+                .snap-gift-select-icon {
+                    width: 14px;
+                    height: 11px;
+                    margin-left: 13px;
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .snap-selsct-tab {
+        width: 100%;
+        height: auto;
+        padding-top: 167px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9;
+        background: #fff;
+
+        .snap-selsct-tab-li {
+            width: 100%;
+            height: 80px;
+            border-bottom: 1px solid #F3F4F8;
+            padding: 30px;
+            box-sizing: border-box;
+            font-size: 24px;
+            font-family: PingFang SC;
+            font-weight: 500;
+            line-height: 1;
+        }
+    }
+
+    .snap-gift-content {
+        width: 100%;
+        height: auto;
+        min-height: calc(100% - 120px);
+        padding: 16px 22px;
+        box-sizing: border-box;
+
+        .snap-gift-item {
+            width: 100%;
+            height: auto;
+            background: rgba(255, 255, 255, 1);
+            border-radius: 16px;
+            padding: 30px 30px 0;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+
+            .gift-coupon-item {
+                width: 100%;
+                height: auto;
+                display: flex;
+                flex-direction: row;
+                padding-bottom: 30px;
+
+                .coupon-item-img {
+                    width: 114px;
+                    height: 114px;
+                    border-radius: 16px;
+                }
+
+                .gift-coupon-item-content,
+                .gift-coupon-item-content-center {
+                    width: calc(100% - 114px);
+                    height: auto;
+                    min-height: 114px;
+                    box-sizing: border-box;
+                    padding-left: 22px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    position: relative;
+
+                    .gift-coupon-item-title-long {
+                        width: 100%;
+                        height: 26px;
+                        font-size: 26px;
+                        font-family: PingFang SC;
+                        font-weight: bold;
+                        color: rgba(0, 0, 0, 1);
+                        line-height: 1;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    .gift-coupon-item-title-middle {
+                        width: 100%;
+                        height: 26px;
+                        display: flex;
+                        flex-direction: row;
+
+                        .title-middle-left {
+                            width: calc(100% - 100px);
+                            height: 26px;
+                            font-size: 26px;
+                            font-weight: bold;
+                            color: rgba(0, 0, 0, 1);
+                            line-height: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+
+                        .middle-right {
+                            width: 100px;
+                            height: 26px;
+                            text-align: right;
+                            font-size: 26px;
+                            font-family: PingFang SC;
+                            font-weight: 500;
+                            color: rgba(255, 68, 68, 1);
+                            line-height: 1;
+                        }
+
+                        .red {
+                            color: rgba(255, 68, 68, 1) !important;
+                        }
+
+                        .yellow {
+                            color: rgba(255, 155, 17, 1) !important;
+                        }
+
+                        .blue {
+                            color: rgba(25, 106, 255, 1) !important;
+                        }
+
+                    }
+
+                    .gift-coupon-item-title-short {
+                        width: 100%;
+                        height: 26px;
+                        display: flex;
+                        flex-direction: row;
+
+                        .title-short-left {
+                            width: calc(100% - 200px);
+                            height: 26px;
+                            font-size: 26px;
+                            font-weight: bold;
+                            color: rgba(0, 0, 0, 1);
+                            line-height: 1;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            flex: auto
+                        }
+
+                        .short-right {
+                            width: 200px;
+                            height: 26px;
+                            text-align: right;
+                            font-size: 26px;
+                            font-family: PingFang SC;
+                            font-weight: 500;
+                            color: rgba(255, 155, 17, 1);
+                            line-height: 1;
+                        }
+
+                    }
+
+                    .gift-coupon-item-grey-long,
+                    .gift-coupon-item-grey-middle,
+                    .gift-coupon-item-grey-short {
+                        height: 24px;
+                        font-size: 24px;
+                        font-family: PingFang SC;
+                        font-weight: 500;
+                        color: rgba(153, 153, 153, 1);
+                        line-height: 1;
+                        margin-top: 17px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    .gift-coupon-item-grey-long {
+                        width: 100%;
+                    }
+
+                    .gift-coupon-item-grey-middle {
+                        width: calc(100% - 100px);
+                    }
+
+                    .gift-coupon-item-grey-short {
+                        width: calc(100% - 200px);
+                    }
+
+                    .gift-distance {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-end;
+
+                        .distance-icon {
+                            width: 16px;
+                            height: 18px;
+                            margin-right: 5px;
+                        }
+
+                        .distance-num {
+                            font-size: 20px;
+                            color: rgba(153, 153, 153, 1);
+                            line-height: 1;
+                        }
+                    }
+
+                    .logistics-btn {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        width: 169px;
+                        height: 50px;
+                        background: rgba(255, 68, 68, 1);
+                        border-radius: 25px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 24px;
+                        color: rgba(255, 255, 255, 1);
+                        line-height: 1;
+                    }
+                }
+
+                .gift-coupon-item-content {
+                    justify-content: flex-start;
+                }
+
+                .gift-coupon-item-content-center {
+                    justify-content: center;
+                }
+            }
+
+            .gift-store-title {
+                height: auto;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                background: #fff;
+                padding: 30px 0;
+                box-sizing: border-box;
+                border-top: 1px solid rgba(243, 244, 248, 1);
+
+                .snap-title-left {
+                    width: 8px;
+                    height: 25px;
+                    background: #FF4444;
+                    border-radius: 4px;
+                    margin-right: 11px;
+                }
+
+                .snap-title {
+                    font-size: 36px;
+                    font-weight: bold;
+                    line-height: 1;
+                }
+            }
+        }
+    }
+}
+
+.snap-my-gift2 {
+    padding-top: 85px;
+}

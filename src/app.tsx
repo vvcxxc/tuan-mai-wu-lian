@@ -97,7 +97,9 @@ class App extends Component {
           'snap-up/index',
           'snap-up/snap-up-list/index',
           'snap-activity-list/index',
-          'appointment-snap/index',
+          'snap-appointment-list/index',
+          'snap-my-store-gift/index',
+          'snap-my-mail-gift/index',
         ]
       },
       {

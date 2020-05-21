@@ -72,9 +72,9 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "business-pages/appointment-snap/index",
-					"pathName": "business-pages/appointment-snap/index",
+					"id": 3,
+					"name": "business-pages/snap-appointment-list/index",
+					"pathName": "business-pages/snap-appointment-list/index",
 					"query": "",
 					"scene": null
 				},
@@ -83,6 +83,20 @@
 					"name": "business-pages/coupon-distribution/index",
 					"pathName": "business-pages/coupon-distribution/index",
 					"query": "id=6221&__key_=15899619758368",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "business-pages/snap-my-store-gift/index",
+					"pathName": "business-pages/snap-my-store-gift/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "business-pages/snap-my-mail-gift/index",
+					"pathName": "business-pages/snap-my-mail-gift/index",
+					"query": "",
 					"scene": null
 				}
 			]
