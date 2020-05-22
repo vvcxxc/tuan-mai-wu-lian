@@ -45,42 +45,11 @@ export default class SnapMyMailGift extends Component {
                 </View>
 
                 <View className="snap-gift-content">
-
-                    <View className="snap-gift-item">
-                        <View className="gift-coupon-item">
-                            <Image className="coupon-item-img" src={"http://oss.tdianyi.com/front/YCCjMcz78NenNAzeQ2QtWZTbKJ8XTHFQ.png"} />
-                            <View className="gift-coupon-item-content">
-                                {/* <View className="gift-coupon-item-title-long">海珠区多美蛋糕商品券海珠区多美蛋糕商品券海珠区多美蛋糕商品券</View> */}
-                                <View className="gift-coupon-item-title-short">
-                                    <View className="title-short-left">海珠区多美蛋糕商品券海珠区</View>
-                                    <View className="short-right">还有333天到期</View>
-                                </View>
-                                <View className="gift-coupon-item-grey-long">2020-10-10 12:33</View>
-                                <View className="gift-coupon-item-grey-middle">海珠区多美蛋糕店</View>
-                                <View className="gift-distance">
-                                    <Image className="distance-icon" src={"http://oss.tdianyi.com/front/H8s52XJtYBy7DG3pmteCXGtJHE7JHT3W.png"} />
-                                    <View className="distance-num">2.6km</View>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-
-
-                    <View className="snap-gift-item">
-                        <View className="gift-coupon-item">
-                            <Image className="coupon-item-img" src={"http://oss.tdianyi.com/front/YCCjMcz78NenNAzeQ2QtWZTbKJ8XTHFQ.png"} />
-                            <View className="gift-coupon-item-content">
-                                <View className="gift-coupon-item-title-middle">
-                                    <View className="title-middle-left">海珠区多美蛋糕商品券海珠区海珠区多美蛋糕商品券海珠区</View>
-                                    <View className="middle-right">已核销</View>
-                                </View>
-                                <View className="gift-coupon-item-grey-long">2020-10-10 12:33</View>
-                                <View className="gift-coupon-item-grey-middle">海珠区多美蛋糕店海珠区多美蛋糕店海珠区多美蛋糕店</View>
-                                <View className="gift-distance">
-                                    <Image className="distance-icon" src={"http://oss.tdianyi.com/front/H8s52XJtYBy7DG3pmteCXGtJHE7JHT3W.png"} />
-                                    <View className="distance-num">2.6km</View>
-                                </View>
-                            </View>
+                    
+                    <View className="snap-nodata-box">
+                        <View className="snap-nodata">
+                            <Image className="snap-nodata-img" src="http://oss.tdianyi.com/front/k8ZSCiyS82z8NdnFeKfHSwChcdSfsXwd.png" />
+                            <View className="snap-nodata-info">暂无数据，快去逛逛吧</View>
                         </View>
                     </View>
 
