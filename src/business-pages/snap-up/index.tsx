@@ -150,7 +150,7 @@ export default class SnapUp extends Component {
           className='snap-banner'
           circular
         >
-          <SwiperItem className="snap-banner-swiperItem">
+          {/* <SwiperItem className="snap-banner-swiperItem">
             {
               !this.state.videoShow ?
                 <View className="snap-banner-box">
@@ -163,7 +163,7 @@ export default class SnapUp extends Component {
                 <Video src="https://videocdn.taobao.com/oss/ali-video/d6bc4ae3eb3c866bee9903d47d1210c6/video.mp4" title="测试" object-fit='cover' autoplay={true} play-btn-position className="snap-banner-img"> </Video>
             }
 
-          </SwiperItem>
+          </SwiperItem> */}
           <SwiperItem className="snap-banner-swiperItem">
             <Image className="snap-banner-img" src="http://oss.tdianyi.com/front/7mXMpkiaD24hiAEw3pEJMQxx6cnEbxdX.png" />
           </SwiperItem>
