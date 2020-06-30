@@ -6,7 +6,7 @@ const SERVER_API = "https://api.weixin.qq.com/sns/jscode2session"
  */
 export const getCode = (): Promise<any> => {
   return new Promise((resolve, reject) => {
-    Taro.login({
+    Taro({
       success(res) {
         return resolve(res)
       },
