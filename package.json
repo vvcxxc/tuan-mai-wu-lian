@@ -75,7 +75,7 @@
     "eslint-plugin-taro": "1.2.26",
     "eslint-plugin-typescript": "^0.12.0",
     "husky": "^1.3.1",
-    "lint-staged": "^8.1.3",
+    "lint-staged": "^13.1.0",
     "node-sass": "^4.12.0",
     "omit.js": "^1.0.0",
     "redux-logger": "^3.0.6",
